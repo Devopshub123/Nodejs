@@ -20,35 +20,46 @@ app.all("*", function (req, res, next) {
 /*Switching database connection*/
 var con;
 var dbcon;
-var switchDatabase= function(domain) {
-    if (domain) {
-        con = mysql.createConnection({
-            host: "127.0.0.1",
-            user: "root",
-            port: 3306,
-            password: "root",
-            database: domain,
-            dateStrings: true,
-            multipleStatements: true
+con = mysql.createConnection({
+    host: "127.0.0.1",
+    user: "root",
+    port: 3306,
+    password: "root",
+    database: "HRMS_LM",
+    dateStrings: true,
+    multipleStatements: true
+});
+// setInterval(function () {console.log(con.query('SELECT 1'))}, 500);
 
-        });
-        // every five hours database will be hit.this is for continous connection
-        setInterval(function () {
-            con.query('SELECT 1')
-        }, 18000000);
-    } else {
-        dbcon = mysql.createConnection({
-            host: "127.0.0.1",
-            user: "root",
-            port: 3306,
-            password: "root",
-            database: "HRMS",
-            dateStrings: true,
-            multipleStatements: true
-        });
-
-    }
-}
+// var switchDatabase= function(domain) {
+//     if (domain) {
+//         con = mysql.createConnection({
+//             host: "127.0.0.1",
+//             user: "root",
+//             port: 3306,
+//             password: "root",
+//             database: domain,
+//             dateStrings: true,
+//             multipleStatements: true
+//
+//         });
+//         // every five hours database will be hit.this is for continous connection
+//         setInterval(function () {
+//             con.query('SELECT 1')
+//         }, 18000000);
+//     } else {
+//         dbcon = mysql.createConnection({
+//             host: "127.0.0.1",
+//             user: "root",
+//             port: 3306,
+//             password: "root",
+//             database: "HRMS",
+//             dateStrings: true,
+//             multipleStatements: true
+//         });
+//
+//     }
+// }
 
 
 
@@ -141,73 +152,66 @@ app.get('/api/setDepartment',function(req,res) {
 
     }
 });
-
-
-/*Set Departments Status*/
-app.post('/api/setDepartmentsStatus/:departmentId',function(req,res) {
+/*set Work Location*/
+app.post('/api/setWorkLocation',function(req,res) {
+    console.log(req.body)
     try {
+        let infoLocationsMaster={}
+        infoLocationsMaster.CountryId=req.body.countryId;
+        infoLocationsMaster.StateId=req.body.stateId;
+        infoLocationsMaster.Location=req.body.city;
+        con.query("CALL `setMasterTable` (?,?)",['LocationsMaster',JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
+            console.log('err',err,result)
 
-        con.query("CALL `setDepartmentsStatus` (?)",[req.params.departmentId,req.body.status], function (err, result, fields) {
             if (err) {
-                res.send({status: false, message: 'Unable to update department status'});
+                res.send({status: false, message: 'Unable to added department'});
             } else {
-                res.send({status: true,message:'Department status updated successfully'})
+                res.send({status: true,message:'Department added successfully'})
             }
         });
     }catch (e) {
-        console.log('setDepartmentsStatus :',e)
+        console.log('setWorkLocation :',e)
 
     }
 });
-
-/*Get workloaction*/
-app.get('/api/getWorklocation',function(req,res) {
+// /*Get Work Location*/
+// app.get('/api/getWorkLocation',function(req,res) {
+//     try {
+//
+//         con.query("CALL `getMastertable` ()", function (err, result, fields) {
+//             if (result.length > 0) {
+//                 res.send({data: result, status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
+//     }catch (e) {
+//         console.log('getWorkLocation :',e)
+//
+//     }
+// });
+/*Set Departments*/
+app.post('/api/setDepartments',function(req,res) {
     try {
+        console.log('hello',req.body)
+        let tname='DepartmentsMaster';
+        let info={}
+        info.deptName=req.body.departmentName
+        info.deptHead=null
+        info.deptCount=null
 
-        con.query("CALL `getWorklocation` ()", function (err, result, fields) {
+
+        console.log('heldepartmentNamelo',info,req.body.departmentName)
+
+        con.query("CALL `setMasterTable` (?,?)",[tname,JSON.stringify(info)], function (err, result, fields) {
             if (result.length > 0) {
-                res.send({data: result, status: true});
+                res.send({ status: true,message:'Unable to insert departments'});
             } else {
-                res.send({status: false})
+                res.send({status: false,message:'Successfully added departments'})
             }
-        });
+        })
     }catch (e) {
-        console.log('getWorklocation :',e)
-
-    }
-});
-
-/*set worklocation*/
-app.get('/api/setWorklocation',function(req,res) {
-    try {
-
-        con.query("CALL `setWorklocation` (?)",[req.body.country, req.body.state,req.body.city], function (err, result, fields) {
-            if (err) {
-                res.send({status: false, message: 'Unable to insert work location'});
-            } else {
-                res.send({status: true,message:'Work location added successfully'})
-            }
-        });
-    }catch (e) {
-        console.log('setWorklocation :',e)
-
-    }
-});
-
-
-/*Set Worklocation Status*/
-app.post('/api/setWorklocationStatus/:workloacrionId',function(req,res) {
-    try {
-
-        con.query("CALL `setWorklocationStatus` (?)",[req.params.workloacrionId,req.body.status], function (err, result, fields) {
-            if (err) {
-                res.send({status: false, message: 'Unable to update work location status'});
-            } else {
-                res.send({status: true,message:'Work location status updated successfully'})
-            }
-        });
-    }catch (e) {
-        console.log('setWorklocationStatus :',e)
+        console.log('getHolidays :',e)
 
     }
 });
@@ -230,16 +234,37 @@ app.get('/api/getHolidays',function(req,res) {
 });
 
 /*set Holidays*/
-app.get('/api/setHolidays',function(req,res) {
+app.post('/api/setHolidays',function(req,res) {
     try {
+        let tname='HolidaysMaster';
+        let info={}
+        let reqData=req.body;
+        let k=0;
+        reqData.forEach(element =>{
+            info.Description=element.holidayName;
+            info.Date=element.holidayDate;
+            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            let hDate = (new Date(element.holidayDate));
+            info.Date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+            info.Day=days[hDate.getDay()];
+            info.Year=hDate.getFullYear();
+            info.Location=element.Id;
+            console.log('yyhh',info)
 
-        con.query("CALL `setHolidays` (?)",[req.body.year, req.body.holidayName,req.body.date], function (err, result, fields) {
-            if (err) {
-                res.send({status: false, message: 'Unable to insert holidays'});
-            } else {
-                res.send({status: true,message:'Holidays added successfully'})
-            }
-        });
+            con.query("CALL `setMasterTable` (?,?)",[tname,JSON.stringify(info)], function (err, result, fields) {
+                console.log('yerryhh',err)
+                k+=1;
+
+                if (err) {
+                    res.send({status: false, message: 'Unable to insert holidays'});
+                } else {
+                    if(k===reqData.length) {
+                        res.send({status: true, message: 'Holidays added successfully'});
+                    }
+                }
+            });
+        })
+
     }catch (e) {
         console.log('setHolidays :',e)
 
@@ -274,6 +299,26 @@ app.get('/api/getShift',function(req,res) {
         });
     }catch (e) {
         console.log('getShift :',e)
+
+    }
+});
+
+/*Get Master table*/
+app.get('/api/getMastertable/:tableName',function(req,res) {
+    try {
+        console.log("first",req.params.tableName)
+        var tName = req.params.tableName;
+        con.query("CALL `getMastertable` (?)",[tName], function (err, result, fields) {
+            // console.log('resultgetcountry',result[0],err)
+
+            if (result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getMastertable :',e)
 
     }
 });
@@ -315,12 +360,11 @@ app.put('/api/putShift',function(req,res) {
 });
 
 /*Get Add Leave Balance*/
-app.get('/api/getLeaveBalance',function(req,res) {
-    console.log("hellogetLeaveBalance")
+app.get('/api/getAddLeaveBalance',function(req,res) {
 
     try {
 
-        con.query("CALL `getLeaveBalance` ()", function (err, result, fields) {
+        con.query("CALL `getAddLeaveBalance` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -328,17 +372,16 @@ app.get('/api/getLeaveBalance',function(req,res) {
             }
         });
     }catch (e) {
-        console.log('getLeaveBalance :',e)
+        console.log('getAddLeaveBalance :',e)
 
     }
 });
 
 /*Set Add Leave Balance*/
 
-app.post('/api/setLeaveBalance',function(req,res) {
-    console.log("hello",req.body)
+app.post('/api/setAddLeaveBalance',function(req,res) {
     try {
-        con.query("CALL `setLeaveBalance` (?,?,?,?,?)",
+        con.query("CALL `setAddLeaveBalance` (?,?,?,?,?)",
             [req.body.leaveTypeName, req.body.description, req.body.color], function (err, result, fields) {
 
                 if (err) {
@@ -348,14 +391,13 @@ app.post('/api/setLeaveBalance',function(req,res) {
                 }
             });
     }catch (e) {
-        console.log('setLeaveBalance :',e)
+        console.log('setAddLeaveBalance :',e)
     }
 });
 
 /*put Add Leave Balance*/
 
-app.put('/api/putLeaveBalance',function(req,res) {
-    console.log("helloput",req.body)
+app.put('/api/putAddLeaveBalance',function(req,res) {
 
     try {
         con.query("CALL `putLeaveBalance` (?,?,?,?,?)",
@@ -373,18 +415,18 @@ app.put('/api/putLeaveBalance',function(req,res) {
 });
 /*Delete Add Leave Balance*/
 
-app.delete('/api/deleteLeaveBalance/:leaveBalanceId',function(req,res) {
+app.delete('/api/deleteAddLeaveBalance/:leaveBalanceId',function(req,res) {
     console.log("hellod;wrw",req.body)
 
     try {
         con.query("CALL `deleteLeaveBalance` (?)",[req.params.leaveBalanceId], function (err, result, fields) {
 
-                if (err) {
-                    res.send({status: false, message: 'Unable to delete leave balance'});
-                } else {
-                    res.send({status: false, message: 'Leave balance deleted Successfully'})
-                }
-            });
+            if (err) {
+                res.send({status: false, message: 'Unable to delete leave balance'});
+            } else {
+                res.send({status: false, message: 'Leave balance deleted Successfully'})
+            }
+        });
     }catch (e) {
         console.log('deleteLeaveBalance :',e)
     }
@@ -463,6 +505,215 @@ app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
         console.log('getSearch :',e)
     }
 });
+
+/*Set Employee Master*/
+
+app.post('/api/setEmployeeMaster',function(req,res) {
+    console.log("hello",req.body)
+    try {
+        con.query("CALL `setEmployeeMaster` (?,?,?,?,?)",
+            [], function (err, result, fields) {
+
+                if (err) {
+                    res.send({status: false, message: 'Unable to insert employee'});
+                } else {
+                    res.send({status: false, message: 'Employee added Successfully'})
+                }
+            });
+    }catch (e) {
+        console.log('setEmployeeMaster :',e)
+    }
+});
+
+/*Get User Leave Balance*/
+app.get('/api/getLeaveBalance',function(req,res) {
+    try {
+
+        con.query("CALL `getLeaveBalance` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getLeaveBalance :',e)
+
+    }
+});
+/*Get Get Manager And HrDetails*/
+app.get('/api/getManagerAndHrDetails/employeeId',function(req,res) {
+    try {
+
+        con.query("CALL `getManagerAndHrDetails` (?)",[req.params.employeeId], function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getManagerAndHrDetails :',e)
+
+    }
+});
+/*Set Set Apply Leave */
+
+app.post('/api/setApplyLeave',function(req,res) {
+    try {
+        con.query("CALL `setApplyLeave` (?,?,?,?,?)",
+            [], function (err, result, fields) {
+
+                if (err) {
+                    res.send({status: false, message: 'Unable to insert leave request'});
+                } else {
+                    res.send({status: false, message: 'Leave apployed successfully'})
+                }
+            });
+    }catch (e) {
+        console.log('setApplyLeave :',e)
+    }
+});
+
+/*Get Leave History*/
+app.get('/api/getLeaveHistory',function(req,res) {
+    try {
+
+        con.query("CALL `getLeaveHistory` (?)",[req.params.employeeId], function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getLeaveHistory :',e)
+
+    }
+});
+/*Set Delete Leave Request */
+
+app.delete('/api/setDeleteLeaveRequest/:Id',function(req,res) {
+    console.log("hello",req.body)
+    try {
+        con.query("CALL `setDeleteLeaveRequest` (?)",
+            [req.params.LeaveId], function (err, result, fields) {
+
+                if (err) {
+                    res.send({status: false, message: 'Unable able to delete leave request'});
+                } else {
+                    res.send({status: false, message: 'Leave request deleted successfully'})
+                }
+            });
+    }catch (e) {
+        console.log('setDeleteLeaveRequest :',e)
+    }
+});
+
+/*Set put Leave Request */
+
+app.put('/api/updateLeaveRequest/:Id',function(req,res) {
+    console.log("hello",req.body)
+    try {
+        con.query("CALL `updateLeaveRequest` (?)",
+            [req.params.LeaveId], function (err, result, fields) {
+
+                if (err) {
+                    res.send({status: false, message: 'Unable able to update leave request'});
+                } else {
+                    res.send({status: false, message: 'Leave request updated successfully'})
+                }
+            });
+    }catch (e) {
+        console.log('updateLeaveRequest :',e)
+    }
+});
+/*Set CompOff*/
+
+app.post('/api/setCompOff',function(req,res) {
+    try {
+        con.query("CALL `setCompOff` (?,?,?,?,?)",
+            [], function (err, result, fields) {
+
+                if (err) {
+                    res.send({status: false, message: 'Unable to add comp-off'});
+                } else {
+                    res.send({status: false, message: 'Comp-Off added Successfully'})
+                }
+            });
+    }catch (e) {
+        console.log('setCompOff :',e)
+    }
+});
+
+/*Get CompOff*/
+app.get('/api/getCompOff',function(req,res) {
+    try {
+
+        con.query("CALL `getCompOff` (?)",[req.params.employeeId], function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getCompOff :',e)
+
+    }
+});
+/*set CompOffReviewApprove*/
+app.set('/api/setCompOffReviewApprove',function(req,res) {
+    try {
+
+        con.query("CALL `setCompOffReviewApprove` (?)",[req.params.employeeId], function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('setCompOffReviewApprove :',e)
+
+    }
+});
+
+/*Get UserOnLeavesmpOff*/
+app.get('/api/getUserOnLeaves',function(req,res) {
+    try {
+
+        con.query("CALL `getUserOnLeaves` (?)",[req.params.employeeId], function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getUserOnLeaves :',e)
+
+    }
+});
+
+
+/*Get Approvals*/
+app.get('/api/getApprovals',function(req,res) {
+    try {
+
+        con.query("CALL `getApprovals` (?)",[req.params.employeeId], function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getApprovals :',e)
+
+    }
+});
+
 
 app.listen(6060,function (err) {
     if (err)
