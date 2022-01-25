@@ -84,11 +84,25 @@ app.get('/api/getCompanyInformation/:companyId',function(req,res) {
 /*Set comapny information*/
 
 app.post('/api/setCompanyInformation',function(req,res) {
-    try {
-        con.query("CALL `setCompanyInformation` (?,?,?,?,?,?,?,?,?,?,?)",
-            [req.body.fullCompanyName, req.body.companyWebsite, req.body.primaryContact,
-                req.body.primaryContactEmail, req.body.address, req.body.addressOne, req.body.country, req.body.state, req.body.city, req.body.pincode], function (err, result, fields) {
+    console.log("hello",req.body)
+    let companyInformation={}
+    companyInformation.CompanyName=req.body.fullCompanyName;
+    companyInformation.CompanyWebsite = req.body.companyWebsite;
+    companyInformation.PrimaryContactNumber=req.body.primaryContact;
+    companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
+    companyInformation.Address1=req.body.address;
+    companyInformation.Address2=req.body.addressOne;
+    companyInformation.Country = req.body.countryId;
+    companyInformation.State = req.body.stateId;
+    companyInformation.City = req.body.cityId;
+    companyInformation.Pincode=req.body.pincode;
 
+
+
+    try {
+        con.query("CALL `setMastertable` (?,?)",['CompanyInformation',JSON.stringify(companyInformation)]
+            ,function (err, result, fields) {
+console.log("'''''''''''''''''''temp",err,result)
                 if (err) {
                     res.send({status: false, message: 'Unable to insert company information'});
                 } else {
@@ -102,16 +116,25 @@ app.post('/api/setCompanyInformation',function(req,res) {
 
 /*put comapny information*/
 
-app.put('/api/setCompanyInformation/:companyId',function(req,res) {
+app.put('/api/putCompanyInformation',function(req,res) {
     try {
-        con.query("CALL `setCompanyInformation` (?,?,?,?,?,?,?,?,?,?,?,?)",
-            [req.params.companyId,req.body.fullCompanyName, req.body.companyWebsite, req.body.primaryContact,
-                req.body.primaryContactEmail, req.body.address, req.body.addressOne, req.body.country, req.body.state, req.body.city, req.body.pincode], function (err, result, fields) {
-
-                if (err) {
+        let companyInformation={}
+        companyInformation.CompanyName=req.body.fullCompanyName;
+        companyInformation.CompanyWebsite = req.body.companyWebsite;
+        companyInformation.PrimaryContactNumber=req.body.primaryContact;
+        companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
+        companyInformation.Address1=req.body.address;
+        companyInformation.Address2=req.body.addressOne;
+        companyInformation.Country = req.body.countryId;
+        companyInformation.State = req.body.stateId;
+        companyInformation.City = req.body.cityId;
+        companyInformation.Pincode=req.body.pincode;
+        con.query("CALL `updateMasterTable` (?,?,?,?)",['CompanyInformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
+console.log("errr",err)
+            if (err) {
                     res.send({status: false, message: 'Unable to update company information'});
                 } else {
-                    res.send({status: false, message: 'Company information updated Successfully'})
+                    res.send({status: true, message: 'Company information updated Successfully'})
                 }
             });
     }catch (e) {
@@ -152,14 +175,76 @@ app.get('/api/setDepartment',function(req,res) {
 
     }
 });
+
+/*Get Designation*/
+app.get('/api/getDesignation',function(req,res) {
+    try {
+
+        con.query("CALL `getMasterTable` (?)", ['DesignationsMaster'],function (err, result, fields) {
+            console.log(result)
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getDesignation :',e)
+
+    }
+});
+
+/*set Designation*/
+app.post('/api/setDesignation',function(req,res) {
+    console.log('req.body.designationName',req.body.designationName)
+    try {
+        let infoDesignationMaster={}
+        infoDesignationMaster.Designation=req.body.designationName;
+
+        con.query("CALL `setMasterTable` (?,?)",['DesignationsMaster',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+            if (err) {
+                res.send({status: false, message: 'Unable to insert designation'});
+            } else {
+                res.send({status: true,message:'Designation added successfully'})
+            }
+        });
+    }catch (e) {
+        console.log('setDesignation :',e)
+
+    }
+});
+/*set Designation*/
+app.put('/api/putDesignation',function(req,res) {
+    console.log('req.body.designationName',req.body.id,req.body.name)
+    try {
+        let infoDesignationMaster={}
+        infoDesignationMaster.Designation=req.body.name;
+
+        con.query("CALL `updateMasterTable` (?,?,?,?)",['DesignationsMaster','Id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+            console.log('req',err,result)
+
+            if (err) {
+                res.send({status: false, message: 'Unable to add designation'});
+            } else {
+                res.send({status: true,message:'Designation updated successfully'})
+            }
+        });
+    }catch (e) {
+        console.log('setDesignation :',e)
+
+    }
+});
+
+
 /*set Work Location*/
 app.post('/api/setWorkLocation',function(req,res) {
+    console.log("hello",req.body)
     console.log(req.body)
     try {
         let infoLocationsMaster={}
         infoLocationsMaster.CountryId=req.body.countryId;
         infoLocationsMaster.StateId=req.body.stateId;
-        infoLocationsMaster.Location=req.body.city;
+        infoLocationsMaster.Location=req.body.cityId;
         con.query("CALL `setMasterTable` (?,?)",['LocationsMaster',JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
             console.log('err',err,result)
 
@@ -193,21 +278,37 @@ app.post('/api/setWorkLocation',function(req,res) {
 /*Set Departments*/
 app.post('/api/setDepartments',function(req,res) {
     try {
-        console.log('hello',req.body)
-        let tname='DepartmentsMaster';
         let info={}
-        info.deptName=req.body.departmentName
-        info.deptHead=null
-        info.deptCount=null
-
-
-        console.log('heldepartmentNamelo',info,req.body.departmentName)
-
-        con.query("CALL `setMasterTable` (?,?)",[tname,JSON.stringify(info)], function (err, result, fields) {
-            if (result.length > 0) {
-                res.send({ status: true,message:'Unable to insert departments'});
+        info.DeptId=2,
+        info.DeptName=req.body.departmentName
+        info.DeptHead=null
+        info.HeadCount=null
+        con.query("CALL `setMasterTable` (?,?)",['DepartmentsMaster',JSON.stringify(info)], function (err, result, fields) {
+            if (err) {
+                res.send({ status: false,message:'Unable to insert departments'});
             } else {
-                res.send({status: false,message:'Successfully added departments'})
+                res.send({status: true,message:'Successfully added departments'})
+            }
+        })
+    }catch (e) {
+        console.log('getHolidays :',e)
+
+    }
+});
+
+/*Set Departments*/
+app.put('/api/putDepartments',function(req,res) {
+    try {
+        let info={}
+        info.DeptId=req.body.deptId,
+            info.DeptName=req.body.name;
+        info.DeptHead=null
+        info.HeadCount=0
+        con.query("CALL `updateMasterTable` (?,?,?,?)",['DepartmentsMaster','DeptId',req.body.id,JSON.stringify(info)], function (err, result, fields) {
+            if (err) {
+                res.send({ status: false,message:'Unable to insert departments'});
+            } else {
+                res.send({status: true,message:'Successfully added departments'})
             }
         })
     }catch (e) {
@@ -239,6 +340,7 @@ app.post('/api/setHolidays',function(req,res) {
         let tname='HolidaysMaster';
         let info={}
         let reqData=req.body;
+        console.log("hello",req.body)
         let k=0;
         reqData.forEach(element =>{
             info.Description=element.holidayName;
@@ -270,6 +372,39 @@ app.post('/api/setHolidays',function(req,res) {
 
     }
 });
+
+
+/*set Holidays*/
+app.put('/api/putHolidays',function(req,res) {
+    try {
+        let tname='HolidaysMaster';
+        let info={};
+            info.Description=req.body.holidayName;
+            info.Date=req.body.holidayDate;
+            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            let hDate = (new Date(req.body.holidayDate));
+            info.Date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+            info.Day=days[hDate.getDay()];
+            info.Year=hDate.getFullYear();
+            info.Location=req.body.Id;
+            con.query("CALL `updateMasterTable` (?,?,?,?)",[tname,'Id',req.body.hId,JSON.stringify(info)], function (err, result, fields) {
+                if (err) {
+                    res.send({status: false, message: 'Unable to update holidays'});
+                } else {
+
+                        res.send({status: true, message: 'Holiday updated successfully'});
+                }
+            });
+
+    }catch (e) {
+        console.log('putHolidays :',e)
+
+    }
+});
+
+
+
+
 /*Set Holidays Status*/
 app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
     try {
@@ -306,13 +441,22 @@ app.get('/api/getShift',function(req,res) {
 /*Get Master table*/
 app.get('/api/getMastertable/:tableName',function(req,res) {
     try {
-        console.log("first",req.params.tableName)
         var tName = req.params.tableName;
         con.query("CALL `getMastertable` (?)",[tName], function (err, result, fields) {
-            // console.log('resultgetcountry',result[0],err)
+            console.log('resultgetcountry',err)
 
             if (result.length > 0) {
-                res.send({data: result[0], status: true});
+                if(tName == 'HolidaysMaster'){
+                    for (let i=0; i<result[0].length;i++){
+                        let hDate = (new Date(result[0][i].Date));
+                        result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                    }
+                    res.send({data: result[0], status: true});
+
+
+                }else {
+                    res.send({data: result[0], status: true});
+                }
             } else {
                 res.send({status: false})
             }
@@ -713,6 +857,70 @@ app.get('/api/getApprovals',function(req,res) {
 
     }
 });
+
+var saveImage = function(imgPath){
+    fs.unlink(imgPath,function (error) {
+        if(error && error.code =='ENOENT'){
+            console.info("file doesn't exist,won't remove it. ")
+        }else if (error) {
+            console.error("error occured while trying to remove  file", )
+        }else{
+            console.info("removed")
+        }
+
+    })
+
+    file.mv( imgPath,function (err, result) {
+        if(err)
+            throw err;
+
+    })
+
+
+}
+
+app.post('/setUploadImage/:companyShortName',function (req, res) {
+    switchDatabase(Buffer.from(req.params.companyShortName,'base64').toString('ascii'))
+    try{
+        file=req.files.file;
+        folderName = './logos/'+Buffer.from(req.params.companyShortName,'base64').toString('ascii')+'/';
+
+        try {
+            if (!fs.existsSync(folderName)) {
+                fs.mkdirSync(folderName)
+                saveImage(folderName+req.params.Id+'.png')
+                res.send({message:'Image uploaded successfully'})
+            }else {
+                saveImage(folderName+req.params.Id+'.png')
+                res.send({message:'Image uploaded successfully'})
+
+            }
+        } catch (err) {
+            console.error(err)
+        }
+    }catch (e) {
+        console.log("setUploadImage:",e)
+    }
+});
+
+/*set setLeaveConfigure*/
+app.set('/api/setLeaveConfigure',function(req,res) {
+    try {
+        console.log(req.body)
+
+        con.query("CALL `setMasterTable` (?,?)",[req.params.employeeId], function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('setLeaveConfigure :',e)
+
+    }
+});
+
 
 
 app.listen(6060,function (err) {
