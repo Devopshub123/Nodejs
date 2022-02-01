@@ -279,7 +279,6 @@ app.post('/api/setWorkLocation',function(req,res) {
 app.post('/api/setDepartments',function(req,res) {
     try {
         let info={}
-        info.DeptId=2,
         info.DeptName=req.body.departmentName
         info.DeptHead=null
         info.HeadCount=null
@@ -439,10 +438,10 @@ app.get('/api/getShift',function(req,res) {
 });
 
 /*Get Master table*/
-app.get('/api/getMastertable/:tableName',function(req,res) {
+app.get('/api/getMastertable/:tableName/:page/:size',function(req,res) {
     try {
         var tName = req.params.tableName;
-        con.query("CALL `getMastertable` (?)",[tName], function (err, result, fields) {
+        con.query("CALL `getMastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
             console.log('resultgetcountry',err)
 
             if (result.length > 0) {
@@ -685,6 +684,25 @@ app.get('/api/getLeaveBalance',function(req,res) {
 
     }
 });
+
+
+/*Get User Leave Balance*/
+app.get('/api/getLeaves/:page/:size',function(req,res) {
+    try {
+
+        con.query("CALL `getLeavePolicies` (?,?,?)", [2,req.params.page,req.params.size],function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getLeaves :',e)
+
+    }
+});
+
 /*Get Get Manager And HrDetails*/
 app.get('/api/getManagerAndHrDetails/employeeId',function(req,res) {
     try {
@@ -904,17 +922,33 @@ app.post('/setUploadImage/:companyShortName',function (req, res) {
 });
 
 /*set setLeaveConfigure*/
-app.set('/api/setLeaveConfigure',function(req,res) {
+app.post('/api/setLeaveConfigure',function(req,res) {
     try {
         console.log(req.body)
+ var l=0;
+        for(let i =0;i<=req.body.length;i++){
+            let roleValues={}
+            roleValues.RuleId=req.body[i].Id;
+            roleValues.Value = req.body[i].value;
+            let hDate = (new Date());
+            roleValues.EffectiveFromDate = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+                roleValues.EffectiveToDate=hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());;
 
-        con.query("CALL `setMasterTable` (?,?)",[req.params.employeeId], function (err, result, fields) {
-            if (result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
+            console.log('iii',l+=1,roleValues,req.body.length)
+
+
+            con.query("CALL `setMasterTable` (?,?)",['LM_RuleValues',JSON.stringify(roleValues)], function (err, result, fields) {
+                console.log("hello",err)
+                if (result.length > 0) {
+                    res.send({data: result, status: true});
+                } else {
+                    res.send({status: false})
+                }
+            });
+        }
+
+
+
     }catch (e) {
         console.log('setLeaveConfigure :',e)
 
