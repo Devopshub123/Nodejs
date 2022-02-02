@@ -84,7 +84,6 @@ app.get('/api/getCompanyInformation/:companyId',function(req,res) {
 /*Set comapny information*/
 
 app.post('/api/setCompanyInformation',function(req,res) {
-    console.log("hello",req.body)
     let companyInformation={}
     companyInformation.CompanyName=req.body.fullCompanyName;
     companyInformation.CompanyWebsite = req.body.companyWebsite;
@@ -102,7 +101,6 @@ app.post('/api/setCompanyInformation',function(req,res) {
     try {
         con.query("CALL `setMastertable` (?,?)",['CompanyInformation',JSON.stringify(companyInformation)]
             ,function (err, result, fields) {
-console.log("'''''''''''''''''''temp",err,result)
                 if (err) {
                     res.send({status: false, message: 'Unable to insert company information'});
                 } else {
@@ -130,7 +128,6 @@ app.put('/api/putCompanyInformation',function(req,res) {
         companyInformation.City = req.body.cityId;
         companyInformation.Pincode=req.body.pincode;
         con.query("CALL `updateMasterTable` (?,?,?,?)",['CompanyInformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
-console.log("errr",err)
             if (err) {
                     res.send({status: false, message: 'Unable to update company information'});
                 } else {
@@ -181,7 +178,6 @@ app.get('/api/getDesignation',function(req,res) {
     try {
 
         con.query("CALL `getMasterTable` (?)", ['DesignationsMaster'],function (err, result, fields) {
-            console.log(result)
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -196,7 +192,6 @@ app.get('/api/getDesignation',function(req,res) {
 
 /*set Designation*/
 app.post('/api/setDesignation',function(req,res) {
-    console.log('req.body.designationName',req.body.designationName)
     try {
         let infoDesignationMaster={}
         infoDesignationMaster.Designation=req.body.designationName;
@@ -215,13 +210,11 @@ app.post('/api/setDesignation',function(req,res) {
 });
 /*set Designation*/
 app.put('/api/putDesignation',function(req,res) {
-    console.log('req.body.designationName',req.body.id,req.body.name)
     try {
         let infoDesignationMaster={}
         infoDesignationMaster.Designation=req.body.name;
 
         con.query("CALL `updateMasterTable` (?,?,?,?)",['DesignationsMaster','Id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
-            console.log('req',err,result)
 
             if (err) {
                 res.send({status: false, message: 'Unable to add designation'});
@@ -238,8 +231,6 @@ app.put('/api/putDesignation',function(req,res) {
 
 /*set Work Location*/
 app.post('/api/setWorkLocation',function(req,res) {
-    console.log("hello",req.body)
-    console.log(req.body)
     try {
         let infoLocationsMaster={}
         infoLocationsMaster.CountryId=req.body.countryId;
@@ -339,7 +330,6 @@ app.post('/api/setHolidays',function(req,res) {
         let tname='HolidaysMaster';
         let info={}
         let reqData=req.body;
-        console.log("hello",req.body)
         let k=0;
         reqData.forEach(element =>{
             info.Description=element.holidayName;
@@ -350,10 +340,8 @@ app.post('/api/setHolidays',function(req,res) {
             info.Day=days[hDate.getDay()];
             info.Year=hDate.getFullYear();
             info.Location=element.Id;
-            console.log('yyhh',info)
 
             con.query("CALL `setMasterTable` (?,?)",[tname,JSON.stringify(info)], function (err, result, fields) {
-                console.log('yerryhh',err)
                 k+=1;
 
                 if (err) {
@@ -442,7 +430,6 @@ app.get('/api/getMastertable/:tableName/:page/:size',function(req,res) {
     try {
         var tName = req.params.tableName;
         con.query("CALL `getMastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
-            console.log('resultgetcountry',err)
 
             if (result.length > 0) {
                 if(tName == 'HolidaysMaster'){
@@ -559,7 +546,6 @@ app.put('/api/putAddLeaveBalance',function(req,res) {
 /*Delete Add Leave Balance*/
 
 app.delete('/api/deleteAddLeaveBalance/:leaveBalanceId',function(req,res) {
-    console.log("hellod;wrw",req.body)
 
     try {
         con.query("CALL `deleteLeaveBalance` (?)",[req.params.leaveBalanceId], function (err, result, fields) {
@@ -596,7 +582,6 @@ app.get('/api/getEmployeeMaster',function(req,res) {
 /*Set Employee Master*/
 
 app.post('/api/setEmployeeMaster',function(req,res) {
-    console.log("hello",req.body)
     try {
         con.query("CALL `setEmployeeMaster` (?,?,?,?,?)",
             [], function (err, result, fields) {
@@ -615,7 +600,7 @@ app.post('/api/setEmployeeMaster',function(req,res) {
 /*put Employee Master*/
 
 app.put('/api/putEmployeeMaster',function(req,res) {
-    console.log("helloput",req.body)
+
 
     try {
         con.query("CALL `putEmployeeMaster` (?,?,?,?,?)",
@@ -652,7 +637,6 @@ app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
 /*Set Employee Master*/
 
 app.post('/api/setEmployeeMaster',function(req,res) {
-    console.log("hello",req.body)
     try {
         con.query("CALL `setEmployeeMaster` (?,?,?,?,?)",
             [], function (err, result, fields) {
@@ -756,7 +740,6 @@ app.get('/api/getLeaveHistory',function(req,res) {
 /*Set Delete Leave Request */
 
 app.delete('/api/setDeleteLeaveRequest/:Id',function(req,res) {
-    console.log("hello",req.body)
     try {
         con.query("CALL `setDeleteLeaveRequest` (?)",
             [req.params.LeaveId], function (err, result, fields) {
@@ -775,7 +758,6 @@ app.delete('/api/setDeleteLeaveRequest/:Id',function(req,res) {
 /*Set put Leave Request */
 
 app.put('/api/updateLeaveRequest/:Id',function(req,res) {
-    console.log("hello",req.body)
     try {
         con.query("CALL `updateLeaveRequest` (?)",
             [req.params.LeaveId], function (err, result, fields) {
@@ -924,7 +906,6 @@ app.post('/setUploadImage/:companyShortName',function (req, res) {
 /*set setLeaveConfigure*/
 app.post('/api/setLeaveConfigure',function(req,res) {
     try {
-        console.log(req.body)
  var l=0;
         for(let i =0;i<=req.body.length;i++){
             let roleValues={}
@@ -934,11 +915,9 @@ app.post('/api/setLeaveConfigure',function(req,res) {
             roleValues.EffectiveFromDate = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
                 roleValues.EffectiveToDate=hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());;
 
-            console.log('iii',l+=1,roleValues,req.body.length)
 
 
             con.query("CALL `setMasterTable` (?,?)",['LM_RuleValues',JSON.stringify(roleValues)], function (err, result, fields) {
-                console.log("hello",err)
                 if (result.length > 0) {
                     res.send({data: result, status: true});
                 } else {
