@@ -25,7 +25,7 @@ con = mysql.createConnection({
     user: "root",
     port: 3306,
     password: "root",
-    database: "LMSTWO",
+    database: "LMTHREE",
     dateStrings: true,
     multipleStatements: true
 });
@@ -100,7 +100,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
 
 console.log("info",companyInformation)
     try {
-        con.query("CALL `setMastertable` (?,?,?)",['CompanyInformation','LMSTWO',JSON.stringify(companyInformation)]
+        con.query("CALL `setMastertable` (?,?,?)",['CompanyInformation','LMTHREE',JSON.stringify(companyInformation)]
             ,function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to insert company information'});
@@ -197,7 +197,7 @@ app.post('/api/setDesignation',function(req,res) {
         let infoDesignationMaster={}
         infoDesignationMaster.Designation=req.body.designationName;
 
-        con.query("CALL `setMasterTable` (?,?,?)",['DesignationsMaster','LMSTWO',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        con.query("CALL `setMasterTable` (?,?,?)",['DesignationsMaster','LMTHREE',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to insert designation'});
             } else {
@@ -274,7 +274,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.DeptName=req.body.departmentName
         info.DeptHead=null
         info.HeadCount=null
-        con.query("CALL `setMasterTable` (?,?,?)",['DepartmentsMaster','LMSTWO',JSON.stringify(info)], function (err, result, fields) {
+        con.query("CALL `setMasterTable` (?,?,?)",['DepartmentsMaster','LMTHREE',JSON.stringify(info)], function (err, result, fields) {
            console.log("hello",err)
             if (err) {
                 res.send({ status: false,message:'Unable to insert departments'});
@@ -929,36 +929,84 @@ app.post('/setUploadImage/:companyShortName',function (req, res) {
 });
 
 /*set setLeaveConfigure*/
-app.post('/api/setLeaveConfigure',function(req,res) {
-    try {
-        var l=0;
-        for(let i =0;i<req.body.length;i++){
-            let roleValues={}
-            roleValues.RuleId=req.body[i].Id;
-            roleValues.Value = req.body[i].value;
-            let hDate = (new Date());
-            roleValues.EffectiveFromDate = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
-                roleValues.EffectiveToDate=hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());;
+// app.post('/api/setLeaveConfigure',function(req,res) {
+//     try {
+//         var l=0;
+//         for(let i =0;i<req.body.length;i++){
+//             let roleValues={}
+//             roleValues.RuleId=req.body[i].Id;
+//             roleValues.Value = req.body[i].value;
+//             let hDate = (new Date());
+//             roleValues.EffectiveFromDate = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+//                 roleValues.EffectiveToDate=hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());;
+//
+//
+//             con.query("CALL `setMasterTable` (?,?,?)",['LM_RuleValues','LMTHREE',JSON.stringify(roleValues)], function (err, result, fields) {
+//                 l+=1;
+//                 if(l ===req.body.length){
+//                     if (result.length > 0) {
+//                     res.send({data: result, status: true});
+//                 } else {
+//                     res.send({status: false})
+//                 }}
+//             });
+//         }
+//
+//
+//
+//     }catch (e) {
+//         console.log('setLeaveConfigure :',e)
+//
+//     }
+// });
 
+app.post('/api/setLeavePolicies',function(req,res) {
+    let leaveType = req.body.leaveType;
+    let leaveColor = req.body.leaveColor;
+    let ruleData = req.body.ruleData;
+    let mode =1;
 
-            con.query("CALL `setMasterTable` (?,?,?)",['LM_RuleValues','LMSTWO',JSON.stringify(roleValues)], function (err, result, fields) {
-                l+=1;
-                if(l ===req.body.length){
-                    if (result.length > 0) {
-                    res.send({data: result, status: true});
-                } else {
-                    res.send({status: false})
-                }}
-            });
-        }
+    try{
+        con.query("CALL `setLeavePolicies` (?,?,?,?)",[leaveType,leaveColor,JSON.stringify(ruleData),mode], function (err, result, fields) {
+            if(err){
+                res.send("setLeavePolicies not created")
+            }else{
+                res.send("set leavepolicies created")
+            }
 
-
-
-    }catch (e) {
-        console.log('setLeaveConfigure :',e)
+        })
 
     }
+    catch(e){
+        console.log("setLeavePolicies",e)
+    }
 });
+//get Leavepolices
+app.get('/api/getLeavePolicies/:leaveCategoryId/:pageNumber/:pageSize',function(req,res){
+    let leaveCategoryId = req.params.leaveCategoryId;
+    let pageNumber = req.params.pageNumber;
+    let pageSize = req.params.pageSize;
+    console.log("temp",leaveCategoryId,pageNumber,pageSize)
+
+
+    try{
+        con.query("CALL `getLeavePolicies` (?,?,?)",[leaveCategoryId,pageNumber,pageSize], function (err, result, fields) {
+          console.log("temp",err)
+            if (result.length > 0) {
+                res.send({data: result[0], status: true});
+
+            } else {
+                res.send({status: false})
+            }
+
+        });
+
+    }catch(e){
+        console.log("getLeavePolicies",e)
+    }
+
+});
+
 /*Get Employee Search Information*/
 app.post('/api/getEmployeeDetails',function(req,res) {
     try {
