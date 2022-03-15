@@ -66,21 +66,22 @@ switchDatabase('LMTHREE');
 
 
 /*Get company Information*/
-app.get('/api/getCompanyInformation/:companyId',function(req,res) {
-    try {
-
-        con.query("CALL `getCompanyInformation` (?)", [req.params.companyId], function (err, result, fields) {
-            if (result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-    }catch (e) {
-        console.log('getCompanyInformation :',e)
-
-    }
-});
+// app.get('/api/getCompanyInformation/:companyId',function(req,res) {
+//     try {
+//         switchDatabase('LMTHREE');
+//
+//         con.query("CALL `getCompanyInformation` (?)", [req.params.companyId], function (err, result, fields) {
+//             if (result.length > 0) {
+//                 res.send({data: result, status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
+//     }catch (e) {
+//         console.log('getCompanyInformation :',e)
+//
+//     }
+// });
 
 /*Set comapny information*/
 
@@ -92,7 +93,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.PrimaryContactNumber=req.body.primaryContact;
     companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
     companyInformation.Address1=req.body.address;
-    companyInformation.Address2=req.body.addressOne;
+    companyInformation.Address2=req.body.addressOne?req.body.addressOne:null;
     companyInformation.Country = req.body.countryId;
     companyInformation.State = req.body.stateId;
     companyInformation.City = req.body.cityId;
@@ -118,17 +119,20 @@ console.log("info",companyInformation)
 
 app.put('/api/putCompanyInformation',function(req,res) {
     try {
+        console.log('putcompanyInformation')
+
         let companyInformation={}
         companyInformation.CompanyName=req.body.fullCompanyName;
         companyInformation.CompanyWebsite = req.body.companyWebsite;
         companyInformation.PrimaryContactNumber=req.body.primaryContact;
         companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
         companyInformation.Address1=req.body.address;
-        companyInformation.Address2=req.body.addressOne;
+        companyInformation.Address2=req.body.addressOne?req.body.addressOne:null;
         companyInformation.Country = req.body.countryId;
         companyInformation.State = req.body.stateId;
         companyInformation.City = req.body.cityId;
         companyInformation.Pincode=req.body.pincode;
+        console.log('put',companyInformation)
         con.query("CALL `updateMasterTable` (?,?,?,?)",['CompanyInformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
             if (err) {
                     res.send({status: false, message: 'Unable to update company information'});
@@ -270,7 +274,7 @@ app.post('/api/setWorkLocation',function(req,res) {
          switchDatabase('LMTHREE');
          var id = null;
          con.query("CALL `getCompanyWorkLocation` (?)",[id], function (err, result, fields) {
-             console.log(err);
+             console.log(err,result);
              if (result.length > 0) {
                  res.send({data: result, status: true});
              } else {
@@ -403,8 +407,9 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
 
 
 /*set Holidays*/
-app.put('/api/putHolidays',function(req,res) {
+app.put('/api/putHolidays/:companyShortName',function(req,res) {
     try {
+        switchDatabase(req.params.companyShortName)
         let tname='HolidaysMaster';
         let info={};
             info.Description=req.body.holidayName;
@@ -467,17 +472,17 @@ app.get('/api/getShift',function(req,res) {
 });
 
 /*Get Master table*/
-app.get('/api/getMastertable/:tableName/:page/:size',function(req,res) {
+app.get('/api/getMastertable/:tableName/:page/:size/:companyShortName',function(req,res) {
     try {
 
         var tName = req.params.tableName;
-        console.log("req.params.tableName;",tName)
-        switchDatabase('LMTHREE')
+        console.log("req.params.tableName;",tName,req.params.companyShortName)
+        switchDatabase(req.params.companyShortName)
         con.query("CALL `getMastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
             console.log(err);
             if (result.length > 0) {
                 if(tName == 'HolidaysMaster'){
-                    // console.log("req.params.tableName; ",result[0].length )
+                    console.log("req.params.tableName; ",result[0].length )
                     for (let i=0; i<result[0].length;i++){
                         let hDate = (new Date(result[0][i].Date));
                         result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
@@ -486,6 +491,8 @@ app.get('/api/getMastertable/:tableName/:page/:size',function(req,res) {
 
 
                 }else {
+                    // console.log("req.params.tableName; ",result )
+
                     res.send({data: result[0], status: true});
                 }
             } else {
@@ -645,7 +652,7 @@ app.delete('/api/deleteAddLeaveBalance/:leaveBalanceId',function(req,res) {
 /*Get employee Master*/
 app.post('/api/getEmployeeMaster',function(req,res) {
 
-    switchDatabase('LMTHREE');
+    switchDatabase('LMSTWO');
     try {
         console.log(req.body);
         con.query("CALL `getEmployeeMaster` (?)",[req.body.Id], function (err, result, fields) {
@@ -665,7 +672,7 @@ app.post('/api/getEmployeeMaster',function(req,res) {
 
 app.post('/api/setEmployeeMaster',function(req,res) {
     try {
-        switchDatabase('LMTHREE');
+        switchDatabase('LMSTWO');
         let input = {
             empId:req.body.empId,
             firstName: req.body.firstName,
@@ -1139,7 +1146,7 @@ app.get('/api/getLeavePolicies/:leaveCategoryId/:pageNumber/:pageSize',function(
 /*Get Employee Search Information*/
 app.post('/api/getEmployeeDetails',function(req,res) {
     try {
-        switchDatabase('LMTHREE');
+        switchDatabase('LMSTWO');
         con.query("CALL `getEmployeeMasterForSearch` (?,?)", [req.body.employeeId,req.body.employeeName], function (err, result, fields) {
                         console.log(err)
             if (result.length > 0) {
