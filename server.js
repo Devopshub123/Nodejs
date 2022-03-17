@@ -201,7 +201,7 @@ app.post('/api/setDesignation',function(req,res) {
     try {
         let infoDesignationMaster={}
         infoDesignationMaster.Designation=req.body.designationName;
-
+        infoDesignationMaster.Status = 1;
         con.query("CALL `setMasterTable` (?,?,?)",['DesignationsMaster','LMTHREE',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to insert designation'});
@@ -217,8 +217,10 @@ app.post('/api/setDesignation',function(req,res) {
 /*set Designation*/
 app.put('/api/putDesignation',function(req,res) {
     try {
+        switchDatabase('LMTHREE')
         let infoDesignationMaster={}
         infoDesignationMaster.Designation=req.body.name;
+        infoDesignationMaster.status = req.body.status;
 
         con.query("CALL `updateMasterTable` (?,?,?,?)",['DesignationsMaster','Id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
 
@@ -251,7 +253,8 @@ app.post('/api/setWorkLocation',function(req,res) {
             state:req.body.stateId,
             country:req.body.country,
             prefix:req.body.prefix,
-            seed:req.body.seed
+            seed:req.body.seed,
+            status:req.body.status?req.body.status:1
         }
         console.log(JSON.stringify(infoLocationsMaster));
         con.query("CALL `setCompanyWorkLocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
@@ -317,6 +320,7 @@ app.post('/api/setDepartments',function(req,res) {
             info.DeptName=req.body.departmentName;
         info.DeptHead=null;
         info.HeadCount=null;
+        info.Status=1;
         con.query("CALL `setMasterTable` (?,?,?)",['DepartmentsMaster','LMTHREE',JSON.stringify(info)], function (err, result, fields) {
            console.log("one",err)
             if (err) {
@@ -335,10 +339,12 @@ app.post('/api/setDepartments',function(req,res) {
 app.put('/api/putDepartments',function(req,res) {
     try {
         let info={}
-        info.DeptId=req.body.deptId,
+        info.DeptId=req.body.id,
             info.DeptName=req.body.name;
         info.DeptHead=null
-        info.HeadCount=0
+        info.HeadCount=0;
+        info.Status = req.body.status;
+        console.log("ttt",info)
         con.query("CALL `updateMasterTable` (?,?,?,?)",['DepartmentsMaster','DeptId',req.body.id,JSON.stringify(info)], function (err, result, fields) {
             if (err) {
                 res.send({ status: false,message:'Unable to update departments'});
@@ -385,7 +391,7 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
             info.Date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
             info.Day=days[hDate.getDay()];
             info.Year=hDate.getFullYear();
-            info.Location=element.CityId;
+            info.Location=element.city;
 
             con.query("CALL `setMasterTable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
@@ -419,8 +425,9 @@ app.put('/api/putHolidays/:companyShortName',function(req,res) {
             info.Date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
             info.Day=days[hDate.getDay()];
             info.Year=hDate.getFullYear();
-            info.Location=req.body.Id;
+            info.Location=req.body.city;
             con.query("CALL `updateMasterTable` (?,?,?,?)",[tname,'Id',req.body.hId,JSON.stringify(info)], function (err, result, fields) {
+                console.log("holidays",err)
                 if (err) {
                     res.send({status: false, message: 'Unable to update holidays'});
                 } else {
@@ -1172,7 +1179,7 @@ app.delete('/api/deleteHoliday/:holidayId',function(req,res) {
             if (err) {
                 res.send({status: false, message: 'Unable to delete holiday'});
             } else {
-                res.send({status: false, message: 'Holiday deleted successfully'})
+                res.send({status: true, message: 'Holiday deleted successfully'})
             }
         });
     }catch (e) {
