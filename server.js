@@ -303,7 +303,7 @@ app.post('/api/setDepartments',function(req,res) {
         con.query("CALL `setMasterTable` (?,?,?)",['DepartmentsMaster','LMTHREE',JSON.stringify(info)], function (err, result, fields) {
            console.log("one",err)
             if (err) {
-                res.send({ status: false,message:'Unable to insert departments'});
+                res.send({ status: false,message:'Unable to add department'});
             } else {
                 res.send({status: true,message:'Departments added successfully'})
             }
