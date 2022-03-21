@@ -94,9 +94,9 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
     companyInformation.Address1=req.body.address;
     companyInformation.Address2=req.body.addressOne?req.body.addressOne:null;
-    companyInformation.Country = req.body.countryId;
+    companyInformation.Country = req.body.country;
     companyInformation.State = req.body.stateId;
-    companyInformation.City = req.body.cityId;
+    companyInformation.City = req.body.city;
     companyInformation.Pincode=req.body.pincode;
 
 
@@ -128,9 +128,9 @@ app.put('/api/putCompanyInformation',function(req,res) {
         companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
         companyInformation.Address1=req.body.address;
         companyInformation.Address2=req.body.addressOne?req.body.addressOne:null;
-        companyInformation.Country = req.body.countryId;
+        companyInformation.Country = req.body.country;
         companyInformation.State = req.body.stateId;
-        companyInformation.City = req.body.cityId;
+        companyInformation.City = req.body.city;
         companyInformation.Pincode=req.body.pincode;
         console.log('put',companyInformation)
         con.query("CALL `updateMasterTable` (?,?,?,?)",['CompanyInformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
@@ -679,6 +679,11 @@ app.post('/api/getEmployeeMaster',function(req,res) {
 
 app.post('/api/setEmployeeMaster',function(req,res) {
     try {
+        let hDate = (new Date(req.body.dateOfBirth));
+       var  dateOfBirth = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+       let JoinDate = (new Date(req.body.dateOfJoin));
+
+       var  dateOfJoin = JoinDate.getFullYear() + "-" + (JoinDate.getMonth() + 1) + "-" + (JoinDate.getDate());
         switchDatabase('LMSTWO');
         let input = {
             empId:req.body.empId,
@@ -687,14 +692,14 @@ app.post('/api/setEmployeeMaster',function(req,res) {
             lastName: req.body.lastName,
             personalEmail: req.body.personalEmail,
             officeEmail: req.body.officeEmail,
-            dateOfBirth: req.body.dateOfBirth,
+            dateOfBirth: dateOfBirth,
             gender: req.body.gender,
             maritalStatus: req.body.maritalStatus,
             userType: req.body.userType,
             designation: req.body.designation,
             department: parseInt(req.body.department),
             employmentType: req.body.employmentType,
-            dateOfJoin: req.body.dateOfJoin,
+            dateOfJoin: dateOfJoin,
             companyLocation: req.body.companyLocation,
             reportingManager: req.body.reportingManager,
             bloodGroup: req.body.bloodGroup,
@@ -1209,7 +1214,7 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
     }
 });
 
-app.listen(4500,'0.0.0.0',function (err) {
+app.listen(6002,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
