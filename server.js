@@ -168,7 +168,7 @@ app.get('/api/setDepartment',function(req,res) {
 
         con.query("CALL `setDepartment` (?)",[req.body.departmentName], function (err, result, fields) {
             if (err) {
-                res.send({status: false, message: 'Unable to insert department'});
+                res.send({status: false, message: 'Unable to add department'});
             } else {
                 res.send({status: true,message:'Department added successfully'})
             }
@@ -289,28 +289,7 @@ app.post('/api/setWorkLocation',function(req,res) {
 
      }
  });
-// /*Set Departments*/
-// app.post('/api/setDepartments',function(req,res) {
-//     try {
-//
-//         console.log("hello",req.body.departmentName)
-//         let info={}
-//         info.DeptName=req.body.departmentName;
-//         info.DeptHead='';
-//         info.HeadCount='';
-//         con.query("CALL `setMasterTable` (?,?,?)",['DepartmentsMaster','LMTHREE',JSON.stringify(info)], function (err, result, fields) {
-//            console.log("hello",err)
-//             if (err) {
-//                 res.send({ status: false,message:'Unable to insert departments'});
-//             } else {
-//                 res.send({status: true,message:'Successfully added departments'})
-//             }
-//         })
-//     }catch (e) {
-//         console.log('getHolidays :',e)
-//
-//     }
-// });
+
 
 /*Set Departments*/
 app.post('/api/setDepartments',function(req,res) {
@@ -326,7 +305,7 @@ app.post('/api/setDepartments',function(req,res) {
             if (err) {
                 res.send({ status: false,message:'Unable to insert departments'});
             } else {
-                res.send({status: true,message:'Successfully added departments'})
+                res.send({status: true,message:'Departments added successfully'})
             }
         })
     }catch (e) {
@@ -347,9 +326,9 @@ app.put('/api/putDepartments',function(req,res) {
         console.log("ttt",info)
         con.query("CALL `updateMasterTable` (?,?,?,?)",['DepartmentsMaster','DeptId',req.body.id,JSON.stringify(info)], function (err, result, fields) {
             if (err) {
-                res.send({ status: false,message:'Unable to update departments'});
+                res.send({ status: false,message:'Status updated successfully'});
             } else {
-                res.send({status: true,message:'Successfully updated departments'})
+                res.send({status: true,message:'Status updated successfully'})
             }
         })
     }catch (e) {
@@ -1214,7 +1193,7 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
     }
 });
 
-app.listen(6002,'0.0.0.0',function (err) {
+app.listen(4500,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
