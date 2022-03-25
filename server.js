@@ -1192,6 +1192,24 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
         console.log("getImage:",e)
     }
 });
+  /**remove/delete image */
+  app.delete('/api/removeImage/:Id/:companyShortName',function(req,res){
+    try{
+      let id = req.params.Id;
+      let foldername = './logos/Apple/'
+      fs.unlink(foldername+'Apple.png',function(err,result){
+          if(err){
+              console.log(err)
+          }
+          else{
+            console.log("Image Deleted successfully")
+          }
+      })
+    }
+    catch(e){
+        console.log("removeImage",e)
+    }
+});
 
 app.listen(4500,'0.0.0.0',function (err) {
     if (err)
