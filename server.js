@@ -200,9 +200,10 @@ app.get('/api/getDesignation',function(req,res) {
 app.post('/api/setDesignation',function(req,res) {
     try {
         let infoDesignationMaster={}
-        infoDesignationMaster.Designation=req.body.designationName;
-        infoDesignationMaster.Status = 1;
-        con.query("CALL `setMasterTable` (?,?,?)",['DesignationsMaster','boon_client',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        infoDesignationMaster.designation=req.body.designationName;
+        infoDesignationMaster.status = 1;
+        switchDatabase('boon_client')
+        con.query("CALL `setMasterTable` (?,?,?)",['designationsmaster','boon_client',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to insert designation'});
             } else {
@@ -217,12 +218,12 @@ app.post('/api/setDesignation',function(req,res) {
 /*set Designation*/
 app.put('/api/putDesignation',function(req,res) {
     try {
-        switchDatabase('LMTHREE')
+        switchDatabase('boon_client')
         let infoDesignationMaster={}
-        infoDesignationMaster.Designation=req.body.name;
+        infoDesignationMaster.designation=req.body.name;
         infoDesignationMaster.status = req.body.status;
 
-        con.query("CALL `updateMasterTable` (?,?,?,?)",['DesignationsMaster','Id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        con.query("CALL `updateMasterTable` (?,?,?,?)",['designationsmaster','id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
 
             if (err) {
                 res.send({status: false, message: 'Unable to add designation'});
