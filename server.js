@@ -35,10 +35,10 @@ var dbcon;
 var switchDatabase= function(domain) {
     if (domain) {
         con = mysql.createConnection({
-            host: "127.0.0.1",
-            user: "root",
+            host: "192.168.1.78",
+            user: "boon_client_user",
             port: 3306,
-            password: "root",
+            password: "Client&*123",
             database: domain,
             dateStrings: true,
             multipleStatements: true
@@ -202,7 +202,7 @@ app.post('/api/setDesignation',function(req,res) {
         let infoDesignationMaster={}
         infoDesignationMaster.Designation=req.body.designationName;
         infoDesignationMaster.Status = 1;
-        con.query("CALL `setMasterTable` (?,?,?)",['DesignationsMaster','LMTHREE',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        con.query("CALL `setMasterTable` (?,?,?)",['DesignationsMaster','boon_client',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to insert designation'});
             } else {
@@ -274,9 +274,10 @@ app.post('/api/setWorkLocation',function(req,res) {
  /*Get Work Location*/
  app.post('/api/getWorkLocation',function(req,res) {
      try {
-         switchDatabase('LMTHREE');
+         console.log("heeeee",req.body.companyName)
+         switchDatabase(req.body.companyName);
          var id = null;
-         con.query("CALL `getCompanyWorkLocation` (?)",[id], function (err, result, fields) {
+         con.query("CALL `getCompanyworklocation` (?)",[id], function (err, result, fields) {
              console.log(err,result);
              if (result.length > 0) {
                  res.send({data: result, status: true});
@@ -296,11 +297,12 @@ app.post('/api/setDepartments',function(req,res) {
     try {
         let info={}
         // info.DeptId=20,
-            info.DeptName=req.body.departmentName;
-        info.DeptHead=null;
-        info.HeadCount=null;
-        info.Status=1;
-        con.query("CALL `setMasterTable` (?,?,?)",['DepartmentsMaster','LMTHREE',JSON.stringify(info)], function (err, result, fields) {
+            info.deptname=req.body.departmentName;
+        info.depthead=null;
+        info.headcount=null;
+        info.status=1;
+        switchDatabase('boon_client');
+        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','boon_client',JSON.stringify(info)], function (err, result, fields) {
            console.log("one",err)
             if (err) {
                 res.send({ status: false,message:'Unable to add department'});
@@ -318,13 +320,15 @@ app.post('/api/setDepartments',function(req,res) {
 app.put('/api/putDepartments',function(req,res) {
     try {
         let info={}
-        info.DeptId=req.body.id,
-            info.DeptName=req.body.name;
-        info.DeptHead=null
-        info.HeadCount=0;
-        info.Status = req.body.status;
-        console.log("ttt",info)
-        con.query("CALL `updateMasterTable` (?,?,?,?)",['DepartmentsMaster','DeptId',req.body.id,JSON.stringify(info)], function (err, result, fields) {
+        info.deptid=req.body.id,
+            info.deptname=req.body.name;
+
+        info.depthead=null
+        info.headcount=0;
+        info.status = req.body.status;
+        switchDatabase('boon_client');
+        con.query("CALL `updatemastertable` (?,?,?,?)",['departmentsmaster','deptid',req.body.id,JSON.stringify(info)], function (err, result, fields) {
+            console.log("ttt",result,err)
             if (err) {
                 res.send({ status: false,message:'Status updated successfully'});
             } else {
@@ -464,10 +468,10 @@ app.get('/api/getMastertable/:tableName/:page/:size/:companyShortName',function(
         var tName = req.params.tableName;
         console.log("req.params.tableName;",tName,req.params.companyShortName)
         switchDatabase(req.params.companyShortName)
-        con.query("CALL `getMastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
+        con.query("CALL `getmastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
             console.log(err);
             if (result.length > 0) {
-                if(tName == 'HolidaysMaster'){
+                if(tName == 'holidaysmaster'){
                     console.log("req.params.tableName; ",result[0].length )
                     for (let i=0; i<result[0].length;i++){
                         let hDate = (new Date(result[0][i].Date));
