@@ -88,22 +88,24 @@ switchDatabase('LMTHREE');
 app.post('/api/setCompanyInformation',function(req,res) {
     // console.log("hello",req)
     let companyInformation={}
-    companyInformation.CompanyName=req.body.fullCompanyName;
-    companyInformation.CompanyWebsite = req.body.companyWebsite;
-    companyInformation.PrimaryContactNumber=req.body.primaryContact;
-    companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
-    companyInformation.Address1=req.body.address;
-    companyInformation.Address2=req.body.addressOne?req.body.addressOne:null;
-    companyInformation.Country = req.body.country;
-    companyInformation.State = req.body.stateId;
-    companyInformation.City = req.body.city;
-    companyInformation.Pincode=req.body.pincode;
-
+    companyInformation.companyname=req.body.fullCompanyName;
+    companyInformation.companywebsite = req.body.companyWebsite;
+    companyInformation.primarycontactnumber=req.body.primaryContact;
+    companyInformation.primarycontactemail=req.body.primaryContactEmail;
+    companyInformation.address1=req.body.address;
+    companyInformation.address2=req.body.addressOne?req.body.addressOne:'';
+    companyInformation.country = req.body.country;
+    companyInformation.state = req.body.stateId;
+    companyInformation.city = req.body.city;
+    companyInformation.pincode=req.body.pincode;
+switchDatabase('boon_client')
 
 console.log("info",companyInformation)
     try {
-        con.query("CALL `setMastertable` (?,?,?)",['CompanyInformation','LMTHREE',JSON.stringify(companyInformation)]
-            ,function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','boon_client',JSON.stringify(companyInformation)]
+            ,
+            function (err, result, fields) {
+            console.log("err",err)
                 if (err) {
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {
@@ -236,12 +238,28 @@ app.put('/api/putDesignation',function(req,res) {
 
     }
 });
+app.post('/api/updateStatus',function(req,res) {
+    try {
+        switchDatabase('boon_client');
+        con.query("CALL `updatestatus` (?,?,?)",['companyworklocationsmaster',req.body.id,req.body.status], function (err, result, fields) {
+            console.log('err',err,result)
 
+            if (err) {
+                res.send({status: false, message: 'Unable to add work location'});
+            } else {
+                res.send({status: true,message:'Work Location added successfully'})
+            }
+        });
+    }catch (e) {
+        console.log('setWorkLocation :',e)
+
+    }
+});
 
 /*set Work Location*/
 app.post('/api/setWorkLocation',function(req,res) {
     try {
-        switchDatabase('LMTHREE');
+        switchDatabase('boon_client');
 
         let infoLocationsMaster={
             id:req.body.id,
@@ -255,10 +273,10 @@ app.post('/api/setWorkLocation',function(req,res) {
             country:req.body.country,
             prefix:req.body.prefix,
             seed:req.body.seed,
-            status:req.body.status?req.body.status:1
+            status:req.body.status?req.body.status:'active'
         }
-        console.log(JSON.stringify(infoLocationsMaster));
-        con.query("CALL `setCompanyWorkLocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
+        console.log('fffff',JSON.stringify(infoLocationsMaster));
+        con.query("CALL `setcompanyworkLocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
             console.log('err',err,result)
 
             if (err) {
@@ -275,11 +293,9 @@ app.post('/api/setWorkLocation',function(req,res) {
  /*Get Work Location*/
  app.post('/api/getWorkLocation',function(req,res) {
      try {
-         console.log("heeeee",req.body.companyName)
          switchDatabase(req.body.companyName);
          var id = null;
-         con.query("CALL `getCompanyworklocation` (?)",[id], function (err, result, fields) {
-             console.log(err,result);
+         con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
              if (result.length > 0) {
                  res.send({data: result, status: true});
              } else {
@@ -331,9 +347,9 @@ app.put('/api/putDepartments',function(req,res) {
         con.query("CALL `updatemastertable` (?,?,?,?)",['departmentsmaster','deptid',req.body.id,JSON.stringify(info)], function (err, result, fields) {
             console.log("ttt",result,err)
             if (err) {
-                res.send({ status: false,message:'Status updated successfully'});
+                res.send({ status: false,message:'Department updated successfully'});
             } else {
-                res.send({status: true,message:'Status updated successfully'})
+                res.send({status: true,message:'Department updated successfully'})
             }
         })
     }catch (e) {
@@ -361,23 +377,23 @@ app.get('/api/getHolidays',function(req,res) {
 /*set Holidays*/
 app.post('/api/setHolidays/:companyName',function(req,res) {
     try {
-        switchDatabase('LMTHREE');
-        let tname='HolidaysMaster';
+        switchDatabase(req.params.companyName);
+        let tname='holidaysmaster';
         let info={}
         let reqData=req.body;
         let k=0;
         console.log(req.params);
         reqData.forEach(element =>{
-            info.Description=element.holidayName;
-            info.Date=element.holidayDate;
+            info.description=element.holidayName;
+            info.date=element.holidayDate;
             let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             let hDate = (new Date(element.holidayDate));
-            info.Date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
-            info.Day=days[hDate.getDay()];
-            info.Year=hDate.getFullYear();
-            info.Location=element.city;
+            info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+            info.day=days[hDate.getDay()];
+            info.year=hDate.getFullYear();
+            info.location=element.city;
 
-            con.query("CALL `setMasterTable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
+            con.query("CALL `setmastertable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
                 if (err) {
                     res.send({status: false, message: 'Unable to insert holidays'});
@@ -400,17 +416,17 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
 app.put('/api/putHolidays/:companyShortName',function(req,res) {
     try {
         switchDatabase(req.params.companyShortName)
-        let tname='HolidaysMaster';
+        let tname='holidaysmaster';
         let info={};
-            info.Description=req.body.holidayName;
-            info.Date=req.body.holidayDate;
+            info.description=req.body.holidayName;
+            info.date=req.body.holidayDate;
             let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             let hDate = (new Date(req.body.holidayDate));
-            info.Date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
-            info.Day=days[hDate.getDay()];
-            info.Year=hDate.getFullYear();
-            info.Location=req.body.city;
-            con.query("CALL `updateMasterTable` (?,?,?,?)",[tname,'Id',req.body.hId,JSON.stringify(info)], function (err, result, fields) {
+            info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+            info.day=days[hDate.getDay()];
+            info.year=hDate.getFullYear();
+            info.location=req.body.city;
+            con.query("CALL `updatemastertable` (?,?,?,?)",[tname,'id',req.body.hId,JSON.stringify(info)], function (err, result, fields) {
                 console.log("holidays",err)
                 if (err) {
                     res.send({status: false, message: 'Unable to update holidays'});
@@ -1213,6 +1229,27 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
     }
     catch(e){
         console.log("removeImage",e)
+    }
+});
+app.post('/api/validatePrefix',function(req,res) {
+    try {
+        // var id;
+
+        let input={}
+        input.prefix=req.body.prefix;
+        switchDatabase('boon_client')
+// console.log('req.params.prefixreq.params.prefixreq.params.prefix',req.body.prefix)
+        con.query("CALL `validate_prefix_assignment` (?)",[JSON.stringify(input)], function (err, result, fields) {
+            console.log("resultresultresultresult",err,result)
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getUserOnLeaves :',e)
+
     }
 });
 
