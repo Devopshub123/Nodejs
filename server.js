@@ -50,11 +50,11 @@ var switchDatabase= function(domain) {
         }, 18000000);
     } else {
         dbcon = mysql.createConnection({
-            host: "127.0.0.1",
-            user: "root",
+            host: "192.168.1.78",
+            user: "boon_client_user",
             port: 3306,
-            password: "root",
-            database: "LMTHREE",
+            password: "Client&*123",
+            database: "boon_hrms",
             dateStrings: true,
             multipleStatements: true
         });
@@ -515,12 +515,11 @@ app.get('/api/getMastertable/:tableName/:page/:size/:companyShortName',function(
 /*Get Master table*/
 app.get('/api/getLeaveTypes/:tableName/:page/:size',function(req,res) {
     try {
-        switchDatabase('LMHR');
+        switchDatabase(null);
 
         var tName = req.params.tableName;
-        console.log("LMHR",tName)
 
-        con.query("CALL `getMastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
+        con.query("CALL `getmastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
             console.log("LMHRresult",err,result)
 
             if (result.length > 0) {
@@ -809,9 +808,9 @@ app.get('/api/getLeaveBalance',function(req,res) {
 /*Get all Leaves*/
 app.get('/api/getLeaves/:page/:size',function(req,res) {
     try {
-        switchDatabase('LMHR')
+        switchDatabase(null)
 console.log("temppp",req.params.page,req.params.size)
-        con.query("CALL `getLeavePolicies` (?,?,?)", [0,req.params.page,req.params.size],function (err, result, fields) {
+        con.query("CALL `getleavepolicies` (?,?,?)", [0,req.params.page,req.params.size],function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -830,8 +829,8 @@ console.log("temppp",req.params.page,req.params.size)
 /*Get Leave Rules*/
 app.get('/api/getLeaveRules/:Id/:page/:size',function(req,res) {
     try {
-        console.log("temppp",req.params.page,req.params.size)
-        con.query("CALL `getLeavePolicies` (?,?,?)", [req.params.Id,req.params.page,req.params.size],function (err, result, fields) {
+        switchDatabase(null)
+        con.query("CALL `getleavepolicies` (?,?,?)", [req.params.Id,req.params.page,req.params.size],function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -1135,10 +1134,10 @@ app.get('/api/getLeavePolicies/:leaveCategoryId/:pageNumber/:pageSize',function(
     let pageSize = req.params.pageSize;
     console.log("temp",leaveCategoryId,pageNumber,pageSize)
 
-    switchDatabase('LMHR')
+    switchDatabase(null)
     try{
 
-        con.query("CALL `getLeavePolicies` (?,?,?)",[leaveCategoryId,pageNumber,pageSize], function (err, result, fields) {
+        con.query("CALL `getleavepolicies` (?,?,?)",[leaveCategoryId,pageNumber,pageSize], function (err, result, fields) {
           console.log("temp",err)
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
