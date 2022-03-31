@@ -1177,9 +1177,9 @@ app.post('/api/getEmployeeDetails',function(req,res) {
 app.delete('/api/deleteHoliday/:holidayId',function(req,res) {
 
     try {
-        switchDatabase('LMTHREE');
+        switchDatabase('boon_client');
         console.log(req.params.holidayId);
-        con.query("CALL `deleteHolidays` (?)",[req.params.holidayId], function (err, result, fields) {
+        con.query("CALL `deleteholidays` (?)",[req.params.holidayId], function (err, result, fields) {
             console.log("deleteHolidays",err)
             if (err) {
                 res.send({status: false, message: 'Unable to delete holiday'});
