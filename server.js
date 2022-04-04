@@ -62,7 +62,7 @@ var switchDatabase= function(domain) {
     }
 }
 
-switchDatabase('LMTHREE');
+switchDatabase('boon_client')
 
 
 /*Get company Information*/
@@ -185,7 +185,7 @@ app.get('/api/setDepartment',function(req,res) {
 app.get('/api/getDesignation',function(req,res) {
     try {
 
-        con.query("CALL `getMasterTable` (?)", ['DesignationsMaster'],function (err, result, fields) {
+        con.query("CALL `getmasterTable` (?)", ['DesignationsMaster'],function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -360,7 +360,7 @@ app.put('/api/putDepartments',function(req,res) {
 /*Get Holidays*/
 app.get('/api/getHolidays',function(req,res) {
     try {
-        switchDatabase('LMTHREE');
+        switchDatabase('boon_client');
         con.query("CALL `getHolidays` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -484,7 +484,7 @@ app.get('/api/getMastertable/:tableName/:page/:size/:companyShortName',function(
 
         var tName = req.params.tableName;
         console.log("req.params.tableName;",tName,req.params.companyShortName)
-        switchDatabase(req.params.companyShortName)
+        switchDatabase('boon_client')
         con.query("CALL `getmastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
             console.log(err);
             if (result.length > 0) {
@@ -808,9 +808,9 @@ app.get('/api/getLeaveBalance',function(req,res) {
 /*Get all Leaves*/
 app.get('/api/getLeaves/:page/:size',function(req,res) {
     try {
-        switchDatabase(null)
+        switchDatabase('boon_client')
 console.log("temppp",req.params.page,req.params.size)
-        con.query("CALL `getleavepolicies` (?,?,?)", [0,req.params.page,req.params.size],function (err, result, fields) {
+        con.query("CALL `getleavepolicies` (?,?)", [0],function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -1103,7 +1103,7 @@ app.post('/api/setLeavePolicies',function(req,res) {
     let ruleData = req.body.ruleData;
 
     try{
-        switchDatabase('LMTHREE');
+        switchDatabase('boon_client')
         con.query("CALL `setLeavePolicies` (?,?,?)",[leaveType,leaveColor,JSON.stringify(ruleData)], function (err, result, fields) {
             console.log(err);
             if(err){
@@ -1120,24 +1120,31 @@ app.post('/api/setLeavePolicies',function(req,res) {
     }
 });
 //get Leavepolices
-app.get('/api/getLeavePolicies/:leaveCategoryId/:pageNumber/:pageSize',function(req,res){
+app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageSize',function(req,res) {
     let leaveCategoryId;
-    if(req.params.leaveCategoryId == 'empty')
+    let isCommonRule = req.params.isCommonRule;
+    if (req.params.leaveCategoryId == 'null' && isCommonRule == 'true') {
+        leaveCategoryId = null;
+        isCommonRule = (isCommonRule == 'true')
+    }
+    else if (req.params.leaveCategoryId == 'null' && isCommonRule == 'false')
     {
-        leaveCategoryId = 0;
+        leaveCategoryId = null;
+        isCommonRule = (isCommonRule == 'true')
     }
     else {
         leaveCategoryId = req.params.leaveCategoryId;
+        isCommonRule = null;
     }
-
     let pageNumber = req.params.pageNumber;
     let pageSize = req.params.pageSize;
-    console.log("temp",leaveCategoryId,pageNumber,pageSize)
 
-    switchDatabase(null)
+    console.log("getLeavePolicies",leaveCategoryId,isCommonRule,pageNumber,pageSize)
+
+    switchDatabase('boon_client')
     try{
 
-        con.query("CALL `getleavepolicies` (?,?,?)",[leaveCategoryId,pageNumber,pageSize], function (err, result, fields) {
+        con.query("CALL `getleavepolicies` (?,?)",[leaveCategoryId,isCommonRule], function (err, result, fields) {
           console.log("temp",err)
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -1252,7 +1259,7 @@ app.post('/api/validatePrefix',function(req,res) {
     }
 });
 
-app.listen(4500,'0.0.0.0',function (err) {
+app.listen(8081,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
