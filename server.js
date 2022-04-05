@@ -297,7 +297,20 @@ app.post('/api/setWorkLocation',function(req,res) {
          var id = null;
          con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
              if (result.length > 0) {
-                 res.send({data: result, status: true});
+                var data = JSON.parse((result[0][0].json))
+                var resultdata=[];
+                var inactive =[];
+                for(var i=0;i<data.length;i++){
+                    if(data[i].status == "active"){
+                        resultdata.push(data[i]);
+                    }
+                    else{
+                        inactive.push(data[i])
+                    }
+                 
+                }
+                res.send({data: resultdata, status: true});
+
              } else {
                  res.send({status: false})
             }
