@@ -264,14 +264,14 @@ app.post('/api/setWorkLocation',function(req,res) {
         let infoLocationsMaster={
             id:req.body.id,
             branchCode:'',
-            address1:req.body.address1,
-            address2:req.body.address2,
-            location:req.body.location,
-            pincode:req.body.pincode,
+            address1:req.body.address1?req.body.address1:"",
+            address2:req.body.address2?req.body.address1:"",
+            location:req.body.location?req.body.location:"",
+            pincode:req.body.pincode?req.body.pincode:"",
             city:req.body.cityId,
             state:req.body.stateId,
             country:req.body.country,
-            prefix:req.body.prefix,
+            prefix:req.body.prefix?req.body.prefix:"",
             seed:req.body.seed,
             status:req.body.status?req.body.status:'active'
         }
@@ -1272,7 +1272,7 @@ app.post('/api/validatePrefix',function(req,res) {
     }
 });
 
-app.listen(8081,function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
