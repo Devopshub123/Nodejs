@@ -129,13 +129,13 @@ app.put('/api/putCompanyInformation',function(req,res) {
         companyInformation.PrimaryContactNumber=req.body.primaryContact;
         companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
         companyInformation.Address1=req.body.address;
-        companyInformation.Address2=req.body.addressOne?req.body.addressOne:null;
+        companyInformation.Address2=req.body.addressOne?req.body.addressOne:" ";
         companyInformation.Country = req.body.country;
         companyInformation.State = req.body.stateId;
         companyInformation.City = req.body.city;
         companyInformation.Pincode=req.body.pincode;
         console.log('put',companyInformation)
-        con.query("CALL `updateMasterTable` (?,?,?,?)",['CompanyInformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
+        con.query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
             if (err) {
                     res.send({status: false, message: 'Unable to update company information'});
                 } else {
