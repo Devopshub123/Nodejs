@@ -37,6 +37,8 @@ var switchDatabase= function(domain) {
         con = mysql.createConnection({
             host: "192.168.1.78",
             user: "boon_client_user",
+            //  host: "192.168.1.78",
+            // user: "root",
             port: 3306,
             password: "Client&*123",
             database: domain,
@@ -54,7 +56,7 @@ var switchDatabase= function(domain) {
             user: "boon_client_user",
             port: 3306,
             password: "Client&*123",
-            database: "boon_hrms",
+            database: "boon_client",
             dateStrings: true,
             multipleStatements: true
         });
@@ -129,13 +131,13 @@ app.put('/api/putCompanyInformation',function(req,res) {
         companyInformation.PrimaryContactNumber=req.body.primaryContact;
         companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
         companyInformation.Address1=req.body.address;
-        companyInformation.Address2=req.body.addressOne?req.body.addressOne:null;
+        companyInformation.Address2=req.body.addressOne?req.body.addressOne:" ";
         companyInformation.Country = req.body.country;
         companyInformation.State = req.body.stateId;
         companyInformation.City = req.body.city;
         companyInformation.Pincode=req.body.pincode;
         console.log('put',companyInformation)
-        con.query("CALL `updateMasterTable` (?,?,?,?)",['CompanyInformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
+        con.query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
             if (err) {
                     res.send({status: false, message: 'Unable to update company information'});
                 } else {
@@ -168,7 +170,7 @@ app.get('/api/getDepartment',function(req,res) {
 app.get('/api/setDepartment',function(req,res) {
     try {
 
-        con.query("CALL `setDepartment` (?)",[req.body.departmentName], function (err, result, fields) {
+        con.query("CALL `setdepartment` (?)",[req.body.departmentName], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to add department'});
             } else {
@@ -185,7 +187,7 @@ app.get('/api/setDepartment',function(req,res) {
 app.get('/api/getDesignation',function(req,res) {
     try {
 
-        con.query("CALL `getmasterTable` (?)", ['DesignationsMaster'],function (err, result, fields) {
+        con.query("CALL `getmastertable` (?)", ['designationsmaster'],function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -205,7 +207,7 @@ app.post('/api/setDesignation',function(req,res) {
         infoDesignationMaster.designation=req.body.designationName;
         infoDesignationMaster.status = 1;
         switchDatabase('boon_client')
-        con.query("CALL `setMasterTable` (?,?,?)",['designationsmaster','boon_client',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['designationsmaster','boon_client',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to insert designation'});
             } else {
@@ -225,7 +227,7 @@ app.put('/api/putDesignation',function(req,res) {
         infoDesignationMaster.designation=req.body.name;
         infoDesignationMaster.status = req.body.status;
 
-        con.query("CALL `updateMasterTable` (?,?,?,?)",['designationsmaster','id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        con.query("CALL `updatemastertable` (?,?,?,?)",['designationsmaster','id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
 
             if (err) {
                 res.send({status: false, message: 'Unable to add designation'});
@@ -264,14 +266,14 @@ app.post('/api/setWorkLocation',function(req,res) {
         let infoLocationsMaster={
             id:req.body.id,
             branchCode:'',
-            address1:req.body.address1,
-            address2:req.body.address2,
-            location:req.body.location,
-            pincode:req.body.pincode,
+            address1:req.body.address1?req.body.address1:"",
+            address2:req.body.address2?req.body.address1:"",
+            location:req.body.location?req.body.location:"",
+            pincode:req.body.pincode?req.body.pincode:"",
             city:req.body.cityId,
             state:req.body.stateId,
             country:req.body.country,
-            prefix:req.body.prefix,
+            prefix:req.body.prefix?req.body.prefix:"",
             seed:req.body.seed,
             status:req.body.status?req.body.status:'active'
         }
@@ -297,7 +299,20 @@ app.post('/api/setWorkLocation',function(req,res) {
          var id = null;
          con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
              if (result.length > 0) {
-                 res.send({data: result, status: true});
+                var data = JSON.parse((result[0][0].json))
+                var resultdata=[];
+                var inactive =[];
+                for(var i=0;i<data.length;i++){
+                    if(data[i].status == "active"){
+                        resultdata.push(data[i]);
+                    }
+                    else{
+                        inactive.push(data[i])
+                    }
+                 
+                }
+                res.send({data: resultdata, status: true});
+
              } else {
                  res.send({status: false})
             }
@@ -658,12 +673,13 @@ app.delete('/api/deleteAddLeaveBalance/:leaveBalanceId',function(req,res) {
 /*Get employee Master*/
 app.post('/api/getEmployeeMaster',function(req,res) {
 
-    switchDatabase('LMSTWO');
+    switchDatabase('boon_client');
     try {
-        console.log(req.body);
-        con.query("CALL `getEmployeeMaster` (?)",[req.body.Id], function (err, result, fields) {
+        console.log(req.body.id);
+        con.query("CALL `getemployeemaster` (?)",[req.body.id], function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
+                console.log(result[0])
             } else {
                 res.send({status: false})
             }
@@ -683,7 +699,7 @@ app.post('/api/setEmployeeMaster',function(req,res) {
        let JoinDate = (new Date(req.body.dateOfJoin));
 
        var  dateOfJoin = JoinDate.getFullYear() + "-" + (JoinDate.getMonth() + 1) + "-" + (JoinDate.getDate());
-        switchDatabase('LMSTWO');
+        switchDatabase('boon_client');
         let input = {
             empId:req.body.empId,
             firstName: req.body.firstName,
@@ -755,7 +771,7 @@ app.put('/api/putEmployeeMaster',function(req,res) {
 
 
     try {
-        con.query("CALL `putEmployeeMaster` (?,?,?,?,?)",
+        con.query("CALL `putemployeemaster` (?,?,?,?,?)",
             [], function (err, result, fields) {
 
                 if (err) {
@@ -772,7 +788,7 @@ app.put('/api/putEmployeeMaster',function(req,res) {
 
 app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
     try {
-        con.query("CALL `getSearch` (?,?)",
+        con.query("CALL `getsearch` (?,?)",
             [req.params.employeeName,req.params.employeeId], function (err, result, fields) {
 
                 if (err) {
@@ -1041,19 +1057,25 @@ app.post('/api/setUploadImage/:companyName',function (req, res) {
     // switchDatabase(Buffer.from(req.params.companyShortName,'base64').toString('ascii'))
     console.log('companyName',req.params.companyName)
     try{
+        var id =1;
         file=req.files.file;
         console.log(req.files);
-        // folderName = './logos/'+Buffer.from(req.params.companyShortName,'base64').toString('ascii')+'/';
-       var folderName = './logos/'+req.params.companyName+'/';
+        console.log("fils",file)
+       var folderName = './logos/Apple/'
 
         try {
             if (!fs.existsSync(folderName)) {
                 fs.mkdirSync(folderName)
-                saveImage(folderName+req.params.companyName+'.png')
-                res.send({message:'Image uploaded successfully'})
+
             }else {
-                saveImage(folderName+req.params.companyName+'.png')
-                res.send({message:'Image uploaded successfully'})
+                file.mv(path.resolve(__dirname,folderName,id+'.png'),function(error){
+                    if(error){
+                        console.log(error);
+                    }
+                    res.send({message:'Image Uploaded Succesfully'})
+                
+                })
+              
 
             }
         } catch (err) {
@@ -1061,6 +1083,33 @@ app.post('/api/setUploadImage/:companyName',function (req, res) {
         }
     }catch (e) {
         console.log("setUploadImage:",e)
+    }
+});
+/*set profilepicture */
+app.post('/set_profilepicture/:companyname/:id',function(req,res){
+    try{
+        let id = req.params.id;
+        let companyName = req.params.companyname;
+        console.log(req.files)
+        console.log(id)
+        console.log(companyName)
+        let image = req.files.image;
+        let foldername = './profile_picture/'
+        if(!fs.existsSync(foldername)){
+            fs.mkdirSync(foldername)
+        }
+        image.mv(path.resolve(__dirname,foldername,companyName+'.png'),function(error){
+            if(error){
+                console.log(error);
+            }
+            res.send({message:'Image Uploaded Succesfully'})
+        
+        })
+
+    }
+    catch(e){
+        console.log('set_profilepicture',e)
+
     }
 });
 
@@ -1161,11 +1210,11 @@ app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageS
 
 });
 
-/*Get Employee Search Information*/
+// /*Get Employee Search Information*/
 app.post('/api/getEmployeeDetails',function(req,res) {
     try {
-        switchDatabase('LMSTWO');
-        con.query("CALL `getEmployeeMasterForSearch` (?,?)", [req.body.employeeId,req.body.employeeName], function (err, result, fields) {
+        switchDatabase('boon_client');
+        con.query("CALL `getemployeemasterforsearch` (?,?,0,0)", [req.body.employeeId,req.body.employeeName], function (err, result, fields) {
                         console.log(err)
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1203,7 +1252,7 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
         folderName = './logos/Apple/';
         var imageData={}
         var flag=false;
-        fs.readFile(folderName+'Apple.png',function(err,result){
+        fs.readFile(folderName+'1.png',function(err,result){
             if(err){
                 flag=false;
             }else{
@@ -1224,7 +1273,7 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
     try{
       let id = req.params.Id;
       let foldername = './logos/Apple/'
-      fs.unlink(foldername+'Apple.png',function(err,result){
+      fs.unlink(foldername+'1.png',function(err,result){
           if(err){
               console.log(err)
           }
@@ -1283,7 +1332,6 @@ app.post('/api/setNewLeaveType',function(req,res) {
 /*Get Leaves Type Info*/
 app.get('/api/getLeavesTypeInfo',function(req,res) {
     try {
-
         con.query("CALL `get_leavetypes_data` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1317,7 +1365,9 @@ app.post('/api/setToggleLeaveType',function(req,res) {
         console.log('setleavepolicies :',e)
     }
 });
-app.listen(8084,'0.0.0.0',function (err) {
+
+app.listen(6060,function (err) {
+
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
