@@ -1098,13 +1098,13 @@ app.post('/api/setUploadImage/:companyName',function (req, res) {
  });
 
 app.post('/api/setLeavePolicies',function(req,res) {
-    let leaveType = req.body.Subcategory;
-    let leaveColor = req.body.leaveColor;
+
     let ruleData = req.body.ruleData;
 
     try{
-        switchDatabase('boon_client')
-        con.query("CALL `setLeavePolicies` (?,?,?)",[leaveType,leaveColor,JSON.stringify(ruleData)], function (err, result, fields) {
+        switchDatabase('boon_client');
+        console.log(JSON.stringify(ruleData));
+        con.query("CALL `setLeavePolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
             console.log(err);
             if(err){
                 res.send({message: 'Unable to add leave policy rule', status: false})
@@ -1258,8 +1258,66 @@ app.post('/api/validatePrefix',function(req,res) {
 
     }
 });
+app.post('/api/setNewLeaveType',function(req,res) {
+    try {
+        // var id;
 
-app.listen(8081,function (err) {
+        let leaveType = req.body.leaveTypeName;
+        let leaveColor = req.body.leaveColor;
+        let leaveDisplayName = req.body.displayName;
+        switchDatabase('boon_client')
+// console.log('req.params.prefixreq.params.prefixreq.params.prefix',req.body.prefix)
+        con.query("CALL `setnewleavetype` (?,?,?)",[leaveType,leaveDisplayName,leaveColor], function (err, result, fields) {
+            console.log("err",err)
+            if (err) {
+                res.send({status: false, message: 'Unable to add leave type'});
+            } else {
+                res.send({status: true, message: 'Leave Type added successfully'})
+            }
+        });
+    }catch (e) {
+        console.log('setNewLeaveType :',e)
+
+    }
+});
+/*Get Leaves Type Info*/
+app.get('/api/getLeavesTypeInfo',function(req,res) {
+    try {
+
+        con.query("CALL `get_leavetypes_data` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getLeavesTypeInfo :',e)
+
+    }
+});
+/*setToggleLeaveType */
+app.post('/api/setToggleLeaveType',function(req,res) {
+    try {
+        let leaveId = req.body.id;
+        let leavetype_status = req.body.leavetype_status;
+
+        switchDatabase('boon_client')
+
+        con.query("CALL `toggle_leavetype` (?,?)",
+            [leaveId,leavetype_status], function (err, result, fields) {
+                console.log(err);
+                if (err) {
+                    res.send({status: false, message: 'Unable to update leave policies status'});
+                } else {
+                    res.send({status: true, message: 'Leave policies status updated successfully'})
+                }
+            });
+    }catch (e) {
+        console.log('setleavepolicies :',e)
+    }
+});
+app.listen(8084,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
