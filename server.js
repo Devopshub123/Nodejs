@@ -1365,9 +1365,33 @@ app.post('/api/setToggleLeaveType',function(req,res) {
         console.log('setleavepolicies :',e)
     }
 });
+/*Get Leave Rules*/
+app.get('/api/getErrorMessages/:errorCode/:page/:size',function(req,res) {
+    try {
+        switchDatabase('boon_client')
+        console.log("Params",req.params);
+        let errorCode;
+        if(req.params.errorCode == 'null')
+        {
+            errorCode = '';
+        }
+        else {
+            errorCode = req.params.errorCode
+        }
+        con.query("CALL `geterrormessages` (?,?,?)", [errorCode,req.params.page,req.params.size],function (err, result, fields) {
+           console.log("getErrorMessages",err);
+            if (result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getLeaves :',e)
 
-app.listen(6060,function (err) {
-
+    }
+});
+app.listen(8081,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
