@@ -1387,8 +1387,28 @@ app.get('/api/getErrorMessages/:errorCode/:page/:size',function(req,res) {
             }
         });
     }catch (e) {
-        console.log('getLeaves :',e)
+        console.log('geterrormessages :',e)
 
+    }
+});
+/*setErrorMessages */
+app.post('/api/setErrorMessages',function(req,res) {
+    try {
+
+        switchDatabase('boon_client')
+
+
+            con.query("CALL `seterrormessages` (?)",
+            [JSON.stringify(req.body.errorData)], function (err, result, fields) {
+                console.log(err);
+                if (err) {
+                    res.send({status: false, message: 'Unable to update leave error messages'});
+                } else {
+                    res.send({status: true, message: 'Error Messages updated successfully'})
+                }
+            });
+    }catch (e) {
+        console.log('seterrormessages :',e)
     }
 });
 app.listen(8081,function (err) {
