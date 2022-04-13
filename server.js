@@ -292,10 +292,46 @@ app.post('/api/setWorkLocation',function(req,res) {
 
     }
 });
+/**getstates */
+app.get('/api/getStates/:id',function(req,res){
+    let id = req.params.id;
+    // let id = 1;
+    try{
+        con.query("CALL `getstatesforcountry`(?)",[id],function(error,result,fields){
+            if(error){
+                console.log(error)
+            }
+            else{
+                res.send(result)
+            }
+        })
+    }
+    catch(e){
+        console.log('getstates',e)
+    }
+})
+/**get Cities */
+app.get('/api/getCities/:id',function(req,res){
+    let id = req.params.id;
+    // let id = 1;
+    try{
+        con.query("CALL `getcitiesforstate`(?)",[id],function(error,result,fields){
+            if(error){
+                console.log(error)
+            }
+            else{
+                res.send(result)
+            }
+        })
+    }
+    catch(e){
+        console.log('getstates',e)
+    }
+})
  /*Get Work Location*/
  app.post('/api/getWorkLocation',function(req,res) {
      try {
-         switchDatabase(req.body.companyName);
+        switchDatabase('boon_client');
          var id = null;
          con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
              if (result.length > 0) {
@@ -493,15 +529,18 @@ app.get('/api/getShift',function(req,res) {
     }
 });
 
-/*Get Master table*/
-app.get('/api/getMastertable/:tableName/:page/:size/:companyShortName',function(req,res) {
+
+// /*Get Master table*/
+app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',function(req,res) {
     try {
 
-        var tName = req.params.tableName;
-        console.log("req.params.tableName;",tName,req.params.companyShortName)
+    var tName = req.params.tableName;
+    if(req.params.status=="null"){
+    
+        console.log("req.params.tableName;",tName,req.params.status)
         switchDatabase('boon_client')
-        con.query("CALL `getmastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
-            console.log(err);
+        con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
+            console.log("ff",result);
             if (result.length > 0) {
                 if(tName == 'holidaysmaster'){
                     console.log("req.params.tableName; ",result[0].length )
@@ -521,6 +560,32 @@ app.get('/api/getMastertable/:tableName/:page/:size/:companyShortName',function(
                 res.send({status: false})
             }
         });
+    }
+    else{
+        switchDatabase('boon_client')
+        con.query("CALL `getmastertable` (?,?,?,?)",[tName,req.params.status,req.params.page,req.params.size], function (err, result, fields) {
+            // console.log("ff",err,result);
+            if (result.length > 0) {
+                if(tName == 'holidaysmaster'){
+                    console.log("req.params.tableName; ",result[0].length )
+                    for (let i=0; i<result[0].length;i++){
+                        let hDate = (new Date(result[0][i].Date));
+                        result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                    }
+                    res.send({data: result[0], status: true});
+
+
+                }else {
+                    // console.log("req.params.tableName; ",result )
+
+                    res.send({data: result[0], status: true});
+                }
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }
     }catch (e) {
         console.log('getMastertable :',e)
 
