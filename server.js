@@ -961,13 +961,14 @@ app.post('/api/setApplyLeave',function(req,res) {
 app.get('/api/getLeaveHistory',function(req,res) {
     try {
 
-        con.query("CALL `getLeaveHistory` (?)",[req.params.employeeId], function (err, result, fields) {
+      /*  con.query("CALL `getLeaveHistory` (?)",[req.params.employeeId], function (err, result, fields) {
+            console.log(err);
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
                 res.send({status: false})
             }
-        });
+        })*/;
     }catch (e) {
         console.log('getLeaveHistory :',e)
 
@@ -1474,6 +1475,118 @@ app.post('/api/setErrorMessages',function(req,res) {
             });
     }catch (e) {
         console.log('seterrormessages :',e)
+    }
+});
+/*Get Role Master*/
+app.get('/api/getrolemaster',function(req,res) {
+    try {
+        con.query("CALL `getrolemaster` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getrolemaster :',e)
+    }
+});
+/*Get Screen Master*/
+app.get('/api/getscreensmaster',function(req,res) {
+    try {
+        con.query("CALL `getscreensmaster` (?)",['2'], function (err, result, fields) {
+            console.log(err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getscreensmaster :',e)
+    }
+});
+/*Get Functionalities Master*/
+app.get('/api/getfunctionalitiesmaster',function(req,res) {
+    try {
+        con.query("CALL `getfunctionalitiesmaster` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getfunctionalitiesmaster :',e)
+    }
+});
+/*Get Screen Functionalities Master*/
+app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
+    try {
+        con.query("CALL `getscreenfunctionalitiesmaster` ()", function (err, result, fields) {
+            console.log(err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
+    }
+});
+/*Get Role Screen Functionalities*/
+app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
+    try {
+        con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.params.roleId,'2'], function (err, result, fields) {
+            console.log("getrolescreenfunctionalities",err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
+    }
+});
+/*setRoleAccess */
+app.post('/api/setRoleAccess',function(req,res) {
+    try {
+
+        switchDatabase('boon_client');
+
+        con.query("CALL `set_role_access` (?)",
+            [JSON.stringify(req.body)], function (err, result, fields) {
+                console.log(err);
+                if (err) {
+                    res.send({status: false, message: 'Unable to update role permissions'});
+                } else {
+                    res.send({status: true, message: 'Role permissions updated successfully'})
+                }
+            });
+    }catch (e) {
+        console.log('setRoleAccess :',e)
+    }
+});
+/*setRoleMaster */
+app.post('/api/setRoleMaster',function(req,res) {
+    try {
+
+        switchDatabase('boon_client')
+
+
+        con.query("CALL `setrolemaster` (?)",
+            [req.body.roleName], function (err, result, fields) {
+                console.log(err);
+                if (err) {
+                    res.send({status: false, message: 'Unable to update leave error messages'});
+                } else {
+                    res.send({status: true, message: 'Error Messages updated successfully'})
+                }
+            });
+    }catch (e) {
+        console.log('setRoleMaster :',e)
     }
 });
 app.listen(8081,function (err) {
