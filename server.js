@@ -1816,14 +1816,13 @@ app.post('/api/setRoleMaster',function(req,res) {
 
         switchDatabase('boon_client')
 
-
         con.query("CALL `setrolemaster` (?)",
             [req.body.roleName], function (err, result, fields) {
                 console.log(err);
                 if (err) {
-                    res.send({status: false, message: 'Unable to update leave error messages'});
+                    res.send({status: false, message: 'Unable to add role name'});
                 } else {
-                    res.send({status: true, message: 'Error Messages updated successfully'})
+                    res.send({status: true, message: 'Role name successfully'})
                 }
             });
     }catch (e) {
