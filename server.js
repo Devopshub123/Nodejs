@@ -37,8 +37,6 @@ var switchDatabase= function(domain) {
         con = mysql.createConnection({
             host: "192.168.1.78",
             user: "boon_client_user",
-            //  host: "192.168.1.78",
-            // user: "root",
             port: 3306,
             password: "Client&*123",
             database: domain,
@@ -84,6 +82,249 @@ switchDatabase('boon_client')
 //
 //     }
 // });
+
+
+
+/**Forgetpassword */
+app.get('/api/forgetpassword/:email',function(req,res,next){
+    let email = req.params.email;
+    console.log(email)
+    try{
+        con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
+            if(err){
+                console.log(err)
+
+            }
+            else{
+                // console.log(result[0][0].id)
+                console.log(result)
+
+            }
+        })        
+    }
+    catch(e){
+        console.log("err")
+    }
+
+})
+/**verify email for forget password */
+app.get('/api/forgetpassword/:email',function(req,res,next){
+    let email = req.params.email;
+    try{
+        con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
+            if(err){
+                console.log(err)
+
+            }
+            else{
+                let email = 'rthallapelly@sreebtech.com'
+                let id = 22
+        var transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+                ciphers:'SSLv3'
+            },
+            auth: {
+                user: 'smattupalli@sreebtech.com',
+                pass: 'Sree$sreebt'
+            }
+        });
+        var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+        var html = `<html> 
+        
+    
+        <head> 
+      
+          <title>HRMS ResetPassword</title> 
+      
+        </head> 
+      
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A"> 
+      
+      
+          <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; "> 
+      
+            <p style="color:black">Hello,</p> 
+      
+            <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p> 
+      
+            <p style="color:black"> Click the link below to Reset your password</p> 
+      
+            <p style="color:black"> <a href="${url}" >${url} </a>
+      
+      </p> 
+      
+       
+      
+            <p style="color:black">Thank You!</p> 
+      
+            <p style="color:black">HRMS Team</p> 
+      
+           
+            <hr style="border: 0; border-top: 3px double #8c8c8c"/> 
+      
+          </div> 
+      
+        </body> 
+      
+      </html> `;
+    
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: "rthallapelly@sreebtech.com",
+            subject: 'Reset Password email',
+            html:html
+        };
+    
+        transporter.sendMail(mailOptions, function(error, info){
+            if (error) {
+                console.log(error);
+                res.send({status: false, message: 'reset password successfully'})
+            } else {
+                console.log('Email sent: ' + info.response);
+                res.send({status: true, message: 'reset password successfully'})
+            }
+        });
+            }
+        })
+
+
+    }
+    catch(e){
+        console.log("forgetpassword",e)
+    }
+})
+/**password reset */
+app.get('/api/resetpassword/:email/:id',function(req,res,next){
+    let id = req.params.id;
+    let email = req.params.email;
+    console.log(id)
+    console.log(email)
+    res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
+
+
+})
+/**reset password */
+app.post('/api/resetpassword',function(req,res,next){
+    let id = req.body.empId;
+    let email = req.body.email;
+    let password = req.body.newPassword;
+    try{
+        console.log(req.body)
+        console.log(email)
+        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','n'],function(err,result){
+            if(err){
+                console.log(err)
+            }
+            else{
+                console.log("p c")
+                res.send({status: true, message: 'reset password successfully'})
+
+                
+            }
+        })
+
+    }
+    catch(e){
+        console.log("resetpassword",e)
+    }
+})
+/**Change Password */
+app.post('/changePassword',function(req,res){
+    let oldpassword = req.body.oldPassword;
+    let newpassword = req.body.newPassword;
+    let id = req.body.empId;
+    let login = req.body.email;
+    console.log(req.body)
+    try{
+        con.query('CALL `validatelastpasswordmatch` (?,?,?,?)',[id,login,oldpassword,newpassword],function(err,results,next){
+            var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+            console.log("result",result[0])
+            if(result[0]==0){
+                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'active','n'],function(err,result){
+                    if(err){
+                        console.log(err)
+                    }
+                    else{
+                        console.log(result)
+                        res.send({status: true, message: 'password updated successfully'})
+  
+                        
+                    }
+                })
+
+            }
+            else if(result[0]==-1){
+                res.send({status: false, message: 'Wrong password. Please enter a valid password'})
+            }
+            else{
+                res.send({status: false, message: 'Your new password cannot be same as old password'})
+
+            }
+                    
+        })
+    }
+    catch(e){
+        console.log("changepassword",e)
+    }
+    
+})
+
+
+/**employee login */
+app.get('/api/emp_login/:email/:password',function(req,res,next){
+    try{
+        var email = req.params.email;
+        var password = req.params.password;
+        console.log(email)
+        console.log(password)
+            con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
+                var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+                console.log("id",result[0])
+                if (result[0] > 0) {  
+                    // [result[0]]
+                // if(21>0){    
+                    con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
+                        try{
+                            console.log(results.length)
+                            if(results.length>0){
+                                
+                                var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+                                console.log(result)
+                                // res.send({status: true,results})
+                                res.send(result)
+                            }
+                            else{
+                                console.log("employee_login")
+                               
+                            }
+                        }
+                        catch (e){
+                            console.log("employee_login",e)
+                        }                                              
+
+                    }) 
+
+                }
+                else{
+                    // res.send({
+                    //     message:"Invalid userName or password"
+                    // })
+                    res.send(result)
+                }
+                
+            })
+
+
+        // })
+
+    }
+    catch (e){
+        console.log("employee_login",e)
+    }
+})
 
 /*Set comapny information*/
 
