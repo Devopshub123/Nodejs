@@ -1463,9 +1463,9 @@ app.post('/api/setLeavePolicies',function(req,res) {
         con.query("CALL `setLeavePolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
             console.log(err);
             if(err){
-                res.send({message: 'Unable to add leave policy rule', status: false})
+                res.send({message: 'Unable to update leave policy', status: false})
             }else{
-                res.send({message: "Leave policies are updated successfully", status: true})
+                res.send({message: "Rules updated successfully", status: true})
             }
 
         })
@@ -1815,6 +1815,7 @@ app.post('/api/setRoleMaster',function(req,res) {
     try {
 
         switchDatabase('boon_client')
+
 
         con.query("CALL `setrolemaster` (?)",
             [req.body.roleName], function (err, result, fields) {
