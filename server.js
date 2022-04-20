@@ -5,6 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var mysql = require('mysql');
 const fileUpload = require('express-fileupload');
+var nodemailer = require('nodemailer')
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -85,28 +86,7 @@ switchDatabase('boon_client')
 
 
 
-/**Forgetpassword */
-app.get('/api/forgetpassword/:email',function(req,res,next){
-    let email = req.params.email;
-    console.log(email)
-    try{
-        con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
-            if(err){
-                console.log(err)
 
-            }
-            else{
-                // console.log(result[0][0].id)
-                console.log(result)
-
-            }
-        })        
-    }
-    catch(e){
-        console.log("err")
-    }
-
-})
 /**verify email for forget password */
 app.get('/api/forgetpassword/:email',function(req,res,next){
     let email = req.params.email;
@@ -996,6 +976,24 @@ app.post('/api/getEmployeeMaster',function(req,res) {
     }
 });
 
+/**getreportingmanagers */
+app.get('/api/getReportingManager',function(req,res){
+    try{
+        con.query("CALL `getreportingmanagers`()",function (err, result, fields) {
+            if(err){
+                console.log(err)
+            }
+            else{
+                console.log(result)
+                res.send(result)
+            }
+            
+            });
+    }
+    catch(e){
+        console.log("getreportingmanager",e)
+    }
+})
 /*Set Employee Master*/
 
 app.post('/api/setEmployeeMaster',function(req,res) {
@@ -1007,55 +1005,59 @@ app.post('/api/setEmployeeMaster',function(req,res) {
        var  dateOfJoin = JoinDate.getFullYear() + "-" + (JoinDate.getMonth() + 1) + "-" + (JoinDate.getDate());
         switchDatabase('boon_client');
         let input = {
-            empId:req.body.empId,
-            firstName: req.body.firstName,
-            middleName: req.body.middleName,
-            lastName: req.body.lastName,
-            personalEmail: req.body.personalEmail,
-            officeEmail: req.body.officeEmail,
-            dateOfBirth: dateOfBirth,
+            empid:req.body.empId,
+            firstname: req.body.firstName,
+            middlename: req.body.middleName,
+            lastname: req.body.lastName,
+            personalemail: req.body.personalEmail,
+            officeemail: req.body.officeEmail,
+            dateofbirth: dateOfBirth,
             gender: req.body.gender,
-            maritalStatus: req.body.maritalStatus,
-            userType: req.body.userType,
+            maritalstatus: req.body.maritalStatus,
+            usertype: req.body.userType,
             designation: req.body.designation,
             department: parseInt(req.body.department),
-            employmentType: req.body.employmentType,
-            dateOfJoin: dateOfJoin,
-            companyLocation: req.body.companyLocation,
-            reportingManager: req.body.reportingManager,
-            bloodGroup: req.body.bloodGroup,
-            contactNumber: req.body.contactNumber,
-            emergencyContactNumber: req.body.emergencyContactNumber,
-            emergencyContactRelation: req.body.emergencyContactRelation,
-            emergencyContactName: req.body.emergencyContactName,
+            employmenttype: req.body.employmentType,
+            dateofjoin: dateOfJoin,
+            companylocation: req.body.companyLocation,
+            reportingmanager: req.body.reportingManager,
+            bloodgroup: req.body.bloodGroup,
+            contactnumber: req.body.contactNumber,
+            emergencycontactnumber: req.body.emergencyContactNumber,
+            emergencycontactrelation: req.body.emergencyContactRelation,
+            emergencycontactname: req.body.emergencyContactName,
             address: req.body.address,
             city: req.body.city,
             state: req.body.state,
             pincode: req.body.pincode,
             country: req.body.country,
-            pAddress: req.body.pAddress,
-            pCity: req.body.pCity,
-            pState: req.body.pState,
-            pPincode: req.body.pPincode,
-            pCountry: req.body.pCountry,
-            aadharNumber: req.body.aadharNumber,
+            paddress: req.body.pAddress,
+            pcity: req.body.pCity,
+            pstate: req.body.pState,
+            ppincode: req.body.pPincode,
+            pcountry: req.body.pCountry,
+            aadharnumber: req.body.aadharNumber,
             passport: req.body.passport,
-            bankName: req.body.bankName,
-            iFSCCode: req.body.iFSCCode,
-            nameAsPerBankAccount: req.body.nameAsPerBankAccount,
-            branchName: req.body.branchName,
-            bankAccountNumber: req.body.bankAccountNumber,
-            uANumber: req.body.uANumber,
-            pFAccountNumber: req.body.pFAccountNumber,
-            pAN: req.body.pAN,
-            status: req.body.status,
-            eSI: req.body.eSI,
+            bankname: req.body.bankName,
+            ifsccoode: req.body.iFSCCode,
+            nameasperbankaccount: req.body.nameAsPerBankAccount,
+            branchname: req.body.branchName,
+            bankaccountnumber: req.body.bankAccountNumber,
+            uanumber: req.body.uANumber,
+            pfaccountnumber: req.body.pFAccountNumber,
+            pan: req.body.pAN,
+            status: 'Active',
+            esi: req.body.eSI,
             shift: req.body.shift,
+             relations: {},
+            education: {},
+            experience:{},
             relations: req.body.relations,
-            education: req.body.education,
-            experience: req.body.experience
+            // education: req.body.education,
+            // experience: req.body.experience
         };
-        console.log(JSON.stringify(input));
+        // console.log(JSON.stringify(input));
+        console.log((input))
         con.query("CALL `setEmployeeMaster` (?)",
             [JSON.stringify(input)], function (err, result, fields) {
                 console.log("error",err);
@@ -1830,7 +1832,7 @@ app.post('/api/setRoleMaster',function(req,res) {
         console.log('setRoleMaster :',e)
     }
 });
-app.listen(8081,function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
