@@ -1832,6 +1832,44 @@ app.post('/api/setRoleMaster',function(req,res) {
         console.log('setRoleMaster :',e)
     }
 });
+app.get('/api/getLeaveTypesForAdvancedLeave/:leaveId',function(req,res) {
+    try {
+        switchDatabase('boon_client')
+        console.log("tempppresult",req.params.leaveId)
+
+        con.query("CALL `getleavetypesforadvancedleave` ()",function (err, result, fields) {
+            console.log("tempppresult",result,err)
+
+            if (result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getleavetypesforadvancedleave :',e)
+
+    }
+});
+app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
+    try {
+        switchDatabase('boon_client')
+        console.log("tempppresult11111",req.body)
+
+        con.query("CALL `set_advanced_leave_rule_values` (?)",[req.body.leaveid],function (err, result, fields) {
+            console.log("tempppresult",result,err)
+
+            if (result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('setAdvancedLeaveRuleValues :',e)
+
+    }
+});
 app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
