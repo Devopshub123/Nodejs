@@ -1053,8 +1053,8 @@ app.post('/api/setEmployeeMaster',function(req,res) {
             education: {},
             experience:{},
             relations: req.body.relations,
-            // education: req.body.education,
-            // experience: req.body.experience
+           education: req.body.education,
+           experience: req.body.experience
         };
         // console.log(JSON.stringify(input));
         console.log((input))
@@ -1832,6 +1832,7 @@ app.post('/api/setRoleMaster',function(req,res) {
         console.log('setRoleMaster :',e)
     }
 });
+
 /*Get Holidays based on employeeId*/
 app.get('/api/getHolidaysList/:empId',function(req,res) {
     try {
@@ -1839,6 +1840,17 @@ app.get('/api/getHolidaysList/:empId',function(req,res) {
             console.log("getemployeeholidays",err);
             if (result.length > 0) {
                 res.send({data: result, status: true});
+
+app.get('/api/getLeaveTypesForAdvancedLeave/:leaveId',function(req,res) {
+    try {
+        switchDatabase('boon_client')
+        console.log("tempppresult",req.params.leaveId)
+
+        con.query("CALL `getleavetypesforadvancedleave` ()",function (err, result, fields) {
+            console.log("tempppresult",result,err)
+
+            if (result.length > 0) {
+                res.send({data: result[0], status: true});
             } else {
                 res.send({status: false})
             }
@@ -1854,6 +1866,20 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
             console.log("getemployeeleavebalance",err);
             if (result.length > 0) {
                 res.send({data: result, status: true});
+
+
+    }
+});
+app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
+    try {
+        switchDatabase('boon_client')
+        console.log("tempppresult11111",req.body)
+
+        con.query("CALL `set_advanced_leave_rule_values` (?)",[req.body.leaveid],function (err, result, fields) {
+            console.log("tempppresult",result,err)
+
+            if (result.length > 0) {
+                res.send({data: result[0], status: true});
             } else {
                 res.send({status: false})
             }
@@ -1908,7 +1934,7 @@ app.post('/api/validateleave',function(req,res) {
         console.log('getdurationforbackdatedleave :',e)
     }
 });
-app.listen(8081,function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
