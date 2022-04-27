@@ -5,7 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var mysql = require('mysql');
 const fileUpload = require('express-fileupload');
-var nodemailer = require('nodemailer')
+/*var nodemailer = require('nodemailer')*/
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -91,7 +91,7 @@ switchDatabase('boon_client')
 app.get('/api/forgetpassword/:email',function(req,res,next){
     let email = req.params.email;
     try{
-        con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
+    /*    con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
             if(err){
                 console.log(err)
 
@@ -168,7 +168,7 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
             }
         });
             }
-        })
+        }) */
 
 
     }
@@ -1832,7 +1832,83 @@ app.post('/api/setRoleMaster',function(req,res) {
         console.log('setRoleMaster :',e)
     }
 });
-app.listen(6060,function (err) {
+/*Get Holidays based on employeeId*/
+app.get('/api/getHolidaysList/:empId',function(req,res) {
+    try {
+        con.query("CALL `getemployeeholidays` (?)",[req.params.empId], function (err, result, fields) {
+            console.log("getemployeeholidays",err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getemployeeholidays :',e)
+    }
+});
+/*Get Employee Leave Balance*/
+app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
+    try {
+        con.query("CALL `getemployeeleavebalance` (?)",[req.params.empId], function (err, result, fields) {
+            console.log("getemployeeleavebalance",err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getemployeeleavebalance :',e)
+    }
+});
+/*Get Employee Roles*/
+app.get('/api/getemployeeroles/:empId',function(req,res) {
+    try {
+        con.query("CALL `getemployeeroles` (?)",[req.params.empId], function (err, result, fields) {
+            console.log("getemployeeroles",err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getemployeeroles :',e)
+    }
+});
+/*Get Duration for back dated leave*/
+app.get('/api/getdurationforbackdatedleave',function(req,res) {
+    try {
+        con.query("CALL `getdurationforbackdatedleave` ()", function (err, result, fields) {
+            console.log("getdurationforbackdatedleave",err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getdurationforbackdatedleave :',e)
+    }
+});
+/*Get Duration for back dated leave*/
+app.post('/api/validateleave',function(req,res) {
+    try {
+        /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
+        con.query("CALL `validateleave` (?,?,?,?,?,?)",[req.body.employee_id,req.body.leavetype_id,req.body.fromdate,req.body.todate,req.body.fromdatehalfday,req.body.todatehalfday], function (err, result, fields) {
+            console.log("getdurationforbackdatedleave",err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getdurationforbackdatedleave :',e)
+    }
+});
+app.listen(8081,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
