@@ -5,7 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var mysql = require('mysql');
 const fileUpload = require('express-fileupload');
-/*var nodemailer = require('nodemailer')*/
+var nodemailer = require('nodemailer')
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -1767,7 +1767,7 @@ app.get('/api/getfunctionalitiesmaster',function(req,res) {
 app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
     try {
         con.query("CALL `getscreenfunctionalitiesmaster` ()", function (err, result, fields) {
-            console.log(err);
+            console.log("",err);
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -1781,8 +1781,10 @@ app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
 /*Get Role Screen Functionalities*/
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
     try {
+        console.log("role",req.params.roleId)
         con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.params.roleId,'2'], function (err, result, fields) {
             console.log("getrolescreenfunctionalities",err);
+            console.log("rr",result)
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -1840,7 +1842,13 @@ app.get('/api/getHolidaysList/:empId',function(req,res) {
             console.log("getemployeeholidays",err);
             if (result.length > 0) {
                 res.send({data: result, status: true});
-
+            }
+        })
+    }
+    catch(e){
+        console.log()
+    }
+    })
 app.get('/api/getLeaveTypesForAdvancedLeave/:leaveId',function(req,res) {
     try {
         switchDatabase('boon_client')
@@ -1866,9 +1874,16 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
             console.log("getemployeeleavebalance",err);
             if (result.length > 0) {
                 res.send({data: result, status: true});
+            }
+            
+        })
 
 
     }
+    catch(e){
+        console.log('getdurationforbackdatedleave :',e)
+    }
+  
 });
 app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
     try {
@@ -1938,5 +1953,5 @@ app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at : http://localhost:6060')
+        console.log('Server Started at : http://localhost:6060');
 })
