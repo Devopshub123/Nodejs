@@ -464,7 +464,7 @@ app.put('/api/putDesignation',function(req,res) {
 app.post('/api/updateStatus',function(req,res) {
     try {
         switchDatabase('boon_client');
-        con.query("CALL `updatestatus` (?,?,?)",['companyworklocationsmaster',req.body.id,req.body.status], function (err, result, fields) {
+        con.query("CALL `updatestatus` (?,?,?)",['departmentsmaster',req.body.id,req.body.status], function (err, result, fields) {
             console.log('err',err,result)
 
             if (err) {
@@ -499,7 +499,7 @@ app.post('/api/setWorkLocation',function(req,res) {
             status:req.body.status?req.body.status:'active'
         }
         console.log('fffff',JSON.stringify(infoLocationsMaster));
-        con.query("CALL `setcompanyworkLocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
+        con.query("CALL `setcompanyworklocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
             console.log('err',err,result)
 
             if (err) {
