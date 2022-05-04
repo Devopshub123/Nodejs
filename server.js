@@ -1462,7 +1462,7 @@ app.post('/api/setLeavePolicies',function(req,res) {
     try{
         switchDatabase('boon_client');
         console.log(JSON.stringify(ruleData));
-        con.query("CALL `setLeavePolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
+        con.query("CALL `setleavepolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
             console.log(err);
             if(err){
                 res.send({message: 'Unable to update leave policy', status: false})
@@ -1523,7 +1523,7 @@ app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageS
 app.post('/api/getEmployeeDetails',function(req,res) {
     try {
         switchDatabase('boon_client');
-        con.query("CALL `getemployeemasterforsearch` (?,?,0,0)", [req.body.employeeId,req.body.employeeName], function (err, result, fields) {
+        con.query("CALL `getemployeemasterforsearch` (?,?,1,100)", [req.body.employeeId,req.body.employeeName], function (err, result, fields) {
                         console.log(err)
             if (result.length > 0) {
                 res.send({data: result, status: true});
