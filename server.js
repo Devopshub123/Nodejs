@@ -5,7 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var mysql = require('mysql');
 const fileUpload = require('express-fileupload');
-/*var nodemailer = require('nodemailer')*/
+var nodemailer = require('nodemailer')
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
