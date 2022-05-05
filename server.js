@@ -483,7 +483,7 @@ app.post('/api/updateStatus',function(req,res) {
 app.post('/api/setWorkLocation',function(req,res) {
     try {
         switchDatabase('boon_client');
-
+        console.log("work,",req.body)
         let infoLocationsMaster={
             id:req.body.id,
             branchCode:'',
@@ -551,6 +551,37 @@ app.get('/api/getCities/:id',function(req,res){
 })
  /*Get Work Location*/
  app.post('/api/getWorkLocation',function(req,res) {
+    try {
+       switchDatabase('boon_client');
+        var id = null;
+        con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
+            if (result.length > 0) {
+               var data = JSON.parse((result[0][0].json))
+            //    var resultdata=[];
+            //    var inactive =[];
+            //    for(var i=0;i<data.length;i++){
+            //        if(data[i].status == "active"){
+            //            resultdata.push(data[i]);
+            //        }
+            //        else{
+            //            inactive.push(data[i])
+            //        }
+                
+            //    }
+               res.send({data: data, status: true});
+
+            } else {
+                res.send({status: false})
+           }
+       });
+   }catch (e) {
+       console.log('getWorkLocation :',e)
+
+    }
+});
+
+ /*Get Work Location*/
+ app.post('/api/getactiveWorkLocation',function(req,res) {
      try {
         switchDatabase('boon_client');
          var id = null;
