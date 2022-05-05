@@ -464,7 +464,7 @@ app.put('/api/putDesignation',function(req,res) {
 app.post('/api/updateStatus',function(req,res) {
     try {
         switchDatabase('boon_client');
-        con.query("CALL `updatestatus` (?,?,?)",['companyworklocationsmaster',req.body.id,req.body.status], function (err, result, fields) {
+        con.query("CALL `updatestatus` (?,?,?)",['departmentsmaster',req.body.id,req.body.status], function (err, result, fields) {
             console.log('err',err,result)
 
             if (err) {
@@ -483,7 +483,7 @@ app.post('/api/updateStatus',function(req,res) {
 app.post('/api/setWorkLocation',function(req,res) {
     try {
         switchDatabase('boon_client');
-
+        console.log("work,",req.body)
         let infoLocationsMaster={
             id:req.body.id,
             branchCode:'',
@@ -499,7 +499,7 @@ app.post('/api/setWorkLocation',function(req,res) {
             status:req.body.status?req.body.status:'active'
         }
         console.log('fffff',JSON.stringify(infoLocationsMaster));
-        con.query("CALL `setcompanyworkLocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
+        con.query("CALL `setcompanyworklocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
             console.log('err',err,result)
 
             if (err) {
@@ -551,6 +551,37 @@ app.get('/api/getCities/:id',function(req,res){
 })
  /*Get Work Location*/
  app.post('/api/getWorkLocation',function(req,res) {
+    try {
+       switchDatabase('boon_client');
+        var id = null;
+        con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
+            if (result.length > 0) {
+               var data = JSON.parse((result[0][0].json))
+            //    var resultdata=[];
+            //    var inactive =[];
+            //    for(var i=0;i<data.length;i++){
+            //        if(data[i].status == "active"){
+            //            resultdata.push(data[i]);
+            //        }
+            //        else{
+            //            inactive.push(data[i])
+            //        }
+                
+            //    }
+               res.send({data: data, status: true});
+
+            } else {
+                res.send({status: false})
+           }
+       });
+   }catch (e) {
+       console.log('getWorkLocation :',e)
+
+    }
+});
+
+ /*Get Work Location*/
+ app.post('/api/getactiveWorkLocation',function(req,res) {
      try {
         switchDatabase('boon_client');
          var id = null;
@@ -1462,7 +1493,7 @@ app.post('/api/setLeavePolicies',function(req,res) {
     try{
         switchDatabase('boon_client');
         console.log(JSON.stringify(ruleData));
-        con.query("CALL `setLeavePolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
+        con.query("CALL `setleavepolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
             console.log(err);
             if(err){
                 res.send({message: 'Unable to update leave policy', status: false})
@@ -1523,7 +1554,7 @@ app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageS
 app.post('/api/getEmployeeDetails',function(req,res) {
     try {
         switchDatabase('boon_client');
-        con.query("CALL `getemployeemasterforsearch` (?,?,0,0)", [req.body.employeeId,req.body.employeeName], function (err, result, fields) {
+        con.query("CALL `getemployeemasterforsearch` (?,?,1,100)", [req.body.employeeId,req.body.employeeName], function (err, result, fields) {
                         console.log(err)
             if (result.length > 0) {
                 res.send({data: result, status: true});
