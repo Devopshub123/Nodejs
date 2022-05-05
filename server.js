@@ -5,7 +5,7 @@ var fs = require('fs');
 var path = require('path');
 var mysql = require('mysql');
 const fileUpload = require('express-fileupload');
-var nodemailer = require('nodemailer')
+/*var nodemailer = require('nodemailer')*/
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -1938,7 +1938,7 @@ app.post('/api/validateleave',function(req,res) {
     try {
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
         con.query("CALL `validateleave` (?,?,?,?,?,?)",[req.body.employee_id,req.body.leavetype_id,req.body.fromdate,req.body.todate,req.body.fromdatehalfday,req.body.todatehalfday], function (err, result, fields) {
-            console.log("getdurationforbackdatedleave",err);
+            console.log("validateleave",err);
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -1946,10 +1946,42 @@ app.post('/api/validateleave',function(req,res) {
             }
         });
     }catch (e) {
-        console.log('getdurationforbackdatedleave :',e)
+        console.log('validateleave :',e)
     }
 });
-app.listen(6060,function (err) {
+/*Get Days to be disabled*/
+app.post('/api/getdaystobedisabled',function(req,res) {
+    try {
+        /*Sample Format: call getdaystobedisabled(23)*/
+        con.query("CALL `getdaystobedisabled` (?)",[req.body.employee_id], function (err, result, fields) {
+            console.log("getdaystobedisabled",err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getdaystobedisabled :',e)
+    }
+});
+/*Get getoffdayscount*/
+app.post('/api/getoffdayscount',function(req,res) {
+    try {
+        /*Sample Format: call getoffdayscount(23,2,'2022-04-20','2022-04-29',0,0)*/
+        con.query("CALL `getoffdayscount` (?,?,?,?,?,?)",[req.body.employee_id,req.body.leavetype_id,req.body.fromdate,req.body.todate,req.body.fromdatehalfday,req.body.todatehalfday], function (err, result, fields) {
+            console.log("getoffdayscount",err);
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getoffdayscount :',e)
+    }
+});
+app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
