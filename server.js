@@ -268,15 +268,18 @@ app.get('/api/emp_login/:email/:password',function(req,res,next){
                 // if(21>0){    
                     con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
                         try{
-                            console.log(results.length)
+                            // console.log("hjh",typeof(results))
+                            // console.log("hjh",results)
                             if(results.length>0){
                                 
-                                var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
-                                console.log(result)
-                                // res.send({status: true,results})
-                                res.send(result)
+                                var result = JSON.parse(results[0][0].result)
+                                console.log("fdg",result)
+                    
+                                res.send({status: true,result})
+        
                             }
                             else{
+                                res.send({status: false,result})
                                 console.log("employee_login")
                                
                             }
@@ -292,7 +295,8 @@ app.get('/api/emp_login/:email/:password',function(req,res,next){
                     // res.send({
                     //     message:"Invalid userName or password"
                     // })
-                    res.send(result)
+                    res.send({status: false,message:"Invalid userName or password"})
+                    // res.send(result)
                 }
                 
             })
@@ -1070,7 +1074,7 @@ app.post('/api/setEmployeeMaster',function(req,res) {
             aadharnumber: req.body.aadharNumber,
             passport: req.body.passport,
             bankname: req.body.bankName,
-            ifsccoode: req.body.iFSCCode,
+            ifsccode: req.body.iFSCCode,
             nameasperbankaccount: req.body.nameAsPerBankAccount,
             branchname: req.body.branchName,
             bankaccountnumber: req.body.bankAccountNumber,
