@@ -1633,12 +1633,13 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
 app.post('/api/validatePrefix',function(req,res) {
     try {
         // var id;
-
+        console.log("hjhs",req.body)
         let input={}
-        input.prefix=req.body.prefix;
+        let prefix=req.body.prefix;
+        console.log(input.prefix)
         switchDatabase('boon_client')
 // console.log('req.params.prefixreq.params.prefixreq.params.prefix',req.body.prefix)
-        con.query("CALL `validate_prefix_assignment` (?)",[JSON.stringify(input)], function (err, result, fields) {
+        con.query("CALL `validate_prefix_assignment` (?)",prefix, function (err, result, fields) {
             console.log("resultresultresultresult",err,result)
             if (result.length > 0) {
                 res.send({data: result, status: true});
