@@ -1558,7 +1558,7 @@ app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageS
 app.post('/api/getEmployeeDetails',function(req,res) {
     try {
         switchDatabase('boon_client');
-        con.query("CALL `getemployeemasterforsearch` (?,?,1,100)", [req.body.employeeId,req.body.employeeName], function (err, result, fields) {
+        con.query("CALL `getemployeemasterforsearch` (?,?,?,?)", [req.body.employeeId,req.body.employeeName,req.body.page,req.body.tableSize], function (err, result, fields) {
                         console.log(err)
             if (result.length > 0) {
                 res.send({data: result, status: true});
