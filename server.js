@@ -4,7 +4,7 @@ var app = new express();
 var fs = require('fs');
 var path = require('path');
 var mysql = require('mysql');
-const fileUpload = require('express-fileupload');
+var fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer')
 app.use(bodyParser.urlencoded({
     limit: '5mb',
@@ -91,84 +91,84 @@ switchDatabase('boon_client')
 app.get('/api/forgetpassword/:email',function(req,res,next){
     let email = req.params.email;
     try{
-    /*    con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
-            if(err){
-                console.log(err)
+        /*    con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
+                if(err){
+                    console.log(err)
 
-            }
-            else{
-                let email = 'rthallapelly@sreebtech.com'
-                let id = 22
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers:'SSLv3'
-            },
-            auth: {
-                user: 'smattupalli@sreebtech.com',
-                pass: 'Sree$sreebt'
-            }
-        });
-        var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-        var html = `<html> 
-        
-    
-        <head> 
-      
-          <title>HRMS ResetPassword</title> 
-      
-        </head> 
-      
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A"> 
-      
-      
-          <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; "> 
-      
-            <p style="color:black">Hello,</p> 
-      
-            <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p> 
-      
-            <p style="color:black"> Click the link below to Reset your password</p> 
-      
-            <p style="color:black"> <a href="${url}" >${url} </a>
-      
-      </p> 
-      
-       
-      
-            <p style="color:black">Thank You!</p> 
-      
-            <p style="color:black">HRMS Team</p> 
-      
-           
-            <hr style="border: 0; border-top: 3px double #8c8c8c"/> 
-      
-          </div> 
-      
-        </body> 
-      
-      </html> `;
-    
-        var mailOptions = {
-            from: 'smattupalli@sreebtech.com',
-            to: "rthallapelly@sreebtech.com",
-            subject: 'Reset Password email',
-            html:html
-        };
-    
-        transporter.sendMail(mailOptions, function(error, info){
-            if (error) {
-                console.log(error);
-                res.send({status: false, message: 'reset password successfully'})
-            } else {
-                console.log('Email sent: ' + info.response);
-                res.send({status: true, message: 'reset password successfully'})
-            }
-        });
-            }
-        }) */
+                }
+                else{
+                    let email = 'rthallapelly@sreebtech.com'
+                    let id = 22
+            var transporter = nodemailer.createTransport({
+                host: "smtp-mail.outlook.com", // hostname
+                secureConnection: false, // TLS requires secureConnection to be false
+                port: 587, // port for secure SMTP
+                tls: {
+                    ciphers:'SSLv3'
+                },
+                auth: {
+                    user: 'smattupalli@sreebtech.com',
+                    pass: 'Sree$sreebt'
+                }
+            });
+            var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+            var html = `<html>
+
+
+            <head>
+
+              <title>HRMS ResetPassword</title>
+
+            </head>
+
+            <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+
+
+              <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+
+                <p style="color:black">Hello,</p>
+
+                <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
+
+                <p style="color:black"> Click the link below to Reset your password</p>
+
+                <p style="color:black"> <a href="${url}" >${url} </a>
+
+          </p>
+
+
+
+                <p style="color:black">Thank You!</p>
+
+                <p style="color:black">HRMS Team</p>
+
+
+                <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+
+              </div>
+
+            </body>
+
+          </html> `;
+
+            var mailOptions = {
+                from: 'smattupalli@sreebtech.com',
+                to: "rthallapelly@sreebtech.com",
+                subject: 'Reset Password email',
+                html:html
+            };
+
+            transporter.sendMail(mailOptions, function(error, info){
+                if (error) {
+                    console.log(error);
+                    res.send({status: false, message: 'reset password successfully'})
+                } else {
+                    console.log('Email sent: ' + info.response);
+                    res.send({status: true, message: 'reset password successfully'})
+                }
+            });
+                }
+            }) */
 
 
     }
@@ -192,19 +192,16 @@ app.post('/api/resetpassword',function(req,res,next){
     let email = req.body.email;
     let password = req.body.newPassword;
     try{
-        console.log(req.body)
-        console.log(email)
         con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','n'],function(err,result){
             if(err){
                 console.log(err)
             }
             else{
-                console.log("p c")
                 res.send({status: true, message: 'reset password successfully'})
 
-                
+
             }
-        })
+        });
 
     }
     catch(e){
@@ -217,7 +214,6 @@ app.post('/changePassword',function(req,res){
     let newpassword = req.body.newPassword;
     let id = req.body.empId;
     let login = req.body.email;
-    console.log(req.body)
     try{
         con.query('CALL `validatelastpasswordmatch` (?,?,?,?)',[id,login,oldpassword,newpassword],function(err,results,next){
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
@@ -230,8 +226,8 @@ app.post('/changePassword',function(req,res){
                     else{
                         console.log(result)
                         res.send({status: true, message: 'password updated successfully'})
-  
-                        
+
+
                     }
                 })
 
@@ -243,13 +239,15 @@ app.post('/changePassword',function(req,res){
                 res.send({status: false, message: 'Your new password cannot be same as old password'})
 
             }
-                    
-        })
+
+        });
+        con.end();
+
     }
     catch(e){
         console.log("changepassword",e)
     }
-    
+
 })
 
 
@@ -258,48 +256,46 @@ app.get('/api/emp_login/:email/:password',function(req,res,next){
     try{
         var email = req.params.email;
         var password = req.params.password;
-        console.log(email)
-        console.log(password)
-            con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
-                var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
-                console.log("id",result[0])
-                if (result[0] > 0) {  
-                    // [result[0]]
-                // if(21>0){    
-                    con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
-                        try{
-                            // console.log("hjh",typeof(results))
-                            // console.log("hjh",results)
-                            if(results.length>0){
-                                
-                                var result = JSON.parse(results[0][0].result)
-                                console.log("fdg",result)
-                    
-                                res.send({status: true,result})
-        
-                            }
-                            else{
-                                res.send({status: false,result})
-                                console.log("employee_login")
-                               
-                            }
+        con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
+            var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+            if (result[0] > 0) {
+                // [result[0]]
+                // if(21>0){
+                con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
+                    try{
+                        // console.log("hjh",typeof(results))
+                        // console.log("hjh",results)
+                        if(results.length>0){
+
+                            var result = JSON.parse(results[0][0].result)
+                            console.log("fdg",result)
+
+                            res.send({status: true,result})
+
                         }
-                        catch (e){
-                            console.log("employee_login",e)
-                        }                                              
+                        else{
+                            res.send({status: false,result})
+                            console.log("employee_login")
 
-                    }) 
+                        }
+                    }
+                    catch (e){
+                        console.log("employee_login",e)
+                    }
 
-                }
-                else{
-                    // res.send({
-                    //     message:"Invalid userName or password"
-                    // })
-                    res.send({status: false,message:"Invalid userName or password"})
-                    // res.send(result)
-                }
-                
-            })
+                })
+
+            }
+            else{
+                // res.send({
+                //     message:"Invalid userName or password"
+                // })
+                res.send({status: false,message:"Invalid userName or password"})
+                // res.send(result)
+            }
+
+        });
+
 
 
         // })
@@ -325,20 +321,21 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.state = req.body.stateId;
     companyInformation.city = req.body.city;
     companyInformation.pincode=req.body.pincode;
-switchDatabase('boon_client')
+    switchDatabase('boon_client')
 
-console.log("info",companyInformation)
     try {
         con.query("CALL `setmastertable` (?,?,?)",['companyinformation','boon_client',JSON.stringify(companyInformation)]
             ,
             function (err, result, fields) {
-            console.log("err",err)
+                console.log("err",err)
                 if (err) {
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {
                     res.send({status: true, message: 'Company Information added successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setCompanyInformation :',e)
     }
@@ -348,7 +345,6 @@ console.log("info",companyInformation)
 
 app.put('/api/putCompanyInformation',function(req,res) {
     try {
-        console.log('putcompanyInformation')
 
         let companyInformation={}
         companyInformation.CompanyName=req.body.fullCompanyName;
@@ -361,14 +357,16 @@ app.put('/api/putCompanyInformation',function(req,res) {
         companyInformation.State = req.body.stateId;
         companyInformation.City = req.body.city;
         companyInformation.Pincode=req.body.pincode;
-        console.log('put',companyInformation)
+        switchDatabase('boon_client')
         con.query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
             if (err) {
-                    res.send({status: false, message: 'Unable to update company information'});
-                } else {
-                    res.send({status: true, message: 'Company Information updated Successfully'})
-                }
-            });
+                res.send({status: false, message: 'Unable to update company information'});
+            } else {
+                res.send({status: true, message: 'Company Information updated Successfully'})
+            }
+        });
+        con.end();
+
     }catch (e) {
         console.log('putCompanyInformation :',e)
     }
@@ -377,6 +375,7 @@ app.put('/api/putCompanyInformation',function(req,res) {
 /*Get Department*/
 app.get('/api/getDepartment',function(req,res) {
     try {
+        switchDatabase('boon_client')
 
         con.query("CALL `getDepartment` ()", function (err, result, fields) {
             if (result.length > 0) {
@@ -385,6 +384,8 @@ app.get('/api/getDepartment',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end()
+
     }catch (e) {
         console.log('getDepartment :',e)
 
@@ -394,6 +395,7 @@ app.get('/api/getDepartment',function(req,res) {
 /*set Department*/
 app.get('/api/setDepartment',function(req,res) {
     try {
+        switchDatabase('boon_client')
 
         con.query("CALL `setdepartment` (?)",[req.body.departmentName], function (err, result, fields) {
             if (err) {
@@ -402,6 +404,8 @@ app.get('/api/setDepartment',function(req,res) {
                 res.send({status: true,message:'Department added successfully'})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('setDepartment :',e)
 
@@ -411,7 +415,7 @@ app.get('/api/setDepartment',function(req,res) {
 /*Get Designation*/
 app.get('/api/getDesignation',function(req,res) {
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `getmastertable` (?)", ['designationsmaster'],function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -419,6 +423,8 @@ app.get('/api/getDesignation',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getDesignation :',e)
 
@@ -439,6 +445,8 @@ app.post('/api/setDesignation',function(req,res) {
                 res.send({status: true,message:'Designation added successfully'})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('setDesignation :',e)
 
@@ -460,6 +468,8 @@ app.put('/api/putDesignation',function(req,res) {
                 res.send({status: true,message:'Designation updated successfully'})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('setDesignation :',e)
 
@@ -477,6 +487,8 @@ app.post('/api/updateStatus',function(req,res) {
                 res.send({status: true,message:'Work Location added successfully'})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('setWorkLocation :',e)
 
@@ -512,6 +524,8 @@ app.post('/api/setWorkLocation',function(req,res) {
                 res.send({status: true,message:'Work Location added successfully'})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('setWorkLocation :',e)
 
@@ -529,7 +543,8 @@ app.get('/api/getStates/:id',function(req,res){
             else{
                 res.send(result)
             }
-        })
+        });
+
     }
     catch(e){
         console.log('getstates',e)
@@ -547,50 +562,53 @@ app.get('/api/getCities/:id',function(req,res){
             else{
                 res.send(result)
             }
-        })
+        });
+
     }
     catch(e){
         console.log('getstates',e)
     }
 })
- /*Get Work Location*/
- app.post('/api/getWorkLocation',function(req,res) {
+/*Get Work Location*/
+app.post('/api/getWorkLocation',function(req,res) {
     try {
-       switchDatabase('boon_client');
+        switchDatabase('boon_client');
         var id = null;
         con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
             if (result.length > 0) {
-               var data = JSON.parse((result[0][0].json))
-            //    var resultdata=[];
-            //    var inactive =[];
-            //    for(var i=0;i<data.length;i++){
-            //        if(data[i].status == "active"){
-            //            resultdata.push(data[i]);
-            //        }
-            //        else{
-            //            inactive.push(data[i])
-            //        }
-                
-            //    }
-               res.send({data: data, status: true});
+                var data = JSON.parse((result[0][0].json))
+                //    var resultdata=[];
+                //    var inactive =[];
+                //    for(var i=0;i<data.length;i++){
+                //        if(data[i].status == "active"){
+                //            resultdata.push(data[i]);
+                //        }
+                //        else{
+                //            inactive.push(data[i])
+                //        }
+
+                //    }
+                res.send({data: data, status: true});
 
             } else {
                 res.send({status: false})
-           }
-       });
-   }catch (e) {
-       console.log('getWorkLocation :',e)
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getWorkLocation :',e)
 
     }
 });
 
- /*Get Work Location*/
- app.post('/api/getactiveWorkLocation',function(req,res) {
-     try {
+/*Get Work Location*/
+app.post('/api/getactiveWorkLocation',function(req,res) {
+    try {
         switchDatabase('boon_client');
-         var id = null;
-         con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
-             if (result.length > 0) {
+        var id = null;
+        con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
+            if (result.length > 0) {
                 var data = JSON.parse((result[0][0].json))
                 var resultdata=[];
                 var inactive =[];
@@ -601,19 +619,21 @@ app.get('/api/getCities/:id',function(req,res){
                     else{
                         inactive.push(data[i])
                     }
-                 
+
                 }
                 res.send({data: resultdata, status: true});
 
-             } else {
-                 res.send({status: false})
+            } else {
+                res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getWorkLocation :',e)
 
-     }
- });
+    }
+});
 
 
 /*Set Departments*/
@@ -621,19 +641,21 @@ app.post('/api/setDepartments',function(req,res) {
     try {
         let info={}
         // info.DeptId=20,
-            info.deptname=req.body.departmentName;
+        info.deptname=req.body.departmentName;
         info.depthead=null;
         info.headcount=null;
         info.status=1;
         switchDatabase('boon_client');
         con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','boon_client',JSON.stringify(info)], function (err, result, fields) {
-           console.log("one",err)
+            console.log("one",err)
             if (err) {
                 res.send({ status: false,message:'Unable to add department'});
             } else {
                 res.send({status: true,message:'Departments added successfully'})
             }
-        })
+        });
+        con.end();
+
     }catch (e) {
         console.log('getHolidays :',e)
 
@@ -658,7 +680,9 @@ app.put('/api/putDepartments',function(req,res) {
             } else {
                 res.send({status: true,message:'Department updated successfully'})
             }
-        })
+        });
+        con.end();
+
     }catch (e) {
         console.log('getHolidays :',e)
 
@@ -675,6 +699,8 @@ app.get('/api/getHolidays',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getHolidays :',e)
 
@@ -692,25 +718,27 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
         console.log(req.params);
         reqData.forEach(element =>{
             info.description=element.holidayName;
-            info.date=element.holidayDate;
-            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            let hDate = (new Date(element.holidayDate));
-            info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
-            info.day=days[hDate.getDay()];
-            info.year=hDate.getFullYear();
-            info.location=element.city;
+        info.date=element.holidayDate;
+        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        let hDate = (new Date(element.holidayDate));
+        info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+        info.day=days[hDate.getDay()];
+        info.year=hDate.getFullYear();
+        info.location=element.city;
 
-            con.query("CALL `setmastertable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
-                k+=1;
-                if (err) {
-                    res.send({status: false, message: 'Unable to insert holidays'});
-                } else {
-                    if(k===reqData.length) {
-                        res.send({status: true, message: 'Holidays added successfully'});
-                    }
+        con.query("CALL `setmastertable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
+            k+=1;
+            if (err) {
+                res.send({status: false, message: 'Unable to insert holidays'});
+            } else {
+                if(k===reqData.length) {
+                    res.send({status: true, message: 'Holidays added successfully'});
                 }
-            });
-        })
+            }
+        });
+        con.end();
+
+    })
 
     }catch (e) {
         console.log('setHolidays :',e)
@@ -725,23 +753,25 @@ app.put('/api/putHolidays/:companyShortName',function(req,res) {
         switchDatabase(req.params.companyShortName)
         let tname='holidaysmaster';
         let info={};
-            info.description=req.body.holidayName;
-            info.date=req.body.holidayDate;
-            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            let hDate = (new Date(req.body.holidayDate));
-            info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
-            info.day=days[hDate.getDay()];
-            info.year=hDate.getFullYear();
-            info.location=req.body.city;
-            con.query("CALL `updatemastertable` (?,?,?,?)",[tname,'id',req.body.hId,JSON.stringify(info)], function (err, result, fields) {
-                console.log("holidays",err)
-                if (err) {
-                    res.send({status: false, message: 'Unable to update holidays'});
-                } else {
+        info.description=req.body.holidayName;
+        info.date=req.body.holidayDate;
+        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        let hDate = (new Date(req.body.holidayDate));
+        info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+        info.day=days[hDate.getDay()];
+        info.year=hDate.getFullYear();
+        info.location=req.body.city;
+        con.query("CALL `updatemastertable` (?,?,?,?)",[tname,'id',req.body.hId,JSON.stringify(info)], function (err, result, fields) {
+            console.log("holidays",err)
+            if (err) {
+                res.send({status: false, message: 'Unable to update holidays'});
+            } else {
 
-                        res.send({status: true, message: 'Holiday updated successfully'});
-                }
-            });
+                res.send({status: true, message: 'Holiday updated successfully'});
+            }
+        });
+        con.end();
+
 
     }catch (e) {
         console.log('putHolidays :',e)
@@ -763,6 +793,8 @@ app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
                 res.send({status: true,message:'Holidays status updated successfully'})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('setHolidaysStatus :',e)
 
@@ -779,6 +811,8 @@ app.get('/api/getShift',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getShift :',e)
 
@@ -790,58 +824,61 @@ app.get('/api/getShift',function(req,res) {
 app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',function(req,res) {
     try {
 
-    var tName = req.params.tableName;
-    if(req.params.status=="null"){
-    
-        console.log("req.params.tableName;",tName,req.params.status)
-        switchDatabase('boon_client')
-        con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-            console.log("ff",result);
-            if (result.length > 0) {
-                if(tName == 'holidaysmaster'){
-                    console.log("req.params.tableName; ",result[0].length )
-                    for (let i=0; i<result[0].length;i++){
-                        let hDate = (new Date(result[0][i].Date));
-                        result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+        var tName = req.params.tableName;
+        if(req.params.status=="null"){
+
+            console.log("req.params.tableName;",tName,req.params.status)
+            switchDatabase('boon_client')
+            con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
+                console.log("ff",result);
+                if (result.length > 0) {
+                    if(tName == 'holidaysmaster'){
+                        console.log("req.params.tableName; ",result[0].length )
+                        for (let i=0; i<result[0].length;i++){
+                            let hDate = (new Date(result[0][i].Date));
+                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                        }
+                        res.send({data: result[0], status: true});
+
+
+                    }else {
+                        // console.log("req.params.tableName; ",result )
+
+                        res.send({data: result[0], status: true});
                     }
-                    res.send({data: result[0], status: true});
-
-
-                }else {
-                    // console.log("req.params.tableName; ",result )
-
-                    res.send({data: result[0], status: true});
+                } else {
+                    res.send({status: false})
                 }
-            } else {
-                res.send({status: false})
-            }
-        });
-    }
-    else{
-        switchDatabase('boon_client')
-        con.query("CALL `getmastertable` (?,?,?,?)",[tName,req.params.status,req.params.page,req.params.size], function (err, result, fields) {
-            // console.log("ff",err,result);
-            if (result.length > 0) {
-                if(tName == 'holidaysmaster'){
-                    console.log("req.params.tableName; ",result[0].length )
-                    for (let i=0; i<result[0].length;i++){
-                        let hDate = (new Date(result[0][i].Date));
-                        result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+            });
+            con.end();
+        }
+        else{
+            switchDatabase('boon_client');
+            con.query("CALL `getmastertable` (?,?,?,?)",[tName,req.params.status,req.params.page,req.params.size], function (err, result, fields) {
+                // console.log("ff",err,result);
+                if (result && result.length > 0) {
+                    if(tName == 'holidaysmaster'){
+                        console.log("req.params.tableName; ",result[0].length )
+                        for (let i=0; i<result[0].length;i++){
+                            let hDate = (new Date(result[0][i].Date));
+                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                        }
+                        res.send({data: result[0], status: true});
+
+
+                    }else {
+                        // console.log("req.params.tableName; ",result )
+
+                        res.send({data: result[0], status: true});
                     }
-                    res.send({data: result[0], status: true});
-
-
-                }else {
-                    // console.log("req.params.tableName; ",result )
-
-                    res.send({data: result[0], status: true});
+                } else {
+                    res.send({status: false})
                 }
-            } else {
-                res.send({status: false})
-            }
-        });
+            });
+            con.end();
 
-    }
+
+        }
     }catch (e) {
         console.log('getMastertable :',e)
 
@@ -875,6 +912,8 @@ app.get('/api/getLeaveTypes/:tableName/:page/:size',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getMastertable :',e)
 
@@ -896,6 +935,8 @@ app.post('/api/setShift',function(req,res) {
                     res.send({status: false, message: 'Shift added Successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setShift :',e)
     }
@@ -914,6 +955,8 @@ app.put('/api/putShift',function(req,res) {
                     res.send({status: false, message: 'Shift updated Successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('putShift :',e)
     }
@@ -931,6 +974,8 @@ app.get('/api/getAddLeaveBalance',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getAddLeaveBalance :',e)
 
@@ -950,6 +995,8 @@ app.post('/api/setAddLeaveBalance',function(req,res) {
                     res.send({status: false, message: 'Leave balance added Successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setAddLeaveBalance :',e)
     }
@@ -969,6 +1016,8 @@ app.put('/api/putAddLeaveBalance',function(req,res) {
                     res.send({status: false, message: 'Leave balance updated Successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('putLeaveBalance :',e)
     }
@@ -986,6 +1035,8 @@ app.delete('/api/deleteAddLeaveBalance/:leaveBalanceId',function(req,res) {
                 res.send({status: false, message: 'Leave balance deleted Successfully'})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('deleteLeaveBalance :',e)
     }
@@ -1005,6 +1056,8 @@ app.post('/api/getEmployeeMaster',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getEmployeeMaster :',e)
 
@@ -1022,8 +1075,10 @@ app.get('/api/getReportingManager',function(req,res){
                 console.log(result)
                 res.send(result)
             }
-            
-            });
+
+        });
+        con.end();
+
     }
     catch(e){
         console.log("getreportingmanager",e)
@@ -1034,10 +1089,10 @@ app.get('/api/getReportingManager',function(req,res){
 app.post('/api/setEmployeeMaster',function(req,res) {
     try {
         let hDate = (new Date(req.body.dateOfBirth));
-       var  dateOfBirth = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
-       let JoinDate = (new Date(req.body.dateOfJoin));
+        var  dateOfBirth = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+        let JoinDate = (new Date(req.body.dateOfJoin));
 
-       var  dateOfJoin = JoinDate.getFullYear() + "-" + (JoinDate.getMonth() + 1) + "-" + (JoinDate.getDate());
+        var  dateOfJoin = JoinDate.getFullYear() + "-" + (JoinDate.getMonth() + 1) + "-" + (JoinDate.getDate());
         switchDatabase('boon_client');
         let input = {
             empid:req.body.empId,
@@ -1084,12 +1139,12 @@ app.post('/api/setEmployeeMaster',function(req,res) {
             status: 'Active',
             esi: req.body.eSI,
             shift: req.body.shift,
-             relations: {},
+            relations: {},
             education: {},
             experience:{},
             relations: req.body.relations,
-           education: req.body.education,
-           experience: req.body.experience
+            education: req.body.education,
+            experience: req.body.experience
         };
         // console.log(JSON.stringify(input));
         console.log((input))
@@ -1103,6 +1158,8 @@ app.post('/api/setEmployeeMaster',function(req,res) {
                     res.send({status: true, message: 'Employee added successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setEmployeeMaster :',e)
     }
@@ -1123,6 +1180,8 @@ app.put('/api/putEmployeeMaster',function(req,res) {
                     res.send({status: false, message: 'Employee updated Successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('putEmployeeMaster :',e)
     }
@@ -1140,6 +1199,8 @@ app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
                     res.send({status: true})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('getSearch :',e)
     }
@@ -1157,6 +1218,8 @@ app.get('/api/getLeaveBalance',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getLeaveBalance :',e)
 
@@ -1168,7 +1231,7 @@ app.get('/api/getLeaveBalance',function(req,res) {
 app.get('/api/getLeaves/:page/:size',function(req,res) {
     try {
         switchDatabase('boon_client')
-console.log("temppp",req.params.page,req.params.size)
+        console.log("temppp",req.params.page,req.params.size)
         con.query("CALL `getleavepolicies` (?,?)", [0],function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -1176,6 +1239,8 @@ console.log("temppp",req.params.page,req.params.size)
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getLeaves :',e)
 
@@ -1196,6 +1261,8 @@ app.get('/api/getLeaveRules/:Id/:page/:size',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getLeaves :',e)
 
@@ -1212,6 +1279,8 @@ app.get('/api/getManagerAndHrDetails/employeeId',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getManagerAndHrDetails :',e)
 
@@ -1230,6 +1299,8 @@ app.post('/api/setApplyLeave',function(req,res) {
                     res.send({status: false, message: 'Leave apployed successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setApplyLeave :',e)
     }
@@ -1239,14 +1310,14 @@ app.post('/api/setApplyLeave',function(req,res) {
 app.get('/api/getLeaveHistory',function(req,res) {
     try {
 
-      /*  con.query("CALL `getLeaveHistory` (?)",[req.params.employeeId], function (err, result, fields) {
-            console.log(err);
-            if (result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        })*/;
+        /*  con.query("CALL `getLeaveHistory` (?)",[req.params.employeeId], function (err, result, fields) {
+              console.log(err);
+              if (result.length > 0) {
+                  res.send({data: result, status: true});
+              } else {
+                  res.send({status: false})
+              }
+          })*/;
     }catch (e) {
         console.log('getLeaveHistory :',e)
 
@@ -1265,6 +1336,8 @@ app.delete('/api/setDeleteLeaveRequest/:Id',function(req,res) {
                     res.send({status: false, message: 'Leave request deleted successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setDeleteLeaveRequest :',e)
     }
@@ -1283,6 +1356,8 @@ app.put('/api/updateLeaveRequest/:Id',function(req,res) {
                     res.send({status: false, message: 'Leave request updated successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('updateLeaveRequest :',e)
     }
@@ -1300,6 +1375,8 @@ app.post('/api/setCompOff',function(req,res) {
                     res.send({status: false, message: 'Comp-Off added Successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setCompOff :',e)
     }
@@ -1316,6 +1393,8 @@ app.get('/api/getCompOff',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getCompOff :',e)
 
@@ -1332,6 +1411,8 @@ app.set('/api/setCompOffReviewApprove',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('setCompOffReviewApprove :',e)
 
@@ -1349,6 +1430,8 @@ app.get('/api/getUserOnLeaves',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getUserOnLeaves :',e)
 
@@ -1367,6 +1450,8 @@ app.get('/api/getApprovals',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getApprovals :',e)
 
@@ -1405,7 +1490,7 @@ app.post('/api/setUploadImage/:companyName',function (req, res) {
         file=req.files.file;
         console.log(req.files);
         console.log("fils",file)
-       var folderName = './logos/Apple/'
+        var folderName = './logos/Apple/'
 
         try {
             if (!fs.existsSync(folderName)) {
@@ -1417,9 +1502,9 @@ app.post('/api/setUploadImage/:companyName',function (req, res) {
                         console.log(error);
                     }
                     res.send({message:'Image Uploaded Succesfully'})
-                
+
                 })
-              
+
 
             }
         } catch (err) {
@@ -1447,7 +1532,7 @@ app.post('/set_profilepicture/:companyname/:id',function(req,res){
                 console.log(error);
             }
             res.send({message:'Image Uploaded Succesfully'})
-        
+
         })
 
     }
@@ -1458,37 +1543,39 @@ app.post('/set_profilepicture/:companyname/:id',function(req,res){
 });
 
 /*set setLeaveConfigure*/
- app.post('/api/setLeaveConfigure',function(req,res) {
-     try {
-         var l=0;
-         for(let i =0;i<req.body.length;i++){
-             let roleValues={}
-             roleValues.RuleId=req.body[i].Id;
-             roleValues.Value = req.body[i].value;
-             let hDate = (new Date());
-             roleValues.EffectiveFromDate = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
-                 roleValues.EffectiveToDate=hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());;
+app.post('/api/setLeaveConfigure',function(req,res) {
+    try {
+        var l=0;
+        for(let i =0;i<req.body.length;i++){
+            let roleValues={}
+            roleValues.RuleId=req.body[i].Id;
+            roleValues.Value = req.body[i].value;
+            let hDate = (new Date());
+            roleValues.EffectiveFromDate = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+            roleValues.EffectiveToDate=hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());;
 
 
-             con.query("CALL `setMasterTable` (?,?,?)",['LM_RuleValues','LMTHREE',JSON.stringify(roleValues)], function (err, result, fields) {
-                 l+=1;
-                 console.log(err)
-                 if(l ===req.body.length){
-                     if (result.length > 0) {
-                     res.send({data: result, status: true});
-                 } else {
-                     res.send({status: false})
-                 }}
-             });
-         }
+            con.query("CALL `setMasterTable` (?,?,?)",['LM_RuleValues','LMTHREE',JSON.stringify(roleValues)], function (err, result, fields) {
+                l+=1;
+                console.log(err)
+                if(l ===req.body.length){
+                    if (result.length > 0) {
+                        res.send({data: result, status: true});
+                    } else {
+                        res.send({status: false})
+                    }}
+            });
+            con.end();
+
+        }
 
 
 
-     }catch (e) {
-         console.log('setLeaveConfigure :',e)
+    }catch (e) {
+        console.log('setLeaveConfigure :',e)
 
-     }
- });
+    }
+});
 
 app.post('/api/setLeavePolicies',function(req,res) {
 
@@ -1505,7 +1592,9 @@ app.post('/api/setLeavePolicies',function(req,res) {
                 res.send({message: "Rules updated successfully", status: true})
             }
 
-        })
+        });
+        con.end();
+
 
     }
     catch(e){
@@ -1538,8 +1627,9 @@ app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageS
     try{
 
         con.query("CALL `getleavepolicies` (?,?)",[leaveCategoryId,isCommonRule], function (err, result, fields) {
-          console.log("temp",err)
-            if (result.length > 0) {
+            console.log("temp",err)
+            if (result && result.length > 0) {
+
                 res.send({data: result[0], status: true});
 
             } else {
@@ -1547,6 +1637,8 @@ app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageS
             }
 
         });
+        con.end();
+
 
     }catch(e){
         console.log("getLeavePolicies",e)
@@ -1559,13 +1651,14 @@ app.post('/api/getEmployeeDetails',function(req,res) {
     try {
         switchDatabase('boon_client');
         con.query("CALL `getemployeemasterforsearch` (?,?,?,?)", [req.body.employeeId,req.body.employeeName,req.body.page,req.body.tableSize], function (err, result, fields) {
-                        console.log(err)
+            console.log(err)
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
                 res.send({status: false})
             }
         });
+        con.end();
     }catch (e) {
         console.log('getCompanyInformation :',e)
 
@@ -1586,6 +1679,7 @@ app.delete('/api/deleteHoliday/:holidayId',function(req,res) {
                 res.send({status: true, message: 'Holiday deleted successfully'})
             }
         });
+        con.end();
     }catch (e) {
         console.log('deleteHoliday :',e)
     }
@@ -1612,19 +1706,19 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
         console.log("getImage:",e)
     }
 });
-  /**remove/delete image */
-  app.delete('/api/removeImage/:Id/:companyShortName',function(req,res){
+/**remove/delete image */
+app.delete('/api/removeImage/:Id/:companyShortName',function(req,res){
     try{
-      let id = req.params.Id;
-      let foldername = './logos/Apple/'
-      fs.unlink(foldername+'1.png',function(err,result){
-          if(err){
-              console.log(err)
-          }
-          else{
-            console.log("Image Deleted successfully")
-          }
-      })
+        let id = req.params.Id;
+        let foldername = './logos/Apple/'
+        fs.unlink(foldername+'1.png',function(err,result){
+            if(err){
+                console.log(err)
+            }
+            else{
+                console.log("Image Deleted successfully")
+            }
+        })
     }
     catch(e){
         console.log("removeImage",e)
@@ -1647,6 +1741,8 @@ app.post('/api/validatePrefix',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getUserOnLeaves :',e)
 
@@ -1669,6 +1765,7 @@ app.post('/api/setNewLeaveType',function(req,res) {
                 res.send({status: true, message: 'Leave Type added successfully'})
             }
         });
+        con.end();
     }catch (e) {
         console.log('setNewLeaveType :',e)
 
@@ -1678,12 +1775,14 @@ app.post('/api/setNewLeaveType',function(req,res) {
 app.get('/api/getLeavesTypeInfo',function(req,res) {
     try {
         con.query("CALL `get_leavetypes_data` ()", function (err, result, fields) {
-            if (result.length > 0) {
+            if (result && result.length > 0) {
                 res.send({data: result, status: true});
             } else {
                 res.send({status: false})
             }
         });
+        // con.end();
+
     }catch (e) {
         console.log('getLeavesTypeInfo :',e)
 
@@ -1706,6 +1805,8 @@ app.post('/api/setToggleLeaveType',function(req,res) {
                     res.send({status: true, message: 'Leave policies status updated successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setleavepolicies :',e)
     }
@@ -1724,13 +1825,15 @@ app.get('/api/getErrorMessages/:errorCode/:page/:size',function(req,res) {
             errorCode = req.params.errorCode
         }
         con.query("CALL `geterrormessages` (?,?,?)", [errorCode,req.params.page,req.params.size],function (err, result, fields) {
-           console.log("getErrorMessages",err);
+            console.log("getErrorMessages",err);
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('geterrormessages :',e)
 
@@ -1743,7 +1846,7 @@ app.post('/api/setErrorMessages',function(req,res) {
         switchDatabase('boon_client')
 
 
-            con.query("CALL `seterrormessages` (?)",
+        con.query("CALL `seterrormessages` (?)",
             [JSON.stringify(req.body.errorData)], function (err, result, fields) {
                 console.log(err);
                 if (err) {
@@ -1752,6 +1855,8 @@ app.post('/api/setErrorMessages',function(req,res) {
                     res.send({status: true, message: 'Error Messages updated successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('seterrormessages :',e)
     }
@@ -1766,6 +1871,8 @@ app.get('/api/getrolemaster',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getrolemaster :',e)
     }
@@ -1781,6 +1888,8 @@ app.get('/api/getscreensmaster',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getscreensmaster :',e)
     }
@@ -1795,6 +1904,8 @@ app.get('/api/getfunctionalitiesmaster',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getfunctionalitiesmaster :',e)
     }
@@ -1810,6 +1921,8 @@ app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getscreenfunctionalitiesmaster :',e)
     }
@@ -1827,6 +1940,8 @@ app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getscreenfunctionalitiesmaster :',e)
     }
@@ -1846,6 +1961,8 @@ app.post('/api/setRoleAccess',function(req,res) {
                     res.send({status: true, message: 'Role permissions updated successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setRoleAccess :',e)
     }
@@ -1866,6 +1983,8 @@ app.post('/api/setRoleMaster',function(req,res) {
                     res.send({status: true, message: 'Role name successfully'})
                 }
             });
+        con.end();
+
     }catch (e) {
         console.log('setRoleMaster :',e)
     }
@@ -1879,12 +1998,14 @@ app.get('/api/getHolidaysList/:empId',function(req,res) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
             }
-        })
+        });
+        con.end();
+
     }
     catch(e){
         console.log()
     }
-    })
+})
 app.get('/api/getLeaveTypesForAdvancedLeave/:leaveId',function(req,res) {
     try {
         switchDatabase('boon_client')
@@ -1899,6 +2020,8 @@ app.get('/api/getLeaveTypesForAdvancedLeave/:leaveId',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getemployeeholidays :',e)
     }
@@ -1911,15 +2034,17 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
             }
-            
-        })
+
+        });
+        con.end();
+
 
 
     }
     catch(e){
         console.log('getdurationforbackdatedleave :',e)
     }
-  
+
 });
 app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
     try {
@@ -1935,6 +2060,8 @@ app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getemployeeleavebalance :',e)
     }
@@ -1950,6 +2077,8 @@ app.get('/api/getemployeeroles/:empId',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getemployeeroles :',e)
     }
@@ -1965,6 +2094,8 @@ app.get('/api/getdurationforbackdatedleave',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
+
     }catch (e) {
         console.log('getdurationforbackdatedleave :',e)
     }
@@ -1981,6 +2112,7 @@ app.post('/api/validateleave',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
     }catch (e) {
         console.log('validateleave :',e)
     }
@@ -1997,6 +2129,7 @@ app.post('/api/getdaystobedisabled',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
     }catch (e) {
         console.log('getdaystobedisabled :',e)
     }
@@ -2013,6 +2146,7 @@ app.post('/api/getoffdayscount',function(req,res) {
                 res.send({status: false})
             }
         });
+        con.end();
     }catch (e) {
         console.log('getoffdayscount :',e)
     }
