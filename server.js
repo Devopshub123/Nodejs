@@ -188,6 +188,7 @@ app.get('/api/resetpassword/:email/:id',function(req,res,next){
 })
 /**reset password */
 app.post('/api/resetpassword',function(req,res,next){
+    switchDatabase('boon_client')
     let id = req.body.empId;
     let email = req.body.email;
     let password = req.body.newPassword;
@@ -210,6 +211,7 @@ app.post('/api/resetpassword',function(req,res,next){
 })
 /**Change Password */
 app.post('/changePassword',function(req,res){
+    switchDatabase('boon_client')
     let oldpassword = req.body.oldPassword;
     let newpassword = req.body.newPassword;
     let id = req.body.empId;
@@ -253,6 +255,7 @@ app.post('/changePassword',function(req,res){
 
 /**employee login */
 app.get('/api/emp_login/:email/:password',function(req,res,next){
+    switchDatabase('boon_client')
     try{
         var email = req.params.email;
         var password = req.params.password;
@@ -309,6 +312,7 @@ app.get('/api/emp_login/:email/:password',function(req,res,next){
 /*Set comapny information*/
 
 app.post('/api/setCompanyInformation',function(req,res) {
+    switchDatabase('boon_client')
     // console.log("hello",req)
     let companyInformation={}
     companyInformation.companyname=req.body.fullCompanyName;
@@ -317,9 +321,9 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.primarycontactemail=req.body.primaryContactEmail;
     companyInformation.address1=req.body.address;
     companyInformation.address2=req.body.addressOne?req.body.addressOne:'';
-    companyInformation.country = req.body.country;
+    companyInformation.country = req.body.countryId;
     companyInformation.state = req.body.stateId;
-    companyInformation.city = req.body.city;
+    companyInformation.city = req.body.cityId;
     companyInformation.pincode=req.body.pincode;
     switchDatabase('boon_client')
 
@@ -344,6 +348,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
 /*put comapny information*/
 
 app.put('/api/putCompanyInformation',function(req,res) {
+    switchDatabase('boon_client')
     try {
 
         let companyInformation={}
@@ -353,9 +358,9 @@ app.put('/api/putCompanyInformation',function(req,res) {
         companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
         companyInformation.Address1=req.body.address;
         companyInformation.Address2=req.body.addressOne?req.body.addressOne:" ";
-        companyInformation.Country = req.body.country;
+        companyInformation.Country = req.body.countryId;
         companyInformation.State = req.body.stateId;
-        companyInformation.City = req.body.city;
+        companyInformation.City = req.body.cityId;
         companyInformation.Pincode=req.body.pincode;
         switchDatabase('boon_client')
         con.query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
@@ -374,6 +379,7 @@ app.put('/api/putCompanyInformation',function(req,res) {
 
 /*Get Department*/
 app.get('/api/getDepartment',function(req,res) {
+    
     try {
         switchDatabase('boon_client')
 
@@ -434,6 +440,7 @@ app.get('/api/getDesignation',function(req,res) {
 /*set Designation*/
 app.post('/api/setDesignation',function(req,res) {
     try {
+        switchDatabase('boon_client')
         let infoDesignationMaster={}
         infoDesignationMaster.designation=req.body.designationName;
         infoDesignationMaster.status = 1;
@@ -534,9 +541,13 @@ app.post('/api/setWorkLocation',function(req,res) {
 /**getstates */
 app.get('/api/getStates/:id',function(req,res){
     let id = req.params.id;
+    console.log("id details",id)
     // let id = 1;
     try{
+        switchDatabase('boon_client')
         con.query("CALL `getstatesforcountry`(?)",[id],function(error,result,fields){
+            console.log("error",error)
+            console.log("result",result)
             if(error){
                 console.log(error)
             }
@@ -555,6 +566,7 @@ app.get('/api/getCities/:id',function(req,res){
     let id = req.params.id;
     // let id = 1;
     try{
+        switchDatabase('boon_client')
         con.query("CALL `getcitiesforstate`(?)",[id],function(error,result,fields){
             if(error){
                 console.log(error)
@@ -785,7 +797,7 @@ app.put('/api/putHolidays/:companyShortName',function(req,res) {
 /*Set Holidays Status*/
 app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `setHolidaysStatus` (?)",[req.params.holidaysId,req.body.status], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to update holidays status'});
@@ -803,7 +815,7 @@ app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
 /*Get Shift*/
 app.get('/api/getShift',function(req,res) {
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `getShift` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -823,7 +835,7 @@ app.get('/api/getShift',function(req,res) {
 // /*Get Master table*/
 app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',function(req,res) {
     try {
-
+       
         var tName = req.params.tableName;
         if(req.params.status=="null"){
 
@@ -888,7 +900,8 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',f
 /*Get Master table*/
 app.get('/api/getLeaveTypes/:tableName/:page/:size',function(req,res) {
     try {
-        switchDatabase(null);
+        // switchDatabase(null);
+        switchDatabase('boon_client')
 
         var tName = req.params.tableName;
 
@@ -926,6 +939,7 @@ app.get('/api/getLeaveTypes/:tableName/:page/:size',function(req,res) {
 
 app.post('/api/setShift',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `setShift` (?,?,?,?,?)",
             [req.body.shiftName, req.body.description, req.body.startTime,req.body.endTime,req.body.status], function (err, result, fields) {
 
@@ -946,6 +960,7 @@ app.post('/api/setShift',function(req,res) {
 
 app.put('/api/putShift',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `putShift` (?,?,?,?,?)",
             [req.body.shiftName, req.body.description, req.body.startTime,req.body.endTime,req.body.status], function (err, result, fields) {
 
@@ -966,7 +981,7 @@ app.put('/api/putShift',function(req,res) {
 app.get('/api/getAddLeaveBalance',function(req,res) {
 
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `getAddLeaveBalance` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -986,6 +1001,7 @@ app.get('/api/getAddLeaveBalance',function(req,res) {
 
 app.post('/api/setAddLeaveBalance',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `setAddLeaveBalance` (?,?,?,?,?)",
             [req.body.leaveTypeName, req.body.description, req.body.color], function (err, result, fields) {
 
@@ -1007,6 +1023,7 @@ app.post('/api/setAddLeaveBalance',function(req,res) {
 app.put('/api/putAddLeaveBalance',function(req,res) {
 
     try {
+        switchDatabase('boon_client')
         con.query("CALL `putLeaveBalance` (?,?,?,?,?)",
             [req.body.shiftName, req.body.description, req.body.startTime,req.body.endTime,req.body.status], function (err, result, fields) {
 
@@ -1027,6 +1044,7 @@ app.put('/api/putAddLeaveBalance',function(req,res) {
 app.delete('/api/deleteAddLeaveBalance/:leaveBalanceId',function(req,res) {
 
     try {
+        switchDatabase('boon_client')
         con.query("CALL `deleteLeaveBalance` (?)",[req.params.leaveBalanceId], function (err, result, fields) {
 
             if (err) {
@@ -1067,6 +1085,7 @@ app.post('/api/getEmployeeMaster',function(req,res) {
 /**getreportingmanagers */
 app.get('/api/getReportingManager',function(req,res){
     try{
+        switchDatabase('boon_client')
         con.query("CALL `getreportingmanagers`()",function (err, result, fields) {
             if(err){
                 console.log(err)
@@ -1171,6 +1190,7 @@ app.put('/api/putEmployeeMaster',function(req,res) {
 
 
     try {
+        switchDatabase('boon_client')
         con.query("CALL `putemployeemaster` (?,?,?,?,?)",
             [], function (err, result, fields) {
 
@@ -1190,6 +1210,7 @@ app.put('/api/putEmployeeMaster',function(req,res) {
 
 app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `getsearch` (?,?)",
             [req.params.employeeName,req.params.employeeId], function (err, result, fields) {
 
@@ -1210,7 +1231,7 @@ app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
 /*Get User Leave Balance*/
 app.get('/api/getLeaveBalance',function(req,res) {
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `getLeaveBalance` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1253,7 +1274,8 @@ app.get('/api/getLeaves/:page/:size',function(req,res) {
 /*Get Leave Rules*/
 app.get('/api/getLeaveRules/:Id/:page/:size',function(req,res) {
     try {
-        switchDatabase(null)
+        // switchDatabase(null)
+        switchDatabase('boon_client')
         con.query("CALL `getleavepolicies` (?,?,?)", [req.params.Id,req.params.page,req.params.size],function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -1271,7 +1293,7 @@ app.get('/api/getLeaveRules/:Id/:page/:size',function(req,res) {
 /*Get Get Manager And HrDetails*/
 app.get('/api/getManagerAndHrDetails/employeeId',function(req,res) {
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `getManagerAndHrDetails` (?)",[req.params.employeeId], function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1290,6 +1312,7 @@ app.get('/api/getManagerAndHrDetails/employeeId',function(req,res) {
 
 app.post('/api/setApplyLeave',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `setApplyLeave` (?,?,?,?,?)",
             [], function (err, result, fields) {
 
@@ -1327,6 +1350,7 @@ app.get('/api/getLeaveHistory',function(req,res) {
 
 app.delete('/api/setDeleteLeaveRequest/:Id',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `setDeleteLeaveRequest` (?)",
             [req.params.LeaveId], function (err, result, fields) {
 
@@ -1347,6 +1371,7 @@ app.delete('/api/setDeleteLeaveRequest/:Id',function(req,res) {
 
 app.put('/api/updateLeaveRequest/:Id',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `updateLeaveRequest` (?)",
             [req.params.LeaveId], function (err, result, fields) {
 
@@ -1366,6 +1391,7 @@ app.put('/api/updateLeaveRequest/:Id',function(req,res) {
 
 app.post('/api/setCompOff',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `setCompOff` (?,?,?,?,?)",
             [], function (err, result, fields) {
 
@@ -1385,7 +1411,7 @@ app.post('/api/setCompOff',function(req,res) {
 /*Get CompOff*/
 app.get('/api/getCompOff',function(req,res) {
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `getCompOff` (?)",[req.params.employeeId], function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1403,7 +1429,7 @@ app.get('/api/getCompOff',function(req,res) {
 /*set CompOffReviewApprove*/
 app.set('/api/setCompOffReviewApprove',function(req,res) {
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `setCompOffReviewApprove` (?)",[req.params.employeeId], function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1422,7 +1448,7 @@ app.set('/api/setCompOffReviewApprove',function(req,res) {
 /*Get UserOnLeavesmpOff*/
 app.get('/api/getUserOnLeaves',function(req,res) {
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `getUserOnLeaves` (?)",[req.params.employeeId], function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1442,7 +1468,7 @@ app.get('/api/getUserOnLeaves',function(req,res) {
 /*Get Approvals*/
 app.get('/api/getApprovals',function(req,res) {
     try {
-
+        switchDatabase('boon_client')
         con.query("CALL `getApprovals` (?)",[req.params.employeeId], function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1545,6 +1571,7 @@ app.post('/set_profilepicture/:companyname/:id',function(req,res){
 /*set setLeaveConfigure*/
 app.post('/api/setLeaveConfigure',function(req,res) {
     try {
+        switchDatabase('boon_client')
         var l=0;
         for(let i =0;i<req.body.length;i++){
             let roleValues={}
@@ -1774,6 +1801,7 @@ app.post('/api/setNewLeaveType',function(req,res) {
 /*Get Leaves Type Info*/
 app.get('/api/getLeavesTypeInfo',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `get_leavetypes_data` ()", function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -1864,6 +1892,7 @@ app.post('/api/setErrorMessages',function(req,res) {
 /*Get Role Master*/
 app.get('/api/getrolemaster',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `getrolemaster` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1880,6 +1909,7 @@ app.get('/api/getrolemaster',function(req,res) {
 /*Get Screen Master*/
 app.get('/api/getscreensmaster',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `getscreensmaster` (?)",['2'], function (err, result, fields) {
             console.log(err);
             if (result.length > 0) {
@@ -1897,6 +1927,7 @@ app.get('/api/getscreensmaster',function(req,res) {
 /*Get Functionalities Master*/
 app.get('/api/getfunctionalitiesmaster',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `getfunctionalitiesmaster` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1913,6 +1944,7 @@ app.get('/api/getfunctionalitiesmaster',function(req,res) {
 /*Get Screen Functionalities Master*/
 app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `getscreenfunctionalitiesmaster` ()", function (err, result, fields) {
             console.log("",err);
             if (result.length > 0) {
@@ -1930,6 +1962,7 @@ app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
 /*Get Role Screen Functionalities*/
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
     try {
+        switchDatabase('boon_client')
         console.log("role",req.params.roleId)
         con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.params.roleId,'2'], function (err, result, fields) {
             console.log("getrolescreenfunctionalities",err);
@@ -1993,6 +2026,7 @@ app.post('/api/setRoleMaster',function(req,res) {
 /*Get Holidays based on employeeId*/
 app.get('/api/getHolidaysList/:empId',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `getemployeeholidays` (?)",[req.params.empId], function (err, result, fields) {
             console.log("getemployeeholidays",err);
             if (result.length > 0) {
@@ -2029,6 +2063,7 @@ app.get('/api/getLeaveTypesForAdvancedLeave/:leaveId',function(req,res) {
 /*Get Employee Leave Balance*/
 app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `getemployeeleavebalance` (?)",[req.params.empId], function (err, result, fields) {
             console.log("getemployeeleavebalance",err);
             if (result.length > 0) {
@@ -2069,6 +2104,7 @@ app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
 /*Get Employee Roles*/
 app.get('/api/getemployeeroles/:empId',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `getemployeeroles` (?)",[req.params.empId], function (err, result, fields) {
             console.log("getemployeeroles",err);
             if (result.length > 0) {
@@ -2086,6 +2122,7 @@ app.get('/api/getemployeeroles/:empId',function(req,res) {
 /*Get Duration for back dated leave*/
 app.get('/api/getdurationforbackdatedleave',function(req,res) {
     try {
+        switchDatabase('boon_client')
         con.query("CALL `getdurationforbackdatedleave` ()", function (err, result, fields) {
             console.log("getdurationforbackdatedleave",err);
             if (result.length > 0) {
@@ -2103,6 +2140,7 @@ app.get('/api/getdurationforbackdatedleave',function(req,res) {
 /*Get Duration for back dated leave*/
 app.post('/api/validateleave',function(req,res) {
     try {
+        switchDatabase('boon_client')
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
         con.query("CALL `validateleave` (?,?,?,?,?,?)",[req.body.employee_id,req.body.leavetype_id,req.body.fromdate,req.body.todate,req.body.fromdatehalfday,req.body.todatehalfday], function (err, result, fields) {
             console.log("validateleave",err);
@@ -2120,6 +2158,7 @@ app.post('/api/validateleave',function(req,res) {
 /*Get Days to be disabled*/
 app.post('/api/getdaystobedisabled',function(req,res) {
     try {
+        switchDatabase('boon_client')
         /*Sample Format: call getdaystobedisabled(23)*/
         con.query("CALL `getdaystobedisabled` (?)",[req.body.employee_id], function (err, result, fields) {
             console.log("getdaystobedisabled",err);
@@ -2137,6 +2176,7 @@ app.post('/api/getdaystobedisabled',function(req,res) {
 /*Get getoffdayscount*/
 app.post('/api/getoffdayscount',function(req,res) {
     try {
+        switchDatabase('boon_client')
         /*Sample Format: call getoffdayscount(23,2,'2022-04-20','2022-04-29',0,0)*/
         con.query("CALL `getoffdayscount` (?,?,?,?,?,?)",[req.body.employee_id,req.body.leavetype_id,req.body.fromdate,req.body.todate,req.body.fromdatehalfday,req.body.todatehalfday], function (err, result, fields) {
             console.log("getoffdayscount",err);
