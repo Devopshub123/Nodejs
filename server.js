@@ -46,9 +46,9 @@ var switchDatabase= function(domain) {
 
         });
         // every five hours database will be hit.this is for continous connection
-        setInterval(function () {
-            con.query('SELECT 1')
-        }, 18000000);
+        // setInterval(function () {
+        //     con.query('SELECT 1')
+        // }, 18000000);
     } else {
         dbcon = mysql.createConnection({
             host: "192.168.1.78",
@@ -443,7 +443,7 @@ app.post('/api/setDesignation',function(req,res) {
         switchDatabase('boon_client')
         let infoDesignationMaster={}
         infoDesignationMaster.designation=req.body.designationName;
-        infoDesignationMaster.status = 1;
+        infoDesignationMaster.status = 'active';
         switchDatabase('boon_client')
         con.query("CALL `setmastertable` (?,?,?)",['designationsmaster','boon_client',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
@@ -470,7 +470,7 @@ app.put('/api/putDesignation',function(req,res) {
         con.query("CALL `updatemastertable` (?,?,?,?)",['designationsmaster','id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
 
             if (err) {
-                res.send({status: false, message: 'Unable to add designation'});
+                res.send({status: false, message: 'Unable to update designation'});
             } else {
                 res.send({status: true,message:'Designation updated successfully'})
             }
@@ -482,19 +482,25 @@ app.put('/api/putDesignation',function(req,res) {
 
     }
 });
-app.post('/api/updateStatus',function(req,res) {
+app.post('/api/updateStatus',checkRecord, function(req,res) {
     try {
+
+        if(req.body.status === 'active'||(!req.body.isexists.result && req.body.isexists.status)){
         switchDatabase('boon_client');
         con.query("CALL `updatestatus` (?,?,?)",['departmentsmaster',req.body.id,req.body.status], function (err, result, fields) {
-            console.log('err',err,result)
 
             if (err) {
-                res.send({status: false, message: 'Unable to add work location'});
+                res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
             } else {
-                res.send({status: true,message:'Work Location added successfully'})
+                res.send({status: true,message:'Department is '+req.body.status+' successfully'})
             }
         });
         con.end();
+        } else if(req.body.isexists.status == false){
+            res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
+        } else{
+            res.send({status: false, message: "This department have active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again"});
+        }
 
     }catch (e) {
         console.log('setWorkLocation :',e)
@@ -620,7 +626,7 @@ app.post('/api/getactiveWorkLocation',function(req,res) {
         switchDatabase('boon_client');
         var id = null;
         con.query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
-            if (result.length > 0) {
+            if (result && result.length > 0) {
                 var data = JSON.parse((result[0][0].json))
                 var resultdata=[];
                 var inactive =[];
@@ -656,7 +662,8 @@ app.post('/api/setDepartments',function(req,res) {
         info.deptname=req.body.departmentName;
         info.depthead=null;
         info.headcount=null;
-        info.status=1;
+        info.status='active';
+        console.log("hdbjhfd",info)
         switchDatabase('boon_client');
         con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','boon_client',JSON.stringify(info)], function (err, result, fields) {
             console.log("one",err)
@@ -669,7 +676,7 @@ app.post('/api/setDepartments',function(req,res) {
         con.end();
 
     }catch (e) {
-        console.log('getHolidays :',e)
+        console.log('setmastertable :',e)
 
     }
 });
@@ -678,17 +685,16 @@ app.post('/api/setDepartments',function(req,res) {
 app.put('/api/putDepartments',function(req,res) {
     try {
         let info={}
-        info.deptid=req.body.id,
-            info.deptname=req.body.name;
-
+        info.id=req.body.id;
+        info.deptname=req.body.name;
         info.depthead=null
         info.headcount=0;
         info.status = req.body.status;
         switchDatabase('boon_client');
-        con.query("CALL `updatemastertable` (?,?,?,?)",['departmentsmaster','deptid',req.body.id,JSON.stringify(info)], function (err, result, fields) {
+        con.query("CALL `updatemastertable` (?,?,?,?)",['departmentsmaster','id',req.body.id,JSON.stringify(info)], function (err, result, fields) {
             console.log("ttt",result,err)
             if (err) {
-                res.send({ status: false,message:'Department updated successfully'});
+                res.send({ status: false,message:'Unable to update departments'});
             } else {
                 res.send({status: true,message:'Department updated successfully'})
             }
@@ -717,47 +723,58 @@ app.get('/api/getHolidays',function(req,res) {
         console.log('getHolidays :',e)
 
     }
-});
+});/*set Holidays*/
 
-/*set Holidays*/
 app.post('/api/setHolidays/:companyName',function(req,res) {
+
     try {
         switchDatabase(req.params.companyName);
         let tname='holidaysmaster';
         let info={}
         let reqData=req.body;
+        console.log(req.body)
         let k=0;
-        console.log(req.params);
-        reqData.forEach(element =>{
+        if(req.body.holidayDate == null){
+
+            reqData.forEach(element =>{
             info.description=element.holidayName;
-        info.date=element.holidayDate;
-        let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        let hDate = (new Date(element.holidayDate));
-        info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
-        info.day=days[hDate.getDay()];
-        info.year=hDate.getFullYear();
-        info.location=element.city;
+            info.date=element.holidayDate;
+            let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            let hDate = (new Date(element.holidayDate));
+            info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
+            info.day=days[hDate.getDay()];
 
-        con.query("CALL `setmastertable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
-            k+=1;
-            if (err) {
-                res.send({status: false, message: 'Unable to insert holidays'});
-            } else {
-                if(k===reqData.length) {
-                    res.send({status: true, message: 'Holidays added successfully'});
+            info.year=hDate.getFullYear();
+
+            info.location=element.city;
+
+            con.query("CALL `setmastertable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
+                k+=1;
+                console.log("errrorrrr",err)
+                if (err) {
+                    res.send({status: false, message: 'Unable to insert holidays'});
+                } else {
+                    if(k===reqData.length) {
+                        res.send({status: true, message: 'Holidays added successfully'});
+                    }
                 }
-            }
+            });
         });
-        con.end();
+        }else{
+            res.send({status: false, message: 'Unable to insert holidays'});
+        }
 
-    })
+
 
     }catch (e) {
+
         console.log('setHolidays :',e)
 
-    }
-});
 
+
+    }
+
+});
 
 /*set Holidays*/
 app.put('/api/putHolidays/:companyShortName',function(req,res) {
@@ -842,10 +859,8 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',f
             console.log("req.params.tableName;",tName,req.params.status)
             switchDatabase('boon_client')
             con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-                console.log("ff",result);
-                if (result.length > 0) {
+                if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
-                        console.log("req.params.tableName; ",result[0].length )
                         for (let i=0; i<result[0].length;i++){
                             let hDate = (new Date(result[0][i].Date));
                             result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
@@ -870,7 +885,6 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',f
                 // console.log("ff",err,result);
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
-                        console.log("req.params.tableName; ",result[0].length )
                         for (let i=0; i<result[0].length;i++){
                             let hDate = (new Date(result[0][i].Date));
                             result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
@@ -906,7 +920,6 @@ app.get('/api/getLeaveTypes/:tableName/:page/:size',function(req,res) {
         var tName = req.params.tableName;
 
         con.query("CALL `getmastertable` (?,?,?)",[tName,req.params.page,req.params.size], function (err, result, fields) {
-            console.log("LMHRresult",err,result)
 
             if (result.length > 0) {
                 if(tName == 'HolidaysMaster'){
@@ -1039,7 +1052,9 @@ app.put('/api/putAddLeaveBalance',function(req,res) {
         console.log('putLeaveBalance :',e)
     }
 });
-/*Delete Add Leave Balance*/
+/*Delete Add Leave Balance
+*
+* */
 
 app.delete('/api/deleteAddLeaveBalance/:leaveBalanceId',function(req,res) {
 
@@ -1169,10 +1184,17 @@ app.post('/api/setEmployeeMaster',function(req,res) {
         console.log((input))
         con.query("CALL `setEmployeeMaster` (?)",
             [JSON.stringify(input)], function (err, result, fields) {
-                console.log("error",err);
-                console.log("result",result);
+            console.log("eee",err)
+
                 if (err) {
-                    res.send({status: false, message: 'Unable to insert employee'});
+                    if(err.code == 'ER_DUP_ENTRY'){
+                        var val
+                        val = err.sqlMessage.split('entry')[1];
+
+                        res.send({status: false, message: val.split('for')[0]+' is already exist in database'});
+                    }else{
+                        res.send({status: false, message: 'Unable to add employee'});
+                    }
                 } else {
                     res.send({status: true, message: 'Employee added successfully'})
                 }
@@ -1610,7 +1632,7 @@ app.post('/api/setLeavePolicies',function(req,res) {
 
     try{
         switchDatabase('boon_client');
-        console.log(JSON.stringify(ruleData));
+        console.log("GGGg",JSON.stringify(ruleData),"ddddd");
         con.query("CALL `setleavepolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
             console.log(err);
             if(err){
@@ -1679,7 +1701,7 @@ app.post('/api/getEmployeeDetails',function(req,res) {
         switchDatabase('boon_client');
         con.query("CALL `getemployeemasterforsearch` (?,?,?,?)", [req.body.employeeId,req.body.employeeName,req.body.page,req.body.tableSize], function (err, result, fields) {
             console.log(err)
-            if (result.length > 0) {
+            if (result && result.length > 0) {
                 res.send({data: result, status: true});
             } else {
                 res.send({status: false})
@@ -1783,7 +1805,7 @@ app.post('/api/setNewLeaveType',function(req,res) {
         let leaveColor = req.body.leaveColor;
         let leaveDisplayName = req.body.displayName;
         switchDatabase('boon_client')
-// console.log('req.params.prefixreq.params.prefixreq.params.prefix',req.body.prefix)
+console.log('req.params.prefixreq.params.prefixreq.params.prefix',leaveType,leaveColor,leaveDisplayName)
         con.query("CALL `setnewleavetype` (?,?,?)",[leaveType,leaveDisplayName,leaveColor], function (err, result, fields) {
             console.log("err",err)
             if (err) {
@@ -1854,7 +1876,7 @@ app.get('/api/getErrorMessages/:errorCode/:page/:size',function(req,res) {
         }
         con.query("CALL `geterrormessages` (?,?,?)", [errorCode,req.params.page,req.params.size],function (err, result, fields) {
             console.log("getErrorMessages",err);
-            if (result.length > 0) {
+            if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
                 res.send({status: false})
@@ -1967,7 +1989,7 @@ app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
         con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.params.roleId,'2'], function (err, result, fields) {
             console.log("getrolescreenfunctionalities",err);
             console.log("rr",result)
-            if (result.length > 0) {
+            if (result && result.length > 0) {
                 res.send({data: result, status: true});
             } else {
                 res.send({status: false})
@@ -2040,10 +2062,9 @@ app.get('/api/getHolidaysList/:empId',function(req,res) {
         console.log()
     }
 })
-app.get('/api/getLeaveTypesForAdvancedLeave/:leaveId',function(req,res) {
+app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
     try {
         switchDatabase('boon_client')
-        console.log("tempppresult",req.params.leaveId)
 
         con.query("CALL `getleavetypesforadvancedleave` ()",function (err, result, fields) {
             console.log("tempppresult",result,err)
@@ -2089,10 +2110,10 @@ app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
         con.query("CALL `set_advanced_leave_rule_values` (?)",[req.body.leaveid],function (err, result, fields) {
             console.log("tempppresult",result,err)
 
-            if (result.length > 0) {
-                res.send({data: result[0], status: true});
+            if (err) {
+                res.send({message: 'Unable to update leave policy', status: false});
             } else {
-                res.send({status: false})
+                res.send({message: 'Rules updated successfully', status: true})
             }
         });
         con.end();
@@ -2191,6 +2212,127 @@ app.post('/api/getoffdayscount',function(req,res) {
         console.log('getoffdayscount :',e)
     }
 });
+app.post('/api/designationstatus',checkRecord,function(req,res) {
+    try {
+        if(req.body.status === 'active'||(!req.body.isexists.result && req.body.isexists.status)) {
+            switchDatabase('boon_client');
+            console.log(req.body)
+            con.query("CALL `updatestatus` (?,?,?)", ['designationsmaster', req.body.id, req.body.status], function (err, result, fields) {
+                console.log('err', err, result)
+                if (err) {
+                    res.send({status: false, message: 'Unable to update designation status'});
+                } else {
+                    res.send({status: true, message: 'Designation is '+req.body.status+' successfully'})
+                }
+            });
+            con.end();
+        }else if(req.body.isexists.status == false){
+            res.send({status: false, message: "We are unable to "+req.body.status+" this designation please try again later"});
+        } else{
+            res.send({status: false, message: "This designation have active employees. So we are unable to inactivate this designation now. Please move those employee to another designation and try again"});
+        }
+    }catch (e) {
+        console.log('setWorkLocation :',e) }
+});
+
+/*
+* getValidateExistingDetails
+* @tableNaame
+* @columnName
+* @columnValue
+*
+*
+* */
+app.post('/api/getValidateExistingDetails',function(req,res) {
+    try {
+
+        switchDatabase('boon_client');
+        console.log("resultCheckrecords",req.body.tableName,req.body.columnName,req.body.columnValue)
+        con.query("CALL `checkrecord` (?,?,?)",[req.body.tableName,req.body.columnName,req.body.columnValue], function (err, result, fields) {
+            console.log("resultCheckrecords",result)
+            if (result && result.length > 0) {
+                res.send({data: result[1], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getValidateExistingDetails :',e)
+    }
+});
+
+
+
+/*Get Holidays years for filter*/
+app.get('/api/getHolidaysYears/:columnName',function(req,res) {
+    console.log("get_holiday_years_or_location",req.params.columnName)
+
+    try {
+        switchDatabase('boon_client')
+
+        con.query("CALL `get_holiday_years_or_locations` (?)",[req.params.columnName], function (err, result, fields) {
+            console.log("get_holiday_years_or_locationerr",err,result)
+
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end()
+
+    }catch (e) {
+        console.log('get_holiday_years_or_location :',e)
+
+    }
+});
+
+/*Get Holidays filter */
+app.get('/api/getHolidysFilter/:year/:locationId/:page/:size',function(req,res) {
+    try {
+        switchDatabase('boon_client')
+        con.query("CALL `getholidaysbyfilter` (?,?,?,?)", [req.params.year ==='null'?null:req.params.year,req.params.locationId ==='null'?null:req.params.locationId,req.params.page,req.params.size],function (err, result, fields) {
+            console.log('getHolidysFilteqqqqqqr',err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getDesignation :',e)
+
+    }
+});
+
+function checkRecord (req, res, next){
+
+    try{
+        switchDatabase('boon_client');
+            con.query("CALL `checkrecord` (?,?,?)",[req.body.tableName,req.body.columnName,req.body.id], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    req.body.isexists={result:result[1][0].isexists,status :true}
+                    next()
+                } else {
+                    req.body.isexists={status:false}
+                    next()
+
+                }
+            });
+            con.end();
+
+
+    }catch (e) {
+        console.log("checkRecord in employee ",e)
+    }
+
+    // })
+
+}
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
