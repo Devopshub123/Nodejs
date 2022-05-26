@@ -227,7 +227,7 @@ app.post('/changePassword',function(req,res){
                     }
                     else{
                         console.log(result)
-                        res.send({status: true, message: 'password updated successfully'})
+                        res.send({status: true, result})
 
 
                     }
@@ -235,15 +235,15 @@ app.post('/changePassword',function(req,res){
 
             }
             else if(result[0]==-1){
-                res.send({status: false, message: 'Wrong password. Please enter a valid password'})
+                res.send(result)
             }
             else{
-                res.send({status: false, message: 'Your new password cannot be same as old password'})
+                res.send(result)
 
             }
 
         });
-        con.end();
+        // con.end();
 
     }
     catch(e){
@@ -2146,11 +2146,7 @@ app.get('/api/getdurationforbackdatedleave',function(req,res) {
         switchDatabase('boon_client')
         con.query("CALL `getdurationforbackdatedleave` ()", function (err, result, fields) {
             console.log("getdurationforbackdatedleave",err);
-            if (result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
+           res.send(result)
         });
         con.end();
 
@@ -2176,6 +2172,45 @@ app.post('/api/validateleave',function(req,res) {
         console.log('validateleave :',e)
     }
 });
+/**Get days to be disabled fromdate */
+app.post('/api/getdaystobedisabledfromdate',function(req,res){
+    try{
+        switchDatabase('boon_client')
+        let id = req.body.empid;
+        let year = req.body.year;
+        let month = req.body.month;
+        console.log(id)
+        console.log(year)
+        console.log(month)
+        con.query("CALL `getdays_to_be_disabled_for_from_date` (?,?,?)",[27,'2022','05'],function(err,result,fields){
+            res.send(result)
+        })
+
+    }
+    catch (e){
+        console.log('getdaystobedisabledfromdate :',e)
+    }
+})
+
+/**Get days to be disabled fromdate */
+app.post('/api/getdaystobedisabledtodate',function(req,res){
+    try{
+        switchDatabase('boon_client')
+        let id = req.body.empid;
+        let year = req.body.year;
+        let month = req.body.month;
+        console.log(id)
+        console.log(year)
+        console.log(month)
+        con.query("CALL `getdays_to_be_disabled_for_to_date` (?,?,?)",[27,'2022','05'],function(err,result,fields){
+            res.send(result)
+        })
+
+    }
+    catch (e){
+        console.log('getdaystobedisabletodate :',e)
+    }
+})
 /*Get Days to be disabled*/
 app.post('/api/getdaystobedisabled',function(req,res) {
     try {
