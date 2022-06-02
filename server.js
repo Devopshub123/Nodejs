@@ -1409,45 +1409,7 @@ app.put('/api/updateLeaveRequest/:Id',function(req,res) {
         console.log('updateLeaveRequest :',e)
     }
 });
-/*Set CompOff*/
 
-app.post('/api/setCompOff',function(req,res) {
-    try {
-        switchDatabase('boon_client')
-        con.query("CALL `setCompOff` (?,?,?,?,?)",
-            [], function (err, result, fields) {
-
-                if (err) {
-                    res.send({status: false, message: 'Unable to add comp-off'});
-                } else {
-                    res.send({status: false, message: 'Comp-Off added Successfully'})
-                }
-            });
-        con.end();
-
-    }catch (e) {
-        console.log('setCompOff :',e)
-    }
-});
-
-/*Get CompOff*/
-app.get('/api/getCompOff',function(req,res) {
-    try {
-        switchDatabase('boon_client')
-        con.query("CALL `getCompOff` (?)",[req.params.employeeId], function (err, result, fields) {
-            if (result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-        con.end();
-
-    }catch (e) {
-        console.log('getCompOff :',e)
-
-    }
-});
 /*set CompOffReviewApprove*/
 app.set('/api/setCompOffReviewApprove',function(req,res) {
     try {
@@ -2493,6 +2455,114 @@ function checkRecord (req, res, next){
     // })
 
 }
+
+/**Set compOff*/
+
+app.post('/api/setCompOff',function(req,res) {
+    try {
+        switchDatabase('boon_client')
+        con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
+            [req.body.id,req.body.empId,req.body.workDate,parseInt(req.body.workedHours),parseInt(req.body.workedMinutes),req.body.reason,req.body.rmId,req.body.status,req.body.remarks], function (err, result, fields) {
+                if(err){
+                    res.send({status: false, message: 'Unable to applied comp-off'});
+                }else {
+                    res.send({status: true, message: 'Comp-off applied successfully'})
+                }
+            });
+        con.end()
+
+    }catch (e) {
+        console.log('setCompOff :',e)
+    }
+});
+
+
+/**Get compOff details*/
+app.get('/api/getCompOff/:employeeId',function(req,res) {
+    try {
+        switchDatabase('boon_client')
+        con.query("CALL `get_compoffs` (?)",[req.params.employeeId], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getCompOff :',e)
+
+    }
+});
+
+/**Get calender details for compoff
+ * @EmployeeId
+ * @year
+ * */
+
+app.get('/api/getCompoffCalender/:calender',function(req,res) {
+    try {
+        switchDatabase('boon_client');
+        var calender = JSON.parse(req.params.calender);
+        con.query("CALL `getcompoff_calendar` (?,?)",[calender.employeeId,calender.year],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getCompoffCalender :',e)
+
+    }
+});
+
+/**Get comp-off min working hours
+ * @ no parameters
+ *
+ * */
+
+app.get('/api/getCompOffMinWorkingHours',function(req,res) {
+    try {
+        switchDatabase('boon_client');
+        con.query("CALL `get_compoff_min_working_hours` ()",function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getCompOffMinWorkingHours :',e)
+
+    }
+});
+/** Get duration for backdated comp-off leave
+ * @no parameters
+ * */
+
+app.get('/api/getDurationforBackdatedCompoffLeave',function(req,res) {
+    try {
+        switchDatabase('boon_client');
+        con.query("CALL `get_duration_for_backdated_compoff_leave` ()",function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getDurationforBackdatedCompoffLeave :',e)
+
+    }
+});
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
