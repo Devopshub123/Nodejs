@@ -193,7 +193,7 @@ app.post('/api/resetpassword',function(req,res,next){
     let email = req.body.email;
     let password = req.body.newPassword;
     try{
-        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','n'],function(err,result){
+        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','N'],function(err,result){
             if(err){
                 console.log(err)
             }
@@ -267,7 +267,7 @@ app.get('/api/emp_login/:email/:password',function(req,res,next){
                 con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
                     try{
                         // console.log("hjh",typeof(results))
-                        // console.log("hjh",results)
+                        console.log("hjh",results)
                         if(results.length>0){
 
                             var result = JSON.parse(results[0][0].result)
@@ -338,7 +338,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
                     res.send({status: true, message: 'Company Information added successfully'})
                 }
             });
-        con.end();
+        // con.end();
 
     }catch (e) {
         console.log('setCompanyInformation :',e)
@@ -2081,6 +2081,24 @@ app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
         console.log('getemployeeholidays :',e)
     }
 });
+/**get employe leaves */
+app.get('/api/getemployeeleaves',function(req,res){
+    try{
+        switchDatabase('boon_client')
+        con.query("CALL `get_employee_leaves`(?)",[27],function (err, result, fields) {
+            console.log("getemployeeleavebalance",err);
+            console.log("fgdhgf",result[0])
+            // if (result.length > 0) {
+                res.send({data: result[0]});
+            // }
+
+        });
+        // con.end();
+    }
+    catch(e){
+        console.log('getemployeeholidays :',e)
+    }
+})
 /*Get Employee Leave Balance*/
 app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
     try {
@@ -2092,7 +2110,7 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
             }
 
         });
-        con.end();
+        // con.end();
 
 
 
@@ -2145,7 +2163,7 @@ app.get('/api/getdurationforbackdatedleave',function(req,res) {
     try {
         switchDatabase('boon_client')
         con.query("CALL `getdurationforbackdatedleave` ()", function (err, result, fields) {
-            console.log("getdurationforbackdatedleave",err);
+            console.log("getdurationforbackdatedleave",result);
            res.send(result)
         });
         con.end();
@@ -2158,9 +2176,23 @@ app.get('/api/getdurationforbackdatedleave',function(req,res) {
 app.post('/api/validateleave',function(req,res) {
     try {
         switchDatabase('boon_client')
+        console.log("ghghg",req.body)
+        let id = req.body.empid;
+        let fromdate = req.body.fromDate;
+        let todate = req.body.toDate;
+        let leavetype = req.body.leaveType;
+        var fromDate = new Date(fromdate);
+        var toDate = new Date(todate);
+        var myDateString1,myDateString2;
+        myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+        myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+        let fdate = myDateString1;
+        let tdate = myDateString2;
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
-        con.query("CALL `validateleave` (?,?,?,?,?,?)",[req.body.employee_id,req.body.leavetype_id,req.body.fromdate,req.body.todate,req.body.fromdatehalfday,req.body.todatehalfday], function (err, result, fields) {
+        con.query("CALL `validateleave` (?,?,?,?,?,?)",[id,leavetype,fdate,tdate,0,0], function (err, result, fields) {
             console.log("validateleave",err);
+            console.log("hhh",result)
+            
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -2172,6 +2204,73 @@ app.post('/api/validateleave',function(req,res) {
         console.log('validateleave :',e)
     }
 });
+/*get leave cycle for last month */
+app.post('/api/getleavecyclelastmonth',function(req,res){
+    try{
+        switchDatabase('boon_client')
+        con.query("CALL `get_leave_cycle_last_month`()",function (err, result, fields) {
+            console.log("levae",result);
+           res.send(result)
+        });
+
+    }
+    catch(e){
+        console.log('getleavecyclelastmonth :',e)
+    }
+})
+/**set employee leave */
+app.post('/api/setemployeeleave',function(req,res){
+    try{
+        switchDatabase('boon_client')
+        console.log("setemployeeleave",req.body)
+        console.log("setemployeeleave",req.body.leaveType)
+        let empid = req.body.empid;
+        let leavetype = req.body.leaveType;
+        let fromdate = req.body.fromDate;
+        let todate = req.body.toDate;
+        var fromDate = new Date(fromdate);
+        var toDate = new Date(todate);
+        var myDateString1,myDateString2;
+        myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+        myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+        let fdate = myDateString1;
+        let tdate = myDateString2;
+        let leavecount = req.body.leavecount
+        let leavereason = req.body.reason;
+        // let fromhalfdayleave = req.body.fromhalfdayeleave?req.body.fromhalfdayeleave:0;
+        // let tohalfdayleave = req.body.tohalfdayeleave?req.body.tohalfdayeleave:0;
+        let leavestatus = "submitted";
+        let contactnumber = req.body.emergencyContact;
+        let email = req.body.emergencyEmail;
+        let address = 'test';
+        if(req.body.fromDateHalf){
+            var fromhalfdayleave = 1
+        }else{var fromhalfdayleave = 0}
+        if(req.body.toDateHalf){
+            var tohalfdayleave =1
+        }
+        else{
+            var tohalfdayleave =0
+        }
+        // console.log("h",empid,leavetype,fromdate,todate,leavecount,leavereason,leavestatus,contactnumber,email,address)
+        // call set_employee_leave(null,27,2,'2022-06-16','2022-06-17','0','0','2','test','submitted',null,'test@hi.com','test')
+        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?)",[null,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address],function(err,result,fields){
+            //   console.log(result)
+              if(err){
+                  console.log("hghg",err);
+                  res.send({status:false})
+              }
+              else{
+                console.log("dgfg",result)
+                res.send({status:true})
+
+              }
+        })
+    }
+    catch(e){
+        console.log('setemployeeleaverr',e)
+    }
+})
 /**Get days to be disabled fromdate */
 app.post('/api/getdaystobedisabledfromdate',function(req,res){
     try{
@@ -2182,10 +2281,10 @@ app.post('/api/getdaystobedisabledfromdate',function(req,res){
         console.log(id)
         console.log(year)
         console.log(month)
-        con.query("CALL `getdays_to_be_disabled_for_from_date` (?,?,?)",[27,'2022','05'],function(err,result,fields){
+        con.query("CALL `getdays_to_be_disabled_for_from_date` (?,?)",[27,'2022'],function(err,result,fields){
             res.send(result)
         })
-
+        con.end();
     }
     catch (e){
         console.log('getdaystobedisabledfromdate :',e)
@@ -2202,9 +2301,10 @@ app.post('/api/getdaystobedisabledtodate',function(req,res){
         console.log(id)
         console.log(year)
         console.log(month)
-        con.query("CALL `getdays_to_be_disabled_for_to_date` (?,?,?)",[27,'2022','05'],function(err,result,fields){
+        con.query("CALL `getdays_to_be_disabled_for_to_date` (?,?)",[27,'2022'],function(err,result,fields){
             res.send(result)
         })
+        con.end();
 
     }
     catch (e){
@@ -2233,10 +2333,35 @@ app.post('/api/getdaystobedisabled',function(req,res) {
 app.post('/api/getoffdayscount',function(req,res) {
     try {
         switchDatabase('boon_client')
+        console.log(req.body)
+        let id = req.body.empid;
+        let leavetypeid = req.body.leaveType;
+        let fromDate =new Date(req.body.fromDate);
+        let toDate = new Date(req.body.toDate);
+        var myDateString1,myDateString2;
+        myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+        myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+        let fDate = myDateString1;
+        let tDate = myDateString2;
+        if(req.body.fromDateHalf){
+            var fromhalfday = 1
+        }else{var fromhalfday = 0}
+        if(req.body.toDateHalf){
+            var tohalfday =1
+        }
+        else{
+            var tohalfday =0
+        }
+       
+        console.log("id",id)
+        // console.log("leavetype",leavetypeid)
+        // console.log("fromdate",fromdate)
+        // console.log("todate",todate)
         /*Sample Format: call getoffdayscount(23,2,'2022-04-20','2022-04-29',0,0)*/
-        con.query("CALL `getoffdayscount` (?,?,?,?,?,?)",[req.body.employee_id,req.body.leavetype_id,req.body.fromdate,req.body.todate,req.body.fromdatehalfday,req.body.todatehalfday], function (err, result, fields) {
+        con.query("CALL `getoffdayscount` (?,?,?,?,?,?)",[id,leavetypeid,fDate,tDate,fromhalfday,tohalfday], function (err, result, fields) {
             console.log("getoffdayscount",err);
-            if (result.length > 0) {
+            console.log("result",result)
+            if (result && result.length > 0) {
                 res.send({data: result, status: true});
             } else {
                 res.send({status: false})
