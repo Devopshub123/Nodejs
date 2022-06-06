@@ -2105,12 +2105,14 @@ app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
     }
 });
 /**get employe leaves */
-app.get('/api/getemployeeleaves/:empid',function(req,res){
+app.get('/api/getemployeeleaves/:empid/:page/:size',function(req,res){
     try{
          var con  =connection.switchDatabase('boon_client')
          let id = req.params.empid
+         let page = req.params.page;
+         let size = req.params.size;
          console.log(id)
-        con.query("CALL `get_employee_leaves`(?)",[id],function (err, result, fields) {
+        con.query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
