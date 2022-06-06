@@ -3,7 +3,6 @@ var express = require('express');
 var app = new express();
 var fs = require('fs');
 var path = require('path');
-var mysql = require('mysql');
 var fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer')
 app.use(bodyParser.urlencoded({
@@ -1352,18 +1351,35 @@ app.get('/api/getLeaveHistory',function(req,res) {
     }
 });
 /*Set Delete Leave Request */
-
-app.delete('/api/setDeleteLeaveRequest/:Id',function(req,res) {
+app.post('/api/setDeleteLeaveRequest',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
+        let id = req.body.id;
+        let empid = req.body.empid;
+        let leavetype = req.body.leavetypeid;
+        let fromDate = new Date(req.body.fromdate);
+        let toDate = new Date(req.body.todate);
+        var myDateString1,myDateString2;
+        myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+        myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+        let fdate = myDateString1;
+        let tdate = myDateString2;let fromhalfday = req.body.fromhalfdayleave;
+        let tohalfday =  req.body.tohalfdayleave;
+        let leavecount = req.body.leavecount;
+        let leavereason = req.body.leavereason;
+        let contactnumber = req.body.contactnumber;
+        let email = req.body.contactemail;
+        let address = 'test';
+        let leavestatus = "deleted"
+        console.log(id)
 
-        con.query("CALL `setDeleteLeaveRequest` (?)",
-            [req.params.LeaveId], function (err, result, fields) {
-
+        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address], function (err, result, fields) {
+                console.log(err)
                 if (err) {
-                    res.send({status: false, message: 'Unable able to delete leave request'});
+                    res.send({status: false});
                 } else {
-                    res.send({status: false, message: 'Leave request deleted successfully'})
+                    res.send({status: true})
                 }
             });
         con.end();
@@ -1372,7 +1388,44 @@ app.delete('/api/setDeleteLeaveRequest/:Id',function(req,res) {
         console.log('setDeleteLeaveRequest :',e)
     }
 });
+/*CancelLeave Request */
+app.post('/api/cancelLeaveRequest',function(req,res) {
+    try {
+        var con  =connection.switchDatabase('boon_client')
+        let id = req.body.id;
+        let empid = req.body.empid;
+        let leavetype = req.body.leavetypeid;
+        let fromDate = new Date(req.body.fromdate);
+        let toDate = new Date(req.body.todate);
+        var myDateString1,myDateString2;
+        myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+        myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+        let fdate = myDateString1;
+        let tdate = myDateString2;let fromhalfday = req.body.fromhalfdayleave;
+        let tohalfday =  req.body.tohalfdayleave;
+        let leavecount = req.body.leavecount;
+        let leavereason = req.body.leavereason;
+        let contactnumber = req.body.contactnumber;
+        let email = req.body.contactemail;
+        let address = 'test';
+        let leavestatus = "cancelled"
+        console.log(id)
 
+        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address], function (err, result, fields) {
+                console.log(err)
+                if (err) {
+                    res.send({status: false});
+                } else {
+                    res.send({status: true})
+                }
+            });
+        con.end();
+
+    }catch (e) {
+        console.log('cancelLeaveRequest :',e)
+    }
+});
 /*Set put Leave Request */
 
 app.put('/api/updateLeaveRequest/:Id',function(req,res) {
@@ -2056,6 +2109,7 @@ app.get('/api/getemployeeleaves/:empid',function(req,res){
     try{
          var con  =connection.switchDatabase('boon_client')
          let id = req.params.empid
+         console.log(id)
         con.query("CALL `get_employee_leaves`(?)",[id],function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -2227,7 +2281,7 @@ app.post('/api/setemployeeleave',function(req,res){
 
         // console.log("h",empid,leavetype,fromdate,todate,leavecount,leavereason,leavestatus,contactnumber,email,address)
         con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?)",[null,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address],function(err,result,fields){
-            //   console.log(result)
+              console.log(err)
               if(err){
                   res.send({status:false})
               }
@@ -2465,7 +2519,6 @@ function checkRecord (req, res, next){
 app.post('/api/setCompOff',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
         con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.empId,req.body.workDate,parseInt(req.body.workedHours),parseInt(req.body.workedMinutes),req.body.reason,req.body.rmId,req.body.status,req.body.remarks], function (err, result, fields) {
                 if(err){
