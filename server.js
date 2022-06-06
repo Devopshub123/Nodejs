@@ -1229,11 +1229,11 @@ app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
 
 
 /*Get User Leave Balance*/
-app.get('/api/getLeaveBalance',function(req,res) {
+app.get('/api/getLeaveBalance/:empid',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
-        con.query("CALL `getLeaveBalance` ()", function (err, result, fields) {
+        let id = req.params.empid;
+        con.query("CALL `get_employee_leave_balance` (?)",[id], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -2052,12 +2052,11 @@ app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
     }
 });
 /**get employe leaves */
-app.get('/api/getemployeeleaves',function(req,res){
+app.get('/api/getemployeeleaves/:empid',function(req,res){
     try{
          var con  =connection.switchDatabase('boon_client')
-
-        con.query("CALL `get_employee_leaves`(?)",[27],function (err, result, fields) {
-            console.log("hellooo",err,result)
+         let id = req.params.empid
+        con.query("CALL `get_employee_leaves`(?)",[id],function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {

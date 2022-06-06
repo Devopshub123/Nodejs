@@ -1,10 +1,6 @@
-
 var mysql = require('mysql');
-
-
 // /*Switching database connection*/
 function switchDatabase(domain) {
-    console.log("hello")
     if (domain) {
         return mysql.createConnection({
             host: "192.168.1.78",
