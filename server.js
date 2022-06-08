@@ -2282,7 +2282,7 @@ app.post('/api/setemployeeleave',function(req,res){
         var tohalfdayleave =req.body.toDateHalf?1:0
 
         // console.log("h",empid,leavetype,fromdate,todate,leavecount,leavereason,leavestatus,contactnumber,email,address)
-        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?)",[null,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address],function(err,result,fields){
+        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[null,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null],function(err,result,fields){
               console.log(err)
               if(err){
                   res.send({status:false})
@@ -2622,6 +2622,31 @@ app.get('/api/getDurationforBackdatedCompoffLeave',function(req,res) {
 
     }catch (e) {
         console.log('getDurationforBackdatedCompoffLeave :',e)
+
+    }
+});
+
+
+/** Get next leave Date for validations
+ * @no parameters
+ * */
+
+app.get('/api/getNextLeaveDate/:input',function(req,res) {
+    try {
+        var input = JSON.parse(req.params.input)
+        var con  =connection.switchDatabase('boon_client');
+        con.query("CALL `get_next_leave_date` (?,?)",[input.id,input.date],function (err, result, fields) {
+           console.log('hello',result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getNextLeaveDate :',e)
 
     }
 });
