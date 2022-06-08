@@ -1837,7 +1837,7 @@ app.get('/api/getLeavesTypeInfo',function(req,res) {
 
         con.query("CALL `get_leavetypes_data` ()", function (err, result, fields) {
             if (result && result.length > 0) {
-                res.send({data: result, status: true});
+                res.send({data: result[0], status: true});
             } else {
                 res.send({status: false})
             }
