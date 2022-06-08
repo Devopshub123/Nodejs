@@ -21,10 +21,6 @@ app.all("*", function (req, res, next) {
     return next();
 });
 
-
-
-
-
 /**verify email for forget password */
 app.get('/api/forgetpassword/:email',function(req,res,next){
     let email = req.params.email;
@@ -166,7 +162,6 @@ app.post('/changePassword',function(req,res){
                         console.log(err)
                     }
                     else{
-                        console.log(result)
                         res.send({status: true, result})
 
 
@@ -203,24 +198,15 @@ app.get('/api/emp_login/:email/:password',function(req,res,next){
         con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             if (result[0] > 0) {
-                // [result[0]]
-                // if(21>0){
                 con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
                     try{
-                        // console.log("hjh",typeof(results))
-                        console.log("hjh",results)
                         if(results.length>0){
-
                             var result = JSON.parse(results[0][0].result)
-                            console.log("fdg",result)
-
                             res.send({status: true,result})
 
                         }
                         else{
                             res.send({status: false,result})
-                            console.log("employee_login")
-
                         }
                     }
                     catch (e){
@@ -231,18 +217,10 @@ app.get('/api/emp_login/:email/:password',function(req,res,next){
 
             }
             else{
-                // res.send({
-                //     message:"Invalid userName or password"
-                // })
                 res.send({status: false,message:"Invalid userName or password"})
-                // res.send(result)
             }
 
         });
-
-
-
-        // })
 
     }
     catch (e){
@@ -251,11 +229,8 @@ app.get('/api/emp_login/:email/:password',function(req,res,next){
 })
 
 /*Set comapny information*/
-
 app.post('/api/setCompanyInformation',function(req,res) {
     var con  =connection.switchDatabase('boon_client')
-
-    // console.log("hello",req)
     let companyInformation={}
     companyInformation.companyname=req.body.fullCompanyName;
     companyInformation.companywebsite = req.body.companyWebsite;
@@ -267,14 +242,10 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.state = req.body.stateId;
     companyInformation.city = req.body.cityId;
     companyInformation.pincode=req.body.pincode;
-    var con  =connection.switchDatabase('boon_client')
-
-
     try {
         con.query("CALL `setmastertable` (?,?,?)",['companyinformation','boon_client',JSON.stringify(companyInformation)]
             ,
             function (err, result, fields) {
-                console.log("err",err)
                 if (err) {
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {
@@ -289,12 +260,9 @@ app.post('/api/setCompanyInformation',function(req,res) {
 });
 
 /*put comapny information*/
-
 app.put('/api/putCompanyInformation',function(req,res) {
     var con  =connection.switchDatabase('boon_client')
-
     try {
-
         let companyInformation={}
         companyInformation.CompanyName=req.body.fullCompanyName;
         companyInformation.CompanyWebsite = req.body.companyWebsite;
@@ -1333,23 +1301,6 @@ app.post('/api/setApplyLeave',function(req,res) {
     }
 });
 
-/*Get Leave History*/
-app.get('/api/getLeaveHistory',function(req,res) {
-    try {
-
-        /*  con.query("CALL `getLeaveHistory` (?)",[req.params.employeeId], function (err, result, fields) {
-              console.log(err);
-              if (result.length > 0) {
-                  res.send({data: result, status: true});
-              } else {
-                  res.send({status: false})
-              }
-          })*/;
-    }catch (e) {
-        console.log('getLeaveHistory :',e)
-
-    }
-});
 /*Set Delete Leave Request */
 app.post('/api/setDeleteLeaveRequest',function(req,res) {
     try {
@@ -1371,11 +1322,10 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
         let email = req.body.contactemail;
         let address = 'test';
         let leavestatus = "deleted"
-        console.log(id)
+        let actionreason = req.body.actionreason;
 
-        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address], function (err, result, fields) {
-                console.log(err)
+        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason], function (err, result, fields) {
                 if (err) {
                     res.send({status: false});
                 } else {
@@ -1409,11 +1359,10 @@ app.post('/api/cancelLeaveRequest',function(req,res) {
         let email = req.body.contactemail;
         let address = 'test';
         let leavestatus = "cancelled"
-        console.log(id)
+        let actionreason = req.body.actionreason;
 
-        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address], function (err, result, fields) {
-                console.log(err)
+        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason], function (err, result, fields) {
                 if (err) {
                     res.send({status: false});
                 } else {
@@ -1635,9 +1584,8 @@ app.post('/api/setLeavePolicies',function(req,res) {
     let ruleData = req.body.ruleData;
 
     try{
-         var con  =connection.switchDatabase('boon_client')
-;
-        console.log("GGGg",JSON.stringify(ruleData),"ddddd");
+        var con  =connection.switchDatabase('boon_client');
+
         con.query("CALL `setleavepolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
             console.log(err);
             if(err){
@@ -1704,8 +1652,7 @@ app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageS
 // /*Get Employee Search Information*/
 app.post('/api/getEmployeeDetails',function(req,res) {
     try {
-        var con  =connection.switchDatabase('boon_client')
-;
+        var con  =connection.switchDatabase('boon_client');
         con.query("CALL `getemployeemasterforsearch` (?,?,?,?)", [req.body.employeeId,req.body.employeeName,req.body.page,req.body.tableSize], function (err, result, fields) {
             console.log(err)
             if (result && result.length > 0) {
@@ -1725,8 +1672,7 @@ app.post('/api/getEmployeeDetails',function(req,res) {
 app.delete('/api/deleteHoliday/:holidayId',function(req,res) {
 
     try {
-        var con  =connection.switchDatabase('boon_client')
-;
+        var con  =connection.switchDatabase('boon_client');
         console.log(req.params.holidayId);
         con.query("CALL `deleteholidays` (?)",[req.params.holidayId], function (err, result, fields) {
             console.log("deleteHolidays",err)
@@ -1783,12 +1729,9 @@ app.delete('/api/removeImage/:Id/:companyShortName',function(req,res){
 });
 app.post('/api/validatePrefix',function(req,res) {
     try {
-        // var id;
-        console.log("hjhs",req.body)
         let input={}
         let prefix=req.body.prefix;
-        console.log(input.prefix)
-               var con  =connection.stchDatabase('boon_client')
+        var con  =connection.stchDatabase('boon_client')
 
 // console.log('req.params.prefixreq.params.prefixreq.params.prefix',req.body.prefix)
         con.query("CALL `validate_prefix_assignment` (?)",prefix, function (err, result, fields) {
@@ -1808,12 +1751,11 @@ app.post('/api/validatePrefix',function(req,res) {
 });
 app.post('/api/setNewLeaveType',function(req,res) {
     try {
-        // var id;
 
         let leaveType = req.body.leaveTypeName;
         let leaveColor = req.body.leaveColor;
         let leaveDisplayName = req.body.displayName;
-               var con  =connection.switchDatabase('boonlient')
+        var con  =connection.switchDatabase('boonlient')
 
 console.log('req.params.prefixreq.params.prefixreq.params.prefix',leaveType,leaveColor,leaveDisplayName)
         con.query("CALL `setnewleavetype` (?,?,?)",[leaveType,leaveDisplayName,leaveColor], function (err, result, fields) {
@@ -2073,11 +2015,11 @@ app.get('/api/getHolidaysList/:empId',function(req,res) {
 
         con.query("CALL `getemployeeholidays` (?)",[req.params.empId], function (err, result, fields) {
             console.log("getemployeeholidays",err);
-            if (result.length > 0) {
+            if (result && result.length > 0) {
                 res.send({data: result, status: true});
             }
         });
-        con.end();
+        con.end('getHolidaysList',e);
 
     }
     catch(e){
@@ -2132,7 +2074,7 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
         var con  =connection.switchDatabase('boon_client')
 
         con.query("CALL `get_employee_leave_balance` (?)",[req.params.empId], function (err, result, fields) {
-            if (result.length > 0) {
+            if (result && result.length > 0) {
                 res.send({data: result, status: true});
             } else {
                 res.send({status: false})
