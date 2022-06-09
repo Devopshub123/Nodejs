@@ -1323,6 +1323,7 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
         let address = 'test';
         let leavestatus = "deleted"
         let actionreason = req.body.actionreason;
+        console.log(actionreason)
 
         con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
         [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason], function (err, result, fields) {
@@ -1871,7 +1872,6 @@ app.post('/api/setErrorMessages',function(req,res) {
 app.get('/api/getrolemaster',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
         con.query("CALL `getrolemaster` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1889,9 +1889,7 @@ app.get('/api/getrolemaster',function(req,res) {
 app.get('/api/getscreensmaster',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
         con.query("CALL `getscreensmaster` (?)",['2'], function (err, result, fields) {
-            console.log(err);
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -1908,7 +1906,6 @@ app.get('/api/getscreensmaster',function(req,res) {
 app.get('/api/getfunctionalitiesmaster',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
         con.query("CALL `getfunctionalitiesmaster` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1926,9 +1923,7 @@ app.get('/api/getfunctionalitiesmaster',function(req,res) {
 app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
         con.query("CALL `getscreenfunctionalitiesmaster` ()", function (err, result, fields) {
-            console.log("",err);
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -1945,11 +1940,7 @@ app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
-        console.log("role",req.params.roleId)
         con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.params.roleId,'2'], function (err, result, fields) {
-            console.log("getrolescreenfunctionalities",err);
-            console.log("rr",result)
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -1965,13 +1956,8 @@ app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
 /*setRoleAccess */
 app.post('/api/setRoleAccess',function(req,res) {
     try {
-
-        var con  =connection.switchDatabase('boon_client')
-;
-
-        con.query("CALL `set_role_access` (?)",
-            [JSON.stringify(req.body)], function (err, result, fields) {
-                console.log(err);
+        var con  =connection.switchDatabase('boon_client');
+        con.query("CALL `set_role_access` (?)",[JSON.stringify(req.body)], function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to update role permissions'});
                 } else {
@@ -1989,12 +1975,7 @@ app.post('/api/setRoleMaster',function(req,res) {
     try {
 
         var con  =connection.switchDatabase('boon_client')
-
-
-
-        con.query("CALL `setrolemaster` (?)",
-            [req.body.roleName], function (err, result, fields) {
-                console.log(err);
+        con.query("CALL `setrolemaster` (?)",[req.body.roleName], function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to add role name'});
                 } else {
@@ -2012,9 +1993,7 @@ app.post('/api/setRoleMaster',function(req,res) {
 app.get('/api/getHolidaysList/:empId',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
         con.query("CALL `getemployeeholidays` (?)",[req.params.empId], function (err, result, fields) {
-            console.log("getemployeeholidays",err);
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
             }
@@ -2029,11 +2008,7 @@ app.get('/api/getHolidaysList/:empId',function(req,res) {
 app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
-
         con.query("CALL `getleavetypesforadvancedleave` ()",function (err, result, fields) {
-            console.log("tempppresult",result,err)
-
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2049,11 +2024,10 @@ app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
 /**get employe leaves */
 app.get('/api/getemployeeleaves/:empid/:page/:size',function(req,res){
     try{
-         var con  =connection.switchDatabase('boon_client')
-         let id = req.params.empid
-         let page = req.params.page;
-         let size = req.params.size;
-         console.log(id)
+        var con  =connection.switchDatabase('boon_client')
+        let id = req.params.empid
+        let page = req.params.page;
+        let size = req.params.size;
         con.query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -2072,7 +2046,6 @@ app.get('/api/getemployeeleaves/:empid/:page/:size',function(req,res){
 app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
         con.query("CALL `get_employee_leave_balance` (?)",[req.params.empId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -2094,12 +2067,7 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
 app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
-        console.log("tempppresult11111",req.body)
-
-        con.query("CALL `set_advanced_leave_rule_values` (?)",[req.body.leaveid],function (err, result, fields) {
-            console.log("tempppresult",result,err)
-
+        con.query("CALL `set_advanced_leave_rule_values` (?)",[req.body.leaveid],function (err, result, fields) {          
             if (err) {
                 res.send({message: 'Unable to update leave policy', status: false});
             } else {
@@ -2115,10 +2083,8 @@ app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
 /*Get Employee Roles*/
 app.get('/api/getemployeeroles/:empId',function(req,res) {
     try {
-
- var con  =connection.switchDatabase('boon_client')
+        var con  =connection.switchDatabase('boon_client')
         con.query("CALL `getemployeeroles` (?)",[req.params.empId], function (err, result, fields) {
-            console.log("log",result)
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -2135,7 +2101,6 @@ app.get('/api/getemployeeroles/:empId',function(req,res) {
 app.get('/api/getdurationforbackdatedleave',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
-
         con.query("CALL `getdurationforbackdatedleave` ()", function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -2152,8 +2117,7 @@ app.get('/api/getdurationforbackdatedleave',function(req,res) {
 /**Get Duration for back dated leave*/
 app.post('/api/validateleave',function(req,res) {
     try {
-        var con  =connection.switchDatabase('boon_client')
-
+        var con  =connection.switchDatabase('boon_client');
         let id = req.body.empid;
         let fromdate = req.body.fromDate;
         let todate = req.body.toDate;
@@ -2183,8 +2147,7 @@ app.post('/api/validateleave',function(req,res) {
 /**get leave cycle for last month */
 app.post('/api/getleavecyclelastmonth',function(req,res){
     try{
-         var con  =connection.switchDatabase('boon_client')
-
+        var con  =connection.switchDatabase('boon_client');
         con.query("CALL `get_leave_cycle_last_month`()",function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -2201,8 +2164,7 @@ app.post('/api/getleavecyclelastmonth',function(req,res){
 /**set employee leave */
 app.post('/api/setemployeeleave',function(req,res){
     try{
-         var con  =connection.switchDatabase('boon_client')
-
+        var con  =connection.switchDatabase('boon_client');
         let empid = req.body.empid;
         let leavetype = req.body.leaveType;
         let fromdate = req.body.fromDate;
@@ -2222,10 +2184,8 @@ app.post('/api/setemployeeleave',function(req,res){
         let address = 'test';
         var fromhalfdayleave=req.body.fromDateHalf?1:0;
         var tohalfdayleave =req.body.toDateHalf?1:0
-
         // console.log("h",empid,leavetype,fromdate,todate,leavecount,leavereason,leavestatus,contactnumber,email,address)
         con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[null,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null],function(err,result,fields){
-              console.log(err)
               if(err){
                   res.send({status:false})
               }
@@ -2242,8 +2202,7 @@ app.post('/api/setemployeeleave',function(req,res){
 /**Get days to be disabled fromdate */
 app.get('/api/getdaystobedisabledfromdate/:id',function(req,res){
     try{
-         var con  =connection.switchDatabase('boon_client')
-
+        var con  =connection.switchDatabase('boon_client');
         con.query("CALL `getdays_to_be_disabled_for_from_date` (?)",[req.params.id],function(err,result,fields){
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -2261,8 +2220,7 @@ app.get('/api/getdaystobedisabledfromdate/:id',function(req,res){
 /**Get days to be disabled fromdate */
 app.get('/api/getdaystobedisabledtodate/:id',function(req,res){
     try{
-         var con  =connection.switchDatabase('boon_client')
-
+        var con  =connection.switchDatabase('boon_client');
         con.query("CALL `getdays_to_be_disabled_for_to_date` (?)",[req.params.id],function(err,result,fields){
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -2280,8 +2238,7 @@ app.get('/api/getdaystobedisabledtodate/:id',function(req,res){
 /*Get Days to be disabled*/
 app.post('/api/getdaystobedisabled',function(req,res) {
     try {
-        var con  =connection.switchDatabase('boon_client')
-
+        var con  =connection.switchDatabase('boon_client');
         con.query("CALL `getdaystobedisabled` (?)",[req.body.employee_id], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -2299,9 +2256,7 @@ app.post('/api/getdaystobedisabled',function(req,res) {
  * */
 app.post('/api/getoffdayscount',function(req,res) {
     try {
-        var con  =connection.switchDatabase('boon_client')
-
-        console.log(req.body)
+        var con  =connection.switchDatabase('boon_client');
         let id = req.body.empid;
         let leavetypeid = req.body.leaveType;
         let fromDate =new Date(req.body.fromDate);
@@ -2335,11 +2290,8 @@ app.post('/api/getoffdayscount',function(req,res) {
 app.post('/api/designationstatus',checkRecord,function(req,res) {
     try {
         if(req.body.status === 'active'||(!req.body.isexists.result && req.body.isexists.status)) {
-                   var con  =connection.switchDatabase('boon_client')
-;
-     console.log(req.body)
+            var con  =connection.switchDatabase('boon_client');
             con.query("CALL `updatestatus` (?,?,?)", ['designationsmaster', req.body.id, req.body.status], function (err, result, fields) {
-                console.log('err', err, result)
                 if (err) {
                     res.send({status: false, message: 'Unable to update designation status'});
                 } else {
@@ -2365,10 +2317,7 @@ app.post('/api/designationstatus',checkRecord,function(req,res) {
 * */
 app.post('/api/getValidateExistingDetails',function(req,res) {
     try {
-
-        var con  =connection.switchDatabase('boon_client')
-;
-        console.log("resultCheckrecords",req.body.tableName,req.body.columnName,req.body.columnValue)
+        var con  =connection.switchDatabase('boon_client');
         con.query("CALL `checkrecord` (?,?,?)",[req.body.tableName,req.body.columnName,req.body.columnValue], function (err, result, fields) {
             console.log("resultCheckrecords",result)
             if (result && result.length > 0) {
@@ -2384,18 +2333,13 @@ app.post('/api/getValidateExistingDetails',function(req,res) {
     }
 });
 
-
-
 /*Get Holidays years for filter*/
 app.get('/api/getHolidaysYears/:columnName',function(req,res) {
-    console.log("get_holiday_years_or_location",req.params.columnName)
-
     try {
         var con  =connection.switchDatabase('boon_client')
 
 
         con.query("CALL `get_holiday_years_or_locations` (?)",[req.params.columnName], function (err, result, fields) {
-            console.log("get_holiday_years_or_locationerr",err,result)
 
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -2417,7 +2361,6 @@ app.get('/api/getHolidysFilter/:year/:locationId/:page/:size',function(req,res) 
         var con  =connection.switchDatabase('boon_client')
 
         con.query("CALL `getholidaysbyfilter` (?,?,?,?)", [req.params.year ==='null'?null:req.params.year,req.params.locationId ==='null'?null:req.params.locationId,req.params.page,req.params.size],function (err, result, fields) {
-            console.log('getHolidysFilteqqqqqqr',err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2578,7 +2521,6 @@ app.get('/api/getNextLeaveDate/:input',function(req,res) {
         var input = JSON.parse(req.params.input)
         var con  =connection.switchDatabase('boon_client');
         con.query("CALL `get_next_leave_date` (?,?)",[input.id,input.date],function (err, result, fields) {
-           console.log('hello',result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
