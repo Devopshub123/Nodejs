@@ -438,7 +438,7 @@ app.post('/api/setWorkLocation',function(req,res) {
             id:req.body.id,
             branchCode:'',
             address1:req.body.address1?req.body.address1:"",
-            address2:req.body.address2?req.body.address1:"",
+            address2:req.body.address2?req.body.address2:"",
             location:req.body.location?req.body.location:"",
             pincode:req.body.pincode?req.body.pincode:"",
             city:req.body.cityId,
@@ -672,6 +672,7 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
             info.day=days[hDate.getDay()];
 
             info.year=hDate.getFullYear();
+            info.leave_cycle_year =(new Date().getFullYear())
 
             info.location=element.city;
 
