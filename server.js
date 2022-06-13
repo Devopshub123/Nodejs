@@ -2132,8 +2132,9 @@ app.post('/api/validateleave',function(req,res) {
         let tdate = myDateString2;
         var fromhalfday = req.body.fromDateHalf ? 1:0;
         var tohalfday =req.body.toDateHalf ? 1 : 0;
+        var document = req.body.document !== '' ? 1 : 0
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
-        con.query("CALL `validateleave` (?,?,?,?,?,?)",[id,leavetype,fdate,tdate,fromhalfday,tohalfday], function (err, result, fields) {
+        con.query("CALL `validateleave` (?,?,?,?,?,?,?)",[id,leavetype,fdate,tdate,fromhalfday,tohalfday,document], function (err, result, fields) {
             if(result && result.length > 0) {
                 res.send({data: result[0], status: true});
             }else {
@@ -2450,8 +2451,7 @@ app.get('/api/getCompOff/:employeeId',function(req,res) {
 
 app.get('/api/getCompoffCalender/:calender',function(req,res) {
     try {
-        var con  =connection.switchDatabase('boon_client')
-;
+        var con  =connection.switchDatabase('boon_client');
         var calender = JSON.parse(req.params.calender);
         con.query("CALL `getcompoff_calendar` (?)",[calender.employeeId],function (err, result, fields) {
             if (result && result.length > 0) {
@@ -2535,6 +2535,32 @@ app.get('/api/getNextLeaveDate/:input',function(req,res) {
 
     }
 });
+/**supportingdocument for  setleave*/
+app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
+    file=(req.files.file);
+    let cname = req.params.cname
+    let empid = req.params.empid
+    try {
+        // if(req.body.leavetype===3){
+            let foldername = './leavedocuments/'+cname+'/'+empid+"/"
+            if (!fs.existsSync(foldername)) {
+                fs.mkdirSync(foldername)
+            }else {
+                file.mv(path.resolve(__dirname,foldername,1+'.pdf'),function(error){
+                    if(error){
+                        console.log(error);
+                    }
+                    res.send({status:true})
+                })   
+            }
+        // }
+
+    }catch (e) {
+        console.log('uploaddocument :',e)
+
+    }
+});
+
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
