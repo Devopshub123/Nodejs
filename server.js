@@ -1326,8 +1326,8 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
         let actionreason = req.body.actionreason;
         console.log(actionreason)
 
-        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason], function (err, result, fields) {
+        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
                 if (err) {
                     res.send({status: false});
                 } else {
@@ -1363,8 +1363,8 @@ app.post('/api/cancelLeaveRequest',function(req,res) {
         let leavestatus = "cancelled"
         let actionreason = req.body.actionreason;
 
-        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason], function (err, result, fields) {
+        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
                 if (err) {
                     res.send({status: false});
                 } else {
@@ -2132,7 +2132,8 @@ app.post('/api/validateleave',function(req,res) {
         let tdate = myDateString2;
         var fromhalfday = req.body.fromDateHalf ? 1:0;
         var tohalfday =req.body.toDateHalf ? 1 : 0;
-        var document = req.body.document !== '' ? 1 : 0
+        var document = req.body.document ? 1 : 0;
+
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
         con.query("CALL `validateleave` (?,?,?,?,?,?,?)",[id,leavetype,fdate,tdate,fromhalfday,tohalfday,document], function (err, result, fields) {
             if(result && result.length > 0) {
@@ -2167,6 +2168,7 @@ app.post('/api/getleavecyclelastmonth',function(req,res){
 app.post('/api/setemployeeleave',function(req,res){
     try{
         var con  =connection.switchDatabase('boon_client');
+        var id = req.body.id ? req.body.id : null;
         let empid = req.body.empid;
         let leavetype = req.body.leaveType;
         let fromdate = req.body.fromDate;
@@ -2181,18 +2183,17 @@ app.post('/api/setemployeeleave',function(req,res){
         let leavecount = req.body.leavecount
         let leavereason = req.body.reason;
         let leavestatus = "submitted";
-        let contactnumber = req.body.emergencyContact;
+        let contactnumber = req.body.contact;
         let email = req.body.emergencyEmail;
         let address = 'test';
         var fromhalfdayleave=req.body.fromDateHalf?1:0;
         var tohalfdayleave =req.body.toDateHalf?1:0
-        // console.log("h",empid,leavetype,fromdate,todate,leavecount,leavereason,leavestatus,contactnumber,email,address)
-        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[null,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null],function(err,result,fields){
-              if(err){
+        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,null],function(err,result,fields){
+            if(err){
                   res.send({status:false})
               }
               else{
-                res.send({status:true})
+                res.send({status:true,isLeaveUpdated:id?1:0})
 
               }
         })
@@ -2202,10 +2203,11 @@ app.post('/api/setemployeeleave',function(req,res){
     }
 })
 /**Get days to be disabled fromdate */
-app.get('/api/getdaystobedisabledfromdate/:id',function(req,res){
+app.get('/api/getdaystobedisabledfromdate/:id/:leaveId',function(req,res){
     try{
         var con  =connection.switchDatabase('boon_client');
-        con.query("CALL `getdays_to_be_disabled_for_from_date` (?)",[req.params.id],function(err,result,fields){
+        con.query("CALL `getdays_to_be_disabled_for_from_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
+            console.log("hello",err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2220,10 +2222,10 @@ app.get('/api/getdaystobedisabledfromdate/:id',function(req,res){
 })
 
 /**Get days to be disabled fromdate */
-app.get('/api/getdaystobedisabledtodate/:id',function(req,res){
+app.get('/api/getdaystobedisabledtodate/:id/:leaveId',function(req,res){
     try{
         var con  =connection.switchDatabase('boon_client');
-        con.query("CALL `getdays_to_be_disabled_for_to_date` (?)",[req.params.id],function(err,result,fields){
+        con.query("CALL `getdays_to_be_disabled_for_to_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2538,8 +2540,8 @@ app.get('/api/getNextLeaveDate/:input',function(req,res) {
 /**supportingdocument for  setleave*/
 app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
     file=(req.files.file);
-    let cname = req.params.cname
-    let empid = req.params.empid
+    let cname = req.params.cname;
+    let empid = req.params.empid;
     try {
         // if(req.body.leavetype===3){
             let foldername = './leavedocuments/'+cname+'/'+empid+"/"
