@@ -403,7 +403,7 @@ app.put('/api/putDesignation',function(req,res) {
 });
 app.post('/api/updateStatus',checkRecord, function(req,res) {
     try {
-
+         console.log
         if(req.body.status === 'active'||(!req.body.isexists.result && req.body.isexists.status)){
         var con  =connection.switchDatabase('boon_client')
 ;
@@ -1088,8 +1088,10 @@ app.post('/api/setEmployeeMaster',function(req,res) {
             employmenttype: req.body.employmentType,
             dateofjoin: dateOfJoin,
             companylocation: req.body.companyLocation,
-            reportingmanager: req.body.reportingManager,
-            bloodgroup: req.body.bloodGroup,
+            // reportingmanager: req.body.reportingManager,
+       reportingmanager:27,
+
+       bloodgroup: req.body.bloodGroup,
             contactnumber: req.body.contactNumber,
             emergencycontactnumber: req.body.emergencyContactNumber,
             emergencycontactrelation: req.body.emergencyContactRelation,
@@ -2187,8 +2189,11 @@ app.post('/api/setemployeeleave',function(req,res){
         let email = req.body.emergencyEmail;
         let address = 'test';
         var fromhalfdayleave=req.body.fromDateHalf?1:0;
-        var tohalfdayleave =req.body.toDateHalf?1:0
-        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,null],function(err,result,fields){
+        var tohalfdayleave =req.body.toDateHalf?1:0;
+        var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
+        console.log("details",details)
+        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
+            console.log("heloooo1111",err,result)
             if(err){
                   res.send({status:false})
               }
@@ -2563,6 +2568,47 @@ app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
     }
 });
 
+/**get relations for bereavement leave submit*/
+app.get('/api/getEmployeeRelationsForBereavementLeave/:id',function(req,res) {
+
+    try {
+        var con  =connection.switchDatabase('boon_client');
+        con.query("CALL `get_employee_relations_for_bereavement_leave` (?)",[req.params.id],function (err, result, fields) {
+            console.log("errbee1111",err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getEmployeeRelationsForBereavementLeave :',e)
+
+    }
+});
+
+/**Get approved compoffs dates for leave submit*/
+app.get('/api/getApprovedCompoffs/:id',function(req,res) {
+
+    try {
+        var con  =connection.switchDatabase('boon_client');
+        con.query("CALL `get_approved_compoffs` (?)",[req.params.id],function (err, result, fields) {
+            console.log("get_approved_compoffs",err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getApprovedCompoffs :',e)
+
+    }
+});
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
