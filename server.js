@@ -128,7 +128,7 @@ app.post('/api/resetpassword',function(req,res,next){
     let email = req.body.email;
     let password = req.body.newPassword;
     try{
-        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','N'],function(err,result){
+        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'Active','N'],function(err,result){
             if(err){
                 console.log(err)
             }
@@ -157,7 +157,7 @@ app.post('/changePassword',function(req,res){
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             console.log("result",result[0])
             if(result[0]==0){
-                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'active','n'],function(err,result){
+                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'Active','n'],function(err,result){
                     if(err){
                         console.log(err)
                     }
@@ -360,7 +360,7 @@ app.post('/api/setDesignation',function(req,res) {
 
         let infoDesignationMaster={}
         infoDesignationMaster.designation=req.body.designationName;
-        infoDesignationMaster.status = 'active';
+        infoDesignationMaster.status = 'Active';
         var con  =connection.switchDatabase('boon_client')
 
         con.query("CALL `setmastertable` (?,?,?)",['designationsmaster','boon_client',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
@@ -404,7 +404,7 @@ app.put('/api/putDesignation',function(req,res) {
 app.post('/api/updateStatus',checkRecord, function(req,res) {
     try {
          console.log
-        if(req.body.status === 'active'||(!req.body.isexists.result && req.body.isexists.status)){
+        if(req.body.status === 'Active'||(!req.body.isexists.result && req.body.isexists.status)){
         var con  =connection.switchDatabase('boon_client')
 ;
         con.query("CALL `updatestatus` (?,?,?)",['departmentsmaster',req.body.id,req.body.status], function (err, result, fields) {
@@ -419,7 +419,7 @@ app.post('/api/updateStatus',checkRecord, function(req,res) {
         } else if(req.body.isexists.status == false){
             res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
         } else{
-            res.send({status: false, message: "This department have active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again"});
+            res.send({status: false, message: "This department have Active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again"});
         }
 
     }catch (e) {
@@ -446,7 +446,7 @@ app.post('/api/setWorkLocation',function(req,res) {
             country:req.body.country,
             prefix:req.body.prefix?req.body.prefix:"",
             seed:req.body.seed,
-            status:req.body.status?req.body.status:'active'
+            status:req.body.status?req.body.status:'Active'
         }
         console.log('fffff',JSON.stringify(infoLocationsMaster));
         con.query("CALL `setcompanyworklocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
@@ -522,7 +522,7 @@ app.post('/api/getWorkLocation',function(req,res) {
                 //    var resultdata=[];
                 //    var inactive =[];
                 //    for(var i=0;i<data.length;i++){
-                //        if(data[i].status == "active"){
+                //        if(data[i].status == "Active"){
                 //            resultdata.push(data[i]);
                 //        }
                 //        else{
@@ -556,7 +556,7 @@ app.post('/api/getactiveWorkLocation',function(req,res) {
                 var resultdata=[];
                 var inactive =[];
                 for(var i=0;i<data.length;i++){
-                    if(data[i].status == "active"){
+                    if(data[i].status == "Active"){
                         resultdata.push(data[i]);
                     }
                     else{
@@ -587,7 +587,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.deptname=req.body.departmentName;
         info.depthead=null;
         info.headcount=null;
-        info.status='active';
+        info.status='Active';
         console.log("hdbjhfd",info)
         var con  =connection.switchDatabase('boon_client');
         con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','boon_client',JSON.stringify(info)], function (err, result, fields) {
@@ -1326,7 +1326,7 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
         let contactnumber = req.body.contactnumber;
         let email = req.body.contactemail;
         let address = 'test';
-        let leavestatus = "deleted"
+        let leavestatus = "Deleted"
         let actionreason = req.body.actionreason;
         console.log(actionreason)
 
@@ -1364,7 +1364,7 @@ app.post('/api/cancelLeaveRequest',function(req,res) {
         let contactnumber = req.body.contactnumber;
         let email = req.body.contactemail;
         let address = 'test';
-        let leavestatus = "cancelled"
+        let leavestatus = "Cancelled"
         let actionreason = req.body.actionreason;
 
         con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -2188,7 +2188,7 @@ app.post('/api/setemployeeleave',function(req,res){
         let tdate = myDateString2;
         let leavecount = req.body.leavecount
         let leavereason = req.body.reason;
-        let leavestatus = "submitted";
+        let leavestatus = "Submitted";
         let contactnumber = req.body.contact;
         let email = req.body.emergencyEmail;
         let address = 'test';
@@ -2302,7 +2302,7 @@ app.post('/api/getoffdayscount',function(req,res) {
  * */
 app.post('/api/designationstatus',checkRecord,function(req,res) {
     try {
-        if(req.body.status === 'active'||(!req.body.isexists.result && req.body.isexists.status)) {
+        if(req.body.status === 'Active'||(!req.body.isexists.result && req.body.isexists.status)) {
             var con  =connection.switchDatabase('boon_client');
             con.query("CALL `updatestatus` (?,?,?)", ['designationsmaster', req.body.id, req.body.status], function (err, result, fields) {
                 if (err) {
