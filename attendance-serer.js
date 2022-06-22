@@ -406,14 +406,14 @@ app.get('/api/getpendingattendanceregularizations/:employee_id', function (req, 
 app.get('/api/getEmployeesByManagerId/:employee_id', function(req,res){
       try{
           var con=connection.switchDatabase('boon_client');
-          con.query("CALL `get_employees_for_reporting_manager` (?)",[req.params.employee_id]),
+          con.query("CALL `get_employees_for_reporting_manager` (?)",[req.params.employee_id],
           function(err,result,fields){
             if(result && result.length>0){
                 res.send({status:true,data:result[0]})
             }else{
                 res.send({status:false,data:[]});
             }
-          }
+          })
       }catch(e){
         console.log('getEmployeesByManagerId');
       }
