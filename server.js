@@ -793,6 +793,8 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',f
             var con  =connection.switchDatabase('boon_client')
 
             con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
+                console.log("req.params.tableName;",err)
+
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
                         for (let i=0; i<result[0].length;i++){
@@ -1759,7 +1761,7 @@ app.post('/api/setNewLeaveType',function(req,res) {
         let leaveType = req.body.leaveTypeName;
         let leaveColor = req.body.leaveColor;
         let leaveDisplayName = req.body.displayName;
-        var con  =connection.switchDatabase('boonlient')
+        var con  =connection.switchDatabase('boon_client')
 
 console.log('req.params.prefixreq.params.prefixreq.params.prefix',leaveType,leaveColor,leaveDisplayName)
         con.query("CALL `setnewleavetype` (?,?,?)",[leaveType,leaveDisplayName,leaveColor], function (err, result, fields) {
@@ -2070,7 +2072,9 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
 app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
+        console.log("hello",req.body.leaveid)
         con.query("CALL `set_advanced_leave_rule_values` (?)",[req.body.leaveid],function (err, result, fields) {          
+            console.log("kkkk",err,result)
             if (err) {
                 res.send({message: 'Unable to update leave policy', status: false});
             } else {
@@ -2606,6 +2610,35 @@ app.get('/api/getApprovedCompoffs/:id',function(req,res) {
 
     }catch (e) {
         console.log('getApprovedCompoffs :',e)
+
+    }
+});
+
+
+
+
+/*set Designation*/
+app.post('/api/updateLeaveDisplayName',function(req,res) {
+    try {
+        var con  =connection.switchDatabase('boon_client')
+        console.log("hellllconsole.logl",req.body)
+
+        let infoDesignationMaster={}
+        infoDesignationMaster.id = req.body.leaveId;
+        infoDesignationMaster.display_name = req.body.displayName;
+
+        con.query("CALL `updatemastertable` (?,?,?,?)",['lm_leavesmaster','id',req.body.leaveId,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+console.log("helllll",err,result)
+            if (err) {
+                res.send({status: false, message: 'Unable to update designation'});
+            } else {
+                res.send({status: true,message:'Designation updated successfully'})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('setDesignation :',e)
 
     }
 });
