@@ -140,16 +140,16 @@ app.post('/api/resetpassword',function(req,res,next){
     let email = req.body.email;
     let password = req.body.newpassword;
     try{
-        // con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','N'],function(err,result){
-        //     if(err){
-        //         console.log(err)
-        //     }
-        //     else{
-        //         res.send({status: true, message: 'reset password successfully'})
+        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'Active','N'],function(err,result){
+            if(err){
+                console.log(err)
+            }
+            else{
+                res.send({status: true, message: 'reset password successfully'})
 
-
-        //     }
-        // });
+            }
+         
+     });
 
     }
     catch(e){
@@ -170,7 +170,7 @@ app.post('/changePassword',function(req,res){
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             console.log("result",result[0])
             if(result[0]==0){
-                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'active','n'],function(err,result){
+                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'Active','n'],function(err,result){
                     if(err){
                         console.log(err)
                     }
@@ -377,7 +377,7 @@ app.post('/api/setDesignation',function(req,res) {
 
         let infoDesignationMaster={}
         infoDesignationMaster.designation=req.body.designationName;
-        infoDesignationMaster.status = 'active';
+        infoDesignationMaster.status = 'Active';
         var con  =connection.switchDatabase('boon_client')
 
         con.query("CALL `setmastertable` (?,?,?)",['designationsmaster','boon_client',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
@@ -420,8 +420,8 @@ app.put('/api/putDesignation',function(req,res) {
 });
 app.post('/api/updateStatus',checkRecord, function(req,res) {
     try {
-
-        if(req.body.status === 'active'||(!req.body.isexists.result && req.body.isexists.status)){
+         console.log
+        if(req.body.status === 'Active'||(!req.body.isexists.result && req.body.isexists.status)){
         var con  =connection.switchDatabase('boon_client')
 ;
         con.query("CALL `updatestatus` (?,?,?)",['departmentsmaster',req.body.id,req.body.status], function (err, result, fields) {
@@ -436,7 +436,7 @@ app.post('/api/updateStatus',checkRecord, function(req,res) {
         } else if(req.body.isexists.status == false){
             res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
         } else{
-            res.send({status: false, message: "This department have active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again"});
+            res.send({status: false, message: "This department have Active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again"});
         }
 
     }catch (e) {
@@ -463,7 +463,7 @@ app.post('/api/setWorkLocation',function(req,res) {
             country:req.body.country,
             prefix:req.body.prefix?req.body.prefix:"",
             seed:req.body.seed,
-            status:req.body.status?req.body.status:'active'
+            status:req.body.status?req.body.status:'Active'
         }
         console.log('fffff',JSON.stringify(infoLocationsMaster));
         con.query("CALL `setcompanyworklocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
@@ -539,7 +539,7 @@ app.post('/api/getWorkLocation',function(req,res) {
                 //    var resultdata=[];
                 //    var inactive =[];
                 //    for(var i=0;i<data.length;i++){
-                //        if(data[i].status == "active"){
+                //        if(data[i].status == "Active"){
                 //            resultdata.push(data[i]);
                 //        }
                 //        else{
@@ -573,7 +573,7 @@ app.post('/api/getactiveWorkLocation',function(req,res) {
                 var resultdata=[];
                 var inactive =[];
                 for(var i=0;i<data.length;i++){
-                    if(data[i].status == "active"){
+                    if(data[i].status == "Active"){
                         resultdata.push(data[i]);
                     }
                     else{
@@ -604,7 +604,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.deptname=req.body.departmentName;
         info.depthead=null;
         info.headcount=null;
-        info.status='active';
+        info.status='Active';
         console.log("hdbjhfd",info)
         var con  =connection.switchDatabase('boon_client');
         con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','boon_client',JSON.stringify(info)], function (err, result, fields) {
@@ -810,6 +810,8 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',f
             var con  =connection.switchDatabase('boon_client')
 
             con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
+                console.log("req.params.tableName;",err)
+
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
                         for (let i=0; i<result[0].length;i++){
@@ -1105,8 +1107,10 @@ app.post('/api/setEmployeeMaster',function(req,res) {
             employmenttype: req.body.employmentType,
             dateofjoin: dateOfJoin,
             companylocation: req.body.companyLocation,
-            reportingmanager: req.body.reportingManager,
-            bloodgroup: req.body.bloodGroup,
+            // reportingmanager: req.body.reportingManager,
+       reportingmanager:27,
+
+       bloodgroup: req.body.bloodGroup,
             contactnumber: req.body.contactNumber,
             emergencycontactnumber: req.body.emergencyContactNumber,
             emergencycontactrelation: req.body.emergencyContactRelation,
@@ -1339,12 +1343,12 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
         let contactnumber = req.body.contactnumber;
         let email = req.body.contactemail;
         let address = 'test';
-        let leavestatus = "deleted"
+        let leavestatus = "Deleted"
         let actionreason = req.body.actionreason;
         console.log(actionreason)
 
-        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason], function (err, result, fields) {
+        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
                 if (err) {
                     res.send({status: false});
                 } else {
@@ -1377,11 +1381,11 @@ app.post('/api/cancelLeaveRequest',function(req,res) {
         let contactnumber = req.body.contactnumber;
         let email = req.body.contactemail;
         let address = 'test';
-        let leavestatus = "cancelled"
+        let leavestatus = "Cancelled"
         let actionreason = req.body.actionreason;
 
-        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason], function (err, result, fields) {
+        con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
                 if (err) {
                     res.send({status: false});
                 } else {
@@ -1774,7 +1778,7 @@ app.post('/api/setNewLeaveType',function(req,res) {
         let leaveType = req.body.leaveTypeName;
         let leaveColor = req.body.leaveColor;
         let leaveDisplayName = req.body.displayName;
-        var con  =connection.switchDatabase('boonlient')
+        var con  =connection.switchDatabase('boon_client')
 
 console.log('req.params.prefixreq.params.prefixreq.params.prefix',leaveType,leaveColor,leaveDisplayName)
         con.query("CALL `setnewleavetype` (?,?,?)",[leaveType,leaveDisplayName,leaveColor], function (err, result, fields) {
@@ -2085,7 +2089,9 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
 app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
     try {
         var con  =connection.switchDatabase('boon_client')
+        console.log("hello",req.body.leaveid)
         con.query("CALL `set_advanced_leave_rule_values` (?)",[req.body.leaveid],function (err, result, fields) {          
+            console.log("kkkk",err,result)
             if (err) {
                 res.send({message: 'Unable to update leave policy', status: false});
             } else {
@@ -2149,8 +2155,10 @@ app.post('/api/validateleave',function(req,res) {
         let tdate = myDateString2;
         var fromhalfday = req.body.fromDateHalf ? 1:0;
         var tohalfday =req.body.toDateHalf ? 1 : 0;
+        var document = req.body.document ? 1 : 0;
+
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
-        con.query("CALL `validateleave` (?,?,?,?,?,?)",[id,leavetype,fdate,tdate,fromhalfday,tohalfday], function (err, result, fields) {
+        con.query("CALL `validateleave` (?,?,?,?,?,?,?)",[id,leavetype,fdate,tdate,fromhalfday,tohalfday,document], function (err, result, fields) {
             if(result && result.length > 0) {
                 res.send({data: result[0], status: true});
             }else {
@@ -2183,6 +2191,7 @@ app.post('/api/getleavecyclelastmonth',function(req,res){
 app.post('/api/setemployeeleave',function(req,res){
     try{
         var con  =connection.switchDatabase('boon_client');
+        var id = req.body.id ? req.body.id : null;
         let empid = req.body.empid;
         let leavetype = req.body.leaveType;
         let fromdate = req.body.fromDate;
@@ -2196,19 +2205,21 @@ app.post('/api/setemployeeleave',function(req,res){
         let tdate = myDateString2;
         let leavecount = req.body.leavecount
         let leavereason = req.body.reason;
-        let leavestatus = "submitted";
-        let contactnumber = req.body.emergencyContact;
+        let leavestatus = "Submitted";
+        let contactnumber = req.body.contact;
         let email = req.body.emergencyEmail;
         let address = 'test';
         var fromhalfdayleave=req.body.fromDateHalf?1:0;
-        var tohalfdayleave =req.body.toDateHalf?1:0
-        // console.log("h",empid,leavetype,fromdate,todate,leavecount,leavereason,leavestatus,contactnumber,email,address)
-        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[null,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null],function(err,result,fields){
-              if(err){
+        var tohalfdayleave =req.body.toDateHalf?1:0;
+        var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
+        console.log("details",details)
+        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
+            console.log("heloooo1111",err,result)
+            if(err){
                   res.send({status:false})
               }
               else{
-                res.send({status:true})
+                res.send({status:true,isLeaveUpdated:id?1:0})
 
               }
         })
@@ -2218,10 +2229,11 @@ app.post('/api/setemployeeleave',function(req,res){
     }
 })
 /**Get days to be disabled fromdate */
-app.get('/api/getdaystobedisabledfromdate/:id',function(req,res){
+app.get('/api/getdaystobedisabledfromdate/:id/:leaveId',function(req,res){
     try{
         var con  =connection.switchDatabase('boon_client');
-        con.query("CALL `getdays_to_be_disabled_for_from_date` (?)",[req.params.id],function(err,result,fields){
+        con.query("CALL `getdays_to_be_disabled_for_from_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
+            console.log("hello",err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2236,10 +2248,10 @@ app.get('/api/getdaystobedisabledfromdate/:id',function(req,res){
 })
 
 /**Get days to be disabled fromdate */
-app.get('/api/getdaystobedisabledtodate/:id',function(req,res){
+app.get('/api/getdaystobedisabledtodate/:id/:leaveId',function(req,res){
     try{
         var con  =connection.switchDatabase('boon_client');
-        con.query("CALL `getdays_to_be_disabled_for_to_date` (?)",[req.params.id],function(err,result,fields){
+        con.query("CALL `getdays_to_be_disabled_for_to_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2307,7 +2319,7 @@ app.post('/api/getoffdayscount',function(req,res) {
  * */
 app.post('/api/designationstatus',checkRecord,function(req,res) {
     try {
-        if(req.body.status === 'active'||(!req.body.isexists.result && req.body.isexists.status)) {
+        if(req.body.status === 'Active'||(!req.body.isexists.result && req.body.isexists.status)) {
             var con  =connection.switchDatabase('boon_client');
             con.query("CALL `updatestatus` (?,?,?)", ['designationsmaster', req.body.id, req.body.status], function (err, result, fields) {
                 if (err) {
@@ -2467,8 +2479,7 @@ app.get('/api/getCompOff/:employeeId',function(req,res) {
 
 app.get('/api/getCompoffCalender/:calender',function(req,res) {
     try {
-        var con  =connection.switchDatabase('boon_client')
-;
+        var con  =connection.switchDatabase('boon_client');
         var calender = JSON.parse(req.params.calender);
         con.query("CALL `getcompoff_calendar` (?)",[calender.employeeId],function (err, result, fields) {
             if (result && result.length > 0) {
@@ -2553,6 +2564,103 @@ app.get('/api/getNextLeaveDate/:input',function(req,res) {
     }
 });
 
+
+/**supportingdocument for  setleave*/
+app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
+    file=(req.files.file);
+    let cname = req.params.cname;
+    let empid = req.params.empid;
+    try {
+        // if(req.body.leavetype===3){
+            let foldername = './leavedocuments/'+cname+'/'+empid+"/"
+            if (!fs.existsSync(foldername)) {
+                fs.mkdirSync(foldername)
+            }else {
+                file.mv(path.resolve(__dirname,foldername,1+'.pdf'),function(error){
+                    if(error){
+                        console.log(error);
+                    }
+                    res.send({status:true})
+                })   
+            }
+        // }
+
+    }catch (e) {
+        console.log('uploaddocument :',e)
+
+    }
+});
+
+/**get relations for bereavement leave submit*/
+app.get('/api/getEmployeeRelationsForBereavementLeave/:id',function(req,res) {
+
+    try {
+        var con  =connection.switchDatabase('boon_client');
+        con.query("CALL `get_employee_relations_for_bereavement_leave` (?)",[req.params.id],function (err, result, fields) {
+            console.log("errbee1111",err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getEmployeeRelationsForBereavementLeave :',e)
+
+    }
+});
+
+/**Get approved compoffs dates for leave submit*/
+app.get('/api/getApprovedCompoffs/:id',function(req,res) {
+
+    try {
+        var con  =connection.switchDatabase('boon_client');
+        con.query("CALL `get_approved_compoffs` (?)",[req.params.id],function (err, result, fields) {
+            console.log("get_approved_compoffs",err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getApprovedCompoffs :',e)
+
+    }
+});
+
+
+
+
+/*set Designation*/
+app.post('/api/updateLeaveDisplayName',function(req,res) {
+    try {
+        var con  =connection.switchDatabase('boon_client')
+        console.log("hellllconsole.logl",req.body)
+
+        let infoDesignationMaster={}
+        infoDesignationMaster.id = req.body.leaveId;
+        infoDesignationMaster.display_name = req.body.displayName;
+
+        con.query("CALL `updatemastertable` (?,?,?,?)",['lm_leavesmaster','id',req.body.leaveId,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+console.log("helllll",err,result)
+            if (err) {
+                res.send({status: false, message: 'Unable to update designation'});
+            } else {
+                res.send({status: true,message:'Designation updated successfully'})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('setDesignation :',e)
+
+    }
+});
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)
