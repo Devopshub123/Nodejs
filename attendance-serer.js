@@ -418,6 +418,22 @@ app.get('/api/getEmployeesByManagerId/:employee_id', function(req,res){
         console.log('getEmployeesByManagerId');
       }
 });
+app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', function(req,res){
+    try{
+        var con=connection.switchDatabase('boon_client');
+        con.query("CALL `get_manager_on_behalf_of_employee_attendance_regularizations` (?)",[req.params.manager_employee_id],
+        function(err,result,fields){
+          if(result && result.length>0){
+              res.send({status:true,data:result[0]})
+          }else{
+              res.send({status:false,data:[]});
+          }
+        })
+    }catch(e){
+      console.log('getEmployeesByManagerId');
+    }
+});
+// 
 // app
 // .listen(6060, '0.0.0.0', function (err) {
 //     if (err)
