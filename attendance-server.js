@@ -433,6 +433,37 @@ app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', func
       console.log('getEmployeesByManagerId');
     }
 });
+
+/*Set Employee Master*/
+app.post('/api/setEmployeeMaster',function(req,res) {
+    try {
+var con  =connection.switchDatabase('boon_client');
+console.log(req.body)
+
+        // con.query("CALL `setEmployeeMaster` (?)",
+        //     [JSON.stringify(req.body)], function (err, result, fields) {
+        //     console.log("eee",err)
+
+        //         if (err) {
+        //             if(err.code == 'ER_DUP_ENTRY'){
+        //                 var val
+        //                 val = err.sqlMessage.split('entry')[1];
+
+        //                 res.send({status: false, message: val.split('for')[0]+' is already exist in database'});
+        //             }else{
+        //                 res.send({status: false, message: 'Unable to add employee'});
+        //             }
+        //         } else {
+        //             res.send({status: true, message: 'Employee added successfully'})
+        //         }
+        //     });
+        // con.end();
+
+    }catch (e) {
+        console.log('setEmployeeMaster :',e)
+    }
+});
+
 // 
 // app
 // .listen(6060, '0.0.0.0', function (err) {
