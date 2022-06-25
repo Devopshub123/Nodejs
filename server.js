@@ -10,7 +10,7 @@ var algorithm = "aes-256-cbc";
                     // generate 16 bytes of random data
 var initVector = crypto.randomBytes(16);
 var Securitykey = crypto.randomBytes(32);
-var attendance= require('./attendance-serer');
+var attendance= require('./attendance-server');
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -1059,11 +1059,12 @@ app.post('/api/getEmployeeMaster',function(req,res) {
 });
 
 /**getreportingmanagers */
-app.get('/api/getReportingManager',function(req,res){
+app.post('/api/getReportingManager',function(req,res){
     try{
          var con  =connection.switchDatabase('boon_client')
+         console.log(req.body)
 
-        con.query("CALL `getreportingmanagers`()",function (err, result, fields) {
+        con.query("CALL `getreportingmanagers`(?)",[req.body.id],function (err, result, fields) {
             if(err){
                 console.log(err)
             }
