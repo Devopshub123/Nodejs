@@ -29,49 +29,49 @@ app.all("*", function (req, res, next) {
 });
 
 /**verify email for forget password */
-app.get('/api/forgetpassword/:email',function(req,res,next){
+app.get('/api/forgetpassword/:email', function (req, res, next) {
     let email = req.params.email;
     console.log(email)
-    try{
-        var con  =connection.switchDatabase('boon_client')
-            con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
-                let data = result[0][0]
-                if(data === undefined){
-                    res.send({status: false})
-                }
-                else if(data.status=='Active'){
-                    let id = data.id;
-                    // const crypto = require("crypto");
-                    // const algorithm = "aes-256-cbc"; 
-                    // // generate 16 bytes of random data
-                    // const initVector = crypto.randomBytes(16);
-                    // protected data
-                    const message = email ;
-                    // secret key generate 32 bytes of random data
-                    // const Securitykey = crypto.randomBytes(32);
-                    // the cipher function
-                    const cipher = crypto.createCipheriv(algorithm, Securitykey, initVector);
-                    // encrypt the message
-                    // input encoding
-                   // output encoding
-                   let encryptedData = cipher.update(message, "utf-8", "hex");
-                   encryptedData += cipher.final("hex");
-                   console.log("Encrypted message: " + encryptedData);
-                    var transporter = nodemailer.createTransport({
-                        host: "smtp-mail.outlook.com", // hostname
-                        secureConnection: false, // TLS requires secureConnection to be false
-                        port: 587, // port for secure SMTP
-                        tls: {
-                            ciphers:'SSLv3'
-                        },
-                        auth: {
-                            user: 'smattupalli@sreebtech.com',
-                            pass: 'Sree$sreebt'
-                        }
-                    });
-                    // var url = 'http://localhost:6060/api/Resetpassword/'+id+'/'+encryptedData
-                    var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                    var html = `<html>
+    try {
+        var con = connection.switchDatabase('boon_client')
+        con.query('CALL `getemployeestatus`(?)', [email], function (err, result) {
+            let data = result[0][0]
+            if (data === undefined) {
+                res.send({ status: false })
+            }
+            else if (data.status == 'Active') {
+                let id = data.id;
+                // const crypto = require("crypto");
+                // const algorithm = "aes-256-cbc"; 
+                // // generate 16 bytes of random data
+                // const initVector = crypto.randomBytes(16);
+                // protected data
+                const message = email;
+                // secret key generate 32 bytes of random data
+                // const Securitykey = crypto.randomBytes(32);
+                // the cipher function
+                const cipher = crypto.createCipheriv(algorithm, Securitykey, initVector);
+                // encrypt the message
+                // input encoding
+                // output encoding
+                let encryptedData = cipher.update(message, "utf-8", "hex");
+                encryptedData += cipher.final("hex");
+                console.log("Encrypted message: " + encryptedData);
+                var transporter = nodemailer.createTransport({
+                    host: "smtp-mail.outlook.com", // hostname
+                    secureConnection: false, // TLS requires secureConnection to be false
+                    port: 587, // port for secure SMTP
+                    tls: {
+                        ciphers: 'SSLv3'
+                    },
+                    auth: {
+                        user: 'smattupalli@sreebtech.com',
+                        pass: 'Sree$sreebt'
+                    }
+                });
+                // var url = 'http://localhost:6060/api/Resetpassword/'+id+'/'+encryptedData
+                var url = 'http://localhost:6060/api/Resetpassword/' + email + '/' + id
+                var html = `<html>
                     <head>
                     <title>HRMS ResetPassword</title></head>
                     <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
@@ -86,54 +86,54 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
                     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                     </div></body>
                     </html> `;
-                    var mailOptions = {
-                        from: 'smattupalli@sreebtech.com',
-                        to: "rthallapelly@sreebtech.com",
-                        subject: 'Reset Password email',
-                        html:html
-                    };
-                    transporter.sendMail(mailOptions, function(error, info){
-                        if (error) {
-                            console.log(error);
-                            res.send({status: false, message: 'reset password successfully'})
-                        } else {
-                            console.log('Email sent: ' + info.response);
-                            res.send({status: true, message: 'reset password successfully'})
-                        }
-                    });
-                }
+                var mailOptions = {
+                    from: 'smattupalli@sreebtech.com',
+                    to: "rthallapelly@sreebtech.com",
+                    subject: 'Reset Password email',
+                    html: html
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                        res.send({ status: false, message: 'reset password successfully' })
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                        res.send({ status: true, message: 'reset password successfully' })
+                    }
+                });
+            }
         });
     }
-    catch(e){
-        console.log("forgetpassword",e)
+    catch (e) {
+        console.log("forgetpassword", e)
     }
 })
 /**password reset */
-app.get('/api/resetpassword/:email/:id',function(req,res,next){
+app.get('/api/resetpassword/:email/:id', function (req, res, next) {
     let id = req.params.id;
     let email = req.params.email;
     console.log(id)
     console.log(email)
-    
+
     //                 // protected data
     //                 const message = id ;
     //                 // secret key generate 32 bytes of random data
-                    
+
     // encryptedData1 = id;
     // const decipher = crypto.createDecipheriv(algorithm, Securitykey, initVector);
     // let decryptedData = decipher.update(encryptedData1, "hex", "utf-8");
     // console.log()
     // // decryptedData += decipher.final("utf8");
     // console.log("Decrypted message: " + decryptedData);
-    res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
+    res.redirect('http://localhost:4200/ResetPassword/' + email + '/' + id)
 
 
 })
 /**reset password */
-app.post('/api/resetpassword',function(req,res,next){
-    var con  =connection.switchDatabase('boon_client')
+app.post('/api/resetpassword', function (req, res, next) {
+    var con = connection.switchDatabase('boon_client')
     console.log(req.body)
-        const decipher = crypto.createDecipheriv(algorithm, Securitykey, initVector);
+    const decipher = crypto.createDecipheriv(algorithm, Securitykey, initVector);
     let decryptedData = decipher.update(req.body.empid, "hex", "utf-8");
     console.log()
     decryptedData += decipher.final("utf8");
@@ -141,7 +141,7 @@ app.post('/api/resetpassword',function(req,res,next){
     let id = req.body.empid;
     let email = req.body.email;
     let password = req.body.newpassword;
-    try{
+    try {
         // con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','N'],function(err,result){
         //     if(err){
         //         console.log(err)
@@ -154,40 +154,40 @@ app.post('/api/resetpassword',function(req,res,next){
         // });
 
     }
-    catch(e){
-        console.log("resetpassword",e)
+    catch (e) {
+        console.log("resetpassword", e)
     }
 })
 /**Change Password */
-app.post('/changePassword',function(req,res){
-    var con  =connection.switchDatabase('boon_client')
-    console.log("hjhjh",req.body)
+app.post('/changePassword', function (req, res) {
+    var con = connection.switchDatabase('boon_client')
+    console.log("hjhjh", req.body)
 
     let oldpassword = req.body.oldPassword;
     let newpassword = req.body.newPassword;
     let id = req.body.empId;
     let login = req.body.email;
-    try{
-        con.query('CALL `validatelastpasswordmatch` (?,?,?,?)',[id,login,oldpassword,newpassword],function(err,results,next){
+    try {
+        con.query('CALL `validatelastpasswordmatch` (?,?,?,?)', [id, login, oldpassword, newpassword], function (err, results, next) {
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
-            console.log("result",result[0])
-            if(result[0]==0){
-                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'active','n'],function(err,result){
-                    if(err){
+            console.log("result", result[0])
+            if (result[0] == 0) {
+                con.query('CALL `setemployeelogin`(?,?,?,?,?)', [id, login, newpassword, 'active', 'n'], function (err, result) {
+                    if (err) {
                         console.log(err)
                     }
-                    else{
-                        res.send({status: true, result})
+                    else {
+                        res.send({ status: true, result })
 
 
                     }
                 })
 
             }
-            else if(result[0]==-1){
+            else if (result[0] == -1) {
                 res.send(result)
             }
-            else{
+            else {
                 res.send(result)
 
             }
@@ -196,79 +196,79 @@ app.post('/changePassword',function(req,res){
         // con.end();
 
     }
-    catch(e){
-        console.log("changepassword",e)
+    catch (e) {
+        console.log("changepassword", e)
     }
 
 })
 
 
 /**employee login */
-app.post('/api/emp_login',function(req,res,next){
-    var con  =connection.switchDatabase('boon_client')
+app.post('/api/emp_login', function (req, res, next) {
+    var con = connection.switchDatabase('boon_client')
 
-    try{
+    try {
         // let 
         var email = req.body.email;
         var password = req.body.password;
         // console.log(req.body.email)
         // console.log(password)
-        con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
+        con.query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             if (result[0] > 0) {
-                con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
-                    try{
-                        if(results.length>0){
+                con.query('CALL `getemployeeinformation`(?)', [email], function (err, results, next) {
+                    try {
+                        if (results.length > 0) {
                             var result = JSON.parse(results[0][0].result)
                             console.log(result)
-                            res.send({status: true,result})
+                            res.send({ status: true, result })
 
                         }
-                        else{
-                            res.send({status: false,result})
+                        else {
+                            res.send({ status: false, result })
                         }
                     }
-                    catch (e){
-                        console.log("employee_login",e)
+                    catch (e) {
+                        console.log("employee_login", e)
                     }
 
                 })
 
             }
-            else{
-                res.send({status: false,message:"Invalid userName or password"})
+            else {
+                res.send({ status: false, message: "Invalid userName or password" })
             }
 
         });
 
     }
-    catch (e){
-        console.log("employee_login",e)
+    catch (e) {
+        console.log("employee_login", e)
     }
 })
 
 /** Get Shift Detaild By Employee Id 
  * @employee_id Parameter */
- app.get('/api/getemployeeshift/:employee_id',function(req,res){
+app.get('/api/getemployeeshift/:employee_id', function (req, res) {
     console.log(req.params.employee_id);
-   try{
-    var con=connection.switchDatabase('boon_client');
-    con.query("CALL `get_employee_shift` (?)",[req.params.employee_id],function(err,result,fields){
-        console.log(err)
-        if(result){
-            console.log(result)
-            res.send({ data: result[0], status: true });
-        }else{
+    try {
+        var con = connection.switchDatabase('boon_client');
+        con.query("CALL `get_employee_shift` (?)", [req.params.employee_id], function (err, result, fields) {
             console.log(err)
-            res.send({ status: false })
+            if (result) {
+                console.log(result)
+                res.send({ data: result[0], status: true });
+            } else {
+                console.log(err)
+                res.send({ status: false })
 
-        }
-        console.log(err)
-    });
-    con.end();
-   }catch{
-    console.log('get_employee_shift :')
-   }
+            }
+            console.log(err)
+        });
+        con.end();
+    } catch {
+        console.log('get_employee_shift :')
+    }
 });
 
 /**attendance Excel Data insert Method  set_employee_attendance
@@ -312,8 +312,8 @@ app.post('/api/setEmployeeAttendance', function (req, res) {
 app.post('/api/setemployeeattendanceregularization', function (req, res) {
     try {
         var con = connection.switchDatabase('boon_client');
-         con.query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            [null, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate,req.body.todate,
+        con.query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            [null, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
                 req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
                 req.body.approvercomments, req.body.actionby, req.body.status], function (err, result, fields) {
                     if (err) {
@@ -324,7 +324,7 @@ app.post('/api/setemployeeattendanceregularization', function (req, res) {
                     }
                 });
         con.end()
-        
+
     } catch (e) {
         console.log('setemployeeattendanceregularization')
     }
@@ -340,9 +340,9 @@ app.post('/api/setattendanceapprovalstatus', function (req, res) {
     console.log(req.body);
     try {
         var con = connection.switchDatabase('boon_client');
-        con.query("CALL `set_attendance_approval_status` (?,?,?,?)", 
-        [req.body.id, req.body.approvercomments,req.body.actionby, req.body.approvelstatus],
-         function (err, result, fields) {
+        con.query("CALL `set_attendance_approval_status` (?,?,?,?)",
+            [req.body.id, req.body.approvercomments, req.body.actionby, req.body.approvelstatus],
+            function (err, result, fields) {
                 if (err) {
                     res.send({ status: false, message: 'Unable to applied approval request' });
                 } else {
@@ -350,12 +350,12 @@ app.post('/api/setattendanceapprovalstatus', function (req, res) {
                 }
                 console.log(err);
             });
-           
+
         con.end()
     }
     catch {
         console.log('setattendanceapprovalstatus');
-     }
+    }
 
 })
 /**Get employee_attendance_regularization
@@ -363,7 +363,7 @@ app.post('/api/setattendanceapprovalstatus', function (req, res) {
  * **/
 
 app.get('/api/getemployeeattendanceregularization/:employee_id', function (req, res) {
-   
+
     try {
         var con = connection.switchDatabase('boon_client')
 
@@ -403,42 +403,42 @@ app.get('/api/getpendingattendanceregularizations/:employee_id', function (req, 
         console.log('getpendingattendanceregularizations :', e)
     }
 });
-app.get('/api/getEmployeesByManagerId/:employee_id', function(req,res){
-      try{
-          var con=connection.switchDatabase('boon_client');
-          con.query("CALL `get_employees_for_reporting_manager` (?)",[req.params.employee_id],
-          function(err,result,fields){
-            if(result && result.length>0){
-                res.send({status:true,data:result[0]})
-            }else{
-                res.send({status:false,data:[]});
-            }
-          })
-      }catch(e){
+app.get('/api/getEmployeesByManagerId/:employee_id', function (req, res) {
+    try {
+        var con = connection.switchDatabase('boon_client');
+        con.query("CALL `get_employees_for_reporting_manager` (?)", [req.params.employee_id],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
         console.log('getEmployeesByManagerId');
-      }
+    }
 });
-app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', function(req,res){
-    try{
-        var con=connection.switchDatabase('boon_client');
-        con.query("CALL `get_manager_on_behalf_of_employee_attendance_regularizations` (?)",[req.params.manager_employee_id],
-        function(err,result,fields){
-          if(result && result.length>0){
-              res.send({status:true,data:result[0]})
-          }else{
-              res.send({status:false,data:[]});
-          }
-        })
-    }catch(e){
-      console.log('getEmployeesByManagerId');
+app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', function (req, res) {
+    try {
+        var con = connection.switchDatabase('boon_client');
+        con.query("CALL `get_manager_on_behalf_of_employee_attendance_regularizations` (?)", [req.params.manager_employee_id],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('getEmployeesByManagerId');
     }
 });
 
 /*Set Employee Master*/
-app.post('/api/setEmployeeMaster',function(req,res) {
+app.post('/api/setEmployeeMaster', function (req, res) {
     try {
-var con  =connection.switchDatabase('boon_client');
-console.log(req.body)
+        var con = connection.switchDatabase('boon_client');
+        console.log(req.body)
 
         // con.query("CALL `setEmployeeMaster` (?)",
         //     [JSON.stringify(req.body)], function (err, result, fields) {
@@ -459,8 +459,26 @@ console.log(req.body)
         //     });
         // con.end();
 
-    }catch (e) {
-        console.log('setEmployeeMaster :',e)
+    } catch (e) {
+        console.log('setEmployeeMaster :', e)
+    }
+});
+/**
+ *@param manager_employee_id *@param employee_id *@param date */
+
+app.post('/api/getemployeeattendancedashboard', function (req, res) {
+    try {
+        var con = connection.switchDatabase('boon_client');
+        con.query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id,req.body.employee_id,req.body.date],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('getemployeeattendancedashboard');
     }
 });
 

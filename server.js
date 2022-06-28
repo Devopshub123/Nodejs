@@ -10,7 +10,7 @@ var algorithm = "aes-256-cbc";
                     // generate 16 bytes of random data
 var initVector = crypto.randomBytes(16);
 var Securitykey = crypto.randomBytes(32);
-var attendance= require('./attendance-serer');
+var attendance= require('./attendance-server');
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
