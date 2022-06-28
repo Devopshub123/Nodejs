@@ -70,20 +70,20 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
                     });
                     // var url = 'http://localhost:6060/api/Resetpassword/'+id+'/'+encryptedData
                     var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                    var html = `<html>
-                    <head>
-                    <title>HRMS ResetPassword</title></head>
-                    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-                    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-                    <p style="color:black">Hello,</p>
-                    <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
-                    <p style="color:black"> Click the link below to Reset your password</p>
-                    <p style="color:black"> <a href="${url}" >${url} </a></p>
-                    <p style="color:black">Thank You!</p>
-                    <p style="color:black">HRMS Team</p>
-                    <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-                    </div></body>
-                    </html> `;
+                    // var html = `<html>
+                    // <head>
+                    // <title>HRMS ResetPassword</title></head>
+                    // <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+                    // <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+                    // <p style="color:black">Hello,</p>
+                    // <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
+                    // <p style="color:black"> Click the link below to Reset your password</p>
+                    // <p style="color:black"> <a href="${url}" >${url} </a></p>
+                    // <p style="color:black">Thank You!</p>
+                    // <p style="color:black">HRMS Team</p>
+                    // <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+                    // </div></body>
+                    // </html> `;
                     var mailOptions = {
                         from: 'smattupalli@sreebtech.com',
                         to: "rthallapelly@sreebtech.com",
@@ -1059,11 +1059,12 @@ app.post('/api/getEmployeeMaster',function(req,res) {
 });
 
 /**getreportingmanagers */
-app.get('/api/getReportingManager',function(req,res){
+app.post('/api/getReportingManager',function(req,res){
     try{
          var con  =connection.switchDatabase('boon_client')
+         console.log(req.body)
 
-        con.query("CALL `getreportingmanagers`()",function (err, result, fields) {
+        con.query("CALL `getreportingmanagers`(?)",[req.body.id],function (err, result, fields) {
             if(err){
                 console.log(err)
             }
@@ -1345,10 +1346,9 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
         let address = 'test';
         let leavestatus = "Deleted"
         let actionreason = req.body.actionreason;
-        console.log(actionreason)
-
+        let workedDate = req.body.worked_date?req.body.worked_date:null;
         con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,workedDate], function (err, result, fields) {
                 if (err) {
                     res.send({status: false});
                 } else {
@@ -2212,7 +2212,6 @@ app.post('/api/setemployeeleave',function(req,res){
         var fromhalfdayleave=req.body.fromDateHalf?1:0;
         var tohalfdayleave =req.body.toDateHalf?1:0;
         var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
-        console.log("details",details)
         con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
             console.log("heloooo1111",err,result)
             if(err){
@@ -2647,7 +2646,6 @@ app.post('/api/updateLeaveDisplayName',function(req,res) {
         infoDesignationMaster.display_name = req.body.displayName;
 
         con.query("CALL `updatemastertable` (?,?,?,?)",['lm_leavesmaster','id',req.body.leaveId,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
-console.log("helllll",err,result)
             if (err) {
                 res.send({status: false, message: 'Unable to update designation'});
             } else {
@@ -2661,10 +2659,33 @@ console.log("helllll",err,result)
 
     }
 });
+
+/**Get approved compoffs dates for leave submit*/
+app.get('/api/getMaxCountPerTermValue/:id',function(req,res) {
+
+    try {
+        var con  =connection.switchDatabase('boon_client');
+        con.query("CALL `get_max_count_per_term_value` (?)",[req.params.id],function (err, result, fields) {
+            console.log("get_max_count_per_term_value",err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getMaxCountPerTermValue :',e)
+
+    }
+});
+
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
         console.log('Server Started at : http://localhost:6060');
-})
+});
+
