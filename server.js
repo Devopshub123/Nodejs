@@ -1328,10 +1328,9 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
         let address = 'test';
         let leavestatus = "Deleted"
         let actionreason = req.body.actionreason;
-        console.log(actionreason)
-
+        let workedDate = req.body.worked_date?req.body.worked_date:null;
         con.query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
+        [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,workedDate], function (err, result, fields) {
                 if (err) {
                     res.send({status: false});
                 } else {
@@ -2195,7 +2194,6 @@ app.post('/api/setemployeeleave',function(req,res){
         var fromhalfdayleave=req.body.fromDateHalf?1:0;
         var tohalfdayleave =req.body.toDateHalf?1:0;
         var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
-        console.log("details",details)
         con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
             console.log("heloooo1111",err,result)
             if(err){
@@ -2628,7 +2626,6 @@ app.post('/api/updateLeaveDisplayName',function(req,res) {
         infoDesignationMaster.display_name = req.body.displayName;
 
         con.query("CALL `updatemastertable` (?,?,?,?)",['lm_leavesmaster','id',req.body.leaveId,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
-console.log("helllll",err,result)
             if (err) {
                 res.send({status: false, message: 'Unable to update designation'});
             } else {
@@ -2642,9 +2639,32 @@ console.log("helllll",err,result)
 
     }
 });
+
+/**Get approved compoffs dates for leave submit*/
+app.get('/api/getMaxCountPerTermValue/:id',function(req,res) {
+
+    try {
+        var con  =connection.switchDatabase('boon_client');
+        con.query("CALL `get_max_count_per_term_value` (?)",[req.params.id],function (err, result, fields) {
+            console.log("get_max_count_per_term_value",err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getMaxCountPerTermValue :',e)
+
+    }
+});
+
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
         console.log('Server Started at : http://localhost:6060');
-})
+});
+
