@@ -5,6 +5,12 @@ var fs = require('fs');
 var path = require('path');
 var fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer')
+var crypto = require("crypto");
+var algorithm = "aes-256-cbc"; 
+                    // generate 16 bytes of random data
+var initVector = crypto.randomBytes(16);
+var Securitykey = crypto.randomBytes(32);
+var attendance= require('./attendance-server');
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -24,87 +30,77 @@ app.all("*", function (req, res, next) {
 /**verify email for forget password */
 app.get('/api/forgetpassword/:email',function(req,res,next){
     let email = req.params.email;
+    console.log(email)
     try{
-        /*    con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
-                if(err){
-                    console.log(err)
-
+        var con  =connection.switchDatabase('boon_client')
+            con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
+                let data = result[0][0]
+                if(data === undefined){
+                    res.send({status: false})
                 }
-                else{
-                    let email = 'rthallapelly@sreebtech.com'
-                    let id = 22
-            var transporter = nodemailer.createTransport({
-                host: "smtp-mail.outlook.com", // hostname
-                secureConnection: false, // TLS requires secureConnection to be false
-                port: 587, // port for secure SMTP
-                tls: {
-                    ciphers:'SSLv3'
-                },
-                auth: {
-                    user: 'smattupalli@sreebtech.com',
-                    pass: 'Sree$sreebt'
+                else if(data.status=='Active'){
+                    let id = data.id;
+                    // const crypto = require("crypto");
+                    // const algorithm = "aes-256-cbc"; 
+                    // // generate 16 bytes of random data
+                    // const initVector = crypto.randomBytes(16);
+                    // protected data
+                    const message = email ;
+                    // secret key generate 32 bytes of random data
+                    // const Securitykey = crypto.randomBytes(32);
+                    // the cipher function
+                    const cipher = crypto.createCipheriv(algorithm, Securitykey, initVector);
+                    // encrypt the message
+                    // input encoding
+                   // output encoding
+                   let encryptedData = cipher.update(message, "utf-8", "hex");
+                   encryptedData += cipher.final("hex");
+                   console.log("Encrypted message: " + encryptedData);
+                    var transporter = nodemailer.createTransport({
+                        host: "smtp-mail.outlook.com", // hostname
+                        secureConnection: false, // TLS requires secureConnection to be false
+                        port: 587, // port for secure SMTP
+                        tls: {
+                            ciphers:'SSLv3'
+                        },
+                        auth: {
+                            user: 'smattupalli@sreebtech.com',
+                            pass: 'Sree$sreebt'
+                        }
+                    });
+                    // var url = 'http://localhost:6060/api/Resetpassword/'+id+'/'+encryptedData
+                    var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+                    // var html = `<html>
+                    // <head>
+                    // <title>HRMS ResetPassword</title></head>
+                    // <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+                    // <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+                    // <p style="color:black">Hello,</p>
+                    // <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
+                    // <p style="color:black"> Click the link below to Reset your password</p>
+                    // <p style="color:black"> <a href="${url}" >${url} </a></p>
+                    // <p style="color:black">Thank You!</p>
+                    // <p style="color:black">HRMS Team</p>
+                    // <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+                    // </div></body>
+                    // </html> `;
+                    var mailOptions = {
+                        from: 'smattupalli@sreebtech.com',
+                        to: "rthallapelly@sreebtech.com",
+                        subject: 'Reset Password email',
+                        html:html
+                    };
+                    transporter.sendMail(mailOptions, function(error, info){
+                        if (error) {
+                            console.log(error);
+                            res.send({status: false, message: 'reset password successfully'})
+                        } else {
+                            console.log('Email sent: ' + info.response);
+                            res.send({status: true, message: 'reset password successfully'})
+                        }
+                    });
                 }
-            });
-            var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-            var html = `<html>
-
-
-            <head>
-
-              <title>HRMS ResetPassword</title>
-
-            </head>
-
-            <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-
-
-              <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-
-                <p style="color:black">Hello,</p>
-
-                <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
-
-                <p style="color:black"> Click the link below to Reset your password</p>
-
-                <p style="color:black"> <a href="${url}" >${url} </a>
-
-          </p>
-
-
-
-                <p style="color:black">Thank You!</p>
-
-                <p style="color:black">HRMS Team</p>
-
-
-                <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-
-              </div>
-
-            </body>
-
-          </html> `;
-
-            var mailOptions = {
-                from: 'smattupalli@sreebtech.com',
-                to: "rthallapelly@sreebtech.com",
-                subject: 'Reset Password email',
-                html:html
-            };
-
-            transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log(error);
-                    res.send({status: false, message: 'reset password successfully'})
-                } else {
-                    console.log('Email sent: ' + info.response);
-                    res.send({status: true, message: 'reset password successfully'})
-                }
-            });
-                }
-            }) */
-
-
+        });
     }
     catch(e){
         console.log("forgetpassword",e)
@@ -116,6 +112,17 @@ app.get('/api/resetpassword/:email/:id',function(req,res,next){
     let email = req.params.email;
     console.log(id)
     console.log(email)
+    
+    //                 // protected data
+    //                 const message = id ;
+    //                 // secret key generate 32 bytes of random data
+                    
+    // encryptedData1 = id;
+    // const decipher = crypto.createDecipheriv(algorithm, Securitykey, initVector);
+    // let decryptedData = decipher.update(encryptedData1, "hex", "utf-8");
+    // console.log()
+    // // decryptedData += decipher.final("utf8");
+    // console.log("Decrypted message: " + decryptedData);
     res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
 
 
@@ -123,10 +130,15 @@ app.get('/api/resetpassword/:email/:id',function(req,res,next){
 /**reset password */
 app.post('/api/resetpassword',function(req,res,next){
     var con  =connection.switchDatabase('boon_client')
-
-    let id = req.body.empId;
+    console.log(req.body)
+        const decipher = crypto.createDecipheriv(algorithm, Securitykey, initVector);
+    let decryptedData = decipher.update(req.body.empid, "hex", "utf-8");
+    console.log()
+    decryptedData += decipher.final("utf8");
+    console.log(decryptedData)
+    let id = req.body.empid;
     let email = req.body.email;
-    let password = req.body.newPassword;
+    let password = req.body.newpassword;
     try{
         con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'Active','N'],function(err,result){
             if(err){
@@ -135,9 +147,9 @@ app.post('/api/resetpassword',function(req,res,next){
             else{
                 res.send({status: true, message: 'reset password successfully'})
 
-
             }
-        });
+         
+     });
 
     }
     catch(e){
@@ -147,6 +159,7 @@ app.post('/api/resetpassword',function(req,res,next){
 /**Change Password */
 app.post('/changePassword',function(req,res){
     var con  =connection.switchDatabase('boon_client')
+    console.log("hjhjh",req.body)
 
     let oldpassword = req.body.oldPassword;
     let newpassword = req.body.newPassword;
@@ -189,12 +202,15 @@ app.post('/changePassword',function(req,res){
 
 
 /**employee login */
-app.get('/api/emp_login/:email/:password',function(req,res,next){
+app.post('/api/emp_login',function(req,res,next){
     var con  =connection.switchDatabase('boon_client')
 
     try{
-        var email = req.params.email;
-        var password = req.params.password;
+        // let 
+        var email = req.body.email;
+        var password = req.body.password;
+        // console.log(req.body.email)
+        // console.log(password)
         con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             if (result[0] > 0) {
@@ -202,6 +218,7 @@ app.get('/api/emp_login/:email/:password',function(req,res,next){
                     try{
                         if(results.length>0){
                             var result = JSON.parse(results[0][0].result)
+                            console.log(result)
                             res.send({status: true,result})
 
                         }
@@ -1042,11 +1059,12 @@ app.post('/api/getEmployeeMaster',function(req,res) {
 });
 
 /**getreportingmanagers */
-app.get('/api/getReportingManager',function(req,res){
+app.post('/api/getReportingManager',function(req,res){
     try{
          var con  =connection.switchDatabase('boon_client')
+         console.log(req.body)
 
-        con.query("CALL `getreportingmanagers`()",function (err, result, fields) {
+        con.query("CALL `getreportingmanagers`(?)",[req.body.id],function (err, result, fields) {
             if(err){
                 console.log(err)
             }
@@ -2544,6 +2562,8 @@ app.get('/api/getNextLeaveDate/:input',function(req,res) {
 
     }
 });
+
+
 /**supportingdocument for  setleave*/
 app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
     file=(req.files.file);
@@ -2661,6 +2681,7 @@ app.get('/api/getMaxCountPerTermValue/:id',function(req,res) {
     }
 });
 
+app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
