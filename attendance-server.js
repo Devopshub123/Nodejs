@@ -474,7 +474,7 @@ app.post('/api/getemployeeattendancedashboard', function (req, res) {
                 if (result && result.length > 0) {
                     res.send({ status: true, data: result[0] })
                 } else {
-                    res.send({ status: false, data: [] });
+                    res.send({ status: false, data:result.sqlMessage });
                 }
             })
     } catch (e) {
