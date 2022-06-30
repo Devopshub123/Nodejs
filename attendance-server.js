@@ -169,7 +169,7 @@ app.post('/changePassword', function (req, res) {
     let login = req.body.email;
     try {
         con.query('CALL `validatelastpasswordmatch` (?,?,?,?)', [id, login, oldpassword, newpassword], function (err, results, next) {
-            var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+            var result = Object.values(JSON.parse(JSON.stringify(results[0])))
             console.log("result", result[0])
             if (result[0] == 0) {
                 con.query('CALL `setemployeelogin`(?,?,?,?,?)', [id, login, newpassword, 'active', 'n'], function (err, result) {
@@ -214,12 +214,12 @@ app.post('/api/emp_login', function (req, res, next) {
         // console.log(req.body.email)
         // console.log(password)
         con.query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
-            var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+            var result = Object.values(JSON.parse(JSON.stringify(results[0])))
             if (result[0] > 0) {
                 con.query('CALL `getemployeeinformation`(?)', [email], function (err, results, next) {
                     try {
                         if (results.length > 0) {
-                            var result = JSON.parse(results[0][0].result)
+                            var result = JSON.parse(results[0].result)
                             console.log(result)
                             res.send({ status: true, result })
 
@@ -281,7 +281,7 @@ app.post('/api/setEmployeeAttendance', function (req, res) {
         console.log("gg", typeof req.body)
         con.query("CALL `set_employee_attendance` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
-                console.log("DFF", err, result)
+                console.log("excel", err, result)
                 if (err) {
                     res.send({ status: false, message: 'Unable to upload Data' });
                 } else {
@@ -320,7 +320,7 @@ app.post('/api/setemployeeattendanceregularization', function (req, res) {
                         console.log(err);
                         res.send({ status: false, message: 'Unable to applied attendance request' });
                     } else {
-                        res.send({ status: true, message: 'Attendance request applied successfully' })
+                        res.send({ status: true, message: 'Attendance request approved successfully' })
                     }
                 });
         con.end()
@@ -390,11 +390,13 @@ app.get('/api/getpendingattendanceregularizations/:employee_id', function (req, 
     try {
         var con = connection.switchDatabase('boon_client')
         con.query("CALL `get_pending_attendance_regularizations` (?)", [req.params.employee_id], function (err, result, fields) {
+         
             if (result && result.length > 0) {
+                console.log(result)
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
-            }
+            } 
         });
         console.log(result);
         con.end();
@@ -471,14 +473,34 @@ app.post('/api/getemployeeattendancedashboard', function (req, res) {
         var con = connection.switchDatabase('boon_client');
         con.query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id,req.body.employee_id,req.body.date],
             function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data:result.sqlMessage });
+                if (err){
+                    res.send({ status: false, data:err.sqlMessage });
+                }
+                 else {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    }   
                 }
             })
     } catch (e) {
         console.log('getemployeeattendancedashboard');
+    }
+});
+/*Get Role Screen Functionalities*/
+app.post('/api/getrolescreenfunctionalities',function(req,res) {
+    try {
+        var con  =connection.switchDatabase('boon_client')
+        con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.body.empid,req.body.moduleid], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
     }
 });
 
