@@ -612,53 +612,23 @@ app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', func
 
 /*Get Role Screen Functionalities*/
 app.post('/api/getrolescreenfunctionalities',function(req,res) {
-    try {
-        var con  =connection.switchDatabase('boon_client')
-        con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.body.empid,req.body.moduleid], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-          } else {
-                res.send({status: false})
-            }
-        });
-        con.end();
+ try {
+ var con  =connection.switchDatabase('boon_client')
+ con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.body.empid,req.body.moduleid], function (err, result, fields) {
+ if (result && result.length > 0) {
+ res.send({data: result[0], status: true});
+ } else {
+res.send({status: false})
+ }
+ });
+ con.end();
 
-    }catch (e) {
-        console.log('getscreenfunctionalitiesmaster :',e)
-  }
+ }catch (e) {
+ console.log('getscreenfunctionalitiesmaster :',e)
+}
 });
 
 
-// app.post('/api/getrolescreenfunctionalities/:empId/:moduleId', function (req, res) {
-//     try {
-//         var con = connection.switchDatabase('boon_client');
-//         con.query("CALL `getrolescreenfunctionalities` (?,?)", [req.params.empId,req.params.moduleId],
-
-//             function (err, result, fields) {
-
-//                 console.log("result",result,err)
-
-
-
-//                 if (result && result.length > 0) {
-
-//                     res.send({ status: true, data: result[0] })
-
-//                 } else {
-
-//                     res.send({ status: false, data: [] });
-
-//                 }
-
-//             })
-
-//     } catch (e) {
-
-//         console.log('getemployeeattendancedashboard');
-
-//     }
-
-// });
 
 /*Set Employee Master*/
 app.post('/api/setEmployeeMaster', function (req, res) {
