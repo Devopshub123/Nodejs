@@ -1,30 +1,17 @@
 var mysql = require('mysql');
 // /*Switching database connection*/
-function switchDatabase(domain) {
-    if (domain) {
+function switchDatabase() {
         return mysql.createConnection({
             host: "192.168.1.78",
             user: "boon_client_user",
             port: 3306,
             password: "Client&*123",
-            database: domain,
+            database: 'boon_client',
             dateStrings: true,
             multipleStatements: true
 
         });
-
-    } else {
-        return mysql.createConnection({
-            host: "192.168.1.78",
-            user: "boon_client_user",
-            port: 3306,
-            password: "Client&*123",
-            database: "boon_client",
-            dateStrings: true,
-            multipleStatements: true
-        });
-
-    }
+    
 }
 
 // every five hours database will be hit.this is for continous connection
