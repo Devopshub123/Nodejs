@@ -247,17 +247,18 @@ app.post('/api/emp_login',function(req,res,next){
 
 /*Set comapny information*/
 app.post('/api/setCompanyInformation',function(req,res) {
+    console.log(req.body)
     
     let companyInformation={}
-    companyInformation.companyname=req.body.fullCompanyName;
-    companyInformation.companywebsite = req.body.companyWebsite;
-    companyInformation.primarycontactnumber=req.body.primaryContact;
-    companyInformation.primarycontactemail=req.body.primaryContactEmail;
-    companyInformation.address1=req.body.address;
-    companyInformation.address2=req.body.addressOne?req.body.addressOne:'';
-    companyInformation.country = req.body.countryId;
-    companyInformation.state = req.body.stateId;
-    companyInformation.city = req.body.cityId;
+    companyInformation.companyname=req.body.companyname;
+    companyInformation.companywebsite = req.body.companywebsite;
+    companyInformation.primarycontactnumber=req.body.primarycontactnumber;
+    companyInformation.primarycontactemail=req.body.primarycontactemail;
+    companyInformation.address1=req.body.address1;
+    companyInformation.address2=req.body.address2?req.body.address2:'';
+    companyInformation.country = req.body.country;
+    companyInformation.state = req.body.state;
+    companyInformation.city = req.body.city;
     companyInformation.pincode=req.body.pincode;
     try {
         con.query("CALL `setmastertable` (?,?,?)",['companyinformation','nandyala_hospitals',JSON.stringify(companyInformation)]
@@ -281,19 +282,19 @@ app.put('/api/putCompanyInformation',function(req,res) {
     
     try {
         let companyInformation={}
-        companyInformation.CompanyName=req.body.fullCompanyName;
-        companyInformation.CompanyWebsite = req.body.companyWebsite;
-        companyInformation.PrimaryContactNumber=req.body.primaryContact;
-        companyInformation.PrimaryContactEmail=req.body.primaryContactEmail;
-        companyInformation.Address1=req.body.address;
-        companyInformation.Address2=req.body.addressOne?req.body.addressOne:" ";
-        companyInformation.Country = req.body.countryId;
-        companyInformation.State = req.body.stateId;
-        companyInformation.City = req.body.cityId;
+        companyInformation.CompanyName=req.body.companyname;
+        companyInformation.CompanyWebsite = req.body.companywebsite;
+        companyInformation.PrimaryContactNumber=req.body.primarycontactnumber;
+        companyInformation.PrimaryContactEmail=req.body.primarycontactemail;
+        companyInformation.Address1=req.body.address1;
+        companyInformation.Address2=req.body.address2?req.body.address2:" ";
+        companyInformation.Country = req.body.country;
+        companyInformation.State = req.body.state;
+        companyInformation.City = req.body.city;
         companyInformation.Pincode=req.body.pincode;
         
 
-        con.query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.Id,JSON.stringify(companyInformation)], function (err, result, fields) {
+        con.query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.id,JSON.stringify(companyInformation)], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to update company information'});
             } else {
