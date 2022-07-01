@@ -479,6 +479,26 @@ app.post('/api/getemployeeattendancedashboard', function (req, res) {
     }
 });
 
+
+/*Get Role Screen Functionalities*/
+app.post('/api/getrolescreenfunctionalities',function(req,res) {
+    try {
+        var con  =connection.switchDatabase('boon_client')
+        con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.body.empid,req.body.moduleid], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
+    }
+});
+
+
 // 
 // app
 // .listen(6060, '0.0.0.0', function (err) {
