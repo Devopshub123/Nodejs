@@ -28,6 +28,185 @@ app.all("*", function (req, res, next) {
     return next();
 });
 
+// /*Get Master table*/
+app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',function(req,res) {
+    try {
+       
+        var tName = req.params.tableName;
+        if(req.params.status=="null"){
+
+            console.log("req.params.tableName;",tName,req.params.status)
+            
+
+            con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
+                console.log("req.params.tableName;",err)
+
+                if (result && result.length > 0) {
+                    if(tName == 'holidaysmaster'){
+                        for (let i=0; i<result[0].length;i++){
+                            let hDate = (new Date(result[0][i].Date));
+                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                        }
+                        res.send({data: result[0], status: true});
+
+
+                    }else {
+                        // console.log("req.params.tableName; ",result )
+
+                        res.send({data: result[0], status: true});
+                    }
+                } else {
+                    res.send({status: false})
+                }
+            });
+            
+        }
+        else{
+            ;
+            con.query("CALL `getmastertable` (?,?,?,?)",[tName,req.params.status,req.params.page,req.params.size], function (err, result, fields) {
+                // console.log("ff",err,result);
+                if (result && result.length > 0) {
+                    if(tName == 'holidaysmaster'){
+                        for (let i=0; i<result[0].length;i++){
+                            let hDate = (new Date(result[0][i].Date));
+                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                        }
+                        res.send({data: result[0], status: true});
+
+
+                    }else {
+                        // console.log("req.params.tableName; ",result )
+
+                        res.send({data: result[0], status: true});
+                    }
+                } else {
+                    res.send({status: false})
+                }
+            });
+            
+
+
+        }
+    }catch (e) {
+        console.log('getMastertable :',e)
+
+    }
+});
+/*set Designation*/
+app.post('/api/setDesignation',function(req,res) {
+    try {
+        // 
+        console.log(req.body)
+
+        let infoDesignationMaster={}
+        infoDesignationMaster.designation=req.body.designationName;
+        infoDesignationMaster.status = 'Active';
+        
+
+        con.query("CALL `setmastertable` (?,?,?)",['designationsmaster','nandyala_hospitals',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+           console.log(err)
+            if (err) {
+                res.send({status: false, message: 'Unable to insert designation'});
+            } else {
+                res.send({status: true,message:'Designation added successfully'})
+            }
+        });
+        
+
+    }catch (e) {
+        console.log('setDesignation :',e)
+
+    }
+});
+/**Get All Employees List */
+
+app.get('/api/getallemployeeslist',function(req,res){
+
+    try{
+
+        var con = connection.switchDatabase('boon_client');
+
+        con.query("CALL `get_all_employees_list`",
+
+            function (err, result, fields) {
+
+                console.log("result",result,err)
+
+
+
+                if (result && result.length > 0) {
+
+                    res.send({ status: true, data: result[0] })
+
+                } else {
+
+                    res.send({ status: false, data: [] });
+
+                }
+
+            })
+
+    }catch(e){
+
+        console.log('getAllEmployees');
+
+    }
+
+});
+/*Set Employee Master*/
+app.post('/api/setEmployeeMaster',function(req,res) {
+    try {
+var con  =connection.switchDatabase('boon_client');
+console.log(req.body)
+
+        con.query("CALL `setemployeemaster` (?)",
+            [JSON.stringify(req.body)], function (err, result, fields) {
+            console.log("eee",err)
+
+                if (err) {
+                    if(err.code == 'ER_DUP_ENTRY'){
+                        var val
+                        val = err.sqlMessage.split('entry')[1];
+
+                        res.send({status: false, message: val.split('for')[0]+' is already exist in database'});
+                    }else{
+                        res.send({status: false, message: 'Unable to add employee'});
+                    }
+                } else {
+                    res.send({status: true, message: 'Employee added successfully'})
+                }
+            });
+        con.end();
+
+    }catch (e) {
+        console.log('setEmployeeMaster :',e)
+    }
+});
+/*set Designation*/
+app.put('/api/putDesignation',function(req,res) {
+    try {
+        
+
+        let infoDesignationMaster={}
+        infoDesignationMaster.designation=req.body.name;
+        infoDesignationMaster.status = req.body.status;
+
+        con.query("CALL `updatemastertable` (?,?,?,?)",['designationsmaster','id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+
+            if (err) {
+                res.send({status: false, message: 'Unable to update designation'});
+            } else {
+                res.send({status: true,message:'Designation updated successfully'})
+            }
+        });
+        
+
+    }catch (e) {
+        console.log('setDesignation :',e)
+
+    }
+});
+
 /**verify email for forget password */
 app.get('/api/forgetpassword/:email', function (req, res, next) {
     let email = req.params.email;
@@ -431,6 +610,56 @@ app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', func
     }
 });
 
+/*Get Role Screen Functionalities*/
+app.post('/api/getrolescreenfunctionalities',function(req,res) {
+    try {
+        var con  =connection.switchDatabase('boon_client')
+        con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.body.empid,req.body.moduleid], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+          } else {
+                res.send({status: false})
+            }
+        });
+        con.end();
+
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
+  }
+});
+
+
+// app.post('/api/getrolescreenfunctionalities/:empId/:moduleId', function (req, res) {
+//     try {
+//         var con = connection.switchDatabase('boon_client');
+//         con.query("CALL `getrolescreenfunctionalities` (?,?)", [req.params.empId,req.params.moduleId],
+
+//             function (err, result, fields) {
+
+//                 console.log("result",result,err)
+
+
+
+//                 if (result && result.length > 0) {
+
+//                     res.send({ status: true, data: result[0] })
+
+//                 } else {
+
+//                     res.send({ status: false, data: [] });
+
+//                 }
+
+//             })
+
+//     } catch (e) {
+
+//         console.log('getemployeeattendancedashboard');
+
+//     }
+
+// });
+
 /*Set Employee Master*/
 app.post('/api/setEmployeeMaster', function (req, res) {
     try {
@@ -479,12 +708,5 @@ app.post('/api/getemployeeattendancedashboard', function (req, res) {
     }
 });
 
-// 
-// app
-// .listen(6060, '0.0.0.0', function (err) {
-//     if (err)
-//         console.log('Server Cant Start ...Erorr....');
-//     else
-//         console.log('Server Started at : http://localhost:6060');
-// })
+
 module.exports = app;

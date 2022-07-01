@@ -260,7 +260,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.city = req.body.cityId;
     companyInformation.pincode=req.body.pincode;
     try {
-        con.query("CALL `setmastertable` (?,?,?)",['companyinformation',,JSON.stringify(companyInformation)]
+        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','nandyala_hospitals',JSON.stringify(companyInformation)]
             ,
             function (err, result, fields) {
                 if (err) {
@@ -607,7 +607,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.status='Active';
         console.log("hdbjhfd",info)
         ;
-        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster',,JSON.stringify(info)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','nandyala_hospitals',JSON.stringify(info)], function (err, result, fields) {
             console.log("one",err)
             if (err) {
                 res.send({ status: false,message:'Unable to add department'});
@@ -1043,12 +1043,16 @@ app.post('/api/getEmployeeMaster',function(req,res) {
     try {
         console.log(req.body.id);
         con.query("CALL `getemployeemaster` (?)",[req.body.id], function (err, result, fields) {
+          if(err){
+            console.log("srt",err.message);
+          }else{
             if (result.length > 0) {
                 res.send({data: result, status: true});
                 console.log(result[0])
             } else {
                 res.send({status: false})
             }
+        }
         });
         
 
