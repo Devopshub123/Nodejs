@@ -175,7 +175,8 @@ app.post('/changePassword',function(req,res){
                         console.log(err)
                     }
                     else{
-                        res.send({status: true, result})
+                        let results =[0]
+                        res.send(results)
 
 
                     }
