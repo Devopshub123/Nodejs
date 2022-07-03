@@ -29,100 +29,100 @@ app.all("*", function (req, res, next) {
 });
 
 // /*Get Master table*/
-app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',function(req,res) {
+app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', function (req, res) {
     try {
-       
+
         var tName = req.params.tableName;
-        if(req.params.status=="null"){
+        if (req.params.status == "null") {
 
-            console.log("req.params.tableName;",tName,req.params.status)
-            
+            console.log("req.params.tableName;", tName, req.params.status)
 
-            con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-                console.log("req.params.tableName;",err)
+
+            con.query("CALL `getmastertable` (?,?,?,?)", [tName, null, req.params.page, req.params.size], function (err, result, fields) {
+                console.log("req.params.tableName;", err)
 
                 if (result && result.length > 0) {
-                    if(tName == 'holidaysmaster'){
-                        for (let i=0; i<result[0].length;i++){
+                    if (tName == 'holidaysmaster') {
+                        for (let i = 0; i < result[0].length; i++) {
                             let hDate = (new Date(result[0][i].Date));
-                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                            result[0][i].Date = hDate.getFullYear() + "-" + ('0' + (hDate.getMonth() + 1)).slice(-2) + "-" + ('0' + (hDate.getDate())).slice(-2);
                         }
-                        res.send({data: result[0], status: true});
+                        res.send({ data: result[0], status: true });
 
 
-                    }else {
+                    } else {
                         // console.log("req.params.tableName; ",result )
 
-                        res.send({data: result[0], status: true});
+                        res.send({ data: result[0], status: true });
                     }
                 } else {
-                    res.send({status: false})
+                    res.send({ status: false })
                 }
             });
-            
+
         }
-        else{
+        else {
             ;
-            con.query("CALL `getmastertable` (?,?,?,?)",[tName,req.params.status,req.params.page,req.params.size], function (err, result, fields) {
+            con.query("CALL `getmastertable` (?,?,?,?)", [tName, req.params.status, req.params.page, req.params.size], function (err, result, fields) {
                 // console.log("ff",err,result);
                 if (result && result.length > 0) {
-                    if(tName == 'holidaysmaster'){
-                        for (let i=0; i<result[0].length;i++){
+                    if (tName == 'holidaysmaster') {
+                        for (let i = 0; i < result[0].length; i++) {
                             let hDate = (new Date(result[0][i].Date));
-                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                            result[0][i].Date = hDate.getFullYear() + "-" + ('0' + (hDate.getMonth() + 1)).slice(-2) + "-" + ('0' + (hDate.getDate())).slice(-2);
                         }
-                        res.send({data: result[0], status: true});
+                        res.send({ data: result[0], status: true });
 
 
-                    }else {
+                    } else {
                         // console.log("req.params.tableName; ",result )
 
-                        res.send({data: result[0], status: true});
+                        res.send({ data: result[0], status: true });
                     }
                 } else {
-                    res.send({status: false})
+                    res.send({ status: false })
                 }
             });
-            
+
 
 
         }
-    }catch (e) {
-        console.log('getMastertable :',e)
+    } catch (e) {
+        console.log('getMastertable :', e)
 
     }
 });
 /*set Designation*/
-app.post('/api/setDesignation',function(req,res) {
+app.post('/api/setDesignation', function (req, res) {
     try {
         // 
         console.log(req.body)
 
-        let infoDesignationMaster={}
-        infoDesignationMaster.designation=req.body.designationName;
+        let infoDesignationMaster = {}
+        infoDesignationMaster.designation = req.body.designationName;
         infoDesignationMaster.status = 'Active';
-        
 
-        con.query("CALL `setmastertable` (?,?,?)",['designationsmaster','nandyala_hospitals',JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
-           console.log(err)
+
+        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'nandyala_hospitals', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+            console.log(err)
             if (err) {
-                res.send({status: false, message: 'Unable to insert designation'});
+                res.send({ status: false, message: 'Unable to insert designation' });
             } else {
-                res.send({status: true,message:'Designation added successfully'})
+                res.send({ status: true, message: 'Designation added successfully' })
             }
         });
-        
 
-    }catch (e) {
-        console.log('setDesignation :',e)
+
+    } catch (e) {
+        console.log('setDesignation :', e)
 
     }
 });
 /**Get All Employees List */
 
-app.get('/api/getallemployeeslist',function(req,res){
+app.get('/api/getallemployeeslist', function (req, res) {
 
-    try{
+    try {
 
         var con = connection.switchDatabase('boon_client');
 
@@ -130,7 +130,7 @@ app.get('/api/getallemployeeslist',function(req,res){
 
             function (err, result, fields) {
 
-                console.log("result",result,err)
+                console.log("result", result, err)
 
 
 
@@ -146,7 +146,7 @@ app.get('/api/getallemployeeslist',function(req,res){
 
             })
 
-    }catch(e){
+    } catch (e) {
 
         console.log('getAllEmployees');
 
@@ -154,55 +154,55 @@ app.get('/api/getallemployeeslist',function(req,res){
 
 });
 /*Set Employee Master*/
-app.post('/api/setEmployeeMaster',function(req,res) {
+app.post('/api/setEmployeeMaster', function (req, res) {
     try {
-var con  =connection.switchDatabase('boon_client');
-console.log(req.body)
+        var con = connection.switchDatabase('boon_client');
+        console.log(req.body)
 
         con.query("CALL `setemployeemaster` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
-            console.log("eee",err)
+                console.log("eee", err)
 
                 if (err) {
-                    if(err.code == 'ER_DUP_ENTRY'){
+                    if (err.code == 'ER_DUP_ENTRY') {
                         var val
                         val = err.sqlMessage.split('entry')[1];
 
-                        res.send({status: false, message: val.split('for')[0]+' is already exist in database'});
-                    }else{
-                        res.send({status: false, message: 'Unable to add employee'});
+                        res.send({ status: false, message: val.split('for')[0] + ' is already exist in database' });
+                    } else {
+                        res.send({ status: false, message: 'Unable to add employee' });
                     }
                 } else {
-                    res.send({status: true, message: 'Employee added successfully'})
+                    res.send({ status: true, message: 'Employee added successfully' })
                 }
             });
         con.end();
 
-    }catch (e) {
-        console.log('setEmployeeMaster :',e)
+    } catch (e) {
+        console.log('setEmployeeMaster :', e)
     }
 });
 /*set Designation*/
-app.put('/api/putDesignation',function(req,res) {
+app.put('/api/putDesignation', function (req, res) {
     try {
-        
 
-        let infoDesignationMaster={}
-        infoDesignationMaster.designation=req.body.name;
+
+        let infoDesignationMaster = {}
+        infoDesignationMaster.designation = req.body.name;
         infoDesignationMaster.status = req.body.status;
 
-        con.query("CALL `updatemastertable` (?,?,?,?)",['designationsmaster','id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        con.query("CALL `updatemastertable` (?,?,?,?)", ['designationsmaster', 'id', req.body.id, JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
 
             if (err) {
-                res.send({status: false, message: 'Unable to update designation'});
+                res.send({ status: false, message: 'Unable to update designation' });
             } else {
-                res.send({status: true,message:'Designation updated successfully'})
+                res.send({ status: true, message: 'Designation updated successfully' })
             }
         });
-        
 
-    }catch (e) {
-        console.log('setDesignation :',e)
+
+    } catch (e) {
+        console.log('setDesignation :', e)
 
     }
 });
@@ -212,7 +212,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
     let email = req.params.email;
     console.log(email)
     try {
-         
+
         con.query('CALL `getemployeestatus`(?)', [email], function (err, result) {
             let data = result[0][0]
             if (data === undefined) {
@@ -310,7 +310,7 @@ app.get('/api/resetpassword/:email/:id', function (req, res, next) {
 })
 /**reset password */
 app.post('/api/resetpassword', function (req, res, next) {
-    
+
     console.log(req.body)
     const decipher = crypto.createDecipheriv(algorithm, Securitykey, initVector);
     let decryptedData = decipher.update(req.body.empid, "hex", "utf-8");
@@ -339,7 +339,7 @@ app.post('/api/resetpassword', function (req, res, next) {
 })
 /**Change Password */
 app.post('/changePassword', function (req, res) {
-    
+
     console.log("hjhjh", req.body)
 
     let oldpassword = req.body.oldPassword;
@@ -356,7 +356,7 @@ app.post('/changePassword', function (req, res) {
                         console.log(err)
                     }
                     else {
-                        res.send(result )
+                        res.send(result)
 
 
                     }
@@ -384,7 +384,7 @@ app.post('/changePassword', function (req, res) {
 
 /**employee login */
 app.post('/api/emp_login', function (req, res, next) {
-    
+
 
     try {
         // let 
@@ -444,7 +444,7 @@ app.get('/api/getemployeeshift/:employee_id', function (req, res) {
             }
             console.log(err)
         });
-       
+
     } catch {
         console.log('get_employee_shift :')
     }
@@ -456,7 +456,7 @@ app.get('/api/getemployeeshift/:employee_id', function (req, res) {
 
 app.post('/api/setEmployeeAttendance', function (req, res) {
     try {
-        
+
         console.log("gg", typeof req.body)
         con.query("CALL `set_employee_attendance` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
@@ -541,7 +541,7 @@ app.post('/api/setattendanceapprovalstatus', function (req, res) {
 app.get('/api/getemployeeattendanceregularization/:employee_id', function (req, res) {
 
     try {
-        
+
 
         con.query("CALL `get_employee_attendance_regularization` (?)", [req.params.employee_id], function (err, result, fields) {
             if (result && result.length > 0) {
@@ -551,7 +551,7 @@ app.get('/api/getemployeeattendanceregularization/:employee_id', function (req, 
                 res.send({ status: false })
             }
         });
-       
+
 
     } catch (e) {
         console.log('getemployeeattendanceregularization :', e)
@@ -564,7 +564,7 @@ app.get('/api/getemployeeattendanceregularization/:employee_id', function (req, 
 
 app.get('/api/getpendingattendanceregularizations/:employee_id', function (req, res) {
     try {
-        
+
         con.query("CALL `get_pending_attendance_regularizations` (?)", [req.params.employee_id], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
@@ -573,7 +573,7 @@ app.get('/api/getpendingattendanceregularizations/:employee_id', function (req, 
             }
         });
         console.log(result);
-       
+
 
     } catch (e) {
         console.log('getpendingattendanceregularizations :', e)
@@ -611,21 +611,21 @@ app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', func
 });
 
 /*Get Role Screen Functionalities*/
-app.post('/api/getrolescreenfunctionalities',function(req,res) {
- try {
- var con  =connection.switchDatabase('boon_client')
- con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.body.empid,req.body.moduleid], function (err, result, fields) {
- if (result && result.length > 0) {
- res.send({data: result[0], status: true});
- } else {
-res.send({status: false})
- }
- });
- con.end();
+app.post('/api/getrolescreenfunctionalities', function (req, res) {
+    try {
+        var con = connection.switchDatabase('boon_client')
+        con.query("CALL `getrolescreenfunctionalities` (?,?)", [req.body.empid, req.body.moduleid], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+        con.end();
 
- }catch (e) {
- console.log('getscreenfunctionalitiesmaster :',e)
-}
+    } catch (e) {
+        console.log('getscreenfunctionalitiesmaster :', e)
+    }
 });
 
 
@@ -638,22 +638,22 @@ app.post('/api/setEmployeeMaster', function (req, res) {
 
         con.query("CALL `setEmployeeMaster` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
-            console.log("eee",err)
+                console.log("eee", err)
 
                 if (err) {
-                    if(err.code == 'ER_DUP_ENTRY'){
+                    if (err.code == 'ER_DUP_ENTRY') {
                         var val
                         val = err.sqlMessage.split('entry')[1];
 
-                        res.send({status: false, message: val.split('for')[0]+' is already exist in database'});
-                    }else{
-                        res.send({status: false, message: 'Unable to add employee'});
+                        res.send({ status: false, message: val.split('for')[0] + ' is already exist in database' });
+                    } else {
+                        res.send({ status: false, message: 'Unable to add employee' });
                     }
                 } else {
-                    res.send({status: true, message: 'Employee added successfully'})
+                    res.send({ status: true, message: 'Employee added successfully' })
                 }
             });
-       
+
 
     } catch (e) {
         console.log('setEmployeeMaster :', e)
@@ -665,12 +665,35 @@ app.post('/api/setEmployeeMaster', function (req, res) {
 app.post('/api/getemployeeattendancedashboard', function (req, res) {
     try {
         ;
-        con.query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id,req.body.employee_id,req.body.date],
+        con.query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
             function (err, result, fields) {
                 if (result && result.length > 0) {
                     res.send({ status: true, data: result[0] })
                 } else {
                     res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('getemployeeattendancedashboard');
+    }
+});
+
+/**
+ *@param employee *@param fromdate *@param todate */
+
+app.post('/api/getAttendanceSummaryReport', function (req, res) {
+    try {
+        ;
+        con.query("CALL `get_attendance_summary_report` (?,?,?)", [req.body.employee, req.body.fromdate, req.body.todate],
+            function (err, result, fields) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
                 }
             })
     } catch (e) {
