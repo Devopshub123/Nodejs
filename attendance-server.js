@@ -700,6 +700,26 @@ app.post('/api/getAttendanceSummaryReport', function (req, res) {
         console.log('getemployeeattendancedashboard');
     }
 });
-
+/**
+ *@param attendanceid  */
+  
+ app.post('/api/getAttendanceDetailsByAttendanceId', function (req, res) {
+    try {
+        con.query("CALL `get_attendance_details_report` (?)", [req.body.attendanceid],
+            function (err, result, fields) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                }
+            })
+    } catch (e) {
+        console.log('getDetails Report date for popup');
+    }
+});
 
 module.exports = app;
