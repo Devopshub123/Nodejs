@@ -6,12 +6,6 @@ const fileUpload = require('express-fileupload');
 const nodemailer = require('nodemailer')
 const app = new express();
 app.use(bodyParser.json());
-
-var crypto = require("crypto");
-var algorithm = "aes-256-cbc";
-// generate 16 bytes of random data
-var initVector = crypto.randomBytes(16);
-var Securitykey = crypto.randomBytes(32);
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -31,16 +25,9 @@ app.all("*", function (req, res, next) {
 // /*Get Master table*/
 app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', function (req, res) {
     try {
-
         var tName = req.params.tableName;
         if (req.params.status == "null") {
-
-            console.log("req.params.tableName;", tName, req.params.status)
-
-
             con.query("CALL `getmastertable` (?,?,?,?)", [tName, null, req.params.page, req.params.size], function (err, result, fields) {
-                console.log("req.params.tableName;", err)
-
                 if (result && result.length > 0) {
                     if (tName == 'holidaysmaster') {
                         for (let i = 0; i < result[0].length; i++) {
@@ -51,8 +38,6 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', 
 
 
                     } else {
-                        // console.log("req.params.tableName; ",result )
-
                         res.send({ data: result[0], status: true });
                     }
                 } else {
@@ -62,9 +47,7 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', 
 
         }
         else {
-            ;
             con.query("CALL `getmastertable` (?,?,?,?)", [tName, req.params.status, req.params.page, req.params.size], function (err, result, fields) {
-                // console.log("ff",err,result);
                 if (result && result.length > 0) {
                     if (tName == 'holidaysmaster') {
                         for (let i = 0; i < result[0].length; i++) {
@@ -75,17 +58,12 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', 
 
 
                     } else {
-                        // console.log("req.params.tableName; ",result )
-
                         res.send({ data: result[0], status: true });
                     }
                 } else {
                     res.send({ status: false })
                 }
             });
-
-
-
         }
     } catch (e) {
         console.log('getMastertable :', e)
@@ -95,16 +73,10 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', 
 /*set Designation*/
 app.post('/api/setDesignation', function (req, res) {
     try {
-        // 
-        console.log(req.body)
-
         let infoDesignationMaster = {}
         infoDesignationMaster.designation = req.body.designationName;
         infoDesignationMaster.status = 'Active';
-
-
         con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'nandyala_hospitals', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
-            console.log(err)
             if (err) {
                 res.send({ status: false, message: 'Unable to insert designation' });
             } else {
@@ -123,17 +95,7 @@ app.post('/api/setDesignation', function (req, res) {
 app.get('/api/getallemployeeslist', function (req, res) {
 
     try {
-
-        var con = connection.switchDatabase('boon_client');
-
-        con.query("CALL `get_all_employees_list`",
-
-            function (err, result, fields) {
-
-                console.log("result", result, err)
-
-
-
+        con.query("CALL `get_all_employees_list`", function (err, result, fields) {
                 if (result && result.length > 0) {
 
                     res.send({ status: true, data: result[0] })
@@ -156,13 +118,8 @@ app.get('/api/getallemployeeslist', function (req, res) {
 /*Set Employee Master*/
 app.post('/api/setEmployeeMaster', function (req, res) {
     try {
-        var con = connection.switchDatabase('boon_client');
-        console.log(req.body)
-
         con.query("CALL `setemployeemaster` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
-                console.log("eee", err)
-
                 if (err) {
                     if (err.code == 'ER_DUP_ENTRY') {
                         var val
@@ -176,8 +133,6 @@ app.post('/api/setEmployeeMaster', function (req, res) {
                     res.send({ status: true, message: 'Employee added successfully' })
                 }
             });
-        con.end();
-
     } catch (e) {
         console.log('setEmployeeMaster :', e)
     }
@@ -210,7 +165,6 @@ app.put('/api/putDesignation', function (req, res) {
 /**verify email for forget password */
 app.get('/api/forgetpassword/:email', function (req, res, next) {
     let email = req.params.email;
-    console.log(email)
     try {
 
         con.query('CALL `getemployeestatus`(?)', [email], function (err, result) {
@@ -220,22 +174,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
             }
             else if (data.status == 'Active') {
                 let id = data.id;
-                // const crypto = require("crypto");
-                // const algorithm = "aes-256-cbc"; 
-                // // generate 16 bytes of random data
-                // const initVector = crypto.randomBytes(16);
-                // protected data
                 const message = email;
-                // secret key generate 32 bytes of random data
-                // const Securitykey = crypto.randomBytes(32);
-                // the cipher function
-                const cipher = crypto.createCipheriv(algorithm, Securitykey, initVector);
-                // encrypt the message
-                // input encoding
-                // output encoding
-                let encryptedData = cipher.update(message, "utf-8", "hex");
-                encryptedData += cipher.final("hex");
-                console.log("Encrypted message: " + encryptedData);
                 var transporter = nodemailer.createTransport({
                     host: "smtp-mail.outlook.com", // hostname
                     secureConnection: false, // TLS requires secureConnection to be false
@@ -248,7 +187,6 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
                         pass: 'Sree$sreebt'
                     }
                 });
-                // var url = 'http://localhost:6060/api/Resetpassword/'+id+'/'+encryptedData
                 var url = 'http://localhost:6060/api/Resetpassword/' + email + '/' + id
                 var html = `<html>
                     <head>
@@ -273,10 +211,8 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
                 };
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
-                        console.log(error);
                         res.send({ status: false, message: 'reset password successfully' })
                     } else {
-                        console.log('Email sent: ' + info.response);
                         res.send({ status: true, message: 'reset password successfully' })
                     }
                 });
@@ -291,46 +227,26 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
 app.get('/api/resetpassword/:email/:id', function (req, res, next) {
     let id = req.params.id;
     let email = req.params.email;
-    console.log(id)
-    console.log(email)
-
-    //                 // protected data
-    //                 const message = id ;
-    //                 // secret key generate 32 bytes of random data
-
-    // encryptedData1 = id;
-    // const decipher = crypto.createDecipheriv(algorithm, Securitykey, initVector);
-    // let decryptedData = decipher.update(encryptedData1, "hex", "utf-8");
-    // console.log()
-    // // decryptedData += decipher.final("utf8");
-    // console.log("Decrypted message: " + decryptedData);
     res.redirect('http://localhost:4200/ResetPassword/' + email + '/' + id)
 
 
 })
 /**reset password */
 app.post('/api/resetpassword', function (req, res, next) {
-
-    console.log(req.body)
-    const decipher = crypto.createDecipheriv(algorithm, Securitykey, initVector);
-    let decryptedData = decipher.update(req.body.empid, "hex", "utf-8");
-    console.log()
-    decryptedData += decipher.final("utf8");
-    console.log(decryptedData)
     let id = req.body.empid;
     let email = req.body.email;
     let password = req.body.newpassword;
     try {
-        // con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','N'],function(err,result){
-        //     if(err){
-        //         console.log(err)
-        //     }
-        //     else{
-        //         res.send({status: true, message: 'reset password successfully'})
+        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','N'],function(err,result){
+            if(err){
+                console.log(err)
+            }
+            else{
+                res.send({status: true, message: 'reset password successfully'})
 
 
-        //     }
-        // });
+            }
+        });
 
     }
     catch (e) {
@@ -339,9 +255,6 @@ app.post('/api/resetpassword', function (req, res, next) {
 })
 /**Change Password */
 app.post('/changePassword', function (req, res) {
-
-    console.log("hjhjh", req.body)
-
     let oldpassword = req.body.oldPassword;
     let newpassword = req.body.newPassword;
     let id = req.body.empId;
@@ -356,8 +269,8 @@ app.post('/changePassword', function (req, res) {
                         console.log(err)
                     }
                     else {
-                        res.send(result)
-
+                        let results =[0]
+                        res.send(results)
 
                     }
                 })
@@ -372,7 +285,6 @@ app.post('/changePassword', function (req, res) {
             }
 
         });
-        //
 
     }
     catch (e) {
@@ -384,14 +296,9 @@ app.post('/changePassword', function (req, res) {
 
 /**employee login */
 app.post('/api/emp_login', function (req, res, next) {
-
-
     try {
-        // let 
         var email = req.body.email;
-        var password = req.body.password;
-        // console.log(req.body.email)
-        // console.log(password)
+        var password = req.body.password;    
         con.query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             if (result[0] > 0) {
@@ -399,7 +306,6 @@ app.post('/api/emp_login', function (req, res, next) {
                     try {
                         if (results.length > 0) {
                             var result = JSON.parse(results[0][0].result)
-                            console.log(result)
                             res.send({ status: true, result })
 
                         }
@@ -433,16 +339,12 @@ app.get('/api/getemployeeshift/:employee_id', function (req, res) {
     try {
         ;
         con.query("CALL `get_employee_shift` (?)", [req.params.employee_id], function (err, result, fields) {
-            console.log(err)
             if (result) {
-                console.log(result)
                 res.send({ data: result[0], status: true });
             } else {
-                console.log(err)
                 res.send({ status: false })
 
             }
-            console.log(err)
         });
 
     } catch {
@@ -456,11 +358,8 @@ app.get('/api/getemployeeshift/:employee_id', function (req, res) {
 
 app.post('/api/setEmployeeAttendance', function (req, res) {
     try {
-
-        console.log("gg", typeof req.body)
         con.query("CALL `set_employee_attendance` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
-                console.log("DFF", err, result);
                 if (err) {
                     res.send({ status: false, message: 'Unable to upload Data' });
                 } else {
@@ -495,7 +394,6 @@ app.post('/api/setemployeeattendanceregularization', function (req, res) {
                 req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
                 req.body.approvercomments, req.body.actionby, req.body.status], function (err, result, fields) {
                     if (err) {
-                        console.log(err);
                         res.send({ status: false, message: 'Unable to applied attendance request' });
                     } else {
                         res.send({ status: true, message: 'Attendance request applied successfully' })
@@ -572,9 +470,6 @@ app.get('/api/getpendingattendanceregularizations/:employee_id', function (req, 
                 res.send({ status: false })
             }
         });
-        console.log(result);
-
-
     } catch (e) {
         console.log('getpendingattendanceregularizations :', e)
     }
@@ -613,7 +508,6 @@ app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', func
 /*Get Role Screen Functionalities*/
 app.post('/api/getrolescreenfunctionalities', function (req, res) {
     try {
-        var con = connection.switchDatabase('boon_client')
         con.query("CALL `getrolescreenfunctionalities` (?,?)", [req.body.empid, req.body.moduleid], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
@@ -621,7 +515,6 @@ app.post('/api/getrolescreenfunctionalities', function (req, res) {
                 res.send({ status: false })
             }
         });
-        con.end();
 
     } catch (e) {
         console.log('getscreenfunctionalitiesmaster :', e)
@@ -633,13 +526,8 @@ app.post('/api/getrolescreenfunctionalities', function (req, res) {
 /*Set Employee Master*/
 app.post('/api/setEmployeeMaster', function (req, res) {
     try {
-        ;
-        console.log(req.body)
-
         con.query("CALL `setEmployeeMaster` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
-                console.log("eee", err)
-
                 if (err) {
                     if (err.code == 'ER_DUP_ENTRY') {
                         var val
