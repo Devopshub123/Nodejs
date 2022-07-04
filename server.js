@@ -1670,7 +1670,7 @@ app.get('/api/getrolemaster',function(req,res) {
 app.get('/api/getscreensmaster',function(req,res) {
     try {
         
-        con.query("CALL `getscreensmaster` (?)",['2'], function (err, result, fields) {
+        con.query("CALL `getscreensmaster` (?)",['4'], function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
             } else {
