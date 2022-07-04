@@ -460,7 +460,7 @@ app.post('/api/setEmployeeAttendance', function (req, res) {
         console.log("gg", typeof req.body)
         con.query("CALL `set_employee_attendance` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
-                console.log("DFF", err, result)
+                console.log("DFF", err, result);
                 if (err) {
                     res.send({ status: false, message: 'Unable to upload Data' });
                 } else {
