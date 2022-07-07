@@ -31,8 +31,19 @@ app.all("*", function (req, res, next) {
 
 
 
-function getLeavesForApprovals(params,req) {
-    console.log("helooo555555")
-    res.send({status:'info'})
+function getLeavesForApprovals(req,res) {
+    try {
+        con.query("CALL `get_leaves_for_approval` (?)",[req.params.id],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getLeavesForApprovals :',e)
+
+    }
 }
 module.exports = {getLeavesForApprovals};

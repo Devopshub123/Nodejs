@@ -214,7 +214,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.city = req.body.city;
     companyInformation.pincode=req.body.pincode;
     try {
-        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','nandyala_hospitals',JSON.stringify(companyInformation)]
+        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','boon_client',JSON.stringify(companyInformation)]
             ,
             function (err, result, fields) {
                 if (err) {
@@ -518,7 +518,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.depthead=null;
         info.headcount=null;
         info.status='Active';
-        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','nandyala_hospitals',JSON.stringify(info)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','boon_client',JSON.stringify(info)], function (err, result, fields) {
             if (err) {
                 res.send({ status: false,message:'Unable to add department'});
             } else {
@@ -2382,9 +2382,10 @@ app.get('/api/getMaxCountPerTermValue/:id',function(req,res) {
 });
 
 /**Get approved compoffs dates for leave submit*/
-app.get('/api/getLeavesForApprovals',function(req,res) {
+app.get('/api/getLeavesForApprovals/:id', function(req,res) {
 
-    var info =leaveManagement.getLeavesForApprovals(res,req)
+   leaveManagement.getLeavesForApprovals(req,res);
+
 })
 
 app.use("/attendance", attendance);
