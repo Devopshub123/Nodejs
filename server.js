@@ -11,6 +11,7 @@ var algorithm = "aes-256-cbc";
 var initVector = crypto.randomBytes(16);
 var Securitykey = crypto.randomBytes(32);
 var attendance= require('./attendance-server');
+var leaveManagement = require('./leave-management')
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -2379,6 +2380,12 @@ app.get('/api/getMaxCountPerTermValue/:id',function(req,res) {
 
     }
 });
+
+/**Get approved compoffs dates for leave submit*/
+app.get('/api/getLeavesForApprovals',function(req,res) {
+
+    var info =leaveManagement.getLeavesForApprovals(res,req)
+})
 
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
