@@ -30,6 +30,14 @@ app.all("*", function (req, res, next) {
 });
 
 
+module.exports = {
+    getLeavesForApprovals:getLeavesForApprovals,
+    leaveSattus:leaveSattus,
+    getCompoffsForApproval:getCompoffsForApproval,
+    getHandledLeaves:getHandledLeaves
+};
+
+
 
 function getLeavesForApprovals(req,res) {
     try {
@@ -46,4 +54,53 @@ function getLeavesForApprovals(req,res) {
 
     }
 }
-module.exports = {getLeavesForApprovals};
+
+function leaveSattus(req,res){
+    try {
+        con.query("CALL `set_approve_leave` (?,?,?,?,?,?)",
+            [req.body.id,req.body.leaveId,req.body.empId,req.body.approverId,req.body.leaveStatus,req.body.reason], function (err, result, fields) {
+            if (err) {
+                    res.send({status: false});
+                } else {
+                    res.send({status: true,leaveStatus:req.body.leaveStatus})
+                }
+            });
+
+
+    }catch (e) {
+        console.log('setDeleteLeaveRequest :',e)
+    }
+
+}
+function getCompoffsForApproval(req,res){
+    try {
+        con.query("CALL `get_compoffs_for_approval` (?)",[req.params.id],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getCompoffsForApproval :',e)
+
+    }
+}
+function getHandledLeaves(req,res){
+    try {
+        con.query("CALL `get_handled_leaves` (?)",[req.params.id],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getHandledLeaves :',e)
+
+    }
+}
+
+

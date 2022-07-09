@@ -2387,6 +2387,31 @@ app.get('/api/getLeavesForApprovals/:id', function(req,res) {
    leaveManagement.getLeavesForApprovals(req,res);
 
 })
+/**
+ * Manager approved or reject leaves
+ * leave delete and cancel
+ * */
+app.post('/api/setLeaveStatus', function(req,res) {
+
+    leaveManagement.leaveSattus(req,res);
+
+});
+/**
+ * Manager dashboard approved or reject compoffs
+ * */
+app.post('/api/getCompoffsForApproval/:id', function(req,res) {
+
+    leaveManagement.getCompoffsForApproval(req,res);
+
+})
+/**
+ * Manager dashboard approved or reject leaves
+ * */
+app.post('/api/getHandledLeaves/:id', function(req,res) {
+
+    leaveManagement.getHandledLeaves(req,res);
+
+})
 
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
