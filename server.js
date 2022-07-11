@@ -2399,7 +2399,7 @@ app.post('/api/setLeaveStatus', function(req,res) {
 /**
  * Manager dashboard approved or reject compoffs
  * */
-app.post('/api/getCompoffsForApproval/:id', function(req,res) {
+app.get('/api/getCompoffsForApproval/:id', function(req,res) {
 
     leaveManagement.getCompoffsForApproval(req,res);
 
@@ -2407,7 +2407,7 @@ app.post('/api/getCompoffsForApproval/:id', function(req,res) {
 /**
  * Manager dashboard approved or reject leaves
  * */
-app.post('/api/getHandledLeaves/:id', function(req,res) {
+app.get('/api/getHandledLeaves/:id', function(req,res) {
 
     leaveManagement.getHandledLeaves(req,res);
 
