@@ -2403,7 +2403,7 @@ app.get('/api/getCompoffsForApproval/:id', function(req,res) {
 
     leaveManagement.getCompoffsForApproval(req,res);
 
-})
+});
 /**
  * Manager dashboard approved or reject leaves
  * */
@@ -2411,7 +2411,17 @@ app.get('/api/getHandledLeaves/:id', function(req,res) {
 
     leaveManagement.getHandledLeaves(req,res);
 
-})
+});
+
+/**
+ * Manager dashboard approved or reject leaves
+ * */
+app.post('/api/setCompoffForApproveOrReject', function(req,res) {
+
+    leaveManagement.setCompoffForApproveOrReject(req,res);
+
+});
+
 
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {

@@ -34,7 +34,8 @@ module.exports = {
     getLeavesForApprovals:getLeavesForApprovals,
     leaveSattus:leaveSattus,
     getCompoffsForApproval:getCompoffsForApproval,
-    getHandledLeaves:getHandledLeaves
+    getHandledLeaves:getHandledLeaves,
+    setCompoffForApproveOrReject:setCompoffForApproveOrReject
 };
 
 
@@ -104,3 +105,21 @@ function getHandledLeaves(req,res){
 }
 
 
+
+function setCompoffForApproveOrReject(req,res){
+    try {
+        console.log(req.body,'vggggg')
+        con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
+            [req.body.id,req.body.empid,req.body.comp_off_date,parseInt(req.body.worked_hours),parseInt(req.body.worked_minutes),req.body.reason,req.body.rmid,req.body.status,req.body.remarks], function (err, result, fields) {
+                if(err){
+                    res.send({status: false, message: 'Unable to applied comp-off'});
+                }else {
+                    res.send({status: true,compoffStatus:req.body.status})
+                }
+            });
+
+    }catch (e) {
+        console.log('getHandledLeaves :', e)
+
+    }
+}
