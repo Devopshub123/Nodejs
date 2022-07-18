@@ -35,7 +35,11 @@ module.exports = {
     leaveSattus:leaveSattus,
     getCompoffsForApproval:getCompoffsForApproval,
     getHandledLeaves:getHandledLeaves,
-    setCompoffForApproveOrReject:setCompoffForApproveOrReject
+    setCompoffForApproveOrReject:setCompoffForApproveOrReject,
+    getCompoffs:getCompoffs,
+    getEmployeeLeaveDetailedReportForManager:getEmployeeLeaveDetailedReportForManager,
+    getMastertables:getMastertables,
+    getEmployeesForReportingManager:getEmployeesForReportingManager
 };
 
 
@@ -120,6 +124,74 @@ function setCompoffForApproveOrReject(req,res){
 
     }catch (e) {
         console.log('getHandledLeaves :', e)
+
+    }
+}
+
+
+function getCompoffs(req,res){
+    try {
+        con.query("CALL `get_compoffs` (?,?)",[req.body.empId,req.body.rmId],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getCompoffsForApproval :',e)
+
+    }
+}
+
+function getEmployeeLeaveDetailedReportForManager(req,res){
+    try {
+        con.query("CALL `get_employee_leave_detailed_report_for_manager` (?,?,?,?,?,?,?,?,?)",[req.body.employeeId,req.body.managerId,req.body.leaveType,req.body.leaveStatus,req.body.designation,req.body.fromDate,req.body.toDate,req.body.pageNumber,req.body.pageSize],function (err, result, fields) {
+            console.log('err',err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getEmployeeLeaveDetailedReportForManager :',e)
+
+    }
+}
+
+function getEmployeesForReportingManager(req,res) {
+    try {
+        con.query("CALL `get_employees_for_reporting_manager` (?)",[req.params.id], function (err, result, fields) {
+            console.log("huskjfkjdsk",req.body,err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getLeavesForApprovals :',e)
+
+    }
+}
+
+function getMastertables(req,res) {
+    try {
+        con.query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,req.body.databaseName], function (err, result, fields) {
+            console.log("huskjfkjdsk",req.body,err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getLeavesForApprovals :',e)
 
     }
 }

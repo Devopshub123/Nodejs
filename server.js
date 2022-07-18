@@ -2423,6 +2423,34 @@ app.post('/api/setCompoffForApproveOrReject', function(req,res) {
 });
 
 
+/**
+ * Manager and employee comp-off history
+ * */
+app.post('/api/getCompoffs', function(req,res) {
+
+    leaveManagement.getCompoffs(req,res);
+
+
+});
+app.post('/api/getEmployeeLeaveDetailedReportForManager', function(req,res) {
+
+    leaveManagement.getEmployeeLeaveDetailedReportForManager(req,res);
+
+
+});
+app.post('/api/getMastertables', function(req,res) {
+
+    leaveManagement.getMastertables(req,res);
+
+
+});
+
+app.get('/api/getEmployeesForReportingManager/:id', function(req,res) {
+
+    leaveManagement.getEmployeesForReportingManager(req,res);
+
+
+});
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)
