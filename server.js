@@ -393,21 +393,8 @@ app.post('/api/updateStatus',checkRecord, function(req,res) {
 /*set Work Location*/
 app.post('/api/setWorkLocation',function(req,res) {
     try {
-        let infoLocationsMaster={
-            id:req.body.id,
-            branchCode:'',
-            address1:req.body.address1?req.body.address1:"",
-            address2:req.body.address2?req.body.address2:"",
-            location:req.body.location?req.body.location:"",
-            pincode:req.body.pincode?req.body.pincode:"",
-            city:req.body.cityId,
-            state:req.body.stateId,
-            country:req.body.country,
-            prefix:req.body.prefix?req.body.prefix:"",
-            seed:req.body.seed,
-            status:req.body.status?req.body.status:'Active'
-        }
-        con.query("CALL `setcompanyworklocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
+
+        con.query("CALL `setcompanyworklocation` (?)",[JSON.stringify(req.body)], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to add work location'});
             } else {
@@ -573,7 +560,8 @@ app.get('/api/getHolidays',function(req,res) {
         console.log('getHolidays :',e)
 
     }
-});/*set Holidays*/
+});
+/*set Holidays*/
 
 app.post('/api/setHolidays/:companyName',function(req,res) {
 
@@ -587,18 +575,18 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
         let k=0;
         if(req.body.holidayDate == null){
             reqData.forEach(element =>{
-            info.description=element.holidayName;
-            info.date=element.holidayDate;
+                info.description=element.description;
+            info.date=element.date;
             let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            let hDate = (new Date(element.holidayDate));
+            let hDate = (new Date(element.date));
             info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
             info.day=days[hDate.getDay()];
 
             info.year=hDate.getFullYear();
             info.leave_cycle_year =(new Date().getFullYear())
 
-            info.location=element.city;
-
+            info.location=element.location;
+            console.log(info)
             con.query("CALL `setmastertable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
                 if (err) {
@@ -630,18 +618,19 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
 app.put('/api/putHolidays/:companyShortName',function(req,res) {
     try {
         // switchDatabase(req.params.companyShortName)
+        console.log(req.body.id)
         var con  =connection.switchDatabase(req.params.companyShortName);
         let tname='holidaysmaster';
         let info={};
-        info.description=req.body.holidayName;
-        info.date=req.body.holidayDate;
+        info.description=req.body.description;
+        info.date=req.body.date;
         let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        let hDate = (new Date(req.body.holidayDate));
+        let hDate = (new Date(req.body.date));
         info.date = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
         info.day=days[hDate.getDay()];
         info.year=hDate.getFullYear();
-        info.location=req.body.city;
-        con.query("CALL `updatemastertable` (?,?,?,?)",[tname,'id',req.body.hId,JSON.stringify(info)], function (err, result, fields) {
+        info.location=req.body.branch;
+        con.query("CALL `updatemastertable` (?,?,?,?)",[tname,'id',req.body.id,JSON.stringify(info)], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to update holidays'});
             } else {
@@ -649,7 +638,7 @@ app.put('/api/putHolidays/:companyShortName',function(req,res) {
                 res.send({status: true, message: 'Holiday updated successfully'});
             }
         });
-        
+
 
 
     }catch (e) {
@@ -657,9 +646,6 @@ app.put('/api/putHolidays/:companyShortName',function(req,res) {
 
     }
 });
-
-
-
 
 /*Set Holidays Status*/
 app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
@@ -2450,6 +2436,29 @@ app.get('/api/getEmployeesForReportingManager/:id', function(req,res) {
     leaveManagement.getEmployeesForReportingManager(req,res);
 
 
+});
+app.post('/api/updateStatusall',checkRecord, function(req,res) {
+    try {
+        if(req.body.status === 'Active'||(!req.body.isexists.result && req.body.isexists.status)){
+            con.query("CALL `updatestatus` (?,?,?)",[req.body.checktable,req.body.id,req.body.status], function (err, result, fields) {
+
+                if (err) {
+                    res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
+                } else {
+                    res.send({status: true,message:'Department is '+req.body.status+' successfully'})
+                }
+            });
+
+        } else if(req.body.isexists.status == false){
+            res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
+        } else{
+            res.send({status: false, message: "This department have Active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again"});
+        }
+
+    }catch (e) {
+        console.log('setWorkLocation :',e)
+
+    }
 });
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
