@@ -2431,7 +2431,7 @@ app.post('/api/getMastertables', function(req,res) {
 
 });
 
-app.get('/api/getEmployeesForReportingManager/:id', function(req,res) {
+app.post('/api/getEmployeesForReportingManager', function(req,res) {
 
     leaveManagement.getEmployeesForReportingManager(req,res);
 
@@ -2460,6 +2460,30 @@ app.post('/api/updateStatusall',checkRecord, function(req,res) {
 
     }
 });
+
+
+/**
+ * Get summary report for manager
+ *
+ * */
+
+app.post('/api/getSummaryReportForManager', function(req,res) {
+
+    leaveManagement.getSummaryReportForManager(req,res);
+
+
+});
+
+/**
+ * Getting summary report years
+ * */
+app.get('/api/getYearsForReport', function(req,res) {
+
+    leaveManagement.getYearsForReport(req,res);
+
+});
+
+
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
     if (err)

@@ -39,7 +39,9 @@ module.exports = {
     getCompoffs:getCompoffs,
     getEmployeeLeaveDetailedReportForManager:getEmployeeLeaveDetailedReportForManager,
     getMastertables:getMastertables,
-    getEmployeesForReportingManager:getEmployeesForReportingManager
+    getEmployeesForReportingManager:getEmployeesForReportingManager,
+    getSummaryReportForManager:getSummaryReportForManager,
+    getYearsForReport:getYearsForReport
 };
 
 
@@ -164,7 +166,7 @@ function getEmployeeLeaveDetailedReportForManager(req,res){
 
 function getEmployeesForReportingManager(req,res) {
     try {
-        con.query("CALL `get_employees_for_reporting_manager` (?)",[req.params.id], function (err, result, fields) {
+        con.query("CALL `get_employees_for_reporting_manager` (?,?)",[req.body.managerId,req.body.departmentId], function (err, result, fields) {
             console.log("huskjfkjdsk",req.body,err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -195,3 +197,41 @@ function getMastertables(req,res) {
 
     }
 }
+function getSummaryReportForManager(req,res) {
+    try {
+        con.query("CALL `get_summary_report_for_manager` (?,?,?,?,?)",[req.body.managerId,req.body.employeeId,req.body.designationId,req.body.departmentId,req.body.calenderYear],function (err, result, fields) {
+            console.log('err',err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getSummaryReportForManager :',e)
+
+    }
+
+
+}
+
+function getYearsForReport(req,res) {
+    try {
+        con.query("CALL `get_years_for_report` ()",function (err, result, fields) {
+            console.log('err',err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getYearsForReport :',e)
+
+    }
+
+
+}
+
