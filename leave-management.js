@@ -41,7 +41,8 @@ module.exports = {
     getMastertables:getMastertables,
     getEmployeesForReportingManager:getEmployeesForReportingManager,
     getSummaryReportForManager:getSummaryReportForManager,
-    getYearsForReport:getYearsForReport
+    getYearsForReport:getYearsForReport,
+    getLeaveCalendarForManager:getLeaveCalendarForManager
 };
 
 
@@ -235,3 +236,22 @@ function getYearsForReport(req,res) {
 
 }
 
+function getLeaveCalendarForManager(req,res) {
+
+
+    try {
+        con.query("CALL `get_leave_calendar_for_manager` (?)",[req.params.managerId],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getLeaveCalendarForManager :',e)
+
+    }
+
+    
+}

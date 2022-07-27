@@ -2483,6 +2483,15 @@ app.get('/api/getYearsForReport', function(req,res) {
 
 });
 
+/**
+ * get Leave Calendar For Manager
+ * */
+app.get('/api/getLeaveCalendarForManager/:managerId', function(req,res) {
+
+    leaveManagement.getLeaveCalendarForManager(req,res);
+
+});
+
 
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
