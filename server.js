@@ -2491,7 +2491,78 @@ app.get('/api/getLeaveCalendarForManager/:managerId', function(req,res) {
     leaveManagement.getLeaveCalendarForManager(req,res);
 
 });
+/**
+ * get States
+ * */
+app.get('/api/getStatesPerCountry/:Id', function(req,res) {
 
+    leaveManagement.getStates(req,res);
+
+});
+/**
+ * get States
+ * */
+app.get('/api/getCitiesPerCountry/:Id', function(req,res) {
+
+    leaveManagement.getCities(req,res);
+
+});
+/**
+ * get States
+ * */
+app.get('/api/getProfileImage/:Id/:companyShortName', function(req,res) {
+    console.log("jhjbhb",req.params.Id)
+
+    leaveManagement.getProfileImage(req,res);
+
+});
+
+
+
+/**
+ * get Leaves For Cancellation
+ * */
+app.get('/api/getLeavesForCancellation/:Id', function(req,res) {
+
+    leaveManagement.getLeavesForCancellation(req,res);
+
+});
+
+/**
+ * get Leaves For Cancellation
+ * */
+app.get('/api/getEmployeeInformation/:Id', function(req,res) {
+
+    leaveManagement.getEmployeeInformation(req,res);
+
+});
+
+/**
+ * setProfileImage
+ * */
+app.post('/api/setProfileImage/:companyname/:Id', function(req,res) {
+
+    leaveManagement.setProfileImage(req,res);
+
+});
+/**
+ * Remove Profile Image
+ * */
+app.delete('/api/removeProfileImage/:Id/:companyShortName', function(req,res) {
+
+    leaveManagement.removeProfileImage(req,res);
+
+});
+
+
+/**
+ * Edit Profile
+ * */
+app.post('/api/editProfile', function(req,res) {
+
+    leaveManagement.editProfile(req,res);
+
+});
 
 app.use("/attendance", attendance);
 app.listen(6060,'0.0.0.0',function (err) {
