@@ -389,7 +389,29 @@ app.post('/api/updateStatus',checkRecord, function(req,res) {
 
     }
 });
+app.post('/api/updateStatusall',checkRecord, function(req,res) {
+    try {
+        if(req.body.status === 'Active'||(!req.body.isexists.result && req.body.isexists.status)){
+            con.query("CALL `updatestatus` (?,?,?)",[req.body.checktable,req.body.id,req.body.status], function (err, result, fields) {
 
+                if (err) {
+                    res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
+                } else {
+                    res.send({status: true,message:'Department is '+req.body.status+' successfully'})
+                }
+            });
+
+        } else if(req.body.isexists.status == false){
+            res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
+        } else{
+            res.send({status: false, message: "This department have Active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again"});
+        }
+
+    }catch (e) {
+        console.log('setWorkLocation :',e)
+
+    }
+});
 /*set Work Location*/
 app.post('/api/setWorkLocation',function(req,res) {
     try {
@@ -407,7 +429,10 @@ app.post('/api/setWorkLocation',function(req,res) {
             seed:req.body.seed,
             status:req.body.status?req.body.status:'Active'
         }
-        con.query("CALL `setcompanyworklocation` (?)",[JSON.stringify(infoLocationsMaster)], function (err, result, fields) {
+        let data = JSON.stringify(req.body)
+        console.log(data)
+        con.query("CALL `setcompanyworklocation` (?)",[data], function (err, result, fields) {
+            console.log(err)
             if (err) {
                 res.send({status: false, message: 'Unable to add work location'});
             } else {
@@ -953,7 +978,7 @@ app.post('/api/setEmployeeMaster',function(req,res) {
         var  dateOfBirth = hDate.getFullYear() + "-" + (hDate.getMonth() + 1) + "-" + (hDate.getDate());
         let JoinDate = (new Date(req.body.dateOfJoin));
         var  dateOfJoin = JoinDate.getFullYear() + "-" + (JoinDate.getMonth() + 1) + "-" + (JoinDate.getDate());
-   let input = {
+        let input = {
             empid:req.body.empId,
             firstname: req.body.firstName,
             middlename: req.body.middleName,
@@ -1166,6 +1191,7 @@ app.post('/api/setApplyLeave',function(req,res) {
 /*Set Delete Leave Request */
 app.post('/api/setDeleteLeaveRequest',function(req,res) {
     try {        
+        console.log(req.body)
         let id = req.body.id;
         let empid = req.body.empid;
         let leavetype = req.body.leavetypeid;
@@ -1202,6 +1228,7 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
 /*CancelLeave Request */
 app.post('/api/cancelLeaveRequest',function(req,res) {
     try {        
+        console.log(req.body)
         let id = req.body.id;
         let empid = req.body.empid;
         let leavetype = req.body.leavetypeid;
@@ -1774,6 +1801,38 @@ app.get('/api/getHolidaysList/:empId',function(req,res) {
         console.log()
     }
 })
+/*Get Holidays filter */
+
+app.get('/api/getHolidaysFilter/:year/:locationId/:page/:size',function(req,res) {
+    console.log(req.params.year,req.params.locationId)
+
+    try {
+    
+    con.query("CALL `getholidaysbyfilter` (?,?,?,?)", [req.params.year ==='null'?null:req.params.year,req.params.locationId ==='null'?null:req.params.locationId,req.params.page,req.params.size],function (err, result, fields) {
+    
+    if (result && result.length > 0) {
+    
+    res.send({data: result[0], status: true});
+    
+    } else {
+    
+    res.send({status: false})
+    
+    }
+    
+    });
+    
+    
+    
+    }catch (e) {
+    
+    console.log('getDesignation :',e)
+    
+    
+    
+    }
+    
+    });
 app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
     try {
         
@@ -2154,9 +2213,11 @@ function checkRecord (req, res, next){
 /**Set compOff*/
 
 app.post('/api/setCompOff',function(req,res) {
+    console.log(req.body)
     try {        
         con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.empId,req.body.workDate,parseInt(req.body.workedHours),parseInt(req.body.workedMinutes),req.body.reason,req.body.rmId,req.body.status,req.body.remarks], function (err, result, fields) {
+                console.log(err)
                 if(err){
                     res.send({status: false, message: 'Unable to applied comp-off'});
                 }else {
@@ -2171,9 +2232,9 @@ app.post('/api/setCompOff',function(req,res) {
 
 
 /**Get compOff details*/
-app.get('/api/getCompOff/:employeeId',function(req,res) {
+app.get('/api/getCompOff/:employeeId/:rmid',function(req,res) {
     try {
-        con.query("CALL `get_compoffs` (?)",[req.params.employeeId], function (err, result, fields) {
+        con.query("CALL `get_compoffs` (?,?)",[req.params.employeeId,null], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2422,9 +2483,26 @@ app.post('/api/setCompoffForApproveOrReject', function(req,res) {
 
 });
 
+app.post('/api/getleavecalender/:id',function(req,res){
+    console.log(req.params.id)
+    try {
+        con.query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
+            console.log(result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getleavecalender :',e)
+
+    }
+    
+})
 
 app.use("/attendance", attendance);
-app.listen(6060,'0.0.0.0',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
