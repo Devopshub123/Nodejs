@@ -415,7 +415,6 @@ app.post('/api/updateStatusall',checkRecord, function(req,res) {
 /*set Work Location*/
 app.post('/api/setWorkLocation',function(req,res) {
     try {
-<<<<<<< HEAD
         let infoLocationsMaster={
             id:req.body.id,
             branchCode:'',
@@ -434,10 +433,6 @@ app.post('/api/setWorkLocation',function(req,res) {
         console.log(data)
         con.query("CALL `setcompanyworklocation` (?)",[data], function (err, result, fields) {
             console.log(err)
-=======
-
-        con.query("CALL `setcompanyworklocation` (?)",[JSON.stringify(req.body)], function (err, result, fields) {
->>>>>>> 3cb965bb37f701be3b24231ba3641ee414d08f93
             if (err) {
                 res.send({status: false, message: 'Unable to add work location'});
             } else {
