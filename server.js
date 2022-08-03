@@ -1871,23 +1871,25 @@ app.get('/api/getdurationforbackdatedleave',function(req,res) {
 /**Get Duration for back dated leave*/
 app.post('/api/validateleave',function(req,res) {
     try {
+        console.log("ldldklfnbkl",req.body)
         let id = req.body.empid;
         let fromdate = req.body.fromDate;
         let todate = req.body.toDate;
-        let leavetype = req.body.leaveType;
-        var fromDate = new Date(fromdate);
-        var toDate = new Date(todate);
-        var myDateString1,myDateString2;
-        myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
-        myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
-        let fdate = myDateString1;
-        let tdate = myDateString2;
+        let leavetype = req.body.leaveTypeId;
+        // var fromDate = new Date(fromdate);
+        // var toDate = new Date(todate);
+        // var myDateString1,myDateString2;
+        // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+        // // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+        // let fdate = myDateString1;
+        // let tdate = myDateString2;
         var fromhalfday = req.body.fromDateHalf ? 1:0;
         var tohalfday =req.body.toDateHalf ? 1 : 0;
         var document = req.body.document ? 1 : 0;
 
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
-        con.query("CALL `validateleave` (?,?,?,?,?,?,?)",[id,leavetype,fdate,tdate,fromhalfday,tohalfday,document], function (err, result, fields) {
+        con.query("CALL `validateleave` (?,?,?,?,?,?,?)",[id,leavetype,fromdate,todate,fromhalfday,tohalfday,document], function (err, result, fields) {
+            console.log("djfk",result,err)
             if(result && result.length > 0) {
                 res.send({data: result[0], status: true});
             }else {
@@ -1920,17 +1922,17 @@ app.post('/api/setemployeeleave',function(req,res){
     try{
         var id = req.body.id ? req.body.id : null;
         let empid = req.body.empid;
-        let leavetype = req.body.leaveType;
+        let leavetype = req.body.leaveTypeId;
         let fromdate = req.body.fromDate;
         let todate = req.body.toDate;
-        var fromDate = new Date(fromdate);
-        var toDate = new Date(todate);
-        var myDateString1,myDateString2;
-        myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
-        myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
-        let fdate = myDateString1;
-        let tdate = myDateString2;
-        let leavecount = req.body.leavecount
+        // var fromDate = new Date(fromdate);
+        // var toDate = new Date(todate);
+        // var myDateString1,myDateString2;
+        // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+        // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+        // let fdate = myDateString1;
+        // let tdate = myDateString2;
+        let leavecount = req.body.leaveCount
         let leavereason = req.body.reason;
         let leavestatus = "Submitted";
         let contactnumber = req.body.contact;
@@ -1939,7 +1941,7 @@ app.post('/api/setemployeeleave',function(req,res){
         var fromhalfdayleave=req.body.fromDateHalf?1:0;
         var tohalfdayleave =req.body.toDateHalf?1:0;
         var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
-        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fdate,tdate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
+        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fromdate,todate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
             if(err){
                   res.send({status:false})
               }
