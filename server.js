@@ -1893,7 +1893,7 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
 });
 app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
     try {
-        con.query("CALL `set_advanced_leave_rule_values` (?)",[req.body.leaveid],function (err, result, fields) {          
+        con.query("CALL `set_advanced_leave_rule_values` (?)",[req.body.id],function (err, result, fields) {
             if (err) {
                 res.send({message: 'Unable to update leave policy', status: false});
             } else {
@@ -1992,6 +1992,7 @@ app.post('/api/getleavecyclelastmonth',function(req,res){
 /**set employee leave */
 app.post('/api/setemployeeleave',function(req,res){
     try{
+        console.log("jdnkjfjknjkd",req.body)
         var id = req.body.id ? req.body.id : null;
         let empid = req.body.empid;
         let leavetype = req.body.leaveTypeId;
@@ -2340,11 +2341,11 @@ app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
     let cname = req.params.cname;
     let empid = req.params.empid;
     try {
-            let foldername = './leavedocuments/'+cname+'/'+empid+"/"
+            let foldername = './Files/'+cname+'/employee/'+empid+'/Leave Management'
             if (!fs.existsSync(foldername)) {
                 fs.mkdirSync(foldername)
             }else {
-                file.mv(path.resolve(__dirname,foldername,1+'.pdf'),function(error){
+                file.mv(path.resolve(__dirname,foldername,empid+'.pdf'),function(error){
                     if(error){
                         console.log(error);
                     }
