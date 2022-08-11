@@ -76,11 +76,11 @@ app.post('/api/setDesignation', function (req, res) {
         let infoDesignationMaster = {}
         infoDesignationMaster.designation = req.body.designationName;
         infoDesignationMaster.status = 'Active';
-        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'boon_client', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'nandyala_hospitals', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
-                res.send({ status: false, message: 'Unable to insert designation' });
+                res.send({ status: false, message: "Unable to insert designation" });
             } else {
-                res.send({ status: true, message: 'Designation added successfully' })
+                res.send({ status: true, message: "Designation added successfully" })
             }
         });
 
@@ -90,27 +90,57 @@ app.post('/api/setDesignation', function (req, res) {
 
     }
 });
-/**Get All Employees List */
+/**Get All Employees List 
+ * 
+*/
 
 app.get('/api/getallemployeeslist', function (req, res) {
 
     try {
         con.query("CALL `get_all_employees_list`", function (err, result, fields) {
-                if (result && result.length > 0) {
+            if (result && result.length > 0) {
 
-                    res.send({ status: true, data: result[0] })
+                res.send({ status: true, data: result[0] })
 
-                } else {
+            } else {
 
-                    res.send({ status: false, data: [] });
+                res.send({ status: false, data: [] });
 
-                }
+            }
 
-            })
+        })
 
     } catch (e) {
 
         console.log('getAllEmployees');
+
+    }
+
+});
+
+/**Get All Employees List 
+ * @param rm_id
+*/
+
+app.post('/api/getallemployeeslistByManagerId', function (req, res) {
+
+    try {
+        con.query("CALL `get_employees_of_manager` (?)",[req.body.rm_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+
+                res.send({ status: true, data: result[0] })
+
+            } else {
+
+                res.send({ status: false, data: [] });
+
+            }
+
+        })
+
+    } catch (e) {
+
+        console.log('get_employees_of_manager');
 
     }
 
@@ -120,6 +150,7 @@ app.post('/api/setEmployeeMaster', function (req, res) {
     try {
         con.query("CALL `setemployeemaster` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
+                console.log(err);
                 if (err) {
                     if (err.code == 'ER_DUP_ENTRY') {
                         var val
@@ -166,7 +197,6 @@ app.put('/api/putDesignation', function (req, res) {
 app.get('/api/forgetpassword/:email', function (req, res, next) {
     let email = req.params.email;
     try {
-
         con.query('CALL `getemployeestatus`(?)', [email], function (err, result) {
             let data = result[0][0]
             if (data === undefined) {
@@ -187,7 +217,9 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
                         pass: 'Sree$sreebt'
                     }
                 });
-                var url = 'http://localhost:6060/api/Resetpassword/' + email + '/' + id
+                 var url = 'http://localhost:6060/api/Resetpassword/' + email + '/' + id
+                //var url = 'http://122.175.62.210:7071/api/Resetpassword/'+email+'/'+id
+
                 var html = `<html>
                     <head>
                     <title>HRMS ResetPassword</title></head>
@@ -229,6 +261,7 @@ app.get('/api/resetpassword/:email/:id', function (req, res, next) {
     let email = req.params.email;
     res.redirect('http://localhost:4200/ResetPassword/' + email + '/' + id)
 
+ //   res.redirect('http://122.175.62.210:7072/ResetPassword/'+email+'/'+id)
 
 })
 /**reset password */
@@ -237,12 +270,12 @@ app.post('/api/resetpassword', function (req, res, next) {
     let email = req.body.email;
     let password = req.body.newpassword;
     try {
-        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'active','N'],function(err,result){
-            if(err){
+        con.query('CALL `setemployeelogin`(?,?,?,?,?)', [id, email, password, 'active', 'N'], function (err, result) {
+            if (err) {
                 console.log(err)
             }
-            else{
-                res.send({status: true, message: 'reset password successfully'})
+            else {
+                res.send({ status: true, message: 'reset password successfully' })
 
 
             }
@@ -262,14 +295,13 @@ app.post('/changePassword', function (req, res) {
     try {
         con.query('CALL `validatelastpasswordmatch` (?,?,?,?)', [id, login, oldpassword, newpassword], function (err, results, next) {
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
-            console.log("result", result[0])
             if (result[0] == 0) {
                 con.query('CALL `setemployeelogin`(?,?,?,?,?)', [id, login, newpassword, 'active', 'n'], function (err, result) {
                     if (err) {
                         console.log(err)
                     }
                     else {
-                        let results =[0]
+                        let results = [0]
                         res.send(results)
 
                     }
@@ -298,7 +330,7 @@ app.post('/changePassword', function (req, res) {
 app.post('/api/emp_login', function (req, res, next) {
     try {
         var email = req.body.email;
-        var password = req.body.password;    
+        var password = req.body.password;
         con.query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             if (result[0] > 0) {
@@ -335,7 +367,6 @@ app.post('/api/emp_login', function (req, res, next) {
 /** Get Shift Detaild By Employee Id 
  * @employee_id Parameter */
 app.get('/api/getemployeeshift/:employee_id', function (req, res) {
-    console.log(req.params.employee_id);
     try {
         ;
         con.query("CALL `get_employee_shift` (?)", [req.params.employee_id], function (err, result, fields) {
@@ -360,10 +391,11 @@ app.post('/api/setEmployeeAttendance', function (req, res) {
     try {
         con.query("CALL `set_employee_attendance` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
+                console.log(result);
                 if (err) {
-                    res.send({ status: false, message: 'Unable to upload Data' });
+                   res.send({ status: false, message: "unableToUpload" });
                 } else {
-                    res.send({ status: true, message: 'Excel data upload successfully' })
+                    res.send({ status: true, message: "excelUploadSave" })
                 }
             });
 
@@ -390,13 +422,20 @@ app.post('/api/setemployeeattendanceregularization', function (req, res) {
     try {
         ;
         con.query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            [null, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
+            [req.body.id, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
                 req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
                 req.body.approvercomments, req.body.actionby, req.body.status], function (err, result, fields) {
+                   
                     if (err) {
-                        res.send({ status: false, message: 'Unable to applied attendance request' });
+                        console.log(err)
+                        res.send({ status: false, message: "notSave" });
                     } else {
-                        res.send({ status: true, message: 'Attendance request applied successfully' })
+                        console.log(result[0][0]);
+                        if (result[0][0].validity_status == 0) {
+                            res.send({ status: true, message: "duplicate" })
+                        } else {
+                            res.send({ status: true, message: "save" })
+                        }
                     }
                 });
 
@@ -404,6 +443,7 @@ app.post('/api/setemployeeattendanceregularization', function (req, res) {
         console.log('setemployeeattendanceregularization')
     }
 })
+
 /** setattendanceapprovalstatus
  `set_attendance_approval_status`(
 `id` int(11),
@@ -412,16 +452,15 @@ app.post('/api/setemployeeattendanceregularization', function (req, res) {
 `approval_status` varchar(32)
 ) */
 app.post('/api/setattendanceapprovalstatus', function (req, res) {
-    console.log(req.body);
     try {
         ;
         con.query("CALL `set_attendance_approval_status` (?,?,?,?)",
             [req.body.id, req.body.approvercomments, req.body.actionby, req.body.approvelstatus],
             function (err, result, fields) {
                 if (err) {
-                    res.send({ status: false, message: 'Unable to applied approval request' });
+                    res.send({ status: false, message: "UnableToApprove" });
                 } else {
-                    res.send({ status: true, message: 'Approval Request applied successfully' });
+                    res.send({ status: true, message: "ApprovalRequest" });
                 }
                 console.log(err);
             });
@@ -431,6 +470,34 @@ app.post('/api/setattendanceapprovalstatus', function (req, res) {
         console.log('setattendanceapprovalstatus');
     }
 
+})
+/** update employeeattendanceregularization
+ 
+ *  */
+app.post('/api/updateEmployeeAttendanceRegularization', function (req, res) {
+    try {
+        ;
+        con.query("CALL `update_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            [null, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
+                req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
+                req.body.approvercomments, req.body.actionby, req.body.status], function (err, result, fields) {
+                   
+                    if (err) {
+                        console.log(err)
+                        res.send({ status: false, message: "notSave" });
+                    } else {
+                        console.log(result[0][0]);
+                        if (result[0][0].validity_status == 0) {
+                            res.send({ status: true, message: "duplicate" })
+                        } else {
+                            res.send({ status: true, message: "save" })
+                        }
+                    }
+                });
+
+    } catch (e) {
+        console.log('update_employee_attendance_regularization')
+    }
 })
 /**Get employee_attendance_regularization
  **@employee_id  parameters
@@ -443,7 +510,6 @@ app.get('/api/getemployeeattendanceregularization/:employee_id', function (req, 
 
         con.query("CALL `get_employee_attendance_regularization` (?)", [req.params.employee_id], function (err, result, fields) {
             if (result && result.length > 0) {
-                console.log(result)
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -521,8 +587,6 @@ app.post('/api/getrolescreenfunctionalities', function (req, res) {
     }
 });
 
-
-
 /*Set Employee Master*/
 app.post('/api/setEmployeeMaster', function (req, res) {
     try {
@@ -565,17 +629,34 @@ app.post('/api/getemployeeattendancedashboard', function (req, res) {
         console.log('getemployeeattendancedashboard');
     }
 });
+app.post('/api/getEmployeeAttendanceNotifications', function (req, res) {
+    try {
+        ;
+        con.query("CALL `get_employee_attendance_notifications` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('getemployeeattendancedashboard');
+    }
+});
 
 /**
- *@param employee *@param fromdate *@param todate */
+*@param rm_id *@param employee *@param fromdate *@param todate */
 
 app.post('/api/getAttendanceSummaryReport', function (req, res) {
     try {
-        ;
-        con.query("CALL `get_attendance_summary_report` (?,?,?)", [req.body.employee, req.body.fromdate, req.body.todate],
+        // con.query("CALL 'run_attendance_summary_cron'",function(err,result){
+             
+        // });
+        con.query("CALL `get_attendance_summary_report` (?,?,?,?)", [req.body.rm_id,req.body.employee, req.body.fromdate, req.body.todate],
             function (err, result, fields) {
                 if (err) {
-                    console.log(err);
+
                 } else {
                     if (result && result.length > 0) {
                         res.send({ status: true, data: result[0] })
@@ -590,8 +671,8 @@ app.post('/api/getAttendanceSummaryReport', function (req, res) {
 });
 /**
  *@param attendanceid  */
-  
- app.post('/api/getAttendanceDetailsByAttendanceId', function (req, res) {
+
+app.post('/api/getAttendanceDetailsByAttendanceId', function (req, res) {
     try {
         con.query("CALL `get_attendance_details_report` (?)", [req.body.attendanceid],
             function (err, result, fields) {
@@ -626,5 +707,156 @@ app.post('/api/getrolescreenfunctionalitiesforrole', function (req, res) {
         console.log('getrolescreenfunctionalities_for_role :', e)
     }
 });
+/**
+ * 
+`get_attendance_monthly_report`(
+    `manager_employee_id` int(11),
+    `employee_id` int(11),
+    `calendar_date` datetime
+)
+*@param manager_employee_id *@param employee_id *@param date */
 
+app.post('/api/getAttendanceMonthlyReport', function (req, res) {
+    try {
+        ;
+        con.query("CALL `get_attendance_monthly_report` (?,?,?)", [req.body.manager_employee_id, req.body.employee_id, req.body.calendar_date],
+            function (err, result, fields) {
+
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('getemployeeattendancedashboard');
+    }
+});
+/** `set_employee_shifts`(
+    `shift_id` int(11),
+    `from_date` datetime,
+    `to_date` datetime,
+    `weekoffs` JSON, -- format: [1,2] 1- Sunday, 2 - Monday etc.
+    `empids` JSON -- format: [1,2,3,4]
+) */
+app.post('/api/setEmployeeConfigureShift', function (req, res) {
+    try {
+        console.log(req.body);
+        con.query("CALL `set_employee_shifts` (?,?,?,?,?)", [req.body.shift_id,req.body.from_date,
+             req.body.to_date, req.body.weekoffs, req.body.empids],
+            function (err, result, fields) {
+             console.log(result[0][0].successstate);
+             if (result[0][0].successstate == 1) {
+                res.send({ status: true, message: "dataSaved" })
+               
+            } else {
+                res.send({ status: true, message: "UnableToSave" })
+            }
+           
+            })
+    } catch (e) {
+        console.log('set_employee_shifts');
+    }
+});
+/** `get_employee_shifts_for_manager_or_department`(
+    `manager_empid` int(11),
+    `department_id` int(11)
+) */
+app.post('/api/getEmployeeConfigureShifts', function (req, res) {
+    try {
+        ;
+        con.query("CALL `get_employee_shifts_for_manager_or_department` (?,?)", [req.body.manager_empid, req.body.department_id],
+            function (err, result, fields) {
+
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('get_employee_shifts_for_manager_or_department');
+    }
+});
+
+/**
+`get_employee_late_attendance_report`(
+    'rm_id'
+    `employee_id` int(11),
+    `shift_id` int(11),
+    `from_date` date,
+    `to_date` date
+)
+ */
+app.post('/api/getEmployeeLateAttendanceReport', function (req, res) {
+    try {
+        ;
+        con.query("CALL `get_employee_late_attendance_report` (?,?,?,?,?)", [req.body.rm_id,req.body.employee_id,
+             req.body.shift_id,req.body.from_date, req.body.to_date],
+            function (err, result, fields) {
+
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('get_employee_late_attendance_report');
+    }
+});
+//** @params employee_id //
+
+app.get('/api/getAttendanceRegularizationsHistoryForManager/:employee_id', function (req, res) {
+    try {
+
+        con.query("CALL `get_attendance_regularizations_history_for_manager` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('get_attendance_regularizations_history_for_manager :', e)
+    }
+});
+//**delete_employee_attendance_regularization */
+app.post('/api/deleteAttendanceRequestById', function (req, res) {
+    try {
+        console.log(req.body);
+        con.query("CALL `delete_employee_attendance_regularization` (?)", [req.body.id],
+            function (err, result, fields) {
+             console.log(result[0]);
+             console.log(result[0][0]);
+             if (result[0][0].successState == 0) {
+                res.send({ status: true, message: 'Attendance request deleted successfully.' })
+               
+            } else {
+                res.send({ status: true, message: 'Unable to attendance request deleted.' })
+            }
+           
+            })
+    } catch (e) {
+        console.log('delete_employee_attendance_regularization');
+    }
+});
+//*get Shift by empid,fromDate,toDate-get_employee_shift_by_dates **
+/**@param employee_id in, `fromd_date` date,in `to_date` date)*/
+app.post('/api/getEmployeeShiftByDates',function(req,res){
+    try{
+        console.log(req.body);
+     con.query("CALL `get_employee_shift_by_dates`(?,?,?)",[req.body.employee_id,req.body.fromd_date,req.body.to_date],
+     function(err,result){
+         console.log(result);
+        if (result && result.length > 0) {
+            res.send({ status: true, data: result[0] })
+        } else {
+            res.send({ status: false, data: [] });
+        }
+     })
+    }catch(e){
+      console.log(get_employee_shift_by_dates)
+    }
+});
 module.exports = app;

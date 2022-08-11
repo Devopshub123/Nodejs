@@ -10,6 +10,8 @@ var algorithm = "aes-256-cbc";
                     // generate 16 bytes of random data
 var initVector = crypto.randomBytes(16);
 var Securitykey = crypto.randomBytes(32);
+
+var admin= require('./admin-server');
 var attendance= require('./attendance-server');
 var leaveManagement = require('./leave-management')
 app.use(bodyParser.urlencoded({
@@ -2657,7 +2659,7 @@ app.post('/api/editProfile', function(req,res) {
     leaveManagement.editProfile(req,res);
 
 });
-
+app.use("/admin", admin);
 app.use("/attendance", attendance);
 app.listen(6060,function (err) {
     if (err)
