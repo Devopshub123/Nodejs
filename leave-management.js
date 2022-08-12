@@ -75,15 +75,11 @@ function getLeavesForApprovals(req,res) {
 
 function leaveSattus(req,res){
     try {
-        console.log("resultreqreqreq",req.body)
-
         con.query("CALL `set_approve_leave` (?,?,?,?,?,?,?)",
             [req.body.id,req.body.leaveId,req.body.empId,req.body.approverId,req.body.leaveStatus,req.body.reason,req.body.detail], function (err, result, fields) {
             if (err) {
-                console.log("sjkdb",err)
                     res.send({status: false});
                 } else {
-                console.log("result",result)
                 res.send({status: true,leaveStatus:req.body.leaveStatus})
                 }
             });
@@ -129,7 +125,6 @@ function getHandledLeaves(req,res){
 
 function setCompoffForApproveOrReject(req,res){
     try {
-        console.log(req.body,'vggggg')
         con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.empid,req.body.comp_off_date,parseInt(req.body.worked_hours),parseInt(req.body.worked_minutes),req.body.reason,req.body.rmid,req.body.status,req.body.remarks], function (err, result, fields) {
                 if(err){
@@ -165,7 +160,6 @@ function getCompoffs(req,res){
 function getEmployeeLeaveDetailedReportForManager(req,res){
     try {
         con.query("CALL `get_employee_leave_detailed_report_for_manager` (?,?,?,?,?,?,?,?,?)",[req.body.employeeId,req.body.managerId,req.body.leaveType,req.body.leaveStatus,req.body.designation,req.body.fromDate,req.body.toDate,req.body.pageNumber,req.body.pageSize],function (err, result, fields) {
-            console.log('err',err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -182,7 +176,6 @@ function getEmployeeLeaveDetailedReportForManager(req,res){
 function getEmployeesForReportingManager(req,res) {
     try {
         con.query("CALL `get_employees_for_reporting_manager` (?,?)",[req.body.managerId,req.body.departmentId], function (err, result, fields) {
-            console.log("huskjfkjdsk",req.body,err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -199,7 +192,6 @@ function getEmployeesForReportingManager(req,res) {
 function getMastertables(req,res) {
     try {
         con.query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,req.body.databaseName], function (err, result, fields) {
-            console.log("huskjfkjdsk",req.body,err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -215,7 +207,6 @@ function getMastertables(req,res) {
 function getSummaryReportForManager(req,res) {
     try {
         con.query("CALL `get_summary_report_for_manager` (?,?,?,?,?)",[req.body.managerId,req.body.employeeId,req.body.designationId,req.body.departmentId,req.body.calenderYear],function (err, result, fields) {
-            console.log('err',err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -234,7 +225,6 @@ function getSummaryReportForManager(req,res) {
 function getYearsForReport(req,res) {
     try {
         con.query("CALL `get_years_for_report` ()",function (err, result, fields) {
-            console.log('err',err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -311,7 +301,6 @@ function getProfileImage(req,res) {
         var imageData={}
         var flag=false;
         fs.readFile(folderName+req.params.Id+'.png',function(err,result){
-            console.log("kjhhhhh",err)
             if(err){
                 flag=false;
             }else{
@@ -333,9 +322,7 @@ function getProfileImage(req,res) {
 
 function getLeavesForCancellation(req,res) {
     try {
-        // console.log('ghhgdv',req.params.id)
         con.query("CALL `get_leaves_for_cancellation` (?)",[req.params.Id],function (err, result, fields) {
-            console.log("get_leaves_for_cancellation",err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -354,7 +341,6 @@ function getLeavesForCancellation(req,res) {
 function getEmployeeInformation(req,res) {
     try {
         con.query("CALL `getemployeemaster` (?)",[req.params.Id], function (err, result, fields) {
-            console.log("jdfkjfdj",req.params.Id,result,err)
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -372,7 +358,6 @@ function getEmployeeInformation(req,res) {
 
 function setProfileImage(req,res) {
     try{
-        console.log("req.params.Id",req.params.Id)
         file=req.files.file;
         var folderName = './Files/google/employee/'
         try {
