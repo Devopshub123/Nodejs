@@ -540,10 +540,14 @@ app.get('/api/getpendingattendanceregularizations/:employee_id', function (req, 
         console.log('getpendingattendanceregularizations :', e)
     }
 });
+/**get_employees_for_reporting_manager for manager
+**@employee_id  parameters
+*@designation_id  parameters
+ */
 app.get('/api/getEmployeesByManagerId/:employee_id', function (req, res) {
     try {
         ;
-        con.query("CALL `get_employees_for_reporting_manager` (?)", [req.params.employee_id],
+        con.query("CALL `get_employees_for_reporting_manager` (?,?)", [req.params.employee_id,'All'],
             function (err, result, fields) {
                 if (result && result.length > 0) {
                     res.send({ status: true, data: result[0] })
