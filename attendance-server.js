@@ -76,7 +76,7 @@ app.post('/api/setDesignation', function (req, res) {
         let infoDesignationMaster = {}
         infoDesignationMaster.designation = req.body.designationName;
         infoDesignationMaster.status = 'Active';
-        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'nandyala_hospitals', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'keerthi_hospitals', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
                 res.send({ status: false, message: "Unable to insert designation" });
             } else {
@@ -626,7 +626,7 @@ app.post('/api/getemployeeattendancedashboard', function (req, res) {
                 }
             })
     } catch (e) {
-        console.log('getemployeeattendancedashboard');
+        console.log('get_employee_attendance_dashboard');
     }
 });
 app.post('/api/getEmployeeAttendanceNotifications', function (req, res) {
@@ -646,14 +646,14 @@ app.post('/api/getEmployeeAttendanceNotifications', function (req, res) {
 });
 
 /**
-*@param rm_id *@param employee *@param fromdate *@param todate */
+*@param manager_empid *@param employee *@param fromdate *@param todate */
 
 app.post('/api/getAttendanceSummaryReport', function (req, res) {
     try {
         // con.query("CALL 'run_attendance_summary_cron'",function(err,result){
              
         // });
-        con.query("CALL `get_attendance_summary_report` (?,?,?,?)", [req.body.rm_id,req.body.employee, req.body.fromdate, req.body.todate],
+        con.query("CALL `get_attendance_summary_report` (?,?,?,?)", [req.body.manager_empid,req.body.employee, req.body.fromdate, req.body.todate],
             function (err, result, fields) {
                 if (err) {
 
@@ -666,7 +666,7 @@ app.post('/api/getAttendanceSummaryReport', function (req, res) {
                 }
             })
     } catch (e) {
-        console.log('getemployeeattendancedashboard');
+        console.log('get_attendance_summary_report');
     }
 });
 /**
@@ -781,7 +781,7 @@ app.post('/api/getEmployeeConfigureShifts', function (req, res) {
 
 /**
 `get_employee_late_attendance_report`(
-    'rm_id'
+    'manager_empid'
     `employee_id` int(11),
     `shift_id` int(11),
     `from_date` date,
@@ -791,7 +791,7 @@ app.post('/api/getEmployeeConfigureShifts', function (req, res) {
 app.post('/api/getEmployeeLateAttendanceReport', function (req, res) {
     try {
         ;
-        con.query("CALL `get_employee_late_attendance_report` (?,?,?,?,?)", [req.body.rm_id,req.body.employee_id,
+        con.query("CALL `get_employee_late_attendance_report` (?,?,?,?,?)", [req.body.manager_empid,req.body.employee_id,
              req.body.shift_id,req.body.from_date, req.body.to_date],
             function (err, result, fields) {
 
