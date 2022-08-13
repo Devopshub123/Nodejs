@@ -216,7 +216,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.city = req.body.city;
     companyInformation.pincode=req.body.pincode;
     try {
-        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','boon_client',JSON.stringify(companyInformation)]
+        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','keerthi_hospitals',JSON.stringify(companyInformation)]
             ,
             function (err, result, fields) {
                 if (err) {
@@ -545,7 +545,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.depthead=null;
         info.headcount=null;
         info.status='Active';
-        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','boon_client',JSON.stringify(info)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','keerthi_hospitals',JSON.stringify(info)], function (err, result, fields) {
             if (err) {
                 res.send({ status: false,message:'Unable to add department'});
             } else {
@@ -627,7 +627,7 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
 
             info.location=element.location;
             console.log(info)
-            con.query("CALL `setmastertable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
+            con.query("CALL `setmastertable` (?,?,?)",[tname,'keerthi_hospitals',JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
                 if (err) {
                     res.send({status: false, message: 'Unable to insert holidays'});
