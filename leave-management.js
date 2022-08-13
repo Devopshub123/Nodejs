@@ -191,7 +191,7 @@ function getEmployeesForReportingManager(req,res) {
 
 function getMastertables(req,res) {
     try {
-        con.query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,req.body.databaseName], function (err, result, fields) {
+        con.query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,'keerthi_hospitals'], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
