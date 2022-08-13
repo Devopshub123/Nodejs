@@ -1192,7 +1192,6 @@ app.post('/api/setApplyLeave',function(req,res) {
 /*Set Delete Leave Request */
 app.post('/api/setDeleteLeaveRequest',function(req,res) {
     try {        
-        console.log(req.body)
         let id = req.body.id;
         let empid = req.body.empid;
         let leavetype = req.body.leavetypeid;
@@ -1229,7 +1228,6 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
 /*CancelLeave Request */
 app.post('/api/cancelLeaveRequest',function(req,res) {
     try {        
-        console.log(req.body)
         let id = req.body.id;
         let empid = req.body.empid;
         let leavetype = req.body.leavetypeid;
@@ -1340,8 +1338,6 @@ app.get('/api/getApprovals',function(req,res) {
 
 var saveImage = function(imgPath){
     fs.unlink(imgPath,function (error) {
-        console.log(imgPath);
-        console.log(error);
         if(error && error.code =='ENOENT'){
             console.info("file doesn't exist,won't remove it. ")
         }else if (error) {
@@ -1945,7 +1941,6 @@ app.get('/api/getdurationforbackdatedleave',function(req,res) {
 /**Get Duration for back dated leave*/
 app.post('/api/validateleave',function(req,res) {
     try {
-        console.log("ldldklfnbkl",req.body)
         let id = req.body.empid;
         let fromdate = req.body.fromDate;
         let todate = req.body.toDate;
@@ -1963,7 +1958,6 @@ app.post('/api/validateleave',function(req,res) {
 
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
         con.query("CALL `validateleave` (?,?,?,?,?,?,?)",[id,leavetype,fromdate,todate,fromhalfday,tohalfday,document], function (err, result, fields) {
-            console.log("djfk",result,err)
             if(result && result.length > 0) {
                 res.send({data: result[0], status: true});
             }else {
@@ -1994,7 +1988,6 @@ app.post('/api/getleavecyclelastmonth',function(req,res){
 /**set employee leave */
 app.post('/api/setemployeeleave',function(req,res){
     try{
-        console.log("jdnkjfjknjkd",req.body)
         var id = req.body.id ? req.body.id : null;
         let empid = req.body.empid;
         let leavetype = req.body.leaveTypeId;
@@ -2217,8 +2210,7 @@ function checkRecord (req, res, next){
 /**Set compOff*/
 
 app.post('/api/setCompOff',function(req,res) {
-    console.log(req.body)
-    try {        
+    try {
         con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.empId,req.body.workDate,parseInt(req.body.workedHours),parseInt(req.body.workedMinutes),req.body.reason,req.body.rmId,req.body.status,req.body.remarks], function (err, result, fields) {
                 console.log(err)
@@ -2366,7 +2358,6 @@ app.get('/api/getEmployeeRelationsForBereavementLeave/:id',function(req,res) {
 
     try {
         con.query("CALL `get_employee_relations_for_bereavement_leave` (?)",[req.params.id],function (err, result, fields) {
-            console.log("errbee1111",err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2386,7 +2377,6 @@ app.get('/api/getApprovedCompoffs/:id',function(req,res) {
 
     try {
         con.query("CALL `get_approved_compoffs` (?)",[req.params.id],function (err, result, fields) {
-            console.log("get_approved_compoffs",err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2431,7 +2421,6 @@ app.get('/api/getMaxCountPerTermValue/:id',function(req,res) {
 
     try {
         con.query("CALL `get_max_count_per_term_value` (?)",[req.params.id],function (err, result, fields) {
-            console.log("get_max_count_per_term_value",err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2488,10 +2477,8 @@ app.post('/api/setCompoffForApproveOrReject', function(req,res) {
 });
 
 app.post('/api/getleavecalender/:id',function(req,res){
-    console.log(req.params.id)
     try {
         con.query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
-            console.log(result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2607,8 +2594,6 @@ app.get('/api/getCitiesPerCountry/:Id', function(req,res) {
  * get States
  * */
 app.get('/api/getProfileImage/:Id/:companyShortName', function(req,res) {
-    console.log("jhjbhb",req.params.Id)
-
     leaveManagement.getProfileImage(req,res);
 
 });
