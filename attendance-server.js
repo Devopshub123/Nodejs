@@ -148,6 +148,7 @@ app.post('/api/getallemployeeslistByManagerId', function (req, res) {
 /*Set Employee Master*/
 app.post('/api/setEmployeeMaster', function (req, res) {
     try {
+        console.log(JSON.stringify(req.body));
         con.query("CALL `setemployeemaster` (?)",
             [JSON.stringify(req.body)], function (err, result, fields) {
                 console.log(err);
@@ -218,7 +219,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
                     }
                 });
                  var url = 'http://localhost:6060/api/Resetpassword/' + email + '/' + id
-                //var url = 'http://122.175.62.210:7071/api/Resetpassword/'+email+'/'+id
+                //var url = 'http://122.175.62.210:7676/api/Resetpassword/'+email+'/'+id
 
                 var html = `<html>
                     <head>
@@ -261,7 +262,7 @@ app.get('/api/resetpassword/:email/:id', function (req, res, next) {
     let email = req.params.email;
     res.redirect('http://localhost:4200/ResetPassword/' + email + '/' + id)
 
- //   res.redirect('http://122.175.62.210:7072/ResetPassword/'+email+'/'+id)
+  // res.redirect('http://122.175.62.210:7575/ResetPassword/'+email+'/'+id)
 
 })
 /**reset password */

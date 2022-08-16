@@ -219,5 +219,24 @@ app.post('/api/setAttendenceMessages', function (req, res) {
         console.log('set_attendance_messages');
     }
 });
+/*Get Role Master*
+**@paramater department_id */
+app.post('/api/getRolesByDepartment',function(req,res) {
+    try {
+        console.log(req.body)
+        con.query("CALL `getrolemaster_by_dept` (?)",[req.body.department_id ], function (err, result, fields) {
+           console.log(result);
+            if (result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false,data: []})
+            }
+        });
+        
+
+    }catch (e) {
+        console.log('getrolemaster :',e)
+    }
+});
 
 module.exports = app;
