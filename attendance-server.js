@@ -864,4 +864,23 @@ app.post('/api/getEmployeeShiftByDates',function(req,res){
       console.log(get_employee_shift_by_dates)
     }
 });
+
+  //*get_employee_current_shifts by empid **
+/**@param employee_id */
+app.post('/api/getEmployeeCurrentShifts',function(req,res){
+    try{
+        console.log(req.body);
+     con.query("CALL `get_employee_current_shifts`(?)",[req.body.employee_id],
+     function(err,result){
+         console.log(result);
+        if (result && result.length > 0) {
+            res.send({ status: true, data: result[0] })
+        } else {
+            res.send({ status: false, data: [] });
+        }
+     })
+    }catch(e){
+      console.log("get_employee_current_shifts")
+    }
+});
 module.exports = app;
