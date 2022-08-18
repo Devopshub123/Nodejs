@@ -506,6 +506,24 @@ app.post('/api/getWorkLocation',function(req,res) {
 
     }
 });
+app.get('/api/getcompoffleavestatus',function(req,res){
+    try{
+        con.query("CALL `get_compoff_leave_status`()", function (err, result, fields) {
+            if(result && result.length >0){
+                console.log(result[0][0])
+                res.send({data: result[0][0], status: true});
+            }
+            else{
+                res.send({status: false})
+            }
+            
+
+    })
+    }
+    catch(e){
+        console.log('getWorkLocation :',e)
+    }
+})
 
 /*Get Work Location*/
 app.post('/api/getactiveWorkLocation',function(req,res) {
@@ -548,6 +566,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.headcount=null;
         info.status='Active';
         con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','keerthi_hospitals',JSON.stringify(info)], function (err, result, fields) {
+            // console.log(err)
             if (err) {
                 res.send({ status: false,message:'Unable to add department'});
             } else {
