@@ -229,37 +229,4 @@ app.post('/api/getRolesByDepartment',function(req,res) {
         console.log('getrolemaster :',e)
     }
 });
-//**@param code ,*@param pagenumber, @param pagesize **/
-app.post('/api/getLMMessages', function (req, res) {
-    try {
-        con.query("CALL `get_leave_messages` (?,?,?)", [req.body.code,
-             req.body.pagenumber,req.body.pagesize],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
-        console.log('get_leave_messages');
-    }
-});
-//**@param jsonData */
-app.post('/api/setLMMessages', function (req, res) {
-    let data = JSON.stringify(req.body)
-    try {
-        con.query("CALL `set_lm_messages` (?)", [data],
-            function (err, result, fields) {
-                if (err) {
-                    res.send({ status: false, data: "unableToSave" })
-                } else {
-                    res.send({ status: true, data:"dataSaved" });
-                }
-            })
-    } catch (e) {
-        console.log('set_lm_messages');
-    }
-});
-
 module.exports = app;
