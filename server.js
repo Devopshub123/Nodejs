@@ -55,8 +55,8 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
                             pass: 'Sree$sreebt'
                         }
                     });
-                    var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                  //  var url = 'http://122.175.62.210:7676/api/Resetpassword/'+email+'/'+id
+                   // var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+                    var url = 'http://122.175.62.210:7676/api/Resetpassword/'+email+'/'+id
                     // var html = `<html>
                     // <head>
                     // <title>HRMS ResetPassword</title></head>
@@ -95,8 +95,8 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
 app.get('/api/resetpassword/:email/:id',function(req,res,next){
     let id = req.params.id;
     let email = req.params.email;
-    res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
-   // res.redirect('http://122.175.62.210:7575/ResetPassword/'+email+'/'+id)
+   // res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
+    res.redirect('http://122.175.62.210:7575/ResetPassword/'+email+'/'+id)
 
 
 })
@@ -1667,7 +1667,7 @@ app.post('/api/setErrorMessages',function(req,res) {
                 if (err) {
                     res.send({status: false, message: 'Unable to update leave error messages'});
                 } else {
-                    res.send({status: true, message: 'Error Messages updated successfully'})
+                    res.send({status: true, message: 'Messages updated successfully'})
                 }
             });
         
