@@ -1682,7 +1682,7 @@ app.get('/api/getErrorMessages/:errorCode/:page/:size',function(req,res) {
 app.post('/api/setErrorMessages',function(req,res) {
     try {
         con.query("CALL `seterrormessages` (?)",
-            [JSON.stringify(req.body.errorData)], function (err, result, fields) {
+            [JSON.stringify(req.body)], function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to update leave error messages'});
                 } else {
