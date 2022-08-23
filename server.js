@@ -1871,10 +1871,11 @@ app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
 app.get('/api/getemployeeleaves/:empid/:page/:size',function(req,res){
     try{
         
-        let id = req.params.empid
+        let id = req.params.empid;
         let page = req.params.page;
         let size = req.params.size;
         con.query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],function (err, result, fields) {
+            console.log("gvjhshvhsdhjvhs",result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2496,12 +2497,32 @@ app.post('/api/setCompoffForApproveOrReject', function(req,res) {
     leaveManagement.setCompoffForApproveOrReject(req,res);
 
 });
-
+// if(e.present_or_absent=='P'){
+//     color='#32cd32';
+// }else if(e.present_or_absent=='W'){
+//     color='#2e0cf3';
+// } else if(e.present_or_absent=='H'){
+//     color='#ffff00';
+// } else if(e.present_or_absent=='A'){
+//     color='#FF3131';
+// }
 app.post('/api/getleavecalender/:id',function(req,res){
     try {
         con.query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
+           console.log("getleavecalendar",err,result)
             if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
+               for(var i = 0; i< result[0].length; i ++ ){
+                   if(result[0][i].ltype == 'weekoff'){
+                       result[0][i].color = '#2e0cf3'
+                   }else if (result[0][i].ltype != 'weekoff' && !result[0][i].color ){
+
+                       result[0][i].color = '#ffff00'
+                   }
+                   if(i === result[0].length-1){
+                       res.send({data: result[0], status: true});
+                   }
+
+               }
             } else {
                 res.send({status: false})
             }
