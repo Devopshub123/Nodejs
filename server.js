@@ -1465,7 +1465,9 @@ app.post('/api/setLeaveConfigure',function(req,res) {
 app.post('/api/setLeavePolicies',function(req,res) {
     let ruleData = req.body.ruleData;
     try{
-        con.query("CALL `setleavepolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
+        con.query("CALL `set_leavepolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
+            console.log(JSON.stringify(ruleData));
+            console.log(result);
             console.log(err);
             if(err){
                 res.send({message: 'Unable to update leave policy', status: false})
