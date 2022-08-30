@@ -1977,9 +1977,10 @@ app.post('/api/validateleave',function(req,res) {
         var fromhalfday = req.body.fromDateHalf ? 1:0;
         var tohalfday =req.body.toDateHalf ? 1 : 0;
         var document = req.body.document ? 1 : 0;
+        var leaveId = req.body.leaveId?req.body.leaveId:null
 
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
-        con.query("CALL `validateleave` (?,?,?,?,?,?,?)",[id,leavetype,fromdate,todate,fromhalfday,tohalfday,document], function (err, result, fields) {
+        con.query("CALL `validateleave` (?,?,?,?,?,?,?,?)",[id,leavetype,fromdate,todate,fromhalfday,tohalfday,document,leaveId], function (err, result, fields) {
             if(result && result.length > 0) {
                 res.send({data: result[0], status: true});
             }else {
