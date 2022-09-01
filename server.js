@@ -2276,9 +2276,7 @@ app.get('/api/getCompOff/:employeeId/:rmid',function(req,res) {
 app.get('/api/getCompoffCalender/:calender',function(req,res) {
     try {
         var calender = JSON.parse(req.params.calender);
-        con.query("CALL `getcompoff_calendar` (?,?)",[calender.employeeId,calender.year],function (err, result, fields) {
-            console.log("hello",err)
-
+        con.query("CALL `getcompoff_calendar` (?)",[calender.employeeId],function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2401,10 +2399,11 @@ app.post('/api/getEmployeeRelationsForBereavementLeave',function(req,res) {
 });
 
 /**Get approved compoffs dates for leave submit*/
-app.get('/api/getApprovedCompoffs/:id',function(req,res) {
+app.post('/api/getApprovedCompoffs',function(req,res) {
 
     try {
-        con.query("CALL `get_approved_compoffs` (?)",[req.params.id],function (err, result, fields) {
+        con.query("CALL `get_approved_compoffs` (?,?)",[req.body.id,req.body.leaveId],function (err, result, fields) {
+            console.log("jjhshj",err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
