@@ -2035,6 +2035,7 @@ app.post('/api/setemployeeleave',function(req,res){
         var tohalfdayleave =req.body.toDateHalf?1:0;
         var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
         con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fromdate,todate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
+            console.log("err",err)
             if(err){
                   res.send({status:false})
               }
@@ -2275,7 +2276,9 @@ app.get('/api/getCompOff/:employeeId/:rmid',function(req,res) {
 app.get('/api/getCompoffCalender/:calender',function(req,res) {
     try {
         var calender = JSON.parse(req.params.calender);
-        con.query("CALL `getcompoff_calendar` (?)",[calender.employeeId],function (err, result, fields) {
+        con.query("CALL `getcompoff_calendar` (?,?)",[calender.employeeId,calender.year],function (err, result, fields) {
+            console.log("hello",err)
+
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2379,10 +2382,10 @@ app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
 });
 
 /**get relations for bereavement leave submit*/
-app.get('/api/getEmployeeRelationsForBereavementLeave/:id',function(req,res) {
+app.post('/api/getEmployeeRelationsForBereavementLeave',function(req,res) {
 
     try {
-        con.query("CALL `get_employee_relations_for_bereavement_leave` (?)",[req.params.id],function (err, result, fields) {
+        con.query("CALL `get_employee_relations_for_bereavement_leave` (?,?)",[req.body.id,req.body.leaveId],function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2519,7 +2522,7 @@ app.post('/api/getleavecalender/:id',function(req,res){
                        result[0][i].color = '#2e0cf3'
                    }else if (result[0][i].ltype != 'weekoff' && !result[0][i].color ){
 
-                       result[0][i].color = '#ffff00'
+                       result[0][i].color = '#800000'
                    }
                    if(i === result[0].length-1){
                        res.send({data: result[0], status: true});
