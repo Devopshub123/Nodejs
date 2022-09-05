@@ -194,6 +194,8 @@ app.post('/api/getAttendenceMessages', function (req, res) {
         console.log('get_attendance_messages');
     }
 });
+
+
 //**@param jsonData */
 app.post('/api/setAttendenceMessages', function (req, res) {
     let data = JSON.stringify(req.body)
@@ -229,4 +231,59 @@ app.post('/api/getRolesByDepartment',function(req,res) {
         console.log('getrolemaster :',e)
     }
 });
+/**EMS messagemaster */
+app.post('/api/getEMSMessages', function (req, res) {
+    try {
+       
+        con.query("CALL `get_ems_messages` (?,?,?)", [req.body.code,
+             req.body.pagenumber,req.body.pagesize],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('get_attendance_messages');
+    }
+});
+app.post('/api/setEMSMessages', function (req, res) {
+    let data = JSON.stringify(req.body)
+    console.log(req.body,data)
+    try {
+        con.query("CALL `set_ems_messages` (?)", [data],
+            function (err, result, fields) {
+                if (err) {
+                    res.send({ status: false, data: "unableToSave" })
+                } else {
+                    res.send({ status: true, data:"dataSaved" });
+                }
+            })
+    } catch (e) {
+        console.log('set_ems_messages');
+    }
+});
+
+app.post('/api/getstatuslist',function(req,res){
+    try{
+        con.query("CALL `get_status_list` (null)",
+            function (err, result, fields) {
+                console.log(result,result.length)
+                if (result && result.length > 0) {
+                    console.log("dfgfgh")
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+                
+            })
+    }
+    catch(e){
+        console.log('get statuslist');
+    }
+})
+
+
+
 module.exports = app;

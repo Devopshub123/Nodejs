@@ -565,10 +565,20 @@ app.post('/api/setDepartments',function(req,res) {
         info.deptname=req.body.departmentName;
         info.depthead=null;
         info.headcount=null;
-        info.status='Active';
-        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','keerthi_hospitals',JSON.stringify(info)], function (err, result, fields) {
-            // console.log(err)
+        info.status=1;
+        info.created_by=req.body.created_by;
+        info.created_on = req.body.created_on;
+        info.updated_on=null;
+        info.updated_by = null;
+        console.log(req.body)
+        console.log(JSON.stringify(info));
+
+        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','ems',JSON.stringify(info)], function (err, result, fields) {
+            console.log(err)
+            console.log(result)
+            
             if (err) {
+               
                 res.send({ status: false,message:'Unable to add department'});
             } else {
                 res.send({status: true,message:'Departments added successfully'})
@@ -591,6 +601,11 @@ app.put('/api/putDepartments',function(req,res) {
         info.depthead=null
         info.headcount=0;
         info.status = req.body.status;
+        info.created_on = req.body.created_on;
+        info.created_by = req.body.created_by;
+        info.updated_on = req.body.updated_on;
+        info.updated_by = req.body.updated_by;
+        console.log(req.body)
         con.query("CALL `updatemastertable` (?,?,?,?)",['departmentsmaster','id',req.body.id,JSON.stringify(info)], function (err, result, fields) {
             if (err) {
                 res.send({ status: false,message:'Unable to update departments'});

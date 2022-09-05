@@ -2,11 +2,11 @@ var mysql = require('mysql');
 // /*Switching database connection*/
 function switchDatabase() {
         return mysql.createConnection({
-            host: "122.175.62.210",
+            host: "192.168.1.28",
             user: "boon_client_user",
             port: 3306,
             password: "Client&*123",
-            database: 'keerthi_hospitals',
+            database: 'ems',
             dateStrings: true,
             multipleStatements: true
         });
