@@ -73,7 +73,7 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
                     // </html> `;
                     var mailOptions = {
                         from: 'smattupalli@sreebtech.com',
-                        to: "rthallapelly@sreebtech.com",
+                        to: email,
                         subject: 'Reset Password email',
                         html:html
                     };
