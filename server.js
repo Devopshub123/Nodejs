@@ -13,7 +13,8 @@ var Securitykey = crypto.randomBytes(32);
 
 var admin= require('./admin-server');
 var attendance= require('./attendance-server');
-var leaveManagement = require('./leave-management')
+var leaveManagement = require('./leave-management');
+var ems= require('./ems-server');
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -2725,6 +2726,7 @@ app.post('/api/setFilesMaster/', function(req,res) {
 
 app.use("/admin", admin);
 app.use("/attendance", attendance);
+app.use("/ems",ems);
 app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
