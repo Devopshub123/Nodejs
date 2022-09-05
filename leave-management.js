@@ -52,7 +52,10 @@ module.exports = {
     getEmployeeInformation:getEmployeeInformation,
     setProfileImage:setProfileImage,
     removeProfileImage:removeProfileImage,
-    editProfile:editProfile
+    editProfile:editProfile,
+    getCarryforwardedLeaveMaxCount:getCarryforwardedLeaveMaxCount,
+    getFilepathsMaster:getFilepathsMaster,
+    setFilesMaster:setFilesMaster
 };
 
 
@@ -125,6 +128,7 @@ function getHandledLeaves(req,res){
 
 function setCompoffForApproveOrReject(req,res){
     try {
+        console.log("req.body",req.body)
         con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.empid,req.body.comp_off_date,parseInt(req.body.worked_hours),parseInt(req.body.worked_minutes),req.body.reason,req.body.rmid,req.body.status,req.body.remarks], function (err, result, fields) {
                 if(err){
@@ -420,6 +424,77 @@ function editProfile(req,res){
 
     }catch (e) {
         console.log('editProfile :',e)
+    }
+
+}
+
+
+function getCarryforwardedLeaveMaxCount(req,res){
+    try {
+        console.log('req.params.leaveId',req.params.leaveId)
+
+        con.query("CALL `get_carryforwarded_leave_max_count` (?)",
+            [req.params.leaveId], function (err, result, fields) {
+            console.log('err',err)
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+
+                } else {
+                    res.send({status: false});
+
+                }
+            });
+
+
+    }catch (e) {
+        console.log('getCarryforwardedLeaveMaxCount :',e)
+    }
+
+}
+
+
+
+function getFilepathsMaster(req,res){
+    try {
+        console.log('req.params.leaveId',req.params.leaveId)
+
+        con.query("CALL `get_filepaths_master` (?)",
+            [req.params.moduleId], function (err, result, fields) {
+                console.log('err',err)
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+
+                } else {
+                    res.send({status: false});
+
+                }
+            });
+
+
+    }catch (e) {
+        console.log('getCarryforwardedLeaveMaxCount :',e)
+    }
+
+}
+
+
+function setFilesMaster(req,res){
+    try {
+        console.log("jkdjkskjvs",req.body)
+        con.query("CALL `set_files_master` (?,?,?,?,?,?,?)",
+            [req.body.employeeId,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId], function (err, result, fields) {
+                console.log("errr",result,err)
+
+                if (err) {
+                    res.send({status: false});
+                } else {
+                    res.send({status: true})
+                }
+            });
+
+
+    }catch (e) {
+        console.log('setFilesMaster :',e)
     }
 
 }

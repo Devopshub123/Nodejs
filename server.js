@@ -2691,6 +2691,38 @@ app.post('/api/editProfile', function(req,res) {
     leaveManagement.editProfile(req,res);
 
 });
+
+
+/**
+ * get Carry forwarded Leave MaxCount
+ * */
+app.get('/api/getCarryforwardedLeaveMaxCount/:leaveId', function(req,res) {
+
+    leaveManagement.getCarryforwardedLeaveMaxCount(req,res);
+
+});
+
+
+
+/**
+ * Get module code for set file paths
+ * */
+app.get('/api/getFilepathsMaster/:moduleId', function(req,res) {
+
+    leaveManagement.getFilepathsMaster(req,res);
+
+});
+
+
+/**
+ * Get module code for set file paths
+ * */
+app.post('/api/setFilesMaster/', function(req,res) {
+
+    leaveManagement.setFilesMaster(req,res);
+
+});
+
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 app.listen(6060,function (err) {
