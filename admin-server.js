@@ -67,10 +67,10 @@ app.post('/api/getIntegrationEmpidsLookup', function (req, res) {
 app.post('/api/setShiftMaster', function (req, res) {
     try {
         ;
-        con.query("CALL `set_shift_master` (?,?,?,?,?,?,?,?,?,?,?)",
+        con.query("CALL `set_shift_master` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
             [req.body.shift_name, req.body.shiftdescription, req.body.from_time, req.body.to_time,
                 req.body.total_hours, req.body.grace_intime, req.body.grace_outtime, req.body.max_lates, req.body.leave_deduction_count,
-                req.body.leavetype_for_deduction, req.body.overtimeduration], function (err, result, fields) {
+                req.body.leavetype_for_deduction, req.body.overtimeduration,req.body.status,req.body.created_by], function (err, result, fields) {
                   
                     if (err) {
                         res.send({ status: false, message: 'UnableToSave' });

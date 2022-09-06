@@ -175,7 +175,7 @@ app.post('/api/emp_login',function(req,res,next){
             if (result[0] > 0) {
                 con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
                     try{
-                        if(results.length>0){
+                        if(results && results.length>0){
                             var result = JSON.parse(results[0][0].result)
                             res.send({status: true,result})
 
@@ -205,8 +205,6 @@ app.post('/api/emp_login',function(req,res,next){
 
 /*Set comapny information*/
 app.post('/api/setCompanyInformation',function(req,res) {
-    console.log(req.body)
-    
     let companyInformation={}
     companyInformation.companyname=req.body.companyname;
     companyInformation.companywebsite = req.body.companywebsite;
@@ -218,17 +216,19 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.state = req.body.state;
     companyInformation.city = req.body.city;
     companyInformation.pincode=req.body.pincode;
+    companyInformation.created_by=req.body.created_by;
+    companyInformation.created_on = req.body.created_on;
+    companyInformation.updated_on = null;
+    companyInformation.updated_by = null;
     try {
-        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','keerthi_hospitals',JSON.stringify(companyInformation)]
-            ,
-            function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','ems',JSON.stringify(companyInformation)],function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {
                     res.send({status: true, message: 'Company Information added successfully'})
                 }
             });
-        // 
+       
 
     }catch (e) {
         console.log('setCompanyInformation :',e)
@@ -250,7 +250,8 @@ app.put('/api/putCompanyInformation',function(req,res) {
         companyInformation.State = req.body.state;
         companyInformation.City = req.body.city;
         companyInformation.Pincode=req.body.pincode;
-        
+        companyInformation.updated_by=req.body.updated_by;
+        companyInformation.updated_on=req.body.updated_on;
 
         con.query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.id,JSON.stringify(companyInformation)], function (err, result, fields) {
             if (err) {
@@ -355,6 +356,11 @@ app.put('/api/putDesignation',function(req,res) {
         let infoDesignationMaster={}
         infoDesignationMaster.designation=req.body.name;
         infoDesignationMaster.status = req.body.status;
+        infoDesignationMaster.created_on = req.body.created_on;
+        infoDesignationMaster.created_by = req.body.created_by;
+        infoDesignationMaster.updated_on = req.body.updated_on;
+        infoDesignationMaster.updated_by = req.body.updated_by;
+        console.log(infoDesignationMaster)
 
         con.query("CALL `updatemastertable` (?,?,?,?)",['designationsmaster','id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
 
@@ -420,22 +426,42 @@ app.post('/api/updateStatusall',checkRecord, function(req,res) {
 /*set Work Location*/
 app.post('/api/setWorkLocation',function(req,res) {
     try {
-        let infoLocationsMaster={
-            id:req.body.id,
-            branchCode:'',
-            address1:req.body.address1?req.body.address1:"",
-            address2:req.body.address2?req.body.address2:"",
-            location:req.body.location?req.body.location:"",
-            pincode:req.body.pincode?req.body.pincode:"",
-            city:req.body.cityId,
-            state:req.body.stateId,
-            country:req.body.country,
-            prefix:req.body.prefix?req.body.prefix:"",
-            seed:req.body.seed,
-            status:req.body.status?req.body.status:'Active'
+        if(req.body.id == "" || req.body.id == null){
+            let infoLocationsMaster={
+                id:req.body.id,
+                branchCode:'',
+                address1:req.body.address1?req.body.address1:"",
+                address2:req.body.address2?req.body.address2:"",
+                location:req.body.location?req.body.location:"",
+                pincode:req.body.pincode?req.body.pincode:"",
+                city:req.body.cityId,
+                state:req.body.stateId,
+                country:req.body.country,
+                prefix:req.body.prefix?req.body.prefix:"",
+                seed:req.body.seed,
+                status:req.body.status?req.body.status:1,
+                created_by:req.body.created_by
+            }
         }
+        else{
+            let infoLocationsMaster={
+                id:req.body.id,
+                branchCode:'',
+                address1:req.body.address1?req.body.address1:"",
+                address2:req.body.address2?req.body.address2:"",
+                location:req.body.location?req.body.location:"",
+                pincode:req.body.pincode?req.body.pincode:"",
+                city:req.body.cityId,
+                state:req.body.stateId,
+                country:req.body.country,
+                prefix:req.body.prefix?req.body.prefix:"",
+                seed:req.body.seed,
+                status:req.body.status?req.body.status:1,
+                updated_by:req.body.created_by
+            }
+        }
+        
         let data = JSON.stringify(req.body)
-        console.log(data)
         con.query("CALL `setcompanyworklocation` (?)",[data], function (err, result, fields) {
             console.log(err)
             if (err) {
@@ -536,7 +562,7 @@ app.post('/api/getactiveWorkLocation',function(req,res) {
                 var resultdata=[];
                 var inactive =[];
                 for(var i=0;i<data.length;i++){
-                    if(data[i].status == "Active"){
+                    if(data[i].status == 1){
                         resultdata.push(data[i]);
                     }
                     else{
@@ -570,8 +596,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.created_on = req.body.created_on;
         info.updated_on=null;
         info.updated_by = null;
-        console.log(req.body)
-        console.log(JSON.stringify(info));
+        
 
         con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','ems',JSON.stringify(info)], function (err, result, fields) {
             console.log(err)
@@ -663,8 +688,11 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
             info.leave_cycle_year =(new Date().getFullYear())
 
             info.location=element.location;
-            console.log(info)
-            con.query("CALL `setmastertable` (?,?,?)",[tname,'keerthi_hospitals',JSON.stringify(info)], function (err, result, fields) {
+            info.created_by = element.created_by;
+            info.created_on = element.created_on;
+            info.updated_by = null;
+            info.updated_on = null;
+            con.query("CALL `setmastertable` (?,?,?)",[tname,'ems',JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
                 if (err) {
                     res.send({status: false, message: 'Unable to insert holidays'});
@@ -707,6 +735,10 @@ app.put('/api/putHolidays/:companyShortName',function(req,res) {
         info.day=days[hDate.getDay()];
         info.year=hDate.getFullYear();
         info.location=req.body.branch;
+        info.created_by=req.body.created_by;
+        info.created_on = req.body.created_on;
+        info.updated_on = req.body.updated_on;
+        info.updated_by = req.body.updated_by;
         con.query("CALL `updatemastertable` (?,?,?,?)",[tname,'id',req.body.id,JSON.stringify(info)], function (err, result, fields) {
             if (err) {
                 res.send({status: false, message: 'Unable to update holidays'});

@@ -75,8 +75,12 @@ app.post('/api/setDesignation', function (req, res) {
     try {
         let infoDesignationMaster = {}
         infoDesignationMaster.designation = req.body.designationName;
-        infoDesignationMaster.status = 'Active';
-        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'keerthi_hospitals', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        infoDesignationMaster.status = 1;
+        infoDesignationMaster.created_by=req.body.created_by;
+        infoDesignationMaster.created_on = req.body.created_on;
+        infoDesignationMaster.updated_on=null;
+        infoDesignationMaster.updated_by = null;
+        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'ems', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
                 res.send({ status: false, message: "Unable to insert designation" });
             } else {
