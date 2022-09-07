@@ -6,8 +6,8 @@ function switchDatabase() {
             user: "boon_client_user",
             port: 3306,
             password: "Client&*123",
-            database: 'ems',
-            // database:'boon_client',
+            // database: 'ems',
+            database:'boon_client',
             dateStrings: true,
             multipleStatements: true
         });
