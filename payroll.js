@@ -70,10 +70,26 @@ app.post('/api/getesidetails', function (req, res) {
     }
 
 })
+app.post('/api/getpayrollsections',function(req,res){
+    try{
+        con.query("CALL `get_payroll_sections` ()", [], function (err, result, fields) {
+            if(result && result.length){
+                res.send({data: result[0], status: true});
+            }
+            else{
+                res.send({status: false});
+            }
+        });
+
+    }
+    catch(e){
+        console.log('getpayrollsections :', e)
+    }
+})
 /** getearningsalarycomponent*/
-app.post('/api/getearningsalarycomponent',function(req,res){
+app.post('/api/getearningsalarycomponent/:id',function(req,res){
     try {
-        con.query("CALL `get_salary_components` (?)", [1], function (err, result, fields) {
+        con.query("CALL `get_salary_components` (?)", [req.params.id], function (err, result, fields) {
             if(result && result.length){
                 res.send({data: result[0], status: true});
             }
@@ -88,9 +104,9 @@ app.post('/api/getearningsalarycomponent',function(req,res){
 
 })
 /** getdeductionsalarycomponent*/
-app.post('/api/getdeductionsalarycomponent',function(req,res){
+app.post('/api/getdeductionsalarycomponent/:id',function(req,res){
     try {
-        con.query("CALL `get_salary_components` (?)", [2], function (err, result, fields) {
+        con.query("CALL `get_salary_components` (?)", [req.params.id], function (err, result, fields) {
             if(result && result.length){
                 res.send({data: result[0], status: true});
             }
@@ -113,15 +129,17 @@ app.post('/api/setincomegroup',function(req,res){
         console.log(req.body.component)
         let data =JSON.stringify(req.body.component)
         console.log(data)
-        // con.query("CALL `set_income_group` (?,?,?,?)", [req.body.group,req.body.from,req.body.to,JSON.stringify(data)], function (err, result, fields) {
-           
-        //     if (err) {
-        //         res.send({ status: false });
-        //     } else {
-        //         res.send({ status: true })
-        //     }
-        // });
-        res.send({ status: true })
+
+        con.query("CALL `set_income_group` (?,?,?,?,?,?)", [req.body.group,req.body.from,req.body.to,req.body.status,req.body.description,JSON.stringify(req.body.component)], function (err, result, fields) {
+           console.log(result)
+           console.log(err)
+            if (err) {
+                res.send({ status: false });
+            } else {
+                res.send({ status: true })
+            }
+        });
+        // res.send({ status: true })
         
     } 
     catch (e) {
