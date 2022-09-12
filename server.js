@@ -15,6 +15,7 @@ var admin= require('./admin-server');
 var attendance= require('./attendance-server');
 var leaveManagement = require('./leave-management');
 var ems= require('./ems-server');
+var payroll = require('./payroll');
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -379,7 +380,7 @@ app.put('/api/putDesignation',function(req,res) {
 });
 app.post('/api/updateStatus',checkRecord, function(req,res) {
     try {
-        if(req.body.status === 'Active'||(!req.body.isexists.result && req.body.isexists.status)){
+        if(req.body.status === 1 ||(!req.body.isexists.result && req.body.isexists.status)){
         con.query("CALL `updatestatus` (?,?,?)",['departmentsmaster',req.body.id,req.body.status], function (err, result, fields) {
 
             if (err) {
@@ -2184,7 +2185,7 @@ app.post('/api/getoffdayscount',function(req,res) {
  * */
 app.post('/api/designationstatus',checkRecord,function(req,res) {
     try {
-        if(req.body.status === 'Active'||(!req.body.isexists.result && req.body.isexists.status)) {
+        if(req.body.status === 1 ||(!req.body.isexists.result && req.body.isexists.status)) {
             con.query("CALL `updatestatus` (?,?,?)", ['designationsmaster', req.body.id, req.body.status], function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to update designation status'});
@@ -2262,9 +2263,14 @@ app.get('/api/getHolidysFilter/:year/:locationId/:page/:size',function(req,res) 
 });
 
 function checkRecord (req, res, next){
-    try{
+    try{    console.log(req.body.tableName)
+        console.log(req.body.columnName)
+        console.log(req.body.id)
             con.query("CALL `checkrecord` (?,?,?)",[req.body.tableName,req.body.columnName,req.body.id], function (err, result, fields) {
                 if (result && result.length > 0) {
+                    console.log("hii",result[0])
+                    console.log("hii",result[1])
+                    console.log("hi",result[1][0])
                     req.body.isexists={result:result[1][0].isexists,status :true}
                     next()
                 } else {
@@ -2774,6 +2780,7 @@ app.post('/api/setFilesMaster/', function(req,res) {
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 app.use("/ems",ems);
+app.use("/payroll",payroll);
 app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');

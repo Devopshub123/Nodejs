@@ -425,7 +425,7 @@ app.post('/api/setEmployeeAttendance', function (req, res) {
  *  */
 app.post('/api/setemployeeattendanceregularization', function (req, res) {
     try {
-        ;
+    
         con.query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
             [req.body.id, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
                 req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
