@@ -22,6 +22,20 @@ app.all("*", function (req, res, next) {
     return next();
 });
 
+module.exports = {
+    setProgramsMaster:setProgramsMaster,
+    getProgramsMaster:getProgramsMaster,
+    setProgramTasks:setProgramTasks,
+    getProgramTasks:getProgramTasks,
+    setProgramSchedules:setProgramSchedules,
+    getProgramSchedules:getProgramSchedules,
+    setEmployeeProgramSchedules:setEmployeeProgramSchedules,
+    getEmployeeProgramSchedules:getEmployeeProgramSchedules,
+    setChecklistsMaster:setChecklistsMaster,
+    getChecklistsMaster:getChecklistsMaster
+
+
+};
 
 /** setattendanceapprovalstatus
  `set_reason_master`(
@@ -87,3 +101,192 @@ app.post('/api/set_reason_master', function (req, res) {
 });
 
 module.exports = app;
+
+
+function setProgramsMaster() {
+    try {
+        con.query("CALL `set_programs_master` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('setProgramsMaster :', e)
+
+    }
+
+}
+
+function getProgramsMaster() {
+    try {
+        con.query("CALL `get_programs_master` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getProgramsMaster :', e)
+
+    }
+
+}
+
+
+
+function setProgramTasks() {
+    try {
+        con.query("CALL `set_program_tasks` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('setProgramTasks :', e)
+
+    }
+
+}
+
+
+
+
+function getProgramTasks() {
+    try {
+        con.query("CALL `get_program_tasks` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getProgramTasks :', e)
+
+    }
+
+}
+
+
+function setProgramSchedules() {
+    try {
+        con.query("CALL `set_program_schedules` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('setProgramSchedules :', e)
+
+    }
+
+}
+
+
+function getProgramSchedules() {
+    try {
+        con.query("CALL `get_program_schedules` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getProgramSchedules :', e)
+
+    }
+
+}
+
+
+
+function setEmployeeProgramSchedules() {
+    try {
+        con.query("CALL `set_employee_program_schedules` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('setEmployeeProgramSchedules :', e)
+
+    }
+
+}
+function getEmployeeProgramSchedules() {
+    try {
+        con.query("CALL `get_employee_program_schedules` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getEmployeeProgramSchedules :', e)
+
+    }
+
+}
+function setChecklistsMaster() {
+    try {
+        con.query("CALL `set_checklists_master` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('setChecklistsMaster :', e)
+
+    }
+
+}
+
+
+function getChecklistsMaster() {
+    try {
+        con.query("CALL `get_checklists_master` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getChecklistsMaster :', e)
+
+    }
+
+}
