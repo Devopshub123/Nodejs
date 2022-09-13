@@ -32,12 +32,21 @@ module.exports = {
     setEmployeeProgramSchedules:setEmployeeProgramSchedules,
     getEmployeeProgramSchedules:getEmployeeProgramSchedules,
     setChecklistsMaster:setChecklistsMaster,
-    getChecklistsMaster:getChecklistsMaster
+    getChecklistsMaster: getChecklistsMaster,
+    setNewHire: setNewHire,
+    getNewHireDetails: getNewHireDetails,
+    setReasonMaster: setReasonMaster,
+    getActiveReasonList: getActiveReasonList,
+    getReasonMasterData: getReasonMasterData,
+    setTerminationCategory: setTerminationCategory,
+    getTerminationCategory: getTerminationCategory,
+    setDocumentCategory: setDocumentCategory,
+    getDocumentCategory: getDocumentCategory
 
 
 };
-
-app.post('/api/newhire', function (req, res) {
+//// set new hire list
+function setNewHire(req,res) {
     try {
         con.query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
             console.log(result)
@@ -45,9 +54,24 @@ app.post('/api/newhire', function (req, res) {
         });
     }
     catch (e) {
-        console.log('newhire',e)
+        console.log('setNewHire',e)
     }
-})
+}
+//// get new hire list
+function getNewHireDetails(req, res) {
+    try {
+        con.query("CALL `get_new_hire_details` (?)", [req.params.candidate_id], function (err, result, fields) {
+        if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch (e) {
+        console.log('getNewHireDetails',e)
+    }
+}
 
 /** setattendanceapprovalstatus
  `set_reason_master`(
@@ -56,7 +80,7 @@ app.post('/api/newhire', function (req, res) {
     in reason_status int(11), -- values: 1(Active) , 2(Inactive)
     in actionby int(11)
 ) */
-app.post('/api/setReasonMaster', function (req, res) {
+function setReasonMaster(req,res) {
     try {
         con.query("CALL `set_reason_master` (?,?,?,?)",
         [req.body.reason_id,req.body.reason, parseInt(req.body.reason_status),req.body.actionby], function (err, result, fields) {
@@ -72,11 +96,10 @@ app.post('/api/setReasonMaster', function (req, res) {
     }catch (e) {
         console.log('set_reason_master')
     }
-})
+}
 
 /**Get Reason Data **/
-
- app.get('/api/getActiveReasonList', function (req, res) {
+function getActiveReasonList(req,res) {
     try {
         con.query("CALL `get_active_reasons` ()", function (err, result, fields) {
            
@@ -86,17 +109,16 @@ app.post('/api/setReasonMaster', function (req, res) {
                 res.send({ status: false })
             }
         });
-    } catch (e) {
-        console.log('get_reason_master :', e)
-
     }
-});
+    catch (e) {
+        console.log('getActiveReasonList',e)
+    }
+}
 
 /**Get reason list
  **@reason_id  parameters
  * **/
-
-app.get('/api/getReasonMasterData/:reasonid', function (req, res) {
+ function getReasonMasterData(req,res) {
     try {
         con.query("CALL `get_reason_master` (?)", [req.params.employee_id], function (err, result, fields) {
             if (result && result.length > 0) {
@@ -106,10 +128,10 @@ app.get('/api/getReasonMasterData/:reasonid', function (req, res) {
             }
         });
     }
-    catch(e) {
-        console.log('get_reason_master :', e)
+    catch (e) {
+        console.log('getReasonMasterData',e)
     }
-});
+}
 
 /** set terminate category
     in termination_id int(11),
@@ -117,29 +139,26 @@ app.get('/api/getReasonMasterData/:reasonid', function (req, res) {
     in termination_status int(11), -- values: 1(Active) , 2(Inactive)
     in actionby int(11)
  **/
-app.post('/api/setTerminationCategory', function (req, res) {
-
-    try {
-        console.log(req.body);
-        con.query("CALL `set_termination_category` (?,?,?,?)",
-            [req.body.termination_id, req.body.termination_category,
-             parseInt(req.body.termination_status), req.body.actionby], function (err, result, fields) {
-              console.log(result)   
-            if (result[0][0].statuscode == 0) {
-                        res.send({ status: true, message: "",data: result[0][0]})
-                    } else {
-                        res.send({ status: false, message: "unable to save" })
-                    }
-                
-            });
-
-    }catch (e) {
-        console.log('set_termination_category')
+    function setTerminationCategory(req,res) {
+        try {
+            console.log(req.body);
+            con.query("CALL `set_termination_category` (?,?,?,?)",
+                [req.body.termination_id, req.body.termination_category,
+                 parseInt(req.body.termination_status), req.body.actionby], function (err, result, fields) {
+                  console.log(result)   
+                if (result[0][0].statuscode == 0) {
+                            res.send({ status: true, message: "",data: result[0][0]})
+                        } else {
+                            res.send({ status: false, message: "unable to save" })
+                        }
+                 });
+        }catch (e) {
+            console.log('setTerminationCategory')
+        }
     }
-})
 
 /**Get termination category Data **/
-app.get('/api/getTerminationCategory', function (req, res) {
+function getTerminationCategory(req,res) {
     try {
         con.query("CALL `get_termination_category` ()", function (err, result, fields) {
             if (result && result.length > 0) {
@@ -149,17 +168,18 @@ app.get('/api/getTerminationCategory', function (req, res) {
             }
         });
     } catch (e) {
-        console.log('get_termination_category :', e)
+        console.log('getTerminationCategory :', e)
 
     }
-});
+}
+
 /** set document category
      in document_id int(11),
     in document_category varchar(64),
     in document_status int(11), -- values: 1(Active) , 2(Inactive)
     in actionby int(11)
 ) */
-app.post('/api/setDocumentCategory', function (req, res) {
+function setDocumentCategory(req,res) {
     try {
         con.query("CALL `set_document_category` (?,?,?,?)",
             [req.body.document_id, req.body.document_category,
@@ -170,15 +190,14 @@ app.post('/api/setDocumentCategory', function (req, res) {
                     } else {
                         res.send({ status: false, message: "unable to save" })
                     }
-                
-            });
+             });
 
     }catch (e) {
-        console.log('set_document_category')
+        console.log('setDocumentCategory')
     }
-})
+}
 /**Get document category Data **/
-app.get('/api/getDocumentCategory', function (req, res) {
+function getDocumentCategory(req,res) {
     try {
         con.query("CALL `get_document_category` ()", function (err, result, fields) {
             console.log(result)
@@ -189,12 +208,11 @@ app.get('/api/getDocumentCategory', function (req, res) {
             }
         });
     } catch (e) {
-        console.log('get_document_category :', e)
+        console.log('getDocumentCategory :', e)
+  }
+}
 
-    }
-});
-
-module.exports = app;
+// module.exports = app;
 
 
 function setProgramsMaster() {
