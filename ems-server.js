@@ -167,6 +167,7 @@ app.post('/api/setDocumentCategory', function (req, res) {
 app.get('/api/getDocumentCategory', function (req, res) {
     try {
         con.query("CALL `get_document_category` ()", function (err, result, fields) {
+            console.log(result)
            if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
