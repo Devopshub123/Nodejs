@@ -2777,6 +2777,119 @@ app.post('/api/setFilesMaster/', function(req,res) {
 
 });
 
+
+set_programs_master
+
+/**
+ *  EMS
+ * set programs master
+ * */
+app.post('/api/setProgramsMaster/', function(req,res) {
+
+    ems.setProgramsMaster(req,res);
+
+});
+
+/**
+ *  EMS
+ * get programs master
+ * */
+app.get('/api/getProgramsMaster/', function(req,res) {
+
+    ems.getProgramsMaster(req,res);
+
+});
+
+/**
+ *  EMS
+ * set program tasks
+ * */
+app.get('/api/setProgramTasks/', function(req,res) {
+
+    ems.setProgramTasks(req,res);
+
+});
+
+
+/**
+ *  EMS
+ * get_program_tasks
+ * */
+app.get('/api/getProgramTasks/', function(req,res) {
+
+    ems.getProgramTasks(req,res);
+
+});
+
+
+
+/**
+ *  EMS
+ * set program schedules
+ * */
+app.get('/api/setProgramSchedules/', function(req,res) {
+
+    ems.setProgramSchedules(req,res);
+
+});
+
+/**
+ *  EMS
+ * get program schedules
+ * */
+app.get('/api/getProgramSchedules/', function(req,res) {
+
+    ems.getProgramSchedules(req,res);
+
+});
+
+
+/**
+ *  EMS
+ * set employee program schedules
+ * */
+app.get('/api/setEmployeeProgramSchedules/', function(req,res) {
+
+    ems.setEmployeeProgramSchedules(req,res);
+
+});
+
+/**
+ *  EMS
+ * get employee program schedules
+ * */
+app.get('/api/getEmployeeProgramSchedules/', function(req,res) {
+
+    ems.getEmployeeProgramSchedules(req,res);
+
+});
+
+
+
+/**
+ *  EMS
+ * set checklists master
+ * */
+app.get('/api/setChecklistsMaster/', function(req,res) {
+
+    ems.setChecklistsMaster(req,res);
+
+});
+
+
+
+/**
+ *  EMS
+ * get checklists master
+ * */
+app.get('/api/getChecklistsMaster/', function(req,res) {
+
+    ems.getChecklistsMaster(req,res);
+
+});
+
+
+
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 app.use("/ems",ems);
