@@ -48,6 +48,7 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', 
         }
         else {
             con.query("CALL `getmastertable` (?,?,?,?)", [tName, req.params.status, req.params.page, req.params.size], function (err, result, fields) {
+               console.log(result)
                 if (result && result.length > 0) {
                     if (tName == 'holidaysmaster') {
                         for (let i = 0; i < result[0].length; i++) {
