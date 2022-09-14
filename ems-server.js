@@ -1,10 +1,10 @@
-const bodyParser = require('body-parser');
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-const fileUpload = require('express-fileupload');
-const nodemailer = require('nodemailer')
-const app = new express();
+var bodyParser = require('body-parser');
+var express = require('express');
+var fs = require('fs');
+var path = require('path');
+var fileUpload = require('express-fileupload');
+var nodemailer = require('nodemailer')
+var app = new express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     limit: '5mb',
@@ -32,7 +32,7 @@ module.exports = {
     setEmployeeProgramSchedules:setEmployeeProgramSchedules,
     getEmployeeProgramSchedules:getEmployeeProgramSchedules,
     setChecklistsMaster:setChecklistsMaster,
-    getChecklistsMaster:getChecklistsMaster
+    getChecklistsMaster:getChecklistsMaster,
 
 
 };
@@ -66,7 +66,7 @@ app.post('/api/setReasonMaster', function (req, res) {
                     } else {
                         res.send({ status: false, message: "unable to save" })
                     }
-                
+
             });
 
     }catch (e) {
@@ -79,7 +79,7 @@ app.post('/api/setReasonMaster', function (req, res) {
  app.get('/api/getActiveReasonList', function (req, res) {
     try {
         con.query("CALL `get_active_reasons` ()", function (err, result, fields) {
-           
+
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -124,13 +124,13 @@ app.post('/api/setTerminationCategory', function (req, res) {
         con.query("CALL `set_termination_category` (?,?,?,?)",
             [req.body.termination_id, req.body.termination_category,
              parseInt(req.body.termination_status), req.body.actionby], function (err, result, fields) {
-              console.log(result)   
+              console.log(result)
             if (result[0][0].statuscode == 0) {
                         res.send({ status: true, message: "",data: result[0][0]})
                     } else {
                         res.send({ status: false, message: "unable to save" })
                     }
-                
+
             });
 
     }catch (e) {
@@ -164,17 +164,17 @@ app.post('/api/setDocumentCategory', function (req, res) {
         con.query("CALL `set_document_category` (?,?,?,?)",
             [req.body.document_id, req.body.document_category,
              parseInt(req.body.document_status), req.body.actionby], function (err, result, fields) {
-              console.log(result)   
+              console.log(result)
             if (result[0][0].statuscode == 0) {
                         res.send({ status: true, message: "",data: result[0][0]})
                     } else {
                         res.send({ status: false, message: "unable to save" })
                     }
-                
+
             });
 
     }catch (e) {
-        console.log('set_document_category')
+        console.log('set_document_category',e)
     }
 })
 /**Get document category Data **/
@@ -196,10 +196,10 @@ app.get('/api/getDocumentCategory', function (req, res) {
 module.exports = app;
 
 
-function setProgramsMaster() {
+function setProgramsMaster(req,res) {
     try {
-        con.query("CALL `set_programs_master` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result && result.length > 0) {
+        con.query("CALL `set_programs_master` (?,?,?,?,?)", [req.body.pid,req.body.programType,req.body.pDescription,req.body.pStatus, req.body.actionby], function (err, result, fields) {
+            if (result && result[0][0].successstate == 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -214,10 +214,12 @@ function setProgramsMaster() {
 
 }
 
-function getProgramsMaster() {
+function getProgramsMaster(req,res) {
     try {
-        con.query("CALL `get_programs_master` (?)", [req.params.employee_id], function (err, result, fields) {
+        con.query("CALL `get_programs_master` (?)", [req.params.pId], function (err, result, fields) {
+            console.log(res.status,'getProgramsMaster',result,err)
             if (result && result.length > 0) {
+                console.log(res.status,'getProgramsMaster',result)
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -255,7 +257,7 @@ function setProgramTasks() {
 
 
 
-function getProgramTasks() {
+function getProgramTasks(req,res) {
     try {
         con.query("CALL `get_program_tasks` (?)", [req.params.employee_id], function (err, result, fields) {
             if (result && result.length > 0) {
@@ -274,10 +276,10 @@ function getProgramTasks() {
 }
 
 
-function setProgramSchedules() {
+function setProgramSchedules(req,res) {
     try {
-        con.query("CALL `set_program_schedules` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result && result.length > 0) {
+        con.query("CALL `set_program_schedules` (?)", [req.body.scheduleId,req.body.programId,req.body.sDescription,req.body.conductedby,req.body.scheduleDate,req.body.startTime,req.body.endTime,req.body.actionby], function (err, result, fields) {
+            if (result && result[0][0].successstate == 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -293,9 +295,9 @@ function setProgramSchedules() {
 }
 
 
-function getProgramSchedules() {
+function getProgramSchedules(req,res) {
     try {
-        con.query("CALL `get_program_schedules` (?)", [req.params.employee_id], function (err, result, fields) {
+        con.query("CALL `get_program_schedules` (?,?)", [req.body.scheduleId,req.body.programId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -313,9 +315,10 @@ function getProgramSchedules() {
 
 
 
-function setEmployeeProgramSchedules() {
+function setEmployeeProgramSchedules(req,res) {
     try {
-        con.query("CALL `set_employee_program_schedules` (?)", [req.params.employee_id], function (err, result, fields) {
+        con.query("CALL `set_employee_program_schedules` (?,?,?,?,?)", [req.body.esId,req.body.scheduleId,req.body.employeeid,req.body.status, req.body.actionby], function (err, result, fields) {
+
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -330,9 +333,9 @@ function setEmployeeProgramSchedules() {
     }
 
 }
-function getEmployeeProgramSchedules() {
+function getEmployeeProgramSchedules(req,res) {
     try {
-        con.query("CALL `get_employee_program_schedules` (?)", [req.params.employee_id], function (err, result, fields) {
+        con.query("CALL `get_employee_program_schedules` (?,?)", [req.body.employeeId,req.body.scheduleId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -347,10 +350,10 @@ function getEmployeeProgramSchedules() {
     }
 
 }
-function setChecklistsMaster() {
+function setChecklistsMaster(req,res) {
     try {
-        con.query("CALL `set_checklists_master` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result && result.length > 0) {
+        con.query("CALL `set_checklists_master` (?,?,?,?,?,?)", [req.params.cId,req.params.department,req.params.checklistName,req.params.checklistCategory,req.params.checklistDescription,req.params.actionby], function (err, result, fields) {
+            if (result  && result[0][0].successstate == 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -366,9 +369,9 @@ function setChecklistsMaster() {
 }
 
 
-function getChecklistsMaster() {
+function getChecklistsMaster(req,res) {
     try {
-        con.query("CALL `get_checklists_master` (?)", [req.params.employee_id], function (err, result, fields) {
+        con.query("CALL `get_checklists_master` (?,?)", [req.body.cId,req.body.deptId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
