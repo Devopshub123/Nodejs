@@ -14,6 +14,7 @@ var Securitykey = crypto.randomBytes(32);
 var admin= require('./admin-server');
 var attendance= require('./attendance-server');
 var leaveManagement = require('./leave-management');
+
 var ems= require('./ems-server');
 var payroll = require('./payroll');
 app.use(bodyParser.urlencoded({
@@ -2781,7 +2782,7 @@ app.post('/api/setFilesMaster/', function(req,res) {
  *  EMS
  * set programs master
  * */
-app.post('/api/setProgramsMaster/', function(req,res) {
+app.post('/ems/api/setProgramsMaster/', function(req,res) {
 
     ems.setProgramsMaster(req,res);
 
@@ -2791,17 +2792,19 @@ app.post('/api/setProgramsMaster/', function(req,res) {
  *  EMS
  * get programs master
  * */
-app.get('/api/getProgramsMaster/', function(req,res) {
+app.get('/ems/api/getProgramsMaster/:pId', function(req,res) {
+    console.log("helloooo",req.params)
 
     ems.getProgramsMaster(req,res);
 
 });
 
+
 /**
  *  EMS
  * set program tasks
  * */
-app.get('/api/setProgramTasks/', function(req,res) {
+app.get('/ems/api/setProgramTasks/', function(req,res) {
 
     ems.setProgramTasks(req,res);
 
@@ -2812,7 +2815,7 @@ app.get('/api/setProgramTasks/', function(req,res) {
  *  EMS
  * get_program_tasks
  * */
-app.get('/api/getProgramTasks/', function(req,res) {
+app.get('/ems/api/getProgramTasks/', function(req,res) {
 
     ems.getProgramTasks(req,res);
 
@@ -2824,7 +2827,7 @@ app.get('/api/getProgramTasks/', function(req,res) {
  *  EMS
  * set program schedules
  * */
-app.get('/api/setProgramSchedules/', function(req,res) {
+app.get('/ems/api/setProgramSchedules/', function(req,res) {
 
     ems.setProgramSchedules(req,res);
 
@@ -2834,7 +2837,7 @@ app.get('/api/setProgramSchedules/', function(req,res) {
  *  EMS
  * get program schedules
  * */
-app.get('/api/getProgramSchedules/', function(req,res) {
+app.get('/ems/api/getProgramSchedules/', function(req,res) {
 
     ems.getProgramSchedules(req,res);
 
@@ -2845,7 +2848,7 @@ app.get('/api/getProgramSchedules/', function(req,res) {
  *  EMS
  * set employee program schedules
  * */
-app.get('/api/setEmployeeProgramSchedules/', function(req,res) {
+app.get('/ems/api/setEmployeeProgramSchedules/', function(req,res) {
 
     ems.setEmployeeProgramSchedules(req,res);
 
@@ -2855,7 +2858,7 @@ app.get('/api/setEmployeeProgramSchedules/', function(req,res) {
  *  EMS
  * get employee program schedules
  * */
-app.get('/api/getEmployeeProgramSchedules/', function(req,res) {
+app.get('/ems/api/getEmployeeProgramSchedules/', function(req,res) {
 
     ems.getEmployeeProgramSchedules(req,res);
 
@@ -2867,7 +2870,7 @@ app.get('/api/getEmployeeProgramSchedules/', function(req,res) {
  *  EMS
  * set checklists master
  * */
-app.get('/api/setChecklistsMaster/', function(req,res) {
+app.get('/ems/api/setChecklistsMaster/', function(req,res) {
 
     ems.setChecklistsMaster(req,res);
 
@@ -2879,7 +2882,7 @@ app.get('/api/setChecklistsMaster/', function(req,res) {
  *  EMS
  * get checklists master
  * */
-app.get('/api/getChecklistsMaster/', function(req,res) {
+app.get('/ems/api/getChecklistsMaster/', function(req,res) {
 
     ems.getChecklistsMaster(req,res);
 
@@ -2993,6 +2996,16 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
     ems.getEmployeeChecklists(req, res);
 });
+
+
+  app.post('/ems/api/setEmployeeResignation/', function(req,res) {
+
+    ems.setEmployeeResignation(req, res);
+  });
+  app.get('/ems/api/getEmployeesResignation/:id', function(req,res) {
+
+    ems.getEmployeesResignation(req, res);
+  });
 
 ////////////////////
 app.use("/admin", admin);
