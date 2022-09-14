@@ -42,7 +42,11 @@ module.exports = {
     setTerminationCategory: setTerminationCategory,
     getTerminationCategory: getTerminationCategory,
     setDocumentCategory: setDocumentCategory,
-    getDocumentCategory: getDocumentCategory
+    getDocumentCategory: getDocumentCategory,
+    getEmployeesTermination:getEmployeesTermination,
+    setEmployeeTermination:setEmployeeTermination,
+    setEmployeeResignation:setEmployeeResignation,
+    getEmployeesResignation:getEmployeesResignation
 
 
 };
@@ -407,4 +411,83 @@ function getChecklistsMaster(req,res) {
     }
 
 }
+
+// set_employee_termination,
+// get_employees_terminations
+function getEmployeesTermination(req,res) {
+    try {
+        con.query("CALL `get_employees_terminations` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getEmployeesTermination :', e)
+
+    }
+
+}
+function setEmployeeTermination(req,res) {
+    try {
+        con.query("CALL `set_employee_termination` ()", [], function (err, result, fields) {
+            if (result  && result[0][0].successstate == 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('setEmployeeTermination :', e)
+
+    }
+
+}
+// set_employee_resignation,
+// get_resignation_data
+// `get_resignation_data`(in resgid int, in employee_id int(11), in manager_employee_id int(11))
+function getEmployeesResignation(req,res) {
+    try {
+       console.log(req.params.id)
+        con.query("CALL `get_resignation_data` (?,?,?)", [null,req.params.id,null], function (err, result, fields) {
+           console.log(result)
+           console.log(err)
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getEmployeesResignation :', e)
+
+    }
+
+}
+function setEmployeeResignation(req,res) {
+    try {
+        console.log(JSON.stringify(req.body))
+        con.query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)], function (err, result, fields) {      
+            if(err){
+                res.send({ status: false })
+            }
+            else{
+                res.send({ status: true,data:result[0][0].statuscode })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmployeeResignation :', e)
+
+    }
+
+}
+
 

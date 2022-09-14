@@ -2963,6 +2963,14 @@ app.post('/api/setTerminationCategory/', function(req,res) {
 
     ems.getDocumentCategory(req, res);
   });
+  app.post('/ems/api/setEmployeeResignation/', function(req,res) {
+
+    ems.setEmployeeResignation(req, res);
+  });
+  app.get('/ems/api/getEmployeesResignation/:id', function(req,res) {
+
+    ems.getEmployeesResignation(req, res);
+  });
  
 ////////////////////
 app.use("/admin", admin);
