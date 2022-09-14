@@ -2778,9 +2778,6 @@ app.post('/api/setFilesMaster/', function(req,res) {
 
 });
 
-
-
-
 /**
  *  EMS
  * set programs master
@@ -2891,8 +2888,83 @@ app.get('/ems/api/getChecklistsMaster/', function(req,res) {
 
 });
 
+/** 
+ * EMS 
+ * set new hire
+ */ 
+app.post('/ems/api/setNewHire/', function(req,res) {
 
+    ems.setNewHire(req,res);
+});
 
+/** 
+ * EMS
+ * get new hire list 
+ * */
+app.get('/ems/api/getNewHireDetails/', function(req,res) {
+
+    ems.getNewHireDetails(req,res);
+
+});
+
+/** 
+ * EMS
+ * set reason master 
+ * */
+app.post('/ems/api/setReasonMaster/', function(req,res) {
+
+    ems.setReasonMaster(req,res);
+});
+
+/** EMS
+ * get active reasons list
+ */
+app.get('/ems/api/getActiveReasonList/', function(req,res) {
+
+    ems.getActiveReasonList(req,res);
+});
+
+/** EMS
+ * get all reasons list
+ */
+ app.get('/ems/api/getReasonMasterData/:reasonid/', function(req,res) {
+
+     ems.getReasonMasterData(req, res);
+ });
+
+/** EMS
+ * set termination category
+ */
+app.post('/api/setTerminationCategory/', function(req,res) {
+
+    ems.setTerminationCategory(req,res);
+});
+
+/** EMS
+ * get termination category
+ */
+ app.get('/ems/api/getTerminationCategory/', function(req,res) {
+
+    ems.getTerminationCategory(req, res);
+ });
+
+/** EMS
+ * set document category
+ */
+ app.post('/api/setDocumentCategory/', function(req,res) {
+
+    ems.setDocumentCategory(req,res);
+ });
+
+ /** EMS
+ * get document category
+ */
+  app.get('/ems/api/getDocumentCategory/', function(req,res) {
+
+    ems.getDocumentCategory(req, res);
+  });
+ 
+////////////////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
