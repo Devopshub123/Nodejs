@@ -46,7 +46,9 @@ module.exports = {
     getEmployeesTermination:getEmployeesTermination,
     setEmployeeTermination:setEmployeeTermination,
     setEmployeeResignation:setEmployeeResignation,
-    getEmployeesResignation:getEmployeesResignation
+    getEmployeesResignation:getEmployeesResignation,
+    getActiveTerminationCategories:getActiveTerminationCategories,
+    getEmployeeslistforTermination:getEmployeeslistforTermination,
 
 
 };
@@ -165,7 +167,7 @@ function getActiveReasonList(req,res) {
 /**Get termination category Data **/
 function getTerminationCategory(req,res) {
     try {
-        con.query("CALL `get_termination_category` ()", function (err, result, fields) {
+        con.query("CALL `get_termination_category` (null)", function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -411,12 +413,10 @@ function getChecklistsMaster(req,res) {
     }
 
 }
-
-// set_employee_termination,
-// get_employees_terminations
 function getEmployeesTermination(req,res) {
     try {
-        con.query("CALL `get_employees_terminations` ()", [], function (err, result, fields) {
+        con.query("CALL `get_employees_terminations` (?,?)", [null,JSON.parse(req.params.id)], function (err, result, fields) {
+            console.log(result)
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -433,9 +433,11 @@ function getEmployeesTermination(req,res) {
 }
 function setEmployeeTermination(req,res) {
     try {
-        con.query("CALL `set_employee_termination` ()", [], function (err, result, fields) {
-            if (result  && result[0][0].successstate == 0) {
-                res.send({ data: result[0], status: true });
+        console.log(JSON.stringify(req.body))
+        con.query("CALL `set_employee_termination` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            console.log(result[0][0].statuscode)
+            if (result  && result[0][0].statuscode == 0) {
+                res.send({ data: result[0][0].statuscode, status: true });
             } else {
                 res.send({ status: false })
             }
@@ -486,6 +488,36 @@ function setEmployeeResignation(req,res) {
     } catch (e) {
         console.log('setEmployeeResignation :', e)
 
+    }
+
+}
+function getActiveTerminationCategories(req,res) {
+    try {
+        con.query("CALL `get_active_termination_categories` ()", [], function (err, result, fields) {  
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }              
+        });
+
+    } catch (e) {
+        console.log('get_active_termination_categories :', e)
+    }
+
+}
+function getEmployeeslistforTermination(req,res) {
+    try {
+        con.query("CALL `get_employees_list` ()", [], function (err, result, fields) {  
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }              
+        });
+
+    } catch (e) {
+        console.log('get_employees_list :', e)
     }
 
 }

@@ -2971,7 +2971,21 @@ app.post('/api/setTerminationCategory/', function(req,res) {
 
     ems.getEmployeesResignation(req, res);
   });
- 
+  app.post('/ems/api/setEmployeeTermination/', function(req,res) {
+
+    ems.setEmployeeTermination(req, res);
+  });
+  app.get('/ems/api/getEmployeesTermination/:id', function(req,res) {
+
+    ems.getEmployeesTermination(req, res);
+  });
+  app.get('/ems/api/getActiveTerminationCategories/', function(req,res){
+    ems.getActiveTerminationCategories(req,res)
+  })
+  app.get('/ems/api/getEmployeeslistforTermination/', function(req,res){
+    ems.getEmployeeslistforTermination(req,res)
+  })
+  
 ////////////////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
