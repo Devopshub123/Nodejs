@@ -807,7 +807,7 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',f
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-                console.log("req.params.tableName;",err)
+                console.log("getmastertable",err,result)
 
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
@@ -2934,9 +2934,9 @@ app.get('/ems/api/getActiveReasonList/', function(req,res) {
 /** EMS
  * set termination category
  */
-app.post('/api/setTerminationCategory/', function(req,res) {
+app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
-    ems.setTerminationCategory(req,res);
+        ems.setTerminationCategory(req, res);
 });
 
 /** EMS
@@ -2950,7 +2950,7 @@ app.post('/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * set document category
  */
- app.post('/api/setDocumentCategory/', function(req,res) {
+ app.post('/ems/api/setDocumentCategory/', function(req,res) {
 
     ems.setDocumentCategory(req,res);
  });
@@ -2962,7 +2962,51 @@ app.post('/api/setTerminationCategory/', function(req,res) {
 
     ems.getDocumentCategory(req, res);
   });
- 
+
+/** EMS
+ * get document category
+ */
+    app.get('/ems/api/getEmployeesList/', function(req,res) {
+
+        ems.getEmployeesList(req, res);
+    });
+      
+ /** EMS
+ * set candidate pre onboarding details
+ */
+  app.post('/ems/api/setPreonboardCandidateInformation', function(req,res) {
+
+    ems.setPreonboardCandidateInformation(req,res);
+ });   
+  
+/** EMS
+ * get candidate list
+ */
+ app.get('/ems/api/getCandidateDetails/:emp_Id', function(req,res) {
+
+    ems.getCandidateDetails(req, res);
+});
+
+
+/** EMS
+ * get employee check list
+ */
+ app.get('/ems/api/getEmployeeChecklists/:emp_Id', function(req,res) {
+
+    ems.getEmployeeChecklists(req, res);
+});
+
+
+  app.post('/ems/api/setEmployeeResignation/', function(req,res) {
+
+    ems.setEmployeeResignation(req, res);
+  });
+  app.get('/ems/api/getEmployeesResignation/:id', function(req,res) {
+
+    ems.getEmployeesResignation(req, res);
+  });
+
+////////////////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
