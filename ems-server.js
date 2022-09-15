@@ -220,10 +220,11 @@ function getDocumentCategory(req,res) {
 function setProgramsMaster(req,res) {
     try {
         con.query("CALL `set_programs_master` (?,?,?,?,?)", [req.body.pid,req.body.programType,req.body.pDescription,req.body.pStatus, req.body.actionby], function (err, result, fields) {
-            if (result && result[0][0].successstate == 0) {
-                res.send({ data: result[0], status: true });
+            if (result) {
+                result[0][0].pid=req.body.pid;
+                res.send({ data: result[0]});
             } else {
-                res.send({ status: false })
+                res.send({data:[{successstate:-1,pid:req.body.pid}]})
             }
         });
 
@@ -237,10 +238,8 @@ function setProgramsMaster(req,res) {
 
 function getProgramsMaster(req,res) {
     try {
-        con.query("CALL `get_programs_master` (?)", [req.params.pId], function (err, result, fields) {
-            console.log(res.status,'getProgramsMaster',result,err)
+        con.query("CALL `get_programs_master` (?)", [parseInt(req.params.pId)?parseInt(req.params.pId):null], function (err, result, fields) {
             if (result && result.length > 0) {
-                console.log(res.status,'getProgramsMaster',result)
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
