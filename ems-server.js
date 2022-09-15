@@ -51,7 +51,9 @@ module.exports = {
     getEmployeesTermination:getEmployeesTermination,
     setEmployeeTermination:setEmployeeTermination,
     setEmployeeResignation:setEmployeeResignation,
-    getEmployeesResignation:getEmployeesResignation
+    getEmployeesResignation: getEmployeesResignation,
+    setCandidateExperience: setCandidateExperience,
+    setCandidateEducation: setCandidateEducation
 
 
 
@@ -217,7 +219,7 @@ function getActiveReasonList(req,res) {
 /**Get termination category Data **/
 function getTerminationCategory(req, res) {
    try {
-        con.query("CALL `get_termination_category` ()", function (err, result, fields) {
+        con.query("CALL `get_termination_category` (null)", function (err, result, fields) {
             console.log(result)
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
@@ -249,13 +251,13 @@ function setDocumentCategory(req,res) {
             });
 
     }catch (e) {
-        console.log('set_document_category',e)
+        console.log('setDocumentCategory',e)
              }
 }
 /**Get document category Data **/
 function getDocumentCategory(req,res) {
     try {
-        con.query("CALL `get_document_category` ()", function (err, result, fields) {
+        con.query("CALL `get_document_category` (null)", function (err, result, fields) {
             console.log(result)
            if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
@@ -605,4 +607,37 @@ function setEmployeeResignation(req,res) {
 
 }
 
+function setCandidateExperience(req,res) {
+    
+    try {
+        con.query("CALL `set_preonboard_candidate_experience` (?)", [JSON.stringify(req.body)], function (err, result, fields) {      
+          console.log(result)
+          if (result && result.length > 0) {
+            res.send({ data: result[0], status: true });
+        } else {
+            res.send({ status: false })
+        }
+        });
 
+    } catch (e) {
+        console.log('setCandidateExperience :', e)
+    }
+}
+
+/** set candidate education details */
+function setCandidateEducation(req,res) {
+    try {
+        console.log("11")
+        con.query("CALL `set_preonboard_candidate_educations` (?)", [JSON.stringify(req.body)], function (err, result, fields) {      
+          console.log(result)
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setCandidateEducation :', e)
+    }
+}

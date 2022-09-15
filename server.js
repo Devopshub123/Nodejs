@@ -3007,7 +3007,19 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     ems.getEmployeesResignation(req, res);
   });
 
-////////////////////
+  /** set onboard candidate work experience */
+  app.post('/ems/api/setCandidateExperience', function(req,res) {
+
+    ems.setCandidateExperience(req, res);
+  });
+
+    /** set onboard candidate education */
+    app.post('/ems/api/setCandidateEducation', function(req,res) {
+        console.log("hello")
+        ems.setCandidateEducation(req, res);
+    });
+      
+//////////////////// 
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
