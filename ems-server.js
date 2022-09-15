@@ -43,6 +43,11 @@ module.exports = {
     getTerminationCategory: getTerminationCategory,
     setDocumentCategory: setDocumentCategory,
     getDocumentCategory: getDocumentCategory,
+
+    getEmployeesList: getEmployeesList,
+    setPreonboardCandidateInformation: setPreonboardCandidateInformation,
+    getEmployeeChecklists: getEmployeeChecklists,
+    getCandidateDetails: getCandidateDetails,
     getEmployeesTermination:getEmployeesTermination,
     setEmployeeTermination:setEmployeeTermination,
     setEmployeeResignation:setEmployeeResignation,
@@ -51,13 +56,62 @@ module.exports = {
     getEmployeeslistforTermination:getEmployeeslistforTermination,
 
 
+
 };
 //// set new hire list
 function setNewHire(req,res) {
     try {
+        console.log(req.body.personal_email);
         con.query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
-            console.log(result)
-            res.send(result)
+            console.log(result[0][0].candidate_id)
+            if (result[0][0].statuscode == 0) {
+                // res.send({status:true,data:result[0][0]})
+                var transporter = nodemailer.createTransport({
+                    host: "smtp-mail.outlook.com", // hostname
+                    secureConnection: false, // TLS requires secureConnection to be false
+                    port: 587, // port for secure SMTP
+                    tls: {
+                        ciphers:'SSLv3'
+                    },
+                    auth: {
+                        user: 'smattupalli@sreebtech.com',
+                        pass: 'Sree$sreebt'
+                    }
+                });
+               // var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+                var url = 'http://122.175.62.210:7575/Login'
+                var html = `<html>
+                <head>
+                <title>Candidate Form</title></head>
+                <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+                <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+                <p style="color:black">Hello,</p>
+                <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
+                <p style="color:black"> kindly complete your application here by following link</p>
+                <p style="color:black"> <a href="${url}" >${url} </a></p>   
+                <p style="color:black"> Fill in all the information as per your supporting documents.</p>
+                <p style="color:black">Thank You!</p>
+                <p style="color:black">HRMS Team</p>
+                <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+                </div></body>
+                </html> `;
+                var mailOptions = {
+                    from: 'smattupalli@sreebtech.com',
+                    to: req.body.personal_email,
+                    subject: 'Acknowledgement form',
+                    html:html
+                };
+                transporter.sendMail(mailOptions, function(error, info){
+                    if (error) {
+                        res.send({status: false})
+                    } else {
+                        res.send({status: true})
+                    }
+                });
+            }
+            else {
+                res.send({status:false})
+            }
         });
     }
     catch (e) {
@@ -87,7 +141,7 @@ function getNewHireDetails(req, res) {
     in reason_status int(11), -- values: 1(Active) , 2(Inactive)
     in actionby int(11)
 ) */
-function setReasonMaster(req,res) {
+function setReasonMaster(req, res) {
     try {
         con.query("CALL `set_reason_master` (?,?,?,?)",
         [req.body.reason_id,req.body.reason, parseInt(req.body.reason_status),req.body.actionby], function (err, result, fields) {
@@ -97,11 +151,10 @@ function setReasonMaster(req,res) {
                     } else {
                         res.send({ status: false, message: "unable to save" })
                     }
-
-            });
+          });
 
     }catch (e) {
-        console.log('set_reason_master')
+        console.log('setReasonMaster')
     }
 }
 
@@ -148,8 +201,7 @@ function getActiveReasonList(req,res) {
  **/
     function setTerminationCategory(req,res) {
         try {
-            console.log(req.body);
-            con.query("CALL `set_termination_category` (?,?,?,?)",
+             con.query("CALL `set_termination_category` (?,?,?,?)",
                 [req.body.termination_id, req.body.termination_category,
                  parseInt(req.body.termination_status), req.body.actionby], function (err, result, fields) {
                   console.log(result)   
@@ -176,10 +228,8 @@ function getTerminationCategory(req,res) {
         });
     } catch (e) {
         console.log('getTerminationCategory :', e)
-
     }
 }
-
 /** set document category
      in document_id int(11),
     in document_category varchar(64),
@@ -191,13 +241,11 @@ function setDocumentCategory(req,res) {
         con.query("CALL `set_document_category` (?,?,?,?)",
             [req.body.document_id, req.body.document_category,
              parseInt(req.body.document_status), req.body.actionby], function (err, result, fields) {
-              console.log(result)
-            if (result[0][0].statuscode == 0) {
+                if (result[0][0].statuscode == 0) {
                         res.send({ status: true, message: "",data: result[0][0]})
                     } else {
                         res.send({ status: false, message: "unable to save" })
                     }
-
             });
 
     }catch (e) {
@@ -226,10 +274,11 @@ function getDocumentCategory(req,res) {
 function setProgramsMaster(req,res) {
     try {
         con.query("CALL `set_programs_master` (?,?,?,?,?)", [req.body.pid,req.body.programType,req.body.pDescription,req.body.pStatus, req.body.actionby], function (err, result, fields) {
-            if (result && result[0][0].successstate == 0) {
-                res.send({ data: result[0], status: true });
+            if (result) {
+                result[0][0].pid=req.body.pid;
+                res.send({ data: result[0]});
             } else {
-                res.send({ status: false })
+                res.send({data:[{successstate:-1,pid:req.body.pid}]})
             }
         });
 
@@ -243,10 +292,8 @@ function setProgramsMaster(req,res) {
 
 function getProgramsMaster(req,res) {
     try {
-        con.query("CALL `get_programs_master` (?)", [req.params.pId], function (err, result, fields) {
-            console.log(res.status,'getProgramsMaster',result,err)
+        con.query("CALL `get_programs_master` (?)", [parseInt(req.params.pId)?parseInt(req.params.pId):null], function (err, result, fields) {
             if (result && result.length > 0) {
-                console.log(res.status,'getProgramsMaster',result)
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -413,6 +460,73 @@ function getChecklistsMaster(req,res) {
     }
 
 }
+/** get hired employee list */
+function getEmployeesList(req,res) {
+    try {
+        con.query("CALL `get_employees_list` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+      } catch (e) {
+        console.log('getEmployeesList :', e)
+    }
+}
+
+
+
+/** candidate pre onboarding  */
+
+function setPreonboardCandidateInformation(req, res) {
+
+    try {
+         con.query("CALL `set_preonboard_candidate_information` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setPreonboardCandidateInformation :', e)
+
+    }
+}
+    /** get candidates list */
+    function getCandidateDetails(req, res) {
+
+        try {
+            con.query("CALL `get_candidate_details` (?)", [req.params.emp_Id], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false })
+                }
+            });
+          } catch (e) {
+            console.log('getCandidateDetails :', e)
+        }
+    }
+
+/** get employee check list */
+function getEmployeeChecklists(req, res) {
+    try {
+           con.query("CALL `get_employee_checklists` (?,?)", [null,req.params.emp_Id], function (err, result, fields) {
+               if (result && result.length > 0) {
+                   res.send({ data: result[0], status: true });
+               } else {
+                   res.send({ status: false })
+               }
+           });
+         } catch (e) {
+           console.log('getEmployeeChecklists :', e)
+       }
+}
+   
+// get_employees_terminations
 function getEmployeesTermination(req,res) {
     try {
         con.query("CALL `get_employees_terminations` (?,?)", [null,JSON.parse(req.params.id)], function (err, result, fields) {
@@ -431,6 +545,7 @@ function getEmployeesTermination(req,res) {
     }
 
 }
+
 function setEmployeeTermination(req,res) {
     try {
         console.log(JSON.stringify(req.body))
