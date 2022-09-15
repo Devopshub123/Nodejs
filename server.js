@@ -2570,7 +2570,7 @@ app.post('/api/getleavecalender/:id',function(req,res){
     try {
         con.query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
            console.log("getleavecalendar",err,result)
-            if (result && result.length > 0) {
+            if (result && result[0].length > 0) {
                for(var i = 0; i< result[0].length; i ++ ){
                    if(result[0][i].ltype == 'weekoff'){
                        result[0][i].color = '#2e0cf3'
@@ -2793,7 +2793,6 @@ app.post('/ems/api/setProgramsMaster/', function(req,res) {
  * get programs master
  * */
 app.get('/ems/api/getProgramsMaster/:pId', function(req,res) {
-    console.log("helloooo",req.params)
 
     ems.getProgramsMaster(req,res);
 
@@ -3006,6 +3005,21 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
     ems.getEmployeesResignation(req, res);
   });
+  app.post('/ems/api/setEmployeeTermination/', function(req,res) {
+
+    ems.setEmployeeTermination(req, res);
+  });
+  app.get('/ems/api/getEmployeesTermination/:id', function(req,res) {
+
+    ems.getEmployeesTermination(req, res);
+  });
+  app.get('/ems/api/getActiveTerminationCategories/', function(req,res){
+    ems.getActiveTerminationCategories(req,res)
+  })
+  app.get('/ems/api/getEmployeeslistforTermination/', function(req,res){
+    ems.getEmployeeslistforTermination(req,res)
+  })
+  
 
   /** set onboard candidate work experience */
   app.post('/ems/api/setCandidateExperience', function(req,res) {
