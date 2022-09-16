@@ -431,15 +431,11 @@ function getEmployeeProgramSchedules(req,res) {
 }
 function setChecklistsMaster(req,res) {
     try {
-        con.query("CALL `set_checklists_master` (?,?,?,?,?,?)", [req.params.cId,req.params.department,req.params.checklistName,req.params.checklistCategory,req.params.checklistDescription,req.params.actionby], function (err, result, fields) {
-            if (result  && result[0][0].successstate == 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
+        console.log(req.body)
+        console.log(req.body.actionby)
+        con.query("CALL `set_checklists_master` (?,?)", [JSON.stringify(req.body),req.body.actionby], function (err, result, fields) {
+            res.send(result)
         });
-
-
     } catch (e) {
         console.log('setChecklistsMaster :', e)
 
@@ -450,15 +446,13 @@ function setChecklistsMaster(req,res) {
 
 function getChecklistsMaster(req,res) {
     try {
-        con.query("CALL `get_checklists_master` (?,?)", [req.body.cId,req.body.deptId], function (err, result, fields) {
+        con.query("CALL `get_checklists_master` (?,?)", [null,JSON.parse(req.params.deptId)], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
             }
         });
-
-
     } catch (e) {
         console.log('getChecklistsMaster :', e)
 
@@ -487,8 +481,10 @@ function getEmployeesList(req,res) {
 function setPreonboardCandidateInformation(req, res) {
 
     try {
+        console.log(req.body)
          con.query("CALL `set_preonboard_candidate_information` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            if (result && result.length > 0) {
+           console.log("hello")
+             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -643,7 +639,7 @@ function getEmployeeslistforTermination(req,res) {
 }
 
 function setCandidateExperience(req,res) {
-    
+    console.log(req.body)
     try {
         con.query("CALL `set_preonboard_candidate_experience` (?)", [JSON.stringify(req.body)], function (err, result, fields) {      
           console.log(result)
@@ -662,7 +658,7 @@ function setCandidateExperience(req,res) {
 /** set candidate education details */
 function setCandidateEducation(req,res) {
     try {
-        console.log("11")
+        console.log(req.body)
         con.query("CALL `set_preonboard_candidate_educations` (?)", [JSON.stringify(req.body)], function (err, result, fields) {      
           console.log(result)
             if (result && result.length > 0) {

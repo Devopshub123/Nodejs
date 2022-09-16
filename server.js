@@ -2869,9 +2869,9 @@ app.get('/ems/api/getEmployeeProgramSchedules/', function(req,res) {
  *  EMS
  * set checklists master
  * */
-app.get('/ems/api/setChecklistsMaster/', function(req,res) {
-
-    ems.setChecklistsMaster(req,res);
+app.post('/ems/api/setChecklistsMaster', function(req,res) {
+  
+    ems.setChecklistsMaster(req, res);
 
 });
 
@@ -2881,7 +2881,7 @@ app.get('/ems/api/setChecklistsMaster/', function(req,res) {
  *  EMS
  * get checklists master
  * */
-app.get('/ems/api/getChecklistsMaster/', function(req,res) {
+app.get('/ems/api/getChecklistsMaster/:deptId', function(req,res) {
 
     ems.getChecklistsMaster(req,res);
 
@@ -2975,8 +2975,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
  * set candidate pre onboarding details
  */
   app.post('/ems/api/setPreonboardCandidateInformation', function(req,res) {
-
-    ems.setPreonboardCandidateInformation(req,res);
+   ems.setPreonboardCandidateInformation(req,res);
  });   
   
 /** EMS
