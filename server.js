@@ -2826,7 +2826,7 @@ app.get('/ems/api/getProgramTasks/', function(req,res) {
  *  EMS
  * set program schedules
  * */
-app.get('/ems/api/setProgramSchedules/', function(req,res) {
+app.post('/ems/api/setProgramSchedules/', function(req,res) {
 
     ems.setProgramSchedules(req,res);
 
@@ -2836,7 +2836,7 @@ app.get('/ems/api/setProgramSchedules/', function(req,res) {
  *  EMS
  * get program schedules
  * */
-app.get('/ems/api/getProgramSchedules/', function(req,res) {
+app.get('/ems/api/getProgramSchedules/:sid/:pid', function(req,res) {
 
     ems.getProgramSchedules(req,res);
 
@@ -3030,6 +3030,13 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     app.post('/ems/api/setCandidateEducation', function(req,res) {
         console.log("hello")
         ems.setCandidateEducation(req, res);
+    });
+
+   /** getDepartmentEmployeesByDesignation */
+    app.get('/ems/api/getDepartmentEmployeesByDesignation/:sid/:pid', function(req,res) {
+
+        ems.getDepartmentEmployeesByDesignation(req,res);
+    
     });
       
 //////////////////// 
