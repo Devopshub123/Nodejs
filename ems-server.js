@@ -58,6 +58,7 @@ module.exports = {
     getEmployeesResignation:getEmployeesResignation,
     getActiveTerminationCategories:getActiveTerminationCategories,
     getEmployeeslistforTermination:getEmployeeslistforTermination,
+    getDepartmentEmployeesByDesignation:getDepartmentEmployeesByDesignation,
 
 
 
@@ -356,10 +357,13 @@ function getProgramTasks(req,res) {
 
 
 function setProgramSchedules(req,res) {
+  
     try {
-        con.query("CALL `set_program_schedules` (?)", [req.body.scheduleId,req.body.programId,req.body.sDescription,req.body.conductedby,req.body.scheduleDate,req.body.startTime,req.body.endTime,req.body.actionby], function (err, result, fields) {
+        console.log(req.body)
+        con.query("CALL `set_program_schedules` (?,?,?,?,?,?,?,?,?,?)", [req.body.scheduleId,req.body.programId,req.body.department,req.body.designation,req.body.Description,req.body.conductedby,req.body.scheduleDate,req.body.startTime,req.body.endTime,req.body.actionby], function (err, result, fields) {
+            console.log(result)
             if (result && result[0][0].successstate == 0) {
-                res.send({ data: result[0], status: true });
+                res.send({ data: result[0][0], status: true });
             } else {
                 res.send({ status: false })
             }
@@ -376,7 +380,7 @@ function setProgramSchedules(req,res) {
 
 function getProgramSchedules(req,res) {
     try {
-        con.query("CALL `get_program_schedules` (?,?)", [req.body.scheduleId,req.body.programId], function (err, result, fields) {
+        con.query("CALL `get_program_schedules` (?,?)", [JSON.parse(req.params.sid),JSON.parse(req.params.pid)], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -675,4 +679,22 @@ function setCandidateEducation(req,res) {
     } catch (e) {
         console.log('setCandidateEducation :', e)
     }
+}
+// get_department_employees_by_designation
+function getDepartmentEmployeesByDesignation(req,res) {
+    try {
+        con.query("CALL `get_department_employees_by_designation` (?,?)", [JSON.parse(req.params.sid),JSON.parse(req.params.pid)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getProgramSchedules :', e)
+
+    }
+
 }
