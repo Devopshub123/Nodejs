@@ -50,7 +50,7 @@ app.post('/api/set_reason_master', function (req, res) {
 
 /**Get Reason Data **/
 
- app.get('/api/getActiveReasonList', function (req, res) {
+app.get('/api/getActiveReasonList', function (req, res) {
     try {
         con.query("CALL `get_active_reasons` ()", function (err, result, fields) {
             if (result && result.length > 0) {
