@@ -2900,7 +2900,7 @@ app.post('/ems/api/setNewHire/', function(req,res) {
  * EMS
  * get new hire list 
  * */
-app.get('/ems/api/getNewHireDetails/', function(req,res) {
+app.get('/ems/api/getNewHireDetails/:id', function(req,res) {
 
     ems.getNewHireDetails(req,res);
 
@@ -3039,7 +3039,23 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     
     });
       
-//////////////////// 
+    /** */
+    app.post('/ems/api/setProgramSchedulemail/',function(req,res){
+        ems.setProgramSchedulemail(req,res);
+    })
+    /** */
+    app.get('/ems/api/getallEmployeeProgramSchedules/:eid/:sid',function(req,res){
+        ems.getallEmployeeProgramSchedules(req,res)
+    })
+    /** */
+    app.post('/ems/api/setselectEmployeesProgramSchedules/',function(req,res){
+        ems.setselectEmployeesProgramSchedules(req,res)
+    })
+    /** */
+    app.get('/ems/api/getEmployeesForProgramSchedule/:id',function(req,res){
+        ems.getEmployeesForProgramSchedule(req,res)
+    })
+    //////// 
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
