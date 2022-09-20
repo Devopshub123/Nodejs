@@ -33,7 +33,6 @@ module.exports = {
     getEmployeeProgramSchedules:getEmployeeProgramSchedules,
     setChecklistsMaster:setChecklistsMaster,
     getChecklistsMaster:getChecklistsMaster,
-    getChecklistsMaster: getChecklistsMaster,
     setNewHire: setNewHire,
     getNewHireDetails: getNewHireDetails,
     setReasonMaster: setReasonMaster,
@@ -59,6 +58,10 @@ module.exports = {
     getActiveTerminationCategories:getActiveTerminationCategories,
     getEmployeeslistforTermination:getEmployeeslistforTermination,
     getDepartmentEmployeesByDesignation:getDepartmentEmployeesByDesignation,
+    setselectEmployeesProgramSchedules:setselectEmployeesProgramSchedules,
+    setProgramSchedulemail:setProgramSchedulemail,
+    getallEmployeeProgramSchedules:getallEmployeeProgramSchedules,
+    getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
 
 
 
@@ -126,7 +129,7 @@ function setNewHire(req,res) {
 //// get new hire list
 function getNewHireDetails(req, res) {
     try {
-        con.query("CALL `get_new_hire_details` (?)", [req.params.candidate_id], function (err, result, fields) {
+        con.query("CALL `get_new_hire_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
         if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -279,7 +282,9 @@ function getDocumentCategory(req,res) {
 
 function setProgramsMaster(req,res) {
     try {
+        console.log(req.body)
         con.query("CALL `set_programs_master` (?,?,?,?,?)", [req.body.pid,req.body.programType,req.body.pDescription,req.body.pStatus, req.body.actionby], function (err, result, fields) {
+            console.log(result)
             if (result) {
                 result[0][0].pid=req.body.pid;
                 res.send({ data: result[0]});
@@ -693,3 +698,100 @@ function getDepartmentEmployeesByDesignation(req,res) {
     }
 
 }
+function setselectEmployeesProgramSchedules(req,res){
+    try{
+        console.log(req.body)
+
+    }
+    catch(e){
+        console.log('setselectEmployeesProgramSchedules')
+    }
+}
+function setProgramSchedulemail(req,res){
+    try{
+       console.log(req.body)
+       let email = ['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+        });
+        var url = 'http://122.175.62.210:7676/api/Resetpassword/'
+        var html = `<html>
+        <head>
+        <title>HRMS ResetPassword</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+        <p style="color:black">hello!,</p>
+        <p style="color:black">You recently requested to reset the password to your HRMS account<b></b></p>
+        <p style="color:black"> To set a new password, click here.</p>
+        <p style="color:black"> <a href="${url}" >${url}</a></p>
+        <p style="color:black"> Didn’t request a password change? Ignore this email.</p>
+        <p style="color:black">Thank You!</p>
+        <p style="color:black">HRMS Team</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Reset Password email',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('setProgramSchedulemail :', e)
+
+    }
+
+}
+function getallEmployeeProgramSchedules(req,res){
+try{
+    con.query("CALL `get_employee_program_schedules` (?,?)", [JSON.parse(req.params.eid),JSON.parse(req.params.sid)], function (err, result, fields) {
+        if (result && result.length > 0) {
+            res.send({ data: result[0], status: true });
+        } else {
+            res.send({ status: false })
+        }
+    });
+
+}
+catch(e){
+    console.log('getallEmployeeProgramSchedules :', e)
+}
+}
+function getEmployeesForProgramSchedule(req,res){
+    try{
+        con.query("CALL `get_employees_for_program_schedule` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    }
+    catch(e){
+        console.log('getEmployeesForProgramSchedule :', e)
+
+    }
+
+}
+// get_employees_for_program_schedule
