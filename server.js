@@ -3056,6 +3056,14 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     app.get('/ems/api/getEmployeesForProgramSchedule/:id',function(req,res){
         ems.getEmployeesForProgramSchedule(req,res)
     })
+    /** getOnboardingSettings*/
+    app.get('/ems/api/getOnboardingSettings/',function(req,res){
+        ems.getOnboardingSettings(req,res)
+    })
+     /** updateselectEmployeesProgramSchedules*/
+     app.post('/ems/api/updateselectEmployeesProgramSchedules/',function(req,res){
+        ems.updateselectEmployeesProgramSchedules(req,res)
+    })
     //////// 
 app.use("/admin", admin);
 app.use("/attendance", attendance);

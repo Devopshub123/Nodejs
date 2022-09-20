@@ -62,6 +62,8 @@ module.exports = {
     setProgramSchedulemail:setProgramSchedulemail,
     getallEmployeeProgramSchedules:getallEmployeeProgramSchedules,
     getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
+    getOnboardingSettings:getOnboardingSettings,
+    updateselectEmployeesProgramSchedules:updateselectEmployeesProgramSchedules
 
 
 
@@ -365,14 +367,22 @@ function setProgramSchedules(req,res) {
   
     try {
         console.log(req.body)
+        
         con.query("CALL `set_program_schedules` (?,?,?,?,?,?,?,?,?,?)", [req.body.scheduleId,req.body.programId,req.body.department,req.body.designation,req.body.Description,req.body.conductedby,req.body.scheduleDate,req.body.startTime,req.body.endTime,req.body.actionby], function (err, result, fields) {
+            console.log(err)
             console.log(result)
+            console.log(result[0][0])
+            console.log(result[0][0].successstate)
+           
+           
             if (result && result[0][0].successstate == 0) {
-                res.send({ data: result[0][0], status: true });
+                res.send({ status: true })
+                
             } else {
                 res.send({ status: false })
             }
         });
+        // setProgramSchedulemail(req.body.email);
 
 
     } catch (e) {
@@ -699,17 +709,47 @@ function getDepartmentEmployeesByDesignation(req,res) {
 
 }
 function setselectEmployeesProgramSchedules(req,res){
+    
     try{
-        console.log(req.body)
+        let array=[]
+            array.push(req.body.email)
+        con.query("CALL `set_employee_program_schedules` (?,?,?,?,?)", [req.body.esid,req.body.scheduleid,JSON.stringify(req.body.empid),req.body.status,req.body.actionby], function (err, result, fields) {      
+              if (result && result[0][0].successstate == 0 ) {
+                array.push(result[0][0])            
+                setProgramSchedulemail(array);
+                res.send({ data: result[0], status: true });
+              } else {
+                  res.send({ status: false })
+              }
+          });
+         
 
     }
     catch(e){
-        console.log('setselectEmployeesProgramSchedules')
+        console.log('setselectEmployeesProgramSchedules',e)
+    }
+}
+function updateselectEmployeesProgramSchedules(req,res){
+   
+    try{
+        con.query("CALL `set_employee_program_schedules` (?,?,?,?,?)", [JSON.stringify(req.body.esid),req.body.scheduleid,JSON.stringify(req.body.empid),req.body.status,req.body.actionby], function (err, result, fields) {      
+            
+              if (result && result[0][0].successstate == 0) {
+                  res.send({ data: result[0], status: true });
+              } else {
+                  res.send({ status: false })
+              }
+          });
+         
+
+    }
+    catch(e){
+        console.log('setselectEmployeesProgramSchedules',e)
     }
 }
 function setProgramSchedulemail(req,res){
     try{
-       console.log(req.body)
+       console.log("hi",req[0])
        let email = ['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
@@ -723,27 +763,31 @@ function setProgramSchedulemail(req,res){
             pass: 'Sree$sreebt'
         }
         });
-        var url = 'http://122.175.62.210:7676/api/Resetpassword/'
         var html = `<html>
         <head>
-        <title>HRMS ResetPassword</title></head>
+        <title>Induction Meeting</title></head>
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-        <p style="color:black">hello!,</p>
-        <p style="color:black">You recently requested to reset the password to your HRMS account<b></b></p>
-        <p style="color:black"> To set a new password, click here.</p>
-        <p style="color:black"> <a href="${url}" >${url}</a></p>
-        <p style="color:black"> Didn’t request a password change? Ignore this email.</p>
-        <p style="color:black">Thank You!</p>
-        <p style="color:black">HRMS Team</p>
+        <p style="color:black">Dear Employee,</p>
+        <p style="color:black">We are very excited to welcome you to our organization!<b></b></p>
+        <p style="color:black"> At Sreeb we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.<b></b></p>
+        <p style="color:black">You are required to attend the induction program by the Sreeb<b></b></p>
+        <p style="color:black">Name of the Induction Program:Organization Norms and Values<b></b></p>
+       
+        <p style="color:black">Your Meeting Scheduled On ${req[1].schedule_date}<b></b></p>
+        <p style="color:black">from ${req[1].schedule_starttime} to ${req[1].schedule_endtime}<b></b></p>
+        <p style="color:black">We are looking forward to working with you and seeing you achieve great things!<b></b></p>
+        
+        <p style="color:black">Warm Regards,</p>
+        <p style="color:black">Human Resources.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
    
         var mailOptions = {
             from: 'smattupalli@sreebtech.com',
-            to: email,
-            subject: 'Reset Password email',
+            to: req[0],
+            subject: 'Induction Program Meeting',
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -794,4 +838,18 @@ function getEmployeesForProgramSchedule(req,res){
     }
 
 }
-// get_employees_for_program_schedule
+function getOnboardingSettings(req,res){
+    try{
+        con.query("CALL `get_onboard_settings` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getOnboardingSettings :', e)
+    }
+}
+
