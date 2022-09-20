@@ -2881,7 +2881,7 @@ app.post('/ems/api/setChecklistsMaster', function(req,res) {
  *  EMS
  * get checklists master
  * */
-app.get('/ems/api/getChecklistsMaster/:deptId', function(req,res) {
+app.get('/ems/api/getChecklistsMaster/:category', function(req,res) {
 
     ems.getChecklistsMaster(req,res);
 
@@ -2900,7 +2900,7 @@ app.post('/ems/api/setNewHire/', function(req,res) {
  * EMS
  * get new hire list 
  * */
-app.get('/ems/api/getNewHireDetails/', function(req,res) {
+app.get('/ems/api/getNewHireDetails', function(req,res) {
 
     ems.getNewHireDetails(req,res);
 
@@ -2990,7 +2990,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get employee check list
  */
- app.get('/ems/api/getEmployeeChecklists/:emp_Id', function(req,res) {
+ app.get('/ems/api/getEmployeeChecklists/:emp_Id/:category', function(req,res) {
 
     ems.getEmployeeChecklists(req, res);
 });

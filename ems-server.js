@@ -433,10 +433,9 @@ function getEmployeeProgramSchedules(req,res) {
     }
 
 }
-function setChecklistsMaster(req,res) {
+function setChecklistsMaster(req, res) {
+
     try {
-        console.log(req.body)
-        console.log(req.body.actionby)
         con.query("CALL `set_checklists_master` (?,?)", [JSON.stringify(req.body),req.body.actionby], function (err, result, fields) {
             res.send(result)
         });
@@ -450,7 +449,7 @@ function setChecklistsMaster(req,res) {
 
 function getChecklistsMaster(req,res) {
     try {
-        con.query("CALL `get_checklists_master` (?,?)", [null,JSON.parse(req.params.deptId)], function (err, result, fields) {
+        con.query("CALL `get_checklists_master` (?,?,?)", [null,null,req.params.category], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -519,7 +518,7 @@ function setPreonboardCandidateInformation(req, res) {
 /** get employee check list */
 function getEmployeeChecklists(req, res) {
     try {
-           con.query("CALL `get_employee_checklists` (?,?)", [null,req.params.emp_Id], function (err, result, fields) {
+           con.query("CALL `get_employee_checklists` (?,?,?)", [null,req.params.emp_Id,req.params.category], function (err, result, fields) {
                if (result && result.length > 0) {
                    res.send({ data: result[0], status: true });
                } else {
