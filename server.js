@@ -3056,6 +3056,13 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     app.get('/ems/api/getEmployeesForProgramSchedule/:id',function(req,res){
         ems.getEmployeesForProgramSchedule(req,res)
     })
+
+  /** EMS set employee master details */
+  app.post('/ems/api/setEmployeeMasterData', function(req,res) {
+    ems.setEmployeeMasterData(req,res);
+  });  
+
+
     //////// 
 app.use("/admin", admin);
 app.use("/attendance", attendance);

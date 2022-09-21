@@ -61,7 +61,8 @@ module.exports = {
     setselectEmployeesProgramSchedules:setselectEmployeesProgramSchedules,
     setProgramSchedulemail:setProgramSchedulemail,
     getallEmployeeProgramSchedules:getallEmployeeProgramSchedules,
-    getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
+    getEmployeesForProgramSchedule: getEmployeesForProgramSchedule,
+    setEmployeeMasterData: setEmployeeMasterData
 
 
 
@@ -441,8 +442,14 @@ function getEmployeeProgramSchedules(req,res) {
 function setChecklistsMaster(req, res) {
 
     try {
+
         con.query("CALL `set_checklists_master` (?,?)", [JSON.stringify(req.body),req.body.actionby], function (err, result, fields) {
-            res.send(result)
+           
+            if (result[0][0].successstate == 0) {
+                res.send({  status: true });
+            } else {
+                res.send({ status: false })
+            }
         });
     } catch (e) {
         console.log('setChecklistsMaster :', e)
@@ -794,4 +801,24 @@ function getEmployeesForProgramSchedule(req,res){
     }
 
 }
-// get_employees_for_program_schedule
+
+/** */
+
+function setEmployeeMasterData(req, res) {
+
+    try {
+        console.log(req.body)
+         con.query("CALL `set_employeemaster` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+         
+             if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmployeeMasterData :', e)
+
+    }
+}
