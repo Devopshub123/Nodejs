@@ -65,7 +65,9 @@ module.exports = {
     setEmployeeMasterData: setEmployeeMasterData,
     getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
     getOnboardingSettings:getOnboardingSettings,
-    updateselectEmployeesProgramSchedules:updateselectEmployeesProgramSchedules
+    updateselectEmployeesProgramSchedules:updateselectEmployeesProgramSchedules,
+    getEmsEmployeeColumnConfigurationValue:getEmsEmployeeColumnConfigurationValue,
+    setEmsEmployeeColumnConfigurationValues:setEmsEmployeeColumnConfigurationValues
 
 
 
@@ -794,7 +796,7 @@ function setProgramSchedulemail(req,res){
    
         var mailOptions = {
             from: 'smattupalli@sreebtech.com',
-            to: req[0],
+            to: email,
             subject: 'Induction Program Meeting',
             html: html
         };
@@ -876,5 +878,36 @@ function getOnboardingSettings(req,res){
     }
     catch(e){
         console.log('getOnboardingSettings :', e)
+    }
+}
+function getEmsEmployeeColumnConfigurationValue(req,res){
+    try{
+        con.query("CALL `get_ems_employee_column_configuration_values` (?)", [req.params.id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getEmsEmployeeColumnConfigurationValue :', e)
+    }
+}
+function setEmsEmployeeColumnConfigurationValues(req, res) {
+    try { 
+         con.query("CALL `set_ems_employee_column_configuration_values`(?,?,?,?,?,?,?,?,?,?,?)",
+          [req.body.empid,req.body.employee_status_value,req.body.employee_type,req.body.department_value,req.body.designation_value,req.body.location_value,req.body.gender_value,req.body.blood_group_value,req.body.marital_status_value,req.body.shift_value,req.body.reporting_manager_value], function (err, result, fields) {
+             if (err ) {
+                res.send({ status: false })
+                
+            } else {
+                res.send({ status: true });
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmsEmployeeColumnConfigurationValues :', e)
+
     }
 }

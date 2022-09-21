@@ -3071,6 +3071,15 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
      app.post('/ems/api/updateselectEmployeesProgramSchedules/',function(req,res){
         ems.updateselectEmployeesProgramSchedules(req,res)
     })
+    /**setEmsEmployeeColumnConfigurationValues */
+    app.post('/ems/api/setEmsEmployeeColumnConfigurationValues/',function(req,res){
+        ems.setEmsEmployeeColumnConfigurationValues(req,res)
+    })
+    /**getEmsEmployeeColumnConfigurationValue */
+    app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id',function(req,res){
+        ems.getEmsEmployeeColumnConfigurationValue(req,res)
+    })
+
 
     //////// 
 app.use("/admin", admin);
