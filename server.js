@@ -3055,12 +3055,28 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     /** */
     app.get('/ems/api/getEmployeesForProgramSchedule/:id',function(req,res){
         ems.getEmployeesForProgramSchedule(req,res)
-    })
+    });
+
+    /** getFileMasterForEMS*/
+    app.post('/ems/api/getFileMasterForEMS/',function(req,res){
+        ems.getFileMasterForEMS(req,res)
+    });
+
+    /** */
+    app.post('/ems/api/setFileMasterForEMS/',function(req,res){
+        ems.setFileMasterForEMS(req,res)
+    });
+
+    /** */
+    app.post('/ems/api/getFilecategoryMasterEMS/',function(req,res){
+        ems.getFilecategoryMasterForEMS(req,res)
+    });
+
 
   /** EMS set employee master details */
   app.post('/ems/api/setEmployeeMasterData', function(req,res) {
     ems.setEmployeeMasterData(req,res);
-  });  
+  });
 
 
     /** getOnboardingSettings*/
@@ -3081,7 +3097,6 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     })
 
 
-    //////// 
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);

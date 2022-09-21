@@ -63,7 +63,8 @@ module.exports = {
     getallEmployeeProgramSchedules:getallEmployeeProgramSchedules,
     getEmployeesForProgramSchedule: getEmployeesForProgramSchedule,
     setEmployeeMasterData: setEmployeeMasterData,
-    getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
+    getFileMasterForEMS:getFileMasterForEMS,
+    setFileMasterForEMS:setFileMasterForEMS,
     getOnboardingSettings:getOnboardingSettings,
     updateselectEmployeesProgramSchedules:updateselectEmployeesProgramSchedules,
     getEmsEmployeeColumnConfigurationValue:getEmsEmployeeColumnConfigurationValue,
@@ -92,8 +93,10 @@ function setNewHire(req,res) {
                         pass: 'Sree$sreebt'
                     }
                 });
-               // var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                var url = 'http://122.175.62.210:7575/Login'
+                var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
+
+                // var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+                var url = 'http://localhost:4200/'+token
                 var html = `<html>
                 <head>
                 <title>Candidate Form</title></head>
@@ -844,6 +847,71 @@ function getEmployeesForProgramSchedule(req,res){
     }
     catch(e){
         console.log('getEmployeesForProgramSchedule :', e)
+
+    }
+
+}
+// get_employees_for_program_schedule
+
+
+function getFileMasterForEMS(req,res){
+    try{
+        con.query("CALL `get_files_master` (?,?,?,?,?)",
+            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId], function (err, result, fields) {
+            console.log("result",result)
+            if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+
+    }
+    catch(e){
+        console.log('getFileMasterForEMS :', e)
+
+    }
+
+}
+
+function setFileMasterForEMS(req,res){
+    try{
+        con.query("CALL `set_files_master` (?,?,?,?,?)",
+            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId], function (err, result, fields) {
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+
+    }
+    catch(e){
+        console.log('setFileMasterForEMS :', e)
+
+    }
+
+}
+
+
+
+function getFilecategoryMasterForEMS(req,res){
+    try{
+        con.query("CALL `get_filecategory_master` (?,?)",
+            [req.body.id,req.body.moduleId], function (err, result, fields) {
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+
+    }
+    catch(e){
+        console.log('getFilecategoryMasterForEMS :', e)
 
     }
 
