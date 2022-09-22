@@ -172,10 +172,14 @@ app.post('/api/emp_login',function(req,res,next){
         // let 
         var email = req.body.email;
         var password = req.body.password;
+        
         con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
+            
+            console.log(results)
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+            console.log(result)
             if (result[0] > 0) {
-                con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
+                con.query('CALL `getemployeeinformation`(?)',[result[0]],function(err,results,next){
                     try{
                         if(results && results.length>0){
                             var result = JSON.parse(results[0][0].result)
@@ -3095,7 +3099,18 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id',function(req,res){
         ems.getEmsEmployeeColumnConfigurationValue(req,res)
     })
-
+/**EMS getUserLoginData */
+app.get('/ems/api/getUserLoginData/',function(req,res){
+    ems.getUserLoginData(req,res)
+})
+/**usersLogin*/
+app.post('/ems/api/usersLogin/',function(req,res){
+    ems.usersLogin(req,res)
+})
+/**EMS getEmsEmployeeColumnFilterData */
+app.get('/ems/api/getEmsEmployeeColumnFilterData/',function(req,res){
+    ems.getEmsEmployeeColumnFilterData(req,res)
+})
 
 app.use("/admin", admin);
 app.use("/attendance", attendance);

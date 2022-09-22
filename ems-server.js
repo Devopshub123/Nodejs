@@ -68,7 +68,10 @@ module.exports = {
     getOnboardingSettings:getOnboardingSettings,
     updateselectEmployeesProgramSchedules:updateselectEmployeesProgramSchedules,
     getEmsEmployeeColumnConfigurationValue:getEmsEmployeeColumnConfigurationValue,
-    setEmsEmployeeColumnConfigurationValues:setEmsEmployeeColumnConfigurationValues
+    setEmsEmployeeColumnConfigurationValues:setEmsEmployeeColumnConfigurationValues,
+    getUserLoginData:getUserLoginData,
+    usersLogin:usersLogin,
+    getEmsEmployeeColumnFilterData:getEmsEmployeeColumnFilterData
 
 
 
@@ -979,3 +982,51 @@ function setEmsEmployeeColumnConfigurationValues(req, res) {
 
     }
 }
+function getUserLoginData(req,res){
+    try{
+        console.log('hi')
+        con.query("CALL `get_user_login_data` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getUserLoginData :', e)
+    }
+}
+function usersLogin(req,res){
+    try{
+        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[req.body.empid,req.body.userid,req.body.password,req.body.status,'N'],function(err,result){
+            if(err){
+                res.send({ status: false })
+
+            }
+            else{
+                res.send({ status: true })
+            }
+        })
+
+    }
+    catch(e){
+        console.log('usersLogin',e)
+    }
+}
+function getEmsEmployeeColumnFilterData(req,res){
+    try{
+        console.log('hi')
+        con.query("CALL `get_ems_employee_column_filter_data` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getEmsEmployeeColumnFilterData :', e)
+    }
+}
+
