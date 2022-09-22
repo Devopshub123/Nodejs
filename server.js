@@ -3072,7 +3072,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     });
 
     /** */
-    app.post('/ems/api/getFilecategoryMasterEMS/',function(req,res){
+    app.post('/ems/api/getFilecategoryMasterForEMS/',function(req,res){
         ems.getFilecategoryMasterForEMS(req,res)
     });
 
