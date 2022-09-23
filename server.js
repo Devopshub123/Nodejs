@@ -3078,9 +3078,14 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
 
   /** EMS set employee master details */
-  app.post('/ems/api/setEmployeeMasterData', function(req,res) {
-    ems.setEmployeeMasterData(req,res);
-  });
+
+  app.post('/ems/api/setEmpPersonalInfo', function(req,res) {
+    ems.setEmpPersonalInfo(req,res);
+  });  
+
+//   app.post('/ems/api/setEmployeeMasterData', function(req,res) {
+//     ems.setEmployeeMasterData(req,res);
+//   });
 
 
     /** getOnboardingSettings*/
@@ -3115,6 +3120,43 @@ app.get('/ems/api/getEmsEmployeeColumnFilterData/',function(req,res){
 app.post('/ems/api/getEmsEmployeeDataForReports/',function(req,res){
     ems.getEmsEmployeeDataForReports(req,res)
 })
+
+    /** get Employee Personal Info (HR)*/
+    app.get('/ems/api/getEmpPersonalInfo/:id',function(req,res){
+        ems.getEmpPersonalInfo(req,res)
+    })
+
+  /** EMS set employee job details */
+  app.post('/ems/api/setEmpJobDetails', function(req,res) {
+    ems.setEmpJobDetails(req,res);
+  });  
+
+    /** EMS set employee education details */
+    app.post('/ems/api/setEmpEducationDetails', function(req,res) {
+        ems.setEmpEducationDetails(req,res);
+      });  
+
+/** EMS set employee education details */
+    app.post('/ems/api/setEmpEmployement', function(req,res) {
+        ems.setEmpEmployement(req,res);
+    });  
+
+/** get Employee Personal Info (HR)*/
+    app.get('/ems/api/getEmpEmployement/:id',function(req,res){
+        ems.getEmpEmployement(req,res)
+    })
+
+/** get Employee Personal Info (HR)*/
+app.get('/ems/api/getEmpEducationDetails/:id',function(req,res){
+    ems.getEmpEducationDetails(req,res)
+})
+
+/** get Employee Personal Info (HR)*/
+app.get('/ems/api/getEmpJobDetails/:id',function(req,res){
+    ems.getEmpJobDetails(req,res)
+})
+
+    //////// 
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
