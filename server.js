@@ -3111,7 +3111,10 @@ app.post('/ems/api/usersLogin/',function(req,res){
 app.get('/ems/api/getEmsEmployeeColumnFilterData/',function(req,res){
     ems.getEmsEmployeeColumnFilterData(req,res)
 })
-
+/**EMS getEmsEmployeeDataForReports */
+app.post('/ems/api/getEmsEmployeeDataForReports/',function(req,res){
+    ems.getEmsEmployeeDataForReports(req,res)
+})
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
