@@ -927,11 +927,10 @@ function getFilecategoryMasterForEMS(req,res){
 
 function setEmpPersonalInfo(req, res) {
     try {
-        console.log(req.body)
+        //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-             if (result && result.length > 0) {
-               console.log(result)
-                res.send({ data: result[0], status: true });
+          if (result && result[0] && result[0][0]&& result[0][0].statuscode == 0) {
+               res.send({status: true });
             } else {
                 res.send({ status: false })
             }
