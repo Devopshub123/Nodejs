@@ -62,10 +62,17 @@ module.exports = {
     setProgramSchedulemail:setProgramSchedulemail,
     getallEmployeeProgramSchedules:getallEmployeeProgramSchedules,
     getEmployeesForProgramSchedule: getEmployeesForProgramSchedule,
-    setEmployeeMasterData: setEmployeeMasterData,
+    setEmpPersonalInfo: setEmpPersonalInfo,
     getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
     getOnboardingSettings:getOnboardingSettings,
-    updateselectEmployeesProgramSchedules:updateselectEmployeesProgramSchedules
+    updateselectEmployeesProgramSchedules: updateselectEmployeesProgramSchedules,
+    getEmpPersonalInfo: getEmpPersonalInfo,
+    setEmpJobDetails: setEmpJobDetails,
+    setEmpEducationDetails: setEmpEducationDetails,
+    getEmpEducationDetails: getEmpEducationDetails,
+    setEmpEmployement: setEmpEmployement,
+    getEmpEmployement: getEmpEmployement,
+    getEmpJobDetails: getEmpJobDetails
 
 
 
@@ -846,13 +853,13 @@ function getEmployeesForProgramSchedule(req,res){
     }
 
 }
-function setEmployeeMasterData(req, res) {
 
+function setEmpPersonalInfo(req, res) {
     try {
         console.log(req.body)
-         con.query("CALL `set_employeemaster` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-         
+         con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
              if (result && result.length > 0) {
+               console.log(result)
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -860,10 +867,11 @@ function setEmployeeMasterData(req, res) {
         });
 
     } catch (e) {
-        console.log('setEmployeeMasterData :', e)
+        console.log('setEmpPersonalInfo :', e)
 
     }
 }
+
 function getOnboardingSettings(req,res){
     try{
         con.query("CALL `get_onboard_settings` ()", [], function (err, result, fields) {
@@ -876,5 +884,123 @@ function getOnboardingSettings(req,res){
     }
     catch(e){
         console.log('getOnboardingSettings :', e)
+    }
+}
+/**  */
+function setEmpJobDetails(req, res) {
+    try {
+        console.log(req.body)
+         con.query("CALL `set_emp_job_details` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            console.log(result)
+             if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmpJobDetails :', e)
+
+    }
+}
+
+/**  */
+function getEmpJobDetails(req, res) {
+    try {
+        console.log(req.body)
+         con.query("CALL `get_emp_job_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            console.log(result)
+             if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('getEmpJobDetails :', e)
+
+    }
+}
+
+//** get employee personal detials(HR) */
+function getEmpPersonalInfo(req,res) {
+    try {
+        con.query("CALL `get_emp_personal_info` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+      } catch (e) {
+        console.log('getEmpPersonalInfo :', e)
+    }
+}
+/**  */
+function setEmpEmployement(req, res) {
+    try {
+        console.log(req.body)
+         con.query("CALL `set_emp_employement` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            console.log(result)
+             if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmpEmployement :', e)
+
+    }
+}
+/** get hired employee list */ 
+function getEmpEmployement(req,res) {
+    try {
+        con.query("CALL `get_emp_employement` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+      } catch (e) {
+        console.log('getEmpEmployement :', e)
+    }
+}
+
+/**  */
+function setEmpEducationDetails(req, res) {
+    try {
+         con.query("CALL `set_emp_education_details` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            console.log(result)
+             if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmpEducationDetails :', e)
+
+    }
+}
+
+
+/** get hired employee list */
+function getEmpEducationDetails(req,res) {
+    try {
+        con.query("CALL `get_emp_education_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+      } catch (e) {
+        console.log('getEmpEducationDetails :', e)
     }
 }
