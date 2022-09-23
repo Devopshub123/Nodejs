@@ -42,7 +42,6 @@ module.exports = {
     getTerminationCategory: getTerminationCategory,
     setDocumentCategory: setDocumentCategory,
     getDocumentCategory: getDocumentCategory,
-
     getEmployeesList: getEmployeesList,
     setPreonboardCandidateInformation: setPreonboardCandidateInformation,
     getEmployeeChecklists: getEmployeeChecklists,
@@ -50,11 +49,9 @@ module.exports = {
     getEmployeesTermination:getEmployeesTermination,
     setEmployeeTermination:setEmployeeTermination,
     setEmployeeResignation:setEmployeeResignation,
-
     getEmployeesResignation: getEmployeesResignation,
     setCandidateExperience: setCandidateExperience,
     setCandidateEducation: setCandidateEducation,
-    getEmployeesResignation:getEmployeesResignation,
     getActiveTerminationCategories:getActiveTerminationCategories,
     getEmployeeslistforTermination:getEmployeeslistforTermination,
     getDepartmentEmployeesByDesignation:getDepartmentEmployeesByDesignation,
@@ -62,6 +59,7 @@ module.exports = {
     setProgramSchedulemail:setProgramSchedulemail,
     getallEmployeeProgramSchedules:getallEmployeeProgramSchedules,
     getEmployeesForProgramSchedule: getEmployeesForProgramSchedule,
+
     setEmpPersonalInfo: setEmpPersonalInfo,
     getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
     getOnboardingSettings:getOnboardingSettings,
@@ -72,8 +70,16 @@ module.exports = {
     getEmpEducationDetails: getEmpEducationDetails,
     setEmpEmployement: setEmpEmployement,
     getEmpEmployement: getEmpEmployement,
-    getEmpJobDetails: getEmpJobDetails
-
+    getEmpJobDetails: getEmpJobDetails,
+    //setEmployeeMasterData: setEmployeeMasterData,
+    getFileMasterForEMS:getFileMasterForEMS,
+    setFileMasterForEMS:setFileMasterForEMS,
+    getEmsEmployeeColumnConfigurationValue:getEmsEmployeeColumnConfigurationValue,
+    setEmsEmployeeColumnConfigurationValues:setEmsEmployeeColumnConfigurationValues,
+    getUserLoginData:getUserLoginData,
+    usersLogin:usersLogin,
+    getEmsEmployeeColumnFilterData:getEmsEmployeeColumnFilterData,
+    getFilecategoryMasterForEMS:getFilecategoryMasterForEMS
 
 
 };
@@ -97,8 +103,10 @@ function setNewHire(req,res) {
                         pass: 'Sree$sreebt'
                     }
                 });
-               // var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                var url = 'http://122.175.62.210:7575/Login'
+                var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
+
+                // var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+                var url = 'http://localhost:4200/pre-onboarding/'+token
                 var html = `<html>
                 <head>
                 <title>Candidate Form</title></head>
@@ -801,7 +809,7 @@ function setProgramSchedulemail(req,res){
    
         var mailOptions = {
             from: 'smattupalli@sreebtech.com',
-            to: req[0],
+            to: email,
             subject: 'Induction Program Meeting',
             html: html
         };
@@ -854,6 +862,69 @@ function getEmployeesForProgramSchedule(req,res){
 
 }
 
+// get_employees_for_program_schedule
+
+function getFileMasterForEMS(req,res){
+    try{
+        con.query("CALL `get_files_master` (?,?,?,?,?)",
+            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId], function (err, result, fields) {
+            console.log("result",result)
+            if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+
+    }
+    catch(e){
+        console.log('getFileMasterForEMS :', e)
+
+    }
+
+}
+
+function setFileMasterForEMS(req,res){
+    try{
+        con.query("CALL `set_files_master` (?,?,?,?,?)",
+            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId], function (err, result, fields) {
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+
+    }
+    catch(e){
+        console.log('setFileMasterForEMS :', e)
+
+    }
+
+}
+
+
+
+function getFilecategoryMasterForEMS(req,res){
+    try{
+        con.query("CALL `get_filecategory_master` (?,?)",
+            [req.body.id,req.body.moduleId], function (err, result, fields) {
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false})
+                }
+            });
+    }
+    catch(e){
+        console.log('getFilecategoryMasterForEMS :', e)
+
+    }
+
+}
+
 function setEmpPersonalInfo(req, res) {
     try {
         console.log(req.body)
@@ -885,7 +956,9 @@ function getOnboardingSettings(req,res){
     catch(e){
         console.log('getOnboardingSettings :', e)
     }
-}
+    }
+    
+
 /**  */
 function setEmpJobDetails(req, res) {
     try {
@@ -928,7 +1001,7 @@ function getEmpJobDetails(req, res) {
 function getEmpPersonalInfo(req,res) {
     try {
         con.query("CALL `get_emp_personal_info` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
-            if (result && result.length > 0) {
+          if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -938,6 +1011,7 @@ function getEmpPersonalInfo(req,res) {
         console.log('getEmpPersonalInfo :', e)
     }
 }
+
 /**  */
 function setEmpEmployement(req, res) {
     try {
@@ -1004,3 +1078,87 @@ function getEmpEducationDetails(req,res) {
         console.log('getEmpEducationDetails :', e)
     }
 }
+
+function getEmsEmployeeColumnConfigurationValue(req,res){
+    try{
+        con.query("CALL `get_ems_employee_column_configuration_values` (?)", [req.params.id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getEmsEmployeeColumnConfigurationValue :', e)
+    }
+}
+
+function setEmsEmployeeColumnConfigurationValues(req, res) {
+    try { 
+         con.query("CALL `set_ems_employee_column_configuration_values`(?,?,?,?,?,?,?,?,?,?,?)",
+          [req.body.empid,req.body.employee_status_value,req.body.employee_type,req.body.department_value,req.body.designation_value,req.body.location_value,req.body.gender_value,req.body.blood_group_value,req.body.marital_status_value,req.body.shift_value,req.body.reporting_manager_value], function (err, result, fields) {
+             if (err ) {
+                res.send({ status: false })
+                
+            } else {
+                res.send({ status: true });
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmsEmployeeColumnConfigurationValues :', e)
+
+    }
+}
+function getUserLoginData(req,res){
+    try{
+        console.log('hi')
+        con.query("CALL `get_user_login_data` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getUserLoginData :', e)
+    }
+}
+function usersLogin(req,res){
+    try{
+        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[req.body.empid,req.body.userid,req.body.password,req.body.status,'N'],function(err,result){
+            if(err){
+                res.send({ status: false })
+
+            }
+            else{
+                res.send({ status: true })
+            }
+        })
+
+    }
+    catch(e){
+        console.log('usersLogin',e)
+    }
+}
+
+function getEmsEmployeeColumnFilterData(req,res){
+    try{
+        console.log('hi')
+        con.query("CALL `get_ems_employee_column_filter_data` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getEmsEmployeeColumnFilterData :', e)
+    }
+}
+
+
+

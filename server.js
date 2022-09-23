@@ -172,10 +172,14 @@ app.post('/api/emp_login',function(req,res,next){
         // let 
         var email = req.body.email;
         var password = req.body.password;
+        
         con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
+            
+            console.log(results)
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+            console.log(result)
             if (result[0] > 0) {
-                con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
+                con.query('CALL `getemployeeinformation`(?)',[result[0]],function(err,results,next){
                     try{
                         if(results && results.length>0){
                             var result = JSON.parse(results[0][0].result)
@@ -3055,12 +3059,33 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     /** */
     app.get('/ems/api/getEmployeesForProgramSchedule/:id',function(req,res){
         ems.getEmployeesForProgramSchedule(req,res)
-    })
+    });
+
+    /** getFileMasterForEMS*/
+    app.post('/ems/api/getFileMasterForEMS/',function(req,res){
+        ems.getFileMasterForEMS(req,res)
+    });
+
+    /** */
+    app.post('/ems/api/setFileMasterForEMS/',function(req,res){
+        ems.setFileMasterForEMS(req,res)
+    });
+
+    /** */
+    app.post('/ems/api/getFilecategoryMasterForEMS/',function(req,res){
+        ems.getFilecategoryMasterForEMS(req,res)
+    });
+
 
   /** EMS set employee master details */
+
   app.post('/ems/api/setEmpPersonalInfo', function(req,res) {
     ems.setEmpPersonalInfo(req,res);
   });  
+
+//   app.post('/ems/api/setEmployeeMasterData', function(req,res) {
+//     ems.setEmployeeMasterData(req,res);
+//   });
 
 
     /** getOnboardingSettings*/
@@ -3071,7 +3096,26 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
      app.post('/ems/api/updateselectEmployeesProgramSchedules/',function(req,res){
         ems.updateselectEmployeesProgramSchedules(req,res)
     })
-
+    /**setEmsEmployeeColumnConfigurationValues */
+    app.post('/ems/api/setEmsEmployeeColumnConfigurationValues/',function(req,res){
+        ems.setEmsEmployeeColumnConfigurationValues(req,res)
+    })
+    /**getEmsEmployeeColumnConfigurationValue */
+    app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id',function(req,res){
+        ems.getEmsEmployeeColumnConfigurationValue(req,res)
+    })
+/**EMS getUserLoginData */
+app.get('/ems/api/getUserLoginData/',function(req,res){
+    ems.getUserLoginData(req,res)
+})
+/**usersLogin*/
+app.post('/ems/api/usersLogin/',function(req,res){
+    ems.usersLogin(req,res)
+})
+/**EMS getEmsEmployeeColumnFilterData */
+app.get('/ems/api/getEmsEmployeeColumnFilterData/',function(req,res){
+    ems.getEmsEmployeeColumnFilterData(req,res)
+})
 
     /** get Employee Personal Info (HR)*/
     app.get('/ems/api/getEmpPersonalInfo/:id',function(req,res){
