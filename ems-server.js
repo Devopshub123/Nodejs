@@ -79,7 +79,8 @@ module.exports = {
     getUserLoginData:getUserLoginData,
     usersLogin:usersLogin,
     getEmsEmployeeColumnFilterData:getEmsEmployeeColumnFilterData,
-    getFilecategoryMasterForEMS:getFilecategoryMasterForEMS
+    getFilecategoryMasterForEMS:getFilecategoryMasterForEMS,
+    getEmsEmployeeDataForReports:getEmsEmployeeDataForReports
 
 
 };
@@ -1156,6 +1157,34 @@ function getEmsEmployeeColumnFilterData(req,res){
     }
     catch(e){
         console.log('getEmsEmployeeColumnFilterData :', e)
+    }
+}
+function getEmsEmployeeDataForReports(req,res){
+    try{
+        let empid = req.body.empid;
+        let emptype = (req.body.emptype.length>0?req.body.emptype:null).toString();
+        let empstatus= (req.body.empstatus.length>0?req.body.empstatus:null).toString();
+        let dept= (req.body.dept.length>0?req.body.dept:null).toString();
+        let desg= (req.body.desg.length>0?req.body.desg:null).toString();
+        let location= (req.body.location.length>0?req.body.location:null).toString();
+        let gender= (req.body.gender.length>0?req.body.gender:null).toString();
+        let bloodgroup= (req.body.bloodgroup.length>0?req.body.bloodgroup:null).toString();
+        let shift= (req.body.shift.length>0?req.body.shift:null).toString();
+        let maritalstatus= (req.body.maritalstatus.length>0?req.body.maritalstatus:null).toString();
+        let manager= (req.body.manager.length>0?req.body.manager:null).toString();
+    //    console.log(empid,empstatus,emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,'')
+
+    
+        con.query("CALL `get_ems_employee_data_for_reports` (?,?,?,?,?,?,?,?,?,?,?,?)", [empid,empstatus,emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,''], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getEmsEmployeeDataForReports :', e)
     }
 }
 
