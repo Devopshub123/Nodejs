@@ -3155,8 +3155,21 @@ app.get('/ems/api/getEmpEducationDetails/:id',function(req,res){
 app.get('/ems/api/getEmpJobDetails/:id',function(req,res){
     ems.getEmpJobDetails(req,res)
 })
+/** getOffboardingSettings*/
+app.get('/ems/api/getOffboardingSettings/',function(req,res){
+    ems.getOffboardingSettings(req,res)
+});
+/** EMS setOffboardingSettings */
+app.post('/ems/api/setOffboardingSettings', function(req,res) {
+    ems.setOffboardingSettings(req,res);
+});
 
-    //////// 
+/** EMS setOnboardingSettings */
+app.post('/ems/api/setOnboardingSettings', function(req,res) {
+    ems.setOnboardingSettings(req,res);
+});
+
+////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);

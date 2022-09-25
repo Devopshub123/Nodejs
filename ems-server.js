@@ -80,8 +80,10 @@ module.exports = {
     usersLogin:usersLogin,
     getEmsEmployeeColumnFilterData:getEmsEmployeeColumnFilterData,
     getFilecategoryMasterForEMS:getFilecategoryMasterForEMS,
-    getEmsEmployeeDataForReports:getEmsEmployeeDataForReports
-
+    getEmsEmployeeDataForReports:getEmsEmployeeDataForReports,
+    getOffboardingSettings:getOffboardingSettings,
+    setOffboardingSettings:setOffboardingSettings,
+    setOnboardingSettings:setOnboardingSettings
 
 };
 //// set new hire list
@@ -1190,3 +1192,48 @@ function getEmsEmployeeDataForReports(req,res){
 
 
 
+function getOffboardingSettings(req,res){
+    try{
+        con.query("CALL `get_offboard_settings` ()",  function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getOffboardingSettings :', e)
+    }
+}
+
+
+/**  */
+function setOffboardingSettings(req, res) {
+    try {
+        con.query("CALL `set_offboard_settings` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('setOffboardingSettings :', e)
+    }
+}
+
+/**  */
+function setOnboardingSettings(req, res) {
+    try {
+        con.query("CALL `set_onboard_settings` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('setOnboardingSettings :', e)
+    }
+}
