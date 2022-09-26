@@ -82,8 +82,15 @@ module.exports = {
     getFilecategoryMasterForEMS:getFilecategoryMasterForEMS,
     getEmsEmployeeDataForReports: getEmsEmployeeDataForReports,
     getEmployeesPendingChecklists: getEmployeesPendingChecklists,
-    getChecklistsMasterActive: getChecklistsMasterActive
+    getChecklistsMasterActive: getChecklistsMasterActive,
 
+    getEmsEmployeeDataForReports:getEmsEmployeeDataForReports,
+    getOffboardingSettings:getOffboardingSettings,
+    setOffboardingSettings:setOffboardingSettings,
+    setOnboardingSettings:setOnboardingSettings,
+    getActiveAnnouncementsTopics:getActiveAnnouncementsTopics,
+    getAnnouncements:getAnnouncements,
+    setAnnouncements:setAnnouncements
 
 };
 //// set new hire list
@@ -1184,24 +1191,74 @@ function getEmsEmployeeColumnFilterData(req,res){
         console.log('getEmsEmployeeColumnFilterData :', e)
     }
 }
+
+
+
+
+function getOffboardingSettings(req,res){
+    try{
+        con.query("CALL `get_offboard_settings` ()",  function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getOffboardingSettings :', e)
+    }
+}
+
+
+/**  */
+function setOffboardingSettings(req, res) {
+    try {
+        con.query("CALL `set_offboard_settings` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('setOffboardingSettings :', e)
+    }
+}
+
+/**  */
+function setOnboardingSettings(req, res) {
+    try {
+        con.query("CALL `set_onboard_settings` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('setOnboardingSettings :', e)
+    }
+}
 function getEmsEmployeeDataForReports(req,res){
     try{
         let empid = req.body.empid;
-        let emptype = (req.body.emptype.length>0?req.body.emptype:null).toString();
-        let empstatus= (req.body.empstatus.length>0?req.body.empstatus:null).toString();
-        let dept= (req.body.dept.length>0?req.body.dept:null).toString();
-        let desg= (req.body.desg.length>0?req.body.desg:null).toString();
-        let location= (req.body.location.length>0?req.body.location:null).toString();
-        let gender= (req.body.gender.length>0?req.body.gender:null).toString();
-        let bloodgroup= (req.body.bloodgroup.length>0?req.body.bloodgroup:null).toString();
-        let shift= (req.body.shift.length>0?req.body.shift:null).toString();
-        let maritalstatus= (req.body.maritalstatus.length>0?req.body.maritalstatus:null).toString();
-        let manager= (req.body.manager.length>0?req.body.manager:null).toString();
-    //    console.log(empid,empstatus,emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,'')
+        let emptype = (req.body.emptype.length>0?(req.body.emptype).toString():'');
+        let empstatus= (req.body.empstatus.length>0?(req.body.empstatus).toString():'');
+        let dept= (req.body.dept.length>0?req.body.dept.toString():'');
+        let desg= (req.body.desg.length>0?req.body.desg.toString():'');
+        let location= (req.body.location.length>0?req.body.location.toString():'')
+        let gender= (req.body.gender.length>0?req.body.gender.toString():'');
+        let bloodgroup= (req.body.bloodgroup.length>0?req.body.bloodgroup.toString():'');
+        let shift= (req.body.shift.length>0?req.body.shift.toString():'');
+        let maritalstatus= (req.body.maritalstatus.length>0?req.body.maritalstatus.toString():'');
+        let manager= (req.body.manager.length>0?req.body.manager.toString():'');
+        // console.log("eid"+empid,"estatus"+empstatus,"etype"+emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,'')
 
     
         con.query("CALL `get_ems_employee_data_for_reports` (?,?,?,?,?,?,?,?,?,?,?,?)", [empid,empstatus,emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,''], function (err, result, fields) {
             if (result && result.length > 0) {
+                // console.log(result)
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -1212,7 +1269,35 @@ function getEmsEmployeeDataForReports(req,res){
         console.log('getEmsEmployeeDataForReports :', e)
     }
 }
-
+/*To get active announcements*/
+function getActiveAnnouncementsTopics(req,res){
+    try{
+        con.query("CALL `get_active_annoucements_topics` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getActiveAnnouncementsTopics :', e)
+    }
+}
+/*To Get Announcements*/
+function getAnnouncements(req, res) {
+    try {
+        con.query("CALL `get_annoucements` (?)", [null], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getAnnouncements :', e)
+    }
+}
 function getEmployeesPendingChecklists(req,res) {
     try {
         con.query("CALL `get_employees_pending_checklists` (?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid)], function (err, result, fields) {
@@ -1229,5 +1314,21 @@ function getEmployeesPendingChecklists(req,res) {
 
 }
 
+function setAnnouncements(req,res){
+    try{
+        console.log(JSON.stringify(req.body))
+        con.query("CALL `set_annoucements` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            
+            if(result && result[0] && result[0][0] && result[0][0].statuscode == 0){
+                res.send({ status: true })
+            }
+            else{
+                res.send({ status: false })
+            }
+        
+        });
 
-
+    }catch(e){
+        console.log('setAnnouncements :', e)
+    }
+}

@@ -3159,6 +3159,14 @@ app.get('/ems/api/getEmpEducationDetails/:id',function(req,res){
 app.get('/ems/api/getEmpJobDetails/:id',function(req,res){
     ems.getEmpJobDetails(req,res)
 })
+/** getOffboardingSettings*/
+app.get('/ems/api/getOffboardingSettings/',function(req,res){
+    ems.getOffboardingSettings(req,res)
+});
+/** EMS setOffboardingSettings */
+app.post('/ems/api/setOffboardingSettings', function(req,res) {
+    ems.setOffboardingSettings(req,res);
+});
 
 //** */
 app.get('/ems/api/getEmployeesPendingChecklists/:ename/:date/:eid', function(req,res) {
@@ -3168,6 +3176,22 @@ app.get('/ems/api/getEmployeesPendingChecklists/:ename/:date/:eid', function(req
 });
 
     //////// 
+/** EMS setOnboardingSettings */
+app.post('/ems/api/setOnboardingSettings', function(req,res) {
+    ems.setOnboardingSettings(req,res);
+});
+
+app.get('/ems/api/getActiveAnnouncementsTopics/',function(req,res){
+    ems.getActiveAnnouncementsTopics(req,res)
+})
+app.get('/ems/api/getAnnouncements/:announcement_id',function(req,res){
+    ems.getAnnouncements(req,res)
+})
+app.post('/ems/api/setAnnouncements/',function(req,res){
+    ems.setAnnouncements(req,res)
+})
+
+////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
