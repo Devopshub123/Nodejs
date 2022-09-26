@@ -3095,8 +3095,55 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id',function(req,res){
         ems.getEmsEmployeeColumnConfigurationValue(req,res)
     })
+   
+      /**getFilepathsMasterForEMS */
+    app.get('/ems/api/getFilepathsMasterForEMS/:moduleId',function(req,res){
+        ems.getFilepathsMasterForEMS(req,res)
+    })
+    
+   /**setFilesMasterForEMS */
+   app.post('/ems/api/setFilesMasterForEMS/',function(req,res){
+    ems.setFilesMasterForEMS(req,res)
+    })
+
+/**setDocumentOrImageForEMS */
+app.post('/ems/api/setDocumentOrImageForEMS/:path',function(req,res){
+    ems.setDocumentOrImageForEMS(req,res)
+    })
 
 
+/**getDocumentsForEMS */
+app.post('/ems/api/getDocumentsForEMS/',function(req,res){
+    ems.getDocumentsForEMS(req,res)
+    })
+    
+    /**getDocumentsForEMS */
+app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
+    ems.getDocumentOrImagesForEMS(req,res)
+    })
+
+    
+    /**removeDocumentOrImagesForEMS */
+    app.delete('/ems/api/removeDocumentOrImagesForEMS/:path',function(req,res){
+        ems.removeDocumentOrImagesForEMS(req,res)
+        })
+
+/**
+ * Delete Files Master
+ * */
+ app.get('/ems/api/deleteFilesMaster/:id', function(req,res) {
+
+    ems.deleteFilesMaster(req,res);
+
+});
+
+/**
+ * Delete Files Master
+ * */
+ app.post('/ems/api/Messages', function(req,res) {
+    ems.Messages(req,res);
+
+});
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);

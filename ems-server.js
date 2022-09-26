@@ -66,7 +66,15 @@ module.exports = {
     updateselectEmployeesProgramSchedules:updateselectEmployeesProgramSchedules,
     getEmsEmployeeColumnConfigurationValue:getEmsEmployeeColumnConfigurationValue,
     setEmsEmployeeColumnConfigurationValues:setEmsEmployeeColumnConfigurationValues,
-    getFilecategoryMasterForEMS:getFilecategoryMasterForEMS
+    getFilecategoryMasterForEMS:getFilecategoryMasterForEMS,
+    getFilepathsMasterForEMS:getFilepathsMasterForEMS,
+    setFilesMasterForEMS:setFilesMasterForEMS,
+    setDocumentOrImageForEMS:setDocumentOrImageForEMS,
+    getDocumentsForEMS:getDocumentsForEMS,
+    getDocumentOrImagesForEMS:getDocumentOrImagesForEMS,
+    removeDocumentOrImagesForEMS:removeDocumentOrImagesForEMS,
+    deleteFilesMaster:deleteFilesMaster,
+    Messages:Messages
 
 
 };
@@ -874,8 +882,8 @@ function getFileMasterForEMS(req,res){
 
 function setFileMasterForEMS(req,res){
     try{
-        con.query("CALL `set_files_master` (?,?,?,?,?)",
-            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId], function (err, result, fields) {
+        con.query("CALL `set_files_master` (?,?,?,?,?,?)",
+            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId,req.body.sta], function (err, result, fields) {
                 if (result && result.length>0) {
                     res.send({status: true,data:result[0]})
                 } else {
@@ -975,4 +983,186 @@ function setEmsEmployeeColumnConfigurationValues(req, res) {
         console.log('setEmsEmployeeColumnConfigurationValues :', e)
 
     }
+}
+
+
+
+function getFilepathsMasterForEMS(req, res) {
+    try { 
+         con.query("CALL `get_filepaths_master`(?)",
+          [req.params.moduleId], function (err, result, fields) {
+             if (err ) {
+                res.send({ status: false })
+                
+            } else {
+                res.send({ status: true, data:result[0]});
+            }
+        });
+
+    } catch (e) {
+        console.log('getFilepathsMasterForEMS :', e)
+
+    }
+}
+
+function setFilesMasterForEMS(req, res) {
+    try { 
+        con.query("CALL `set_files_master` (?,?,?,?,?,?,?,?,?,?)",
+            [req.body.id,req.body.employeeId,req.body.candidateId,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId,req.body.status], function (err, result, fields) {
+                console.log("jhsjhdb",err)
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false});
+
+                }
+            });
+
+    } catch (e) {
+        console.log('setEmsEmployeeColumnConfigurationValues :', e)
+
+    }
+}
+
+
+function setDocumentOrImageForEMS(req, res) {
+    try { 
+        file=req.files.file;
+        var localPath = JSON.parse(decodeURI(req.params.path))
+        console.log("localPath",localPath)
+
+        var folderName =localPath.filepath;
+        try {
+            if (!fs.existsSync(folderName)) {
+                fs.mkdirSync(folderName)
+
+            }else {
+                try{
+                file.mv(path.resolve(__dirname,folderName,localPath.filename),function(error){
+                    if(error){
+                        console.log(error);
+                        res.send({status:false})
+                    }else{
+                        res.send({status:true,message:'Image Uploaded Succesfully'})
+                    }
+
+                })
+            }
+            catch(err){
+                res.send({status:false})
+            }
+
+
+            }
+        }
+        catch (err) {
+            console.error(err)
+        }
+    }catch (e) {
+        console.log("setDocumentOrImageForEMS:",e)
+    }
+}
+
+
+async function getDocumentsForEMS(req,res){
+    try{
+        console.log('req.body',req.body)
+            con.query("CALL `get_files_master` (?,?,?,?,?,?)",
+            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory?req.body.filecategory:null,req.body.requestId,req.body.status], function (err, result, fields) {
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+    }
+    catch(e){
+        console.log('getDocumentsForEMS :', e)
+
+    }
+
+}
+
+function getDocumentOrImagesForEMS(req,res) {
+    try{
+        folderName = req.body.filepath;
+        var imageData={}
+        var flag=false;
+        fs.readFile(folderName+req.body.filename,function(err,result){
+            if(err){
+                flag=false;
+            }else{
+                flag=true
+                imageData.image=result;
+            }
+            imageData.success=flag;
+            // imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
+            // return imageData;
+            res.send(imageData)
+        })
+
+    }
+    catch(e){
+        console.log('getDocumentOrImagesForEMS',e)
+    }
+
+}
+
+
+function removeDocumentOrImagesForEMS(req,res) {
+    try{
+    var localPath = JSON.parse(decodeURI(req.params.path))
+        let foldername = localPath.filepath;
+        fs.unlink(foldername+localPath.filename,function(err,result){
+            if(err){
+                console.log(err)
+            }
+            else{
+                res.send({status: true});
+                console.log("Image Deleted successfully")
+            }
+        })
+    }
+    catch(e){
+        console.log("removeImage",e)
+    }
+}
+
+function deleteFilesMaster(req,res){
+    try {
+        con.query("CALL `delete_files_master` (?)",
+            [req.params.id], function (err, result, fields) {
+
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                    // res.send({status: false});
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+
+    }catch (e) {
+        console.log('deleteFilesMaster :',e)
+    }
+
+}
+
+
+function Messages(req,res){
+    try {
+        con.query("CALL `get_ems_messages` (?,?,?)", [req.body.code,
+            req.body.pagenumber,req.body.pagesize],
+           function (err, result, fields) {
+               if (result && result.length > 0) {
+                   res.send({ status: true, data: result[0] })
+               } else {
+                   res.send({ status: false, data: [] });
+               }
+           })
+        } catch (e) {
+        console.log('Messages');
+        }
+
 }
