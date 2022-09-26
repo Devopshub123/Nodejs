@@ -2885,11 +2885,15 @@ app.post('/ems/api/setChecklistsMaster', function(req,res) {
  *  EMS
  * get checklists master
  * */
-app.get('/ems/api/getChecklistsMaster/:category', function(req,res) {
-
+app.get('/ems/api/getChecklistsMaster/:deptId/:category', function(req,res) {
     ems.getChecklistsMaster(req,res);
 
 });
+
+app.get('/ems/api/getChecklistsMasterActive/:deptId/:category/:status', function(req,res) {
+        ems.getChecklistsMasterActive(req,res);
+    
+    });
 
 /** 
  * EMS 
@@ -3155,6 +3159,13 @@ app.get('/ems/api/getEmpEducationDetails/:id',function(req,res){
 app.get('/ems/api/getEmpJobDetails/:id',function(req,res){
     ems.getEmpJobDetails(req,res)
 })
+
+//** */
+app.get('/ems/api/getEmployeesPendingChecklists/:ename/:date/:eid', function(req,res) {
+
+    ems.getEmployeesPendingChecklists(req,res);
+
+});
 
     //////// 
 app.use("/admin", admin);

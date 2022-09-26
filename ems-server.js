@@ -80,7 +80,9 @@ module.exports = {
     usersLogin:usersLogin,
     getEmsEmployeeColumnFilterData:getEmsEmployeeColumnFilterData,
     getFilecategoryMasterForEMS:getFilecategoryMasterForEMS,
-    getEmsEmployeeDataForReports:getEmsEmployeeDataForReports
+    getEmsEmployeeDataForReports: getEmsEmployeeDataForReports,
+    getEmployeesPendingChecklists: getEmployeesPendingChecklists,
+    getChecklistsMasterActive: getChecklistsMasterActive
 
 
 };
@@ -484,11 +486,32 @@ function setChecklistsMaster(req, res) {
     }
 
 }
-
-
-function getChecklistsMaster(req,res) {
+//** */
+function getChecklistsMasterActive(req, res) {
     try {
-        con.query("CALL `get_checklists_master` (?,?,?)", [null,null,req.params.category], function (err, result, fields) {
+        con.query("CALL `get_checklists_master` (?,?,?,?)", [null,JSON.parse(req.params.deptId),req.params.category,req.params.status], function (err, result, fields) {
+            console.log(result)
+            console.log(err)
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getChecklistsMasterActive :', e)
+
+    }
+
+}
+
+//** */
+
+function getChecklistsMaster(req, res) {
+    try {
+        con.query("CALL `get_checklists_master` (?,?,?,?)", [null,JSON.parse(req.params.deptId),req.params.category,null], function (err, result, fields) {
+            console.log(result)
+            console.log(err)
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -930,7 +953,9 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-          if (result && result[0] && result[0][0]&& result[0][0].statuscode == 0) {
+         console.log(result)
+         console.log(err)
+             if (result[0][0].statuscode == 0) {
                res.send({status: true });
             } else {
                 res.send({ status: false })
@@ -1186,6 +1211,22 @@ function getEmsEmployeeDataForReports(req,res){
     catch(e){
         console.log('getEmsEmployeeDataForReports :', e)
     }
+}
+
+function getEmployeesPendingChecklists(req,res) {
+    try {
+        con.query("CALL `get_employees_pending_checklists` (?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getEmployeesPendingChecklists :', e)
+
+    }
+
 }
 
 
