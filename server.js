@@ -2999,7 +2999,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get employee check list
  */
- app.get('/ems/api/getEmployeeChecklists/:emp_Id/:category', function(req,res) {
+ app.get('/ems/api/getEmployeeChecklists/:emp_Id/:category/:dept_Id', function(req,res) {
 
     ems.getEmployeeChecklists(req, res);
 });
@@ -3169,7 +3169,7 @@ app.post('/ems/api/setOffboardingSettings', function(req,res) {
 });
 
 //** */
-app.get('/ems/api/getEmployeesPendingChecklists/:ename/:date/:eid', function(req,res) {
+app.get('/ems/api/getEmployeesPendingChecklists/:ename/:date/:eid/:dept_Id', function(req,res) {
 
     ems.getEmployeesPendingChecklists(req,res);
 
