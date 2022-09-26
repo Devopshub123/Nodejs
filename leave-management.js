@@ -344,7 +344,9 @@ function getLeavesForCancellation(req,res) {
 
 function getEmployeeInformation(req,res) {
     try {
-        con.query("CALL `getemployeemaster` (?)",[req.params.Id], function (err, result, fields) {
+        con.query("CALL `getemployeemaster` (?)", [req.params.Id], function (err, result, fields) {
+            console.log("result",result)
+            console.log("error",err)
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{

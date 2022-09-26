@@ -59,11 +59,21 @@ module.exports = {
     setProgramSchedulemail:setProgramSchedulemail,
     getallEmployeeProgramSchedules:getallEmployeeProgramSchedules,
     getEmployeesForProgramSchedule: getEmployeesForProgramSchedule,
-    setEmployeeMasterData: setEmployeeMasterData,
+
+    setEmpPersonalInfo: setEmpPersonalInfo,
+    getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
+    getOnboardingSettings:getOnboardingSettings,
+    updateselectEmployeesProgramSchedules: updateselectEmployeesProgramSchedules,
+    getEmpPersonalInfo: getEmpPersonalInfo,
+    setEmpJobDetails: setEmpJobDetails,
+    setEmpEducationDetails: setEmpEducationDetails,
+    getEmpEducationDetails: getEmpEducationDetails,
+    setEmpEmployement: setEmpEmployement,
+    getEmpEmployement: getEmpEmployement,
+    getEmpJobDetails: getEmpJobDetails,
+    //setEmployeeMasterData: setEmployeeMasterData,
     getFileMasterForEMS:getFileMasterForEMS,
     setFileMasterForEMS:setFileMasterForEMS,
-    getOnboardingSettings:getOnboardingSettings,
-    updateselectEmployeesProgramSchedules:updateselectEmployeesProgramSchedules,
     getEmsEmployeeColumnConfigurationValue:getEmsEmployeeColumnConfigurationValue,
     setEmsEmployeeColumnConfigurationValues:setEmsEmployeeColumnConfigurationValues,
     getFilecategoryMasterForEMS:getFilecategoryMasterForEMS,
@@ -74,8 +84,22 @@ module.exports = {
     getDocumentOrImagesForEMS:getDocumentOrImagesForEMS,
     removeDocumentOrImagesForEMS:removeDocumentOrImagesForEMS,
     deleteFilesMaster:deleteFilesMaster,
-    Messages:Messages
+    Messages:Messages,
+    getUserLoginData:getUserLoginData,
+    usersLogin:usersLogin,
+    getEmsEmployeeColumnFilterData:getEmsEmployeeColumnFilterData,
+    getFilecategoryMasterForEMS:getFilecategoryMasterForEMS,
+    getEmsEmployeeDataForReports: getEmsEmployeeDataForReports,
+    getEmployeesPendingChecklists: getEmployeesPendingChecklists,
+    getChecklistsMasterActive: getChecklistsMasterActive,
 
+    getEmsEmployeeDataForReports:getEmsEmployeeDataForReports,
+    getOffboardingSettings:getOffboardingSettings,
+    setOffboardingSettings:setOffboardingSettings,
+    setOnboardingSettings:setOnboardingSettings,
+    getActiveAnnouncementsTopics:getActiveAnnouncementsTopics,
+    getAnnouncements:getAnnouncements,
+    setAnnouncements:setAnnouncements
 
 };
 //// set new hire list
@@ -478,11 +502,32 @@ function setChecklistsMaster(req, res) {
     }
 
 }
-
-
-function getChecklistsMaster(req,res) {
+//** */
+function getChecklistsMasterActive(req, res) {
     try {
-        con.query("CALL `get_checklists_master` (?,?,?)", [null,null,req.params.category], function (err, result, fields) {
+        con.query("CALL `get_checklists_master` (?,?,?,?)", [null,JSON.parse(req.params.deptId),req.params.category,req.params.status], function (err, result, fields) {
+            console.log(result)
+            console.log(err)
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getChecklistsMasterActive :', e)
+
+    }
+
+}
+
+//** */
+
+function getChecklistsMaster(req, res) {
+    try {
+        con.query("CALL `get_checklists_master` (?,?,?,?)", [null,JSON.parse(req.params.deptId),req.params.category,null], function (err, result, fields) {
+            console.log(result)
+            console.log(err)
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -856,8 +901,8 @@ function getEmployeesForProgramSchedule(req,res){
     }
 
 }
-// get_employees_for_program_schedule
 
+// get_employees_for_program_schedule
 
 function getFileMasterForEMS(req,res){
     try{
@@ -912,8 +957,6 @@ function getFilecategoryMasterForEMS(req,res){
                     res.send({status: false})
                 }
             });
-
-
     }
     catch(e){
         console.log('getFilecategoryMasterForEMS :', e)
@@ -921,24 +964,26 @@ function getFilecategoryMasterForEMS(req,res){
     }
 
 }
-function setEmployeeMasterData(req, res) {
 
+function setEmpPersonalInfo(req, res) {
     try {
-        console.log(req.body)
-         con.query("CALL `set_employeemaster` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-         
-             if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
+        //console.log(req.body)
+         con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+         console.log(result)
+         console.log(err)
+             if (result[0][0].statuscode == 0) {
+               res.send({status: true });
             } else {
                 res.send({ status: false })
             }
         });
 
     } catch (e) {
-        console.log('setEmployeeMasterData :', e)
+        console.log('setEmpPersonalInfo :', e)
 
     }
 }
+
 function getOnboardingSettings(req,res){
     try{
         con.query("CALL `get_onboard_settings` ()", [], function (err, result, fields) {
@@ -952,7 +997,129 @@ function getOnboardingSettings(req,res){
     catch(e){
         console.log('getOnboardingSettings :', e)
     }
+    }
+    
+
+/**  */
+function setEmpJobDetails(req, res) {
+    try {
+        console.log(req.body)
+         con.query("CALL `set_emp_job_details` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            console.log(result)
+             if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmpJobDetails :', e)
+
+    }
 }
+
+/**  */
+function getEmpJobDetails(req, res) {
+    try {
+        console.log(req.body)
+         con.query("CALL `get_emp_job_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            console.log(result)
+             if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('getEmpJobDetails :', e)
+
+    }
+}
+
+//** get employee personal detials(HR) */
+function getEmpPersonalInfo(req,res) {
+    try {
+        con.query("CALL `get_emp_personal_info` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+          if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+      } catch (e) {
+        console.log('getEmpPersonalInfo :', e)
+    }
+}
+
+/**  */
+function setEmpEmployement(req, res) {
+    try {
+        console.log(req.body)
+         con.query("CALL `set_emp_employement` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            console.log(result)
+             if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmpEmployement :', e)
+
+    }
+}
+/** get hired employee list */ 
+function getEmpEmployement(req,res) {
+    try {
+        con.query("CALL `get_emp_employement` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+      } catch (e) {
+        console.log('getEmpEmployement :', e)
+    }
+}
+
+/**  */
+function setEmpEducationDetails(req, res) {
+    try {
+         con.query("CALL `set_emp_education_details` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            console.log(result)
+             if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmpEducationDetails :', e)
+
+    }
+}
+
+
+/** get hired employee list */
+function getEmpEducationDetails(req,res) {
+    try {
+        con.query("CALL `get_emp_education_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+      } catch (e) {
+        console.log('getEmpEducationDetails :', e)
+    }
+}
+
 function getEmsEmployeeColumnConfigurationValue(req,res){
     try{
         con.query("CALL `get_ems_employee_column_configuration_values` (?)", [req.params.id], function (err, result, fields) {
@@ -967,6 +1134,7 @@ function getEmsEmployeeColumnConfigurationValue(req,res){
         console.log('getEmsEmployeeColumnConfigurationValue :', e)
     }
 }
+
 function setEmsEmployeeColumnConfigurationValues(req, res) {
     try { 
          con.query("CALL `set_ems_employee_column_configuration_values`(?,?,?,?,?,?,?,?,?,?,?)",
@@ -1146,6 +1314,175 @@ function deleteFilesMaster(req,res){
     }catch (e) {
         console.log('deleteFilesMaster :',e)
     }
+}
+function getUserLoginData(req,res){
+    try{
+        console.log('hi')
+        con.query("CALL `get_user_login_data` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getUserLoginData :', e)
+    }
+}
+function usersLogin(req,res){
+    try{
+        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[req.body.empid,req.body.userid,req.body.password,req.body.status,'N'],function(err,result){
+            if(err){
+                res.send({ status: false })
+
+            }
+            else{
+                res.send({ status: true })
+            }
+        })
+
+    }
+    catch(e){
+        console.log('usersLogin',e)
+    }
+}
+
+function getEmsEmployeeColumnFilterData(req,res){
+    try{
+        console.log('hi')
+        con.query("CALL `get_ems_employee_column_filter_data` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getEmsEmployeeColumnFilterData :', e)
+    }
+}
+
+
+
+
+function getOffboardingSettings(req,res){
+    try{
+        con.query("CALL `get_offboard_settings` ()",  function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getOffboardingSettings :', e)
+    }
+}
+
+
+/**  */
+function setOffboardingSettings(req, res) {
+    try {
+        con.query("CALL `set_offboard_settings` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('setOffboardingSettings :', e)
+    }
+}
+
+/**  */
+function setOnboardingSettings(req, res) {
+    try {
+        con.query("CALL `set_onboard_settings` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('setOnboardingSettings :', e)
+    }
+}
+function getEmsEmployeeDataForReports(req,res){
+    try{
+        let empid = req.body.empid;
+        let emptype = (req.body.emptype.length>0?(req.body.emptype).toString():'');
+        let empstatus= (req.body.empstatus.length>0?(req.body.empstatus).toString():'');
+        let dept= (req.body.dept.length>0?req.body.dept.toString():'');
+        let desg= (req.body.desg.length>0?req.body.desg.toString():'');
+        let location= (req.body.location.length>0?req.body.location.toString():'')
+        let gender= (req.body.gender.length>0?req.body.gender.toString():'');
+        let bloodgroup= (req.body.bloodgroup.length>0?req.body.bloodgroup.toString():'');
+        let shift= (req.body.shift.length>0?req.body.shift.toString():'');
+        let maritalstatus= (req.body.maritalstatus.length>0?req.body.maritalstatus.toString():'');
+        let manager= (req.body.manager.length>0?req.body.manager.toString():'');
+        // console.log("eid"+empid,"estatus"+empstatus,"etype"+emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,'')
+
+    
+        con.query("CALL `get_ems_employee_data_for_reports` (?,?,?,?,?,?,?,?,?,?,?,?)", [empid,empstatus,emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,''], function (err, result, fields) {
+            if (result && result.length > 0) {
+                // console.log(result)
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getEmsEmployeeDataForReports :', e)
+    }
+}
+/*To get active announcements*/
+function getActiveAnnouncementsTopics(req,res){
+    try{
+        con.query("CALL `get_active_annoucements_topics` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getActiveAnnouncementsTopics :', e)
+    }
+}
+/*To Get Announcements*/
+function getAnnouncements(req, res) {
+    try {
+        con.query("CALL `get_annoucements` (?)", [null], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getAnnouncements :', e)
+    }
+}
+function getEmployeesPendingChecklists(req,res) {
+    try {
+        con.query("CALL `get_employees_pending_checklists` (?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getEmployeesPendingChecklists :', e)
+
+    }
 
 }
 
@@ -1165,4 +1502,22 @@ function Messages(req,res){
         console.log('Messages');
         }
 
+}
+function setAnnouncements(req,res){
+    try{
+        console.log(JSON.stringify(req.body))
+        con.query("CALL `set_annoucements` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+            
+            if(result && result[0] && result[0][0] && result[0][0].statuscode == 0){
+                res.send({ status: true })
+            }
+            else{
+                res.send({ status: false })
+            }
+        
+        });
+
+    }catch(e){
+        console.log('setAnnouncements :', e)
+    }
 }
