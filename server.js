@@ -3238,6 +3238,14 @@ app.post('/ems/api/setAnnouncements/',function(req,res){
     ems.setAnnouncements(req,res)
 })
 
+app.get('/ems/api/getFilesForApproval/',function(req,res){
+    ems.getFilesForApproval(req,res)
+})
+/**Document Approval */
+app.post('/ems/api/documentApproval/',function(req,res){
+    ems.documentApproval(req,res)
+})
+
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);

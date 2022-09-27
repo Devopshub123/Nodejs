@@ -99,7 +99,9 @@ module.exports = {
     setOnboardingSettings:setOnboardingSettings,
     getActiveAnnouncementsTopics:getActiveAnnouncementsTopics,
     getAnnouncements:getAnnouncements,
-    setAnnouncements:setAnnouncements
+    setAnnouncements:setAnnouncements,
+    getFilesForApproval:getFilesForApproval,
+    documentApproval:documentApproval
 
 };
 //// set new hire list
@@ -1520,5 +1522,33 @@ function setAnnouncements(req,res){
 
     }catch(e){
         console.log('setAnnouncements :', e)
+    }
+}
+/*To Get Announcements*/
+function getFilesForApproval(req, res) {
+    try {
+        con.query("CALL `get_files_for_approval` (?,?)", [null,null], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getFilesForApproval :', e)
+    }
+}
+function documentApproval(req, res){
+    try {
+        con.query("CALL `set_files_master_status` (?,?)", [req.body.id,req.body.status], function (err, result, fields) {
+            if (result && result[0]&&result[0][0]&&result[0][0].successstate==0) {
+                res.send({ status: true })
+               
+            } else {
+                res.send({ status: false });
+            }
+        });
+    } catch (e) {
+        console.log('documentApproval :', e)
     }
 }
