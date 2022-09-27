@@ -172,10 +172,14 @@ app.post('/api/emp_login',function(req,res,next){
         // let 
         var email = req.body.email;
         var password = req.body.password;
+        
         con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
+            
+            console.log(results)
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+            console.log(result)
             if (result[0] > 0) {
-                con.query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
+                con.query('CALL `getemployeeinformation`(?)',[result[0]],function(err,results,next){
                     try{
                         if(results && results.length>0){
                             var result = JSON.parse(results[0][0].result)
@@ -2881,11 +2885,15 @@ app.post('/ems/api/setChecklistsMaster', function(req,res) {
  *  EMS
  * get checklists master
  * */
-app.get('/ems/api/getChecklistsMaster/:deptId', function(req,res) {
-
+app.get('/ems/api/getChecklistsMaster/:deptId/:category', function(req,res) {
     ems.getChecklistsMaster(req,res);
 
 });
+
+app.get('/ems/api/getChecklistsMasterActive/:deptId/:category/:status', function(req,res) {
+        ems.getChecklistsMasterActive(req,res);
+    
+    });
 
 /** 
  * EMS 
@@ -2900,7 +2908,8 @@ app.post('/ems/api/setNewHire/', function(req,res) {
  * EMS
  * get new hire list 
  * */
-app.get('/ems/api/getNewHireDetails/', function(req,res) {
+
+app.get('/ems/api/getNewHireDetails/:id', function(req,res) {
 
     ems.getNewHireDetails(req,res);
 
@@ -2990,7 +2999,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get employee check list
  */
- app.get('/ems/api/getEmployeeChecklists/:emp_Id', function(req,res) {
+ app.get('/ems/api/getEmployeeChecklists/:emp_Id/:category/:dept_Id', function(req,res) {
 
     ems.getEmployeeChecklists(req, res);
 });
@@ -3039,7 +3048,205 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     
     });
       
-//////////////////// 
+    /** */
+    app.post('/ems/api/setProgramSchedulemail/',function(req,res){
+        ems.setProgramSchedulemail(req,res);
+    })
+    /** */
+    app.get('/ems/api/getallEmployeeProgramSchedules/:eid/:sid',function(req,res){
+        ems.getallEmployeeProgramSchedules(req,res)
+    })
+    /** */
+    app.post('/ems/api/setselectEmployeesProgramSchedules/',function(req,res){
+        ems.setselectEmployeesProgramSchedules(req,res)
+    })
+    /** */
+    app.get('/ems/api/getEmployeesForProgramSchedule/:id',function(req,res){
+        ems.getEmployeesForProgramSchedule(req,res)
+    });
+
+    /** getFileMasterForEMS*/
+    app.post('/ems/api/getFileMasterForEMS/',function(req,res){
+        ems.getFileMasterForEMS(req,res)
+    });
+
+    /** */
+    app.post('/ems/api/setFileMasterForEMS/',function(req,res){
+        ems.setFileMasterForEMS(req,res)
+    });
+
+    /** */
+    app.post('/ems/api/getFilecategoryMasterForEMS/',function(req,res){
+        ems.getFilecategoryMasterForEMS(req,res)
+    });
+
+
+  /** EMS set employee master details */
+
+  app.post('/ems/api/setEmpPersonalInfo', function(req,res) {
+    ems.setEmpPersonalInfo(req,res);
+  });  
+
+//   app.post('/ems/api/setEmployeeMasterData', function(req,res) {
+//     ems.setEmployeeMasterData(req,res);
+//   });
+
+
+    /** getOnboardingSettings*/
+    app.get('/ems/api/getOnboardingSettings/',function(req,res){
+        ems.getOnboardingSettings(req,res)
+    })
+     /** updateselectEmployeesProgramSchedules*/
+     app.post('/ems/api/updateselectEmployeesProgramSchedules/',function(req,res){
+        ems.updateselectEmployeesProgramSchedules(req,res)
+    })
+    /**setEmsEmployeeColumnConfigurationValues */
+    app.post('/ems/api/setEmsEmployeeColumnConfigurationValues/',function(req,res){
+        ems.setEmsEmployeeColumnConfigurationValues(req,res)
+    })
+    /**getEmsEmployeeColumnConfigurationValue */
+    app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id',function(req,res){
+        ems.getEmsEmployeeColumnConfigurationValue(req,res)
+    })
+   
+      /**getFilepathsMasterForEMS */
+    app.get('/ems/api/getFilepathsMasterForEMS/:moduleId',function(req,res){
+        ems.getFilepathsMasterForEMS(req,res)
+    })
+    
+   /**setFilesMasterForEMS */
+   app.post('/ems/api/setFilesMasterForEMS/',function(req,res){
+    ems.setFilesMasterForEMS(req,res)
+    })
+
+/**setDocumentOrImageForEMS */
+app.post('/ems/api/setDocumentOrImageForEMS/:path',function(req,res){
+    ems.setDocumentOrImageForEMS(req,res)
+    })
+/**EMS getUserLoginData */
+app.get('/ems/api/getUserLoginData/',function(req,res){
+    ems.getUserLoginData(req,res)
+})
+/**usersLogin*/
+app.post('/ems/api/usersLogin/',function(req,res){
+    ems.usersLogin(req,res)
+})
+/**EMS getEmsEmployeeColumnFilterData */
+app.get('/ems/api/getEmsEmployeeColumnFilterData/',function(req,res){
+    ems.getEmsEmployeeColumnFilterData(req,res)
+})
+/**EMS getEmsEmployeeDataForReports */
+app.post('/ems/api/getEmsEmployeeDataForReports/',function(req,res){
+    ems.getEmsEmployeeDataForReports(req,res)
+})
+
+    /** get Employee Personal Info (HR)*/
+    app.get('/ems/api/getEmpPersonalInfo/:id',function(req,res){
+        ems.getEmpPersonalInfo(req,res)
+    })
+
+/**getDocumentsForEMS */
+app.post('/ems/api/getDocumentsForEMS/',function(req,res){
+    ems.getDocumentsForEMS(req,res)
+    })
+    
+    /**getDocumentsForEMS */
+app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
+    ems.getDocumentOrImagesForEMS(req,res)
+    })
+
+    
+    /**removeDocumentOrImagesForEMS */
+    app.delete('/ems/api/removeDocumentOrImagesForEMS/:path',function(req,res){
+        ems.removeDocumentOrImagesForEMS(req,res)
+        })
+
+/**
+ * Delete Files Master
+ * */
+ app.get('/ems/api/deleteFilesMaster/:id', function(req,res) {
+
+    ems.deleteFilesMaster(req,res);
+
+});
+
+/**
+ * Delete Files Master
+ * */
+ app.post('/ems/api/Messages', function(req,res) {
+    ems.Messages(req,res);
+
+});
+  /** EMS set employee job details */
+  app.post('/ems/api/setEmpJobDetails', function(req,res) {
+    ems.setEmpJobDetails(req,res);
+  });  
+
+    /** EMS set employee education details */
+    app.post('/ems/api/setEmpEducationDetails', function(req,res) {
+        ems.setEmpEducationDetails(req,res);
+      });  
+
+/** EMS set employee education details */
+    app.post('/ems/api/setEmpEmployement', function(req,res) {
+        ems.setEmpEmployement(req,res);
+    });  
+
+/** get Employee Personal Info (HR)*/
+    app.get('/ems/api/getEmpEmployement/:id',function(req,res){
+        ems.getEmpEmployement(req,res)
+    })
+
+/** get Employee Personal Info (HR)*/
+app.get('/ems/api/getEmpEducationDetails/:id',function(req,res){
+    ems.getEmpEducationDetails(req,res)
+})
+
+/** get Employee Personal Info (HR)*/
+app.get('/ems/api/getEmpJobDetails/:id',function(req,res){
+    ems.getEmpJobDetails(req,res)
+})
+/** getOffboardingSettings*/
+app.get('/ems/api/getOffboardingSettings/',function(req,res){
+    ems.getOffboardingSettings(req,res)
+});
+/** EMS setOffboardingSettings */
+app.post('/ems/api/setOffboardingSettings', function(req,res) {
+    ems.setOffboardingSettings(req,res);
+});
+
+//** */
+app.get('/ems/api/getEmployeesPendingChecklists/:ename/:date/:eid/:dept_Id', function(req,res) {
+
+    ems.getEmployeesPendingChecklists(req,res);
+
+});
+
+    //////// 
+/** EMS setOnboardingSettings */
+app.post('/ems/api/setOnboardingSettings', function(req,res) {
+    ems.setOnboardingSettings(req,res);
+});
+
+app.get('/ems/api/getActiveAnnouncementsTopics/',function(req,res){
+    ems.getActiveAnnouncementsTopics(req,res)
+})
+app.get('/ems/api/getAnnouncements/:announcement_id',function(req,res){
+    ems.getAnnouncements(req,res)
+})
+app.post('/ems/api/setAnnouncements/',function(req,res){
+    ems.setAnnouncements(req,res)
+})
+
+app.get('/ems/api/getFilesForApproval/',function(req,res){
+    ems.getFilesForApproval(req,res)
+})
+/**Document Approval */
+app.post('/ems/api/documentApproval/',function(req,res){
+    ems.documentApproval(req,res)
+})
+
+////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
