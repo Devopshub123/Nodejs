@@ -597,7 +597,7 @@ function setPreonboardCandidateInformation(req, res) {
 /** get employee check list */
 function getEmployeeChecklists(req, res) {
     try {
-           con.query("CALL `get_employee_checklists` (?,?,?,?)", [null,req.params.emp_Id,req.params.category,JSON.parse(req.params.dept_Id)], function (err, result, fields) {
+           con.query("CALL `get_employee_checklists` (?,?,?,?)", [null,JSON.parse(req.params.emp_Id),req.params.category,JSON.parse(req.params.dept_Id)], function (err, result, fields) {
               console.log("result-",result)
               console.log("error-",err)
                if (result && result.length > 0) {
@@ -1475,7 +1475,7 @@ function getAnnouncements(req, res) {
 }
 function getEmployeesPendingChecklists(req,res) {
     try {
-        con.query("CALL `get_employees_pending_checklists` (?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid)], function (err, result, fields) {
+        con.query("CALL `get_employees_pending_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
