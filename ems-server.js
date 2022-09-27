@@ -105,10 +105,9 @@ module.exports = {
 //// set new hire list
 function setNewHire(req,res) {
     try {
-        console.log(req.body.personal_email);
+ 
         con.query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
-            console.log(result[0][0].candidate_id)
-            if (result[0][0].statuscode == 0) {
+              if (result[0][0].statuscode == 0) {
                 // res.send({status:true,data:result[0][0]})
                 var transporter = nodemailer.createTransport({
                     host: "smtp-mail.outlook.com", // hostname
@@ -972,10 +971,9 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-         console.log(result)
-         console.log(err)
-             if (result[0][0].statuscode == 0) {
-               res.send({status: true });
+         
+             if (result &&result[0][0].statuscode == 0) {
+               res.send({status: true,data:result[0][0].empid });
             } else {
                 res.send({ status: false })
             }
