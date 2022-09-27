@@ -14,6 +14,7 @@ var Securitykey = crypto.randomBytes(32);
 var admin= require('./admin-server');
 var attendance= require('./attendance-server');
 var leaveManagement = require('./leave-management');
+
 var ems= require('./ems-server');
 var payroll = require('./payroll');
 app.use(bodyParser.urlencoded({
@@ -806,7 +807,7 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',f
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-                console.log("req.params.tableName;",err)
+                console.log("getmastertable",err,result)
 
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
@@ -2569,7 +2570,7 @@ app.post('/api/getleavecalender/:id',function(req,res){
     try {
         con.query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
            console.log("getleavecalendar",err,result)
-            if (result && result.length > 0) {
+            if (result && result[0].length > 0) {
                for(var i = 0; i< result[0].length; i ++ ){
                    if(result[0][i].ltype == 'weekoff'){
                        result[0][i].color = '#2e0cf3'
@@ -2777,9 +2778,271 @@ app.post('/api/setFilesMaster/', function(req,res) {
 
 });
 
+/**
+ *  EMS
+ * set programs master
+ * */
+app.post('/ems/api/setProgramsMaster/', function(req,res) {
+
+    ems.setProgramsMaster(req,res);
+
+});
+
+/**
+ *  EMS
+ * get programs master
+ * */
+app.get('/ems/api/getProgramsMaster/:pId', function(req,res) {
+
+    ems.getProgramsMaster(req,res);
+
+});
+
+
+/**
+ *  EMS
+ * set program tasks
+ * */
+app.get('/ems/api/setProgramTasks/', function(req,res) {
+
+    ems.setProgramTasks(req,res);
+
+});
+
+
+/**
+ *  EMS
+ * get_program_tasks
+ * */
+app.get('/ems/api/getProgramTasks/', function(req,res) {
+
+    ems.getProgramTasks(req,res);
+
+});
+
+
+
+/**
+ *  EMS
+ * set program schedules
+ * */
+app.post('/ems/api/setProgramSchedules/', function(req,res) {
+
+    ems.setProgramSchedules(req,res);
+
+});
+
+/**
+ *  EMS
+ * get program schedules
+ * */
+app.get('/ems/api/getProgramSchedules/:sid/:pid', function(req,res) {
+
+    ems.getProgramSchedules(req,res);
+
+});
+
+
+/**
+ *  EMS
+ * set employee program schedules
+ * */
+app.get('/ems/api/setEmployeeProgramSchedules/', function(req,res) {
+
+    ems.setEmployeeProgramSchedules(req,res);
+
+});
+
+/**
+ *  EMS
+ * get employee program schedules
+ * */
+app.get('/ems/api/getEmployeeProgramSchedules/', function(req,res) {
+
+    ems.getEmployeeProgramSchedules(req,res);
+
+});
+
+
+
+/**
+ *  EMS
+ * set checklists master
+ * */
+app.post('/ems/api/setChecklistsMaster', function(req,res) {
+  
+    ems.setChecklistsMaster(req, res);
+
+});
+
+
+
+/**
+ *  EMS
+ * get checklists master
+ * */
+app.get('/ems/api/getChecklistsMaster/:deptId', function(req,res) {
+
+    ems.getChecklistsMaster(req,res);
+
+});
+
+/** 
+ * EMS 
+ * set new hire
+ */ 
+app.post('/ems/api/setNewHire/', function(req,res) {
+
+    ems.setNewHire(req,res);
+});
+
+/** 
+ * EMS
+ * get new hire list 
+ * */
+app.get('/ems/api/getNewHireDetails/', function(req,res) {
+
+    ems.getNewHireDetails(req,res);
+
+});
+
+/** 
+ * EMS
+ * set reason master 
+ * */
+app.post('/ems/api/setReasonMaster/', function(req,res) {
+
+    ems.setReasonMaster(req,res);
+});
+
+/** EMS
+ * get active reasons list
+ */
+app.get('/ems/api/getActiveReasonList/', function(req,res) {
+
+    ems.getActiveReasonList(req,res);
+});
+
+/** EMS
+ * get all reasons list
+ */
+ app.get('/ems/api/getReasonMasterData/:reasonid/', function(req,res) {
+
+     ems.getReasonMasterData(req, res);
+ });
+
+/** EMS
+ * set termination category
+ */
+app.post('/ems/api/setTerminationCategory/', function(req,res) {
+
+        ems.setTerminationCategory(req, res);
+});
+
+/** EMS
+ * get termination category
+ */
+ app.get('/ems/api/getTerminationCategory/', function(req,res) {
+
+    ems.getTerminationCategory(req, res);
+ });
+
+/** EMS
+ * set document category
+ */
+ app.post('/ems/api/setDocumentCategory/', function(req,res) {
+
+    ems.setDocumentCategory(req,res);
+ });
+
+ /** EMS
+ * get document category
+ */
+  app.get('/ems/api/getDocumentCategory/', function(req,res) {
+
+    ems.getDocumentCategory(req, res);
+  });
+
+/** EMS
+ * get document category
+ */
+    app.get('/ems/api/getEmployeesList/', function(req,res) {
+
+        ems.getEmployeesList(req, res);
+    });
+      
+ /** EMS
+ * set candidate pre onboarding details
+ */
+  app.post('/ems/api/setPreonboardCandidateInformation', function(req,res) {
+   ems.setPreonboardCandidateInformation(req,res);
+ });   
+  
+/** EMS
+ * get candidate list
+ */
+ app.get('/ems/api/getCandidateDetails/:emp_Id', function(req,res) {
+
+    ems.getCandidateDetails(req, res);
+});
+
+
+/** EMS
+ * get employee check list
+ */
+ app.get('/ems/api/getEmployeeChecklists/:emp_Id', function(req,res) {
+
+    ems.getEmployeeChecklists(req, res);
+});
+
+
+  app.post('/ems/api/setEmployeeResignation/', function(req,res) {
+
+    ems.setEmployeeResignation(req, res);
+  });
+  app.get('/ems/api/getEmployeesResignation/:id', function(req,res) {
+
+    ems.getEmployeesResignation(req, res);
+  });
+  app.post('/ems/api/setEmployeeTermination/', function(req,res) {
+
+    ems.setEmployeeTermination(req, res);
+  });
+  app.get('/ems/api/getEmployeesTermination/:id', function(req,res) {
+
+    ems.getEmployeesTermination(req, res);
+  });
+  app.get('/ems/api/getActiveTerminationCategories/', function(req,res){
+    ems.getActiveTerminationCategories(req,res)
+  })
+  app.get('/ems/api/getEmployeeslistforTermination/', function(req,res){
+    ems.getEmployeeslistforTermination(req,res)
+  })
+  
+
+  /** set onboard candidate work experience */
+  app.post('/ems/api/setCandidateExperience', function(req,res) {
+
+    ems.setCandidateExperience(req, res);
+  });
+
+    /** set onboard candidate education */
+    app.post('/ems/api/setCandidateEducation', function(req,res) {
+        console.log("hello")
+        ems.setCandidateEducation(req, res);
+    });
+
+   /** getDepartmentEmployeesByDesignation */
+    app.get('/ems/api/getDepartmentEmployeesByDesignation/:sid/:pid', function(req,res) {
+
+        ems.getDepartmentEmployeesByDesignation(req,res);
+    
+    });
+      
+//////////////////// 
 app.use("/admin", admin);
 app.use("/attendance", attendance);
-app.use("/ems",ems);
+// app.use("/ems",ems);
 app.use("/payroll",payroll);
 app.listen(6060,function (err) {
     if (err)

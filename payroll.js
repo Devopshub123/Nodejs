@@ -120,6 +120,40 @@ app.post('/api/getdeductionsalarycomponent/:id',function(req,res){
     }
 
 })
+/**getpayroll incomegroups */
+app.post('/api/getpayrollincomegroups',function(req,res){
+    try{
+        con.query("CALL `get_payroll_income_groups` ()", [], function (err, result, fields) {
+            if(result && result.length){
+                res.send({data: result[0], status: true});
+            }
+            else{
+                res.send({status: false});
+            }
+        });
+
+    }
+    catch(e){
+        console.log('getpayrollincomegroups :', e)
+    }
+})
+/**get salary components of a pay group */
+app.post('/api/getsalarycomponentsforpaygroup',function(req,res){
+    try{
+        con.query("CALL `get_salary_components_for_pay_group` (?)", [req.body.id], function (err, result, fields) {
+            if(result && result.length){
+                res.send({data: result[0], status: true});
+            }
+            else{
+                res.send({status: false});
+            }
+        });
+
+    }
+    catch(e){
+        console.log('getsalarycomponentsforpaygroup :', e)
+    }
+})
 /**set income group */
 app.post('/api/setincomegroup',function(req,res){
     try {

@@ -383,8 +383,8 @@ app.get('/api/getemployeeshift/:employee_id', function (req, res) {
             }
         });
 
-    } catch {
-        console.log('get_employee_shift :')
+    } catch(e) {
+        console.log('get_employee_shift :',e)
     }
 });
 
