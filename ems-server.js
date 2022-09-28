@@ -101,7 +101,8 @@ module.exports = {
     getAnnouncements:getAnnouncements,
     setAnnouncements:setAnnouncements,
     getFilesForApproval:getFilesForApproval,
-    documentApproval:documentApproval
+    documentApproval:documentApproval,
+    getEmpAnnouncements:getEmpAnnouncements
 
 };
 //// set new hire list
@@ -1550,5 +1551,21 @@ function documentApproval(req, res){
         });
     } catch (e) {
         console.log('documentApproval :', e)
+    }
+}
+
+
+/*To Get getEmpAnnouncements*/
+function getEmpAnnouncements(req, res) {
+    try {
+        con.query("CALL `get_emp_announcements` ()", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getEmpAnnouncements :', e)
     }
 }
