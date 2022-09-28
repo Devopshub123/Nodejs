@@ -101,7 +101,9 @@ module.exports = {
     getAnnouncements:getAnnouncements,
     setAnnouncements:setAnnouncements,
     getFilesForApproval:getFilesForApproval,
-    documentApproval:documentApproval
+    documentApproval: documentApproval,
+    setEmployeeChecklists: setEmployeeChecklists,
+    getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists
 
 };
 //// set new hire list
@@ -634,10 +636,11 @@ function getEmployeesTermination(req,res) {
 
 function setEmployeeTermination(req,res) {
     try {
-        console.log(JSON.stringify(req.body))
+        console.log("fgfgfgfg",JSON.stringify(req.body))
         con.query("CALL `set_employee_termination` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            console.log(result[0][0].statuscode)
-            if (result  && result[0][0].statuscode == 0) {
+            console.log("Result--",result)
+            console.log("error---",err)
+            if (result  && result[0]&& result[0][0] &&result[0][0].statuscode == 0) {
                 res.send({ data: result[0][0].statuscode, status: true });
             } else {
                 res.send({ status: false })
@@ -709,7 +712,7 @@ function getActiveTerminationCategories(req,res) {
 }
 function getEmployeeslistforTermination(req,res) {
     try {
-        con.query("CALL `get_employees_list` ()", [], function (err, result, fields) {  
+        con.query("CALL `get_active_emps_list` ()", [], function (err, result, fields) {  
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -718,7 +721,7 @@ function getEmployeeslistforTermination(req,res) {
         });
 
     } catch (e) {
-        console.log('get_employees_list :', e)
+        console.log('get_active_emps_list :', e)
     }
 
 }
@@ -973,7 +976,8 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-         
+         console.log("1st--",result[0])
+         console.log("2nd --",result[0][0])
              if (result &&result[0][0].statuscode == 0) {
                res.send({status: true,data:result[0][0].empid });
             } else {
@@ -1551,4 +1555,45 @@ function documentApproval(req, res){
     } catch (e) {
         console.log('documentApproval :', e)
     }
+}
+
+function setEmployeeChecklists(req, res) {
+    console.log("input error",req.body)
+    try {
+        con.query("CALL `set_employee_checklists` (?,?,?,?,?,?,?,?)", [JSON.stringify(req.body.cid),
+            req.body.eid, req.body.did, req.body.cmmt,
+           req.body.status, req.body.fstatus,req.body.category,
+        req.body.actionBy,
+        ],
+            function (err, result, fields) {
+             console.log("1st error",err)
+             console.log("3st result",result)
+          if (result && result[0][0].successstate == 0) {
+               res.send({status: true});
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmployeeChecklists :', e)
+
+    }
+}
+
+
+function getEmpOffboardPendingChecklists(req,res) {
+    try {
+        con.query("CALL `get_emp_offboard_pending_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getEmpOffboardPendingChecklists :', e)
+
+    }
+
 }
