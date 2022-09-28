@@ -103,7 +103,8 @@ module.exports = {
     getFilesForApproval:getFilesForApproval,
     documentApproval: documentApproval,
     setEmployeeChecklists: setEmployeeChecklists,
-    getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists
+    getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists,
+    getEmpAnnouncements:getEmpAnnouncements
 
 };
 //// set new hire list
@@ -1596,4 +1597,19 @@ function getEmpOffboardPendingChecklists(req,res) {
 
     }
 
+}
+
+/*To Get getEmpAnnouncements*/
+function getEmpAnnouncements(req, res) {
+    try {
+        con.query("CALL `get_emp_announcements` ()", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getEmpAnnouncements :', e)
+    }
 }

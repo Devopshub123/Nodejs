@@ -3256,6 +3256,10 @@ app.get('/ems/api/getEmpOffboardPendingChecklists/:ename/:date/:eid/:dept_Id', f
     ems.getEmpOffboardPendingChecklists(req,res);
 
 });
+  /** get Employee Personal Info (HR)*/
+  app.get('/ems/api/getEmpAnnouncements/',function(req,res){
+    ems.getEmpAnnouncements(req,res)
+})
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
