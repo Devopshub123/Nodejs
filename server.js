@@ -3037,7 +3037,6 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
     /** set onboard candidate education */
     app.post('/ems/api/setCandidateEducation', function(req,res) {
-        console.log("hello")
         ems.setCandidateEducation(req, res);
     });
 
@@ -3246,6 +3245,17 @@ app.post('/ems/api/documentApproval/',function(req,res){
     ems.documentApproval(req,res)
 })
 
+
+/**Document Approval */
+app.post('/ems/api/setEmployeeChecklists',function(req,res){
+    ems.setEmployeeChecklists(req,res)
+})
+
+//** */
+app.get('/ems/api/getEmpOffboardPendingChecklists/:ename/:date/:eid/:dept_Id', function(req,res) {
+    ems.getEmpOffboardPendingChecklists(req,res);
+
+});
   /** get Employee Personal Info (HR)*/
   app.get('/ems/api/getEmpAnnouncements/',function(req,res){
     ems.getEmpAnnouncements(req,res)
