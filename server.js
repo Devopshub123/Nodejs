@@ -3249,7 +3249,12 @@ app.post('/ems/api/documentApproval/',function(req,res){
   /** get Employee Personal Info (HR)*/
   app.get('/ems/api/getEmpAnnouncements/',function(req,res){
     ems.getEmpAnnouncements(req,res)
-})
+});
+
+app.post('/ems/api/getEmployeesResignationForHr/', function(req,res) {
+
+    ems.getEmployeesResignationForHr(req, res);
+});
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
