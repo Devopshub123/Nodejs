@@ -3252,14 +3252,20 @@ app.post('/ems/api/setEmployeeChecklists',function(req,res){
 })
 
 //** */
-app.get('/ems/api/getEmpOffboardPendingChecklists/:ename/:date/:eid/:dept_Id', function(req,res) {
-    ems.getEmpOffboardPendingChecklists(req,res);
+app.get('/ems/api/getEmpOffboardTerminationChecklists/:ename/:date/:eid/:dept_Id', function(req,res) {
+    ems.getEmpOffboardTerminationChecklists(req,res);
 
 });
   /** get Employee Personal Info (HR)*/
   app.get('/ems/api/getEmpAnnouncements/',function(req,res){
     ems.getEmpAnnouncements(req,res)
-})
+  })
+
+  //** */
+app.get('/ems/api/getEmpResignationPendingChecklists/:ename/:date/:eid/:dept_Id', function(req,res) {
+    ems.getEmpResignationPendingChecklists(req,res);
+
+});
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);

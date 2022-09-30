@@ -103,8 +103,9 @@ module.exports = {
     getFilesForApproval:getFilesForApproval,
     documentApproval: documentApproval,
     setEmployeeChecklists: setEmployeeChecklists,
-    getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists,
-    getEmpAnnouncements:getEmpAnnouncements
+    getEmpOffboardTerminationChecklists: getEmpOffboardTerminationChecklists,
+    getEmpAnnouncements:getEmpAnnouncements,
+    getEmpResignationPendingChecklists:getEmpResignationPendingChecklists,
 
 };
 //// set new hire list
@@ -1567,9 +1568,9 @@ function setEmployeeChecklists(req, res) {
         req.body.actionBy,
         ],
             function (err, result, fields) {
-             console.log("1st error",err)
-             console.log("3st result",result)
-          if (result && result[0][0].successstate == 0) {
+             console.log("1st error",result[0])
+                console.log("3st result", result[0][0])
+                  if (result && result[0][0].successstate == 0) {
                res.send({status: true});
             } else {
                 res.send({ status: false })
@@ -1583,9 +1584,9 @@ function setEmployeeChecklists(req, res) {
 }
 
 
-function getEmpOffboardPendingChecklists(req,res) {
+function getEmpOffboardTerminationChecklists(req,res) {
     try {
-        con.query("CALL `get_emp_offboard_pending_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
+        con.query("CALL `get_emp_offboard_termination_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1593,7 +1594,7 @@ function getEmpOffboardPendingChecklists(req,res) {
             }
         });
     } catch (e) {
-        console.log('getEmpOffboardPendingChecklists :', e)
+        console.log('getEmpOffboardTerminationChecklists :', e)
 
     }
 
@@ -1612,4 +1613,20 @@ function getEmpAnnouncements(req, res) {
     } catch (e) {
         console.log('getEmpAnnouncements :', e)
     }
+}
+
+function getEmpResignationPendingChecklists(req, res) {
+    try {
+        con.query("CALL `get_emp_offboard_resignation_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getEmpResignationPendingChecklists :', e)
+
+    }
+
 }
