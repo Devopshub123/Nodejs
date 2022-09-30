@@ -1452,7 +1452,7 @@ function getEmsEmployeeDataForReports(req,res){
 /*To get active announcements*/
 function getActiveAnnouncementsTopics(req,res){
     try{
-        con.query("CALL `get_active_annoucements_topics` ()", [], function (err, result, fields) {
+        con.query("CALL `get_active_announcements_topics` ()", [], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1467,7 +1467,7 @@ function getActiveAnnouncementsTopics(req,res){
 /*To Get Announcements*/
 function getAnnouncements(req, res) {
     try {
-        con.query("CALL `get_annoucements` (?)", [null], function (err, result, fields) {
+        con.query("CALL `get_announcements` (?)", [null], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1514,7 +1514,7 @@ function Messages(req,res){
 function setAnnouncements(req,res){
     try{
         console.log(JSON.stringify(req.body))
-        con.query("CALL `set_annoucements` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+        con.query("CALL `set_announcements` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
             
             if(result && result[0] && result[0][0] && result[0][0].statuscode == 0){
                 res.send({ status: true })
