@@ -99,7 +99,7 @@ module.exports = {
     getFilesForApproval:getFilesForApproval,
     documentApproval:documentApproval,
     getEmpAnnouncements:getEmpAnnouncements,
-    getEmployeesResignationForHr:getEmployeesResignationForHr
+    getEmployeesResignationForHr:getEmployeesResignationForHr,
     setEmployeeChecklists: setEmployeeChecklists,
     getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists,
 
