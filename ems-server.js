@@ -61,7 +61,6 @@ module.exports = {
     getEmployeesForProgramSchedule: getEmployeesForProgramSchedule,
 
     setEmpPersonalInfo: setEmpPersonalInfo,
-    getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
     getOnboardingSettings:getOnboardingSettings,
     updateselectEmployeesProgramSchedules: updateselectEmployeesProgramSchedules,
     getEmpPersonalInfo: getEmpPersonalInfo,
@@ -71,7 +70,6 @@ module.exports = {
     setEmpEmployement: setEmpEmployement,
     getEmpEmployement: getEmpEmployement,
     getEmpJobDetails: getEmpJobDetails,
-    //setEmployeeMasterData: setEmployeeMasterData,
     getFileMasterForEMS:getFileMasterForEMS,
     setFileMasterForEMS:setFileMasterForEMS,
     getEmsEmployeeColumnConfigurationValue:getEmsEmployeeColumnConfigurationValue,
@@ -88,8 +86,6 @@ module.exports = {
     getUserLoginData:getUserLoginData,
     usersLogin:usersLogin,
     getEmsEmployeeColumnFilterData:getEmsEmployeeColumnFilterData,
-    getFilecategoryMasterForEMS:getFilecategoryMasterForEMS,
-    getEmsEmployeeDataForReports: getEmsEmployeeDataForReports,
     getEmployeesPendingChecklists: getEmployeesPendingChecklists,
     getChecklistsMasterActive: getChecklistsMasterActive,
 
@@ -102,7 +98,10 @@ module.exports = {
     setAnnouncements:setAnnouncements,
     getFilesForApproval:getFilesForApproval,
     documentApproval:documentApproval,
-    getEmpAnnouncements:getEmpAnnouncements
+    getEmpAnnouncements:getEmpAnnouncements,
+    getEmployeesResignationForHr:getEmployeesResignationForHr
+    setEmployeeChecklists: setEmployeeChecklists,
+    getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists,
 
 };
 //// set new hire list
@@ -635,10 +634,11 @@ function getEmployeesTermination(req,res) {
 
 function setEmployeeTermination(req,res) {
     try {
-        console.log(JSON.stringify(req.body))
+        console.log("fgfgfgfg",JSON.stringify(req.body))
         con.query("CALL `set_employee_termination` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            console.log(result[0][0].statuscode)
-            if (result  && result[0][0].statuscode == 0) {
+            console.log("Result--",result)
+            console.log("error---",err)
+            if (result  && result[0]&& result[0][0] &&result[0][0].statuscode == 0) {
                 res.send({ data: result[0][0].statuscode, status: true });
             } else {
                 res.send({ status: false })
@@ -677,15 +677,14 @@ function getEmployeesResignation(req,res) {
 }
 function setEmployeeResignation(req,res) {
     try {
-        console.log(JSON.stringify(req.body))
-        con.query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)], function (err, result, fields) {      
+        con.query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
             if(err){
-                res.send({ status: false })
+                res.send({ status: false ,statusCode: req.body.resg_status})
             }
             else{
-                res.send({ status: true,data:result[0][0].statuscode })
+                res.send({ status: true,data:result[0][0].statuscode,statusCode: req.body.resg_status})
             }
-        });
+        })
 
     } catch (e) {
         console.log('setEmployeeResignation :', e)
@@ -710,7 +709,7 @@ function getActiveTerminationCategories(req,res) {
 }
 function getEmployeeslistforTermination(req,res) {
     try {
-        con.query("CALL `get_employees_list` ()", [], function (err, result, fields) {  
+        con.query("CALL `get_active_emps_list` ()", [], function (err, result, fields) {  
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -719,7 +718,7 @@ function getEmployeeslistforTermination(req,res) {
         });
 
     } catch (e) {
-        console.log('get_employees_list :', e)
+        console.log('get_active_emps_list :', e)
     }
 
 }
@@ -974,7 +973,8 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-         
+         console.log("1st--",result[0])
+         console.log("2nd --",result[0][0])
              if (result &&result[0][0].statuscode == 0) {
                res.send({status: true,data:result[0][0].empid });
             } else {
@@ -1554,6 +1554,46 @@ function documentApproval(req, res){
     }
 }
 
+function setEmployeeChecklists(req, res) {
+    console.log("input error",req.body)
+    try {
+        con.query("CALL `set_employee_checklists` (?,?,?,?,?,?,?,?)", [JSON.stringify(req.body.cid),
+            req.body.eid, req.body.did, req.body.cmmt,
+           req.body.status, req.body.fstatus,req.body.category,
+        req.body.actionBy,
+        ],
+            function (err, result, fields) {
+             console.log("1st error",err)
+             console.log("3st result",result)
+          if (result && result[0][0].successstate == 0) {
+               res.send({status: true});
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('setEmployeeChecklists :', e)
+
+    }
+}
+
+
+function getEmpOffboardPendingChecklists(req,res) {
+    try {
+        con.query("CALL `get_emp_offboard_pending_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getEmpOffboardPendingChecklists :', e)
+
+    }
+
+}
 
 /*To Get getEmpAnnouncements*/
 function getEmpAnnouncements(req, res) {
@@ -1568,4 +1608,22 @@ function getEmpAnnouncements(req, res) {
     } catch (e) {
         console.log('getEmpAnnouncements :', e)
     }
+}
+
+
+function getEmployeesResignationForHr(req,res) {
+    try {
+        con.query("CALL `get_resignation_data` (?,?,?)", [req.body.regId,req.body.empId,req.body.rmId], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('getEmployeesResignationForHr :', e)
+
+    }
+
 }
