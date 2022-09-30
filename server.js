@@ -3266,6 +3266,11 @@ app.get('/ems/api/getEmpResignationPendingChecklists/:ename/:date/:eid/:dept_Id'
     ems.getEmpResignationPendingChecklists(req,res);
 
 });
+
+app.post('/ems/api/getEmployeesResignationForHr/', function(req,res) {
+
+    ems.getEmployeesResignationForHr(req, res);
+});
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);

@@ -61,7 +61,6 @@ module.exports = {
     getEmployeesForProgramSchedule: getEmployeesForProgramSchedule,
 
     setEmpPersonalInfo: setEmpPersonalInfo,
-    getEmployeesForProgramSchedule:getEmployeesForProgramSchedule,
     getOnboardingSettings:getOnboardingSettings,
     updateselectEmployeesProgramSchedules: updateselectEmployeesProgramSchedules,
     getEmpPersonalInfo: getEmpPersonalInfo,
@@ -71,7 +70,6 @@ module.exports = {
     setEmpEmployement: setEmpEmployement,
     getEmpEmployement: getEmpEmployement,
     getEmpJobDetails: getEmpJobDetails,
-    //setEmployeeMasterData: setEmployeeMasterData,
     getFileMasterForEMS:getFileMasterForEMS,
     setFileMasterForEMS:setFileMasterForEMS,
     getEmsEmployeeColumnConfigurationValue:getEmsEmployeeColumnConfigurationValue,
@@ -88,8 +86,6 @@ module.exports = {
     getUserLoginData:getUserLoginData,
     usersLogin:usersLogin,
     getEmsEmployeeColumnFilterData:getEmsEmployeeColumnFilterData,
-    getFilecategoryMasterForEMS:getFilecategoryMasterForEMS,
-    getEmsEmployeeDataForReports: getEmsEmployeeDataForReports,
     getEmployeesPendingChecklists: getEmployeesPendingChecklists,
     getChecklistsMasterActive: getChecklistsMasterActive,
 
@@ -101,11 +97,13 @@ module.exports = {
     getAnnouncements:getAnnouncements,
     setAnnouncements:setAnnouncements,
     getFilesForApproval:getFilesForApproval,
-    documentApproval: documentApproval,
+    documentApproval:documentApproval,
+    getEmpAnnouncements:getEmpAnnouncements,
+    getEmployeesResignationForHr:getEmployeesResignationForHr,
     setEmployeeChecklists: setEmployeeChecklists,
     getEmpOffboardTerminationChecklists: getEmpOffboardTerminationChecklists,
-    getEmpAnnouncements:getEmpAnnouncements,
     getEmpResignationPendingChecklists:getEmpResignationPendingChecklists,
+    //getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists,
 
 };
 //// set new hire list
@@ -681,15 +679,14 @@ function getEmployeesResignation(req,res) {
 }
 function setEmployeeResignation(req,res) {
     try {
-        console.log(JSON.stringify(req.body))
-        con.query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)], function (err, result, fields) {      
+        con.query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
             if(err){
-                res.send({ status: false })
+                res.send({ status: false ,statusCode: req.body.resg_status})
             }
             else{
-                res.send({ status: true,data:result[0][0].statuscode })
+                res.send({ status: true,data:result[0][0].statuscode,statusCode: req.body.resg_status})
             }
-        });
+        })
 
     } catch (e) {
         console.log('setEmployeeResignation :', e)
@@ -1626,6 +1623,23 @@ function getEmpResignationPendingChecklists(req, res) {
         });
     } catch (e) {
         console.log('getEmpResignationPendingChecklists :', e)
+
+    }
+
+}
+
+function getEmployeesResignationForHr(req,res) {
+    try {
+        con.query("CALL `get_resignation_data` (?,?,?)", [req.body.regId,req.body.empId,req.body.rmId], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('getEmployeesResignationForHr :', e)
 
     }
 
