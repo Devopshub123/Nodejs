@@ -1860,6 +1860,20 @@ app.get('/api/getScreenWithFunctionalities',function(req,res) {
     }
 });
 
+/*Get Role Screen Functionalities By Role Id*/
+app.get('/api/getRoleScreenfunctionalitiesByRoleId/:roleId',function(req,res) {
+    try {        
+        con.query("CALL `get_screens_functionalities_for_role` (?)",[req.params.roleId], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
+    }
+});
 /*Get Role Screen Functionalities*/
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
     try {        
