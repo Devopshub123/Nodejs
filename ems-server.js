@@ -111,7 +111,9 @@ function setNewHire(req,res) {
     try {
  
         con.query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
-              if (result[0][0].statuscode == 0) {
+            console.log("result--" ,result) 
+            console.log("error--" ,err) 
+            if (result[0][0].statuscode == 0) {
                 // res.send({status:true,data:result[0][0]})
                 var transporter = nodemailer.createTransport({
                     host: "smtp-mail.outlook.com", // hostname
@@ -1451,6 +1453,8 @@ function getEmsEmployeeDataForReports(req,res){
 function getActiveAnnouncementsTopics(req,res){
     try{
         con.query("CALL `get_active_annoucements_topics` ()", [], function (err, result, fields) {
+           console.log("error--",err)
+           console.log("result--",result)
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1557,7 +1561,6 @@ function documentApproval(req, res){
 }
 
 function setEmployeeChecklists(req, res) {
-    console.log("input error",req.body)
     try {
         con.query("CALL `set_employee_checklists` (?,?,?,?,?,?,?,?)", [JSON.stringify(req.body.cid),
             req.body.eid, req.body.did, req.body.cmmt,
@@ -1565,8 +1568,9 @@ function setEmployeeChecklists(req, res) {
         req.body.actionBy,
         ],
             function (err, result, fields) {
-             console.log("1st error",result[0])
-                console.log("3st result", result[0][0])
+                console.log("error--",err)
+             console.log("1st result",result)
+                console.log("3st result", result[0])
                   if (result && result[0][0].successstate == 0) {
                res.send({status: true});
             } else {
