@@ -1820,8 +1820,9 @@ app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
 app.get('/api/getModulesScreensFunctionalitiesmaster',function(req,res) {
     try {       
         con.query("CALL `get_modulescreenfunctionalities` ()", function (err, result, fields) {
+           console.log(result[0][0]);
             if (result.length > 0) {
-                res.send({data: result, status: true});
+                res.send({data: result[0][0], status: true});
             } else {
                 res.send({status: false})
             }
@@ -1835,7 +1836,7 @@ app.get('/api/getModulesWithScreens',function(req,res) {
     try {       
         con.query("CALL `get_modules_screens` ()", function (err, result, fields) {
             if (result.length > 0) {
-                res.send({data: result, status: true});
+                res.send({data: result[0][0], status: true});
             } else {
                 res.send({status: false})
             }
@@ -1849,7 +1850,7 @@ app.get('/api/getScreenWithFunctionalities',function(req,res) {
     try {        
         con.query("CALL `get_screens_functionalities` ()", function (err, result, fields) {
             if (result && result.length > 0) {
-                res.send({data: result, status: true});
+                res.send({data: result[0][0], status: true});
             } else {
                 res.send({status: false})
             }
