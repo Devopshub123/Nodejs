@@ -99,9 +99,11 @@ module.exports = {
     getFilesForApproval:getFilesForApproval,
     documentApproval:documentApproval,
     getEmpAnnouncements:getEmpAnnouncements,
-    getEmployeesResignationForHr:getEmployeesResignationForHr
+    getEmployeesResignationForHr:getEmployeesResignationForHr,
     setEmployeeChecklists: setEmployeeChecklists,
     getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists,
+    getReportingManagerForEmp:getReportingManagerForEmp,
+    getHrDetails:getHrDetails
 
 };
 //// set new hire list
@@ -1626,4 +1628,35 @@ function getEmployeesResignationForHr(req,res) {
 
     }
 
+}
+
+function getReportingManagerForEmp(req,res){
+    try{
+        con.query("CALL `get_reporting_manager_for_emp` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    }
+    catch(e){
+        console.log('getReportingManagerForEmp :', e)
+    }
+}
+function getHrDetails(req,res){
+    try{
+        con.query("CALL `get_hr_details` ()", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    }
+    catch(e){
+        console.log('getHrDetails :', e)
+    }
 }

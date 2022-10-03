@@ -3265,6 +3265,22 @@ app.post('/ems/api/getEmployeesResignationForHr/', function(req,res) {
 
     ems.getEmployeesResignationForHr(req, res);
 });
+
+
+/** EMS
+ * get employee check list
+ */
+app.get('/ems/api/getReportingManagerForEmp/:id', function(req,res) {
+
+    ems.getReportingManagerForEmp(req, res);
+});
+
+
+app.get('/ems/api/getHrDetails/', function(req,res) {
+
+    ems.getHrDetails(req, res);
+});
+
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
