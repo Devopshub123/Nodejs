@@ -59,7 +59,7 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
                         }
                     });
                    // var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                    var url = 'http://122.175.62.210:7676/api/Resetpassword/'+email+'/'+id
+                    var url = 'http://122.175.62.210:6464/api/Resetpassword/'+email+'/'+id
                     // var html = `<html>
                     // <head>
                     // <title>HRMS ResetPassword</title></head>
@@ -99,7 +99,7 @@ app.get('/api/resetpassword/:email/:id',function(req,res,next){
     let id = req.params.id;
     let email = req.params.email;
    // res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
-    res.redirect('http://122.175.62.210:7575/ResetPassword/'+email+'/'+id)
+    res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
 
 
 })
@@ -1816,6 +1816,64 @@ app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
         console.log('getscreenfunctionalitiesmaster :',e)
     }
 });
+/*Get Modules Screens Functionalities Master*/
+app.get('/api/getModulesScreensFunctionalitiesmaster',function(req,res) {
+    try {       
+        con.query("CALL `get_modulescreenfunctionalities` ()", function (err, result, fields) {
+           console.log(result[0][0]);
+            if (result.length > 0) {
+                res.send({data: result[0][0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('get_modulescreenfunctionalities :',e)
+    }
+});
+/*Get Modules Screens Master*/
+app.get('/api/getModulesWithScreens',function(req,res) {
+    try {       
+        con.query("CALL `get_modules_screens` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result[0][0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('get_modules_screens :',e)
+    }
+});
+/*Get Screens Functionalities*/
+app.get('/api/getScreenWithFunctionalities',function(req,res) {
+    try {        
+        con.query("CALL `get_screens_functionalities` ()", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0][0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('get_screens_functionalities :',e)
+    }
+});
+
+/*Get Role Screen Functionalities By Role Id*/
+app.get('/api/getRoleScreenfunctionalitiesByRoleId/:roleId',function(req,res) {
+    try {        
+        con.query("CALL `get_screens_functionalities_for_role` (?)",[req.params.roleId], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
+    }
+});
 /*Get Role Screen Functionalities*/
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
     try {        
@@ -1844,8 +1902,10 @@ app.post('/api/setRoleAccess',function(req,res) {
         console.log('setRoleAccess :',e)
     }
 });
+
 /*setRoleMaster */
 app.post('/api/setRoleMaster',function(req,res) {
+
     try {
         con.query("CALL `setrolemaster` (?)",[req.body.roleName], function (err, result, fields) {
                 if (err) {
@@ -3271,6 +3331,7 @@ app.post('/ems/api/getEmployeesResignationForHr/', function(req,res) {
 
     ems.getEmployeesResignationForHr(req, res);
 });
+
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
@@ -3282,9 +3343,10 @@ app.listen(6060,function (err) {
     else
         console.log('Server Started at : http://localhost:6060');
 });
-// app.listen(7676,'0.0.0.0',function (err) {
+
+// app.listen(6464,'0.0.0.0',function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://122.175.62.210:7676');
+//         console.log('Server Started at :  http://122.175.62.210:6464');
 // });

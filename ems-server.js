@@ -129,8 +129,10 @@ function setNewHire(req,res) {
                 });
                 var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
 
-                // var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                var url = 'http://localhost:4200/pre-onboarding/'+token
+
+                // var url = 'http://localhost:4200/pre-onboarding/'+token;
+                var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
+                
                 var html = `<html>
                 <head>
                 <title>Candidate Form</title></head>
@@ -1452,9 +1454,7 @@ function getEmsEmployeeDataForReports(req,res){
 /*To get active announcements*/
 function getActiveAnnouncementsTopics(req,res){
     try{
-        con.query("CALL `get_active_annoucements_topics` ()", [], function (err, result, fields) {
-           console.log("error--",err)
-           console.log("result--",result)
+        con.query("CALL `get_active_announcements_topics` ()", [], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1469,7 +1469,7 @@ function getActiveAnnouncementsTopics(req,res){
 /*To Get Announcements*/
 function getAnnouncements(req, res) {
     try {
-        con.query("CALL `get_annoucements` (?)", [null], function (err, result, fields) {
+        con.query("CALL `get_announcements` (?)", [null], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1516,7 +1516,7 @@ function Messages(req,res){
 function setAnnouncements(req,res){
     try{
         console.log(JSON.stringify(req.body))
-        con.query("CALL `set_annoucements` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+        con.query("CALL `set_announcements` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
             
             if(result && result[0] && result[0][0] && result[0][0].statuscode == 0){
                 res.send({ status: true })
