@@ -1816,6 +1816,49 @@ app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
         console.log('getscreenfunctionalitiesmaster :',e)
     }
 });
+/*Get Modules Screens Functionalities Master*/
+app.get('/api/getModulesScreensFunctionalitiesmaster',function(req,res) {
+    try {       
+        con.query("CALL `get_modulescreenfunctionalities` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('get_modulescreenfunctionalities :',e)
+    }
+});
+/*Get Modules Screens Master*/
+app.get('/api/getModulesWithScreens',function(req,res) {
+    try {       
+        con.query("CALL `get_modules_screens` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('get_modules_screens :',e)
+    }
+});
+/*Get Screens Functionalities*/
+app.get('/api/getScreenWithFunctionalities',function(req,res) {
+    try {        
+        con.query("CALL `get_screens_functionalities` ()", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('get_screens_functionalities :',e)
+    }
+});
+
 /*Get Role Screen Functionalities*/
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
     try {        
@@ -1844,8 +1887,10 @@ app.post('/api/setRoleAccess',function(req,res) {
         console.log('setRoleAccess :',e)
     }
 });
+
 /*setRoleMaster */
 app.post('/api/setRoleMaster',function(req,res) {
+
     try {
         con.query("CALL `setrolemaster` (?)",[req.body.roleName], function (err, result, fields) {
                 if (err) {
@@ -3271,21 +3316,22 @@ app.post('/ems/api/getEmployeesResignationForHr/', function(req,res) {
 
     ems.getEmployeesResignationForHr(req, res);
 });
+
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
 app.use("/payroll",payroll);
-// app.listen(6060,function (err) {
-//     if (err)
-//         console.log('Server Cant Start ...Erorr....');
-//     else
-//         console.log('Server Started at : http://localhost:6060');
-// });
-
-app.listen(6464,'0.0.0.0',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://122.175.62.210:6464');
+        console.log('Server Started at : http://localhost:6060');
 });
+
+// app.listen(6464,'0.0.0.0',function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at :  http://122.175.62.210:6464');
+// });
