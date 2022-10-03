@@ -80,7 +80,7 @@ app.post('/api/setDesignation', function (req, res) {
         infoDesignationMaster.created_on = req.body.created_on;
         infoDesignationMaster.updated_on=null;
         infoDesignationMaster.updated_by = null;
-        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'ems', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'emsQA', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
                 res.send({ status: false, message: "Unable to insert designation" });
             } else {
