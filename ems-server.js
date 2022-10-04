@@ -105,8 +105,7 @@ module.exports = {
     getHrDetails:getHrDetails,
     getEmpOffboardTerminationChecklists: getEmpOffboardTerminationChecklists,
     getEmpResignationPendingChecklists:getEmpResignationPendingChecklists,
-    getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists,
-
+   
 };
 //// set new hire list
 function setNewHire(req,res) {
