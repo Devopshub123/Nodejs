@@ -1620,6 +1620,10 @@ function getEmpAnnouncements(req, res) {
 function getEmpResignationPendingChecklists(req, res) {
     try {
         con.query("CALL `get_emp_offboard_resignation_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
+         // console.log("result-1",result)
+           // console.log("result-2", result[0])
+            console.log("error-1", err)
+            
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
