@@ -1589,6 +1589,9 @@ function setEmployeeChecklists(req, res) {
 function getEmpOffboardTerminationChecklists(req,res) {
     try {
         con.query("CALL `get_emp_offboard_termination_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
+           console.log("error-",err)
+           console.log("result-",result[0])
+
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
