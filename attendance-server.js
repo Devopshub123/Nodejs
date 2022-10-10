@@ -222,8 +222,8 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
                         pass: 'Sree$sreebt'
                     }
                 });
-               //  var url = 'http://localhost:6060/api/Resetpassword/' + email + '/' + id
-                var url = 'http://122.175.62.210:7474/api/Resetpassword/'+email+'/'+id
+                 var url = 'http://localhost:6060/api/Resetpassword/' + email + '/' + id
+               // var url = 'http://122.175.62.210:7474/api/Resetpassword/'+email+'/'+id
 
                 var html = `<html>
                     <head>
@@ -264,9 +264,9 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
 app.get('/api/resetpassword/:email/:id', function (req, res, next) {
     let id = req.params.id;
     let email = req.params.email;
-  //  res.redirect('http://localhost:4200/ResetPassword/' + email + '/' + id)
+  res.redirect('http://localhost:4200/ResetPassword/' + email + '/' + id)
 
-   res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
+ //  res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
 
 })
 /**reset password */

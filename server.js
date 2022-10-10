@@ -58,8 +58,8 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
                             pass: 'Sree$sreebt'
                         }
                     });
-                   // var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                    var url = 'http://122.175.62.210:6464/api/Resetpassword/'+email+'/'+id
+                    var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+                  //  var url = 'http://122.175.62.210:6464/api/Resetpassword/'+email+'/'+id
                     // var html = `<html>
                     // <head>
                     // <title>HRMS ResetPassword</title></head>
@@ -98,8 +98,8 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
 app.get('/api/resetpassword/:email/:id',function(req,res,next){
     let id = req.params.id;
     let email = req.params.email;
-   // res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
-    res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
+    res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
+  //  res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
 
 
 })
@@ -3352,6 +3352,7 @@ app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
 app.use("/payroll",payroll);
+
 app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
