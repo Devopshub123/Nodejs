@@ -104,8 +104,8 @@ module.exports = {
     getReportingManagerForEmp:getReportingManagerForEmp,
     getHrDetails:getHrDetails,
     getEmpOffboardTerminationChecklists: getEmpOffboardTerminationChecklists,
-    getEmpResignationPendingChecklists:getEmpResignationPendingChecklists,
-    getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists,
+    getEmpResignationPendingChecklists: getEmpResignationPendingChecklists,
+    // getEmpOffboardPendingChecklists: getEmpOffboardPendingChecklists,
 
 };
 //// set new hire list
