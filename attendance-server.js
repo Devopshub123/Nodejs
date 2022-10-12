@@ -75,12 +75,8 @@ app.post('/api/setDesignation', function (req, res) {
     try {
         let infoDesignationMaster = {}
         infoDesignationMaster.designation = req.body.designationName;
-        infoDesignationMaster.status = 1;
-        infoDesignationMaster.created_by=req.body.created_by;
-        infoDesignationMaster.created_on = req.body.created_on;
-        infoDesignationMaster.updated_on=null;
-        infoDesignationMaster.updated_by = null;
-        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'ems', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+        infoDesignationMaster.status = 'Active';
+        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'spryple_sreeb', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
                 res.send({ status: false, message: "Unable to insert designation" });
             } else {
@@ -101,7 +97,7 @@ app.post('/api/setDesignation', function (req, res) {
 app.get('/api/getallemployeeslist', function (req, res) {
 
     try {
-        con.query("CALL `get_all_employees_list`", function (err, result, fields) {
+        con.query("CALL `get_all_employees_list`()", function (err, result, fields) {
             if (result && result.length > 0) {
 
                 res.send({ status: true, data: result[0] })
@@ -222,9 +218,10 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
                         pass: 'Sree$sreebt'
                     }
                 });
-                 var url = 'http://localhost:6060/api/Resetpassword/' + email + '/' + id
-               // var url = 'http://122.175.62.210:7474/api/Resetpassword/'+email+'/'+id
+                var token = (Buffer.from(JSON.stringify({id:id,email:req.params.email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
 
+                // var url = 'http://localhost:4200/ResetPassword/'+token
+                var url = 'http://122.175.62.210:202/ResetPassword/'+token
                 var html = `<html>
                     <head>
                     <title>HRMS ResetPassword</title></head>
@@ -260,15 +257,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
         console.log("forgetpassword", e)
     }
 })
-/**password reset */
-app.get('/api/resetpassword/:email/:id', function (req, res, next) {
-    let id = req.params.id;
-    let email = req.params.email;
-  res.redirect('http://localhost:4200/ResetPassword/' + email + '/' + id)
 
- //  res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
-
-})
 /**reset password */
 app.post('/api/resetpassword', function (req, res, next) {
     let id = req.body.empid;
@@ -383,8 +372,8 @@ app.get('/api/getemployeeshift/:employee_id', function (req, res) {
             }
         });
 
-    } catch(e) {
-        console.log('get_employee_shift :',e)
+    } catch {
+        console.log('get_employee_shift :')
     }
 });
 
@@ -425,7 +414,7 @@ app.post('/api/setEmployeeAttendance', function (req, res) {
  *  */
 app.post('/api/setemployeeattendanceregularization', function (req, res) {
     try {
-    
+        ;
         con.query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
             [req.body.id, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
                 req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
@@ -509,10 +498,7 @@ app.post('/api/updateEmployeeAttendanceRegularization', function (req, res) {
  * **/
 
 app.get('/api/getemployeeattendanceregularization/:employee_id', function (req, res) {
-
     try {
-
-
         con.query("CALL `get_employee_attendance_regularization` (?)", [req.params.employee_id], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
@@ -727,10 +713,10 @@ app.post('/api/getrolescreenfunctionalitiesforrole', function (req, res) {
 
 app.post('/api/getAttendanceMonthlyReport', function (req, res) {
     try {
-        ;
+        
         con.query("CALL `get_attendance_monthly_report` (?,?,?)", [req.body.manager_employee_id, req.body.employee_id, req.body.calendar_date],
             function (err, result, fields) {
-
+               console.log(result[0]);
                 if (result && result.length > 0) {
                     res.send({ status: true, data: result[0] })
                 } else {

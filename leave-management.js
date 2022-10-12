@@ -14,6 +14,7 @@ var Securitykey = crypto.randomBytes(32);
 var attendance= require('./attendance-server');
 var leaveManagement = require('./leave-management')
 var file
+var url = require('url');
 
 app.use(bodyParser.urlencoded({
     limit: '5mb',
@@ -55,7 +56,10 @@ module.exports = {
     editProfile:editProfile,
     getCarryforwardedLeaveMaxCount:getCarryforwardedLeaveMaxCount,
     getFilepathsMaster:getFilepathsMaster,
-    setFilesMaster:setFilesMaster
+    setFilesMaster:setFilesMaster,
+    getFilesMaster:getFilesMaster,
+    deleteFilesMaster:deleteFilesMaster.apply,
+    getReportForPayrollProcessing:getReportForPayrollProcessing
 };
 
 
@@ -128,7 +132,6 @@ function getHandledLeaves(req,res){
 
 function setCompoffForApproveOrReject(req,res){
     try {
-        console.log("req.body",req.body)
         con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.empid,req.body.comp_off_date,parseInt(req.body.worked_hours),parseInt(req.body.worked_minutes),req.body.reason,req.body.rmid,req.body.status,req.body.remarks], function (err, result, fields) {
                 if(err){
@@ -139,7 +142,7 @@ function setCompoffForApproveOrReject(req,res){
             });
 
     }catch (e) {
-        console.log('getHandledLeaves :', e)
+        console.log('setCompoffForApproveOrReject :', e)
 
     }
 }
@@ -156,7 +159,7 @@ function getCompoffs(req,res){
         });
 
     }catch (e) {
-        console.log('getCompoffsForApproval :',e)
+        console.log('getCompoffs :',e)
 
     }
 }
@@ -188,14 +191,14 @@ function getEmployeesForReportingManager(req,res) {
         });
 
     }catch (e) {
-        console.log('getLeavesForApprovals :',e)
+        console.log('getEmployeesForReportingManager :',e)
 
     }
 }
 
 function getMastertables(req,res) {
     try {
-        con.query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,'ems'], function (err, result, fields) {
+        con.query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,'spryple_sreeb'], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -204,7 +207,7 @@ function getMastertables(req,res) {
         });
 
     }catch (e) {
-        console.log('getLeavesForApprovals :',e)
+        console.log('getMastertables :',e)
 
     }
 }
@@ -301,10 +304,10 @@ function getCities(req,res) {
 
 function getProfileImage(req,res) {
     try{
-        folderName = './Files/google/employee/';
+        folderName = req.body.filepath;
         var imageData={}
         var flag=false;
-        fs.readFile(folderName+req.params.Id+'.png',function(err,result){
+        fs.readFile(folderName+req.body.filename,function(err,result){
             if(err){
                 flag=false;
             }else{
@@ -312,14 +315,14 @@ function getProfileImage(req,res) {
                 imageData.image=result;
             }
             imageData.success=flag;
-            imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
+            // imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
 
             res.send(imageData)
         })
 
     }
     catch(e){
-        console.log('getCities',e)
+        console.log('getProfileImage',e)
     }
 
 }
@@ -344,9 +347,7 @@ function getLeavesForCancellation(req,res) {
 
 function getEmployeeInformation(req,res) {
     try {
-        con.query("CALL `getemployeemaster` (?)", [req.params.Id], function (err, result, fields) {
-            console.log("result",result)
-            console.log("error",err)
+        con.query("CALL `getemployeemaster` (?)",[req.params.Id], function (err, result, fields) {
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -362,22 +363,59 @@ function getEmployeeInformation(req,res) {
 }
 
 
+// function setProfileImage(req,res) {
+//     try{
+//         file=req.files.file;
+//         var folderName = './Files/google/employee/'
+//         try {
+//             if (!fs.existsSync(folderName)) {
+//                 fs.mkdirSync(folderName)
+//
+//             }else {
+//                 file.mv(path.resolve(__dirname,folderName,req.params.Id+'.png'),function(error){
+//                     if(error){
+//                         console.log(error);
+//                     }
+//                     res.send({message:'Image Uploaded Succesfully'})
+//
+//                 })
+//
+//
+//             }
+//         }
+//         catch (err) {
+//             console.error(err)
+//         }
+//     }catch (e) {
+//         console.log("setUploadImage:",e)
+//     }
+//
+// }
+
 function setProfileImage(req,res) {
     try{
         file=req.files.file;
-        var folderName = './Files/google/employee/'
+        var localPath = JSON.parse(decodeURI(req.params.path))
+        var folderName =localPath.filepath;
         try {
             if (!fs.existsSync(folderName)) {
                 fs.mkdirSync(folderName)
 
             }else {
-                file.mv(path.resolve(__dirname,folderName,req.params.Id+'.png'),function(error){
+                try{
+                file.mv(path.resolve(__dirname,folderName,localPath.filename),function(error){
                     if(error){
                         console.log(error);
+                        res.send({status:false})
+                    }else{
+                        res.send({status:true,message:'Image Uploaded Succesfully'})
                     }
-                    res.send({message:'Image Uploaded Succesfully'})
 
                 })
+            }
+            catch(err){
+                res.send({status:false})
+            }
 
 
             }
@@ -390,7 +428,6 @@ function setProfileImage(req,res) {
     }
 
 }
-
 
 
 function removeProfileImage(req,res) {
@@ -414,8 +451,8 @@ function removeProfileImage(req,res) {
 
 function editProfile(req,res){
     try {
-        con.query("CALL `edit_profile` (?,?,?,?,?,?,?,?,?,?)",
-            [req.body.id,req.body.firstName,req.body.lastName,req.body.email,req.body.contact,req.body.address,req.body.cityId,req.body.stateId,req.body.zipCode,req.body.countryId], function (err, result, fields) {
+        con.query("CALL `edit_profile` (?,?,?,?,?,?,?,?,?,?,?)",
+            [req.body.id,req.body.firstName,req.body.middlename,req.body.lastName,req.body.email,req.body.contact,req.body.address,req.body.cityId,req.body.stateId,req.body.zipCode,req.body.countryId], function (err, result, fields) {
                 if (err) {
                     res.send({status: false});
                 } else {
@@ -433,11 +470,8 @@ function editProfile(req,res){
 
 function getCarryforwardedLeaveMaxCount(req,res){
     try {
-        console.log('req.params.leaveId',req.params.leaveId)
-
         con.query("CALL `get_carryforwarded_leave_max_count` (?)",
             [req.params.leaveId], function (err, result, fields) {
-            console.log('err',err)
                 if (result && result.length>0) {
                     res.send({status: true,data:result[0]})
 
@@ -458,11 +492,8 @@ function getCarryforwardedLeaveMaxCount(req,res){
 
 function getFilepathsMaster(req,res){
     try {
-        console.log('req.params.leaveId',req.params.leaveId)
-
         con.query("CALL `get_filepaths_master` (?)",
             [req.params.moduleId], function (err, result, fields) {
-                console.log('err',err)
                 if (result && result.length>0) {
                     res.send({status: true,data:result[0]})
 
@@ -474,7 +505,7 @@ function getFilepathsMaster(req,res){
 
 
     }catch (e) {
-        console.log('getCarryforwardedLeaveMaxCount :',e)
+        console.log('getFilepathsMaster :',e)
     }
 
 }
@@ -482,21 +513,85 @@ function getFilepathsMaster(req,res){
 
 function setFilesMaster(req,res){
     try {
-        console.log("jkdjkskjvs",req.body)
-        con.query("CALL `set_files_master` (?,?,?,?,?,?,?)",
-            [req.body.employeeId,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId], function (err, result, fields) {
-                console.log("errr",result,err)
+        con.query("CALL `set_files_master` (?,?,?,?,?,?,?,?)",
+            [req.body.id,req.body.employeeId,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId], function (err, result, fields) {
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
 
-                if (err) {
-                    res.send({status: false});
                 } else {
-                    res.send({status: true})
+                    res.send({status: false});
+
                 }
             });
 
 
     }catch (e) {
         console.log('setFilesMaster :',e)
+    }
+
+}
+
+
+function getFilesMaster(req,res){
+    try {
+        con.query("CALL `get_files_master` (?,?,?,?)",
+            [req.body.employeeId,req.body.moduleId,req.body.filecategory,req.body.requestId], function (err, result, fields) {
+                if (result && result.length>0) {
+                    // let serverName:string = "localhost:4200";
+                    // if(result[0][0]){
+                    //     let filePath = result[0][0].filepath+result[0][0].filename;
+                    //     let path = url.pathToFileURL(filePath);
+                    //     result[0][0].path = path;
+                    // }
+                                
+                    res.send({status: true,data:result[0]})
+
+                    // res.send({status: false});
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+
+    }catch (e) {
+        console.log('getFilesMaster :',e)
+    }
+
+}
+
+function deleteFilesMaster(req,res){
+    try {
+        con.query("CALL `delete_files_master` (?)",
+            [req.params.id], function (err, result, fields) {
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+
+                    // res.send({status: false});
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+
+    }catch (e) {
+        console.log('deleteFilesMaster :',e)
+    }
+
+}
+// get_report_for_payroll_processing
+function getReportForPayrollProcessing(req,res){
+    try {
+        con.query("CALL `get_report_for_payroll_processing` (?,?)",[req.body.empid,req.body.date], function (err, result, fields) {   
+            if (result && result[0]&& result[0].length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false});
+                }
+            });
+
+
+    }catch (e) {
+        console.log('getReportForPayrollProcessing :',e)
     }
 
 }

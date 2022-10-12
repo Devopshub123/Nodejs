@@ -1621,15 +1621,17 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
     }
 });
 /**remove/delete image */
-app.delete('/api/removeImage/:Id/:companyShortName',function(req,res){
+app.delete('/api/removeImage/:path',function(req,res){
     try{
-        let id = req.params.Id;
-        let foldername = './logos/Apple/'
-        fs.unlink(foldername+'1.png',function(err,result){
+        var localPath = JSON.parse(decodeURI(req.params.path))
+        console.log("heloooooooo",localPath)
+        let foldername = localPath.filepath;
+        fs.unlink(foldername+localPath.filename,function(err,result){
             if(err){
                 console.log(err)
             }
             else{
+                res.send({status: true});
                 console.log("Image Deleted successfully")
             }
         })
@@ -2759,9 +2761,8 @@ app.get('/api/getCitiesPerCountry/:Id', function(req,res) {
 /**
  * get States
  * */
-app.get('/api/getProfileImage/:Id/:companyShortName', function(req,res) {
+ app.post('/api/getProfileImage/', function(req,res) {
     leaveManagement.getProfileImage(req,res);
-
 });
 
 
@@ -2787,10 +2788,8 @@ app.get('/api/getEmployeeInformation/:Id', function(req,res) {
 /**
  * setProfileImage
  * */
-app.post('/api/setProfileImage/:companyname/:Id', function(req,res) {
-
+ app.post('/api/setProfileImage/:path', function(req,res) {
     leaveManagement.setProfileImage(req,res);
-
 });
 /**
  * Remove Profile Image
@@ -2801,7 +2800,13 @@ app.delete('/api/removeProfileImage/:Id/:companyShortName', function(req,res) {
 
 });
 
-
+/**
+ * Get module code for set file paths
+ * */
+ app.post('/api/getFilesMaster/', function(req,res) {
+    leaveManagement.getFilesMaster(req,res);
+});
+/**
 /**
  * Edit Profile
  * */
@@ -2842,6 +2847,10 @@ app.post('/api/setFilesMaster/', function(req,res) {
 
 });
 
+/**getReportForPayrollProcessing */
+app.post('/api/getReportForPayrollProcessing/', function(req,res) {
+    leaveManagement.getReportForPayrollProcessing(req,res);
+});
 /**
  *  EMS
  * set programs master
