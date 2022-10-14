@@ -3284,8 +3284,8 @@ app.post('/ems/api/setOffboardingSettings', function(req,res) {
 });
 
 //** */
-app.post('/ems/api/getEmployeesPendingChecklists/', function(req,res) {
-
+app.post('/ems/api/getEmployeesPendingChecklists', function(req,res) {
+console.log(req)
     ems.getEmployeesPendingChecklists(req,res);
 
 });

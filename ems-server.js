@@ -1483,9 +1483,14 @@ function getAnnouncements(req, res) {
     }
 }
 function getEmployeesPendingChecklists(req, res) {
+    console.log("request-", req)
+    console.log("gjbnb")
     try {
+       
         con.query("CALL `get_employees_pending_checklists` (?,?,?,?)", [req.body.name,req.body.date,req.body.eid,req.body.did], function (err, result, fields) {
-           if (result && result.length > 0) {
+            console.log("error-",err),
+            console.log("request-",result)
+            if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
