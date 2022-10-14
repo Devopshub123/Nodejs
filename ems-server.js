@@ -104,7 +104,8 @@ module.exports = {
     getReportingManagerForEmp:getReportingManagerForEmp,
     getHrDetails:getHrDetails,
     getEmpOffboardTerminationChecklists: getEmpOffboardTerminationChecklists,
-    getEmpResignationPendingChecklists:getEmpResignationPendingChecklists,
+    getEmpResignationPendingChecklists: getEmpResignationPendingChecklists,
+    getnoticeperiods: getnoticeperiods
    
 };
 //// set new hire list
@@ -1481,10 +1482,10 @@ function getAnnouncements(req, res) {
         console.log('getAnnouncements :', e)
     }
 }
-function getEmployeesPendingChecklists(req,res) {
+function getEmployeesPendingChecklists(req, res) {
     try {
-        con.query("CALL `get_employees_pending_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
-            if (result && result.length > 0) {
+        con.query("CALL `get_employees_pending_checklists` (?,?,?,?)", [req.body.name,req.body.date,req.body.eid,req.body.did], function (err, result, fields) {
+           if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -1588,10 +1589,7 @@ function setEmployeeChecklists(req, res) {
 
 function getEmpOffboardTerminationChecklists(req,res) {
     try {
-        con.query("CALL `get_emp_offboard_termination_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
-           console.log("error-",err)
-           console.log("result-",result[0])
-
+        con.query("CALL `get_emp_offboard_termination_checklists` (?,?,?,?)", [req.body.name,req.body.date,req.body.eid,req.body.did], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1622,12 +1620,8 @@ function getEmpAnnouncements(req, res) {
 
 function getEmpResignationPendingChecklists(req, res) {
     try {
-        con.query("CALL `get_emp_offboard_resignation_checklists` (?,?,?,?)", [JSON.parse(req.params.ename),JSON.parse(req.params.date),JSON.parse(req.params.eid),JSON.parse(req.params.dept_Id)], function (err, result, fields) {
-         // console.log("result-1",result)
-           // console.log("result-2", result[0])
-            console.log("error-1", err)
-            
-            if (result && result.length > 0) {
+        con.query("CALL `get_emp_offboard_resignation_checklists` (?,?,?,?)", [req.body.name,req.body.date,req.body.eid,req.body.did], function (err, result, fields) {
+           if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -1686,4 +1680,21 @@ function getHrDetails(req,res){
     catch(e){
         console.log('getHrDetails :', e)
     }
+}
+function getnoticeperiods(req,res){
+    try{
+        con.query("CALL `get_notice_period` ()", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+               res.send({ status: false })
+            }
+        });
+    }
+    catch(e){
+        console.log('getnoticeperiods :', e)
+    }
+
+
+
 }
