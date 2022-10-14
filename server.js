@@ -3284,8 +3284,8 @@ app.post('/ems/api/setOffboardingSettings', function(req,res) {
 });
 
 //** */
-app.get('/ems/api/getEmployeesPendingChecklists/:ename/:date/:eid/:dept_Id', function(req,res) {
-
+app.post('/ems/api/getEmployeesPendingChecklists', function(req,res) {
+console.log(req)
     ems.getEmployeesPendingChecklists(req,res);
 
 });
@@ -3319,9 +3319,8 @@ app.post('/ems/api/documentApproval/',function(req,res){
 app.post('/ems/api/setEmployeeChecklists',function(req,res){
     ems.setEmployeeChecklists(req,res)
 })
-
 //** */
-app.get('/ems/api/getEmpOffboardTerminationChecklists/:ename/:date/:eid/:dept_Id', function(req,res) {
+app.post('/ems/api/getEmpOffboardTerminationChecklists', function(req,res) {
     ems.getEmpOffboardTerminationChecklists(req,res);
 
 });
@@ -3331,7 +3330,7 @@ app.get('/ems/api/getEmpOffboardTerminationChecklists/:ename/:date/:eid/:dept_Id
   })
 
   //** */
-app.get('/ems/api/getEmpResignationPendingChecklists/:ename/:date/:eid/:dept_Id', function(req,res) {
+app.post('/ems/api/getEmpResignationPendingChecklists', function(req,res) {
     ems.getEmpResignationPendingChecklists(req,res);
 
 });
@@ -3355,7 +3354,9 @@ app.get('/ems/api/getHrDetails/', function(req,res) {
 
     ems.getHrDetails(req, res);
 });
-
+app.get('/ems/api/getnoticeperiods/', function(req,res) {
+    ems.getnoticeperiods(req, res);
+});
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
