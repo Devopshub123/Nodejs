@@ -58,8 +58,8 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
                             pass: 'Sree$sreebt'
                         }
                     });
-                    var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                  //  var url = 'http://122.175.62.210:6464/api/Resetpassword/'+email+'/'+id
+                  //  var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+                    var url = 'http://122.175.62.210:6464/api/Resetpassword/'+email+'/'+id
                     // var html = `<html>
                     // <head>
                     // <title>HRMS ResetPassword</title></head>
@@ -98,8 +98,8 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
 app.get('/api/resetpassword/:email/:id',function(req,res,next){
     let id = req.params.id;
     let email = req.params.email;
-    res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
-  //  res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
+  //  res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
+    res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
 
 
 })
@@ -227,7 +227,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.updated_on = null;
     companyInformation.updated_by = null;
     try {
-        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','ems',JSON.stringify(companyInformation)],function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','ems_qa',JSON.stringify(companyInformation)],function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {
@@ -604,7 +604,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.updated_by = null;
         
 
-        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','ems',JSON.stringify(info)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','ems_qa',JSON.stringify(info)], function (err, result, fields) {
             console.log(err)
             console.log(result)
             
@@ -698,7 +698,7 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
             info.created_on = element.created_on;
             info.updated_by = null;
             info.updated_on = null;
-            con.query("CALL `setmastertable` (?,?,?)",[tname,'ems',JSON.stringify(info)], function (err, result, fields) {
+            con.query("CALL `setmastertable` (?,?,?)",[tname,'ems_qa',JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
                 if (err) {
                     res.send({status: false, message: 'Unable to insert holidays'});

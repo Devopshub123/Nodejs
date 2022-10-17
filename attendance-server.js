@@ -221,7 +221,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
                 var token = (Buffer.from(JSON.stringify({id:id,email:req.params.email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
 
                 // var url = 'http://localhost:4200/ResetPassword/'+token
-                var url = 'http://122.175.62.210:202/ResetPassword/'+token
+                var url = 'http://122.175.62.210:6464/ResetPassword/'+token
                 var html = `<html>
                     <head>
                     <title>HRMS ResetPassword</title></head>
