@@ -227,7 +227,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.updated_on = null;
     companyInformation.updated_by = null;
     try {
-        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','ems_qa',JSON.stringify(companyInformation)],function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','ems',JSON.stringify(companyInformation)],function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {
@@ -604,7 +604,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.updated_by = null;
         
 
-        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','ems_qa',JSON.stringify(info)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','ems',JSON.stringify(info)], function (err, result, fields) {
             console.log(err)
             console.log(result)
             
@@ -698,7 +698,7 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
             info.created_on = element.created_on;
             info.updated_by = null;
             info.updated_on = null;
-            con.query("CALL `setmastertable` (?,?,?)",[tname,'ems_qa',JSON.stringify(info)], function (err, result, fields) {
+            con.query("CALL `setmastertable` (?,?,?)",[tname,'ems',JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
                 if (err) {
                     res.send({status: false, message: 'Unable to insert holidays'});
@@ -1848,9 +1848,9 @@ app.get('/api/getModulesWithScreens',function(req,res) {
     }
 });
 /*Get Screens Functionalities*/
-app.get('/api/getScreenWithFunctionalities',function(req,res) {
+app.get('/api/getScreenWithFunctionalities/:moduleId',function(req,res) {
     try {        
-        con.query("CALL `get_screens_functionalities` ()", function (err, result, fields) {
+        con.query("CALL `get_screens_functionalities` (?)",[req.params.moduleId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0][0], status: true});
             } else {
