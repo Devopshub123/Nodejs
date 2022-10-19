@@ -136,7 +136,7 @@ app.post('/changePassword',function(req,res){
         con.query('CALL `validatelastpasswordmatch` (?,?,?,?)',[id,login,oldpassword,newpassword],function(err,results,next){
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             if(result[0]==0){
-                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'Active','n'],function(err,result){
+                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'Active','N'],function(err,result){
                     if(err){
                         console.log(err)
                     }
