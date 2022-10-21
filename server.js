@@ -683,7 +683,7 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
         let k=0;
         if(req.body.holidayDate == null){
             reqData.forEach(element =>{
-                info.description=element.description;
+            info.description=element.description;
             info.date=element.date;
             let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             let hDate = (new Date(element.date));
@@ -698,9 +698,11 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
             info.created_on = element.created_on;
             info.updated_by = null;
             info.updated_on = null;
+            console.log(JSON.stringify(info));
             con.query("CALL `setmastertable` (?,?,?)",[tname,'ems',JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
                 if (err) {
+                    console.log(err);
                     res.send({status: false, message: 'Unable to insert holidays'});
                 } else {
                     if(k===reqData.length) {

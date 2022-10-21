@@ -71,24 +71,29 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', 
     }
 });
 /*set Designation*/
-app.post('/api/setDesignation', function (req, res) {
-    try {
+app.post('/api/setDesignation',function (req,res) {
+    try{
         let infoDesignationMaster = {}
-        infoDesignationMaster.designation = req.body.designationName;
-        infoDesignationMaster.status = 'Active';
-        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'spryple_sreeb', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
-            if (err) {
-                res.send({ status: false, message: "Unable to insert designation" });
-            } else {
-                res.send({ status: true, message: "Designation added successfully" })
+        infoDesignationMaster.designation= req.body.designationName;
+        infoDesignationMaster.status= 1;
+        infoDesignationMaster.created_by=req.body.created_by;
+        infoDesignationMaster.created_on= req.body.created_on;
+        infoDesignationMaster.updated_on=null;
+        infoDesignationMaster.updated_by= null;
+        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster','ems', JSON.stringify(infoDesignationMaster)],function (err,result, fields) {
+            console.log(err);
+            if(err) {
+                res.send({status: false, message: "Unable to insert designation"});
+            }else {
+                res.send({status: true, message: "Designation added successfully"})
             }
         });
+    }catch (e){
 
-
-    } catch (e) {
         console.log('setDesignation :', e)
 
     }
+
 });
 /**Get All Employees List 
  * 
