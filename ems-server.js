@@ -1102,7 +1102,8 @@ function getEmpEmployement(req,res) {
 function setEmpEducationDetails(req, res) {
     try {
          con.query("CALL `set_emp_education_details` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            console.log(result)
+            console.log("result--",result)
+            console.log("error--",err)
              if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1189,7 +1190,8 @@ function setFilesMasterForEMS(req, res) {
     try { 
         con.query("CALL `set_files_master` (?,?,?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.employeeId,req.body.candidateId,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId,req.body.status], function (err, result, fields) {
-                console.log("jhsjhdb",err)
+                console.log("error--",err)
+                console.log("res--",result)
                 if (result && result.length>0) {
                     res.send({status: true,data:result[0]})
                 } else {
@@ -1264,12 +1266,16 @@ async function getDocumentsForEMS(req,res){
 
 }
 
-function getDocumentOrImagesForEMS(req,res) {
+function getDocumentOrImagesForEMS(req, res) {
+    console.log("body--",req.body)
     try{
-        folderName = req.body.filepath;
+        folderName = 'D:/Spryple/CORE/';
         var imageData={}
         var flag=false;
-        fs.readFile(folderName+req.body.filename,function(err,result){
+        fs.readFile(folderName + req.body.filename, function (err, result) {
+            
+            console.log("error=",err,"folder--",folderName)
+            console.log("result=",result)
             if(err){
                 flag=false;
             }else{

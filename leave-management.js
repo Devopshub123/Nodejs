@@ -511,11 +511,15 @@ function getFilepathsMaster(req,res){
 }
 
 
-function setFilesMaster(req,res){
+function setFilesMaster(req, res) {
+    console.log("input--",req.body)
     try {
         con.query("CALL `set_files_master` (?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.employeeId,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId], function (err, result, fields) {
-                if (result && result.length>0) {
+               
+                console.log("res--",result)
+                console.log("error--",err)
+                if (result && result.length > 0) {
                     res.send({status: true,data:result[0]})
 
                 } else {
@@ -536,7 +540,9 @@ function getFilesMaster(req,res){
     try {
         con.query("CALL `get_files_master` (?,?,?,?)",
             [req.body.employeeId,req.body.moduleId,req.body.filecategory,req.body.requestId], function (err, result, fields) {
-                if (result && result.length>0) {
+               console.log("err--",err)
+               console.log("result--",result)
+                if (result && result.length > 0) {
                     // let serverName:string = "localhost:4200";
                     // if(result[0][0]){
                     //     let filePath = result[0][0].filepath+result[0][0].filename;
