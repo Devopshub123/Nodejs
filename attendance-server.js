@@ -71,24 +71,29 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', 
     }
 });
 /*set Designation*/
-app.post('/api/setDesignation', function (req, res) {
-    try {
+app.post('/api/setDesignation',function (req,res) {
+    try{
         let infoDesignationMaster = {}
-        infoDesignationMaster.designation = req.body.designationName;
-        infoDesignationMaster.status = 'Active';
-        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster', 'spryple_sreeb', JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
-            if (err) {
-                res.send({ status: false, message: "Unable to insert designation" });
-            } else {
-                res.send({ status: true, message: "Designation added successfully" })
+        infoDesignationMaster.designation= req.body.designationName;
+        infoDesignationMaster.status= 1;
+        infoDesignationMaster.created_by=req.body.created_by;
+        infoDesignationMaster.created_on= req.body.created_on;
+        infoDesignationMaster.updated_on=null;
+        infoDesignationMaster.updated_by= null;
+        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster','ems', JSON.stringify(infoDesignationMaster)],function (err,result, fields) {
+            console.log(err);
+            if(err) {
+                res.send({status: false, message: "Unable to insert designation"});
+            }else {
+                res.send({status: true, message: "Designation added successfully"})
             }
         });
+    }catch (e){
 
-
-    } catch (e) {
         console.log('setDesignation :', e)
 
     }
+
 });
 /**Get All Employees List 
  * 
@@ -221,7 +226,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
                 var token = (Buffer.from(JSON.stringify({id:id,email:req.params.email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
 
                 // var url = 'http://localhost:4200/ResetPassword/'+token
-                var url = 'http://122.175.62.210:202/ResetPassword/'+token
+                var url = 'http://122.175.62.210:6464/ResetPassword/'+token
                 var html = `<html>
                     <head>
                     <title>HRMS ResetPassword</title></head>
@@ -290,7 +295,7 @@ app.post('/changePassword', function (req, res) {
         con.query('CALL `validatelastpasswordmatch` (?,?,?,?)', [id, login, oldpassword, newpassword], function (err, results, next) {
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             if (result[0] == 0) {
-                con.query('CALL `setemployeelogin`(?,?,?,?,?)', [id, login, newpassword, 'active', 'n'], function (err, result) {
+                con.query('CALL `setemployeelogin`(?,?,?,?,?)', [id, login, newpassword, 'Active', 'N'], function (err, result) {
                     if (err) {
                         console.log(err)
                     }

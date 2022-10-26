@@ -58,8 +58,8 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
                             pass: 'Sree$sreebt'
                         }
                     });
-                    var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                  //  var url = 'http://122.175.62.210:6464/api/Resetpassword/'+email+'/'+id
+                  //  var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
+                    var url = 'http://122.175.62.210:6464/api/Resetpassword/'+email+'/'+id
                     // var html = `<html>
                     // <head>
                     // <title>HRMS ResetPassword</title></head>
@@ -98,8 +98,8 @@ app.get('/api/forgetpassword/:email',function(req,res,next){
 app.get('/api/resetpassword/:email/:id',function(req,res,next){
     let id = req.params.id;
     let email = req.params.email;
-    res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
-  //  res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
+  //  res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
+    res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
 
 
 })
@@ -136,7 +136,7 @@ app.post('/changePassword',function(req,res){
         con.query('CALL `validatelastpasswordmatch` (?,?,?,?)',[id,login,oldpassword,newpassword],function(err,results,next){
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             if(result[0]==0){
-                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'Active','n'],function(err,result){
+                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'Active','N'],function(err,result){
                     if(err){
                         console.log(err)
                     }
@@ -683,7 +683,7 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
         let k=0;
         if(req.body.holidayDate == null){
             reqData.forEach(element =>{
-                info.description=element.description;
+            info.description=element.description;
             info.date=element.date;
             let days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
             let hDate = (new Date(element.date));
@@ -698,9 +698,11 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
             info.created_on = element.created_on;
             info.updated_by = null;
             info.updated_on = null;
+            console.log(JSON.stringify(info));
             con.query("CALL `setmastertable` (?,?,?)",[tname,'ems',JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
                 if (err) {
+                    console.log(err);
                     res.send({status: false, message: 'Unable to insert holidays'});
                 } else {
                     if(k===reqData.length) {
@@ -1848,9 +1850,9 @@ app.get('/api/getModulesWithScreens',function(req,res) {
     }
 });
 /*Get Screens Functionalities*/
-app.get('/api/getScreenWithFunctionalities',function(req,res) {
+app.get('/api/getScreenWithFunctionalities/:moduleId',function(req,res) {
     try {        
-        con.query("CALL `get_screens_functionalities` ()", function (err, result, fields) {
+        con.query("CALL `get_screens_functionalities` (?)",[req.params.moduleId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0][0], status: true});
             } else {
