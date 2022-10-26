@@ -511,7 +511,8 @@ function getFilepathsMaster(req,res){
 }
 
 
-function setFilesMaster(req,res){
+function setFilesMaster(req, res) {
+    console.log("input--",req.body)
     try {
         con.query("CALL `set_files_master` (?,?,?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.employeeId,null,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId,req.body.status], function (err, result, fields) {

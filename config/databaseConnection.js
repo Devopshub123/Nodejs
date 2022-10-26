@@ -7,7 +7,9 @@ function switchDatabase() {
             user: "spryple_client_user",
             port: 3306,
             password: "Client&*123",
-            database: 'ems',         
+                database: 'ems',  
+                //database: 'ems_qa',    
+
             dateStrings: true,
             multipleStatements: true
         });
