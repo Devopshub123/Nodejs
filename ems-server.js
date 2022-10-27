@@ -132,8 +132,8 @@ function setNewHire(req,res) {
                 var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
 
 
-              //   var url = 'http://localhost:4200/pre-onboarding/'+token;
-                var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
+                var url = 'http://localhost:4200/pre-onboarding/'+token;
+                //var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
                 
                 var html = `<html>
                 <head>
@@ -1070,7 +1070,8 @@ function setEmpEmployement(req, res) {
     try {
         console.log(req.body)
          con.query("CALL `set_emp_employement` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            console.log(result)
+            console.log("result--",result)
+            console.log("error--",err)
              if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1489,8 +1490,6 @@ function getAnnouncements(req, res) {
     }
 }
 function getEmployeesPendingChecklists(req, res) {
-    console.log("request-", req)
-    console.log("gjbnb")
     try {
        
         con.query("CALL `get_employees_pending_checklists` (?,?,?,?)", [req.body.name,req.body.date,req.body.eid,req.body.did], function (err, result, fields) {
