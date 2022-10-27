@@ -166,48 +166,48 @@ app.post('/changePassword',function(req,res){
 })
 
 
-/**employee login */
-app.post('/api/emp_login',function(req,res,next){
-    try{
-        // let 
-        var email = req.body.email;
-        var password = req.body.password;
+// /**employee login */
+// app.post('/api/emp_login',function(req,res,next){
+//     try{
+//         // let 
+//         var email = req.body.email;
+//         var password = req.body.password;
         
-        con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
+//         con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
             
-            console.log(results)
-            var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
-            console.log(result)
-            if (result[0] > 0) {
-                con.query('CALL `getemployeeinformation`(?)',[result[0]],function(err,results,next){
-                    try{
-                        if(results && results.length>0){
-                            var result = JSON.parse(results[0][0].result)
-                            res.send({status: true,result})
+//             console.log(results)
+//             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+//             console.log(result)
+//             if (result[0] > 0) {
+//                 con.query('CALL `getemployeeinformation`(?)',[result[0]],function(err,results,next){
+//                     try{
+//                         if(results && results.length>0){
+//                             var result = JSON.parse(results[0][0].result)
+//                             res.send({status: true,result})
 
-                        }
-                        else{
-                            res.send({status: false,result})
-                        }
-                    }
-                    catch (e){
-                        console.log("employee_login",e)
-                    }
+//                         }
+//                         else{
+//                             res.send({status: false,result})
+//                         }
+//                     }
+//                     catch (e){
+//                         console.log("employee_login",e)
+//                     }
 
-                })
+//                 })
 
-            }
-            else{
-                res.send({status: false,message:"Invalid userName or password"})
-            }
+//             }
+//             else{
+//                 res.send({status: false,message:"Invalid userName or password"})
+//             }
 
-        });
+//         });
 
-    }
-    catch (e){
-        console.log("employee_login",e)
-    }
-})
+//     }
+//     catch (e){
+//         console.log("employee_login",e)
+//     }
+// })
 
 /*Set comapny information*/
 app.post('/api/setCompanyInformation',function(req,res) {
@@ -1170,25 +1170,25 @@ app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
 });
 
 
-/*Get User Leave Balance*/
-app.get('/api/getLeaveBalance/:empid',function(req,res) {
-    try {
+// /*Get User Leave Balance*/
+// app.get('/api/getLeaveBalance/:empid',function(req,res) {
+//     try {
         
-        let id = req.params.empid;
-        con.query("CALL `get_employee_leave_balance` (?)",[id], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
+//         let id = req.params.empid;
+//         con.query("CALL `get_employee_leave_balance` (?)",[id], function (err, result, fields) {
+//             if (result && result.length > 0) {
+//                 res.send({data: result, status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
         
 
-    }catch (e) {
-        console.log('getLeaveBalance :',e)
+//     }catch (e) {
+//         console.log('getLeaveBalance :',e)
 
-    }
-});
+//     }
+// });
 
 
 /*Get all Leaves*/
@@ -1987,28 +1987,28 @@ app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
         console.log('getemployeeholidays :',e)
     }
 });
-/**get employe leaves */
-app.get('/api/getemployeeleaves/:empid/:page/:size',function(req,res){
-    try{
+// /**get employe leaves */
+// app.get('/api/getemployeeleaves/:empid/:page/:size/:companyName',function(req,res){
+//     try{
         
-        let id = req.params.empid;
-        let page = req.params.page;
-        let size = req.params.size;
-        con.query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],function (err, result, fields) {
-            console.log("gvjhshvhsdhjvhs",result)
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
+//         let id = req.params.empid;
+//         let page = req.params.page;
+//         let size = req.params.size;
+//         con.query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],function (err, result, fields) {
+//             console.log("gvjhshvhsdhjvhs",result)
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
 
-        });
+//         });
         
-    }
-    catch(e){
-        console.log('getemployeeholidays :',e)
-    }
-})
+//     }
+//     catch(e){
+//         console.log('getemployeeholidays :',e)
+//     }
+// })
 /*Get Employee Leave Balance*/
 app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
     try {
@@ -3363,6 +3363,42 @@ app.use("/admin", admin);
 app.use("/attendance", attendance);
 // app.use("/ems",ems);
 app.use("/payroll",payroll);
+
+
+
+/*****
+ * Multitenant
+ * 
+ * ****/
+ var common = require('./common');
+
+
+ 
+/**employee login */
+app.post('/api/emp_login',function(req,res,next){
+    common.login(req,res)
+})
+
+/**get employe leaves */
+app.get('/api/getemployeeleaves/:empid/:page/:size/:companyName',function(req,res){
+    console.log("hello")
+    leaveManagement.getemployeeleaves(req,res)
+})
+
+
+
+/*Get User Leave Balance*/
+app.get('/api/getLeaveBalance/:empid/:companyName',function(req,res) {
+    leaveManagement.getLeaveBalance(req,res)
+});
+
+
+
+
+
+
+
+
 
 app.listen(6060,function (err) {
     if (err)

@@ -1,24 +1,74 @@
 var mysql = require('mysql');
+var listOfExistedConnections = [];
 // /*Switching database connection*/
 function switchDatabase() {
         return mysql.createConnection({
-         //  host: "192.168.1.8",
             host: "122.175.62.210",
             user: "spryple_client_user",
             port: 3306,
             password: "Client&*123",
-                database: 'ems',  
-                //database: 'ems_qa',    
-
+            database: 'spryple_client',
             dateStrings: true,
             multipleStatements: true
         });
     
 }
 
-// every five hours database will be hit.this is for continous connection
-// setInterval(function () {
-//     con.query('SELECT 1')
-// }, 18000000);
+async function getNewDBConnection(companyName,dbName)
+{
 
-module.exports = {switchDatabase};
+  return new Promise((res,rej)=>{
+    var connectionParams = {
+      host: "122.175.62.210",
+      user: "spryple_client_user",
+      port: 3306,
+      password: "Client&*123",
+      database: dbName,
+      dateStrings: true,
+      multipleStatements: true
+  };
+    var con;
+    con = mysql.createConnection(connectionParams);
+    let one = {};
+    one[companyName]=con;
+     listOfExistedConnections.push(one); 
+     res(con)
+   
+  })
+    //  con.connect(function(err) {
+    //      if (err) throw err;
+    //     //  console.log("Con?nect",con);
+         
+    //  });   
+}
+
+function checkExistingDBConnection(companyName) {
+  var result = {};
+  result.succes=false;
+    if(listOfExistedConnections.length == 0)
+    {
+      result.succes = false
+    }
+    else {
+    listOfExistedConnections.forEach(function(element,key) {
+console.log("hhhhh",listOfExistedConnections.length,companyName)
+        for(var keyVal in element){
+          if(keyVal === companyName){
+            result[keyVal]=element[keyVal];
+            result.succes=true
+            break;
+        }
+        }
+      
+    });
+    }
+    return result;
+}
+
+
+function getConnections()
+{
+  return listOfExistedConnections
+}
+
+module.exports = {switchDatabase,getNewDBConnection,checkExistingDBConnection,getConnections};

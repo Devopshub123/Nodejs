@@ -21,6 +21,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 var connection = require('./config/databaseConnection')
+var common = require('./common');
 
 var con = connection.switchDatabase();
 app.use(bodyParser.json({ limit: '5mb' }));
@@ -59,7 +60,10 @@ module.exports = {
     setFilesMaster:setFilesMaster,
     getFilesMaster:getFilesMaster,
     deleteFilesMaster:deleteFilesMaster.apply,
-    getReportForPayrollProcessing:getReportForPayrollProcessing
+    getReportForPayrollProcessing:getReportForPayrollProcessing,
+
+    getemployeeleaves:getemployeeleaves,
+    getLeaveBalance:getLeaveBalance
 };
 
 
@@ -596,4 +600,64 @@ function getReportForPayrollProcessing(req,res){
         console.log('getReportForPayrollProcessing :',e)
     }
 
+}
+
+
+async function getemployeeleaves(req,res){
+    try{  
+        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        let id = req.params.empid;
+        let page = req.params.page;
+        let size = req.params.size;
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],function (err, result, fields) {
+            console.log("gvjhshvhsdhjvhs",err,result)
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+
+        });
+        
+    }
+    catch(e){
+        console.log('getemployeeholidays :',e)
+    }
+}
+
+
+
+async function getLeaveBalance(req,res){
+    try {
+        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        
+        let id = req.params.empid;
+        listOfConnections[companyName].query("CALL `get_employee_leave_balance` (?)",[id], function (err, result, fields) {
+           console.log("resresssssssssss",result)
+            if (result && result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+        
+
+    }catch (e) {
+        console.log('getLeaveBalance :',e)
+
+    }
 }
