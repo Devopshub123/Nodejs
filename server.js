@@ -101,7 +101,6 @@ app.get('/api/resetpassword/:email/:id',function(req,res,next){
   //  res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
     res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
 
-
 })
 /**reset password */
 app.post('/api/resetpassword',function(req,res,next){
@@ -227,7 +226,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
     companyInformation.updated_on = null;
     companyInformation.updated_by = null;
     try {
-        con.query("CALL `setmastertable` (?,?,?)",['companyinformation','ems',JSON.stringify(companyInformation)],function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['companyinformation',req.body.companyDBName,JSON.stringify(companyInformation)],function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {
@@ -604,7 +603,7 @@ app.post('/api/setDepartments',function(req,res) {
         info.updated_by = null;
         
 
-        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster','ems',JSON.stringify(info)], function (err, result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster',req.body.companyDBName,JSON.stringify(info)], function (err, result, fields) {
             console.log(err)
             console.log(result)
             
@@ -699,7 +698,7 @@ app.post('/api/setHolidays/:companyName',function(req,res) {
             info.updated_by = null;
             info.updated_on = null;
             console.log(JSON.stringify(info));
-            con.query("CALL `setmastertable` (?,?,?)",[tname,'ems',JSON.stringify(info)], function (err, result, fields) {
+            con.query("CALL `setmastertable` (?,?,?)",[tname,req.params.companyName,JSON.stringify(info)], function (err, result, fields) {
                 k+=1;
                 if (err) {
                     console.log(err);
