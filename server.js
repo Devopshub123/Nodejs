@@ -101,7 +101,6 @@ app.get('/api/resetpassword/:email/:id',function(req,res,next){
   //  res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
     res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
 
-
 })
 /**reset password */
 app.post('/api/resetpassword',function(req,res,next){
