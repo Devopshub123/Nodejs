@@ -686,7 +686,9 @@ function getEmployeesResignation(req,res) {
 function setEmployeeResignation(req,res) {
     try {
         con.query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            if(err){
+           console.log("error--",err)
+           console.log("result--",result)
+            if (err) {
                 res.send({ status: false ,statusCode: req.body.resg_status})
             }
             else{
