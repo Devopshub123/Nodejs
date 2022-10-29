@@ -983,9 +983,7 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-         console.log("1st--",result[0])
-         console.log("2nd --",result[0][0])
-             if (result &&result[0][0].statuscode == 0) {
+            if (result &&result[0][0].statuscode == 0) {
                res.send({status: true,data:result[0][0].empid });
             } else {
                 res.send({ status: false })
