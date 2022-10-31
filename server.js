@@ -806,61 +806,61 @@ app.get('/api/getShift',function(req,res) {
 });
 
 
-// /*Get Master table*/
-app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',function(req,res) {
-    try {
+// // /*Get Master table*/
+// app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',function(req,res) {
+//     try {
        
-        var tName = req.params.tableName;
-        if(req.params.status=="null"){
-            con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-                console.log("getmastertable",err,result)
+//         var tName = req.params.tableName;
+//         if(req.params.status=="null"){
+//             con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
+//                 console.log("getmastertable",err,result)
 
-                if (result && result.length > 0) {
-                    if(tName == 'holidaysmaster'){
-                        for (let i=0; i<result[0].length;i++){
-                            let hDate = (new Date(result[0][i].Date));
-                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
-                        }
-                        res.send({data: result[0], status: true});
+//                 if (result && result.length > 0) {
+//                     if(tName == 'holidaysmaster'){
+//                         for (let i=0; i<result[0].length;i++){
+//                             let hDate = (new Date(result[0][i].Date));
+//                             result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+//                         }
+//                         res.send({data: result[0], status: true});
 
 
-                    }else {
-                        res.send({data: result[0], status: true});
-                    }
-                } else {
-                    res.send({status: false})
-                }
-            });
+//                     }else {
+//                         res.send({data: result[0], status: true});
+//                     }
+//                 } else {
+//                     res.send({status: false})
+//                 }
+//             });
             
-        }
-        else{
-            ;
-            con.query("CALL `getmastertable` (?,?,?,?)",[tName,req.params.status,req.params.page,req.params.size], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    if(tName == 'holidaysmaster'){
-                        for (let i=0; i<result[0].length;i++){
-                            let hDate = (new Date(result[0][i].Date));
-                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
-                        }
-                        res.send({data: result[0], status: true});
+//         }
+//         else{
+//             ;
+//             con.query("CALL `getmastertable` (?,?,?,?)",[tName,req.params.status,req.params.page,req.params.size], function (err, result, fields) {
+//                 if (result && result.length > 0) {
+//                     if(tName == 'holidaysmaster'){
+//                         for (let i=0; i<result[0].length;i++){
+//                             let hDate = (new Date(result[0][i].Date));
+//                             result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+//                         }
+//                         res.send({data: result[0], status: true});
 
 
-                    }else {
-                        res.send({data: result[0], status: true});
-                    }
-                } else {
-                    res.send({status: false})
-                }
-            });
+//                     }else {
+//                         res.send({data: result[0], status: true});
+//                     }
+//                 } else {
+//                     res.send({status: false})
+//                 }
+//             });
             
 
 
-        }
-    }catch (e) {
-        console.log('getMastertable :',e)
+//         }
+//     }catch (e) {
+//         console.log('getMastertable :',e)
 
-    }
-});
+//     }
+// });
 
 /*Get Master table*/
 app.get('/api/getLeaveTypes/:tableName/:page/:size',function(req,res) {
@@ -1622,26 +1622,7 @@ app.get('/api/getImage/:Id/:companyShortName', function (req, res, next) {
         console.log("getImage:",e)
     }
 });
-/**remove/delete image */
-app.delete('/api/removeImage/:path',function(req,res){
-    try{
-        var localPath = JSON.parse(decodeURI(req.params.path))
-        console.log("heloooooooo",localPath)
-        let foldername = localPath.filepath;
-        fs.unlink(foldername+localPath.filename,function(err,result){
-            if(err){
-                console.log(err)
-            }
-            else{
-                res.send({status: true});
-                console.log("Image Deleted successfully")
-            }
-        })
-    }
-    catch(e){
-        console.log("removeImage",e)
-    }
-});
+
 app.post('/api/validatePrefix',function(req,res) {
     try {
         let input={}
@@ -1679,21 +1660,21 @@ app.post('/api/setNewLeaveType',function(req,res) {
 
     }
 });
-/*Get Leaves Type Info*/
-app.get('/api/getLeavesTypeInfo',function(req,res) {
-    try {
-        con.query("CALL `get_leavetypes_data` ()", function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-    }catch (e) {
-        console.log('getLeavesTypeInfo :',e)
+// /*Get Leaves Type Info*/
+// app.get('/api/getLeavesTypeInfo',function(req,res) {
+//     try {
+//         con.query("CALL `get_leavetypes_data` ()", function (err, result, fields) {
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
+//     }catch (e) {
+//         console.log('getLeavesTypeInfo :',e)
 
-    }
-});
+//     }
+// });
 /*setToggleLeaveType */
 app.post('/api/setToggleLeaveType',function(req,res) {
     try {
@@ -1925,20 +1906,20 @@ app.post('/api/setRoleMaster',function(req,res) {
     }
 });
 
-/*Get Holidays based on employeeId*/
-app.get('/api/getHolidaysList/:empId',function(req,res) {
-    try {        
-        con.query("CALL `getemployeeholidays` (?)",[req.params.empId], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result, status: true});
-            }
-        });
+// /*Get Holidays based on employeeId*/
+// app.get('/api/getHolidaysList/:empId',function(req,res) {
+//     try {        
+//         con.query("CALL `getemployeeholidays` (?)",[req.params.empId], function (err, result, fields) {
+//             if (result && result.length > 0) {
+//                 res.send({data: result, status: true});
+//             }
+//         });
 
-    }
-    catch(e){
-        console.log()
-    }
-})
+//     }
+//     catch(e){
+//         console.log()
+//     }
+// })
 /*Get Holidays filter */
 
 app.get('/api/getHolidaysFilter/:year/:locationId/:page/:size',function(req,res) {
@@ -2063,144 +2044,144 @@ app.get('/api/getemployeeroles/:empId',function(req,res) {
         console.log('getemployeeroles :',e)
     }
 });
-/**Get Duration for back dated leave*/
-app.get('/api/getdurationforbackdatedleave',function(req,res) {
-    try {
+// /**Get Duration for back dated leave*/
+// app.get('/api/getdurationforbackdatedleave',function(req,res) {
+//     try {
         
-        con.query("CALL `getdurationforbackdatedleave` ()", function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-        
-
-    }catch (e) {
-        console.log('getdurationforbackdatedleave :',e)
-    }
-});
-/**Get Duration for back dated leave*/
-app.post('/api/validateleave',function(req,res) {
-    try {
-        let id = req.body.empid;
-        let fromdate = req.body.fromDate;
-        let todate = req.body.toDate;
-        let leavetype = req.body.leaveTypeId;
-        // var fromDate = new Date(fromdate);
-        // var toDate = new Date(todate);
-        // var myDateString1,myDateString2;
-        // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
-        // // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
-        // let fdate = myDateString1;
-        // let tdate = myDateString2;
-        var fromhalfday = req.body.fromDateHalf ? 1:0;
-        var tohalfday =req.body.toDateHalf ? 1 : 0;
-        var document = req.body.document ? 1 : 0;
-        var leaveId = req.body.leaveId?req.body.leaveId:null
-
-        /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
-        con.query("CALL `validateleave` (?,?,?,?,?,?,?,?)",[id,leavetype,fromdate,todate,fromhalfday,tohalfday,document,leaveId], function (err, result, fields) {
-            if(result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            }else {
-                res.send({status: false})
-            }
-        });
-        
-    }catch (e) {
-        console.log('validateleave :',e)
-    }
-});
-/**get leave cycle for last month */
-app.post('/api/getleavecyclelastmonth',function(req,res){
-    try{
-        con.query("CALL `get_leave_cycle_last_month`()",function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }
-    catch(e){
-        console.log('getleavecyclelastmonth :',e)
-    }
-})
-/**set employee leave */
-app.post('/api/setemployeeleave',function(req,res){
-    try{
-        var id = req.body.id ? req.body.id : null;
-        let empid = req.body.empid;
-        let leavetype = req.body.leaveTypeId;
-        let fromdate = req.body.fromDate;
-        let todate = req.body.toDate;
-        // var fromDate = new Date(fromdate);
-        // var toDate = new Date(todate);
-        // var myDateString1,myDateString2;
-        // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
-        // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
-        // let fdate = myDateString1;
-        // let tdate = myDateString2;
-        let leavecount = req.body.leaveCount
-        let leavereason = req.body.reason;
-        let leavestatus = "Submitted";
-        let contactnumber = req.body.contact;
-        let email = req.body.emergencyEmail;
-        let address = 'test';
-        var fromhalfdayleave=req.body.fromDateHalf?1:0;
-        var tohalfdayleave =req.body.toDateHalf?1:0;
-        var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
-        con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fromdate,todate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
-            if(err){
-                  res.send({status:false})
-              }
-              else{
-                res.send({status:true,isLeaveUpdated:id?1:0,data:result[0]})
-
-              }
-        })
-    }
-    catch(e){
-        console.log('setemployeeleaverr',e)
-    }
-})
-/**Get days to be disabled fromdate */
-app.get('/api/getdaystobedisabledfromdate/:id/:leaveId',function(req,res){
-    try{
-        ;
-        con.query("CALL `getdays_to_be_disabled_for_from_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        })
-        
-    }
-    catch (e){
-        console.log('getdaystobedisabledfromdate :',e)
-    }
-})
-
-/**Get days to be disabled fromdate */
-app.get('/api/getdaystobedisabledtodate/:id/:leaveId',function(req,res){
-    try{
-        con.query("CALL `getdays_to_be_disabled_for_to_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        })
+//         con.query("CALL `getdurationforbackdatedleave` ()", function (err, result, fields) {
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
         
 
-    }
-    catch (e){
-        console.log('getdaystobedisabletodate :',e)
-    }
-})
+//     }catch (e) {
+//         console.log('getdurationforbackdatedleave :',e)
+//     }
+// });
+// /**Get Duration for back dated leave*/
+// app.post('/api/validateleave',function(req,res) {
+//     try {
+//         let id = req.body.empid;
+//         let fromdate = req.body.fromDate;
+//         let todate = req.body.toDate;
+//         let leavetype = req.body.leaveTypeId;
+//         // var fromDate = new Date(fromdate);
+//         // var toDate = new Date(todate);
+//         // var myDateString1,myDateString2;
+//         // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+//         // // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+//         // let fdate = myDateString1;
+//         // let tdate = myDateString2;
+//         var fromhalfday = req.body.fromDateHalf ? 1:0;
+//         var tohalfday =req.body.toDateHalf ? 1 : 0;
+//         var document = req.body.document ? 1 : 0;
+//         var leaveId = req.body.leaveId?req.body.leaveId:null
+
+//         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
+//         con.query("CALL `validateleave` (?,?,?,?,?,?,?,?)",[id,leavetype,fromdate,todate,fromhalfday,tohalfday,document,leaveId], function (err, result, fields) {
+//             if(result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             }else {
+//                 res.send({status: false})
+//             }
+//         });
+        
+//     }catch (e) {
+//         console.log('validateleave :',e)
+//     }
+// });
+// /**get leave cycle for last month */
+// app.post('/api/getleavecyclelastmonth',function(req,res){
+//     try{
+//         con.query("CALL `get_leave_cycle_last_month`()",function (err, result, fields) {
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
+
+//     }
+//     catch(e){
+//         console.log('getleavecyclelastmonth :',e)
+//     }
+// })
+// /**set employee leave */
+// app.post('/api/setemployeeleave',function(req,res){
+//     try{
+//         var id = req.body.id ? req.body.id : null;
+//         let empid = req.body.empid;
+//         let leavetype = req.body.leaveTypeId;
+//         let fromdate = req.body.fromDate;
+//         let todate = req.body.toDate;
+//         // var fromDate = new Date(fromdate);
+//         // var toDate = new Date(todate);
+//         // var myDateString1,myDateString2;
+//         // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+//         // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+//         // let fdate = myDateString1;
+//         // let tdate = myDateString2;
+//         let leavecount = req.body.leaveCount
+//         let leavereason = req.body.reason;
+//         let leavestatus = "Submitted";
+//         let contactnumber = req.body.contact;
+//         let email = req.body.emergencyEmail;
+//         let address = 'test';
+//         var fromhalfdayleave=req.body.fromDateHalf?1:0;
+//         var tohalfdayleave =req.body.toDateHalf?1:0;
+//         var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
+//         con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fromdate,todate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
+//             if(err){
+//                   res.send({status:false})
+//               }
+//               else{
+//                 res.send({status:true,isLeaveUpdated:id?1:0,data:result[0]})
+
+//               }
+//         })
+//     }
+//     catch(e){
+//         console.log('setemployeeleaverr',e)
+//     }
+// })
+// /**Get days to be disabled fromdate */
+// app.get('/api/getdaystobedisabledfromdate/:id/:leaveId',function(req,res){
+//     try{
+//         ;
+//         con.query("CALL `getdays_to_be_disabled_for_from_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         })
+        
+//     }
+//     catch (e){
+//         console.log('getdaystobedisabledfromdate :',e)
+//     }
+// })
+
+// /**Get days to be disabled fromdate */
+// app.get('/api/getdaystobedisabledtodate/:id/:leaveId/:companyName',function(req,res){
+//     try{
+//         con.query("CALL `getdays_to_be_disabled_for_to_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         })
+        
+
+//     }
+//     catch (e){
+//         console.log('getdaystobedisabletodate :',e)
+//     }
+// })
 /*Get Days to be disabled*/
 app.post('/api/getdaystobedisabled',function(req,res) {
     try {
@@ -2454,27 +2435,27 @@ app.get('/api/getDurationforBackdatedCompoffLeave',function(req,res) {
 });
 
 
-/** Get next leave Date for validations
- * @no parameters
- * */
+// /** Get next leave Date for validations
+//  * @no parameters
+//  * */
 
-app.get('/api/getNextLeaveDate/:input',function(req,res) {
-    try {
-        var input = JSON.parse(req.params.input)
-        con.query("CALL `get_next_leave_date` (?,?)",[input.id,input.date],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
+// app.get('/api/getNextLeaveDate/:input',function(req,res) {
+//     try {
+//         var input = JSON.parse(req.params.input)
+//         con.query("CALL `get_next_leave_date` (?,?)",[input.id,input.date],function (err, result, fields) {
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
         
 
-    }catch (e) {
-        console.log('getNextLeaveDate :',e)
+//     }catch (e) {
+//         console.log('getNextLeaveDate :',e)
 
-    }
-});
+//     }
+// });
 
 
 /**supportingdocument for  setleave*/
@@ -2501,44 +2482,44 @@ app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
     }
 });
 
-/**get relations for bereavement leave submit*/
-app.post('/api/getEmployeeRelationsForBereavementLeave',function(req,res) {
+// /**get relations for bereavement leave submit*/
+// app.post('/api/getEmployeeRelationsForBereavementLeave',function(req,res) {
 
-    try {
-        con.query("CALL `get_employee_relations_for_bereavement_leave` (?,?)",[req.body.id,req.body.leaveId],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
+//     try {
+//         con.query("CALL `get_employee_relations_for_bereavement_leave` (?,?)",[req.body.id,req.body.leaveId],function (err, result, fields) {
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
         
 
-    }catch (e) {
-        console.log('getEmployeeRelationsForBereavementLeave :',e)
+//     }catch (e) {
+//         console.log('getEmployeeRelationsForBereavementLeave :',e)
 
-    }
-});
+//     }
+// });
 
-/**Get approved compoffs dates for leave submit*/
-app.post('/api/getApprovedCompoffs',function(req,res) {
+// /**Get approved compoffs dates for leave submit*/
+// app.post('/api/getApprovedCompoffs',function(req,res) {
 
-    try {
-        con.query("CALL `get_approved_compoffs` (?,?)",[req.body.id,req.body.leaveId],function (err, result, fields) {
-            console.log("jjhshj",err,result)
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
+//     try {
+//         con.query("CALL `get_approved_compoffs` (?,?)",[req.body.id,req.body.leaveId],function (err, result, fields) {
+//             console.log("jjhshj",err,result)
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
         
 
-    }catch (e) {
-        console.log('getApprovedCompoffs :',e)
+//     }catch (e) {
+//         console.log('getApprovedCompoffs :',e)
 
-    }
-});
+//     }
+// });
 
 
 
@@ -2565,24 +2546,24 @@ app.post('/api/updateLeaveDisplayName',function(req,res) {
     }
 });
 
-/**Get approved compoffs dates for leave submit*/
-app.get('/api/getMaxCountPerTermValue/:id',function(req,res) {
+// /**Get approved compoffs dates for leave submit*/
+// app.get('/api/getMaxCountPerTermValue/:id',function(req,res) {
 
-    try {
-        con.query("CALL `get_max_count_per_term_value` (?)",[req.params.id],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
+//     try {
+//         con.query("CALL `get_max_count_per_term_value` (?)",[req.params.id],function (err, result, fields) {
+//             if (result && result.length > 0) {
+//                 res.send({data: result[0], status: true});
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
         
 
-    }catch (e) {
-        console.log('getMaxCountPerTermValue :',e)
+//     }catch (e) {
+//         console.log('getMaxCountPerTermValue :',e)
 
-    }
-});
+//     }
+// });
 
 /**Get approved compoffs dates for leave submit*/
 app.get('/api/getLeavesForApprovals/:id', function(req,res) {
@@ -2633,33 +2614,33 @@ app.post('/api/setCompoffForApproveOrReject', function(req,res) {
 // } else if(e.present_or_absent=='A'){
 //     color='#FF3131';
 // }
-app.post('/api/getleavecalender/:id',function(req,res){
-    try {
-        con.query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
-           console.log("getleavecalendar",err,result)
-            if (result && result[0].length > 0) {
-               for(var i = 0; i< result[0].length; i ++ ){
-                   if(result[0][i].ltype == 'weekoff'){
-                       result[0][i].color = '#2e0cf3'
-                   }else if (result[0][i].ltype != 'weekoff' && !result[0][i].color ){
+// app.post('/api/getleavecalender/:id/:companyName',function(req,res){
+//     try {
+//         con.query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
+//            console.log("getleavecalendar",err,result)
+//             if (result && result[0].length > 0) {
+//                for(var i = 0; i< result[0].length; i ++ ){
+//                    if(result[0][i].ltype == 'weekoff'){
+//                        result[0][i].color = '#2e0cf3'
+//                    }else if (result[0][i].ltype != 'weekoff' && !result[0][i].color ){
 
-                       result[0][i].color = '#800000'
-                   }
-                   if(i === result[0].length-1){
-                       res.send({data: result[0], status: true});
-                   }
+//                        result[0][i].color = '#800000'
+//                    }
+//                    if(i === result[0].length-1){
+//                        res.send({data: result[0], status: true});
+//                    }
 
-               }
-            } else {
-                res.send({status: false})
-            }
-        });
-    }catch (e) {
-        console.log('getleavecalender :',e)
+//                }
+//             } else {
+//                 res.send({status: false})
+//             }
+//         });
+//     }catch (e) {
+//         console.log('getleavecalender :',e)
 
-    }
+//     }
     
-})
+// })
 
 /**
  * Manager and employee comp-off history
@@ -2801,12 +2782,7 @@ app.delete('/api/removeProfileImage/:Id/:companyShortName', function(req,res) {
 
 });
 
-/**
- * Get module code for set file paths
- * */
- app.post('/api/getFilesMaster/', function(req,res) {
-    leaveManagement.getFilesMaster(req,res);
-});
+
 /**
 /**
  * Edit Profile
@@ -2829,24 +2805,10 @@ app.get('/api/getCarryforwardedLeaveMaxCount/:leaveId', function(req,res) {
 
 
 
-/**
- * Get module code for set file paths
- * */
-app.get('/api/getFilepathsMaster/:moduleId', function(req,res) {
-
-    leaveManagement.getFilepathsMaster(req,res);
-
-});
 
 
-/**
- * Get module code for set file paths
- * */
-app.post('/api/setFilesMaster/', function(req,res) {
 
-    leaveManagement.setFilesMaster(req,res);
 
-});
 
 /**getReportForPayrollProcessing */
 app.post('/api/getReportForPayrollProcessing/', function(req,res) {
@@ -3391,6 +3353,121 @@ app.get('/api/getemployeeleaves/:empid/:page/:size/:companyName',function(req,re
 app.get('/api/getLeaveBalance/:empid/:companyName',function(req,res) {
     leaveManagement.getLeaveBalance(req,res)
 });
+
+/*Get Holidays based on employeeId*/
+app.get('/api/getHolidaysList/:empId/:companyName',function(req,res) {
+    leaveManagement.getHolidaysList(req,res)
+})
+
+app.post('/api/getleavecalender/:id/:companyName',function(req,res){
+    
+    leaveManagement.getleavecalender(req,res)
+})
+
+/**Get Duration for back dated leave*/
+app.get('/api/getdurationforbackdatedleave/:companyName',function(req,res) {
+    leaveManagement.getdurationforbackdatedleave(req,res)
+    
+});
+/**get leave cycle for last month */
+app.post('/api/getleavecyclelastmonth/:companyName',function(req,res){
+    leaveManagement.getleavecyclelastmonth(req,res)
+
+})
+
+
+/*Get Leaves Type Info*/
+app.get('/api/getLeavesTypeInfo/:companyName',function(req,res) {
+   leaveManagement.getLeavesTypeInfo(req,res)
+});
+
+
+/**Get approved compoffs dates for leave submit*/
+app.post('/api/getApprovedCompoffs',function(req,res) {
+    leaveManagement.getApprovedCompoffs(req,res)
+});
+
+/**get relations for bereavement leave submit*/
+app.post('/api/getEmployeeRelationsForBereavementLeave',function(req,res) {
+
+    leaveManagement.getEmployeeRelationsForBereavementLeave(req,res)
+});
+
+/**Get days to be disabled fromdate */
+app.get('/api/getdaystobedisabledfromdate/:id/:leaveId/:companyName',function(req,res){
+    leaveManagement.getdaystobedisabledfromdate(req,res)
+})
+
+
+/**Get days to be disabled fromdate */
+app.get('/api/getdaystobedisabledtodate/:id/:leaveId/:companyName',function(req,res){
+   leaveManagement.getdaystobedisabletodate(req,res)
+})
+
+/**Get approved compoffs dates for leave submit*/
+app.get('/api/getMaxCountPerTermValue/:id/:companyName',function(req,res) {
+    leaveManagement.getMaxCountPerTermValue(req,res);
+    
+});
+
+/**Get Duration for back dated leave*/
+app.post('/api/validateleave',function(req,res) {
+    leaveManagement.validateleave(req,res)
+    
+});
+
+
+/** Get next leave Date for validations
+ * @no parameters
+ * */
+
+ app.get('/api/getNextLeaveDate/:input',function(req,res) {
+    leaveManagement.getNextLeaveDate(req,res);
+});
+
+/**set employee leave */
+app.post('/api/setemployeeleave',function(req,res){
+    leaveManagement.setemployeeleave(req.res)
+})
+/**
+ * Get module code for set file paths
+ * */
+ app.post('/api/setFilesMaster/', function(req,res) {
+
+    leaveManagement.setFilesMaster(req,res);
+
+});
+
+/**remove/delete image */
+app.delete('/api/removeImage/:path',function(req,res){
+    leaveManagement.removeImage(req,res)
+});
+
+/**
+ * Delete Files Master
+ * */
+ app.get('/ems/api/deleteFilesMaster/:id/:companyName', function(req,res) {
+
+    leaveManagement.deleteFilesMaster(req,res);
+
+});
+/**
+ * Get module code for set file paths
+ * */
+ app.post('/api/getFilesMaster/', function(req,res) {
+    leaveManagement.getFilesMaster(req,res);
+});
+/**
+ * Get module code for set file paths
+ * */
+ app.get('/api/getFilepathsMaster/:moduleId/:companyName', function(req,res) {
+
+    leaveManagement.getFilepathsMaster(req,res);
+
+});
+
+
+
 
 
 
