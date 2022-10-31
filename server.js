@@ -6,7 +6,7 @@ var path = require('path');
 var fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer')
 var crypto = require("crypto");
-var algorithm = "aes-256-cbc"; 
+var algorithm = "aes-256-cbc";
                     // generate 16 bytes of random data
 var initVector = crypto.randomBytes(16);
 var Securitykey = crypto.randomBytes(32);
@@ -37,7 +37,7 @@ app.all("*", function (req, res, next) {
 app.get('/api/forgetpassword/:email',function(req,res,next){
     let email = req.params.email;
     try{
-        
+
             con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
                 let data = result[0][0]
                 if(data === undefined){
@@ -104,7 +104,7 @@ app.get('/api/resetpassword/:email/:id',function(req,res,next){
 })
 /**reset password */
 app.post('/api/resetpassword',function(req,res,next){
-    
+
     let id = req.body.empid;
     let email = req.body.email;
     let password = req.body.newpassword;
@@ -117,7 +117,7 @@ app.post('/api/resetpassword',function(req,res,next){
                 res.send({status: true, message: 'reset password successfully'})
 
             }
-         
+
      });
 
     }
@@ -168,12 +168,12 @@ app.post('/changePassword',function(req,res){
 /**employee login */
 app.post('/api/emp_login',function(req,res,next){
     try{
-        // let 
+        // let
         var email = req.body.email;
         var password = req.body.password;
-        
+
         con.query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
-            
+
             console.log(results)
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             console.log(result)
@@ -233,7 +233,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
                     res.send({status: true, message: 'Company Information added successfully'})
                 }
             });
-       
+
 
     }catch (e) {
         console.log('setCompanyInformation :',e)
@@ -242,7 +242,7 @@ app.post('/api/setCompanyInformation',function(req,res) {
 
 /*put comapny information*/
 app.put('/api/putCompanyInformation',function(req,res) {
-    
+
     try {
         let companyInformation={}
         companyInformation.CompanyName=req.body.companyname;
@@ -265,7 +265,7 @@ app.put('/api/putCompanyInformation',function(req,res) {
                 res.send({status: true, message: 'Company Information updated Successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('putCompanyInformation :',e)
@@ -274,7 +274,7 @@ app.put('/api/putCompanyInformation',function(req,res) {
 
 /*Get Department*/
 app.get('/api/getDepartment',function(req,res) {
-    
+
     try {
         con.query("CALL `getDepartment` ()", function (err, result, fields) {
             if (result.length > 0) {
@@ -283,7 +283,7 @@ app.get('/api/getDepartment',function(req,res) {
                 res.send({status: false})
             }
         });
-       
+
 
     }catch (e) {
         console.log('getDepartment :',e)
@@ -301,7 +301,7 @@ app.get('/api/setDepartment',function(req,res) {
                 res.send({status: true,message:'Department added successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setDepartment :',e)
@@ -312,7 +312,7 @@ app.get('/api/setDepartment',function(req,res) {
 /*Get Designation*/
 app.get('/api/getDesignation',function(req,res) {
     try {
-        
+
 
         con.query("CALL `getmastertable` (?)", ['designationsmaster'],function (err, result, fields) {
             if (result.length > 0) {
@@ -321,7 +321,7 @@ app.get('/api/getDesignation',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getDesignation :',e)
@@ -332,12 +332,12 @@ app.get('/api/getDesignation',function(req,res) {
 /*set Designation*/
 app.post('/api/setDesignation',function(req,res) {
     try {
-        // 
+        //
 
         let infoDesignationMaster={}
         infoDesignationMaster.designation=req.body.designationName;
         infoDesignationMaster.status = 'Active';
-        
+
 
         con.query("CALL `setmastertable` (?,?,?)",['designationsmaster',,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
             if (err) {
@@ -346,7 +346,7 @@ app.post('/api/setDesignation',function(req,res) {
                 res.send({status: true,message:'Designation added successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setDesignation :',e)
@@ -356,7 +356,7 @@ app.post('/api/setDesignation',function(req,res) {
 /*set Designation*/
 app.put('/api/putDesignation',function(req,res) {
     try {
-        
+
 
         let infoDesignationMaster={}
         infoDesignationMaster.designation=req.body.name;
@@ -375,7 +375,7 @@ app.put('/api/putDesignation',function(req,res) {
                 res.send({status: true,message:'Designation updated successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setDesignation :',e)
@@ -393,7 +393,7 @@ app.post('/api/updateStatus',checkRecord, function(req,res) {
                 res.send({status: true,message:'Department is '+req.body.status+' successfully'})
             }
         });
-        
+
         } else if(req.body.isexists.status == false){
             res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
         } else{
@@ -465,7 +465,7 @@ app.post('/api/setWorkLocation',function(req,res) {
                 updated_by:req.body.created_by
             }
         }
-        
+
         let data = JSON.stringify(req.body)
         con.query("CALL `setcompanyworklocation` (?)",[data], function (err, result, fields) {
             console.log(err)
@@ -475,7 +475,7 @@ app.post('/api/setWorkLocation',function(req,res) {
                 res.send({status: true,message:'Work Location added successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setWorkLocation :',e)
@@ -486,7 +486,7 @@ app.post('/api/setWorkLocation',function(req,res) {
 app.get('/api/getStates/:id',function(req,res){
     let id = req.params.id;
     try{
-        con.query("CALL `getstatesforcountry`(?)",[id],function(error,result,fields){  
+        con.query("CALL `getstatesforcountry`(?)",[id],function(error,result,fields){
             if(error){
                 console.log(error)
             }
@@ -531,7 +531,7 @@ app.post('/api/getWorkLocation',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getWorkLocation :',e)
@@ -548,7 +548,7 @@ app.get('/api/getcompoffleavestatus',function(req,res){
             else{
                 res.send({status: false})
             }
-            
+
 
     })
     }
@@ -580,7 +580,7 @@ app.post('/api/getactiveWorkLocation',function(req,res) {
             } else {
                 res.send({status: false})
             }
-        });        
+        });
     }catch (e) {
         console.log('getWorkLocation :',e)
 
@@ -601,20 +601,20 @@ app.post('/api/setDepartments',function(req,res) {
         info.created_on = req.body.created_on;
         info.updated_on=null;
         info.updated_by = null;
-        
+
 
         con.query("CALL `setmastertable` (?,?,?)",['departmentsmaster',req.body.companyDBName,JSON.stringify(info)], function (err, result, fields) {
             console.log(err)
             console.log(result)
-            
+
             if (err) {
-               
+
                 res.send({ status: false,message:'Unable to add department'});
             } else {
                 res.send({status: true,message:'Departments added successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setmastertable :',e)
@@ -643,7 +643,7 @@ app.put('/api/putDepartments',function(req,res) {
                 res.send({status: true,message:'Department updated successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getHolidays :',e)
@@ -661,7 +661,7 @@ app.get('/api/getHolidays',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getHolidays :',e)
@@ -766,7 +766,7 @@ app.put('/api/putHolidays/:companyShortName',function(req,res) {
 /*Set Holidays Status*/
 app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
     try {
-        //        
+        //
 
         ;
 
@@ -777,7 +777,7 @@ app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
                 res.send({status: true,message:'Holidays status updated successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setHolidaysStatus :',e)
@@ -787,7 +787,7 @@ app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
 /*Get Shift*/
 app.get('/api/getShift',function(req,res) {
     try {
-        
+
 
         con.query("CALL `getShift` ()", function (err, result, fields) {
             if (result.length > 0) {
@@ -796,7 +796,7 @@ app.get('/api/getShift',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getShift :',e)
@@ -808,7 +808,7 @@ app.get('/api/getShift',function(req,res) {
 // /*Get Master table*/
 app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',function(req,res) {
     try {
-       
+
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             con.query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
@@ -830,7 +830,7 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',f
                     res.send({status: false})
                 }
             });
-            
+
         }
         else{
             ;
@@ -851,7 +851,7 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName',f
                     res.send({status: false})
                 }
             });
-            
+
 
 
         }
@@ -884,7 +884,7 @@ app.get('/api/getLeaveTypes/:tableName/:page/:size',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getMastertable :',e)
@@ -906,7 +906,7 @@ app.post('/api/setShift',function(req,res) {
                     res.send({status: false, message: 'Shift added Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setShift :',e)
@@ -926,7 +926,7 @@ app.put('/api/putShift',function(req,res) {
                     res.send({status: false, message: 'Shift updated Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('putShift :',e)
@@ -963,7 +963,7 @@ app.post('/api/setAddLeaveBalance',function(req,res) {
                     res.send({status: false, message: 'Leave balance added Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setAddLeaveBalance :',e)
@@ -974,7 +974,7 @@ app.post('/api/setAddLeaveBalance',function(req,res) {
 
 app.put('/api/putAddLeaveBalance',function(req,res) {
 
-    try {       
+    try {
         con.query("CALL `putLeaveBalance` (?,?,?,?,?)",
             [req.body.shiftName, req.body.description, req.body.startTime,req.body.endTime,req.body.status], function (err, result, fields) {
 
@@ -984,7 +984,7 @@ app.put('/api/putAddLeaveBalance',function(req,res) {
                     res.send({status: false, message: 'Leave balance updated Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('putLeaveBalance :',e)
@@ -1040,7 +1040,7 @@ app.post('/api/getReportingManager',function(req,res){
                 res.send(result)
             }
 
-        });      
+        });
 
     }
     catch(e){
@@ -1122,7 +1122,7 @@ app.post('/api/setEmployeeMaster',function(req,res) {
                     res.send({status: true, message: 'Employee added successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setEmployeeMaster :',e)
@@ -1142,7 +1142,7 @@ app.put('/api/putEmployeeMaster',function(req,res) {
                     res.send({status: false, message: 'Employee updated Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('putEmployeeMaster :',e)
@@ -1161,7 +1161,7 @@ app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
                     res.send({status: true})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('getSearch :',e)
@@ -1172,7 +1172,7 @@ app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
 /*Get User Leave Balance*/
 app.get('/api/getLeaveBalance/:empid',function(req,res) {
     try {
-        
+
         let id = req.params.empid;
         con.query("CALL `get_employee_leave_balance` (?)",[id], function (err, result, fields) {
             if (result && result.length > 0) {
@@ -1181,7 +1181,7 @@ app.get('/api/getLeaveBalance/:empid',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getLeaveBalance :',e)
@@ -1200,7 +1200,7 @@ app.get('/api/getLeaves/:page/:size',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getLeaves :',e)
@@ -1221,7 +1221,7 @@ app.get('/api/getLeaveRules/:Id/:page/:size',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getLeaves :',e)
@@ -1238,7 +1238,7 @@ app.get('/api/getManagerAndHrDetails/employeeId',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getManagerAndHrDetails :',e)
@@ -1258,7 +1258,7 @@ app.post('/api/setApplyLeave',function(req,res) {
                     res.send({status: false, message: 'Leave apployed successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setApplyLeave :',e)
@@ -1267,7 +1267,7 @@ app.post('/api/setApplyLeave',function(req,res) {
 
 /*Set Delete Leave Request */
 app.post('/api/setDeleteLeaveRequest',function(req,res) {
-    try {        
+    try {
         let id = req.body.id;
         let empid = req.body.empid;
         let leavetype = req.body.leavetypeid;
@@ -1295,7 +1295,7 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
                     res.send({status: true})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setDeleteLeaveRequest :',e)
@@ -1303,7 +1303,7 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
 });
 /*CancelLeave Request */
 app.post('/api/cancelLeaveRequest',function(req,res) {
-    try {        
+    try {
         let id = req.body.id;
         let empid = req.body.empid;
         let leavetype = req.body.leavetypeid;
@@ -1331,7 +1331,7 @@ app.post('/api/cancelLeaveRequest',function(req,res) {
                     res.send({status: true})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('cancelLeaveRequest :',e)
@@ -1350,7 +1350,7 @@ app.put('/api/updateLeaveRequest/:Id',function(req,res) {
                     res.send({status: false, message: 'Leave request updated successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('updateLeaveRequest :',e)
@@ -1367,7 +1367,7 @@ app.set('/api/setCompOffReviewApprove',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setCompOffReviewApprove :',e)
@@ -1385,7 +1385,7 @@ app.get('/api/getUserOnLeaves',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getUserOnLeaves :',e)
@@ -1404,7 +1404,7 @@ app.get('/api/getApprovals',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getApprovals :',e)
@@ -1505,7 +1505,7 @@ app.post('/api/setLeaveConfigure',function(req,res) {
                         res.send({status: false})
                     }}
             });
-            
+
 
         }
 
@@ -1578,7 +1578,7 @@ app.post('/api/getEmployeeDetails',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
     }catch (e) {
         console.log('getCompanyInformation :',e)
 
@@ -1594,7 +1594,7 @@ app.delete('/api/deleteHoliday/:holidayId',function(req,res) {
                 res.send({status: true, message: 'Holiday deleted successfully'})
             }
         });
-        
+
     }catch (e) {
         console.log('deleteHoliday :',e)
     }
@@ -1652,7 +1652,7 @@ app.post('/api/validatePrefix',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getUserOnLeaves :',e)
@@ -1672,7 +1672,7 @@ app.post('/api/setNewLeaveType',function(req,res) {
                 res.send({status: true, message: 'Leave Type added successfully'})
             }
         });
-        
+
     }catch (e) {
         console.log('setNewLeaveType :',e)
 
@@ -1706,7 +1706,7 @@ app.post('/api/setToggleLeaveType',function(req,res) {
                     res.send({status: true, message: 'Leave policies status updated successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setleavepolicies :',e)
@@ -1730,7 +1730,7 @@ app.get('/api/getErrorMessages/:errorCode/:page/:size',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('geterrormessages :',e)
@@ -1748,7 +1748,7 @@ app.post('/api/setErrorMessages',function(req,res) {
                     res.send({status: true, message: 'Messages updated successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('seterrormessages :',e)
@@ -1757,7 +1757,7 @@ app.post('/api/setErrorMessages',function(req,res) {
 /*Get Role Master*/
 app.get('/api/getrolemaster',function(req,res) {
     try {
-        
+
         con.query("CALL `getrolemaster` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1765,7 +1765,7 @@ app.get('/api/getrolemaster',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getrolemaster :',e)
@@ -1774,7 +1774,7 @@ app.get('/api/getrolemaster',function(req,res) {
 /*Get Screen Master*/
 app.get('/api/getscreensmaster',function(req,res) {
     try {
-        
+
         con.query("CALL `getscreensmaster` (?)",['4'], function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1782,7 +1782,7 @@ app.get('/api/getscreensmaster',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getscreensmaster :',e)
@@ -1791,7 +1791,7 @@ app.get('/api/getscreensmaster',function(req,res) {
 /*Get Functionalities Master*/
 app.get('/api/getfunctionalitiesmaster',function(req,res) {
     try {
-        
+
         con.query("CALL `getfunctionalitiesmaster` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1799,7 +1799,7 @@ app.get('/api/getfunctionalitiesmaster',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getfunctionalitiesmaster :',e)
@@ -1807,7 +1807,7 @@ app.get('/api/getfunctionalitiesmaster',function(req,res) {
 });
 /*Get Screen Functionalities Master*/
 app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
-    try {       
+    try {
         con.query("CALL `getscreenfunctionalitiesmaster` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result, status: true});
@@ -1821,7 +1821,7 @@ app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
 });
 /*Get Modules Screens Functionalities Master*/
 app.get('/api/getModulesScreensFunctionalitiesmaster',function(req,res) {
-    try {       
+    try {
         con.query("CALL `get_modulescreenfunctionalities` ()", function (err, result, fields) {
            console.log(result[0][0]);
             if (result.length > 0) {
@@ -1836,7 +1836,7 @@ app.get('/api/getModulesScreensFunctionalitiesmaster',function(req,res) {
 });
 /*Get Modules Screens Master*/
 app.get('/api/getModulesWithScreens',function(req,res) {
-    try {       
+    try {
         con.query("CALL `get_modules_screens` ()", function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result[0][0], status: true});
@@ -1850,7 +1850,7 @@ app.get('/api/getModulesWithScreens',function(req,res) {
 });
 /*Get Screens Functionalities*/
 app.get('/api/getScreenWithFunctionalities/:moduleId',function(req,res) {
-    try {        
+    try {
         con.query("CALL `get_screens_functionalities` (?)",[req.params.moduleId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0][0], status: true});
@@ -1865,7 +1865,7 @@ app.get('/api/getScreenWithFunctionalities/:moduleId',function(req,res) {
 
 /*Get Role Screen Functionalities By Role Id*/
 app.get('/api/getRoleScreenfunctionalitiesByRoleId/:roleId',function(req,res) {
-    try {        
+    try {
         con.query("CALL `get_screens_functionalities_for_role` (?)",[req.params.roleId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -1879,7 +1879,7 @@ app.get('/api/getRoleScreenfunctionalitiesByRoleId/:roleId',function(req,res) {
 });
 /*Get Role Screen Functionalities*/
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
-    try {        
+    try {
         con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.params.roleId,'2'], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -1900,7 +1900,7 @@ app.post('/api/setRoleAccess',function(req,res) {
                 } else {
                     res.send({status: true, message: 'Role permissions updated successfully'})
                 }
-            });        
+            });
     }catch (e) {
         console.log('setRoleAccess :',e)
     }
@@ -1917,7 +1917,7 @@ app.post('/api/setRoleMaster',function(req,res) {
                     res.send({status: true, message: 'Role name successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setRoleMaster :',e)
@@ -1926,7 +1926,7 @@ app.post('/api/setRoleMaster',function(req,res) {
 
 /*Get Holidays based on employeeId*/
 app.get('/api/getHolidaysList/:empId',function(req,res) {
-    try {        
+    try {
         con.query("CALL `getemployeeholidays` (?)",[req.params.empId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -1944,35 +1944,35 @@ app.get('/api/getHolidaysFilter/:year/:locationId/:page/:size',function(req,res)
     console.log(req.params.year,req.params.locationId)
 
     try {
-    
+
     con.query("CALL `getholidaysbyfilter` (?,?,?,?)", [req.params.year ==='null'?null:req.params.year,req.params.locationId ==='null'?null:req.params.locationId,req.params.page,req.params.size],function (err, result, fields) {
-    
+
     if (result && result.length > 0) {
-    
+
     res.send({data: result[0], status: true});
-    
+
     } else {
-    
+
     res.send({status: false})
-    
+
     }
-    
+
     });
-    
-    
-    
+
+
+
     }catch (e) {
-    
+
     console.log('getDesignation :',e)
-    
-    
-    
+
+
+
     }
-    
+
     });
 app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
     try {
-        
+
         con.query("CALL `getleavetypesforadvancedleave` ()",function (err, result, fields) {
             if (result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -1980,7 +1980,7 @@ app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getemployeeholidays :',e)
@@ -1989,7 +1989,7 @@ app.get('/api/getLeaveTypesForAdvancedLeave/',function(req,res) {
 /**get employe leaves */
 app.get('/api/getemployeeleaves/:empid/:page/:size',function(req,res){
     try{
-        
+
         let id = req.params.empid;
         let page = req.params.page;
         let size = req.params.size;
@@ -2002,7 +2002,7 @@ app.get('/api/getemployeeleaves/:empid/:page/:size',function(req,res){
             }
 
         });
-        
+
     }
     catch(e){
         console.log('getemployeeholidays :',e)
@@ -2011,7 +2011,7 @@ app.get('/api/getemployeeleaves/:empid/:page/:size',function(req,res){
 /*Get Employee Leave Balance*/
 app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
     try {
-        
+
         con.query("CALL `get_employee_leave_balance` (?)",[req.params.empId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -2020,7 +2020,7 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
             }
 
         });
-        
+
 
 
 
@@ -2039,7 +2039,7 @@ app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
                 res.send({message: 'Rules updated successfully', status: true})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getemployeeleavebalance :',e)
@@ -2048,7 +2048,7 @@ app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
 /*Get Employee Roles*/
 app.get('/api/getemployeeroles/:empId',function(req,res) {
     try {
-        
+
         con.query("CALL `getemployeeroles` (?)",[req.params.empId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -2056,7 +2056,7 @@ app.get('/api/getemployeeroles/:empId',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getemployeeroles :',e)
@@ -2065,7 +2065,7 @@ app.get('/api/getemployeeroles/:empId',function(req,res) {
 /**Get Duration for back dated leave*/
 app.get('/api/getdurationforbackdatedleave',function(req,res) {
     try {
-        
+
         con.query("CALL `getdurationforbackdatedleave` ()", function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
@@ -2073,7 +2073,7 @@ app.get('/api/getdurationforbackdatedleave',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getdurationforbackdatedleave :',e)
@@ -2086,27 +2086,22 @@ app.post('/api/validateleave',function(req,res) {
         let fromdate = req.body.fromDate;
         let todate = req.body.toDate;
         let leavetype = req.body.leaveTypeId;
-        // var fromDate = new Date(fromdate);
-        // var toDate = new Date(todate);
-        // var myDateString1,myDateString2;
-        // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
-        // // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
-        // let fdate = myDateString1;
-        // let tdate = myDateString2;
         var fromhalfday = req.body.fromDateHalf ? 1:0;
         var tohalfday =req.body.toDateHalf ? 1 : 0;
         var document = req.body.document ? 1 : 0;
         var leaveId = req.body.leaveId?req.body.leaveId:null
+        console.log(id,fromdate,todate,leavetype,fromhalfday,tohalfday,document,leaveId);
 
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
         con.query("CALL `validateleave` (?,?,?,?,?,?,?,?)",[id,leavetype,fromdate,todate,fromhalfday,tohalfday,document,leaveId], function (err, result, fields) {
+           console.log(result);
             if(result && result.length > 0) {
                 res.send({data: result[0], status: true});
             }else {
                 res.send({status: false})
             }
         });
-        
+
     }catch (e) {
         console.log('validateleave :',e)
     }
@@ -2176,7 +2171,7 @@ app.get('/api/getdaystobedisabledfromdate/:id/:leaveId',function(req,res){
                 res.send({status: false})
             }
         })
-        
+
     }
     catch (e){
         console.log('getdaystobedisabledfromdate :',e)
@@ -2193,7 +2188,7 @@ app.get('/api/getdaystobedisabledtodate/:id/:leaveId',function(req,res){
                 res.send({status: false})
             }
         })
-        
+
 
     }
     catch (e){
@@ -2210,7 +2205,7 @@ app.post('/api/getdaystobedisabled',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
     }catch (e) {
         console.log('getdaystobedisabled :',e)
     }
@@ -2238,7 +2233,7 @@ app.post('/api/getoffdayscount',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
     }catch (e) {
         console.log('getoffdayscount :',e)
     }
@@ -2260,7 +2255,7 @@ app.post('/api/designationstatus',checkRecord,function(req,res) {
                     res.send({status: true, message: 'Designation is '+req.body.status+' successfully'})
                 }
             });
-            
+
         }else if(req.body.isexists.status == false){
             res.send({status: false, message: "We are unable to "+req.body.status+" this designation please try again later"});
         } else{
@@ -2286,7 +2281,7 @@ app.post('/api/getValidateExistingDetails',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getValidateExistingDetails :',e)
@@ -2321,7 +2316,7 @@ app.get('/api/getHolidysFilter/:year/:locationId/:page/:size',function(req,res) 
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getDesignation :',e)
@@ -2346,7 +2341,7 @@ function checkRecord (req, res, next){
 
                 }
             });
-            
+
 
 
     }catch (e) {
@@ -2404,7 +2399,7 @@ app.get('/api/getCompoffCalender/:calender',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getCompoffCalender :',e)
@@ -2444,7 +2439,7 @@ app.get('/api/getDurationforBackdatedCompoffLeave',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getDurationforBackdatedCompoffLeave :',e)
@@ -2467,7 +2462,7 @@ app.get('/api/getNextLeaveDate/:input',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getNextLeaveDate :',e)
@@ -2491,7 +2486,7 @@ app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
                         console.log(error);
                     }
                     res.send({status:true})
-                })   
+                })
             }
 
     }catch (e) {
@@ -2511,7 +2506,7 @@ app.post('/api/getEmployeeRelationsForBereavementLeave',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getEmployeeRelationsForBereavementLeave :',e)
@@ -2531,7 +2526,7 @@ app.post('/api/getApprovedCompoffs',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getApprovedCompoffs :',e)
@@ -2556,7 +2551,7 @@ app.post('/api/updateLeaveDisplayName',function(req,res) {
                 res.send({status: true,message:'Designation updated successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setDesignation :',e)
@@ -2575,7 +2570,7 @@ app.get('/api/getMaxCountPerTermValue/:id',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getMaxCountPerTermValue :',e)
@@ -2657,7 +2652,7 @@ app.post('/api/getleavecalender/:id',function(req,res){
         console.log('getleavecalender :',e)
 
     }
-    
+
 })
 
 /**
@@ -2943,7 +2938,7 @@ app.get('/ems/api/getEmployeeProgramSchedules/', function(req,res) {
  * set checklists master
  * */
 app.post('/ems/api/setChecklistsMaster', function(req,res) {
-  
+
     ems.setChecklistsMaster(req, res);
 
 });
@@ -2961,21 +2956,21 @@ app.get('/ems/api/getChecklistsMaster/:deptId/:category', function(req,res) {
 
 app.get('/ems/api/getChecklistsMasterActive/:deptId/:category/:status', function(req,res) {
         ems.getChecklistsMasterActive(req,res);
-    
+
     });
 
-/** 
- * EMS 
+/**
+ * EMS
  * set new hire
- */ 
+ */
 app.post('/ems/api/setNewHire/', function(req,res) {
 
     ems.setNewHire(req,res);
 });
 
-/** 
+/**
  * EMS
- * get new hire list 
+ * get new hire list
  * */
 
 app.get('/ems/api/getNewHireDetails/:id', function(req,res) {
@@ -2984,9 +2979,9 @@ app.get('/ems/api/getNewHireDetails/:id', function(req,res) {
 
 });
 
-/** 
+/**
  * EMS
- * set reason master 
+ * set reason master
  * */
 app.post('/ems/api/setReasonMaster/', function(req,res) {
 
@@ -3048,14 +3043,14 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
         ems.getEmployeesList(req, res);
     });
-      
+
  /** EMS
  * set candidate pre onboarding details
  */
   app.post('/ems/api/setPreonboardCandidateInformation', function(req,res) {
    ems.setPreonboardCandidateInformation(req,res);
- });   
-  
+ });
+
 /** EMS
  * get candidate list
  */
@@ -3096,7 +3091,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
   app.get('/ems/api/getEmployeeslistforTermination/', function(req,res){
     ems.getEmployeeslistforTermination(req,res)
   })
-  
+
 
   /** set onboard candidate work experience */
   app.post('/ems/api/setCandidateExperience', function(req,res) {
@@ -3113,9 +3108,9 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     app.get('/ems/api/getDepartmentEmployeesByDesignation/:sid/:pid', function(req,res) {
 
         ems.getDepartmentEmployeesByDesignation(req,res);
-    
+
     });
-      
+
     /** */
     app.post('/ems/api/setProgramSchedulemail/',function(req,res){
         ems.setProgramSchedulemail(req,res);
@@ -3153,7 +3148,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
   app.post('/ems/api/setEmpPersonalInfo', function(req,res) {
     ems.setEmpPersonalInfo(req,res);
-  });  
+  });
 
 //   app.post('/ems/api/setEmployeeMasterData', function(req,res) {
 //     ems.setEmployeeMasterData(req,res);
@@ -3176,12 +3171,12 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id',function(req,res){
         ems.getEmsEmployeeColumnConfigurationValue(req,res)
     })
-   
+
       /**getFilepathsMasterForEMS */
     app.get('/ems/api/getFilepathsMasterForEMS/:moduleId',function(req,res){
         ems.getFilepathsMasterForEMS(req,res)
     })
-    
+
    /**setFilesMasterForEMS */
    app.post('/ems/api/setFilesMasterForEMS/',function(req,res){
     ems.setFilesMasterForEMS(req,res)
@@ -3217,13 +3212,13 @@ app.post('/ems/api/getEmsEmployeeDataForReports/',function(req,res){
 app.post('/ems/api/getDocumentsForEMS/',function(req,res){
     ems.getDocumentsForEMS(req,res)
     })
-    
+
     /**getDocumentsForEMS */
 app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
     ems.getDocumentOrImagesForEMS(req,res)
     })
 
-    
+
     /**removeDocumentOrImagesForEMS */
     app.delete('/ems/api/removeDocumentOrImagesForEMS/:path',function(req,res){
         ems.removeDocumentOrImagesForEMS(req,res)
@@ -3248,17 +3243,17 @@ app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
   /** EMS set employee job details */
   app.post('/ems/api/setEmpJobDetails', function(req,res) {
     ems.setEmpJobDetails(req,res);
-  });  
+  });
 
     /** EMS set employee education details */
     app.post('/ems/api/setEmpEducationDetails', function(req,res) {
         ems.setEmpEducationDetails(req,res);
-      });  
+      });
 
 /** EMS set employee education details */
     app.post('/ems/api/setEmpEmployement', function(req,res) {
         ems.setEmpEmployement(req,res);
-    });  
+    });
 
 /** get Employee Personal Info (HR)*/
     app.get('/ems/api/getEmpEmployement/:id',function(req,res){
@@ -3290,7 +3285,7 @@ console.log(req)
 
 });
 
-    //////// 
+    ////////
 /** EMS setOnboardingSettings */
 app.post('/ems/api/setOnboardingSettings', function(req,res) {
     ems.setOnboardingSettings(req,res);
