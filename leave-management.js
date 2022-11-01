@@ -20,8 +20,7 @@ app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
 }));
-var connection = require('./config/databaseConnection')
-var common = require('./common');
+var connection = require('./config/databaseConnection');
 
 var con = connection.switchDatabase();
 app.use(bodyParser.json({ limit: '5mb' }));
@@ -38,7 +37,6 @@ module.exports = {
     getLeavesForApprovals:getLeavesForApprovals,
     leaveSattus:leaveSattus,
     getCompoffsForApproval:getCompoffsForApproval,
-    getHandledLeaves:getHandledLeaves,
     setCompoffForApproveOrReject:setCompoffForApproveOrReject,
     getCompoffs:getCompoffs,
     getEmployeeLeaveDetailedReportForManager:getEmployeeLeaveDetailedReportForManager,
@@ -49,16 +47,13 @@ module.exports = {
     getLeaveCalendarForManager:getLeaveCalendarForManager,
     getStates:getStates,
     getCities:getCities,
-    getProfileImage:getProfileImage,
     getLeavesForCancellation:getLeavesForCancellation,
     getEmployeeInformation:getEmployeeInformation,
-    setProfileImage:setProfileImage,
     removeProfileImage:removeProfileImage,
     editProfile:editProfile,
     getCarryforwardedLeaveMaxCount:getCarryforwardedLeaveMaxCount,
     getFilepathsMaster:getFilepathsMaster,
     setFilesMaster:setFilesMaster,
-    getFilesMaster:getFilesMaster,
     deleteFilesMaster:deleteFilesMaster,
     getReportForPayrollProcessing:getReportForPayrollProcessing,
 
@@ -77,7 +72,18 @@ module.exports = {
     validateleave:validateleave,
     getNextLeaveDate:getNextLeaveDate,
     setemployeeleave:setemployeeleave,
+    getFilesMaster:getFilesMaster,
+    setProfileImage:setProfileImage,
     removeImage:removeImage,
+    getProfileImage:getProfileImage,
+    getCompOffMinWorkingHours:getCompOffMinWorkingHours,
+    getCompOff:getCompOff,
+    getCompoffCalender:getCompoffCalender,
+    getDurationforBackdatedCompoffLeave:getDurationforBackdatedCompoffLeave,
+    setCompOff:setCompOff,
+    getHandledLeaves:getHandledLeaves,
+    getCompoffLeaveStatus:getCompoffLeaveStatus,
+
 };
 
 
@@ -130,21 +136,7 @@ function getCompoffsForApproval(req,res){
 
     }
 }
-function getHandledLeaves(req,res){
-    try {
-        con.query("CALL `get_handled_leaves` (?)",[req.params.id],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
 
-    }catch (e) {
-        console.log('getHandledLeaves :',e)
-
-    }
-}
 
 
 
@@ -320,30 +312,6 @@ function getCities(req,res) {
 }
 
 
-function getProfileImage(req,res) {
-    try{
-        folderName = req.body.filepath;
-        var imageData={}
-        var flag=false;
-        fs.readFile(folderName+req.body.filename,function(err,result){
-            if(err){
-                flag=false;
-            }else{
-                flag=true
-                imageData.image=result;
-            }
-            imageData.success=flag;
-            // imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
-
-            res.send(imageData)
-        })
-
-    }
-    catch(e){
-        console.log('getProfileImage',e)
-    }
-
-}
 
 function getLeavesForCancellation(req,res) {
     try {
@@ -533,19 +501,18 @@ function getReportForPayrollProcessing(req,res){
 
 async function getemployeeleaves(req,res){
     try{  
-        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        var  dbName = await getDatebaseName(req.params.companyName)
         let id = req.params.empid;
         let page = req.params.page;
         let size = req.params.size;
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(1,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
         listOfConnections[companyName].query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],function (err, result, fields) {
-            console.log("gvjhshvhsdhjvhs",err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -564,18 +531,16 @@ async function getemployeeleaves(req,res){
 
 async function getLeaveBalance(req,res){
     try {
-        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        
         let id = req.params.empid;
         listOfConnections[companyName].query("CALL `get_employee_leave_balance` (?)",[id], function (err, result, fields) {
-           console.log("resresssssssssss",result)
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
             } else {
@@ -592,17 +557,16 @@ async function getLeaveBalance(req,res){
 
 async function getHolidaysList(req,res){
     try { 
-        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }       
         listOfConnections[companyName].query("CALL `getemployeeholidays` (?)",[req.params.empId], function (err, result, fields) {
-           console.log("holidays",result,err)
-            if (result && result.length > 0) {
+            if (result && result.length > 0) {.0
                 res.send({data: result, status: true});
             }
         });
@@ -615,16 +579,15 @@ async function getHolidaysList(req,res){
 
 async function getleavecalender(req,res){
     try {
-        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(3,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
         listOfConnections[companyName].query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
-           console.log("getleavecalendar",err,result)
             if (result && result[0].length > 0) {
                for(var i = 0; i< result[0].length; i ++ ){
                    if(result[0][i].ltype == 'weekoff'){
@@ -651,12 +614,11 @@ async function getleavecalender(req,res){
 
 async function getdurationforbackdatedleave(req, res){
     try {
-        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-        console.log("hvjhvhjvhjvhj",req.params.companyName)
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(4,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -677,11 +639,11 @@ async function getdurationforbackdatedleave(req, res){
 
 async function getleavecyclelastmonth(req,res){
     try{
-        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(5,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -703,11 +665,11 @@ async function getleavecyclelastmonth(req,res){
 
 async function getLeavesTypeInfo(req,res){
     try {
-        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(6,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -728,17 +690,16 @@ async function getLeavesTypeInfo(req,res){
 async function getApprovedCompoffs(req,res){
     
     try {
-        var  dbName = await common.getDatebaseName(req.body.companyName)  
+        var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(7,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
         
         listOfConnections[companyName].query("CALL `get_approved_compoffs` (?,?)",[req.body.id,req.body.leaveId],function (err, result, fields) {
-            console.log("jjhshj",err,result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -755,11 +716,11 @@ async function getApprovedCompoffs(req,res){
 
 async function getEmployeeRelationsForBereavementLeave(req,res){
     try {
-        var  dbName = await common.getDatebaseName(req.body.companyName)  
+        var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(8,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -780,11 +741,11 @@ async function getEmployeeRelationsForBereavementLeave(req,res){
 
 async function getdaystobedisabletodate(req,res){
     try{
-        var  dbName = await common.getDatebaseName(req.body.companyName)  
-        let companyName = req.body.companyName;
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(9,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -807,11 +768,11 @@ async function getdaystobedisabletodate(req,res){
 async function getdaystobedisabledfromdate(req,res){
     try{
         
-        var  dbName = await common.getDatebaseName(req.body.companyName)  
-        let companyName = req.body.companyName;
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(10,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -832,11 +793,11 @@ async function getdaystobedisabledfromdate(req,res){
 
 async function getMaxCountPerTermValue(req,res){
     try {
-        var  dbName = await common.getDatebaseName(req.parms.companyName)  
+        var  dbName = await getDatebaseName(req.parms.companyName)
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(11,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -858,11 +819,11 @@ async function getMaxCountPerTermValue(req,res){
 
 async function validateleave(req,res){
     try {
-        var  dbName = await common.getDatebaseName(req.body.companyName)  
+        var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(12,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -900,11 +861,11 @@ async function validateleave(req,res){
 async function getNextLeaveDate(req,res){
     try {
         var input = JSON.parse(req.params.input)
-        var  dbName = await common.getDatebaseName(input.companyName)  
+        var  dbName = await getDatebaseName(input.companyName)
         let companyName = input.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(13,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -925,11 +886,12 @@ async function getNextLeaveDate(req,res){
 
 async function setemployeeleave(req,res){
     try{
-        var  dbName = await common.getDatebaseName(req.body.companyName)  
+
+        let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(14,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -972,11 +934,11 @@ async function setemployeeleave(req,res){
 
 async function setFilesMaster(req, res) {
     try {
-        var  dbName = await common.getDatebaseName(req.body.companyName)  
+        var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(15,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -1000,11 +962,11 @@ async function setFilesMaster(req, res) {
 
 async function deleteFilesMaster(req,res){
     try {
-        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(16,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -1029,15 +991,15 @@ async function deleteFilesMaster(req,res){
 
 async function getFilesMaster(req,res){
     try {
-        var  dbName = await common.getDatebaseName(req.body.companyName)  
+        var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(17,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        } 
-        listOfConnections[companyName].query("CALL `get_files_master` (?,?,?,?,?,?)",
+        }
+        con.query("CALL `get_files_master` (?,?,?,?,?,?)",
             [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId,req.body.status], function (err, result, fields) {
                 if (result && result.length>0) {
 
@@ -1068,7 +1030,6 @@ async function getFilesMaster(req,res){
 function removeImage(req,res){
     try{
         var localPath = JSON.parse(decodeURI(req.params.path))
-        console.log("heloooooooo",localPath)
         let foldername = localPath.filepath;
         fs.unlink(foldername+localPath.filename,function(err,result){
             if(err){
@@ -1086,11 +1047,11 @@ function removeImage(req,res){
 }
 async function getFilepathsMaster(req,res){
     try {
-        var  dbName = await common.getDatebaseName(req.params.companyName)  
+        var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(18,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         } 
@@ -1111,3 +1072,242 @@ async function getFilepathsMaster(req,res){
     }
 
 }
+
+/**Get comp-off min working hours
+ * @ no parameters
+ *
+ * */
+
+async function getCompOffMinWorkingHours(req,res) {
+
+    try {
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(19,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_compoff_min_working_hours` ()", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    } catch (e) {
+        console.log('getCompOffMinWorkingHours :', e)
+
+    }
+}
+
+/**Get compOff details*/
+async function getCompOff(req,res) {
+    try {
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(20,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_compoffs` (?,?)",[req.params.employeeId,null], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getCompOff :',e)
+    }
+}
+
+
+
+
+async  function getCompoffCalender(req,res) {
+    try {
+        var calender = JSON.parse(req.params.calender);
+        let  dbName = await getDatebaseName(calender.companyName)
+        let companyName = calender.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(21,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `getcompoff_calendar` (?)",[calender.employeeId],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+
+    }catch (e) {
+        console.log('getCompoffCalender :',e)
+
+    }
+}
+
+
+
+
+/** Get duration for backdated comp-off leave
+ * @no parameters
+ * */
+
+async function getDurationforBackdatedCompoffLeave(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(22,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_duration_for_backdated_compoff_leave` ()",function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+
+    }catch (e) {
+        console.log('getDurationforBackdatedCompoffLeave :',e)
+
+    }
+}
+
+
+/**Set compOff*/
+
+async function setCompOff(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(23,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
+            [req.body.id,req.body.empId,req.body.workDate,parseInt(req.body.workedHours),parseInt(req.body.workedMinutes),req.body.reason,req.body.rmId,req.body.status,req.body.remarks], function (err, result, fields) {
+                if(err){
+                    res.send({status: false, message: 'Unable to applied comp-off'});
+                }else {
+                    res.send({status: true, message: 'Comp-off applied successfully'})
+                }
+            });
+
+    }catch (e) {
+        console.log('setCompOff :',e)
+    }
+};
+
+function getProfileImage(req,res) {
+    try{
+        folderName = req.body.filepath;
+        var imageData={}
+        var flag=false;
+        fs.readFile(folderName+req.body.filename,function(err,result){
+            if(err){
+                flag=false;
+            }else{
+                flag=true
+                imageData.image=result;
+            }
+            imageData.success=flag;
+            // imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
+
+            res.send(imageData)
+        })
+
+    }
+    catch(e){
+        console.log('getProfileImage',e)
+    }
+
+}
+
+function getDatebaseName(companyName){
+
+    return new Promise((res,rej)=>{
+        try {
+
+            con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
+                if (results && results[0] && results[0].length != 0) {
+                    res(results[0][0].db_name);
+
+                } else {
+                    res(null)
+
+                }
+            })
+        }
+        catch (e) {
+            rej(e)
+        }
+    });
+
+}
+
+async function getHandledLeaves(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(23,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_handled_leaves` (?)",[req.params.id],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getHandledLeaves :',e)
+
+    }
+}
+
+async function getCompoffLeaveStatus(req,res) {
+    try{
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(23,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_compoff_leave_status`()", function (err, result, fields) {
+            if(result && result.length >0){
+                res.send({data: result[0][0], status: true});
+            }
+            else{
+                res.send({status: false})
+            }
+
+
+        })
+    }
+    catch(e){
+        console.log('get_compoff_leave_status :',e)
+    }
+
+}
+

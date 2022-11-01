@@ -32,29 +32,36 @@ app.all("*", function (req, res, next) {
 });
 
 
+
+
 module.exports = {
-login:login,
-getDatebaseName:getDatebaseName
+    login:login,
+    getDatebaseName:getDatebaseName,
+    getMastertable:getMastertable
 
 };
 
 
-function getDatebaseName(companyName){
+ function getDatebaseName(companyName){
 
     return new Promise((res,rej)=>{
+        try {
 
-        con.query('CALL `get_company_db_name` (?)',[companyName],function(err,results,next){
-            // console.log("res",results)
-            if(results && results[0]&&results[0].length !=0){
-                res(results[0][0].db_name) ;
-        
-            }else {
-                res(null)
-        
-            }                    
-        })
+            con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
+                if (results && results[0] && results[0].length != 0) {
+                    res(results[0][0].db_name);
+
+                } else {
+                    res(null)
+
+                }
+            })
+        }
+        catch (e) {
+            rej(e)
+        }
     });
-   
+
 }
 
 
@@ -64,7 +71,7 @@ function getDatebaseName(companyName){
 
 async function login(req,res){
     try{
-    
+
     var  dbName = await getDatebaseName(req.body.companyName)
      var email = req.body.email;
         var password = req.body.password;
@@ -72,7 +79,7 @@ async function login(req,res){
         // console.log("single",req.body)
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(companyName)
+        listOfConnections= connection.checkExistingDBConnection(0,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -104,6 +111,68 @@ async function login(req,res){
     }
     catch (e){
         console.log("employee_login",e)
+    }
+}
+
+
+// /*Get Master table*/
+async function getMastertable(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName);
+
+        let companyName = req.params.companyName;
+        let listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(1,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        var tName = req.params.tableName;
+        if(req.params.status=="null"){
+            listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
+
+                if (result && result.length > 0) {
+                    if(tName == 'holidaysmaster'){
+                        for (let i=0; i<result[0].length;i++){
+                            let hDate = (new Date(result[0][i].Date));
+                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                        }
+                        res.send({data: result[0], status: true});
+
+
+                    }else {
+                        res.send({data: result[0], status: true});
+                    }
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+        }
+        else{
+            listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[tName,req.params.status,req.params.page,req.params.size], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    if(tName == 'holidaysmaster'){
+                        for (let i=0; i<result[0].length;i++){
+                            let hDate = (new Date(result[0][i].Date));
+                            result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
+                        }
+                        res.send({data: result[0], status: true});
+
+
+                    }else {
+                        res.send({data: result[0], status: true});
+                    }
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+
+
+        }
+    }catch (e) {
+        console.log('getMastertable :',e)
+
     }
 }
 

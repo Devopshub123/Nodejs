@@ -3,7 +3,7 @@ var listOfExistedConnections = [];
 // /*Switching database connection*/
 function switchDatabase() {
         return mysql.createConnection({
-            host: "122.175.62.210",
+            host: "192.168.1.8",
             user: "spryple_client_user",
             port: 3306,
             password: "Client&*123",
@@ -19,7 +19,7 @@ async function getNewDBConnection(companyName,dbName)
 
   return new Promise((res,rej)=>{
     var connectionParams = {
-      host: "122.175.62.210",
+      host: "192.168.1.8",
       user: "spryple_client_user",
       port: 3306,
       password: "Client&*123",
@@ -42,7 +42,7 @@ async function getNewDBConnection(companyName,dbName)
     //  });   
 }
 
-function checkExistingDBConnection(companyName) {
+function checkExistingDBConnection(sample,companyName) {
   var result = {};
   result.succes=false;
     if(listOfExistedConnections.length == 0)
@@ -51,7 +51,7 @@ function checkExistingDBConnection(companyName) {
     }
     else {
     listOfExistedConnections.forEach(function(element,key) {
-console.log("hhhhh",listOfExistedConnections.length,companyName)
+console.log("hhhhh",listOfExistedConnections.length,companyName,sample)
         for(var keyVal in element){
           if(keyVal === companyName){
             result[keyVal]=element[keyVal];

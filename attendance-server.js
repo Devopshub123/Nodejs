@@ -10,7 +10,9 @@ app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
 }));
-var connection = require('./config/databaseConnection')
+var connection = require('./config/databaseConnection');
+var common = require('./common');
+
 
 var con = connection.switchDatabase();
 app.use(bodyParser.json({ limit: '5mb' }));
@@ -21,6 +23,11 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
+
+module.exports={
+    getEmployeeAttendanceNotifications:getEmployeeAttendanceNotifications,
+    getrolescreenfunctionalities:getrolescreenfunctionalities,
+}
 
 // /*Get Master table*/
 app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', function (req, res) {
@@ -571,21 +578,6 @@ app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', func
     }
 });
 
-/*Get Role Screen Functionalities*/
-app.post('/api/getrolescreenfunctionalities', function (req, res) {
-    try {
-        con.query("CALL `getrolescreenfunctionalities` (?,?)", [req.body.empid, req.body.moduleid], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
-
-    } catch (e) {
-        console.log('getscreenfunctionalitiesmaster :', e)
-    }
-});
 
 /*Set Employee Master*/
 app.post('/api/setEmployeeMaster', function (req, res) {
@@ -897,4 +889,59 @@ app.post('/api/getEmployeeWeekoffsHolidaysForAttendance',function(req,res){
       console.log("get_employee_weekoffs_holidays_for_attendance")
     }
 });
-module.exports = app;
+// module.exports = app;
+
+
+
+async function getEmployeeAttendanceNotifications(req,res){
+    try {
+        console.log("helloooogetDatebaseName",req.body)
+        let  dbName = await common.getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(1,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+
+        listOfConnections[companyName].query("CALL `get_employee_attendance_notifications` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
+
+        function (err, result, fields) {
+            console.log("helllllllllllllllerrr",err,result)
+
+            if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('getemployeeattendancedashboard');
+    }
+}
+
+
+/*Get Role Screen Functionalities*/
+async function getrolescreenfunctionalities(req, res) {
+    try {
+        let  dbName = await common.getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(1,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `getrolescreenfunctionalities` (?,?)", [req.body.empid, req.body.moduleid], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    } catch (e) {
+        console.log('getscreenfunctionalitiesmaster :', e)
+    }
+};

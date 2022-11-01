@@ -539,24 +539,6 @@ app.post('/api/getWorkLocation',function(req,res) {
 
     }
 });
-app.get('/api/getcompoffleavestatus',function(req,res){
-    try{
-        con.query("CALL `get_compoff_leave_status`()", function (err, result, fields) {
-            if(result && result.length >0){
-                console.log(result[0][0])
-                res.send({data: result[0][0], status: true});
-            }
-            else{
-                res.send({status: false})
-            }
-            
-
-    })
-    }
-    catch(e){
-        console.log('getWorkLocation :',e)
-    }
-})
 
 /*Get Work Location*/
 app.post('/api/getactiveWorkLocation',function(req,res) {
@@ -2336,103 +2318,13 @@ function checkRecord (req, res, next){
     }
 }
 
-/**Set compOff*/
-
-app.post('/api/setCompOff',function(req,res) {
-    try {
-        con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
-            [req.body.id,req.body.empId,req.body.workDate,parseInt(req.body.workedHours),parseInt(req.body.workedMinutes),req.body.reason,req.body.rmId,req.body.status,req.body.remarks], function (err, result, fields) {
-                console.log(err)
-                if(err){
-                    res.send({status: false, message: 'Unable to applied comp-off'});
-                }else {
-                    res.send({status: true, message: 'Comp-off applied successfully'})
-                }
-            });
-
-    }catch (e) {
-        console.log('setCompOff :',e)
-    }
-});
 
 
-/**Get compOff details*/
-app.get('/api/getCompOff/:employeeId/:rmid',function(req,res) {
-    try {
-        con.query("CALL `get_compoffs` (?,?)",[req.params.employeeId,null], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-    }catch (e) {
-        console.log('getCompOff :',e)
-    }
-});
 
-/**Get calender details for compoff
- * @EmployeeId
- * @year
- * */
 
-app.get('/api/getCompoffCalender/:calender',function(req,res) {
-    try {
-        var calender = JSON.parse(req.params.calender);
-        con.query("CALL `getcompoff_calendar` (?)",[calender.employeeId],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-        
 
-    }catch (e) {
-        console.log('getCompoffCalender :',e)
 
-    }
-});
 
-/**Get comp-off min working hours
- * @ no parameters
- *
- * */
-
-app.get('/api/getCompOffMinWorkingHours',function(req,res) {
-    try {
-        con.query("CALL `get_compoff_min_working_hours` ()",function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-    }catch (e) {
-        console.log('getCompOffMinWorkingHours :',e)
-
-    }
-});
-/** Get duration for backdated comp-off leave
- * @no parameters
- * */
-
-app.get('/api/getDurationforBackdatedCompoffLeave',function(req,res) {
-    try {
-        con.query("CALL `get_duration_for_backdated_compoff_leave` ()",function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-        
-
-    }catch (e) {
-        console.log('getDurationforBackdatedCompoffLeave :',e)
-
-    }
-});
 
 
 // /** Get next leave Date for validations
@@ -2588,14 +2480,7 @@ app.get('/api/getCompoffsForApproval/:id', function(req,res) {
     leaveManagement.getCompoffsForApproval(req,res);
 
 });
-/**
- * Manager dashboard approved or reject leaves
- * */
-app.get('/api/getHandledLeaves/:id', function(req,res) {
 
-    leaveManagement.getHandledLeaves(req,res);
-
-});
 
 /**
  * Manager dashboard approved or reject leaves
@@ -3172,7 +3057,7 @@ app.post('/ems/api/getEmsEmployeeDataForReports/',function(req,res){
 })
 
     /** get Employee Personal Info (HR)*/
-    app.get('/ems/api/getEmpPersonalInfo/:id',function(req,res){
+    app.get('/ems/api/getEmpPersonalInfo/:id/:companyName',function(req,res){
         ems.getEmpPersonalInfo(req,res)
     })
 
@@ -3248,7 +3133,6 @@ app.post('/ems/api/setOffboardingSettings', function(req,res) {
 
 //** */
 app.post('/ems/api/getEmployeesPendingChecklists', function(req,res) {
-console.log(req)
     ems.getEmployeesPendingChecklists(req,res);
 
 });
@@ -3288,7 +3172,7 @@ app.post('/ems/api/getEmpOffboardTerminationChecklists', function(req,res) {
 
 });
   /** get Employee Personal Info (HR)*/
-  app.get('/ems/api/getEmpAnnouncements/',function(req,res){
+  app.get('/ems/api/getEmpAnnouncements/:companyName',function(req,res){
     ems.getEmpAnnouncements(req,res)
   })
 
@@ -3307,7 +3191,7 @@ app.post('/ems/api/getEmployeesResignationForHr/', function(req,res) {
 /** EMS
  * get employee check list
  */
-app.get('/ems/api/getReportingManagerForEmp/:id', function(req,res) {
+app.get('/ems/api/getReportingManagerForEmp/:id/:companyName', function(req,res) {
 
     ems.getReportingManagerForEmp(req, res);
 });
@@ -3322,7 +3206,7 @@ app.get('/ems/api/getnoticeperiods/', function(req,res) {
 });
 ////////
 app.use("/admin", admin);
-app.use("/attendance", attendance);
+// app.use("/attendance", attendance);
 // app.use("/ems",ems);
 app.use("/payroll",payroll);
 
@@ -3343,7 +3227,6 @@ app.post('/api/emp_login',function(req,res,next){
 
 /**get employe leaves */
 app.get('/api/getemployeeleaves/:empid/:page/:size/:companyName',function(req,res){
-    console.log("hello")
     leaveManagement.getemployeeleaves(req,res)
 })
 
@@ -3427,7 +3310,8 @@ app.post('/api/validateleave',function(req,res) {
 
 /**set employee leave */
 app.post('/api/setemployeeleave',function(req,res){
-    leaveManagement.setemployeeleave(req.res)
+
+    leaveManagement.setemployeeleave(req,res)
 })
 /**
  * Get module code for set file paths
@@ -3465,11 +3349,75 @@ app.delete('/api/removeImage/:path',function(req,res){
     leaveManagement.getFilepathsMaster(req,res);
 
 });
+app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',function(req,res) {
+
+    common.getMastertable(req,res)
+});
+
+app.post('/attendance/api/getEmployeeAttendanceNotifications', function (req, res) {
+     attendance.getEmployeeAttendanceNotifications(req,res)
+
+});
+/**Get comp-off min working hours
+ * @ no parameters
+ *
+ * */
+
+app.get('/api/getCompOffMinWorkingHours/:companyName',function(req,res) {
+    leaveManagement.getCompOffMinWorkingHours(req,res)
+});
+
+/**Get compOff details*/
+app.get('/api/getCompOff/:employeeId/:rmid/;companyName',function(req,res) {
+    leaveManagement.getCompOff(req,res)
+});
+
+
+/**Get calender details for compoff
+ * @EmployeeId
+ * @year
+ * */
+
+app.get('/api/getCompoffCalender/:calender',function(req,res) {
+   leaveManagement.getCompoffCalender(req,res)
+});
+
+
+
+/** Get duration for backdated comp-off leave
+ * @no parameters
+ * */
+
+app.get('/api/getDurationforBackdatedCompoffLeave/:companyName',function(req,res) {
+    leaveManagement.getDurationforBackdatedCompoffLeave(req,res)
+
+});
+
+/**Set compOff*/
+
+app.post('/api/setCompOff',function(req,res) {
+    leaveManagement.setCompOff(req,res)
+});
+/*Get Role Screen Functionalities*/
+app.post('/attendance/api/getrolescreenfunctionalities', function (req, res) {
+attendance.getrolescreenfunctionalities(req,res)
+});
+/**
+ * Manager dashboard approved or reject leaves
+ * */
+app.get('/api/getHandledLeaves/:id/:companyName', function(req,res) {
+
+    leaveManagement.getHandledLeaves(req,res);
+
+});
 
 
 
 
 
+app.get('/api/getcompoffleavestatus/:companyName',function(req,res){
+    leaveManagement.getCompoffLeaveStatus(req,res)
+})
 
 
 

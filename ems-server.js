@@ -11,6 +11,8 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 var connection = require('./config/databaseConnection')
+var common = require('./common');
+
 
 var con = connection.switchDatabase();
 app.use(bodyParser.json({ limit: '5mb' }));
@@ -63,7 +65,6 @@ module.exports = {
     setEmpPersonalInfo: setEmpPersonalInfo,
     getOnboardingSettings:getOnboardingSettings,
     updateselectEmployeesProgramSchedules: updateselectEmployeesProgramSchedules,
-    getEmpPersonalInfo: getEmpPersonalInfo,
     setEmpJobDetails: setEmpJobDetails,
     setEmpEducationDetails: setEmpEducationDetails,
     getEmpEducationDetails: getEmpEducationDetails,
@@ -98,15 +99,22 @@ module.exports = {
     setAnnouncements:setAnnouncements,
     getFilesForApproval:getFilesForApproval,
     documentApproval:documentApproval,
-    getEmpAnnouncements:getEmpAnnouncements,
     getEmployeesResignationForHr:getEmployeesResignationForHr,
     setEmployeeChecklists: setEmployeeChecklists,
     getReportingManagerForEmp:getReportingManagerForEmp,
     getHrDetails:getHrDetails,
     getEmpOffboardTerminationChecklists: getEmpOffboardTerminationChecklists,
     getEmpResignationPendingChecklists: getEmpResignationPendingChecklists,
-    getnoticeperiods: getnoticeperiods
-   
+    getnoticeperiods: getnoticeperiods,
+
+    /****multitenant*****/
+    getReportingManagerForEmp:getReportingManagerForEmp,
+    getEmpPersonalInfo: getEmpPersonalInfo,
+    getEmpAnnouncements:getEmpAnnouncements,
+    getDocumentsForEMS:getDocumentsForEMS,
+
+
+
 };
 //// set new hire list
 function setNewHire(req,res) {
@@ -1050,20 +1058,6 @@ function getEmpJobDetails(req, res) {
     }
 }
 
-//** get employee personal detials(HR) */
-function getEmpPersonalInfo(req,res) {
-    try {
-        con.query("CALL `get_emp_personal_info` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
-          if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
-      } catch (e) {
-        console.log('getEmpPersonalInfo :', e)
-    }
-}
 
 /**  */
 function setEmpEmployement(req, res) {
@@ -1246,25 +1240,7 @@ function setDocumentOrImageForEMS(req, res) {
 }
 
 
-async function getDocumentsForEMS(req,res){
-    try{
-        console.log('req.body',req.body)
-            con.query("CALL `get_files_master` (?,?,?,?,?,?)",
-            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory?req.body.filecategory:null,req.body.requestId,req.body.status], function (err, result, fields) {
-                if (result && result.length>0) {
-                    res.send({status: true,data:result[0]})
-                } else {
-                    res.send({status: false})
-                }
-            });
 
-    }
-    catch(e){
-        console.log('getDocumentsForEMS :', e)
-
-    }
-
-}
 
 function getDocumentOrImagesForEMS(req, res) {
     console.log("body--",req.body)
@@ -1614,20 +1590,6 @@ function getEmpOffboardTerminationChecklists(req,res) {
 
 }
 
-/*To Get getEmpAnnouncements*/
-function getEmpAnnouncements(req, res) {
-    try {
-        con.query("CALL `get_emp_announcements` ()", function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
-    } catch (e) {
-        console.log('getEmpAnnouncements :', e)
-    }
-}
 
 function getEmpResignationPendingChecklists(req, res) {
     try {
@@ -1662,21 +1624,7 @@ function getEmployeesResignationForHr(req,res) {
 
 }
 
-function getReportingManagerForEmp(req,res){
-    try{
-        con.query("CALL `get_reporting_manager_for_emp` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
 
-    }
-    catch(e){
-        console.log('getReportingManagerForEmp :', e)
-    }
-}
 function getHrDetails(req,res){
     try{
         con.query("CALL `get_hr_details` ()", function (err, result, fields) {
@@ -1709,3 +1657,124 @@ function getnoticeperiods(req,res){
 
 
 }
+
+
+
+
+
+
+
+
+async function getReportingManagerForEmp(req,res){
+    try{
+
+        var  dbName = await common.getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(1,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+
+        listOfConnections[companyName].query("CALL `get_reporting_manager_for_emp` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+    }
+    catch(e){
+        console.log('getReportingManagerForEmp :', e)
+    }
+}
+
+/** get employee personal detials(HR) */
+
+async function getEmpPersonalInfo(req,res) {
+    try {
+        var  dbName = await common.getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_emp_personal_info` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getEmpPersonalInfo :', e)
+    }
+}
+/****
+ *
+ * To Get getEmpAnnouncements
+ * ***/
+async  function getEmpAnnouncements(req, res) {
+    try {
+        var  dbName = await common.getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(3,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_emp_announcements` ()", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getEmpAnnouncements :', e)
+    }
+}
+
+
+
+
+
+
+async function getDocumentsForEMS(req,res){
+    try{
+        var  dbName = await common.getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(4,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        console.log('req.body',req.body)
+        con.query("CALL `get_files_master` (?,?,?,?,?,?)",
+            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory?req.body.filecategory:null,req.body.requestId,req.body.status], function (err, result, fields) {
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+                } else {
+                    res.send({status: false})
+                }
+            });
+
+    }
+    catch(e){
+        console.log('getDocumentsForEMS :', e)
+
+    }
+
+}
+
+
+
+
+
+
