@@ -113,8 +113,8 @@ function setNewHire(req,res) {
     try {
  
         con.query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
-            console.log("result--" ,result) 
-            console.log("error--" ,err) 
+            console.log("set-error--",err)
+            console.log("set-result--",result[0][0])
             if (result[0][0].statuscode == 0) {
                 // res.send({status:true,data:result[0][0]})
                 var transporter = nodemailer.createTransport({
@@ -177,7 +177,9 @@ function setNewHire(req,res) {
 function getNewHireDetails(req, res) {
     try {
         con.query("CALL `get_new_hire_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
-        if (result && result.length > 0) {
+            console.log("get-error--",err)
+            console.log("result--",result)
+            if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -983,7 +985,9 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            if (result &&result[0][0].statuscode == 0) {
+          console.log("err--",err)
+          console.log("result--",result[0])
+             if (result && result[0][0].statuscode == 0) {
                res.send({status: true,data:result[0][0].empid });
             } else {
                 res.send({ status: false })
@@ -1270,7 +1274,7 @@ async function getDocumentsForEMS(req,res){
 function getDocumentOrImagesForEMS(req, res) {
     console.log("body--",req.body)
     try{
-        folderName = 'D:/Spryple/CORE/';
+        folderName = req.body.filepath;
         var imageData={}
         var flag=false;
         fs.readFile(folderName + req.body.filename, function (err, result) {
