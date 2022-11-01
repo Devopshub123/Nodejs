@@ -8,6 +8,7 @@ function switchDatabase() {
     port: 3306,
     password: "Client&*123",
     database: 'ems',
+    // database: 'ems_qanew',
     dateStrings: true,
     multipleStatements: true,
   });

@@ -721,7 +721,8 @@ app.post('/api/getAttendanceMonthlyReport', function (req, res) {
         
         con.query("CALL `get_attendance_monthly_report` (?,?,?)", [req.body.manager_employee_id, req.body.employee_id, req.body.calendar_date],
             function (err, result, fields) {
-               console.log(result[0]);
+               console.log("error--",err);
+               console.log("result--",result[0]);
                 if (result && result.length > 0) {
                     res.send({ status: true, data: result[0] })
                 } else {

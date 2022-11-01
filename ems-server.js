@@ -113,8 +113,8 @@ function setNewHire(req,res) {
     try {
  
         con.query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
-            console.log("result--" ,result) 
-            console.log("error--" ,err) 
+            console.log("set-error--",err)
+            console.log("set-result--",result[0][0])
             if (result[0][0].statuscode == 0) {
                 // res.send({status:true,data:result[0][0]})
                 var transporter = nodemailer.createTransport({
@@ -132,8 +132,8 @@ function setNewHire(req,res) {
                 var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
 
 
-              //   var url = 'http://localhost:4200/pre-onboarding/'+token;
-                var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
+                var url = 'http://localhost:4200/pre-onboarding/'+token;
+                //var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
                 
                 var html = `<html>
                 <head>
@@ -177,7 +177,9 @@ function setNewHire(req,res) {
 function getNewHireDetails(req, res) {
     try {
         con.query("CALL `get_new_hire_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
-        if (result && result.length > 0) {
+            console.log("get-error--",err)
+            console.log("result--",result)
+            if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -686,7 +688,9 @@ function getEmployeesResignation(req,res) {
 function setEmployeeResignation(req,res) {
     try {
         con.query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            if(err){
+           console.log("error--",err)
+           console.log("result--",result)
+            if (err) {
                 res.send({ status: false ,statusCode: req.body.resg_status})
             }
             else{
@@ -981,9 +985,9 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-         console.log("1st--",result[0])
-         console.log("2nd --",result[0][0])
-             if (result &&result[0][0].statuscode == 0) {
+          console.log("err--",err)
+          console.log("result--",result[0])
+             if (result && result[0][0].statuscode == 0) {
                res.send({status: true,data:result[0][0].empid });
             } else {
                 res.send({ status: false })
@@ -1070,7 +1074,8 @@ function setEmpEmployement(req, res) {
     try {
         console.log(req.body)
          con.query("CALL `set_emp_employement` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            console.log(result)
+            console.log("result--",result)
+            console.log("error--",err)
              if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
@@ -1269,7 +1274,7 @@ async function getDocumentsForEMS(req,res){
 function getDocumentOrImagesForEMS(req, res) {
     console.log("body--",req.body)
     try{
-        folderName = 'D:/Spryple/CORE/';
+        folderName = req.body.filepath;
         var imageData={}
         var flag=false;
         fs.readFile(folderName + req.body.filename, function (err, result) {
@@ -1489,8 +1494,6 @@ function getAnnouncements(req, res) {
     }
 }
 function getEmployeesPendingChecklists(req, res) {
-    console.log("request-", req)
-    console.log("gjbnb")
     try {
        
         con.query("CALL `get_employees_pending_checklists` (?,?,?,?)", [req.body.name,req.body.date,req.body.eid,req.body.did], function (err, result, fields) {
