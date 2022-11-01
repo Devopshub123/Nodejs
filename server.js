@@ -2147,6 +2147,7 @@ app.post('/api/setemployeeleave',function(req,res){
         var tohalfdayleave =req.body.toDateHalf?1:0;
         var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
         con.query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fromdate,todate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
+           console.log('set_employee_leave :'+result);
             if(err){
                   res.send({status:false})
               }

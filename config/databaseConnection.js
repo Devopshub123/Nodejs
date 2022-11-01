@@ -3,7 +3,7 @@ var mysql = require("mysql");
 function switchDatabase() {
   return mysql.createConnection({
     host: "192.168.1.8",
-    //host: "122.175.62.210",
+  //  host: "122.175.62.210",
     user: "spryple_client_user",
     port: 3306,
     password: "Client&*123",
