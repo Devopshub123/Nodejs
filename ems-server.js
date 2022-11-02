@@ -114,55 +114,53 @@ function setNewHire(req,res) {
  
         con.query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
             console.log("set-error--",err)
-            console.log("set-result--",result[0][0])
+            console.log("set-result-",result[0][0])
             if (result[0][0].statuscode == 0) {
-                // res.send({status:true,data:result[0][0]})
-                var transporter = nodemailer.createTransport({
-                    host: "smtp-mail.outlook.com", // hostname
-                    secureConnection: false, // TLS requires secureConnection to be false
-                    port: 587, // port for secure SMTP
-                    tls: {
-                        ciphers:'SSLv3'
-                    },
-                    auth: {
-                        user: 'smattupalli@sreebtech.com',
-                        pass: 'Sree$sreebt'
-                    }
-                });
-                var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
-
-
-                var url = 'http://localhost:4200/pre-onboarding/'+token;
-                //var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
-                
-                var html = `<html>
-                <head>
-                <title>Candidate Form</title></head>
-                <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-                <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-                <p style="color:black">Hello,</p>
-                <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
-                <p style="color:black"> kindly complete your application here by following link</p>
-                <p style="color:black"> <a href="${url}" >${url} </a></p>   
-                <p style="color:black"> Fill in all the information as per your supporting documents.</p>
-                <p style="color:black">Thank You!</p>
-                <p style="color:black">HRMS Team</p>
-                <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-                </div></body>
-                </html> `;
-                var mailOptions = {
-                    from: 'smattupalli@sreebtech.com',
-                    to: req.body.personal_email,
-                    subject: 'Acknowledgement form',
-                    html:html
-                };
-                transporter.sendMail(mailOptions, function(error, info){
-                    if (error) {
-                        res.send({status: false})
-                    } else {
-                        res.send({status: true})
-                    }
-                });
+                 var transporter = nodemailer.createTransport({
+                        host: "smtp-mail.outlook.com", // hostname
+                        secureConnection: false, // TLS requires secureConnection to be false
+                        port: 587, // port for secure SMTP
+                        tls: {
+                            ciphers:'SSLv3'
+                        },
+                        auth: {
+                            user: 'smattupalli@sreebtech.com',
+                            pass: 'Sree$sreebt'
+                        }
+                    });
+                    var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
+                    var url = 'http://localhost:4200/pre-onboarding/'+token;
+                    //var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
+                    
+                    var html = `<html>
+                    <head>
+                    <title>Candidate Form</title></head>
+                    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+                    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+                    <p style="color:black">Hello,</p>
+                    <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
+                    <p style="color:black"> kindly complete your application here by following link</p>
+                    <p style="color:black"> <a href="${url}" >${url} </a></p>   
+                    <p style="color:black"> Fill in all the information as per your supporting documents.</p>
+                    <p style="color:black">Thank You!</p>
+                    <p style="color:black">HRMS Team</p>
+                    <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+                    </div></body>
+                    </html> `;
+                    var mailOptions = {
+                        from: 'smattupalli@sreebtech.com',
+                        to: req.body.personal_email,
+                        subject: 'Acknowledgement form',
+                        html:html
+                    };
+                    transporter.sendMail(mailOptions, function(error, info){
+                        if (error) {
+                            res.send({status: false})
+                        } else {
+                            res.send({status: true})
+                        }
+                    }); 
+                    res.send({status: true})
             }
             else {
                 res.send({status:false})
