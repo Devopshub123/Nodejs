@@ -983,12 +983,16 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-          console.log("err--",err)
-          console.log("result--",result[0])
+            //  console.log("statuscode", result[0][0].statuscode)
+            //  console.log("empid", result[0][0].empid)
+            //  console.log("email", result[0][0].email)
+             
              if (result && result[0][0].statuscode == 0) {
-               res.send({status: true,data:result[0][0].empid });
-            } else {
-                res.send({ status: false })
+               res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
+            } else if(result && result[0][0].statuscode == 1){
+                res.send({status: true,data: { empid: result[0][0].empid,email:result[0][0].email }  });
+           } else {
+            res.send({ status: false, })
             }
         });
 
