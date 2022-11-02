@@ -34,28 +34,14 @@ app.all("*", function (req, res, next) {
 
 
 module.exports = {
-    getLeavesForApprovals:getLeavesForApprovals,
-    leaveSattus:leaveSattus,
-    getCompoffsForApproval:getCompoffsForApproval,
-    setCompoffForApproveOrReject:setCompoffForApproveOrReject,
-    getCompoffs:getCompoffs,
-    getEmployeeLeaveDetailedReportForManager:getEmployeeLeaveDetailedReportForManager,
-    getMastertables:getMastertables,
-    getEmployeesForReportingManager:getEmployeesForReportingManager,
-    getSummaryReportForManager:getSummaryReportForManager,
     getYearsForReport:getYearsForReport,
-    getLeaveCalendarForManager:getLeaveCalendarForManager,
     getStates:getStates,
     getCities:getCities,
-    getLeavesForCancellation:getLeavesForCancellation,
     getEmployeeInformation:getEmployeeInformation,
     removeProfileImage:removeProfileImage,
     editProfile:editProfile,
-    getCarryforwardedLeaveMaxCount:getCarryforwardedLeaveMaxCount,
-    getFilepathsMaster:getFilepathsMaster,
     setFilesMaster:setFilesMaster,
     deleteFilesMaster:deleteFilesMaster,
-    getReportForPayrollProcessing:getReportForPayrollProcessing,
 
     getemployeeleaves:getemployeeleaves,
     getLeaveBalance:getLeaveBalance,
@@ -83,161 +69,43 @@ module.exports = {
     setCompOff:setCompOff,
     getHandledLeaves:getHandledLeaves,
     getCompoffLeaveStatus:getCompoffLeaveStatus,
+    getLeavesForApprovals:getLeavesForApprovals,
+    getCompoffs:getCompoffs,
+    leaveSattus:leaveSattus,
+    getCompoffsForApproval:getCompoffsForApproval,
+    setCompoffForApproveOrReject:setCompoffForApproveOrReject,
+    getLeavesForCancellation:getLeavesForCancellation,
+    getLeaveCalendarForManager:getLeaveCalendarForManager,
+    getMastertables:getMastertables,
+    getEmployeesForReportingManager:getEmployeesForReportingManager,
+    getEmployeeLeaveDetailedReportForManager:getEmployeeLeaveDetailedReportForManager,
+    getSummaryReportForManager:getSummaryReportForManager,
+    getReportForPayrollProcessing:getReportForPayrollProcessing,
+    cancelLeaveRequest:cancelLeaveRequest,
+    getCarryforwardedLeaveMaxCount:getCarryforwardedLeaveMaxCount,
+    getFilepathsMaster:getFilepathsMaster,
+
+
+
+
+
+
 
 };
 
 
 
-function getLeavesForApprovals(req,res) {
-    try {
-        con.query("CALL `get_leaves_for_approval` (?)",[req.params.id],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }catch (e) {
-        console.log('getLeavesForApprovals :',e)
-
-    }
-}
-
-function leaveSattus(req,res){
-    try {
-        con.query("CALL `set_approve_leave` (?,?,?,?,?,?,?)",
-            [req.body.id,req.body.leaveId,req.body.empId,req.body.approverId,req.body.leaveStatus,req.body.reason,req.body.detail], function (err, result, fields) {
-            if (err) {
-                    res.send({status: false});
-                } else {
-                res.send({status: true,leaveStatus:req.body.leaveStatus})
-                }
-            });
-
-
-    }catch (e) {
-        console.log('setDeleteLeaveRequest :',e)
-    }
-
-}
-function getCompoffsForApproval(req,res){
-    try {
-        con.query("CALL `get_compoffs_for_approval` (?)",[req.params.id],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }catch (e) {
-        console.log('getCompoffsForApproval :',e)
-
-    }
-}
 
 
 
 
-function setCompoffForApproveOrReject(req,res){
-    try {
-        con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
-            [req.body.id,req.body.empid,req.body.comp_off_date,parseInt(req.body.worked_hours),parseInt(req.body.worked_minutes),req.body.reason,req.body.rmid,req.body.status,req.body.remarks], function (err, result, fields) {
-                if(err){
-                    res.send({status: false, message: 'Unable to applied comp-off'});
-                }else {
-                    res.send({status: true,compoffStatus:req.body.status})
-                }
-            });
-
-    }catch (e) {
-        console.log('setCompoffForApproveOrReject :', e)
-
-    }
-}
 
 
-function getCompoffs(req,res){
-    try {
-        con.query("CALL `get_compoffs` (?,?)",[req.body.empId,req.body.rmId],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }catch (e) {
-        console.log('getCompoffs :',e)
-
-    }
-}
-
-function getEmployeeLeaveDetailedReportForManager(req,res){
-    try {
-        con.query("CALL `get_employee_leave_detailed_report_for_manager` (?,?,?,?,?,?,?,?,?)",[req.body.employeeId,req.body.managerId,req.body.leaveType,req.body.leaveStatus,req.body.designation,req.body.fromDate,req.body.toDate,req.body.pageNumber,req.body.pageSize],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }catch (e) {
-        console.log('getEmployeeLeaveDetailedReportForManager :',e)
-
-    }
-}
-
-function getEmployeesForReportingManager(req,res) {
-    try {
-        con.query("CALL `get_employees_for_reporting_manager` (?,?)",[req.body.managerId,req.body.departmentId], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }catch (e) {
-        console.log('getEmployeesForReportingManager :',e)
-
-    }
-}
-
-function getMastertables(req,res) {
-    try {
-        con.query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,'spryple_sreeb'], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }catch (e) {
-        console.log('getMastertables :',e)
-
-    }
-}
-function getSummaryReportForManager(req,res) {
-    try {
-        con.query("CALL `get_summary_report_for_manager` (?,?,?,?,?)",[req.body.managerId,req.body.employeeId,req.body.designationId,req.body.departmentId,req.body.calenderYear],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }catch (e) {
-        console.log('getSummaryReportForManager :',e)
-
-    }
 
 
-}
+
+
+
 
 function getYearsForReport(req,res) {
     try {
@@ -256,25 +124,6 @@ function getYearsForReport(req,res) {
 
 
 }
-
-function getLeaveCalendarForManager(req,res) {
-
-
-    try {
-        con.query("CALL `get_leave_calendar_for_manager` (?)",[req.params.managerId],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }catch (e) {
-        console.log('getLeaveCalendarForManager :',e)
-
-    }
-}
-
 
 function getStates(req,res) {
     try{
@@ -313,22 +162,6 @@ function getCities(req,res) {
 
 
 
-function getLeavesForCancellation(req,res) {
-    try {
-        con.query("CALL `get_leaves_for_cancellation` (?)",[req.params.Id],function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-
-    }catch (e) {
-        console.log('getLeavesForCancellation :',e)
-
-    }
-
-}
 
 
 function getEmployeeInformation(req,res) {
@@ -454,49 +287,11 @@ function editProfile(req,res){
 }
 
 
-function getCarryforwardedLeaveMaxCount(req,res){
-    try {
-        con.query("CALL `get_carryforwarded_leave_max_count` (?)",
-            [req.params.leaveId], function (err, result, fields) {
-                if (result && result.length>0) {
-                    res.send({status: true,data:result[0]})
-
-                } else {
-                    res.send({status: false});
-
-                }
-            });
-
-
-    }catch (e) {
-        console.log('getCarryforwardedLeaveMaxCount :',e)
-    }
-
-}
 
 
 
 
 
-
-
-// get_report_for_payroll_processing
-function getReportForPayrollProcessing(req,res){
-    try {
-        con.query("CALL `get_report_for_payroll_processing` (?,?)",[req.body.empid,req.body.date], function (err, result, fields) {   
-            if (result && result[0]&& result[0].length>0) {
-                    res.send({status: true,data:result[0]})
-                } else {
-                    res.send({status: false});
-                }
-            });
-
-
-    }catch (e) {
-        console.log('getReportForPayrollProcessing :',e)
-    }
-
-}
 
 
 async function getemployeeleaves(req,res){
@@ -1114,6 +909,7 @@ async function getCompOff(req,res) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
         listOfConnections[companyName].query("CALL `get_compoffs` (?,?)",[req.params.employeeId,null], function (err, result, fields) {
+            console.log("result",result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -1307,6 +1103,397 @@ async function getCompoffLeaveStatus(req,res) {
     }
     catch(e){
         console.log('get_compoff_leave_status :',e)
+    }
+
+}
+
+
+async function getCompoffs(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(24,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_compoffs` (?,?)",[req.body.empId,req.body.rmId],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getCompoffs :',e)
+
+    }
+}
+
+
+
+async function getLeavesForApprovals(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(25,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_leaves_for_approval` (?)",[req.params.id],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getLeavesForApprovals :',e)
+
+    }
+}
+
+
+
+async function leaveSattus(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(26,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_approve_leave` (?,?,?,?,?,?,?)",
+            [req.body.id,req.body.leaveId,req.body.empId,req.body.approverId,req.body.leaveStatus,req.body.reason,req.body.detail], function (err, result, fields) {
+                if (err) {
+                    res.send({status: false});
+                } else {
+                    res.send({status: true,leaveStatus:req.body.leaveStatus})
+                }
+            });
+
+
+    }catch (e) {
+        console.log('setDeleteLeaveRequest :',e)
+    }
+
+}
+
+
+async function getCompoffsForApproval(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(27,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_compoffs_for_approval` (?)",[req.params.id],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getCompoffsForApproval :',e)
+
+    }
+}
+
+
+async  function setCompoffForApproveOrReject(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(28,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
+            [req.body.id,req.body.empid,req.body.comp_off_date,parseInt(req.body.worked_hours),parseInt(req.body.worked_minutes),req.body.reason,req.body.rmid,req.body.status,req.body.remarks], function (err, result, fields) {
+                if(err){
+                    res.send({status: false, message: 'Unable to applied comp-off'});
+                }else {
+                    res.send({status: true,compoffStatus:req.body.status})
+                }
+            });
+
+    }catch (e) {
+        console.log('setCompoffForApproveOrReject :', e)
+
+    }
+}
+
+
+async function getLeavesForCancellation(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(29,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_leaves_for_cancellation` (?)",[req.params.Id],function (err, result, fields) {
+            if (result && result.length > 0) {
+                console.log("hbdjhvbjhdfbhvh",result,req.params.Id)
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getLeavesForCancellation :',e)
+
+    }
+
+}
+
+
+async function getLeaveCalendarForManager(req,res) {
+
+
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(30,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_leave_calendar_for_manager` (?)",[req.params.managerId],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getLeaveCalendarForManager :',e)
+
+    }
+}
+
+async function getMastertables(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(31,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,'spryple_sreeb'], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getMastertables :',e)
+
+    }
+}
+
+
+async function getEmployeesForReportingManager(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(32,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employees_for_reporting_manager` (?,?)",[req.body.managerId,req.body.departmentId], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getEmployeesForReportingManager :',e)
+
+    }
+}
+
+async function getEmployeeLeaveDetailedReportForManager(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(33,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_leave_detailed_report_for_manager` (?,?,?,?,?,?,?,?,?)",[req.body.employeeId,req.body.managerId,req.body.leaveType,req.body.leaveStatus,req.body.designation,req.body.fromDate,req.body.toDate,req.body.pageNumber,req.body.pageSize],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getEmployeeLeaveDetailedReportForManager :',e)
+
+    }
+}
+
+
+
+async function getSummaryReportForManager(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(34,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
+        }
+
+        listOfConnections[companyName].query("CALL `get_summary_report_for_manager` (?,?,?,?,?)",[req.body.managerId,req.body.employeeId,req.body.designationId,req.body.departmentId,req.body.calenderYear],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getSummaryReportForManager :',e)
+
+    }
+
+
+}
+
+
+
+/***
+ *
+ * get_report_for_payroll_processing
+ * ***/
+async function getReportForPayrollProcessing(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(35,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_report_for_payroll_processing` (?,?)",[req.body.empid,req.body.date], function (err, result, fields) {
+            if (result && result[0]&& result[0].length>0) {
+                res.send({status: true,data:result[0]})
+            } else {
+                res.send({status: false});
+            }
+        });
+
+
+    }catch (e) {
+        console.log('getReportForPayrollProcessing :',e)
+    }
+
+}
+
+
+async function cancelLeaveRequest(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(36,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
+        }
+        let id = req.body.id;
+        let empid = req.body.empid;
+        let leavetype = req.body.leavetypeid;
+        let fromDate = new Date(req.body.fromdate);
+        let toDate = new Date(req.body.todate);
+        var myDateString1,myDateString2;
+        myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+        myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+        let fdate = myDateString1;
+        let tdate = myDateString2;let fromhalfday = req.body.fromhalfdayleave;
+        let tohalfday =  req.body.tohalfdayleave;
+        let leavecount = req.body.leavecount;
+        let leavereason = req.body.leavereason;
+        let contactnumber = req.body.contactnumber;
+        let email = req.body.contactemail;
+        let address = 'test';
+        let leavestatus = "Cancelled"
+        let actionreason = req.body.actionreason;
+
+        listOfConnections[companyName].query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
+                if (err) {
+                    res.send({status: false});
+                } else {
+                    res.send({status: true})
+                }
+            });
+
+
+    }catch (e) {
+        console.log('cancelLeaveRequest :',e)
+    }
+}
+
+
+async function getCarryforwardedLeaveMaxCount(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(36,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_carryforwarded_leave_max_count` (?)",
+            [req.params.leaveId], function (err, result, fields) {
+                if (result && result.length>0) {
+                    res.send({status: true,data:result[0]})
+
+                } else {
+                    res.send({status: false});
+
+                }
+            });
+
+
+    }catch (e) {
+        console.log('getCarryforwardedLeaveMaxCount :',e)
     }
 
 }

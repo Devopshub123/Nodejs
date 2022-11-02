@@ -27,6 +27,17 @@ app.all("*", function (req, res, next) {
 module.exports={
     getEmployeeAttendanceNotifications:getEmployeeAttendanceNotifications,
     getrolescreenfunctionalities:getrolescreenfunctionalities,
+    getallemployeeslist:getallemployeeslist,
+    getEmployeeCurrentShifts:getEmployeeCurrentShifts,
+    getemployeeattendancedashboard:getemployeeattendancedashboard,
+    getEmployeeShiftByDates:getEmployeeShiftByDates,
+    getEmployeeWeekoffsHolidaysForAttendance:getEmployeeWeekoffsHolidaysForAttendance,
+    getemployeeattendanceregularization:getemployeeattendanceregularization,
+    setemployeeattendanceregularization:setemployeeattendanceregularization,
+    deleteAttendanceRequestById:deleteAttendanceRequestById,
+    getAttendanceMonthlyReport:getAttendanceMonthlyReport,
+    getpendingattendanceregularizations:getpendingattendanceregularizations,
+
 }
 
 // /*Get Master table*/
@@ -102,33 +113,7 @@ app.post('/api/setDesignation',function (req,res) {
     }
 
 });
-/**Get All Employees List 
- * 
-*/
 
-app.get('/api/getallemployeeslist', function (req, res) {
-
-    try {
-        con.query("CALL `get_all_employees_list`()", function (err, result, fields) {
-            if (result && result.length > 0) {
-
-                res.send({ status: true, data: result[0] })
-
-            } else {
-
-                res.send({ status: false, data: [] });
-
-            }
-
-        })
-
-    } catch (e) {
-
-        console.log('getAllEmployees');
-
-    }
-
-});
 
 /**Get All Employees List 
  * @param rm_id
@@ -409,46 +394,7 @@ app.post('/api/setEmployeeAttendance', function (req, res) {
         console.log('setEmployeeAttendance :', e)
     }
 });
-/** setemployeeattendanceregularization
- * `id` int(11),
-`empid` int(11),
-`shiftid` int(11),
-`fromdate` date,
-`todate` date,
-`logintime` datetime,
-`logouttime` datetime,
-`worktype` int(11),
-`reason` varchar(255),
-`raisedby` int(11),
-`approvercomments` varchar(255),
-`actionby` int(11),
-`status` varchar(32)
- *  */
-app.post('/api/setemployeeattendanceregularization', function (req, res) {
-    try {
-        ;
-        con.query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            [req.body.id, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
-                req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
-                req.body.approvercomments, req.body.actionby, req.body.status], function (err, result, fields) {
-                   
-                    if (err) {
-                        console.log(err)
-                        res.send({ status: false, message: "notSave" });
-                    } else {
-                        console.log(result[0][0]);
-                        if (result[0][0].validity_status == 0) {
-                            res.send({ status: true, message: "duplicate" })
-                        } else {
-                            res.send({ status: true, message: "save" })
-                        }
-                    }
-                });
 
-    } catch (e) {
-        console.log('setemployeeattendanceregularization')
-    }
-})
 
 /** setattendanceapprovalstatus
  `set_attendance_approval_status`(
@@ -505,44 +451,8 @@ app.post('/api/updateEmployeeAttendanceRegularization', function (req, res) {
         console.log('update_employee_attendance_regularization')
     }
 })
-/**Get employee_attendance_regularization
- **@employee_id  parameters
- * **/
-
-app.get('/api/getemployeeattendanceregularization/:employee_id', function (req, res) {
-    try {
-        con.query("CALL `get_employee_attendance_regularization` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
 
 
-    } catch (e) {
-        console.log('getemployeeattendanceregularization :', e)
-
-    }
-});
-/**get_pending_attendance_regularizations(23) for manager
-**@employee_id  parameters
- */
-
-app.get('/api/getpendingattendanceregularizations/:employee_id', function (req, res) {
-    try {
-
-        con.query("CALL `get_pending_attendance_regularizations` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
-    } catch (e) {
-        console.log('getpendingattendanceregularizations :', e)
-    }
-});
 /**get_employees_for_reporting_manager for manager
 **@employee_id  parameters
 *@designation_id  parameters
@@ -603,24 +513,7 @@ app.post('/api/setEmployeeMaster', function (req, res) {
         console.log('setEmployeeMaster :', e)
     }
 });
-/**
- *@param manager_id *@param employee_id *@param date */
 
-app.post('/api/getemployeeattendancedashboard', function (req, res) {
-    try {
-        ;
-        con.query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
-        console.log('get_employee_attendance_dashboard');
-    }
-});
 app.post('/api/getEmployeeAttendanceNotifications', function (req, res) {
     try {
         ;
@@ -699,31 +592,7 @@ app.post('/api/getrolescreenfunctionalitiesforrole', function (req, res) {
         console.log('getrolescreenfunctionalities_for_role :', e)
     }
 });
-/**
- * 
-`get_attendance_monthly_report`(
-    `manager_employee_id` int(11),
-    `employee_id` int(11),
-    `calendar_date` datetime
-)
-*@param manager_employee_id *@param employee_id *@param date */
 
-app.post('/api/getAttendanceMonthlyReport', function (req, res) {
-    try {
-        
-        con.query("CALL `get_attendance_monthly_report` (?,?,?)", [req.body.manager_employee_id, req.body.employee_id, req.body.calendar_date],
-            function (err, result, fields) {
-               console.log(result[0]);
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
-        console.log('getemployeeattendancedashboard');
-    }
-});
 /** `set_employee_shifts`(
     `shift_id` int(11),
     `from_date` datetime,
@@ -813,82 +682,15 @@ app.get('/api/getAttendanceRegularizationsHistoryForManager/:employee_id', funct
         console.log('get_attendance_regularizations_history_for_manager :', e)
     }
 });
-//**delete_employee_attendance_regularization */
-app.post('/api/deleteAttendanceRequestById', function (req, res) {
-    try {
-        console.log(req.body);
-        con.query("CALL `delete_employee_attendance_regularization` (?)", [req.body.id],
-            function (err, result, fields) {
-             console.log(result[0]);
-             console.log(result[0][0]);
-             if (result[0][0].successState == 0) {
-                res.send({ status: true, message: 'Attendance request deleted successfully.' })
-               
-            } else {
-                res.send({ status: true, message: 'Unable to attendance request deleted.' })
-            }
-           
-            })
-    } catch (e) {
-        console.log('delete_employee_attendance_regularization');
-    }
-});
+
 //*get Shift by empid,fromDate,toDate-get_employee_shift_by_dates **
-/**@param employee_id in, `fromd_date` date,in `to_date` date)*/
-app.post('/api/getEmployeeShiftByDates',function(req,res){
-    try{
-        console.log(req.body);
-     con.query("CALL `get_employee_shift_by_dates`(?,?,?)",[req.body.employee_id,req.body.fromd_date,req.body.to_date],
-     function(err,result){
-         console.log(result);
-        if (result && result.length > 0) {
-            res.send({ status: true, data: result[0] })
-        } else {
-            res.send({ status: false, data: [] });
-        }
-     })
-    }catch(e){
-      console.log(get_employee_shift_by_dates)
-    }
-});
+
 
   //*get_employee_current_shifts by empid **
-/**@param employee_id */
-app.post('/api/getEmployeeCurrentShifts',function(req,res){
-    try{
-        console.log(req.body);
-     con.query("CALL `get_employee_current_shifts`(?)",[req.body.employee_id],
-     function(err,result){
-         console.log(result);
-        if (result && result.length > 0) {
-            res.send({ status: true, data: result[0] })
-        } else {
-            res.send({ status: false, data: [] });
-        }
-     })
-    }catch(e){
-      console.log("get_employee_current_shifts")
-    }
-});
+
 
  //*get_employee_weekoffs_holidays_for_attendance by empid **
-/**@param employee_id */
-app.post('/api/getEmployeeWeekoffsHolidaysForAttendance',function(req,res){
-    try{
-        console.log(req.body);
-     con.query("CALL `get_employee_weekoffs_holidays_for_attendance`(?)",[req.body.employee_id],
-     function(err,result){
-         console.log(result);
-        if (result && result.length > 0) {
-            res.send({ status: true, data: result[0] })
-        } else {
-            res.send({ status: false, data: [] });
-        }
-     })
-    }catch(e){
-      console.log("get_employee_weekoffs_holidays_for_attendance")
-    }
-});
+
 // module.exports = app;
 
 
@@ -896,7 +698,7 @@ app.post('/api/getEmployeeWeekoffsHolidaysForAttendance',function(req,res){
 async function getEmployeeAttendanceNotifications(req,res){
     try {
         console.log("helloooogetDatebaseName",req.body)
-        let  dbName = await common.getDatebaseName(req.body.companyName)
+        let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
@@ -925,11 +727,11 @@ async function getEmployeeAttendanceNotifications(req,res){
 /*Get Role Screen Functionalities*/
 async function getrolescreenfunctionalities(req, res) {
     try {
-        let  dbName = await common.getDatebaseName(req.body.companyName)
+        let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(1,companyName)
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -945,3 +747,327 @@ async function getrolescreenfunctionalities(req, res) {
         console.log('getscreenfunctionalitiesmaster :', e)
     }
 };
+
+/**Get All Employees List
+ *
+ */
+
+async function getallemployeeslist(req, res) {
+
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(3,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_all_employees_list`()", function (err, result, fields) {
+            if (result && result.length > 0) {
+
+                res.send({ status: true, data: result[0] })
+
+            } else {
+
+                res.send({ status: false, data: [] });
+
+            }
+
+        })
+
+    } catch (e) {
+
+        console.log('getAllEmployees');
+
+    }
+
+}
+
+function getDatebaseName(companyName){
+
+    return new Promise((res,rej)=>{
+        try {
+
+            con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
+                if (results && results[0] && results[0].length != 0) {
+                    res(results[0][0].db_name);
+
+                } else {
+                    res(null)
+
+                }
+            })
+        }
+        catch (e) {
+            rej(e)
+        }
+    });
+
+}
+
+/**@param employee_id */
+async function getEmployeeCurrentShifts(req,res){
+    try{
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at4',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_current_shifts`(?)",[req.body.employee_id],
+            function(err,result){
+                console.log(result);
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    }catch(e){
+        console.log("get_employee_current_shifts")
+    }
+}
+
+/**
+ *@param manager_id *@param employee_id *@param date */
+
+async function getemployeeattendancedashboard(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at5',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('get_employee_attendance_dashboard');
+    }
+}
+
+/**@param employee_id in, `fromd_date` date,in `to_date` date)*/
+async function getEmployeeShiftByDates(req,res){
+    try{
+
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at6',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_shift_by_dates`(?,?,?)",[req.body.employee_id,req.body.fromd_date,req.body.to_date],
+            function(err,result){
+                console.log(result);
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    }catch(e){
+        console.log(get_employee_shift_by_dates)
+    }
+}
+
+/**@param employee_id */
+async function getEmployeeWeekoffsHolidaysForAttendance(req,res){
+    try{
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at7',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_weekoffs_holidays_for_attendance`(?)",[req.body.employee_id],
+            function(err,result){
+                console.log(result);
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    }catch(e){
+        console.log("get_employee_weekoffs_holidays_for_attendance")
+    }
+}
+
+/**Get employee_attendance_regularization
+ **@employee_id  parameters
+ * **/
+
+async function getemployeeattendanceregularization(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at8',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_attendance_regularization` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getemployeeattendanceregularization :', e)
+
+    }
+}
+
+/** setemployeeattendanceregularization
+ * `id` int(11),
+ `empid` int(11),
+ `shiftid` int(11),
+ `fromdate` date,
+ `todate` date,
+ `logintime` datetime,
+ `logouttime` datetime,
+ `worktype` int(11),
+ `reason` varchar(255),
+ `raisedby` int(11),
+ `approvercomments` varchar(255),
+ `actionby` int(11),
+ `status` varchar(32)
+ *  */
+async function setemployeeattendanceregularization(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at9',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            [req.body.id, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
+                req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
+                req.body.approvercomments, req.body.actionby, req.body.status], function (err, result, fields) {
+
+                if (err) {
+                    res.send({ status: false, message: "notSave" });
+                } else {
+                    if (result[0][0].validity_status == 0) {
+                        res.send({ status: true, message: "duplicate" })
+                    } else {
+                        res.send({ status: true, message: "save" })
+                    }
+                }
+            });
+
+    } catch (e) {
+        console.log('setemployeeattendanceregularization')
+    }
+}
+
+
+//**delete_employee_attendance_regularization */
+async function deleteAttendanceRequestById(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at10',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `delete_employee_attendance_regularization` (?)", [req.body.id],
+            function (err, result, fields) {
+                console.log(result[0]);
+                console.log(result[0][0]);
+                if (result[0][0].successState == 0) {
+                    res.send({ status: true, message: 'Attendance request deleted successfully.' })
+
+                } else {
+                    res.send({ status: true, message: 'Unable to attendance request deleted.' })
+                }
+
+            })
+    } catch (e) {
+        console.log('delete_employee_attendance_regularization');
+    }
+}
+
+
+/**
+ *
+ `get_attendance_monthly_report`(
+ `manager_employee_id` int(11),
+ `employee_id` int(11),
+ `calendar_date` datetime
+ )
+ *@param manager_employee_id *@param employee_id *@param date */
+
+async function getAttendanceMonthlyReport(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at11',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+
+        listOfConnections[companyName].query("CALL `get_attendance_monthly_report` (?,?,?)", [req.body.manager_employee_id, req.body.employee_id, req.body.calendar_date],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('getemployeeattendancedashboard');
+    }
+}
+
+/**get_pending_attendance_regularizations(23) for manager
+ **@employee_id  parameters
+ */
+
+async function getpendingattendanceregularizations(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at12',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_pending_attendance_regularizations` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('getpendingattendanceregularizations :', e)
+    }
+}

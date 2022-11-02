@@ -37,7 +37,9 @@ app.all("*", function (req, res, next) {
 module.exports = {
     login:login,
     getDatebaseName:getDatebaseName,
-    getMastertable:getMastertable
+    getMastertable:getMastertable,
+    getErrorMessages:getErrorMessages,
+    setErrorMessages:setErrorMessages,
 
 };
 
@@ -87,7 +89,7 @@ async function login(req,res){
         //  console.log("firstone",results)
             var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
             if (result[0] > 0) {
-                listOfConnections[companyName].query('CALL `getemployeeinformation`(?)',[email],function(err,results,next){
+                listOfConnections[companyName].query('CALL `getemployeeinformation`(?)',[result[0]],function(err,results,next){
                     // console.log("firstTwo",results)
                     try{
                         if(results.length>0){
@@ -177,3 +179,63 @@ async function getMastertable(req,res){
 }
 
 
+/*Get Leave Rules*/
+async function getErrorMessages(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName);
+
+        let companyName = req.params.companyName;
+        let listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        let errorCode;
+        if(req.params.errorCode == 'null')
+        {
+            errorCode = '';
+        }
+        else {
+            errorCode = req.params.errorCode
+        }
+        listOfConnections[companyName].query("CALL `geterrormessages` (?,?,?)", [errorCode,req.params.page,req.params.size],function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+
+    }catch (e) {
+        console.log('geterrormessages :',e)
+
+    }
+}
+
+
+/*setErrorMessages */
+async function setErrorMessages(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.body[0].companyName);
+
+        let companyName = req.body[0].companyName;
+        let listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `seterrormessages` (?)",
+            [JSON.stringify(req.body)], function (err, result, fields) {
+                if (err) {
+                    res.send({status: false, message: 'Unable to update leave error messages'});
+                } else {
+                    res.send({status: true, message: 'Messages updated successfully'})
+                }
+            });
+
+
+    }catch (e) {
+        console.log('seterrormessages :',e)
+    }
+}
