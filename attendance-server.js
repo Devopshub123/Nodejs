@@ -208,7 +208,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
             if (data === undefined) {
                 res.send({ status: false })
             }
-            else if (data.status == 'Active') {
+            else if (data.status == 1) {
                 let id = data.id;
                 const message = email;
                 var transporter = nodemailer.createTransport({
