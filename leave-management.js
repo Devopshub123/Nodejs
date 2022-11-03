@@ -35,11 +35,9 @@ app.all("*", function (req, res, next) {
 
 module.exports = {
     getYearsForReport:getYearsForReport,
-    getStates:getStates,
-    getCities:getCities,
-    getEmployeeInformation:getEmployeeInformation,
+    // getStates:getStates,
+    // getCities:getCities,
     removeProfileImage:removeProfileImage,
-    editProfile:editProfile,
     setFilesMaster:setFilesMaster,
     deleteFilesMaster:deleteFilesMaster,
 
@@ -164,23 +162,6 @@ function getCities(req,res) {
 
 
 
-function getEmployeeInformation(req,res) {
-    try {
-        con.query("CALL `getemployeemaster` (?)",[req.params.Id], function (err, result, fields) {
-            if(result && result.length > 0){
-                res.send({data: result[0], status: true});
-            }else{
-                res.send({status: false});
-            }
-        });
-
-    }catch (e) {
-        console.log('getEmployeeInformation :',e)
-
-    }
-    
-}
-
 
 // function setProfileImage(req,res) {
 //     try{
@@ -268,23 +249,6 @@ function removeProfileImage(req,res) {
 }
 
 
-function editProfile(req,res){
-    try {
-        con.query("CALL `edit_profile` (?,?,?,?,?,?,?,?,?,?,?)",
-            [req.body.id,req.body.firstName,req.body.middlename,req.body.lastName,req.body.email,req.body.contact,req.body.address,req.body.cityId,req.body.stateId,req.body.zipCode,req.body.countryId], function (err, result, fields) {
-                if (err) {
-                    res.send({status: false});
-                } else {
-                    res.send({status: true,leaveStatus:req.body.leaveStatus})
-                }
-            });
-
-
-    }catch (e) {
-        console.log('editProfile :',e)
-    }
-
-}
 
 
 

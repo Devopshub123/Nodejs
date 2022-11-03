@@ -1678,6 +1678,7 @@ async function getReportingManagerForEmp(req,res){
         }
 
         listOfConnections[companyName].query("CALL `get_reporting_manager_for_emp` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+           console.log(result,"hgvhghgvghvhgvghvghvghvhgvghvhgv")
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {

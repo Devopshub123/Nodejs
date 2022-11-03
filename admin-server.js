@@ -119,24 +119,6 @@ app.get('/api/getAllShifts', function (req, res) {
 
     }
 });
-/**Get All Active Shifts */
-app.get('/api/getActiveShiftIds', function (req, res) {
-
-    try {
-        con.query("CALL `get_active_shift_ids`", function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ data: [],status: false })
-            }
-        });
-
-
-    } catch (e) {
-        console.log('get_all_shifts :', e)
-
-    }
-});
 
 
 
@@ -232,6 +214,7 @@ app.post('/api/setEMSMessages', function (req, res) {
      setIntegrationEmpidsLookup:setIntegrationEmpidsLookup,
      getAttendenceMessages:getAttendenceMessages,
      setAttendenceMessages:setAttendenceMessages,
+     getActiveShiftIds:getActiveShiftIds,
 
  }
 
@@ -1254,5 +1237,33 @@ async function setAttendenceMessages(req, res) {
             })
     } catch (e) {
         console.log('set_attendance_messages');
+    }
+}
+
+
+/**Get All Active Shifts */
+async function getActiveShiftIds(req, res) {
+
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('a29',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_active_shift_ids`", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ data: [],status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getActiveShiftIds :', e)
+
     }
 }

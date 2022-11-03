@@ -40,6 +40,13 @@ module.exports = {
     getMastertable:getMastertable,
     getErrorMessages:getErrorMessages,
     setErrorMessages:setErrorMessages,
+    getEmployeeInformation:getEmployeeInformation,
+    editProfile:editProfile,
+    forgetpassword:forgetpassword,
+    resetpassword:resetpassword,
+    changePassword:changePassword,
+
+
 
 };
 
@@ -238,4 +245,211 @@ async function setErrorMessages(req,res) {
     }catch (e) {
         console.log('seterrormessages :',e)
     }
+}
+
+
+
+async function getEmployeeInformation(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName);
+
+        let companyName = req.params.companyName;
+        let listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `getemployeemaster` (?)",[req.params.Id], function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }catch (e) {
+        console.log('getEmployeeInformation :',e)
+
+    }
+
+}
+
+
+
+async function editProfile(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName);
+
+        let companyName = req.body.companyName;
+        let listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `edit_profile` (?,?,?,?,?,?,?,?,?,?,?)",
+            [req.body.id,req.body.firstName,req.body.middlename,req.body.lastName,req.body.email,req.body.contact,req.body.address,req.body.cityId,req.body.stateId,req.body.zipCode,req.body.countryId], function (err, result, fields) {
+                if (err) {
+                    res.send({status: false});
+                } else {
+                    res.send({status: true,leaveStatus:req.body.leaveStatus})
+                }
+            });
+
+
+    }catch (e) {
+        console.log('editProfile :',e)
+    }
+
+}
+
+
+/**verify email for forget password */
+async function forgetpassword(req, res, next) {
+    let email = req.params.email;
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName);
+
+        let companyName = req.params.companyName;
+        let listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query('CALL `getemployeestatus`(?)', [email], function (err, result) {
+            let data = result[0][0]
+            if (data === undefined) {
+                res.send({ status: false })
+            }
+            else if (data.status == 1) {
+                let id = data.id;
+                const message = email;
+                var transporter = nodemailer.createTransport({
+                    host: "smtp-mail.outlook.com", // hostname
+                    secureConnection: false, // TLS requires secureConnection to be false
+                    port: 587, // port for secure SMTP
+                    tls: {
+                        ciphers: 'SSLv3'
+                    },
+                    auth: {
+                        user: 'smattupalli@sreebtech.com',
+                        pass: 'Sree$sreebt'
+                    }
+                });
+                var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:req.params.email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
+
+                // var url = 'http://localhost:4200/ResetPassword/'+token
+                var url = 'http://localhost:4200/ResetPassword/'+token
+                var html = `<html>
+                    <head>
+                    <title>HRMS ResetPassword</title></head>
+                    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+                    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+                    <p style="color:black">hello!,</p>
+                    <p style="color:black">You recently requested to reset the password to your HRMS account<b></b></p>
+                    <p style="color:black"> To set a new password, click here.</p>
+                    <p style="color:black"> <a href="${url}" >${url}</a></p>
+                    <p style="color:black"> Didn’t request a password change? Ignore this email.</p>
+                    <p style="color:black">Thank You!</p>
+                    <p style="color:black">HRMS Team</p>
+                    <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+                    </div></body>
+                    </html> `;
+                var mailOptions = {
+                    from: 'smattupalli@sreebtech.com',
+                    to: email,
+                    subject: 'Reset Password email',
+                    html: html
+                };
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        res.send({ status: false, message: 'reset password successfully' })
+                    } else {
+                        res.send({ status: true, message: 'reset password successfully' })
+                    }
+                });
+            }
+        });
+    }
+    catch (e) {
+        console.log("forgetpassword", e)
+    }
+}
+
+
+/**reset password */
+async function resetpassword(req, res, next) {
+    let id = req.body.empid;
+    let email = req.body.email;
+    let password = req.body.newpassword;
+    try {
+
+        let  dbName = await getDatebaseName(req.body.companyName);
+        let companyName = req.body.companyName;
+        let listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query('CALL `setemployeelogin`(?,?,?,?,?)', [id, email, password, 'active', 'N'], function (err, result) {
+            if (err) {
+                console.log(err)
+            }
+            else {
+                res.send({ status: true, message: 'reset password successfully' })
+
+
+            }
+        });
+
+    }
+    catch (e) {
+        console.log("resetpassword", e)
+    }
+}
+
+
+/**Change Password */
+async function changePassword(req,res){
+    let oldpassword = req.body.oldPassword;
+    let newpassword = req.body.newPassword;
+    let id = req.body.empId;
+    let login = req.body.email;
+    try{
+        let  dbName = await getDatebaseName(req.body.companyName);
+        let companyName = req.body.companyName;
+        let listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection(5,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query('CALL `validatelastpasswordmatch` (?,?,?,?)',[id,login,oldpassword,newpassword],function(err,results,next){
+            var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+            if(result[0]==0){
+                listOfConnections[companyName].query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'Active','N'],function(err,result){
+                    if(err){
+                        console.log(err)
+                    }
+                    else{
+                        let results =[0]
+                        res.send(results)
+
+
+                    }
+                })
+
+            }
+            else if(result[0]==-1){
+                res.send(result)
+            }
+            else{
+                res.send(result)
+
+            }
+
+        });
+    }
+    catch(e){
+        console.log("changepassword",e)
+    }
+
 }

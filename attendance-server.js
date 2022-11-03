@@ -37,6 +37,18 @@ module.exports={
     deleteAttendanceRequestById:deleteAttendanceRequestById,
     getAttendanceMonthlyReport:getAttendanceMonthlyReport,
     getpendingattendanceregularizations:getpendingattendanceregularizations,
+    getEmployeesByManagerId:getEmployeesByManagerId,
+    getemployeeshift:getemployeeshift,
+    getAttendanceRegularizationByManagerId:getAttendanceRegularizationByManagerId,
+    setattendanceapprovalstatus:setattendanceapprovalstatus,
+    getallemployeeslistByManagerId:getallemployeeslistByManagerId,
+    getAttendanceSummaryReport:getAttendanceSummaryReport,
+    getAttendanceDetailsByAttendanceId:getAttendanceDetailsByAttendanceId,
+    getEmployeeConfigureShifts:getEmployeeConfigureShifts,
+    setEmployeeConfigureShift:setEmployeeConfigureShift,
+    getEmployeeLateAttendanceReport:getEmployeeLateAttendanceReport,
+    getAttendanceRegularizationsHistoryForManager:getAttendanceRegularizationsHistoryForManager,
+    setEmployeeAttendance:setEmployeeAttendance,
 
 }
 
@@ -115,33 +127,6 @@ app.post('/api/setDesignation',function (req,res) {
 });
 
 
-/**Get All Employees List 
- * @param rm_id
-*/
-
-app.post('/api/getallemployeeslistByManagerId', function (req, res) {
-
-    try {
-        con.query("CALL `get_employees_of_manager` (?)",[req.body.rm_id], function (err, result, fields) {
-            if (result && result.length > 0) {
-
-                res.send({ status: true, data: result[0] })
-
-            } else {
-
-                res.send({ status: false, data: [] });
-
-            }
-
-        })
-
-    } catch (e) {
-
-        console.log('get_employees_of_manager');
-
-    }
-
-});
 /*Set Employee Master*/
 app.post('/api/setEmployeeMaster', function (req, res) {
     try {
@@ -255,28 +240,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
     }
 })
 
-/**reset password */
-app.post('/api/resetpassword', function (req, res, next) {
-    let id = req.body.empid;
-    let email = req.body.email;
-    let password = req.body.newpassword;
-    try {
-        con.query('CALL `setemployeelogin`(?,?,?,?,?)', [id, email, password, 'active', 'N'], function (err, result) {
-            if (err) {
-                console.log(err)
-            }
-            else {
-                res.send({ status: true, message: 'reset password successfully' })
 
-
-            }
-        });
-
-    }
-    catch (e) {
-        console.log("resetpassword", e)
-    }
-})
 /**Change Password */
 app.post('/changePassword', function (req, res) {
     let oldpassword = req.body.oldPassword;
@@ -355,74 +319,9 @@ app.post('/api/emp_login', function (req, res, next) {
     }
 })
 
-/** Get Shift Detaild By Employee Id 
- * @employee_id Parameter */
-app.get('/api/getemployeeshift/:employee_id', function (req, res) {
-    try {
-        ;
-        con.query("CALL `get_employee_shift` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-
-            }
-        });
-
-    } catch {
-        console.log('get_employee_shift :')
-    }
-});
-
-/**attendance Excel Data insert Method  set_employee_attendance
-
-*/
-
-app.post('/api/setEmployeeAttendance', function (req, res) {
-    try {
-        con.query("CALL `set_employee_attendance` (?)",
-            [JSON.stringify(req.body)], function (err, result, fields) {
-                console.log(result);
-                if (err) {
-                   res.send({ status: false, message: "unableToUpload" });
-                } else {
-                    res.send({ status: true, message: "excelUploadSave" })
-                }
-            });
-
-    } catch (e) {
-        console.log('setEmployeeAttendance :', e)
-    }
-});
 
 
-/** setattendanceapprovalstatus
- `set_attendance_approval_status`(
-`id` int(11),
-`approver_comments` varchar(255),
-`action_by` int(11),
-`approval_status` varchar(32)
-) */
-app.post('/api/setattendanceapprovalstatus', function (req, res) {
-    try {
-        ;
-        con.query("CALL `set_attendance_approval_status` (?,?,?,?)",
-            [req.body.id, req.body.approvercomments, req.body.actionby, req.body.approvelstatus],
-            function (err, result, fields) {
-                if (err) {
-                    res.send({ status: false, message: "UnableToApprove" });
-                } else {
-                    res.send({ status: true, message: "ApprovalRequest" });
-                }
-                console.log(err);
-            });
 
-    }
-    catch {
-        console.log('setattendanceapprovalstatus');
-    }
-
-})
 /** update employeeattendanceregularization
  
  *  */
@@ -453,40 +352,6 @@ app.post('/api/updateEmployeeAttendanceRegularization', function (req, res) {
 })
 
 
-/**get_employees_for_reporting_manager for manager
-**@employee_id  parameters
-*@designation_id  parameters
- */
-app.get('/api/getEmployeesByManagerId/:employee_id', function (req, res) {
-    try {
-        ;
-        con.query("CALL `get_employees_for_reporting_manager` (?,?)", [req.params.employee_id,'All'],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
-        console.log('getEmployeesByManagerId');
-    }
-});
-app.get('/api/getAttendanceRegularizationByManagerId/:manager_employee_id', function (req, res) {
-    try {
-        ;
-        con.query("CALL `get_manager_on_behalf_of_employee_attendance_regularizations` (?)", [req.params.manager_employee_id],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
-        console.log('getEmployeesByManagerId');
-    }
-});
 
 
 /*Set Employee Master*/
@@ -530,51 +395,8 @@ app.post('/api/getEmployeeAttendanceNotifications', function (req, res) {
     }
 });
 
-/**
-*@param manager_empid *@param employee *@param fromdate *@param todate */
 
-app.post('/api/getAttendanceSummaryReport', function (req, res) {
-    try {
-        // con.query("CALL 'run_attendance_summary_cron'",function(err,result){
-             
-        // });
-        con.query("CALL `get_attendance_summary_report` (?,?,?,?)", [req.body.manager_empid,req.body.employee, req.body.fromdate, req.body.todate],
-            function (err, result, fields) {
-                if (err) {
 
-                } else {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
-                    }
-                }
-            })
-    } catch (e) {
-        console.log('get_attendance_summary_report');
-    }
-});
-/**
- *@param attendanceid  */
-
-app.post('/api/getAttendanceDetailsByAttendanceId', function (req, res) {
-    try {
-        con.query("CALL `get_attendance_details_report` (?)", [req.body.attendanceid],
-            function (err, result, fields) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
-                    }
-                }
-            })
-    } catch (e) {
-        console.log('getDetails Report date for popup');
-    }
-});
 
 /*Get Role Screen Functionalities Based On Role*/
 app.post('/api/getrolescreenfunctionalitiesforrole', function (req, res) {
@@ -593,95 +415,9 @@ app.post('/api/getrolescreenfunctionalitiesforrole', function (req, res) {
     }
 });
 
-/** `set_employee_shifts`(
-    `shift_id` int(11),
-    `from_date` datetime,
-    `to_date` datetime,
-    `weekoffs` JSON, -- format: [1,2] 1- Sunday, 2 - Monday etc.
-    `empids` JSON -- format: [1,2,3,4]
-) */
-app.post('/api/setEmployeeConfigureShift', function (req, res) {
-    try {
-        console.log(req.body);
-        con.query("CALL `set_employee_shifts` (?,?,?,?,?)", [req.body.shift_id,req.body.from_date,
-             req.body.to_date, req.body.weekoffs, req.body.empids],
-            function (err, result, fields) {
-             console.log(result[0][0].successstate);
-             if (result[0][0].successstate == 1) {
-                res.send({ status: true, message: "dataSaved" })
-               
-            } else {
-                res.send({ status: true, message: "UnableToSave" })
-            }
-           
-            })
-    } catch (e) {
-        console.log('set_employee_shifts');
-    }
-});
-/** `get_employee_shifts_for_manager_or_department`(
-    `manager_empid` int(11),
-    `department_id` int(11)
-) */
-app.post('/api/getEmployeeConfigureShifts', function (req, res) {
-    try {
-        ;
-        con.query("CALL `get_employee_shifts_for_manager_or_department` (?,?)", [req.body.manager_empid, req.body.department_id],
-            function (err, result, fields) {
 
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
-        console.log('get_employee_shifts_for_manager_or_department');
-    }
-});
 
-/**
-`get_employee_late_attendance_report`(
-    'manager_empid'
-    `employee_id` int(11),
-    `shift_id` int(11),
-    `from_date` date,
-    `to_date` date
-)
- */
-app.post('/api/getEmployeeLateAttendanceReport', function (req, res) {
-    try {
-        ;
-        con.query("CALL `get_employee_late_attendance_report` (?,?,?,?,?)", [req.body.manager_empid,req.body.employee_id,
-             req.body.shift_id,req.body.from_date, req.body.to_date],
-            function (err, result, fields) {
-
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
-        console.log('get_employee_late_attendance_report');
-    }
-});
 //** @params employee_id //
-
-app.get('/api/getAttendanceRegularizationsHistoryForManager/:employee_id', function (req, res) {
-    try {
-
-        con.query("CALL `get_attendance_regularizations_history_for_manager` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
-    } catch (e) {
-        console.log('get_attendance_regularizations_history_for_manager :', e)
-    }
-});
 
 //*get Shift by empid,fromDate,toDate-get_employee_shift_by_dates **
 
@@ -1071,3 +807,363 @@ async function getpendingattendanceregularizations(req, res) {
         console.log('getpendingattendanceregularizations :', e)
     }
 }
+
+
+/**get_employees_for_reporting_manager for manager
+ **@employee_id  parameters
+ *@designation_id  parameters
+ */
+async function getEmployeesByManagerId(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at13',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employees_for_reporting_manager` (?,?)", [req.params.employee_id,'All'],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('getEmployeesByManagerId');
+    }
+}
+
+/** Get Shift Detaild By Employee Id
+ * @employee_id Parameter */
+async function getemployeeshift(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at14',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_shift` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+
+            }
+        });
+
+    } catch {
+        console.log('get_employee_shift :')
+    }
+}
+
+
+async function getAttendanceRegularizationByManagerId(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at15',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_manager_on_behalf_of_employee_attendance_regularizations` (?)", [req.params.manager_employee_id],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('getAttendanceRegularizationByManagerId');
+    }
+}
+
+
+/** setattendanceapprovalstatus
+ `set_attendance_approval_status`(
+ `id` int(11),
+ `approver_comments` varchar(255),
+ `action_by` int(11),
+ `approval_status` varchar(32)
+ ) */
+async function setattendanceapprovalstatus(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at16',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_attendance_approval_status` (?,?,?,?)",
+            [req.body.id, req.body.approvercomments, req.body.actionby, req.body.approvelstatus],
+            function (err, result, fields) {
+                if (err) {
+                    res.send({ status: false, message: "UnableToApprove" });
+                } else {
+                    res.send({ status: true, message: "ApprovalRequest" });
+                }
+                console.log(err);
+            });
+
+    }
+    catch {
+        console.log('setattendanceapprovalstatus');
+    }
+
+}
+
+
+/**Get All Employees List
+ * @param rm_id
+ */
+
+async function getallemployeeslistByManagerId(req, res) {
+
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at17',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employees_of_manager` (?)",[req.body.rm_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+
+                res.send({ status: true, data: result[0] })
+
+            } else {
+
+                res.send({ status: false, data: [] });
+
+            }
+
+        })
+
+    } catch (e) {
+
+        console.log('get_employees_of_manager');
+
+    }
+
+}
+
+/**
+ *@param manager_empid *@param employee *@param fromdate *@param todate */
+
+async function getAttendanceSummaryReport(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at18',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_attendance_summary_report` (?,?,?,?)", [req.body.manager_empid,req.body.employee, req.body.fromdate, req.body.todate],
+            function (err, result, fields) {
+                if (err) {
+
+                } else {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                }
+            })
+    } catch (e) {
+        console.log('get_attendance_summary_report');
+    }
+}
+
+
+/**
+ *@param attendanceid  */
+
+async function getAttendanceDetailsByAttendanceId(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at19',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_attendance_details_report` (?)", [req.body.attendanceid],
+            function (err, result, fields) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                }
+            })
+    } catch (e) {
+        console.log('getAttendanceDetailsByAttendanceId');
+    }
+}
+
+/** `get_employee_shifts_for_manager_or_department`(
+ `manager_empid` int(11),
+ `department_id` int(11)
+ ) */
+async function getEmployeeConfigureShifts(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at20',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_shifts_for_manager_or_department` (?,?)", [req.body.manager_empid, req.body.department_id],
+            function (err, result, fields) {
+
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('get_employee_shifts_for_manager_or_department');
+    }
+}
+
+/** `set_employee_shifts`(
+ `shift_id` int(11),
+ `from_date` datetime,
+ `to_date` datetime,
+ `weekoffs` JSON, -- format: [1,2] 1- Sunday, 2 - Monday etc.
+ `empids` JSON -- format: [1,2,3,4]
+ ) */
+async function setEmployeeConfigureShift(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at21',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_employee_shifts` (?,?,?,?,?)", [req.body.shift_id,req.body.from_date,
+                req.body.to_date, req.body.weekoffs, req.body.empids],
+            function (err, result, fields) {
+                console.log(result[0][0].successstate);
+                if (result[0][0].successstate == 1) {
+                    res.send({ status: true, message: "dataSaved" })
+
+                } else {
+                    res.send({ status: true, message: "UnableToSave" })
+                }
+
+            })
+    } catch (e) {
+        console.log('set_employee_shifts');
+    }
+}
+
+/**
+ `get_employee_late_attendance_report`(
+ 'manager_empid'
+     `employee_id` int(11),
+     `shift_id` int(11),
+     `from_date` date,
+     `to_date` date
+ )
+ */
+async function getEmployeeLateAttendanceReport(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_employee_late_attendance_report` (?,?,?,?,?)", [req.body.manager_empid,req.body.employee_id,
+                req.body.shift_id,req.body.from_date, req.body.to_date],
+            function (err, result, fields) {
+
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('get_employee_late_attendance_report');
+    }
+}
+
+
+async function getAttendanceRegularizationsHistoryForManager(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at23',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_attendance_regularizations_history_for_manager` (?)", [req.params.employee_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+    } catch (e) {
+        console.log('get_attendance_regularizations_history_for_manager :', e)
+    }
+}
+/**attendance Excel Data insert Method  set_employee_attendance
+
+ */
+
+async function setEmployeeAttendance(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at24',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_employee_attendance` (?)",
+            [JSON.stringify(req.body)], function (err, result, fields) {
+                console.log(result);
+                if (err) {
+                    res.send({ status: false, message: "unableToUpload" });
+                } else {
+                    res.send({ status: true, message: "excelUploadSave" })
+                }
+            });
+
+    } catch (e) {
+        console.log('setEmployeeAttendance :', e)
+    }
+}
+

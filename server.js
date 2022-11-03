@@ -33,137 +33,33 @@ app.all("*", function (req, res, next) {
     return next();
 });
 
-/**verify email for forget password */
-app.get('/api/forgetpassword/:email',function(req,res,next){
-    let email = req.params.email;
-    try{
-        
-            con.query('CALL `getemployeestatus`(?)',[email],function(err,result){
-                let data = result[0][0]
-                if(data === undefined){
-                    res.send({status: false})
-                }
-                else if(data.status=='Active'){
-                    let id = data.id;
-                    const message = email ;
-                    var transporter = nodemailer.createTransport({
-                        host: "smtp-mail.outlook.com", // hostname
-                        secureConnection: false, // TLS requires secureConnection to be false
-                        port: 587, // port for secure SMTP
-                        tls: {
-                            ciphers:'SSLv3'
-                        },
-                        auth: {
-                            user: 'smattupalli@sreebtech.com',
-                            pass: 'Sree$sreebt'
-                        }
-                    });
-                  //  var url = 'http://localhost:6060/api/Resetpassword/'+email+'/'+id
-                    var url = 'http://122.175.62.210:6464/api/Resetpassword/'+email+'/'+id
-                    // var html = `<html>
-                    // <head>
-                    // <title>HRMS ResetPassword</title></head>
-                    // <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-                    // <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-                    // <p style="color:black">Hello,</p>
-                    // <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
-                    // <p style="color:black"> Click the link below to Reset your password</p>
-                    // <p style="color:black"> <a href="${url}" >${url} </a></p>
-                    // <p style="color:black">Thank You!</p>
-                    // <p style="color:black">HRMS Team</p>
-                    // <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-                    // </div></body>
-                    // </html> `;
-                    var mailOptions = {
-                        from: 'smattupalli@sreebtech.com',
-                        to: email,
-                        subject: 'Reset Password email',
-                        html:html
-                    };
-                    transporter.sendMail(mailOptions, function(error, info){
-                        if (error) {
-                            res.send({status: false, message: 'reset password successfully'})
-                        } else {
-                            res.send({status: true, message: 'reset password successfully'})
-                        }
-                    });
-                }
-        });
-    }
-    catch(e){
-        console.log("forgetpassword",e)
-    }
-})
-/**password reset */
-app.get('/api/resetpassword/:email/:id',function(req,res,next){
-    let id = req.params.id;
-    let email = req.params.email;
-  //  res.redirect('http://localhost:4200/ResetPassword/'+email+'/'+id)
-    res.redirect('http://122.175.62.210:6565/ResetPassword/'+email+'/'+id)
 
 
-})
-/**reset password */
-app.post('/api/resetpassword',function(req,res,next){
-    
-    let id = req.body.empid;
-    let email = req.body.email;
-    let password = req.body.newpassword;
-    try{
-        con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'Active','N'],function(err,result){
-            if(err){
-                console.log(err)
-            }
-            else{
-                res.send({status: true, message: 'reset password successfully'})
 
-            }
-         
-     });
+// /**reset password */
+// app.post('/api/resetpassword',function(req,res,next){
+//
+//     let id = req.body.empid;
+//     let email = req.body.email;
+//     let password = req.body.newpassword;
+//     try{
+//         con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,email,password,'Active','N'],function(err,result){
+//             if(err){
+//                 console.log(err)
+//             }
+//             else{
+//                 res.send({status: true, message: 'reset password successfully'})
+//
+//             }
+//
+//      });
+//
+//     }
+//     catch(e){
+//         console.log("resetpassword",e)
+//     }
+// })
 
-    }
-    catch(e){
-        console.log("resetpassword",e)
-    }
-})
-/**Change Password */
-app.post('/changePassword',function(req,res){
-    let oldpassword = req.body.oldPassword;
-    let newpassword = req.body.newPassword;
-    let id = req.body.empId;
-    let login = req.body.email;
-    try{
-        con.query('CALL `validatelastpasswordmatch` (?,?,?,?)',[id,login,oldpassword,newpassword],function(err,results,next){
-            var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
-            if(result[0]==0){
-                con.query('CALL `setemployeelogin`(?,?,?,?,?)',[id,login,newpassword,'Active','N'],function(err,result){
-                    if(err){
-                        console.log(err)
-                    }
-                    else{
-                        let results =[0]
-                        res.send(results)
-
-
-                    }
-                })
-
-            }
-            else if(result[0]==-1){
-                res.send(result)
-            }
-            else{
-                res.send(result)
-
-            }
-
-        });
-    }
-    catch(e){
-        console.log("changepassword",e)
-    }
-
-})
 
 
 // /**employee login */
@@ -1899,9 +1795,9 @@ app.get('/api/getCitiesPerCountry/:Id', function(req,res) {
 /**
  * get Leaves For Cancellation
  * */
-app.get('/api/getEmployeeInformation/:Id', function(req,res) {
+app.get('/api/getEmployeeInformation/:Id/:companyName', function(req,res) {
 
-    leaveManagement.getEmployeeInformation(req,res);
+    common.getEmployeeInformation(req,res);
 
 });
 
@@ -1927,7 +1823,7 @@ app.delete('/api/removeProfileImage/:Id/:companyShortName', function(req,res) {
  * */
 app.post('/api/editProfile', function(req,res) {
 
-    leaveManagement.editProfile(req,res);
+    common.editProfile(req,res);
 
 });
 
@@ -3040,14 +2936,104 @@ app.get('/attendance/api/getpendingattendanceregularizations/:employee_id/:compa
 });
 
 
+/**get_employees_for_reporting_manager for manager
+ **@employee_id  parameters
+ *@designation_id  parameters
+ */
+app.get('/attendance/api/getEmployeesByManagerId/:employee_id/:companyName', function (req, res) {
+    attendance.getEmployeesByManagerId(req,res);
+});
+/** Get Shift Detaild By Employee Id
+ * @employee_id Parameter */
+app.get('/attendance/api/getemployeeshift/:employee_id/:companyName', function (req, res) {
+    attendance.getemployeeshift(req,res);
+});
+
+
+app.get('/attendance/api/getAttendanceRegularizationByManagerId/:manager_employee_id/:companyName', function (req, res) {
+    attendance.getAttendanceRegularizationByManagerId(req,res);
+});
+
+
+/** setattendanceapprovalstatus
+ `set_attendance_approval_status`(
+ `id` int(11),
+ `approver_comments` varchar(255),
+ `action_by` int(11),
+ `approval_status` varchar(32)
+ ) */
+app.post('/attendance/api/setattendanceapprovalstatus', function (req, res) {
+    attendance.setattendanceapprovalstatus(req,res)
+
+})
+
+app.post('/attendance/api/getallemployeeslistByManagerId', function (req, res) {
+    attendance.getallemployeeslistByManagerId(req,res)
+
+})
+
+/**
+ *@param manager_empid *@param employee *@param fromdate *@param todate */
+
+app.post('/attendance/api/getAttendanceSummaryReport', function (req, res) {
+    attendance.getAttendanceSummaryReport(req,res)
+});
+
+
+/**
+ *@param attendanceid  */
+
+app.post('/attendance/api/getAttendanceDetailsByAttendanceId', function (req, res) {
+    attendance.getAttendanceDetailsByAttendanceId(req,res)
+});
+
+
+app.post('/attendance/api/getEmployeeConfigureShifts', function (req, res) {
+    attendance.getEmployeeConfigureShifts(req,res)
+});
+/**Get All Active Shifts */
+app.get('/admin/api/getActiveShiftIds/:companyName', function (req, res) {
+    admin.getActiveShiftIds(req,res);
+
+});
+
+/** `set_employee_shifts`(
+ `shift_id` int(11),
+ `from_date` datetime,
+ `to_date` datetime,
+ `weekoffs` JSON, -- format: [1,2] 1- Sunday, 2 - Monday etc.
+ `empids` JSON -- format: [1,2,3,4]
+ ) */
+app.post('/attendance/api/setEmployeeConfigureShift', function (req, res) {
+    attendance.setEmployeeConfigureShift(req,res);
+});
 
 
 
+/**
+ `get_employee_late_attendance_report`(
+ 'manager_empid'
+     `employee_id` int(11),
+     `shift_id` int(11),
+     `from_date` date,
+     `to_date` date
+ )
+ */
+app.post('/attendance/api/getEmployeeLateAttendanceReport', function (req, res) {
+    attendance.getEmployeeLateAttendanceReport(req,res);
+});
 
 
+app.get('/attendance/api/getAttendanceRegularizationsHistoryForManager/:employee_id/:companyName', function (req, res) {
+    attendance.getAttendanceRegularizationsHistoryForManager(req,res)
+});
+/**attendance Excel Data insert Method  set_employee_attendance
 
+ */
 
-
+app.post('/api/setEmployeeAttendance', function (req, res) {
+  attendance.setEmployeeAttendance(req,res);
+});
 
 
 
@@ -3064,9 +3050,23 @@ app.listen(6060,function (err) {
 });
 
 
+/**verify email for forget password */
+app.get('/api/forgetpassword/:email/:companyName', function (req, res, next) {
+    common.forgetpassword(req,res)
+
+})
 
 
 
+/**reset password */
+app.post('/api/resetpassword', function (req, res, next) {
+ common.resetpassword(req,res);
+})
+
+/**Change Password */
+app.post('/api/changePassword',function(req,res){
+   common.changePassword(req,res);
+})
 
 
 
