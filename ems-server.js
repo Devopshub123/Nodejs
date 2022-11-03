@@ -105,7 +105,8 @@ module.exports = {
     getHrDetails:getHrDetails,
     getEmpOffboardTerminationChecklists: getEmpOffboardTerminationChecklists,
     getEmpResignationPendingChecklists: getEmpResignationPendingChecklists,
-    getnoticeperiods: getnoticeperiods
+    getnoticeperiods: getnoticeperiods,
+    setprogramspasterstatus:setprogramspasterstatus
    
 };
 //// set new hire list
@@ -1712,4 +1713,18 @@ function getnoticeperiods(req,res){
 
 
 
+}
+function setprogramspasterstatus(req,res){
+    try{
+        con.query("CALL `set_programs_status` (?,?,?)", [req.body.pid,req.body.pStatus, req.body.actionby], function (err, result, fields) {
+            if (result[0][0].successstate == 0) {
+                res.send({ status:true});
+            } else {
+                res.send({status:false})
+            }
+        });
+    }
+    catch(e){
+        console.log('getnoticeperiods :', e)
+    }
 }
