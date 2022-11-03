@@ -1023,8 +1023,7 @@ function setEmpJobDetails(req, res) {
     try {
         console.log(req.body)
          con.query("CALL `set_emp_job_details` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            console.log(result)
-             if (result && result.length > 0) {
+            if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
