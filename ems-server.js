@@ -277,7 +277,7 @@ async function getActiveReasonList(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `get_reason_master` (?)", [req.params.employee_id], function (err, result, fields) {
+        listOfConnections[companyName].query("CALL `get_reason_master` (?)", [null], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {

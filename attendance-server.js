@@ -49,6 +49,7 @@ module.exports={
     getEmployeeLateAttendanceReport:getEmployeeLateAttendanceReport,
     getAttendanceRegularizationsHistoryForManager:getAttendanceRegularizationsHistoryForManager,
     setEmployeeAttendance:setEmployeeAttendance,
+    getrolescreenfunctionalitiesforrole:getrolescreenfunctionalitiesforrole,
 
 }
 
@@ -398,22 +399,7 @@ app.post('/api/getEmployeeAttendanceNotifications', function (req, res) {
 
 
 
-/*Get Role Screen Functionalities Based On Role*/
-app.post('/api/getrolescreenfunctionalitiesforrole', function (req, res) {
-    try {
-        con.query("CALL `getrolescreenfunctionalities_for_role` (?,?)", [req.body.roleid, req.body.moduleid], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
 
-
-    } catch (e) {
-        console.log('getrolescreenfunctionalities_for_role :', e)
-    }
-});
 
 
 
@@ -1167,3 +1153,27 @@ async function setEmployeeAttendance(req, res) {
     }
 }
 
+/*Get Role Screen Functionalities Based On Role*/
+async function getrolescreenfunctionalitiesforrole(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at24',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `getrolescreenfunctionalities_for_role` (?,?)", [req.body.roleid, req.body.moduleid], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('getrolescreenfunctionalities_for_role :', e)
+    }
+}

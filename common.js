@@ -193,6 +193,7 @@ async function getErrorMessages(req,res) {
 
         let companyName = req.params.companyName;
         let listOfConnections = {};
+        console.log("jhbhjbhj",dbName,req.params.companyName)
         listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);

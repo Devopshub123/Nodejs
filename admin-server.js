@@ -45,39 +45,6 @@ app.post('/api/getRolesByDepartment',function(req,res) {
         console.log('getrolemaster :',e)
     }
 });
-/**EMS messagemaster */
-app.post('/api/getEMSMessages', function (req, res) {
-    try {
-       
-        con.query("CALL `get_ems_messages` (?,?,?)", [req.body.code,
-             req.body.pagenumber,req.body.pagesize],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
-        console.log('get_attendance_messages');
-    }
-});
-app.post('/api/setEMSMessages', function (req, res) {
-    let data = JSON.stringify(req.body)
-    console.log(req.body,data)
-    try {
-        con.query("CALL `set_ems_messages` (?)", [data],
-            function (err, result, fields) {
-                if (err) {
-                    res.send({ status: false, data: "unableToSave" })
-                } else {
-                    res.send({ status: true, data:"dataSaved" });
-                }
-            })
-    } catch (e) {
-        console.log('set_ems_messages');
-    }
-});
 
 
 
@@ -122,6 +89,17 @@ app.post('/api/setEMSMessages', function (req, res) {
      getAllShifts:getAllShifts,
      setShiftMaster:setShiftMaster,
      getShiftsDetailsById:getShiftsDetailsById,
+     getEMSMessages:getEMSMessages,
+     setEMSMessages:setEMSMessages,
+     getModulesWithScreens:getModulesWithScreens,
+     getScreenWithFunctionalities:getScreenWithFunctionalities,
+     getRoleScreenfunctionalitiesByRoleId:getRoleScreenfunctionalitiesByRoleId,
+     getrolemaster:getrolemaster,
+     getscreensmaster:getscreensmaster,
+     getfunctionalitiesmaster:getfunctionalitiesmaster,
+     getscreenfunctionalitiesmaster:getscreenfunctionalitiesmaster,
+     setRoleAccess:setRoleAccess,
+     setRoleMaster:setRoleMaster,
 
  }
 
@@ -1300,5 +1278,277 @@ async function getShiftsDetailsById(req, res) {
     } catch (e) {
         console.log('get_shifts_details_by_id :', e)
 
+    }
+}
+
+
+/**EMS messagemaster */
+async function getEMSMessages(req, res) {
+    try {
+
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_ems_messages` (?,?,?)", [req.body.code,
+                req.body.pagenumber,req.body.pagesize],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+            })
+    } catch (e) {
+        console.log('get_attendance_messages');
+    }
+}
+async function setEMSMessages(req, res) {
+    let data = JSON.stringify(req.body)
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_ems_messages` (?)", [data],
+            function (err, result, fields) {
+                if (err) {
+                    res.send({ status: false, data: "unableToSave" })
+                } else {
+                    res.send({ status: true, data:"dataSaved" });
+                }
+            })
+    } catch (e) {
+        console.log('set_ems_messages');
+    }
+}
+
+
+/*Get Modules Screens Master*/
+async function getModulesWithScreens(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_modules_screens` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result[0][0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('get_modules_screens :',e)
+    }
+}
+
+/*Get Screens Functionalities*/
+async function getScreenWithFunctionalities(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_screens_functionalities` (?)",[req.params.moduleId], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0][0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('get_screens_functionalities :',e)
+    }
+}
+
+
+/*Get Role Screen Functionalities By Role Id*/
+async function getRoleScreenfunctionalitiesByRoleId(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_screens_functionalities_for_role` (?)",[req.params.roleId], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
+    }
+}
+
+/*Get Role Master*/
+async function getrolemaster(req,res) {
+    try {
+
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `getrolemaster` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+
+    }catch (e) {
+        console.log('getrolemaster :',e)
+    }
+}
+
+
+/*Get Screen Master*/
+async function getscreensmaster(req,res) {
+    try {
+
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `getscreensmaster` (?)",['4'], function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+
+    }catch (e) {
+        console.log('getscreensmaster :',e)
+    }
+}
+
+
+/*Get Functionalities Master*/
+async function getfunctionalitiesmaster(req,res) {
+    try {
+
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `getfunctionalitiesmaster` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+
+    }catch (e) {
+        console.log('getfunctionalitiesmaster :',e)
+    }
+}
+/*Get Screen Functionalities Master*/
+async function getscreenfunctionalitiesmaster(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `getscreenfunctionalitiesmaster` ()", function (err, result, fields) {
+            if (result.length > 0) {
+                res.send({data: result, status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
+    }
+}
+
+/*setRoleAccess */
+async function setRoleAccess(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_role_access` (?)",[JSON.stringify(req.body)], function (err, result, fields) {
+            if (err) {
+                res.send({status: false, message: 'Unable to update role permissions'});
+            } else {
+                res.send({status: true, message: 'Role permissions updated successfully'})
+            }
+        });
+    }catch (e) {
+        console.log('setRoleAccess :',e)
+    }
+}
+
+/*setRoleMaster */
+async function setRoleMaster(req,res){
+
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `setrolemaster` (?)",[req.body.roleName], function (err, result, fields) {
+            if (err) {
+                res.send({status: false, message: 'Unable to add role name'});
+            } else {
+                res.send({status: true, message: 'Role name successfully'})
+            }
+        });
+
+
+    }catch (e) {
+        console.log('setRoleMaster :',e)
     }
 }

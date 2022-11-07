@@ -1033,71 +1033,7 @@ app.post('/api/setNewLeaveType',function(req,res) {
 
 
 
-/*Get Role Master*/
-app.get('/api/getrolemaster',function(req,res) {
-    try {
-        
-        con.query("CALL `getrolemaster` ()", function (err, result, fields) {
-            if (result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-        
 
-    }catch (e) {
-        console.log('getrolemaster :',e)
-    }
-});
-/*Get Screen Master*/
-app.get('/api/getscreensmaster',function(req,res) {
-    try {
-        
-        con.query("CALL `getscreensmaster` (?)",['4'], function (err, result, fields) {
-            if (result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-        
-
-    }catch (e) {
-        console.log('getscreensmaster :',e)
-    }
-});
-/*Get Functionalities Master*/
-app.get('/api/getfunctionalitiesmaster',function(req,res) {
-    try {
-        
-        con.query("CALL `getfunctionalitiesmaster` ()", function (err, result, fields) {
-            if (result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-        
-
-    }catch (e) {
-        console.log('getfunctionalitiesmaster :',e)
-    }
-});
-/*Get Screen Functionalities Master*/
-app.get('/api/getscreenfunctionalitiesmaster',function(req,res) {
-    try {       
-        con.query("CALL `getscreenfunctionalitiesmaster` ()", function (err, result, fields) {
-            if (result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-    }catch (e) {
-        console.log('getscreenfunctionalitiesmaster :',e)
-    }
-});
 /*Get Modules Screens Functionalities Master*/
 app.get('/api/getModulesScreensFunctionalitiesmaster',function(req,res) {
     try {       
@@ -1113,49 +1049,9 @@ app.get('/api/getModulesScreensFunctionalitiesmaster',function(req,res) {
         console.log('get_modulescreenfunctionalities :',e)
     }
 });
-/*Get Modules Screens Master*/
-app.get('/api/getModulesWithScreens',function(req,res) {
-    try {       
-        con.query("CALL `get_modules_screens` ()", function (err, result, fields) {
-            if (result.length > 0) {
-                res.send({data: result[0][0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-    }catch (e) {
-        console.log('get_modules_screens :',e)
-    }
-});
-/*Get Screens Functionalities*/
-app.get('/api/getScreenWithFunctionalities/:moduleId',function(req,res) {
-    try {        
-        con.query("CALL `get_screens_functionalities` (?)",[req.params.moduleId], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0][0], status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-    }catch (e) {
-        console.log('get_screens_functionalities :',e)
-    }
-});
 
-/*Get Role Screen Functionalities By Role Id*/
-app.get('/api/getRoleScreenfunctionalitiesByRoleId/:roleId',function(req,res) {
-    try {        
-        con.query("CALL `get_screens_functionalities_for_role` (?)",[req.params.roleId], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result, status: true});
-            } else {
-                res.send({status: false})
-            }
-        });
-    }catch (e) {
-        console.log('getscreenfunctionalitiesmaster :',e)
-    }
-});
+
+
 /*Get Role Screen Functionalities*/
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
     try {        
@@ -1170,38 +1066,7 @@ app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
         console.log('getscreenfunctionalitiesmaster :',e)
     }
 });
-/*setRoleAccess */
-app.post('/api/setRoleAccess',function(req,res) {
-    try {
-        con.query("CALL `set_role_access` (?)",[JSON.stringify(req.body)], function (err, result, fields) {
-                if (err) {
-                    res.send({status: false, message: 'Unable to update role permissions'});
-                } else {
-                    res.send({status: true, message: 'Role permissions updated successfully'})
-                }
-            });        
-    }catch (e) {
-        console.log('setRoleAccess :',e)
-    }
-});
 
-/*setRoleMaster */
-app.post('/api/setRoleMaster',function(req,res) {
-
-    try {
-        con.query("CALL `setrolemaster` (?)",[req.body.roleName], function (err, result, fields) {
-                if (err) {
-                    res.send({status: false, message: 'Unable to add role name'});
-                } else {
-                    res.send({status: true, message: 'Role name successfully'})
-                }
-            });
-        
-
-    }catch (e) {
-        console.log('setRoleMaster :',e)
-    }
-});
 
 // /*Get Holidays based on employeeId*/
 // app.get('/api/getHolidaysList/:empId',function(req,res) {
@@ -1989,7 +1854,7 @@ app.get('/ems/api/getActiveReasonList/:companyName', function(req,res) {
 /** EMS
  * get all reasons list
  */
- app.get('/ems/api/getReasonMasterData/:reasonid/', function(req,res) {
+ app.get('/ems/api/getReasonMasterData/:companyName', function(req,res) {
 
      ems.getReasonMasterData(req, res);
  });
@@ -3099,10 +2964,64 @@ app.post('/api/changePassword',function(req,res){
 
 
 
+/**EMS messagemaster */
+app.post('/admin/api/getEMSMessages', function (req, res) {
+ admin.getEMSMessages(req,res)
+});
+app.post('/admin/api/setEMSMessages', function (req, res) {
+    admin.setEMSMessages(req,res)
+});
+
+/*Get Modules Screens Master*/
+app.get('/api/getModulesWithScreens/:companyName',function(req,res) {
+  admin.getModulesWithScreens(req,res);
+});
+
+/*Get Screens Functionalities*/
+app.get('/api/getScreenWithFunctionalities/:moduleId/:companyName',function(req,res) {
+    admin.getScreenWithFunctionalities(req,res);
+});
+
+/*Get Role Screen Functionalities By Role Id*/
+app.get('/api/getRoleScreenfunctionalitiesByRoleId/:roleId/:companyName',function(req,res) {
+    admin.getRoleScreenfunctionalitiesByRoleId(req,res);
+});
+
+/*Get Role Screen Functionalities Based On Role*/
+app.post('/attendance/api/getrolescreenfunctionalitiesforrole', function (req, res) {
+   attendance.getrolescreenfunctionalitiesforrole(req,res)
+});
+
+/*Get Role Master*/
+app.get('/api/getrolemaster/:companyName',function(req,res) {
+    admin.getrolemaster(req,res);
+});
 
 
+/*Get Screen Master*/
+app.get('/api/getscreensmaster/:companyName',function(req,res) {
+    admin.getscreensmaster(req,res)
+});
 
 
+/*Get Functionalities Master*/
+app.get('/api/getfunctionalitiesmaster/companyName',function(req,res) {
+   admin.getfunctionalitiesmaster(req,res);
+});
+/*Get Screen Functionalities Master*/
+app.get('/api/getscreenfunctionalitiesmaster/:companyName',function(req,res) {
+   admin.getscreenfunctionalitiesmaster(req,res)
+});
+
+/*setRoleAccess */
+app.post('/api/setRoleAccess',function(req,res) {
+    admin.setRoleAccess(req,res)
+});
+
+/*setRoleMaster */
+app.post('/api/setRoleMaster',function(req,res) {
+    admin.setRoleMaster(req,res)
+});
 
 // app.listen(6464,'0.0.0.0',function (err) {
 //     if (err)
