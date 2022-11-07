@@ -25,103 +25,6 @@ app.all("*", function (req, res, next) {
 
 
 
-app.post('/api/setShiftMaster', function (req, res) {
-    try {
-        ;
-        con.query("CALL `set_shift_master` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            [req.body.shift_name, req.body.shiftdescription, req.body.from_time, req.body.to_time,
-                req.body.total_hours, req.body.grace_intime, req.body.grace_outtime, req.body.max_lates, req.body.leave_deduction_count,
-                req.body.leavetype_for_deduction, req.body.overtimeduration,req.body.status,req.body.created_by], function (err, result, fields) {
-                  
-                    if (err) {
-                        res.send({ status: false, message: 'UnableToSave' });
-                    } else {
-                        if (result[0][0].validity_status == 0) {
-                            res.send({ status: true, message: "duplicateData"})
-                        } else {
-                            res.send({ status: true, message: "dataSave" })
-                        }
-                    }
-                });
-
-    } catch (e) {
-        console.log('setShiftMaster')
-    }
-})
-/**Get All SHifts */
-app.get('/api/getAllShifts', function (req, res) {
-
-    try {
-
-
-        con.query("CALL `get_all_shifts`", function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
-
-
-    } catch (e) {
-        console.log('get_all_shifts :', e)
-
-    }
-});
-/**Update Shift Status
- **@shift_id  parameters
- **@status_value parameters
-
- * **/
-
- app.post('/api/updateShiftStatus', function (req, res) {
- 
-    try {
-        con.query("CALL `update_shift_status` (?,?)", [req.body.shift_id,req.body.status_value], function (err, result, fields) {
-            
-               if (err) {
-                res.send({ status: false, message: "unableToUpdate" });
-               }
-               else {
-                   console.log(result[0][0].updateStatus)
-                     if (result[0][0].updateStatus == 0) {
-                            res.send({ status: false, message: "alreadyAssigned" })
-                         }
-                     else {
-                           res.send({ status: true, message: "statusUpdated" })
-                      }
-            }
-        });
-    } catch (e) {
-        console.log('updateShiftStatus :', e)
-    }
-});
-/**Get getShiftsDetailsById
- **@shift_id  parameters
- * **/
-
- app.get('/api/getShiftsDetailsById/:shift_id', function (req, res) {
-
-    try {
-
-
-        con.query("CALL `get_shifts_details_by_id` (?)", [req.params.shift_id], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-            }
-        });
-
-
-    } catch (e) {
-        console.log('get_shifts_details_by_id :', e)
-
-    }
-});
-
-
-
 
 /*Get Role Master*
 **@paramater department_id */
@@ -215,6 +118,10 @@ app.post('/api/setEMSMessages', function (req, res) {
      getAttendenceMessages:getAttendenceMessages,
      setAttendenceMessages:setAttendenceMessages,
      getActiveShiftIds:getActiveShiftIds,
+     updateShiftStatus:updateShiftStatus,
+     getAllShifts:getAllShifts,
+     setShiftMaster:setShiftMaster,
+     getShiftsDetailsById:getShiftsDetailsById,
 
  }
 
@@ -1264,6 +1171,134 @@ async function getActiveShiftIds(req, res) {
 
     } catch (e) {
         console.log('getActiveShiftIds :', e)
+
+    }
+}
+
+
+async function setShiftMaster(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_shift_master` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            [req.body.shift_name, req.body.shiftdescription, req.body.from_time, req.body.to_time,
+                req.body.total_hours, req.body.grace_intime, req.body.grace_outtime, req.body.max_lates, req.body.leave_deduction_count,
+                req.body.leavetype_for_deduction, req.body.overtimeduration,req.body.status,req.body.created_by], function (err, result, fields) {
+
+                if (err) {
+                    res.send({ status: false, message: 'UnableToSave' });
+                } else {
+                    if (result[0][0].validity_status == 0) {
+                        res.send({ status: true, message: "duplicateData"})
+                    } else {
+                        res.send({ status: true, message: "dataSave" })
+                    }
+                }
+            });
+
+    } catch (e) {
+        console.log('setShiftMaster')
+    }
+}
+/**Get All SHifts */
+async function getAllShifts(req, res) {
+
+    try {
+
+
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_all_shifts`", function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('get_all_shifts :', e)
+
+    }
+}
+/**Update Shift Status
+ **@shift_id  parameters
+ **@status_value parameters
+
+ * **/
+
+async function updateShiftStatus(req, res) {
+
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `update_shift_status` (?,?)", [req.body.shift_id,req.body.status_value], function (err, result, fields) {
+
+            if (err) {
+                res.send({ status: false, message: "unableToUpdate" });
+            }
+            else {
+                console.log(result[0][0].updateStatus)
+                if (result[0][0].updateStatus == 0) {
+                    res.send({ status: false, message: "alreadyAssigned" })
+                }
+                else {
+                    res.send({ status: true, message: "statusUpdated" })
+                }
+            }
+        });
+    } catch (e) {
+        console.log('updateShiftStatus :', e)
+    }
+}
+
+
+/**Get getShiftsDetailsById
+ **@shift_id  parameters
+ * **/
+
+async function getShiftsDetailsById(req, res) {
+
+    try {
+
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_shifts_details_by_id` (?)", [req.params.shift_id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+        });
+
+
+    } catch (e) {
+        console.log('get_shifts_details_by_id :', e)
 
     }
 }

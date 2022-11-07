@@ -1850,7 +1850,7 @@ app.post('/ems/api/setProgramsMaster/', function(req,res) {
  *  EMS
  * get programs master
  * */
-app.get('/ems/api/getProgramsMaster/:pId', function(req,res) {
+app.get('/ems/api/getProgramsMaster/:pId/:companyName', function(req,res) {
 
     ems.getProgramsMaster(req,res);
 
@@ -1861,7 +1861,7 @@ app.get('/ems/api/getProgramsMaster/:pId', function(req,res) {
  *  EMS
  * set program tasks
  * */
-app.get('/ems/api/setProgramTasks/', function(req,res) {
+app.get('/ems/api/setProgramTasks/:companyName', function(req,res) {
 
     ems.setProgramTasks(req,res);
 
@@ -1872,7 +1872,7 @@ app.get('/ems/api/setProgramTasks/', function(req,res) {
  *  EMS
  * get_program_tasks
  * */
-app.get('/ems/api/getProgramTasks/', function(req,res) {
+app.get('/ems/api/getProgramTasks/:companyName', function(req,res) {
 
     ems.getProgramTasks(req,res);
 
@@ -1894,7 +1894,7 @@ app.post('/ems/api/setProgramSchedules/', function(req,res) {
  *  EMS
  * get program schedules
  * */
-app.get('/ems/api/getProgramSchedules/:sid/:pid', function(req,res) {
+app.get('/ems/api/getProgramSchedules/:sid/:pid/:companyName', function(req,res) {
 
     ems.getProgramSchedules(req,res);
 
@@ -1939,12 +1939,12 @@ app.post('/ems/api/setChecklistsMaster', function(req,res) {
  *  EMS
  * get checklists master
  * */
-app.get('/ems/api/getChecklistsMaster/:deptId/:category', function(req,res) {
+app.get('/ems/api/getChecklistsMaster/:deptId/:category/:companyName', function(req,res) {
     ems.getChecklistsMaster(req,res);
 
 });
 
-app.get('/ems/api/getChecklistsMasterActive/:deptId/:category/:status', function(req,res) {
+app.get('/ems/api/getChecklistsMasterActive/:deptId/:category/:status/:companyName', function(req,res) {
         ems.getChecklistsMasterActive(req,res);
     
     });
@@ -1963,7 +1963,7 @@ app.post('/ems/api/setNewHire/', function(req,res) {
  * get new hire list 
  * */
 
-app.get('/ems/api/getNewHireDetails/:id', function(req,res) {
+app.get('/ems/api/getNewHireDetails/:id/:companyName', function(req,res) {
 
     ems.getNewHireDetails(req,res);
 
@@ -1981,7 +1981,7 @@ app.post('/ems/api/setReasonMaster/', function(req,res) {
 /** EMS
  * get active reasons list
  */
-app.get('/ems/api/getActiveReasonList/', function(req,res) {
+app.get('/ems/api/getActiveReasonList/:companyName', function(req,res) {
 
     ems.getActiveReasonList(req,res);
 });
@@ -2005,7 +2005,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get termination category
  */
- app.get('/ems/api/getTerminationCategory/', function(req,res) {
+ app.get('/ems/api/getTerminationCategory/:companyName', function(req,res) {
 
     ems.getTerminationCategory(req, res);
  });
@@ -2021,7 +2021,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
  /** EMS
  * get document category
  */
-  app.get('/ems/api/getDocumentCategory/', function(req,res) {
+  app.get('/ems/api/getDocumentCategory/:companyName', function(req,res) {
 
     ems.getDocumentCategory(req, res);
   });
@@ -2029,7 +2029,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get document category
  */
-    app.get('/ems/api/getEmployeesList/', function(req,res) {
+    app.get('/ems/api/getEmployeesList/:companyName', function(req,res) {
 
         ems.getEmployeesList(req, res);
     });
@@ -2044,7 +2044,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get candidate list
  */
- app.get('/ems/api/getCandidateDetails/:emp_Id', function(req,res) {
+ app.get('/ems/api/getCandidateDetails/:emp_Id/:companyName', function(req,res) {
 
     ems.getCandidateDetails(req, res);
 });
@@ -2053,7 +2053,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get employee check list
  */
- app.get('/ems/api/getEmployeeChecklists/:emp_Id/:category/:dept_Id', function(req,res) {
+ app.get('/ems/api/getEmployeeChecklists/:emp_Id/:category/:dept_Id/:companyName', function(req,res) {
 
     ems.getEmployeeChecklists(req, res);
 });
@@ -2063,7 +2063,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
     ems.setEmployeeResignation(req, res);
   });
-  app.get('/ems/api/getEmployeesResignation/:id', function(req,res) {
+  app.get('/ems/api/getEmployeesResignation/:id/:companyName', function(req,res) {
 
     ems.getEmployeesResignation(req, res);
   });
@@ -2071,14 +2071,14 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
     ems.setEmployeeTermination(req, res);
   });
-  app.get('/ems/api/getEmployeesTermination/:id', function(req,res) {
+  app.get('/ems/api/getEmployeesTermination/:id/:companyName', function(req,res) {
 
     ems.getEmployeesTermination(req, res);
   });
-  app.get('/ems/api/getActiveTerminationCategories/', function(req,res){
+  app.get('/ems/api/getActiveTerminationCategories/:companyName', function(req,res){
     ems.getActiveTerminationCategories(req,res)
   })
-  app.get('/ems/api/getEmployeeslistforTermination/', function(req,res){
+  app.get('/ems/api/getEmployeeslistforTermination/:companyName', function(req,res){
     ems.getEmployeeslistforTermination(req,res)
   })
   
@@ -2095,7 +2095,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     });
 
    /** getDepartmentEmployeesByDesignation */
-    app.get('/ems/api/getDepartmentEmployeesByDesignation/:sid/:pid', function(req,res) {
+    app.get('/ems/api/getDepartmentEmployeesByDesignation/:sid/:pid/:companyName', function(req,res) {
 
         ems.getDepartmentEmployeesByDesignation(req,res);
     
@@ -2106,7 +2106,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
         ems.setProgramSchedulemail(req,res);
     })
     /** */
-    app.get('/ems/api/getallEmployeeProgramSchedules/:eid/:sid',function(req,res){
+    app.get('/ems/api/getallEmployeeProgramSchedules/:eid/:sid/:companyName',function(req,res){
         ems.getallEmployeeProgramSchedules(req,res)
     })
     /** */
@@ -2114,7 +2114,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
         ems.setselectEmployeesProgramSchedules(req,res)
     })
     /** */
-    app.get('/ems/api/getEmployeesForProgramSchedule/:id',function(req,res){
+    app.get('/ems/api/getEmployeesForProgramSchedule/:id/:companyName',function(req,res){
         ems.getEmployeesForProgramSchedule(req,res)
     });
 
@@ -2129,7 +2129,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     });
 
     /** */
-    app.post('/ems/api/getFilecategoryMasterForEMS/',function(req,res){
+    app.post('/ems/api/getFilecategoryMasterForEMS',function(req,res){
         ems.getFilecategoryMasterForEMS(req,res)
     });
 
@@ -2146,7 +2146,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
 
     /** getOnboardingSettings*/
-    app.get('/ems/api/getOnboardingSettings/',function(req,res){
+    app.get('/ems/api/getOnboardingSettings/:companyName',function(req,res){
         ems.getOnboardingSettings(req,res)
     })
      /** updateselectEmployeesProgramSchedules*/
@@ -2158,7 +2158,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
         ems.setEmsEmployeeColumnConfigurationValues(req,res)
     })
     /**getEmsEmployeeColumnConfigurationValue */
-    app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id',function(req,res){
+    app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id/:companyName',function(req,res){
         ems.getEmsEmployeeColumnConfigurationValue(req,res)
     })
    
@@ -2177,7 +2177,7 @@ app.post('/ems/api/setDocumentOrImageForEMS/:path',function(req,res){
     ems.setDocumentOrImageForEMS(req,res)
     })
 /**EMS getUserLoginData */
-app.get('/ems/api/getUserLoginData/',function(req,res){
+app.get('/ems/api/getUserLoginData/:companyName',function(req,res){
     ems.getUserLoginData(req,res)
 })
 /**usersLogin*/
@@ -2185,7 +2185,7 @@ app.post('/ems/api/usersLogin/',function(req,res){
     ems.usersLogin(req,res)
 })
 /**EMS getEmsEmployeeColumnFilterData */
-app.get('/ems/api/getEmsEmployeeColumnFilterData/',function(req,res){
+app.get('/ems/api/getEmsEmployeeColumnFilterData/:companyName',function(req,res){
     ems.getEmsEmployeeColumnFilterData(req,res)
 })
 /**EMS getEmsEmployeeDataForReports */
@@ -2217,7 +2217,7 @@ app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
 /**
  * Delete Files Master
  * */
- app.get('/ems/api/deleteFilesMaster/:id', function(req,res) {
+ app.get('/ems/api/deleteFilesMaster/:id/:companyName', function(req,res) {
 
     ems.deleteFilesMaster(req,res);
 
@@ -2246,21 +2246,21 @@ app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
     });  
 
 /** get Employee Personal Info (HR)*/
-    app.get('/ems/api/getEmpEmployement/:id',function(req,res){
+    app.get('/ems/api/getEmpEmployement/:id/:companyName',function(req,res){
         ems.getEmpEmployement(req,res)
     })
 
 /** get Employee Personal Info (HR)*/
-app.get('/ems/api/getEmpEducationDetails/:id',function(req,res){
+app.get('/ems/api/getEmpEducationDetails/:id/:companyName',function(req,res){
     ems.getEmpEducationDetails(req,res)
 })
 
 /** get Employee Personal Info (HR)*/
-app.get('/ems/api/getEmpJobDetails/:id',function(req,res){
+app.get('/ems/api/getEmpJobDetails/:id/:companyName',function(req,res){
     ems.getEmpJobDetails(req,res)
 })
 /** getOffboardingSettings*/
-app.get('/ems/api/getOffboardingSettings/',function(req,res){
+app.get('/ems/api/getOffboardingSettings/:companyName',function(req,res){
     ems.getOffboardingSettings(req,res)
 });
 /** EMS setOffboardingSettings */
@@ -2280,10 +2280,10 @@ app.post('/ems/api/setOnboardingSettings', function(req,res) {
     ems.setOnboardingSettings(req,res);
 });
 
-app.get('/ems/api/getActiveAnnouncementsTopics/',function(req,res){
+app.get('/ems/api/getActiveAnnouncementsTopics/:companyName',function(req,res){
     ems.getActiveAnnouncementsTopics(req,res)
 })
-app.get('/ems/api/getAnnouncements/:announcement_id',function(req,res){
+app.get('/ems/api/getAnnouncements/:announcement_id/:companyName',function(req,res){
     ems.getAnnouncements(req,res)
 })
 app.post('/ems/api/setAnnouncements/',function(req,res){
@@ -2334,11 +2334,11 @@ app.get('/ems/api/getReportingManagerForEmp/:id/:companyName', function(req,res)
 });
 
 
-app.get('/ems/api/getHrDetails/', function(req,res) {
+app.get('/ems/api/getHrDetails/:companyName', function(req,res) {
 
     ems.getHrDetails(req, res);
 });
-app.get('/ems/api/getnoticeperiods/', function(req,res) {
+app.get('/ems/api/getnoticeperiods/:companyName', function(req,res) {
     ems.getnoticeperiods(req, res);
 });
 ////////
@@ -2678,7 +2678,7 @@ common.getErrorMessages(req,res)
 
 
 
-app.post('/api/getstatuslist/:companyName',function(req,res){
+app.post('/admin/api/getstatuslist/:companyName',function(req,res){
     admin.getstatuslist(req,res)
 })
 
@@ -3037,6 +3037,34 @@ app.post('/api/setEmployeeAttendance', function (req, res) {
 
 
 
+app.post('/admin/api/setShiftMaster', function (req, res) {
+    admin.setShiftMaster(req,res)
+})
+/**Get All SHifts */
+app.get('/admin/api/getAllShifts/:companyName', function (req, res) {
+    admin.getAllShifts(req,res);
+
+});
+/**Update Shift Status
+ **@shift_id  parameters
+ **@status_value parameters
+
+ * **/
+
+app.post('/admin/api/updateShiftStatus', function (req, res) {
+    admin.updateShiftStatus(req,res);
+
+});
+
+
+
+/**Get getShiftsDetailsById
+ **@shift_id  parameters
+ * **/
+
+app.get('/admin/api/getShiftsDetailsById/:shift_id/:companyName', function(req, res) {
+    admin.getShiftsDetailsById(req,res)
+});
 
 
 
