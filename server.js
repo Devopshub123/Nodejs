@@ -3354,6 +3354,9 @@ app.get('/ems/api/getHrDetails/', function(req,res) {
 app.get('/ems/api/getnoticeperiods/', function(req,res) {
     ems.getnoticeperiods(req, res);
 });
+app.post('/ems/api/setprogramspasterstatus/', function(req,res) {
+    ems.setprogramspasterstatus(req,res);
+});
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
