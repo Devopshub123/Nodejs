@@ -1594,7 +1594,7 @@ function setDocumentOrImageForEMS(req, res) {
 
 function getDocumentOrImagesForEMS(req, res) {
     try{
-        folderName = 'D:/Spryple/CORE/';
+        folderName = req.body.filepath;
         var imageData={}
         var flag=false;
         fs.readFile(folderName + req.body.filename, function (err, result) {

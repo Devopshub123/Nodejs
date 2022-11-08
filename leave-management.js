@@ -552,7 +552,7 @@ async function getdaystobedisabledfromdate(req,res){
 
 async function getMaxCountPerTermValue(req,res){
     try {
-        var  dbName = await getDatebaseName(req.parms.companyName)
+        var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
@@ -605,6 +605,7 @@ async function validateleave(req,res){
 
         /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
         listOfConnections[companyName].query("CALL `validateleave` (?,?,?,?,?,?,?,?)",[id,leavetype,fromdate,todate,fromhalfday,tohalfday,document,leaveId], function (err, result, fields) {
+            console.log("jkbbjbbbbb",err,)
             if(result && result.length > 0) {
                 res.send({data: result[0], status: true});
             }else {
