@@ -297,6 +297,8 @@ function setDocumentCategory(req,res) {
         con.query("CALL `set_document_category` (?,?,?,?)",
             [req.body.document_id, req.body.document_category,
              parseInt(req.body.document_status), req.body.actionby], function (err, result, fields) {
+               console.log("err-",err)
+               console.log("res-",result)
                 if (result[0][0].statuscode == 0) {
                         res.send({ status: true, message: "",data: result[0][0]})
                     } else {
@@ -983,10 +985,6 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            //  console.log("statuscode", result[0][0].statuscode)
-            //  console.log("empid", result[0][0].empid)
-            //  console.log("email", result[0][0].email)
-             
              if (result && result[0][0].statuscode == 0) {
                res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
             } else if(result && result[0][0].statuscode == 1){

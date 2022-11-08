@@ -368,7 +368,8 @@ app.put('/api/putDesignation',function(req,res) {
         console.log(infoDesignationMaster)
 
         con.query("CALL `updatemastertable` (?,?,?,?)",['designationsmaster','id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
-
+console.log("errr-",err)
+console.log("reslt-",res)
             if (err) {
                 res.send({status: false, message: 'Unable to update designation'});
             } else {
