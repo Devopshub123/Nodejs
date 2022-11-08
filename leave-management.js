@@ -456,7 +456,7 @@ function editProfile(req,res){
                 if (err) {
                     res.send({status: false});
                 } else {
-                    res.send({status: true,leaveStatus:req.body.leaveStatus})
+                    res.send({status: true})
                 }
             });
 
@@ -537,6 +537,8 @@ function getFilesMaster(req,res){
     try {
         con.query("CALL `get_files_master` (?,?,?,?,?,?)",
             [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId,req.body.status], function (err, result, fields) {
+            
+                console.log(err,result);
                 if (result && result.length>0) {
 
                     // let serverName:string = "localhost:4200";
