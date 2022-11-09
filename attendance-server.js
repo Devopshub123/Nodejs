@@ -111,7 +111,7 @@ app.post('/api/setDesignation',function (req,res) {
         infoDesignationMaster.created_on= req.body.created_on;
         infoDesignationMaster.updated_on=null;
         infoDesignationMaster.updated_by= null;
-        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster','ems', JSON.stringify(infoDesignationMaster)],function (err,result, fields) {
+        con.query("CALL `setmastertable` (?,?,?)", ['designationsmaster',req.body.companyDBName, JSON.stringify(infoDesignationMaster)],function (err,result, fields) {
             console.log(err);
             if(err) {
                 res.send({status: false, message: "Unable to insert designation"});
@@ -186,7 +186,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
             if (data === undefined) {
                 res.send({ status: false })
             }
-            else if (data.status == 'Active') {
+            else if (data.status == 1) {
                 let id = data.id;
                 const message = email;
                 var transporter = nodemailer.createTransport({

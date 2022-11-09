@@ -1052,6 +1052,11 @@ async function getDurationforBackdatedCompoffLeave(req,res) {
 
 async function setCompOff(req,res) {
     try {
+        con.query("CALL `get_files_master` (?,?,?,?,?,?)",
+            [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId,req.body.status], function (err, result, fields) {
+            
+                console.log(err,result);
+                if (result && result.length>0) {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 

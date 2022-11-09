@@ -6,7 +6,7 @@ var path = require('path');
 var fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer')
 var crypto = require("crypto");
-var algorithm = "aes-256-cbc"; 
+var algorithm = "aes-256-cbc";
                     // generate 16 bytes of random data
 var initVector = crypto.randomBytes(16);
 var Securitykey = crypto.randomBytes(32);
@@ -109,7 +109,7 @@ app.all("*", function (req, res, next) {
 
 /*Get Department*/
 app.get('/api/getDepartment',function(req,res) {
-    
+
     try {
         con.query("CALL `getDepartment` ()", function (err, result, fields) {
             if (result.length > 0) {
@@ -118,7 +118,7 @@ app.get('/api/getDepartment',function(req,res) {
                 res.send({status: false})
             }
         });
-       
+
 
     }catch (e) {
         console.log('getDepartment :',e)
@@ -130,7 +130,7 @@ app.get('/api/getDepartment',function(req,res) {
 /*Get Designation*/
 app.get('/api/getDesignation',function(req,res) {
     try {
-        
+
 
         con.query("CALL `getmastertable` (?)", ['designationsmaster'],function (err, result, fields) {
             if (result.length > 0) {
@@ -139,7 +139,7 @@ app.get('/api/getDesignation',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getDesignation :',e)
@@ -223,7 +223,7 @@ app.get('/api/getHolidays',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getHolidays :',e)
@@ -236,7 +236,7 @@ app.get('/api/getHolidays',function(req,res) {
 /*Set Holidays Status*/
 app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
     try {
-        //        
+        //
 
         ;
 
@@ -247,7 +247,7 @@ app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
                 res.send({status: true,message:'Holidays status updated successfully'})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setHolidaysStatus :',e)
@@ -257,7 +257,7 @@ app.post('/api/setHolidaysStatus/:holidaysId',function(req,res) {
 /*Get Shift*/
 app.get('/api/getShift',function(req,res) {
     try {
-        
+
 
         con.query("CALL `getShift` ()", function (err, result, fields) {
             if (result.length > 0) {
@@ -266,7 +266,7 @@ app.get('/api/getShift',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getShift :',e)
@@ -354,7 +354,7 @@ app.get('/api/getLeaveTypes/:tableName/:page/:size',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getMastertable :',e)
@@ -376,7 +376,7 @@ app.post('/api/setShift',function(req,res) {
                     res.send({status: false, message: 'Shift added Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setShift :',e)
@@ -396,7 +396,7 @@ app.put('/api/putShift',function(req,res) {
                     res.send({status: false, message: 'Shift updated Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('putShift :',e)
@@ -433,7 +433,7 @@ app.post('/api/setAddLeaveBalance',function(req,res) {
                     res.send({status: false, message: 'Leave balance added Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setAddLeaveBalance :',e)
@@ -444,7 +444,7 @@ app.post('/api/setAddLeaveBalance',function(req,res) {
 
 app.put('/api/putAddLeaveBalance',function(req,res) {
 
-    try {       
+    try {
         con.query("CALL `putLeaveBalance` (?,?,?,?,?)",
             [req.body.shiftName, req.body.description, req.body.startTime,req.body.endTime,req.body.status], function (err, result, fields) {
 
@@ -454,7 +454,7 @@ app.put('/api/putAddLeaveBalance',function(req,res) {
                     res.send({status: false, message: 'Leave balance updated Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('putLeaveBalance :',e)
@@ -510,7 +510,7 @@ app.post('/api/getReportingManager',function(req,res){
                 res.send(result)
             }
 
-        });      
+        });
 
     }
     catch(e){
@@ -592,7 +592,7 @@ app.post('/api/setEmployeeMaster',function(req,res) {
                     res.send({status: true, message: 'Employee added successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setEmployeeMaster :',e)
@@ -612,7 +612,7 @@ app.put('/api/putEmployeeMaster',function(req,res) {
                     res.send({status: false, message: 'Employee updated Successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('putEmployeeMaster :',e)
@@ -631,7 +631,7 @@ app.put('/api/getSearch/:employeeName/:employeeId',function(req,res) {
                     res.send({status: true})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('getSearch :',e)
@@ -675,7 +675,7 @@ app.get('/api/getLeaveRules/:Id/:page/:size',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getLeaves :',e)
@@ -692,7 +692,7 @@ app.get('/api/getManagerAndHrDetails/employeeId',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getManagerAndHrDetails :',e)
@@ -712,7 +712,7 @@ app.post('/api/setApplyLeave',function(req,res) {
                     res.send({status: false, message: 'Leave apployed successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setApplyLeave :',e)
@@ -721,7 +721,7 @@ app.post('/api/setApplyLeave',function(req,res) {
 
 /*Set Delete Leave Request */
 app.post('/api/setDeleteLeaveRequest',function(req,res) {
-    try {        
+    try {
         let id = req.body.id;
         let empid = req.body.empid;
         let leavetype = req.body.leavetypeid;
@@ -749,7 +749,7 @@ app.post('/api/setDeleteLeaveRequest',function(req,res) {
                     res.send({status: true})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('setDeleteLeaveRequest :',e)
@@ -769,7 +769,7 @@ app.put('/api/updateLeaveRequest/:Id',function(req,res) {
                     res.send({status: false, message: 'Leave request updated successfully'})
                 }
             });
-        
+
 
     }catch (e) {
         console.log('updateLeaveRequest :',e)
@@ -786,7 +786,7 @@ app.set('/api/setCompOffReviewApprove',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('setCompOffReviewApprove :',e)
@@ -804,7 +804,7 @@ app.get('/api/getUserOnLeaves',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getUserOnLeaves :',e)
@@ -823,7 +823,7 @@ app.get('/api/getApprovals',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getApprovals :',e)
@@ -924,7 +924,7 @@ app.post('/api/setLeaveConfigure',function(req,res) {
                         res.send({status: false})
                     }}
             });
-            
+
 
         }
 
@@ -948,7 +948,7 @@ app.post('/api/getEmployeeDetails',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
     }catch (e) {
         console.log('getCompanyInformation :',e)
 
@@ -989,7 +989,7 @@ app.post('/api/validatePrefix',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getUserOnLeaves :',e)
@@ -1009,7 +1009,7 @@ app.post('/api/setNewLeaveType',function(req,res) {
                 res.send({status: true, message: 'Leave Type added successfully'})
             }
         });
-        
+
     }catch (e) {
         console.log('setNewLeaveType :',e)
 
@@ -1036,7 +1036,7 @@ app.post('/api/setNewLeaveType',function(req,res) {
 
 /*Get Modules Screens Functionalities Master*/
 app.get('/api/getModulesScreensFunctionalitiesmaster',function(req,res) {
-    try {       
+    try {
         con.query("CALL `get_modulescreenfunctionalities` ()", function (err, result, fields) {
            console.log(result[0][0]);
             if (result.length > 0) {
@@ -1054,7 +1054,7 @@ app.get('/api/getModulesScreensFunctionalitiesmaster',function(req,res) {
 
 /*Get Role Screen Functionalities*/
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
-    try {        
+    try {
         con.query("CALL `getrolescreenfunctionalities` (?,?)",[req.params.roleId,'2'], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -1088,31 +1088,31 @@ app.get('/api/getHolidaysFilter/:year/:locationId/:page/:size',function(req,res)
     console.log(req.params.year,req.params.locationId)
 
     try {
-    
+
     con.query("CALL `getholidaysbyfilter` (?,?,?,?)", [req.params.year ==='null'?null:req.params.year,req.params.locationId ==='null'?null:req.params.locationId,req.params.page,req.params.size],function (err, result, fields) {
-    
+
     if (result && result.length > 0) {
-    
+
     res.send({data: result[0], status: true});
-    
+
     } else {
-    
+
     res.send({status: false})
-    
+
     }
-    
+
     });
-    
-    
-    
+
+
+
     }catch (e) {
-    
+
     console.log('getDesignation :',e)
-    
-    
-    
+
+
+
     }
-    
+
     });
 
 // /**get employe leaves */
@@ -1140,7 +1140,7 @@ app.get('/api/getHolidaysFilter/:year/:locationId/:page/:size',function(req,res)
 /*Get Employee Leave Balance*/
 app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
     try {
-        
+
         con.query("CALL `get_employee_leave_balance` (?)",[req.params.empId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -1149,7 +1149,7 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
             }
 
         });
-        
+
 
 
 
@@ -1163,7 +1163,7 @@ app.get('/api/getemployeeleavebalance/:empId',function(req,res) {
 /*Get Employee Roles*/
 app.get('/api/getemployeeroles/:empId',function(req,res) {
     try {
-        
+
         con.query("CALL `getemployeeroles` (?)",[req.params.empId], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result, status: true});
@@ -1171,7 +1171,7 @@ app.get('/api/getemployeeroles/:empId',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getemployeeroles :',e)
@@ -1325,7 +1325,7 @@ app.post('/api/getdaystobedisabled',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
     }catch (e) {
         console.log('getdaystobedisabled :',e)
     }
@@ -1353,7 +1353,7 @@ app.post('/api/getoffdayscount',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
     }catch (e) {
         console.log('getoffdayscount :',e)
     }
@@ -1377,7 +1377,7 @@ app.post('/api/getValidateExistingDetails',function(req,res) {
                 res.send({status: false})
             }
         });
-        
+
 
     }catch (e) {
         console.log('getValidateExistingDetails :',e)
@@ -1421,7 +1421,7 @@ function checkRecord (req, res, next){
 
                 }
             });
-            
+
 
 
     }catch (e) {
@@ -1476,7 +1476,7 @@ app.post('/api/setLeaveDocument/:cname/:empid',function(req,res) {
                         console.log(error);
                     }
                     res.send({status:true})
-                })   
+                })
             }
 
     }catch (e) {
@@ -1793,7 +1793,7 @@ app.get('/ems/api/getEmployeeProgramSchedules/', function(req,res) {
  * set checklists master
  * */
 app.post('/ems/api/setChecklistsMaster', function(req,res) {
-  
+
     ems.setChecklistsMaster(req, res);
 
 });
@@ -1811,21 +1811,21 @@ app.get('/ems/api/getChecklistsMaster/:deptId/:category/:companyName', function(
 
 app.get('/ems/api/getChecklistsMasterActive/:deptId/:category/:status/:companyName', function(req,res) {
         ems.getChecklistsMasterActive(req,res);
-    
+
     });
 
-/** 
- * EMS 
+/**
+ * EMS
  * set new hire
- */ 
+ */
 app.post('/ems/api/setNewHire/', function(req,res) {
 
     ems.setNewHire(req,res);
 });
 
-/** 
+/**
  * EMS
- * get new hire list 
+ * get new hire list
  * */
 
 app.get('/ems/api/getNewHireDetails/:id/:companyName', function(req,res) {
@@ -1834,9 +1834,9 @@ app.get('/ems/api/getNewHireDetails/:id/:companyName', function(req,res) {
 
 });
 
-/** 
+/**
  * EMS
- * set reason master 
+ * set reason master
  * */
 app.post('/ems/api/setReasonMaster/', function(req,res) {
 
@@ -1898,14 +1898,14 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
         ems.getEmployeesList(req, res);
     });
-      
+
  /** EMS
  * set candidate pre onboarding details
  */
   app.post('/ems/api/setPreonboardCandidateInformation', function(req,res) {
    ems.setPreonboardCandidateInformation(req,res);
- });   
-  
+ });
+
 /** EMS
  * get candidate list
  */
@@ -1946,7 +1946,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
   app.get('/ems/api/getEmployeeslistforTermination/:companyName', function(req,res){
     ems.getEmployeeslistforTermination(req,res)
   })
-  
+
 
   /** set onboard candidate work experience */
   app.post('/ems/api/setCandidateExperience', function(req,res) {
@@ -1963,9 +1963,9 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     app.get('/ems/api/getDepartmentEmployeesByDesignation/:sid/:pid/:companyName', function(req,res) {
 
         ems.getDepartmentEmployeesByDesignation(req,res);
-    
+
     });
-      
+
     /** */
     app.post('/ems/api/setProgramSchedulemail/',function(req,res){
         ems.setProgramSchedulemail(req,res);
@@ -2003,7 +2003,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
   app.post('/ems/api/setEmpPersonalInfo', function(req,res) {
     ems.setEmpPersonalInfo(req,res);
-  });  
+  });
 
 //   app.post('/ems/api/setEmployeeMasterData', function(req,res) {
 //     ems.setEmployeeMasterData(req,res);
@@ -2026,12 +2026,12 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id/:companyName',function(req,res){
         ems.getEmsEmployeeColumnConfigurationValue(req,res)
     })
-   
+
       /**getFilepathsMasterForEMS */
     app.get('/ems/api/getFilepathsMasterForEMS/:moduleId/:companyName',function(req,res){
         ems.getFilepathsMasterForEMS(req,res)
     })
-    
+
    /**setFilesMasterForEMS */
    app.post('/ems/api/setFilesMasterForEMS/',function(req,res){
     ems.setFilesMasterForEMS(req,res)
@@ -2067,13 +2067,13 @@ app.post('/ems/api/getEmsEmployeeDataForReports/',function(req,res){
 app.post('/ems/api/getDocumentsForEMS/',function(req,res){
     ems.getDocumentsForEMS(req,res)
     })
-    
+
     /**getDocumentsForEMS */
 app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
     ems.getDocumentOrImagesForEMS(req,res)
     })
 
-    
+
     /**removeDocumentOrImagesForEMS */
     app.delete('/ems/api/removeDocumentOrImagesForEMS/:path',function(req,res){
         ems.removeDocumentOrImagesForEMS(req,res)
@@ -2098,17 +2098,17 @@ app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
   /** EMS set employee job details */
   app.post('/ems/api/setEmpJobDetails', function(req,res) {
     ems.setEmpJobDetails(req,res);
-  });  
+  });
 
     /** EMS set employee education details */
     app.post('/ems/api/setEmpEducationDetails', function(req,res) {
         ems.setEmpEducationDetails(req,res);
-      });  
+      });
 
 /** EMS set employee education details */
     app.post('/ems/api/setEmpEmployement', function(req,res) {
         ems.setEmpEmployement(req,res);
-    });  
+    });
 
 /** get Employee Personal Info (HR)*/
     app.get('/ems/api/getEmpEmployement/:id/:companyName',function(req,res){
@@ -2139,7 +2139,7 @@ app.post('/ems/api/getEmployeesPendingChecklists', function(req,res) {
 
 });
 
-    //////// 
+    ////////
 /** EMS setOnboardingSettings */
 app.post('/ems/api/setOnboardingSettings', function(req,res) {
     ems.setOnboardingSettings(req,res);
@@ -2205,6 +2205,9 @@ app.get('/ems/api/getHrDetails/:companyName', function(req,res) {
 });
 app.get('/ems/api/getnoticeperiods/:companyName', function(req,res) {
     ems.getnoticeperiods(req, res);
+});
+app.post('/ems/api/setprogramspasterstatus/', function(req,res) {
+    ems.setprogramspasterstatus(req,res);
 });
 ////////
 // app.use("/admin", admin);

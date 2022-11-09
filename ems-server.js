@@ -115,6 +115,7 @@ module.exports = {
 
 
 
+    setprogramspasterstatus:setprogramspasterstatus
 };
 //// set new hire list
 async function setNewHire(req,res) {
@@ -1221,8 +1222,8 @@ async function updateselectEmployeesProgramSchedules(req,res){
 }
 function setProgramSchedulemail(req,res){
     try{
-
-       let email = ['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
+       console.log("hi",req)
+       let email = req//['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
@@ -2647,9 +2648,17 @@ function getDatebaseName(companyName){
     });
 
 }
-
-
-
-
-
-
+function setprogramspasterstatus(req,res){
+    try{
+        con.query("CALL `set_programs_status` (?,?,?)", [req.body.pid,req.body.pStatus, req.body.actionby], function (err, result, fields) {
+            if (result[0][0].successstate == 0) {
+                res.send({ status:true});
+            } else {
+                res.send({status:false})
+            }
+        });
+    }
+    catch(e){
+        console.log('getnoticeperiods :', e)
+    }
+}
