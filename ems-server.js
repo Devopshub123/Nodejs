@@ -828,7 +828,7 @@ function updateselectEmployeesProgramSchedules(req,res){
 function setProgramSchedulemail(req,res){
     try{
        console.log("hi",req[0])
-       let email = ['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
+       let email = req//['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
