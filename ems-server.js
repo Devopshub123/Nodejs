@@ -115,7 +115,8 @@ function setNewHire(req,res) {
  
         con.query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
             console.log("set-error--",err)
-            console.log("set-result-",result[0][0])
+            console.log("set-result-", result[0][0])
+
             if (result[0][0].statuscode == 0) {
                  var transporter = nodemailer.createTransport({
                         host: "smtp-mail.outlook.com", // hostname
@@ -158,11 +159,14 @@ function setNewHire(req,res) {
                         if (error) {
                             res.send({status: false})
                         } else {
-                            res.send({status: true})
+                            res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
                         }
                     }); 
-                    res.send({status: true})
-            }
+                    res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
+           
+            } else if (result[0][0].statuscode == 1) {
+                res.send({status: true,data: { empid: result[0][0].empid,email:result[0][0].email }  });
+           }
             else {
                 res.send({status:false})
             }
@@ -829,7 +833,7 @@ function updateselectEmployeesProgramSchedules(req,res){
 }
 function setProgramSchedulemail(req,res){
     try{
-       console.log("hi",req[0])
+       console.log("hi",req)
        let email = ['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
