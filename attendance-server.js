@@ -96,7 +96,7 @@ app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyShortName', 
                 }
             });
         }
-    } catch (e) {
+    }  catch (e) {
         console.log('getMastertable :', e)
 
     }
@@ -119,7 +119,7 @@ app.post('/api/setDesignation',function (req,res) {
                 res.send({status: true, message: "Designation added successfully"})
             }
         });
-    }catch (e){
+    } catch (e){
 
         console.log('setDesignation :', e)
 
@@ -148,7 +148,7 @@ app.post('/api/setEmployeeMaster', function (req, res) {
                     res.send({ status: true, message: 'Employee added successfully' })
                 }
             });
-    } catch (e) {
+    }  catch (e) {
         console.log('setEmployeeMaster :', e)
     }
 });
@@ -171,7 +171,7 @@ app.put('/api/putDesignation', function (req, res) {
         });
 
 
-    } catch (e) {
+    }  catch (e) {
         console.log('setDesignation :', e)
 
     }
@@ -236,7 +236,7 @@ app.get('/api/forgetpassword/:email', function (req, res, next) {
             }
         });
     }
-    catch (e) {
+     catch (e) {
         console.log("forgetpassword", e)
     }
 })
@@ -275,7 +275,7 @@ app.post('/changePassword', function (req, res) {
         });
 
     }
-    catch (e) {
+     catch (e) {
         console.log("changepassword", e)
     }
 
@@ -301,7 +301,7 @@ app.post('/api/emp_login', function (req, res, next) {
                             res.send({ status: false, result })
                         }
                     }
-                    catch (e) {
+                     catch (e) {
                         console.log("employee_login", e)
                     }
 
@@ -315,7 +315,7 @@ app.post('/api/emp_login', function (req, res, next) {
         });
 
     }
-    catch (e) {
+     catch (e) {
         console.log("employee_login", e)
     }
 })
@@ -347,7 +347,7 @@ app.post('/api/updateEmployeeAttendanceRegularization', function (req, res) {
                     }
                 });
 
-    } catch (e) {
+    }  catch (e) {
         console.log('update_employee_attendance_regularization')
     }
 })
@@ -375,7 +375,7 @@ app.post('/api/setEmployeeMaster', function (req, res) {
             });
 
 
-    } catch (e) {
+    }  catch (e) {
         console.log('setEmployeeMaster :', e)
     }
 });
@@ -391,7 +391,7 @@ app.post('/api/getEmployeeAttendanceNotifications', function (req, res) {
                     res.send({ status: false, data: [] });
                 }
             })
-    } catch (e) {
+    }  catch (e) {
         console.log('getemployeeattendancedashboard');
     }
 });
@@ -419,30 +419,35 @@ app.post('/api/getEmployeeAttendanceNotifications', function (req, res) {
 
 async function getEmployeeAttendanceNotifications(req,res){
     try {
-        console.log("helloooogetDatebaseName",req.body)
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(1,companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(1,companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+
+            listOfConnections[companyName].query("CALL `get_employee_attendance_notifications` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
+
+            function (err, result, fields) {
+                console.log("helllllllllllllllerrr",err,result)
+
+                if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
         }
-
-        listOfConnections[companyName].query("CALL `get_employee_attendance_notifications` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
-
-        function (err, result, fields) {
-            console.log("helllllllllllllllerrr",err,result)
-
-            if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
-        console.log('getemployeeattendancedashboard');
-    }
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
+            console.log('getemployeeattendancedashboard');
+        }
 }
 
 
@@ -453,21 +458,27 @@ async function getrolescreenfunctionalities(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(2,companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `getrolescreenfunctionalities` (?,?)", [req.body.empid, req.body.moduleid], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        });
+            listOfConnections[companyName].query("CALL `getrolescreenfunctionalities` (?,?)", [req.body.empid, req.body.moduleid], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false })
+                }
+            });
 
-    } catch (e) {
-        console.log('getscreenfunctionalitiesmaster :', e)
-    }
+        }
+        else {
+            res.send({ status: false })
+        } 
+    } 
+    catch (e) {
+            console.log('getscreenfunctionalitiesmaster :', e)
+        }
 };
 
 /**Get All Employees List
@@ -481,28 +492,34 @@ async function getallemployeeslist(req, res) {
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(3,companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_all_employees_list`()", function (err, result, fields) {
-            if (result && result.length > 0) {
-
-                res.send({ status: true, data: result[0] })
-
-            } else {
-
-                res.send({ status: false, data: [] });
-
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(3,companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
+            listOfConnections[companyName].query("CALL `get_all_employees_list`()", function (err, result, fields) {
+                if (result && result.length > 0) {
 
-        })
+                    res.send({ status: true, data: result[0] })
 
-    } catch (e) {
+                } else {
 
-        console.log('getAllEmployees');
+                    res.send({ status: false, data: [] });
 
-    }
+                }
+
+            })
+
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
+
+            console.log('getAllEmployees');
+
+        }
 
 }
 
@@ -521,7 +538,7 @@ function getDatebaseName(companyName){
                 }
             })
         }
-        catch (e) {
+         catch (e) {
             rej(e)
         }
     });
@@ -535,20 +552,26 @@ async function getEmployeeCurrentShifts(req,res){
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at4',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at4',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_employee_current_shifts`(?)",[req.body.employee_id],
+                function(err,result){
+                    console.log(result);
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
         }
-        listOfConnections[companyName].query("CALL `get_employee_current_shifts`(?)",[req.body.employee_id],
-            function(err,result){
-                console.log(result);
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    }catch(e){
+        else {
+            res.send({ status: false })
+        }
+    }
+    catch(e){
         console.log("get_employee_current_shifts")
     }
 }
@@ -562,21 +585,26 @@ async function getemployeeattendancedashboard(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at5',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at5',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
+                function (err, result, fields) {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
+        } 
+        else {
+            res.send({ status: false })
         }
-        listOfConnections[companyName].query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
     } catch (e) {
-        console.log('get_employee_attendance_dashboard');
-    }
+            console.log('get_employee_attendance_dashboard');
+        }
 }
 
 /**@param employee_id in, `fromd_date` date,in `to_date` date)*/
@@ -587,22 +615,28 @@ async function getEmployeeShiftByDates(req,res){
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at6',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at6',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_employee_shift_by_dates`(?,?,?)",[req.body.employee_id,req.body.fromd_date,req.body.to_date],
+                function(err,result){
+                    console.log(result);
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
         }
-        listOfConnections[companyName].query("CALL `get_employee_shift_by_dates`(?,?,?)",[req.body.employee_id,req.body.fromd_date,req.body.to_date],
-            function(err,result){
-                console.log(result);
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    }catch(e){
-        console.log(get_employee_shift_by_dates)
+        else {
+            res.send({ status: false })
+        }
     }
+    catch(e){
+            console.log(get_employee_shift_by_dates)
+        }
 }
 
 /**@param employee_id */
@@ -612,22 +646,27 @@ async function getEmployeeWeekoffsHolidaysForAttendance(req,res){
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at7',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at7',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_employee_weekoffs_holidays_for_attendance`(?)",[req.body.employee_id],
+                function(err,result){
+                    console.log(result);
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
         }
-        listOfConnections[companyName].query("CALL `get_employee_weekoffs_holidays_for_attendance`(?)",[req.body.employee_id],
-            function(err,result){
-                console.log(result);
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
+        else {
+            res.send({ status: false })
+        }
     }catch(e){
-        console.log("get_employee_weekoffs_holidays_for_attendance")
-    }
+            console.log("get_employee_weekoffs_holidays_for_attendance")
+        }
 }
 
 /**Get employee_attendance_regularization
@@ -640,23 +679,27 @@ async function getemployeeattendanceregularization(req, res) {
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at8',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_employee_attendance_regularization` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at8',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        });
+            listOfConnections[companyName].query("CALL `get_employee_attendance_regularization` (?)", [req.params.employee_id], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false })
+                }
+            });
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
+            console.log('getemployeeattendanceregularization :', e)
 
-
-    } catch (e) {
-        console.log('getemployeeattendanceregularization :', e)
-
-    }
+        }
 }
 
 /** setemployeeattendanceregularization
@@ -680,30 +723,36 @@ async function setemployeeattendanceregularization(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at9',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            [req.body.id, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
-                req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
-                req.body.approvercomments, req.body.actionby, req.body.status], function (err, result, fields) {
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at9',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                [req.body.id, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
+                    req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
+                    req.body.approvercomments, req.body.actionby, req.body.status], function (err, result, fields) {
 
-                if (err) {
-                    res.send({ status: false, message: "notSave" });
-                } else {
-                    if (result[0][0].validity_status == 0) {
-                        res.send({ status: true, message: "duplicate" })
+                    if (err) {
+                        res.send({ status: false, message: "notSave" });
                     } else {
-                        res.send({ status: true, message: "save" })
+                        if (result[0][0].validity_status == 0) {
+                            res.send({ status: true, message: "duplicate" })
+                        } else {
+                            res.send({ status: true, message: "save" })
+                        }
                     }
-                }
-            });
+                });
 
-    } catch (e) {
-        console.log('setemployeeattendanceregularization')
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
+            console.log('setemployeeattendanceregularization')
+        }
     }
-}
 
 
 //**delete_employee_attendance_regularization */
@@ -713,25 +762,31 @@ async function deleteAttendanceRequestById(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at10',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at10',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `delete_employee_attendance_regularization` (?)", [req.body.id],
+                function (err, result, fields) {
+                    console.log(result[0]);
+                    console.log(result[0][0]);
+                    if (result[0][0].successState == 0) {
+                        res.send({ status: true, message: 'Attendance request deleted successfully.' })
+
+                    } else {
+                        res.send({ status: true, message: 'Unable to attendance request deleted.' })
+                    }
+
+                })
         }
-        listOfConnections[companyName].query("CALL `delete_employee_attendance_regularization` (?)", [req.body.id],
-            function (err, result, fields) {
-                console.log(result[0]);
-                console.log(result[0][0]);
-                if (result[0][0].successState == 0) {
-                    res.send({ status: true, message: 'Attendance request deleted successfully.' })
-
-                } else {
-                    res.send({ status: true, message: 'Unable to attendance request deleted.' })
-                }
-
-            })
-    } catch (e) {
-        console.log('delete_employee_attendance_regularization');
+         else {
+            res.send({ status: false })
+        }
     }
+    catch (e) {
+            console.log('delete_employee_attendance_regularization');
+     }
 }
 
 
@@ -750,20 +805,26 @@ async function getAttendanceMonthlyReport(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at11',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at11',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
 
-        listOfConnections[companyName].query("CALL `get_attendance_monthly_report` (?,?,?)", [req.body.manager_employee_id, req.body.employee_id, req.body.calendar_date],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
+            listOfConnections[companyName].query("CALL `get_attendance_monthly_report` (?,?,?)", [req.body.manager_employee_id, req.body.employee_id, req.body.calendar_date],
+                function (err, result, fields) {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
         console.log('getemployeeattendancedashboard');
     }
 }
@@ -778,18 +839,24 @@ async function getpendingattendanceregularizations(req, res) {
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at12',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_pending_attendance_regularizations` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at12',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        });
-    } catch (e) {
+            listOfConnections[companyName].query("CALL `get_pending_attendance_regularizations` (?)", [req.params.employee_id], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false })
+                }
+            });
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
         console.log('getpendingattendanceregularizations :', e)
     }
 }
@@ -805,19 +872,25 @@ async function getEmployeesByManagerId(req, res) {
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at13',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at13',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_employees_for_reporting_manager` (?,?)", [req.params.employee_id,'All'],
+                function (err, result, fields) {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
+        } 
+        else {
+            res.send({ status: false })
         }
-        listOfConnections[companyName].query("CALL `get_employees_for_reporting_manager` (?,?)", [req.params.employee_id,'All'],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
+    }
+     catch (e) {
         console.log('getEmployeesByManagerId');
     }
 }
@@ -830,20 +903,25 @@ async function getemployeeshift(req, res) {
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at14',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_employee_shift` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
-
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at14',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        });
+            listOfConnections[companyName].query("CALL `get_employee_shift` (?)", [req.params.employee_id], function (err, result, fields) {
+                if (result) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false })
 
-    } catch {
+                }
+            });
+        }
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch {
         console.log('get_employee_shift :')
     }
 }
@@ -855,19 +933,25 @@ async function getAttendanceRegularizationByManagerId(req, res) {
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at15',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at15',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_manager_on_behalf_of_employee_attendance_regularizations` (?)", [req.params.manager_employee_id],
+                function (err, result, fields) {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
         }
-        listOfConnections[companyName].query("CALL `get_manager_on_behalf_of_employee_attendance_regularizations` (?)", [req.params.manager_employee_id],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
+        else {
+            res.send({ status: false })
+        }
+     } 
+     catch (e) {
         console.log('getAttendanceRegularizationByManagerId');
     }
 }
@@ -886,21 +970,26 @@ async function setattendanceapprovalstatus(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at16',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at16',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `set_attendance_approval_status` (?,?,?,?)",
+                [req.body.id, req.body.approvercomments, req.body.actionby, req.body.approvelstatus],
+                function (err, result, fields) {
+                    if (err) {
+                        res.send({ status: false, message: "UnableToApprove" });
+                    } else {
+                        res.send({ status: true, message: "ApprovalRequest" });
+                    }
+                    console.log(err);
+                });
+ 
         }
-        listOfConnections[companyName].query("CALL `set_attendance_approval_status` (?,?,?,?)",
-            [req.body.id, req.body.approvercomments, req.body.actionby, req.body.approvelstatus],
-            function (err, result, fields) {
-                if (err) {
-                    res.send({ status: false, message: "UnableToApprove" });
-                } else {
-                    res.send({ status: true, message: "ApprovalRequest" });
-                }
-                console.log(err);
-            });
-
+        else {
+            res.send({ status: false })
+        }
     }
     catch {
         console.log('setattendanceapprovalstatus');
@@ -920,24 +1009,30 @@ async function getallemployeeslistByManagerId(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at17',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_employees_of_manager` (?)",[req.body.rm_id], function (err, result, fields) {
-            if (result && result.length > 0) {
-
-                res.send({ status: true, data: result[0] })
-
-            } else {
-
-                res.send({ status: false, data: [] });
-
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at17',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
+            listOfConnections[companyName].query("CALL `get_employees_of_manager` (?)",[req.body.rm_id], function (err, result, fields) {
+                if (result && result.length > 0) {
 
-        })
+                    res.send({ status: true, data: result[0] })
 
-    } catch (e) {
+                } else {
+
+                    res.send({ status: false, data: [] });
+
+                }
+
+            })
+
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
 
         console.log('get_employees_of_manager');
 
@@ -954,23 +1049,29 @@ async function getAttendanceSummaryReport(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at18',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_attendance_summary_report` (?,?,?,?)", [req.body.manager_empid,req.body.employee, req.body.fromdate, req.body.todate],
-            function (err, result, fields) {
-                if (err) {
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at18',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_attendance_summary_report` (?,?,?,?)", [req.body.manager_empid,req.body.employee, req.body.fromdate, req.body.todate],
+                function (err, result, fields) {
+                    if (err) {
 
-                } else {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
                     } else {
-                        res.send({ status: false, data: [] });
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
                     }
-                }
-            })
-    } catch (e) {
+                })
+        }
+        else {
+            res.send({ status: false })
+        } 
+    } 
+    catch (e) {
         console.log('get_attendance_summary_report');
     }
 }
@@ -985,23 +1086,29 @@ async function getAttendanceDetailsByAttendanceId(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at19',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_attendance_details_report` (?)", [req.body.attendanceid],
-            function (err, result, fields) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at19',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_attendance_details_report` (?)", [req.body.attendanceid],
+                function (err, result, fields) {
+                    if (err) {
+                        console.log(err);
                     } else {
-                        res.send({ status: false, data: [] });
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
                     }
-                }
-            })
-    } catch (e) {
+                })
+        }
+        else {
+            res.send({ status: false })
+        } 
+    } 
+    catch (e) {
         console.log('getAttendanceDetailsByAttendanceId');
     }
 }
@@ -1016,20 +1123,26 @@ async function getEmployeeConfigureShifts(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at20',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_employee_shifts_for_manager_or_department` (?,?)", [req.body.manager_empid, req.body.department_id],
-            function (err, result, fields) {
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at20',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_employee_shifts_for_manager_or_department` (?,?)", [req.body.manager_empid, req.body.department_id],
+                function (err, result, fields) {
 
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
         console.log('get_employee_shifts_for_manager_or_department');
     }
 }
@@ -1047,23 +1160,29 @@ async function setEmployeeConfigureShift(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at21',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at21',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `set_employee_shifts` (?,?,?,?,?)", [req.body.shift_id,req.body.from_date,
+                    req.body.to_date, req.body.weekoffs, req.body.empids],
+                function (err, result, fields) {
+                    console.log(result[0][0].successstate);
+                    if (result[0][0].successstate == 1) {
+                        res.send({ status: true, message: "dataSaved" })
+
+                    } else {
+                        res.send({ status: true, message: "UnableToSave" })
+                    }
+
+                })
+        } 
+        else {
+            res.send({ status: false })
         }
-        listOfConnections[companyName].query("CALL `set_employee_shifts` (?,?,?,?,?)", [req.body.shift_id,req.body.from_date,
-                req.body.to_date, req.body.weekoffs, req.body.empids],
-            function (err, result, fields) {
-                console.log(result[0][0].successstate);
-                if (result[0][0].successstate == 1) {
-                    res.send({ status: true, message: "dataSaved" })
-
-                } else {
-                    res.send({ status: true, message: "UnableToSave" })
-                }
-
-            })
-    } catch (e) {
+    } 
+    catch (e) {
         console.log('set_employee_shifts');
     }
 }
@@ -1083,21 +1202,27 @@ async function getEmployeeLateAttendanceReport(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at22',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_employee_late_attendance_report` (?,?,?,?,?)", [req.body.manager_empid,req.body.employee_id,
-                req.body.shift_id,req.body.from_date, req.body.to_date],
-            function (err, result, fields) {
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_employee_late_attendance_report` (?,?,?,?,?)", [req.body.manager_empid,req.body.employee_id,
+                    req.body.shift_id,req.body.from_date, req.body.to_date],
+                function (err, result, fields) {
 
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-    } catch (e) {
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
+                })
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
         console.log('get_employee_late_attendance_report');
     }
 }
@@ -1109,18 +1234,24 @@ async function getAttendanceRegularizationsHistoryForManager(req, res) {
         let companyName = req.params.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at23',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_attendance_regularizations_history_for_manager` (?)", [req.params.employee_id], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at23',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        });
-    } catch (e) {
+            listOfConnections[companyName].query("CALL `get_attendance_regularizations_history_for_manager` (?)", [req.params.employee_id], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false })
+                }
+            });
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
         console.log('get_attendance_regularizations_history_for_manager :', e)
     }
 }
@@ -1134,21 +1265,27 @@ async function setEmployeeAttendance(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at24',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `set_employee_attendance` (?)",
-            [JSON.stringify(req.body)], function (err, result, fields) {
-                console.log(result);
-                if (err) {
-                    res.send({ status: false, message: "unableToUpload" });
-                } else {
-                    res.send({ status: true, message: "excelUploadSave" })
-                }
-            });
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at24',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `set_employee_attendance` (?)",
+                [JSON.stringify(req.body)], function (err, result, fields) {
+                    console.log(result);
+                    if (err) {
+                        res.send({ status: false, message: "unableToUpload" });
+                    } else {
+                        res.send({ status: true, message: "excelUploadSave" })
+                    }
+                });
 
-    } catch (e) {
+        }
+        else {
+            res.send({ status: false })
+        }
+     } 
+     catch (e) {
         console.log('setEmployeeAttendance :', e)
     }
 }
@@ -1160,20 +1297,26 @@ async function getrolescreenfunctionalitiesforrole(req, res) {
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection('at24',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `getrolescreenfunctionalities_for_role` (?,?)", [req.body.roleid, req.body.moduleid], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('at24',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        });
+            listOfConnections[companyName].query("CALL `getrolescreenfunctionalities_for_role` (?,?)", [req.body.roleid, req.body.moduleid], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false })
+                }
+            });
 
 
-    } catch (e) {
+        } 
+        else {
+            res.send({ status: false })
+        }
+    } 
+    catch (e) {
         console.log('getrolescreenfunctionalities_for_role :', e)
     }
 }

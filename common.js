@@ -66,7 +66,8 @@ module.exports = {
                 }
             })
         }
-        catch (e) {
+         
+    catch (e) {
             rej(e)
         }
     });
@@ -81,43 +82,48 @@ module.exports = {
 async function login(req,res){
     try{
 
-    var  dbName = await getDatebaseName(req.body.companyName)
+    var  dbName = await getDatebaseName(req.body.companyName);
+
      var email = req.body.email;
         var password = req.body.password;
         var companyName = req.body.companyName;
         // console.log("single",req.body)
+            var listOfConnections = {};
+            if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(0, companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
+                //  console.log("firstone",results)
+                var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+                if (result[0] > 0) {
+                    listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0]], function (err, results, next) {
+                        // console.log("firstTwo",results)
+                        try {
+                            if (results.length > 0) {
+                                var result = JSON.parse(results[0][0].result)
+                                res.send({status: true, result})
 
-        var listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(0,companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+                            }
+                            else {
+                                res.send({status: false, result})
+                            }
+                        }
+                         
+                        catch (e) {
+                            console.log("employee_login", e)
+                        }
+                    })
+                }
+                else {
+                    res.send({status: false, message: "Invalid userName or password"})
+                }
+            });
+        }else {
+            res.send({status: false, message: "Invalid userName or password"})
         }
-        listOfConnections[companyName].query('CALL `authenticateuser` (?,?)',[email,password],function(err,results,next){
-        //  console.log("firstone",results)
-            var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
-            if (result[0] > 0) {
-                listOfConnections[companyName].query('CALL `getemployeeinformation`(?)',[result[0]],function(err,results,next){
-                    // console.log("firstTwo",results)
-                    try{
-                        if(results.length>0){
-                            var result = JSON.parse(results[0][0].result)
-                            res.send({status: true,result})
-
-                        }
-                        else{
-                            res.send({status: false,result})
-                        }
-                    }
-                    catch (e){
-                        console.log("employee_login",e)
-                    }
-                })
-            }
-            else{
-                res.send({status: false,message:"Invalid userName or password"})
-            }
-        });
-    }
+     }
     catch (e){
         console.log("employee_login",e)
     }
@@ -131,7 +137,8 @@ async function getMastertable(req,res){
 
         let companyName = req.params.companyName;
         let listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(1,companyName)
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(1,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -179,7 +186,10 @@ async function getMastertable(req,res){
 
 
         }
-    }catch (e) {
+    }else {
+        res.send({status: false})
+    } }
+    catch (e) {
         console.log('getMastertable :',e)
 
     }
@@ -194,7 +204,8 @@ async function getErrorMessages(req,res) {
         let companyName = req.params.companyName;
         let listOfConnections = {};
         console.log("jhbhjbhj",dbName,req.params.companyName)
-        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -215,7 +226,10 @@ async function getErrorMessages(req,res) {
         });
 
 
-    }catch (e) {
+    }else {
+        res.send({status: false})
+    } }
+    catch (e) {
         console.log('geterrormessages :',e)
 
     }
@@ -229,7 +243,8 @@ async function setErrorMessages(req,res) {
 
         let companyName = req.body[0].companyName;
         let listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -243,7 +258,10 @@ async function setErrorMessages(req,res) {
             });
 
 
-    }catch (e) {
+    }else {
+        res.send({status: false})
+    } }
+    catch (e) {
         console.log('seterrormessages :',e)
     }
 }
@@ -256,7 +274,8 @@ async function getEmployeeInformation(req,res) {
 
         let companyName = req.params.companyName;
         let listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -268,7 +287,10 @@ async function getEmployeeInformation(req,res) {
             }
         });
 
-    }catch (e) {
+    }else {
+        res.send({status: false})
+    } }
+    catch (e) {
         console.log('getEmployeeInformation :',e)
 
     }
@@ -283,7 +305,8 @@ async function editProfile(req,res){
 
         let companyName = req.body.companyName;
         let listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -297,7 +320,10 @@ async function editProfile(req,res){
             });
 
 
-    }catch (e) {
+    }else {
+        res.send({status: false})
+    } }
+    catch (e) {
         console.log('editProfile :',e)
     }
 
@@ -312,7 +338,8 @@ async function forgetpassword(req, res, next) {
 
         let companyName = req.params.companyName;
         let listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -370,7 +397,10 @@ async function forgetpassword(req, res, next) {
                 });
             }
         });
+    }else {
+        res.send({status: false})
     }
+     }
     catch (e) {
         console.log("forgetpassword", e)
     }
@@ -387,7 +417,8 @@ async function resetpassword(req, res, next) {
         let  dbName = await getDatebaseName(req.body.companyName);
         let companyName = req.body.companyName;
         let listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(2,companyName)
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(2,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -402,7 +433,10 @@ async function resetpassword(req, res, next) {
             }
         });
 
+    }else {
+        res.send({status: false})
     }
+     }
     catch (e) {
         console.log("resetpassword", e)
     }
@@ -419,7 +453,8 @@ async function changePassword(req,res){
         let  dbName = await getDatebaseName(req.body.companyName);
         let companyName = req.body.companyName;
         let listOfConnections = {};
-        listOfConnections= connection.checkExistingDBConnection(5,companyName)
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(5,companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -448,9 +483,13 @@ async function changePassword(req,res){
             }
 
         });
-    }
+    }else {
+        res.send({status: false})
+    }}
     catch(e){
         console.log("changepassword",e)
     }
 
 }
+
+
