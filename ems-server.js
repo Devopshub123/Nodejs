@@ -131,7 +131,7 @@ function setNewHire(req,res) {
                         }
                     });
                     var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
-                  //  var url = 'http://localhost:4200/pre-onboarding/'+token;
+                //    var url = 'http://localhost:4200/pre-onboarding/'+token;
                     var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
                     
                     var html = `<html>
@@ -599,6 +599,8 @@ function setPreonboardCandidateInformation(req, res) {
 
         try {
             con.query("CALL `get_candidate_details` (?)", [req.params.emp_Id], function (err, result, fields) {
+              console.log("err-",err)
+              console.log("result-",result)
                 if (result && result.length > 0) {
                     res.send({ data: result[0], status: true });
                 } else {
