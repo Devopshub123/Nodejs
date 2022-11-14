@@ -140,12 +140,12 @@ function setNewHire(req,res) {
                     <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
                     <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
                     <p style="color:black">Hello,</p>
-                    <p style="color:black">Thank you for using HRMS&nbsp; We’re really happy to have you!<b></b></p>
+                    <p style="color:black">Thank you for using Spryple HCM&nbsp; We’re really happy to have you!<b></b></p>
                     <p style="color:black"> kindly complete your application here by following link</p>
                     <p style="color:black"> <a href="${url}" >${url} </a></p>   
                     <p style="color:black"> Fill in all the information as per your supporting documents.</p>
                     <p style="color:black">Thank You!</p>
-                    <p style="color:black">HRMS Team</p>
+                    <p style="color:black">Spryple HCM Team</p>
                     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                     </div></body>
                     </html> `;
