@@ -145,7 +145,7 @@ async function setNewHire(req,res) {
                             pass: 'Sree$sreebt'
                         }
                     });
-                    var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
+                    var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,companyName :companyName,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
 
 
                 //   var url = 'http://localhost:4200/pre-onboarding/'+token;
@@ -176,9 +176,11 @@ async function setNewHire(req,res) {
                         if (error) {
                             res.send({status: false})
                         } else {
-                            res.send({status: true})
-                        }
+                            res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });                        }
                     });
+                    res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
+                }else if (result[0][0].statuscode == 1) {
+                    res.send({status: true,data: { empid: result[0][0].empid,email:result[0][0].email }  });
                 }
                 else {
                     res.send({status:false})
@@ -821,7 +823,8 @@ async function getEmployeesList(req,res) {
 async function setPreonboardCandidateInformation(req, res) {
 
     try {
-        let companyName =req.body[0].companyName;
+        console.log("jhbhjfhjbhfjd",req.body)
+        let companyName =req.body.companyName;
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){

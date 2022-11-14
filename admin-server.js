@@ -100,6 +100,7 @@ app.post('/api/getRolesByDepartment',function(req,res) {
      getscreenfunctionalitiesmaster:getscreenfunctionalitiesmaster,
      setRoleAccess:setRoleAccess,
      setRoleMaster:setRoleMaster,
+     getReportingManager:getReportingManager,
 
  }
 
@@ -445,7 +446,8 @@ async function getactiveWorkLocation(req,res) {
 async function setHolidays(req,res) {
 
     try {
-        let  dbName = await getDatebaseName(req.body.companyName)
+        console.log(req.body,"req.body.companyName")
+        let  dbName = await getDatebaseName(req.body[0].companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
@@ -492,6 +494,8 @@ async function setHolidays(req,res) {
                 res.send({status: false, message: 'Unable to insert holidays'});
             }
         }  else {
+            console.log("else condition")
+
             res.send({ status: false })
         }
 
@@ -1707,3 +1711,33 @@ async function setRoleMaster(req,res){
     }
 }
 
+/**getreportingmanagers */
+async function getReportingManager(req,res){
+    try{
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+        console.log("jkdfjkjb",req.body)
+        var listOfConnections = {};
+        if(dbName) {
+            listOfConnections = connection.checkExistingDBConnection('at22', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query("CALL `getreportingmanagers`(?)", [req.body.id], function (err, result, fields) {
+                if (err) {
+                    res.send({ status: false })
+                }
+                else {
+                    res.send(result)
+                }
+
+            });
+        }else {
+            res.send({ status: false })
+        }
+
+    }
+    catch(e){
+        console.log("getreportingmanager",e)
+    }
+}

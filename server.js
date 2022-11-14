@@ -499,24 +499,24 @@ app.post('/api/getEmployeeMaster',function(req,res) {
     }
 });
 
-/**getreportingmanagers */
-app.post('/api/getReportingManager',function(req,res){
-    try{
-        con.query("CALL `getreportingmanagers`(?)",[req.body.id],function (err, result, fields) {
-            if(err){
-                console.log(err)
-            }
-            else{
-                res.send(result)
-            }
-
-        });
-
-    }
-    catch(e){
-        console.log("getreportingmanager",e)
-    }
-})
+// /**getreportingmanagers */
+// app.post('/api/getReportingManager',function(req,res){
+//     try{
+//         con.query("CALL `getreportingmanagers`(?)",[req.body.id],function (err, result, fields) {
+//             if(err){
+//                 console.log(err)
+//             }
+//             else{
+//                 res.send(result)
+//             }
+//
+//         });
+//
+//     }
+//     catch(e){
+//         console.log("getreportingmanager",e)
+//     }
+// })
 /*Set Employee Master*/
 
 app.post('/api/setEmployeeMaster',function(req,res) {
@@ -3025,6 +3025,13 @@ app.post('/api/setRoleAccess',function(req,res) {
 app.post('/api/setRoleMaster',function(req,res) {
     admin.setRoleMaster(req,res)
 });
+
+/**getreportingmanagers */
+app.post('/api/getReportingManager',function(req,res){
+   admin.getReportingManager(req,res)
+})
+
+
 
 
 
