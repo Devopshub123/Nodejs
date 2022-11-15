@@ -1219,9 +1219,11 @@ function setFilesMasterForEMS(req, res) {
 
 
 function setDocumentOrImageForEMS(req, res) {
-    try { 
+    try {
         file=req.files.file;
-        var localPath = JSON.parse(decodeURI(req.params.path))
+        // var localPath = JSON.parse(decodeURI(req.params.path))
+        var localPath = JSON.parse(req.body.info);
+
         console.log("localPath",localPath)
 
         var folderName =localPath.filepath;
