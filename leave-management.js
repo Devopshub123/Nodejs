@@ -198,7 +198,7 @@ function getEmployeesForReportingManager(req,res) {
 
 function getMastertables(req,res) {
     try {
-        con.query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,'spryple_sreeb'], function (err, result, fields) {
+        con.query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,req.body.databaseName], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -395,7 +395,7 @@ function getEmployeeInformation(req,res) {
 function setProfileImage(req,res) {
     try{
         file=req.files.file;
-        var localPath = JSON.parse(decodeURI(req.params.path))
+        var localPath = JSON.parse(req.body.info);
         var folderName =localPath.filepath;
         try {
             if (!fs.existsSync(folderName)) {

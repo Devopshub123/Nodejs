@@ -2785,7 +2785,7 @@ app.get('/api/getEmployeeInformation/:Id', function(req,res) {
 /**
  * setProfileImage
  * */
- app.post('/api/setProfileImage/:path', function(req,res) {
+ app.post('/api/setProfileImage/', function(req,res) {
     leaveManagement.setProfileImage(req,res);
 });
 /**
@@ -3185,7 +3185,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     })
 
 /**setDocumentOrImageForEMS */
-app.post('/ems/api/setDocumentOrImageForEMS/:path',function(req,res){
+app.post('/ems/api/setDocumentOrImageForEMS/',function(req,res){
     ems.setDocumentOrImageForEMS(req,res)
     })
 /**EMS getUserLoginData */
