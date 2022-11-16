@@ -145,7 +145,7 @@ function setNewHire(req,res) {
                     <p style="color:black"> <a href="${url}" >${url} </a></p>   
                     <p style="color:black"> Fill in all the information as per your supporting documents.</p>
                     <p style="color:black">Thank You!</p>
-                    <p style="color:black">Spryple HCM Team</p>
+                    <p style="color:black">Human Resources Team.</p>
                     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                     </div></body>
                     </html> `;
@@ -835,7 +835,8 @@ function updateselectEmployeesProgramSchedules(req,res){
 }
 function setProgramSchedulemail(req,res){
     try{
-       console.log("hi",req)
+       console.log("iprogram-0",req)
+       console.log("iprogram-1",req[1])
        let email = req//['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
@@ -845,8 +846,8 @@ function setProgramSchedulemail(req,res){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'smattupalli@sreebtech.com',
-            pass: 'Sree$sreebt'
+            user: 'no-reply@sreebtech.com',
+            pass: 'Sreeb@#123'
         }
         });
         var html = `<html>
@@ -856,8 +857,8 @@ function setProgramSchedulemail(req,res){
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Employee,</p>
         <p style="color:black">We are very excited to welcome you to our organization!<b></b></p>
-        <p style="color:black"> At Sreeb we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.<b></b></p>
-        <p style="color:black">You are required to attend the induction program by the Sreeb<b></b></p>
+        <p style="color:black"> At Spryple HCM we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.<b></b></p>
+        <p style="color:black">You are required to attend the induction program by the SPRYPLE<b></b></p>
         <p style="color:black">Name of the Induction Program:Organization Norms and Values<b></b></p>
        
         <p style="color:black">Your Meeting Scheduled On ${req[1].schedule_date}<b></b></p>
@@ -865,13 +866,13 @@ function setProgramSchedulemail(req,res){
         <p style="color:black">We are looking forward to working with you and seeing you achieve great things!<b></b></p>
         
         <p style="color:black">Warm Regards,</p>
-        <p style="color:black">Human Resources.</p>
+        <p style="color:black">The Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
    
         var mailOptions = {
-            from: 'smattupalli@sreebtech.com',
+            from: 'no-reply@sreebtech.com',
             to: email,
             subject: 'Induction Program Meeting',
             html: html
@@ -1028,7 +1029,7 @@ function setEmpJobDetails(req, res) {
     try {
         console.log(req.body)
          con.query("CALL `set_emp_job_details` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-            if (result && result.length > 0) {
+             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
