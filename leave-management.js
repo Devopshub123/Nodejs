@@ -38,6 +38,7 @@ module.exports = {
     leaveSattus:leaveSattus,
     getCompoffsForApproval:getCompoffsForApproval,
     getHandledLeaves:getHandledLeaves,
+    getApprovedLeaves:getApprovedLeaves,
     setCompoffForApproveOrReject:setCompoffForApproveOrReject,
     getCompoffs:getCompoffs,
     getEmployeeLeaveDetailedReportForManager:getEmployeeLeaveDetailedReportForManager,
@@ -130,6 +131,22 @@ function getHandledLeaves(req,res){
 
 
 
+function getApprovedLeaves(req,res){
+    try {
+        con.query("CALL `get_approved_leaves_above_currentdate` (?)",[req.params.id],function (err, result, fields) {
+           console.log("getApprovedLeaves:",result);
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getApprovedLeaves :',e)
+
+    }
+}
 function setCompoffForApproveOrReject(req,res){
     try {
         con.query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
