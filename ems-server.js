@@ -993,6 +993,8 @@ function setEmpPersonalInfo(req, res) {
     try {
         //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+             console.log("err-", err);
+             console.log("res-", result[0][0]);
              if (result && result[0][0].statuscode == 0) {
                res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
             } else if(result && result[0][0].statuscode == 1){
@@ -1312,6 +1314,7 @@ function getDocumentOrImagesForEMS(req, res) {
 
 function removeDocumentOrImagesForEMS(req,res) {
     try{
+        console.log(re.params.path)
     var localPath = JSON.parse(decodeURI(req.params.path))
         let foldername = localPath.filepath;
         fs.unlink(foldername+localPath.filename,function(err,result){
