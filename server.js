@@ -2611,7 +2611,15 @@ app.get('/api/getHandledLeaves/:id', function(req,res) {
     leaveManagement.getHandledLeaves(req,res);
 
 });
+//get_approved_leaves_above_currentdate
+/**
+ * Manager dashboard approved leaves
+ * */
+ app.get('/api/getApprovedLeaves/:id', function(req,res) {
 
+    leaveManagement.getApprovedLeaves(req,res);
+
+});
 /**
  * Manager dashboard approved or reject leaves
  * */
