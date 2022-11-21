@@ -106,7 +106,17 @@ module.exports = {
     getEmpOffboardTerminationChecklists: getEmpOffboardTerminationChecklists,
     getEmpResignationPendingChecklists: getEmpResignationPendingChecklists,
     getnoticeperiods: getnoticeperiods,
-    setprogramspasterstatus:setprogramspasterstatus
+    setprogramspasterstatus:setprogramspasterstatus,
+    getEmailsByEmpid: getEmailsByEmpid,
+    sendEmailToAdminAboutNewHire:sendEmailToAdminAboutNewHire,
+    sendEmailToEmployeeAboutLogins: sendEmailToEmployeeAboutLogins,
+    sendEmailToChecklistManager: sendEmailToChecklistManager,
+    sendEmailToEmployeeAboutChecklistUpdate: sendEmailToEmployeeAboutChecklistUpdate,
+    sendEmailToEmployeeAboutChecklistFinalUpdate: sendEmailToEmployeeAboutChecklistFinalUpdate,
+    sendEmailToEmployeeAboutChecklistComplete:sendEmailToEmployeeAboutChecklistComplete
+    
+    
+    
    
 };
 //// set new hire list
@@ -114,9 +124,6 @@ function setNewHire(req,res) {
     try {
  
         con.query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
-            console.log("set-error--",err)
-            console.log("set-result-", result[0][0])
-
             if (result[0][0].statuscode == 0) {
                  var transporter = nodemailer.createTransport({
                         host: "smtp-mail.outlook.com", // hostname
@@ -835,7 +842,7 @@ function updateselectEmployeesProgramSchedules(req,res){
 }
 function setProgramSchedulemail(req,res){
     try{
-       console.log("iprogram-0",req)
+       console.log("hello-1")
        console.log("iprogram-1",req[1])
        let email = req//['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
        var transporter = nodemailer.createTransport({
@@ -846,8 +853,8 @@ function setProgramSchedulemail(req,res){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@sreebtech.com',
-            pass: 'Sreeb@#123'
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
         }
         });
         var html = `<html>
@@ -872,7 +879,7 @@ function setProgramSchedulemail(req,res){
         </html> `;
    
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'smattupalli@sreebtech.com',
             to: email,
             subject: 'Induction Program Meeting',
             html: html
@@ -1737,4 +1744,382 @@ function setprogramspasterstatus(req,res){
     catch(e){
         console.log('getnoticeperiods :', e)
     }
+    
+}
+
+function getEmailsByEmpid(req, res) {
+    try {
+        con.query("CALL `get_emails_by_empid` (?)", [JSON.parse(req.params.eid)], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({ data: result[0][0], status: true });
+            } else {
+                res.send({ status: false })
+            }
+
+        });
+    }
+    catch (e) {
+        console.log('getEmailsByEmpid :', e)
+    }
+}
+
+/** send email to Admin About NewHire */
+function sendEmailToAdminAboutNewHire(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+        });
+        var html = `<html>
+        <head>
+        <title>New login Creation</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Hi ${req[0].admin_name},</p>
+
+        <p style="color:black">I hope you are doing well! I just wanted to let you know to create Login Credentials for new Employee :${req[1].emp_name}<b></b></p>
+        
+        <p style="color:black">Thank you,,</p>
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Create a new login for new employee',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToAdminAboutNewHire :', e)
+
+    }
+
+}
+
+/** send email to employee About logins */
+function sendEmailToEmployeeAboutLogins(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var url = 'http://122.175.62.210:6565/Login';
+        var html = `<html>
+        <head>
+        <title>New login Credentiols</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Hello ${req[0].emp_name},</p>
+        
+        <p style="color:black">Thank you for joining our organization.</p>
+
+        <p style="color:black">We’d like to confirm that your account is created successfully. To access ${req[0].company_name}, click the link below.<b></b></p>
+       
+        <p style="color:black"> <a href="${url}" >${url} </a></p>   
+                   
+        <p style="color:black">Following are your login credentials:</p>
+        <p style="color:black">Username:${req[0].user_id}</p>
+        <p style="color:black">Password:${req[0].pwd}</p>
+        <p style="color:black">If you experience any issues logging on into your account, reach out to us at ${req[0].contact_mail}</p>
+        
+        <p style="color:black">Best,</p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'New login Credentiols',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutLogins :', e)
+
+    }
+
+}
+
+
+/** send email to checklist manager */
+function sendEmailToChecklistManager(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Employee Onboarding Checklist</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Hi ${req[0].manager_name},</p>
+        
+        <p style="color:black">I wanted to make sure you're aware of the new employee onboarding checklist
+         so that we can make sure everything is taken care of for our new employee(s).</p>
+
+        <p style="color:black">The checklist should be followed in order, and should take about 1 or 2
+         days to complete. <b></b></p>
+                   
+        <p style="color:black">It's very important that the items on the list are completed as soon as possible and before the new hire starts work. </p>
+        
+        <p style="color:black">Thanks, and have a great day! </p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'New employee onboarding checklist',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToChecklistManager :', e)
+
+    }
+
+}
+
+/** send email to employee about checklist update */
+function sendEmailToEmployeeAboutChecklistUpdate(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Employee Onboarding Checklist</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Hi ${req[0].emp_name},</p>
+        
+        <p style="color:black">I wanted to give you an update about the checklist.</p>
+
+        <p style="color:black">We completed 80% of it! We've also added a few things that we think will be helpful for your department, and we'll be in touch with more updates soon. <b></b></p>
+                   
+        <p style="color:black">If you have any questions, feel free to reach out anytime! </p>
+        
+        <p style="color:black">Thanks, and have a great day! </p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Onboarding Checklist Updates',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutChecklistUpdate :', e)
+
+    }
+
+}
+
+/** send email to employee about checklist final update */
+function sendEmailToEmployeeAboutChecklistFinalUpdate(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Employee Onboarding Checklist</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Hi ${req[0].emp_name},</p>
+
+        <p style="color:black">Hope you're doing well.</p>
+        
+        <p style="color:black">I wanted to give you an update about the checklist, we completed it! </p>
+
+        <p style="color:black">If you have any questions, feel free to reach out anytime! <b></b></p>
+                   
+        <p style="color:black">Thanks, and have a great day! </p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Onboarding Checklist Final Update',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutChecklistFinalUpdate :', e)
+
+    }
+
+}
+
+
+/** send email to employee about checklist complete */
+function sendEmailToEmployeeAboutChecklistComplete(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Employee Onboarding Checklist</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Hi ${req[0].emp_name},</p>
+
+        <p style="color:black">We're delighted to have you on board. I'll just quickly go through the onboarding checklist that we've completed for you. </p>
+        
+        <p style="color:black">-You are now set up with a user account and can start working on the tasks assigned to you. </p>
+
+        <p style="color:black">-The HR team has welcomed you and given you a rundown of all the benefits that come with your role. <b></b></p>
+                   
+        <p style="color:black">-You have been briefed on our company values and mission, as well as any company specific policies and procedures. </p>
+        <p style="color:black">-We've also sent you an email welcoming you to the team.</p>
+        <p style="color:black">Please let us know if there is anything else we should be doing for your onboarding process! We hope this helps, welcome aboard! </p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Welcome to {company name}!',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutChecklistComplete :', e)
+
+    }
+
 }
