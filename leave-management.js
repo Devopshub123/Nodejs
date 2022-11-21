@@ -470,6 +470,8 @@ function editProfile(req,res){
     try {
         con.query("CALL `edit_profile` (?,?,?,?,?,?,?,?,?,?,?)",
             [req.body.id,req.body.firstName,req.body.middlename,req.body.lastName,req.body.email,req.body.contact,req.body.address,req.body.cityId,req.body.stateId,req.body.zipCode,req.body.countryId], function (err, result, fields) {
+               console.log("err-",err)
+               console.log("res-",result)
                 if (err) {
                     res.send({status: false});
                 } else {

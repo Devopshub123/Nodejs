@@ -1995,7 +1995,6 @@ app.get('/api/getemployeeleaves/:empid/:page/:size',function(req,res){
         let page = req.params.page;
         let size = req.params.size;
         con.query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],function (err, result, fields) {
-            console.log("gvjhshvhsdhjvhs",result)
             if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
@@ -2177,6 +2176,24 @@ app.get('/api/getdaystobedisabledfromdate/:id/:leaveId',function(req,res){
     }
     catch (e){
         console.log('getdaystobedisabledfromdate :',e)
+    }
+})
+
+app.post('/api/getDaysToBeDisabledForFromDateCompOff/',function(req,res){
+    try{
+        con.query("CALL `getdays_to_be_disabled_for_from_date_comp_off` (?,?,?)",[req.body.employeeId,
+                req.body.leaveId,req.body.workedDateValue],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+
+            })
+    }
+    catch(e){
+        console.log('get statuslist');
     }
 })
 
