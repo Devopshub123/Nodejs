@@ -438,10 +438,13 @@ function setProfileImage(req,res) {
             }
         }
         catch (err) {
+            res.send({status:false})
             console.error(err)
         }
     }catch (e) {
         console.log("setUploadImage:",e)
+        res.send({status:false})
+
     }
 
 }
