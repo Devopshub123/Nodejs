@@ -3365,6 +3365,10 @@ app.get('/ems/api/getnoticeperiods/', function(req,res) {
 app.post('/ems/api/setprogramspasterstatus/', function(req,res) {
     ems.setprogramspasterstatus(req,res);
 });
+
+app.get('/ems/api/getEmailsByEmpid/:eid', function (req, res) {
+    ems.getEmailsByEmpid(req,res)
+})
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);
