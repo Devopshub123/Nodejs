@@ -1405,11 +1405,7 @@ function setFilesMasterForEMS(req, res) {
 function setDocumentOrImageForEMS(req, res) {
   try {
     file = req.files.file;
-    // var localPath = JSON.parse(decodeURI(req.params.path))
     var localPath = JSON.parse(req.body.info);
-
-    console.log("localPath", localPath);
-
     var folderName = localPath.filepath;
     try {
       if (!fs.existsSync(folderName)) {
@@ -1436,9 +1432,13 @@ function setDocumentOrImageForEMS(req, res) {
       }
     } catch (err) {
       console.error(err);
+        res.send({ status: false });
+
     }
   } catch (e) {
     console.log("setDocumentOrImageForEMS:", e);
+      res.send({ status: false });
+
   }
 }
 
@@ -1495,7 +1495,6 @@ function getDocumentOrImagesForEMS(req, res) {
 
 function removeDocumentOrImagesForEMS(req, res) {
   try {
-    console.log(re.params.path);
     var localPath = JSON.parse(decodeURI(req.params.path));
     let foldername = localPath.filepath;
     fs.unlink(foldername + localPath.filename, function (err, result) {
