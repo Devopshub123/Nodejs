@@ -22,6 +22,8 @@ app.all("*", function (req, res, next) {
     return next();
 });
 
+var emailComponentData = [];
+var companyNameData = [];
 module.exports = {
     setProgramsMaster:setProgramsMaster,
     getProgramsMaster:getProgramsMaster,
@@ -106,18 +108,16 @@ module.exports = {
     getEmpOffboardTerminationChecklists: getEmpOffboardTerminationChecklists,
     getEmpResignationPendingChecklists: getEmpResignationPendingChecklists,
     getnoticeperiods: getnoticeperiods,
-    setprogramspasterstatus:setprogramspasterstatus,
-    getEmailsByEmpid: getEmailsByEmpid,
+    setprogramspasterstatus: setprogramspasterstatus,
+    getEmailsByEmpid:getEmailsByEmpid,
     sendEmailToAdminAboutNewHire:sendEmailToAdminAboutNewHire,
     sendEmailToEmployeeAboutLogins: sendEmailToEmployeeAboutLogins,
     sendEmailToChecklistManager: sendEmailToChecklistManager,
     sendEmailToEmployeeAboutChecklistUpdate: sendEmailToEmployeeAboutChecklistUpdate,
     sendEmailToEmployeeAboutChecklistFinalUpdate: sendEmailToEmployeeAboutChecklistFinalUpdate,
-    sendEmailToEmployeeAboutChecklistComplete:sendEmailToEmployeeAboutChecklistComplete
-    
-    
-    
-   
+    sendEmailToEmployeeAboutChecklistComplete: sendEmailToEmployeeAboutChecklistComplete,
+    // sendEmailToEmployeeAboutNewHire:sendEmailToEmployeeAboutNewHire
+    getCompanyNameByEmail:getCompanyNameByEmail,
 };
 //// set new hire list
 function setNewHire(req,res) {
@@ -138,8 +138,8 @@ function setNewHire(req,res) {
                         }
                     });
                     var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
-                //    var url = 'http://localhost:4200/pre-onboarding/'+token;
-                    var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
+                     var url = 'http://localhost:4200/pre-onboarding/'+token;
+                    // var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
                     
                     var html = `<html>
                     <head>
@@ -529,9 +529,7 @@ function setChecklistsMaster(req, res) {
 function getChecklistsMasterActive(req, res) {
     try {
         con.query("CALL `get_checklists_master` (?,?,?,?)", [null,JSON.parse(req.params.deptId),req.params.category,req.params.status], function (err, result, fields) {
-            console.log(result)
-            console.log(err)
-            if (result && result.length > 0) {
+           if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
@@ -805,9 +803,10 @@ function setselectEmployeesProgramSchedules(req,res){
     
     try{
         let array=[]
-            array.push(req.body.email)
+        array.push(req.body.email)
+        getCompanyNameByEmail(req.body.empid[0])
         con.query("CALL `set_employee_program_schedules` (?,?,?,?,?)", [req.body.esid,req.body.scheduleid,JSON.stringify(req.body.empid),req.body.status,req.body.actionby], function (err, result, fields) {      
-              if (result && result[0][0].successstate == 0 ) {
+            if (result && result[0][0].successstate == 0) {
                 array.push(result[0][0])            
                 setProgramSchedulemail(array);
                 res.send({ data: result[0], status: true });
@@ -815,8 +814,6 @@ function setselectEmployeesProgramSchedules(req,res){
                   res.send({ status: false })
               }
           });
-         
-
     }
     catch(e){
         console.log('setselectEmployeesProgramSchedules',e)
@@ -841,9 +838,7 @@ function updateselectEmployeesProgramSchedules(req,res){
     }
 }
 function setProgramSchedulemail(req,res){
-    try{
-       console.log("hello-1")
-       console.log("iprogram-1",req[1])
+    try {
        let email = req//['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
@@ -864,12 +859,11 @@ function setProgramSchedulemail(req,res){
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Employee,</p>
         <p style="color:black">We are very excited to welcome you to our organization!<b></b></p>
-        <p style="color:black"> At Spryple HCM we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.<b></b></p>
+        <p style="color:black"> At ${companyNameData.companyname} we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.</p>
         <p style="color:black">You are required to attend the induction program by the SPRYPLE<b></b></p>
-        <p style="color:black">Name of the Induction Program:Organization Norms and Values<b></b></p>
-       
-        <p style="color:black">Your Meeting Scheduled On ${req[1].schedule_date}<b></b></p>
-        <p style="color:black">from ${req[1].schedule_starttime} to ${req[1].schedule_endtime}<b></b></p>
+        <p style="color:black">Name of the Induction Program: <b>${req[1].program_name}</b></p>
+        <p style="color:black">Your Meeting Scheduled On <b>${req[1].schedule_date}</b></p>
+        <p style="color:black">from <b>${req[1].schedule_starttime}</b> to <b>${req[1].schedule_endtime}</b></p>
         <p style="color:black">We are looking forward to working with you and seeing you achieve great things!<b></b></p>
         
         <p style="color:black">Warm Regards,</p>
@@ -998,13 +992,13 @@ function getFilecategoryMasterForEMS(req,res){
 
 function setEmpPersonalInfo(req, res) {
     try {
-        //console.log(req.body)
          con.query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-             console.log("err-", err);
-             console.log("res-", result[0][0]);
-             if (result && result[0][0].statuscode == 0) {
-               res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
-            } else if(result && result[0][0].statuscode == 1){
+           if (result && result[0][0].statuscode == 0) {
+                 res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
+                 getEmailsByEmpid(result[0][0].empid);
+             } else if (result && result[0][0].statuscode == 2) {
+                res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
+             }  else if (result && result[0][0].statuscode == 1) {
                 res.send({status: true,data: { empid: result[0][0].empid,email:result[0][0].email }  });
            } else {
             res.send({ status: false, })
@@ -1603,10 +1597,7 @@ function setEmployeeChecklists(req, res) {
         req.body.actionBy,
         ],
             function (err, result, fields) {
-                console.log("error--",err)
-             console.log("1st result",result)
-                console.log("3st result", result[0])
-                  if (result && result[0][0].successstate == 0) {
+             if (result && result[0][0].successstate == 0) {
                res.send({status: true});
             } else {
                 res.send({ status: false })
@@ -1727,9 +1718,6 @@ function getnoticeperiods(req,res){
     catch(e){
         console.log('getnoticeperiods :', e)
     }
-
-
-
 }
 function setprogramspasterstatus(req,res){
     try{
@@ -1746,16 +1734,18 @@ function setprogramspasterstatus(req,res){
     }
     
 }
-
 function getEmailsByEmpid(req, res) {
+    console.log("per_info-1",req)
     try {
-        con.query("CALL `get_emails_by_empid` (?)", [JSON.parse(req.params.eid)], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0][0], status: true });
+        con.query("CALL `get_emails_by_empid` (?)", [req], function (err, result, fields) {
+            emailComponentData = [];
+             if (result && result.length > 0) {
+                 emailComponentData =result[0][0];
+                 sendEmailToAdminAboutNewHire(emailComponentData);
+                 sendEmailToChecklistManager(emailComponentData);
             } else {
                 res.send({ status: false })
             }
-
         });
     }
     catch (e) {
@@ -1765,9 +1755,11 @@ function getEmailsByEmpid(req, res) {
 
 /** send email to Admin About NewHire */
 function sendEmailToAdminAboutNewHire(req,res){
-    try{
-       let email = req
-       var transporter = nodemailer.createTransport({
+    try {
+       let data = JSON.parse(req.jsonvalu)[0];
+         let email = data.admin_email
+        let empname = data.emp_name;
+        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
         port: 587, // port for secure SMTP
@@ -1785,9 +1777,9 @@ function sendEmailToAdminAboutNewHire(req,res){
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hi ${req[0].admin_name},</p>
+        <p style="color:black">Hi ${data.admin_name},</p>
 
-        <p style="color:black">I hope you are doing well! I just wanted to let you know to create Login Credentials for new Employee :${req[1].emp_name}<b></b></p>
+        <p style="color:black">I hope you are doing well! I just wanted to let you know to create Login Credentials for new Employee : <b>${data.emp_name}</b></p>
         
         <p style="color:black">Thank you,,</p>
         <p style="color:black">The Human Resources Team.</p>
@@ -1798,7 +1790,7 @@ function sendEmailToAdminAboutNewHire(req,res){
         var mailOptions = {
             from: 'smattupalli@sreebtech.com',
             to: email,
-            subject: 'Create a new login for new employee',
+            subject: 'Create a new login for'+' '+empname,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -1882,11 +1874,11 @@ function sendEmailToEmployeeAboutLogins(req,res){
 
 }
 
-
 /** send email to checklist manager */
 function sendEmailToChecklistManager(req,res){
-    try{
-       let email = req
+    try {
+        let data = JSON.parse(req.jsonvalu)[0];
+        let email = data.admin_email
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
@@ -1905,7 +1897,7 @@ function sendEmailToChecklistManager(req,res){
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hi ${req[0].manager_name},</p>
+        <p style="color:black">Hi ${data.rm_name},</p>
         
         <p style="color:black">I wanted to make sure you're aware of the new employee onboarding checklist
          so that we can make sure everything is taken care of for our new employee(s).</p>
@@ -2122,4 +2114,471 @@ function sendEmailToEmployeeAboutChecklistComplete(req,res){
 
     }
 
+}
+
+/** send email to employee about induction cancel */
+function sendEmailToEmployeeAboutInductionCancel(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Induction program cancel</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Dear ${req[0].emp_name},</p>
+
+        <p style="color:black">I hope that you are doing well. </p>
+        
+        <p style="color:black">We regret to inform you that the planned date for our induction program has been cancelled and will be rescheduled soon. I hope that we can all look forward to the next induction program soon. </p>
+
+        <p style="color:black">Unfortunately, all confirmed participants will have to wait for the new date of the induction program. We apologize for any inconvenience caused. </p>
+                   
+        <p style="color:black">We hope to see you soon at our upcoming induction program! </p>
+         <p style="color:black">Sincerely</p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Welcome to {company name}!',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutInductionCancel :', e)
+
+    }
+
+}
+
+/** send email to employee about induction cancel */
+function sendEmailToEmployeeAboutInductionCancel(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Induction program cancel</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Dear ${req[0].emp_name},</p>
+
+        <p style="color:black">I hope that you are doing well. </p>
+        
+        <p style="color:black">We regret to inform you that the planned date for our induction program has been cancelled and will be rescheduled soon. I hope that we can all look forward to the next induction program soon. </p>
+
+        <p style="color:black">Unfortunately, all confirmed participants will have to wait for the new date of the induction program. We apologize for any inconvenience caused. </p>
+                   
+        <p style="color:black">We hope to see you soon at our upcoming induction program! </p>
+         <p style="color:black">Sincerely</p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Induction program cancelled',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutInductionCancel :', e)
+
+    }
+
+}
+
+/** send email to Hr about document approval */
+function sendEmailToHrAboutDocumentApproval(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Documents uploaded</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Dear ${req[0].manager_name},</p>
+
+        <p style="color:black">I would like to inform you that I have uploaded the documents for your approval. Please find document details in my profile. </p>
+        
+         <p style="color:black">Sincerely</p>
+
+        <p style="color:black">${req[0].emp_name}.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Approving Documents ',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToHrAboutDocumentApproval :', e)
+
+    }
+
+}
+
+/** send email to employee about document approval */
+function sendEmailToEmployeeAboutDocumentApproval(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Documents approval</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Hi ${req[0].emp_name},</p>
+
+        <p style="color:black">Just wanted to let you know that the HR department has approved your uploaded document. Don’t hesitate to contact me if you have any questions. </p>
+        
+         <p style="color:black">Best,</p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'HR Approved your uploaded document',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+   
+    }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutDocumentApproval :', e)
+
+    }
+
+}
+
+/** send email to employee about reject document */
+function sendEmailToEmployeeAboutDocumentReject(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Documents approval</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Hi ${req[0].emp_name},</p>
+
+        <p style="color:black">Please re-upload the documents that were rejected. We apologize for the inconvenience. </p>
+        
+         <p style="color:black">Thank you,</p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Re-upload document ',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+     }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutDocumentReject :', e)
+
+    }
+
+}
+
+
+/** send email to employee about reupload document */
+function sendEmailToHrAboutDocumentReupload(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Documents Reupload</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Dear ${req[0].hr_name},</p>
+
+        <p style="color:black">Due to some changes in the documents, we need you to approve the documents uploaded by the ${req[0].emp_name}. Please find the attached document for your approval. </p>
+        
+         <p style="color:black">I hope it is not an inconvenience for you but this is a very important process that we need to complete urgently. Please let me know if you have any questions. </p>
+         <p style="color:black">Thank you,</p>
+
+        <p style="color:black">${req[0].emp_name}.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Documents Re uploaded ',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+     }
+    catch (e) {
+        console.log('sendEmailToHrAboutDocumentReupload :', e)
+
+    }
+
+}
+
+
+/** send email to employee about new role */
+function sendEmailToEmployeeAboutNewRole(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>New role</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Dear ${req[0].hr_name},</p>
+
+        <p style="color:black">Congratulations on your new role as Tech Lead! We're confident that your experience and expertise will help us grow and succeed.</p>
+        
+         <p style="color:black">We're always available to help out with any questions.</p>
+         <p style="color:black">Best,</p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Welcome to Tech Lead ',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+     }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutNewRole :', e)
+
+    }
+
+}
+
+/** send email to employee about remove role */
+function sendEmailToEmployeeAboutRemoveRole(req,res){
+    try{
+       let email = req
+       var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'smattupalli@sreebtech.com',
+            pass: 'Sree$sreebt'
+        }
+       });
+       var html = `<html>
+        <head>
+        <title>Role Change </title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">Hi ${req[0].hr_name},</p>
+
+        <p style="color:black">We would like to let you know that you have been removed from the ${req[0].role_name} role. This means that you will no longer be able to access the administrative interface, which manages campaign and customer data as well as internal company information. </p>
+        
+         <p style="color:black">However, we are happy to offer you with all your current access privileges on our module. Please do not hesitate to reach out if you have any questions or concerns.</p>
+         <p style="color:black">Regards,</p>
+
+        <p style="color:black">The Human Resources Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+   
+        var mailOptions = {
+            from: 'smattupalli@sreebtech.com',
+            to: email,
+            subject: 'Role Change ',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                res.send({ status: false, })
+            } else {
+                res.send({ status: true })
+            }
+        });
+     }
+    catch (e) {
+        console.log('sendEmailToEmployeeAboutRemoveRole :', e)
+
+    }
+
+}
+
+function getCompanyNameByEmail(req, res) {
+    try {
+        con.query("CALL `get_emails_by_empid` (?)", [req], function (err, result, fields) {
+            companyNameData = [];
+            if (result && result.length > 0) {
+                companyNameData = JSON.parse(result[0][0].jsonvalu)[0];
+                } else {
+                res.send({ status: false })
+            }
+        });
+    }
+    catch (e) {
+        console.log('getCompanyNameByEmail :', e)
+    }
 }
