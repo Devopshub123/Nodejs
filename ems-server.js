@@ -2091,8 +2091,8 @@ function sendEmailToEmployeeAboutLogins(req, res) {
         pass: "Sree$sreebt",
       },
     });
-    var url = "http://localhost:4200/Login";
-    //  var url = 'http://122.175.62.210:6565/Login';
+    //var url = "http://localhost:4200/Login";
+      var url = 'http://122.175.62.210:6565/Login';
     var html = `<html>
         <head>
         <title>New login Credentiols</title></head>
