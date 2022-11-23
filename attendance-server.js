@@ -746,6 +746,7 @@ app.post('/api/setEmployeeConfigureShift', function (req, res) {
         con.query("CALL `set_employee_shifts` (?,?,?,?,?)", [req.body.shift_id,req.body.from_date,
              req.body.to_date, req.body.weekoffs, req.body.empids],
             function (err, result, fields) {
+                console.log(err);
              console.log(result[0][0].successstate);
              if (result[0][0].successstate == 1) {
                 res.send({ status: true, message: "dataSaved" })

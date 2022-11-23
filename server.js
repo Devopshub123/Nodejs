@@ -213,7 +213,11 @@ app.post('/api/setCompanyInformation',function(req,res) {
     let companyInformation={}
     companyInformation.companyname=req.body.companyname;
     companyInformation.companywebsite = req.body.companywebsite;
+    companyInformation.cin = req.body.cin;
+    companyInformation.gstnumber = req.body.gstnumber;
+    companyInformation.established_date = req.body.established_date;
     companyInformation.primarycontactnumber=req.body.primarycontactnumber;
+    companyInformation.secondarycontactnumber=req.body.secondarycontactnumber;
     companyInformation.primarycontactemail=req.body.primarycontactemail;
     companyInformation.address1=req.body.address1;
     companyInformation.address2=req.body.address2?req.body.address2:'';
@@ -247,7 +251,11 @@ app.put('/api/putCompanyInformation',function(req,res) {
         let companyInformation={}
         companyInformation.CompanyName=req.body.companyname;
         companyInformation.CompanyWebsite = req.body.companywebsite;
-        companyInformation.PrimaryContactNumber=req.body.primarycontactnumber;
+        companyInformation.cin = req.body.cin;
+        companyInformation.gstnumber = req.body.gstnumber;
+        companyInformation.established_date = req.body.established_date;
+        companyInformation.primarycontactnumber=req.body.primarycontactnumber;
+        companyInformation.secondarycontactnumber=req.body.secondarycontactnumber;
         companyInformation.PrimaryContactEmail=req.body.primarycontactemail;
         companyInformation.Address1=req.body.address1;
         companyInformation.Address2=req.body.address2?req.body.address2:" ";
