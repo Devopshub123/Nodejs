@@ -120,8 +120,17 @@ module.exports = {
     sendEmailToEmployeeAboutChecklistUpdate: sendEmailToEmployeeAboutChecklistUpdate,
     sendEmailToEmployeeAboutChecklistFinalUpdate: sendEmailToEmployeeAboutChecklistFinalUpdate,
     sendEmailToEmployeeAboutChecklistComplete: sendEmailToEmployeeAboutChecklistComplete,
-    // sendEmailToEmployeeAboutNewHire:sendEmailToEmployeeAboutNewHire
-    getCompanyNameByEmail:getCompanyNameByEmail,
+    getCompanyNameByEmail: getCompanyNameByEmail,
+    getActiveEmployeeProgramSchedules: getActiveEmployeeProgramSchedules,
+    sendEmailToEmployeeAboutRemoveRole: sendEmailToEmployeeAboutRemoveRole,
+    sendEmailToEmployeeAboutNewRole: sendEmailToEmployeeAboutNewRole,
+    sendEmailToHrAboutDocumentReupload: sendEmailToHrAboutDocumentReupload,
+    sendEmailToEmployeeAboutDocumentReject: sendEmailToEmployeeAboutDocumentReject,
+    sendEmailToEmployeeAboutDocumentApproval: sendEmailToEmployeeAboutDocumentApproval,
+    sendEmailToHrAboutDocumentApproval: sendEmailToHrAboutDocumentApproval,
+    sendEmailToEmployeeAboutInductionCancel:sendEmailToEmployeeAboutInductionCancel
+    
+    
 };
 //// set new hire list
 function setNewHire(req,res) {
@@ -142,8 +151,8 @@ function setNewHire(req,res) {
                         }
                     });
                     var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
-                     var url = 'http://localhost:4200/pre-onboarding/'+token;
-                    // var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
+                    //  var url = 'http://localhost:4200/pre-onboarding/'+token;
+                    var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
                     
                     var html = `<html>
                     <head>
@@ -461,36 +470,33 @@ function getProgramTasks(req, res) {
 
 function setProgramSchedules(req, res) {
   try {
-    console.log(req.body);
-
     con.query(
-      "CALL `set_program_schedules` (?,?,?,?,?,?,?,?,?,?)",
+      "CALL `set_program_schedules` (?,?,?,?,?,?,?,?,?,?,?,?)",
       [
         req.body.scheduleId,
         req.body.programId,
         req.body.department,
         req.body.designation,
-        req.body.Description,
+        req.body.description,
+        req.body.reason,
+        req.body.status,
         req.body.conductedby,
         req.body.scheduleDate,
         req.body.startTime,
         req.body.endTime,
         req.body.actionby,
-      ],
-      function (err, result, fields) {
-        console.log(err);
-        console.log(result);
-        console.log(result[0][0]);
-        console.log(result[0][0].successstate);
-
+        ],
+        function (err, result, fields) {
         if (result && result[0][0].successstate == 0) {
-          res.send({ status: true });
+            res.send({ status: true });
+            if (req.body.reason == "Rescheduled") {
+           
+            }
         } else {
           res.send({ status: false });
         }
       }
     );
-    // setProgramSchedulemail(req.body.email);
   } catch (e) {
     console.log("setProgramSchedules :", e);
   }
@@ -881,64 +887,7 @@ function getDepartmentEmployeesByDesignation(req,res) {
     }
 
 }
-function setselectEmployeesProgramSchedules(req,res){
-    
-    try{
-        let array=[]
-        array.push(req.body.email)
-        getCompanyNameByEmail(req.body.empid[0])
-        con.query("CALL `set_employee_program_schedules` (?,?,?,?,?)", [req.body.esid,req.body.scheduleid,JSON.stringify(req.body.empid),req.body.status,req.body.actionby], function (err, result, fields) {      
-            if (result && result[0][0].successstate == 0) {
-                array.push(result[0][0])            
-                setProgramSchedulemail(array);
-                res.send({ data: result[0], status: true });
-              } else {
-                  res.send({ status: false })
-              }
-          });
-    }
-    catch(e){
-        console.log('setselectEmployeesProgramSchedules',e)
-    }
-}
-function updateselectEmployeesProgramSchedules(req,res){
-   
-    try{
-        con.query("CALL `set_employee_program_schedules` (?,?,?,?,?)", [JSON.stringify(req.body.esid),req.body.scheduleid,JSON.stringify(req.body.empid),req.body.status,req.body.actionby], function (err, result, fields) {      
-            
-              if (result && result[0][0].successstate == 0) {
-                  res.send({ data: result[0], status: true });
-              } else {
-                  res.send({ status: false })
-              }
-          });
-         
 
-    }
-    catch(e){
-        console.log('setselectEmployeesProgramSchedules',e)
-    }
-}
-function setProgramSchedulemail(req,res){
-    try {
-       let email = req//['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
-       var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
-        secureConnection: false, // TLS requires secureConnection to be false
-        port: 587, // port for secure SMTP
-        tls: {
-            ciphers: 'SSLv3'
-        },
-        auth: {
-            user: 'smattupalli@sreebtech.com',
-            pass: 'Sree$sreebt'
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getProgramSchedules :", e);
-  }
-}
 function setselectEmployeesProgramSchedules(req, res) {
   try {
     let array = [];
@@ -953,8 +902,6 @@ function setselectEmployeesProgramSchedules(req, res) {
         req.body.actionby,
       ],
       function (err, result, fields) {
-        console.log(err);
-        console.log(result);
         if (result && result[0][0].successstate == 0) {
           array.push(result[0][0]);
           setProgramSchedulemail(array);
@@ -989,14 +936,12 @@ function updateselectEmployeesProgramSchedules(req, res) {
       }
     );
   } catch (e) {
-    console.log("setselectEmployeesProgramSchedules", e);
+    console.log("updateselectEmployeesProgramSchedules", e);
   }
 }
 function setProgramSchedulemail(req, res) {
   try {
-    console.log("hello-1");
-    console.log("iprogram-1", req[1]);
-    let email = req; //['rthallapelly@sreebtech.com','smattupalli@sreebtech.com']
+    let email = req; 
     var transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -1047,13 +992,19 @@ function setProgramSchedulemail(req, res) {
   }
 }
 function getallEmployeeProgramSchedules(req, res) {
+    let scheduleEmpList = [];
   try {
     con.query(
       "CALL `get_employee_program_schedules` (?,?)",
-      [JSON.parse(req.params.eid), JSON.parse(req.params.sid)],
-      function (err, result, fields) {
+        [JSON.parse(req.params.eid), JSON.parse(req.params.sid)],
+        function (err, result, fields) {
+            console.log("res-1",result[0])
         if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
+            res.send({ data: result[0], status: true });
+            let data;
+            data = result[0];
+           scheduleEmpList = data.map( (e)=> { return e.officeemail; });
+
         } else {
           res.send({ status: false });
         }
@@ -1195,7 +1146,7 @@ function getOnboardingSettings(req, res) {
 /**  */
 function setEmpJobDetails(req, res) {
   try {
-    console.log(req.body);
+   
     con.query(
       "CALL `set_emp_job_details` (?)",
       [JSON.stringify(req.body)],
@@ -1215,7 +1166,6 @@ function setEmpJobDetails(req, res) {
 /**  */
 function getEmpJobDetails(req, res) {
   try {
-    console.log(req.body);
     con.query(
       "CALL `get_emp_job_details` (?)",
       [JSON.parse(req.params.id)],
@@ -1239,7 +1189,9 @@ function getEmpPersonalInfo(req, res) {
     con.query(
       "CALL `get_emp_personal_info` (?)",
       [JSON.parse(req.params.id)],
-      function (err, result, fields) {
+        function (err, result, fields) {
+          console.log("err-",err)
+          console.log("res-",result)
         if (result && result.length > 0) {
           res.send({ data: result[0], status: true });
         } else {
@@ -1557,7 +1509,6 @@ function deleteFilesMaster(req, res) {
 }
 function getUserLoginData(req, res) {
   try {
-    console.log("hi");
     con.query(
       "CALL `get_user_login_data` ()",
       [],
@@ -1870,26 +1821,27 @@ function documentApproval(req, res) {
 }
 
 function setEmployeeChecklists(req, res) {
+    console.log("val-1");
   try {
     con.query(
-      "CALL `set_employee_checklists` (?,?,?,?,?,?,?,?)",
-      [
-        JSON.stringify(req.body.cid),
-        req.body.eid,
-        req.body.did,
-        req.body.cmmt,
-        req.body.status,
-        req.body.fstatus,
-        req.body.category,
-        req.body.actionBy,
-        ],
-            function (err, result, fields) {
-             if (result && result[0][0].successstate == 0) {
-               res.send({status: true});
-            } else {
-                res.send({ status: false })
-            }
-        });
+        "CALL `set_employee_checklists` (?,?,?,?,?,?,?,?)",
+        [
+          JSON.stringify(req.body.cid),
+          req.body.eid,
+          req.body.did,
+          req.body.cmmt,
+          req.body.status,
+          req.body.fstatus,
+          req.body.category,
+          req.body.actionBy,
+          ],
+        function (err, result, fields) {
+         if (result && result[0][0].successstate == 0) {
+                 res.send({status: true});
+              } else {
+                  res.send({ status: false })
+              }
+          });
 
     } catch (e) {
         console.log('setEmployeeChecklists :', e)
@@ -2031,7 +1983,7 @@ function setprogramspasterstatus(req, res) {
   }
 }
 function getEmailsByEmpid(req, res) {
-    console.log("per_info-1",req)
+ 
     try {
         con.query("CALL `get_emails_by_empid` (?)", [req], function (err, result, fields) {
             emailComponentData = [];
@@ -2457,65 +2409,6 @@ function sendEmailToEmployeeAboutInductionCancel(req,res){
 
 }
 
-/** send email to employee about induction cancel */
-function sendEmailToEmployeeAboutInductionCancel(req,res){
-    try{
-       let email = req
-       var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
-        secureConnection: false, // TLS requires secureConnection to be false
-        port: 587, // port for secure SMTP
-        tls: {
-            ciphers: 'SSLv3'
-        },
-        auth: {
-            user: 'smattupalli@sreebtech.com',
-            pass: 'Sree$sreebt'
-        }
-       });
-       var html = `<html>
-        <head>
-        <title>Induction program cancel</title></head>
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-      
-        <p style="color:black">Dear ${req[0].emp_name},</p>
-
-        <p style="color:black">I hope that you are doing well. </p>
-        
-        <p style="color:black">We regret to inform you that the planned date for our induction program has been cancelled and will be rescheduled soon. I hope that we can all look forward to the next induction program soon. </p>
-
-        <p style="color:black">Unfortunately, all confirmed participants will have to wait for the new date of the induction program. We apologize for any inconvenience caused. </p>
-                   
-        <p style="color:black">We hope to see you soon at our upcoming induction program! </p>
-         <p style="color:black">Sincerely</p>
-
-        <p style="color:black">The Human Resources Team.</p>
-        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-        </div></body>
-        </html> `;
-   
-        var mailOptions = {
-            from: 'smattupalli@sreebtech.com',
-            to: email,
-            subject: 'Induction program cancelled',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                res.send({ status: false, })
-            } else {
-                res.send({ status: true })
-            }
-        });
-   
-    }
-    catch (e) {
-        console.log('sendEmailToEmployeeAboutInductionCancel :', e)
-
-    }
-
-}
 
 /** send email to Hr about document approval */
 function sendEmailToHrAboutDocumentApproval(req,res){
@@ -2862,4 +2755,21 @@ function getCompanyNameByEmail(req, res) {
     catch (e) {
         console.log('getCompanyNameByEmail :', e)
     }
+}
+
+function getActiveEmployeeProgramSchedules(req, res) {
+  try {
+    con.query(
+      "CALL `get_allemployees_program_schedules` (?)",[JSON.parse(req.params.sid)],
+        function (err, result, fields) {
+        if (result && result.length > 0) {
+            res.send({ data: result[0], status: true });
+        } else {
+          res.send({ status: false });
+        }
+      }
+    );
+  } catch (e) {
+    console.log("getActiveEmployeeProgramSchedules :", e);
+  }
 }

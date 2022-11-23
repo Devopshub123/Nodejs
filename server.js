@@ -3394,6 +3394,10 @@ app.post('/ems/api/setprogramspasterstatus/', function(req,res) {
 app.get('/ems/api/getEmailsByEmpid/:eid', function (req, res) {
     ems.getEmailsByEmpid(req,res)
 })
+
+app.get('/ems/api/getActiveEmployeeProgramSchedules/:sid', function (req, res) {
+    ems.getActiveEmployeeProgramSchedules(req,res)
+})
 ////////
 app.use("/admin", admin);
 app.use("/attendance", attendance);

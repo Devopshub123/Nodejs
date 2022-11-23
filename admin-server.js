@@ -269,7 +269,6 @@ app.post('/api/getstatuslist',function(req,res){
     try{
         con.query("CALL `get_status_list` (null)",
             function (err, result, fields) {
-                console.log(result,result.length)
                 if (result && result.length > 0) {
                     console.log("dfgfgh")
                     res.send({ status: true, data: result[0] })
