@@ -1384,11 +1384,7 @@ function setFilesMasterForEMS(req, res) {
 function setDocumentOrImageForEMS(req, res) {
   try {
     file = req.files.file;
-    // var localPath = JSON.parse(decodeURI(req.params.path))
     var localPath = JSON.parse(req.body.info);
-
-    console.log("localPath", localPath);
-
     var folderName = localPath.filepath;
     try {
       if (!fs.existsSync(folderName)) {
@@ -1415,9 +1411,13 @@ function setDocumentOrImageForEMS(req, res) {
       }
     } catch (err) {
       console.error(err);
+        res.send({ status: false });
+
     }
   } catch (e) {
     console.log("setDocumentOrImageForEMS:", e);
+      res.send({ status: false });
+
   }
 }
 
@@ -1474,7 +1474,6 @@ function getDocumentOrImagesForEMS(req, res) {
 
 function removeDocumentOrImagesForEMS(req, res) {
   try {
-    console.log(re.params.path);
     var localPath = JSON.parse(decodeURI(req.params.path));
     let foldername = localPath.filepath;
     fs.unlink(foldername + localPath.filename, function (err, result) {
@@ -2074,8 +2073,8 @@ function sendEmailToEmployeeAboutLogins(req, res) {
         pass: "Sree$sreebt",
       },
     });
-    var url = "http://localhost:4200/Login";
-    //  var url = 'http://122.175.62.210:6565/Login';
+    //var url = "http://localhost:4200/Login";
+      var url = 'http://122.175.62.210:6565/Login';
     var html = `<html>
         <head>
         <title>New login Credentiols</title></head>
