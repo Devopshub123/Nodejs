@@ -1315,6 +1315,23 @@ app.get('/api/getemployeeroles/:empId',function(req,res) {
 //         console.log('getdaystobedisabletodate :',e)
 //     }
 // })
+app.post('/api/getDaysToBeDisabledForFromDateCompOff/',function(req,res){
+    try{
+        con.query("CALL `getdays_to_be_disabled_for_from_date_comp_off` (?,?,?)",[req.body.employeeId,
+                req.body.leaveId,req.body.workedDateValue],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+
+            })
+    }
+    catch(e){
+        console.log('get statuslist');
+    }
+})
 /*Get Days to be disabled*/
 app.post('/api/getdaystobedisabled',function(req,res) {
     try {
@@ -1669,7 +1686,7 @@ app.get('/api/getEmployeeInformation/:Id/:companyName', function(req,res) {
 /**
  * setProfileImage
  * */
- app.post('/api/setProfileImage/:path', function(req,res) {
+ app.post('/api/setProfileImage/', function(req,res) {
     leaveManagement.setProfileImage(req,res);
 });
 /**
@@ -2038,7 +2055,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     })
 
 /**setDocumentOrImageForEMS */
-app.post('/ems/api/setDocumentOrImageForEMS/:path',function(req,res){
+app.post('/ems/api/setDocumentOrImageForEMS/',function(req,res){
     ems.setDocumentOrImageForEMS(req,res)
     })
 /**EMS getUserLoginData */
@@ -2209,6 +2226,14 @@ app.get('/ems/api/getnoticeperiods/:companyName', function(req,res) {
 app.post('/ems/api/setprogramspasterstatus/', function(req,res) {
     ems.setprogramspasterstatus(req,res);
 });
+
+app.get('/ems/api/getEmailsByEmpid/:eid', function (req, res) {
+    ems.getEmailsByEmpid(req,res)
+})
+
+app.get('/ems/api/getActiveEmployeeProgramSchedules/:sid', function (req, res) {
+    ems.getActiveEmployeeProgramSchedules(req,res)
+})
 ////////
 // app.use("/admin", admin);
 // app.use("/attendance", attendance);

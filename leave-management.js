@@ -71,6 +71,8 @@ module.exports = {
     getCompoffs:getCompoffs,
     leaveSattus:leaveSattus,
     getCompoffsForApproval:getCompoffsForApproval,
+    getHandledLeaves:getHandledLeaves,
+    getApprovedLeaves:getApprovedLeaves,
     setCompoffForApproveOrReject:setCompoffForApproveOrReject,
     getLeavesForCancellation:getLeavesForCancellation,
     getLeaveCalendarForManager:getLeaveCalendarForManager,
@@ -99,6 +101,22 @@ module.exports = {
 
 
 
+function getApprovedLeaves(req,res){
+    try {
+        con.query("CALL `get_approved_leaves_above_currentdate` (?)",[req.params.id],function (err, result, fields) {
+           console.log("getApprovedLeaves:",result);
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+
+    }catch (e) {
+        console.log('getApprovedLeaves :',e)
+
+    }
+}
 
 
 
@@ -195,7 +213,7 @@ function getCities(req,res) {
 function setProfileImage(req,res) {
     try{
         file=req.files.file;
-        var localPath = JSON.parse(decodeURI(req.params.path))
+        var localPath = JSON.parse(req.body.info);
         var folderName =localPath.filepath;
         try {
             if (!fs.existsSync(folderName)) {
@@ -221,10 +239,13 @@ function setProfileImage(req,res) {
             }
         }
         catch (err) {
+            res.send({status:false})
             console.error(err)
         }
     }catch (e) {
         console.log("setUploadImage:",e)
+        res.send({status:false})
+
     }
 
 }
