@@ -1986,7 +1986,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     /** */
     app.post('/ems/api/setProgramSchedulemail/',function(req,res){
         ems.setProgramSchedulemail(req,res);
-    })
+    });
     /** */
     app.get('/ems/api/getallEmployeeProgramSchedules/:eid/:sid/:companyName',function(req,res){
         ems.getallEmployeeProgramSchedules(req,res)
@@ -2227,11 +2227,11 @@ app.post('/ems/api/setprogramspasterstatus/', function(req,res) {
     ems.setprogramspasterstatus(req,res);
 });
 
-app.get('/ems/api/getEmailsByEmpid/:eid', function (req, res) {
+app.get('/ems/api/getEmailsByEmpid/:eid/:companyName', function (req, res) {
     ems.getEmailsByEmpid(req,res)
 })
 
-app.get('/ems/api/getActiveEmployeeProgramSchedules/:sid', function (req, res) {
+app.get('/ems/api/getActiveEmployeeProgramSchedules/:sid/:companyName', function (req, res) {
     ems.getActiveEmployeeProgramSchedules(req,res)
 })
 ////////
@@ -2655,7 +2655,6 @@ app.put('/api/putCompanyInformation',function(req,res) {
     admin.putCompanyInformation(req,res)
 });
 
-
 /*Set comapny information*/
 app.post('/api/setCompanyInformation',function(req,res) {
     admin.setCompanyInformation(req,res)
@@ -2963,12 +2962,7 @@ app.get('/admin/api/getShiftsDetailsById/:shift_id/:companyName', function(req, 
 
 
 
-app.listen(6060,function (err) {
-    if (err)
-        console.log('Server Cant Start ...Erorr....');
-    else
-        console.log('Server Started at : http://localhost:6060');
-});
+
 
 
 /**verify email for forget password */
@@ -3055,7 +3049,17 @@ app.post('/api/setRoleMaster',function(req,res) {
 app.post('/api/getReportingManager',function(req,res){
    admin.getReportingManager(req,res)
 })
+app.get('/api/hello',function(req,res){
+    ems.hello(req,res)
+})
 
+
+app.listen(6060,function (err) {
+    if (err)
+        console.log('Server Cant Start ...Erorr....');
+    else
+        console.log('Server Started at : http://localhost:6060');
+});
 
 
 

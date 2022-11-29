@@ -2,7 +2,6 @@ var mysql = require('mysql');
 var listOfExistedConnections = [];
 // /*Switching database connection*/
 function switchDatabase() {
-    user: "spryple_client_user",
         return mysql.createConnection({
             host: "192.168.1.183",
             user: "spryple_client_user",

@@ -38,6 +38,7 @@ module.exports = {
   setChecklistsMaster: setChecklistsMaster,
   getChecklistsMaster: getChecklistsMaster,
   setNewHire: setNewHire,
+    hello:hello,
   getNewHireDetails: getNewHireDetails,
   setReasonMaster: setReasonMaster,
   getActiveReasonList: getActiveReasonList,
@@ -123,12 +124,12 @@ module.exports = {
     getActiveEmployeeProgramSchedules: getActiveEmployeeProgramSchedules,
     sendEmailToEmployeeAboutRemoveRole: sendEmailToEmployeeAboutRemoveRole,
     sendEmailToEmployeeAboutNewRole: sendEmailToEmployeeAboutNewRole,
-    sendEmailToHrAboutDocumentReupload: sendEmailToHrAboutDocumentReupload,
+    // sendEmailToHrAboutDocumentReupload: sendEmailToHrAboutDocumentReupload,
     sendEmailToEmployeeAboutDocumentReject: sendEmailToEmployeeAboutDocumentReject,
     sendEmailToEmployeeAboutDocumentApproval: sendEmailToEmployeeAboutDocumentApproval,
     sendEmailToHrAboutDocumentApproval: sendEmailToHrAboutDocumentApproval,
     sendEmailToEmployeeAboutInductionCancel:sendEmailToEmployeeAboutInductionCancel
-    
+
     
 };
 //// set new hire list
@@ -367,11 +368,7 @@ async function getActiveReasonList(req,res) {
             console.log('setTerminationCategory')
         }
       }
-    );
-  } catch (e) {
-    console.log("setTerminationCategory");
-  }
-}
+
 
 /**Get termination category Data **/
 
@@ -895,11 +892,7 @@ async function setPreonboardCandidateInformation(req, res) {
             console.log('getCandidateDetails :', e)
         }
       }
-    );
-  } catch (e) {
-    console.log("getCandidateDetails :", e);
-  }
-}
+
 
 /** get employee check list */
 async function getEmployeeChecklists(req, res) {
@@ -1186,36 +1179,49 @@ async function getDepartmentEmployeesByDesignation(req,res) {
 }
 async function setselectEmployeesProgramSchedules(req,res){
     
-    try{
-        let array=[]
-            array.push(req.body.email)
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
+    try {
+        let array = []
+        array.push(req.body.email)
+        let companyName = req.body.companyName;
+        let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e26',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e26', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-            listOfConnections[companyName].query("CALL `set_employee_program_schedules` (?,?,?,?,?)", [req.body.esid,req.body.scheduleid,JSON.stringify(req.body.empid),req.body.status,req.body.actionby], function (err, result, fields) {
-                if (result && result[0][0].successstate == 0 ) {
-                    array.push(result[0][0])            
+            listOfConnections[companyName].query("CALL `set_employee_program_schedules` (?,?,?,?,?)", [req.body.esid, req.body.scheduleid, JSON.stringify(req.body.empid), req.body.status, req.body.actionby], function (err, result, fields) {
+                if (result && result[0][0].successstate == 0) {
+                    array.push(result[0][0])
                     setProgramSchedulemail(array);
-                    res.send({ data: result[0], status: true });
+                    res.send({data: result[0], status: true});
                 } else {
-                    res.send({ status: false })
+                    res.send({status: false})
                 }
             });
         }
         else {
-            res.send({ status: false })
-        }     
+            res.send({status: false})
+        }
+    }catch (e) {
+        console.log("setselectEmployeesProgramSchedules", e);
+    }
+}
+
 
 function setselectEmployeesProgramSchedules(req, res) {
   try {
     let array = [];
     array.push(req.body.email);
-    con.query(
+    let companyName = req.body.companyName;
+        let dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e26', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query(
       "CALL `set_employee_program_schedules` (?,?,?,?,?)",
       [
         req.body.esid,
@@ -1234,6 +1240,10 @@ function setselectEmployeesProgramSchedules(req, res) {
         }
       }
     );
+}
+else {
+    res.send({status: false})
+}
   } catch (e) {
     console.log("setselectEmployeesProgramSchedules", e);
   }
@@ -1267,9 +1277,9 @@ async function updateselectEmployeesProgramSchedules(req,res){
         console.log('setselectEmployeesProgramSchedules',e)
     }
 }
-function setProgramSchedulemail(req, res) {
+function setProgramSchedulemail(mailData) {
   try {
-    let email = req; 
+    let email = mailData; 
     var transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -1291,9 +1301,9 @@ function setProgramSchedulemail(req, res) {
         <p style="color:black">We are very excited to welcome you to our organization!<b></b></p>
         <p style="color:black"> At ${companyNameData.companyname} we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.</p>
         <p style="color:black">You are required to attend the induction program by the SPRYPLE<b></b></p>
-        <p style="color:black">Name of the Induction Program: <b>${req[1].program_name}</b></p>
+        <p style="color:black">Name of the Induction Program: <b>${mailData[1].program_name}</b></p>
         <p style="color:black">Your Meeting Scheduled On <b>${req[1].schedule_date}</b></p>
-        <p style="color:black">from <b>${req[1].schedule_starttime}</b> to <b>${req[1].schedule_endtime}</b></p>
+        <p style="color:black">from <b>${mailData[1].schedule_starttime}</b> to <b>${mailData[1].schedule_endtime}</b></p>
         <p style="color:black">We are looking forward to working with you and seeing you achieve great things!<b></b></p>
         
         <p style="color:black">Warm Regards,</p>
@@ -1310,55 +1320,60 @@ function setProgramSchedulemail(req, res) {
     };
     transporter.sendMail(mailOptions, function (error, info) {
       if (error) {
-        res.send({ status: false });
+          console.log("Filed to sent Mail",error)
+        // res.send({ status: false });
       } else {
-        res.send({ status: true });
+          console.log("Mail sent Successfully")
+        // res.send({ status: true });
       }
     });
   } catch (e) {
     console.log("setProgramSchedulemail :", e);
   }
 }
-async function getallEmployeeProgramSchedules(req,res){
-try{
-    let companyName =req.params.companyName;
-    let  dbName = await getDatebaseName(companyName)
-    var listOfConnections = {};
-    if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e29',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_employee_program_schedules` (?,?)", [JSON.parse(req.params.eid),JSON.parse(req.params.sid)], function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({ data: result[0], status: true });
-            } else {
-                res.send({ status: false })
+async function getallEmployeeProgramSchedules(req,res) {
+    try {
+        let companyName = req.params.companyName;
+        let dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e29', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-        });
-    }
-    else {
-        res.send({ status: false })
-    }
-}
-function getEmployeesForProgramSchedule(req, res) {
-  try {
-    con.query(
-      "CALL `get_employees_for_program_schedule` (?)",
-      [JSON.parse(req.params.id)],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
+            listOfConnections[companyName].query("CALL `get_employee_program_schedules` (?,?)", [JSON.parse(req.params.eid), JSON.parse(req.params.sid)], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({data: result[0], status: true});
+                } else {
+                    res.send({status: false})
+                }
+            });
         }
-      }
-    );
-  } catch (e) {
-    console.log("getEmployeesForProgramSchedule :", e);
-  }
+        else {
+            res.send({status: false})
+        }
+    } catch (e) {
+        console.log("getallEmployeeProgramSchedules :", e);
+    }
 }
-}
+// function getEmployeesForProgramSchedule(req, res) {
+//   try {
+//     con.query(
+//       "CALL `get_employees_for_program_schedule` (?)",
+//       [JSON.parse(req.params.id)],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("getEmployeesForProgramSchedule :", e);
+//   }
+// }
+
 async function getEmployeesForProgramSchedule(req,res){
     try{
         let companyName =req.params.companyName;
@@ -1605,26 +1620,37 @@ async function getEmpJobDetails(req, res) {
     }
 }
 
-//** get employee personal detials(HR) */
-function getEmpPersonalInfo(req, res) {
-  try {
-    con.query(
-      "CALL `get_emp_personal_info` (?)",
-      [JSON.parse(req.params.id)],
-        function (err, result, fields) {
-          console.log("err-",err)
-          console.log("res-",result)
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getEmpPersonalInfo :", e);
-  }
-}
+// //** get employee personal detials(HR) */
+// function getEmpPersonalInfo(req, res) {
+//   try {
+//     let companyName = req.params.companyName;
+//     let dbName = await getDatebaseName(companyName)
+//     var listOfConnections = {};
+//     if (dbName) {
+//         listOfConnections = connection.checkExistingDBConnection('e26', companyName)
+//         if (!listOfConnections.succes) {
+//             listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+//         }
+//         listOfConnections[companyName].query(
+//       "CALL `get_emp_personal_info` (?)",
+//       [JSON.parse(req.params.id)],
+//         function (err, result, fields) {
+//           console.log("err-",err)
+//           console.log("res-",result)
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//     }else{
+//         res.send({status:false})
+//     }
+//   } catch (e) {
+//     console.log("getEmpPersonalInfo :", e);
+//   }
+// }
 
 /**  */
 async function setEmpEmployement(req, res) {
@@ -1716,13 +1742,25 @@ async function setEmpEducationDetails(req, res) {
 /** get hired employee list */
 function getEmpEducationDetails(req,res) {
     try {
-        con.query("CALL `get_emp_education_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
+        
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('e39',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_emp_education_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                 res.send({ status: false })
             }
         });
+    } else {
+        res.send({ status: false })
+    }
       } catch (e) {
         console.log('getEmpEducationDetails :', e)
     }
@@ -1757,76 +1795,80 @@ async function getEmsEmployeeColumnConfigurationValue(req,res){
 
 async function setEmsEmployeeColumnConfigurationValues(req, res) {
     try {
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
+        let companyName = req.body.companyName;
+        let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e42',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e42', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query("CALL `set_ems_employee_column_configuration_values`(?,?,?,?,?,?,?,?,?,?,?)",
-            [req.body.empid,req.body.employee_status_value,req.body.employee_type,req.body.department_value,req.body.designation_value,req.body.location_value,req.body.gender_value,req.body.blood_group_value,req.body.marital_status_value,req.body.shift_value,req.body.reporting_manager_value], function (err, result, fields) {
-                if (err ) {
-                    res.send({ status: false })
-                    
-                } else {
-                    res.send({ status: true });
-                }
-            });
+                [req.body.empid, req.body.employee_status_value, req.body.employee_type, req.body.department_value, req.body.designation_value, req.body.location_value, req.body.gender_value, req.body.blood_group_value, req.body.marital_status_value, req.body.shift_value, req.body.reporting_manager_value], function (err, result, fields) {
+                    if (err) {
+                        res.send({status: false})
+
+                    } else {
+                        res.send({status: true});
+                    }
+                });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false})
         }
-
-function getFilepathsMasterForEMS(req, res) {
-  try {
-    con.query(
-      "CALL `get_filepaths_master`(?)",
-      [req.params.moduleId],
-      function (err, result, fields) {
-        if (err) {
-          res.send({ status: false });
-        } else {
-          res.send({ status: true, data: result[0] });
-        }
-      }
-    );
-  } catch (e) {
+    }catch (e) {
     console.log("getFilepathsMasterForEMS :", e);
   }
 }
 
-function setFilesMasterForEMS(req, res) {
-  try {
-    con.query(
-      "CALL `set_files_master` (?,?,?,?,?,?,?,?,?,?)",
-      [
-        req.body.id,
-        req.body.employeeId,
-        req.body.candidateId,
-        req.body.filecategory,
-        req.body.moduleId,
-        req.body.documentnumber,
-        req.body.fileName,
-        req.body.modulecode,
-        req.body.requestId,
-        req.body.status,
-      ],
-      function (err, result, fields) {
-        console.log("error--", err);
-        console.log("res--", result);
-        if (result && result.length > 0) {
-          res.send({ status: true, data: result[0] });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("setEmsEmployeeColumnConfigurationValues :", e);
-  }
-}
+// function getFilepathsMasterForEMS(req, res) {
+//   try {
+//     con.query(
+//       "CALL `get_filepaths_master`(?)",
+//       [req.params.moduleId],
+//       function (err, result, fields) {
+//         if (err) {
+//           res.send({ status: false });
+//         } else {
+//           res.send({ status: true, data: result[0] });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("getFilepathsMasterForEMS :", e);
+//   }
+// }
+
+// function setFilesMasterForEMS(req, res) {
+//   try {
+//     con.query(
+//       "CALL `set_files_master` (?,?,?,?,?,?,?,?,?,?)",
+//       [
+//         req.body.id,
+//         req.body.employeeId,
+//         req.body.candidateId,
+//         req.body.filecategory,
+//         req.body.moduleId,
+//         req.body.documentnumber,
+//         req.body.fileName,
+//         req.body.modulecode,
+//         req.body.requestId,
+//         req.body.status,
+//       ],
+//       function (err, result, fields) {
+//         console.log("error--", err);
+//         console.log("res--", result);
+//         if (result && result.length > 0) {
+//           res.send({ status: true, data: result[0] });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("setEmsEmployeeColumnConfigurationValues :", e);
+//   }
+// }
 
 
 
@@ -1838,35 +1880,13 @@ async function getFilepathsMasterForEMS(req, res) {
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection('e43',companyName)
             if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-function setDocumentOrImageForEMS(req, res) {
-  try {
-    file = req.files.file;
-    var localPath = JSON.parse(req.body.info);
-    var folderName = localPath.filepath;
-    try {
-      if (!fs.existsSync(folderName)) {
-        fs.mkdirSync(folderName);
-      } else {
-        try {
-          file.mv(
-            path.resolve(__dirname, folderName, localPath.filename),
-            function (error) {
-              if (error) {
-                console.log(error);
-                res.send({ status: false });
-              } else {
-                res.send({
-                  status: true,
-                  message: "Image Uploaded Succesfully",
-                });
-              }
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query("CALL `get_filepaths_master`(?)",
             [req.params.moduleId], function (err, result, fields) {
                 if (err ) {
                     res.send({ status: false })
-                    
+
                 } else {
                     res.send({ status: true, data:result[0]});
                 }
@@ -1875,21 +1895,52 @@ function setDocumentOrImageForEMS(req, res) {
         else {
             res.send({ status: false })
         }
-          );
         } catch (err) {
-          res.send({ status: false });
-        }
-      }
-    } catch (err) {
-      console.error(err);
+        console.error(err);
         res.send({ status: false });
 
-    }
-  } catch (e) {
-    console.log("setDocumentOrImageForEMS:", e);
-      res.send({ status: false });
+        }
+      }
 
-  }
+function setDocumentOrImageForEMS(req, res) {
+    try {
+        file = req.files.file;
+        var localPath = JSON.parse(req.body.info);
+        var folderName = localPath.filepath;
+        try {
+            if (!fs.existsSync(folderName)) {
+                fs.mkdirSync(folderName);
+            } else {
+                try {
+                    file.mv(
+                        path.resolve(__dirname, folderName, localPath.filename),
+                        function (error) {
+                            if (error) {
+                                console.log(error);
+                                res.send({status: false});
+                            } else {
+                                res.send({
+                                    status: true,
+                                    message: "Image Uploaded Succesfully",
+                                });
+                            }
+                        });
+                } catch (err) {
+                    console.error(err);
+                    res.send({status: false});
+
+                }
+            }
+        }
+        catch (e) {
+            res.send({status: false});
+
+        }
+    } catch (e) {
+        console.log("setDocumentOrImageForEMS:", e);
+        res.send({status: false});
+
+    }
 }
 
 async function setFilesMasterForEMS(req, res) {
@@ -1910,31 +1961,7 @@ async function setFilesMasterForEMS(req, res) {
                         res.send({status: true,data:result[0]})
                     } else {
                         res.send({status: false});
-async function getDocumentsForEMS(req, res) {
-  try {
-    console.log("req.body", req.body);
-    con.query(
-      "CALL `get_files_master` (?,?,?,?,?,?)",
-      [
-        req.body.employeeId,
-        req.body.candidateId,
-        req.body.moduleId,
-        req.body.filecategory ? req.body.filecategory : null,
-        req.body.requestId,
-        req.body.status,
-      ],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ status: true, data: result[0] });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getDocumentsForEMS :", e);
-  }
-}
+
 
                     }
                 });
@@ -1942,6 +1969,37 @@ async function getDocumentsForEMS(req, res) {
         else {
             res.send({ status: false })
         }
+
+    } catch (e) {
+        console.log("getUserLoginData :", e);
+      }
+    }
+
+        // async function getDocumentsForEMS(req, res) {
+        //     try {
+        //       console.log("req.body", req.body);
+        //       con.query(
+        //         "CALL `get_files_master` (?,?,?,?,?,?)",
+        //         [
+        //           req.body.employeeId,
+        //           req.body.candidateId,
+        //           req.body.moduleId,
+        //           req.body.filecategory ? req.body.filecategory : null,
+        //           req.body.requestId,
+        //           req.body.status,
+        //         ],
+        //         function (err, result, fields) {
+        //           if (result && result.length > 0) {
+        //             res.send({ status: true, data: result[0] });
+        //           } else {
+        //             res.send({ status: false });
+        //           }
+        //         }
+        //       );
+        //     } catch (e) {
+        //       console.log("getDocumentsForEMS :", e);
+        //     }
+        //   }
 function getDocumentOrImagesForEMS(req, res) {
   console.log("body--", req.body);
   try {
@@ -1984,27 +2042,36 @@ function removeDocumentOrImagesForEMS(req, res) {
   }
 }
 
-function deleteFilesMaster(req, res) {
-  try {
-    con.query(
-      "CALL `delete_files_master` (?)",
-      [req.params.id],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ status: true, data: result[0] });
-          // res.send({status: false});
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("deleteFilesMaster :", e);
-  }
-}
+// function deleteFilesMaster(req, res) {
+//   try {
+//     con.query(
+//       "CALL `delete_files_master` (?)",
+//       [req.params.id],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ status: true, data: result[0] });
+//           // res.send({status: false});
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("deleteFilesMaster :", e);
+//   }
+// }
 function getUserLoginData(req, res) {
   try {
-    con.query(
+    var  dbName = await common.getDatebaseName(req.body.companyName)
+    let companyName = req.body.companyName;
+
+    var listOfConnections = {};
+    if(dbName){
+        listOfConnections= connection.checkExistingDBConnection(4,companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query(
       "CALL `get_user_login_data` ()",
       [],
       function (err, result, fields) {
@@ -2015,6 +2082,10 @@ function getUserLoginData(req, res) {
         }
       }
     );
+    } else {
+        res.send({ status: false });
+  
+    }
   } catch (e) {
     console.log("getUserLoginData :", e);
   }
@@ -2027,7 +2098,16 @@ function usersLogin(req, res) {
         empid:req.body.empid,
         userid:req.body.userid,
         password:req.body.password}];
-    con.query(
+        var  dbName = await common.getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+    
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(4,companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query(
       "CALL `setemployeelogin`(?,?,?,?,?)",
       [
         req.body.empid,
@@ -2049,19 +2129,31 @@ function usersLogin(req, res) {
         }
       }
     );
+        }else {
+            res.send({ status: false });
+
+        }
   } catch (e) {
     console.log("usersLogin", e);
   }
 }
 
-function setDocumentOrImageForEMS(req, res) {
-    try { 
-        file=req.files.file;
-        var localPath = JSON.parse(decodeURI(req.params.path))
+// function setDocumentOrImageForEMS(req, res) {
+//     try { 
+//         file=req.files.file;
+//         var localPath = JSON.parse(decodeURI(req.params.path))
 function getEmsEmployeeColumnFilterData(req, res) {
   try {
-    console.log("hi");
-    con.query(
+    let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('e49',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+    
+        listOfConnections[companyName].query(
       "CALL `get_ems_employee_column_filter_data` ()",
       [],
       function (err, result, fields) {
@@ -2072,14 +2164,27 @@ function getEmsEmployeeColumnFilterData(req, res) {
         }
       }
     );
+    }else {
+        res.send({ status: false });
+      }
+
   } catch (e) {
     console.log("getEmsEmployeeColumnFilterData :", e);
   }
 }
 
-function getOffboardingSettings(req, res) {
+async function getOffboardingSettings(req, res) {
   try {
-    con.query(
+      let companyName =req.params.companyName;
+      let  dbName = await getDatebaseName(companyName)
+      var listOfConnections = {};
+      if(dbName){
+          listOfConnections= connection.checkExistingDBConnection('e50',companyName)
+          if(!listOfConnections.succes) {
+              listOfConnections[companyName] = await
+              connection.getNewDBConnection(companyName, dbName);
+          }
+          listOfConnections[companyName].query(
       "CALL `get_offboard_settings` ()",
       function (err, result, fields) {
         if (result && result.length > 0) {
@@ -2089,362 +2194,328 @@ function getOffboardingSettings(req, res) {
         }
       }
     );
+      } else {
+          res.send({ status: false });
+      }
   } catch (e) {
     console.log("getOffboardingSettings :", e);
   }
 }
 
-/**  */
-function setOffboardingSettings(req, res) {
-  try {
-    con.query(
-      "CALL `set_offboard_settings` (?)",
-      [JSON.stringify(req.body)],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("setOffboardingSettings :", e);
-  }
-}
+// /**  */
+// function setOffboardingSettings(req, res) {
+//   try {
+//     con.query(
+//       "CALL `set_offboard_settings` (?)",
+//       [JSON.stringify(req.body)],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("setOffboardingSettings :", e);
+//   }
+// }
 
-/**  */
-function setOnboardingSettings(req, res) {
-  try {
-    con.query(
-      "CALL `set_onboard_settings` (?)",
-      [JSON.stringify(req.body)],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("setOnboardingSettings :", e);
-  }
-}
-function getEmsEmployeeDataForReports(req, res) {
-  try {
-    let empid = req.body.empid;
-    let emptype =
-      req.body.emptype.length > 0 ? req.body.emptype.toString() : "";
-    let empstatus =
-      req.body.empstatus.length > 0 ? req.body.empstatus.toString() : "";
-    let dept = req.body.dept.length > 0 ? req.body.dept.toString() : "";
-    let desg = req.body.desg.length > 0 ? req.body.desg.toString() : "";
-    let location =
-      req.body.location.length > 0 ? req.body.location.toString() : "";
-    let gender = req.body.gender.length > 0 ? req.body.gender.toString() : "";
-    let bloodgroup =
-      req.body.bloodgroup.length > 0 ? req.body.bloodgroup.toString() : "";
-    let shift = req.body.shift.length > 0 ? req.body.shift.toString() : "";
-    let maritalstatus =
-      req.body.maritalstatus.length > 0
-        ? req.body.maritalstatus.toString()
-        : "";
-    let manager =
-      req.body.manager.length > 0 ? req.body.manager.toString() : "";
-    // console.log("eid"+empid,"estatus"+empstatus,"etype"+emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,'')
-
-    con.query(
-      "CALL `get_ems_employee_data_for_reports` (?,?,?,?,?,?,?,?,?,?,?,?)",
-      [
-        empid,
-        empstatus,
-        emptype,
-        dept,
-        desg,
-        location,
-        gender,
-        bloodgroup,
-        maritalstatus,
-        shift,
-        manager,
-        "",
-      ],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          // console.log(result)
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getEmsEmployeeDataForReports :", e);
-  }
-}
+// /**  */
+// function setOnboardingSettings(req, res) {
+//   try {
+//     con.query(
+//       "CALL `set_onboard_settings` (?)",
+//       [JSON.stringify(req.body)],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("setOnboardingSettings :", e);
+//   }
+// }
+// function getEmsEmployeeDataForReports(req, res) {
+//   try {
+//     let empid = req.body.empid;
+//     let emptype =
+//       req.body.emptype.length > 0 ? req.body.emptype.toString() : "";
+//     let empstatus =
+//       req.body.empstatus.length > 0 ? req.body.empstatus.toString() : "";
+//     let dept = req.body.dept.length > 0 ? req.body.dept.toString() : "";
+//     let desg = req.body.desg.length > 0 ? req.body.desg.toString() : "";
+//     let location =
+//       req.body.location.length > 0 ? req.body.location.toString() : "";
+//     let gender = req.body.gender.length > 0 ? req.body.gender.toString() : "";
+//     let bloodgroup =
+//       req.body.bloodgroup.length > 0 ? req.body.bloodgroup.toString() : "";
+//     let shift = req.body.shift.length > 0 ? req.body.shift.toString() : "";
+//     let maritalstatus =
+//       req.body.maritalstatus.length > 0
+//         ? req.body.maritalstatus.toString()
+//         : "";
+//     let manager =
+//       req.body.manager.length > 0 ? req.body.manager.toString() : "";
+//     // console.log("eid"+empid,"estatus"+empstatus,"etype"+emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,'')
+//
+//     con.query(
+//       "CALL `get_ems_employee_data_for_reports` (?,?,?,?,?,?,?,?,?,?,?,?)",
+//       [
+//         empid,
+//         empstatus,
+//         emptype,
+//         dept,
+//         desg,
+//         location,
+//         gender,
+//         bloodgroup,
+//         maritalstatus,
+//         shift,
+//         manager,
+//         "",
+//       ],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           // console.log(result)
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("getEmsEmployeeDataForReports :", e);
+//   }
+// }
 /*To get active announcements*/
-function getActiveAnnouncementsTopics(req, res) {
-  try {
-    con.query(
-      "CALL `get_active_announcements_topics` ()",
-      [],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getActiveAnnouncementsTopics :", e);
-  }
-}
+// function getActiveAnnouncementsTopics(req, res) {
+//   try {
+//     con.query(
+//       "CALL `get_active_announcements_topics` ()",
+//       [],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("getActiveAnnouncementsTopics :", e);
+//   }
+// }
 /*To Get Announcements*/
-function getAnnouncements(req, res) {
-  try {
-    con.query(
-      "CALL `get_announcements` (?)",
-      [null],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getAnnouncements :", e);
-  }
-}
-function getEmployeesPendingChecklists(req, res) {
-  try {
-    con.query(
-      "CALL `get_employees_pending_checklists` (?,?,?,?)",
-      [req.body.name, req.body.date, req.body.eid, req.body.did],
-      function (err, result, fields) {
-        console.log("error-", err), console.log("request-", result);
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getEmployeesPendingChecklists :", e);
-  }
-}
+// function getAnnouncements(req, res) {
+//   try {
+//     con.query(
+//       "CALL `get_announcements` (?)",
+//       [null],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("getAnnouncements :", e);
+//   }
+// }
+// function getEmployeesPendingChecklists(req, res) {
+//   try {
+//     con.query(
+//       "CALL `get_employees_pending_checklists` (?,?,?,?)",
+//       [req.body.name, req.body.date, req.body.eid, req.body.did],
+//       function (err, result, fields) {
+//         console.log("error-", err), console.log("request-", result);
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("getEmployeesPendingChecklists :", e);
+//   }
+// }
 
-function Messages(req, res) {
+// function Messages(req, res) {
+//   try {
+//     con.query(
+//       "CALL `get_ems_messages` (?,?,?)",
+//       [req.body.code, req.body.pagenumber, req.body.pagesize],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ status: true, data: result[0] });
+//         } else {
+//           res.send({ status: false, data: [] });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("Messages");
+//   }
+// }
+async function setAnnouncements(req, res) {
   try {
-    con.query(
-      "CALL `get_ems_messages` (?,?,?)",
-      [req.body.code, req.body.pagenumber, req.body.pagesize],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ status: true, data: result[0] });
-        } else {
-          res.send({ status: false, data: [] });
-        }
+      let companyName =req.body.companyName;
+      let  dbName = await getDatebaseName(companyName)
+      var listOfConnections = {};
+      if(dbName) {
+          listOfConnections = connection.checkExistingDBConnection('e44', companyName)
+          if (!listOfConnections.succes) {
+              listOfConnections[companyName] = await
+              connection.getNewDBConnection(companyName, dbName);
+          }
+          listOfConnections[companyName].query(
+              "CALL `set_announcements` (?)",
+              [JSON.stringify(req.body)],
+              function (err, result, fields) {
+                  if (
+                      result &&
+                      result[0] &&
+                      result[0][0] &&
+                      result[0][0].statuscode == 0
+                  ) {
+                      res.send({status: true});
+                  } else {
+                      res.send({status: false});
+                  }
+              }
+          );
+      }else{
+          res.send({status: false});
+
       }
-    );
-  } catch (e) {
-    console.log("Messages");
   }
-}
-function setAnnouncements(req, res) {
-  try {
-    console.log(JSON.stringify(req.body));
-    con.query(
-      "CALL `set_announcements` (?)",
-      [JSON.stringify(req.body)],
-      function (err, result, fields) {
-        if (
-          result &&
-          result[0] &&
-          result[0][0] &&
-          result[0][0].statuscode == 0
-        ) {
-          res.send({ status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
+   catch (e) {
     console.log("setAnnouncements :", e);
   }
 }
 /*To Get Announcements*/
-function getFilesForApproval(req, res) {
-  try {
-    con.query(
-      "CALL `get_files_for_approval` (?,?)",
-      [null, null],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getFilesForApproval :", e);
-  }
-}
-function documentApproval(req, res) {
-  try {
-    con.query(
-      "CALL `set_files_master_status` (?,?)",
-      [req.body.id, req.body.status],
-      function (err, result, fields) {
-        if (
-          result &&
-          result[0] &&
-          result[0][0] &&
-          result[0][0].successstate == 0
-        ) {
-          res.send({ status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("documentApproval :", e);
-  }
-}
+// function getFilesForApproval(req, res) {
+//   try {
+//     con.query(
+//       "CALL `get_files_for_approval` (?,?)",
+//       [null, null],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("getFilesForApproval :", e);
+//   }
+// }
+// function documentApproval(req, res) {
+//   try {
+//     con.query(
+//       "CALL `set_files_master_status` (?,?)",
+//       [req.body.id, req.body.status],
+//       function (err, result, fields) {
+//         if (
+//           result &&
+//           result[0] &&
+//           result[0][0] &&
+//           result[0][0].successstate == 0
+//         ) {
+//           res.send({ status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("documentApproval :", e);
+//   }
+// }
 
-function setEmployeeChecklists(req, res) {
-    console.log("val-1");
-  try {
-    con.query(
-        "CALL `set_employee_checklists` (?,?,?,?,?,?,?,?)",
-        [
-          JSON.stringify(req.body.cid),
-          req.body.eid,
-          req.body.did,
-          req.body.cmmt,
-          req.body.status,
-          req.body.fstatus,
-          req.body.category,
-          req.body.actionBy,
-          ],
-        function (err, result, fields) {
-         if (result && result[0][0].successstate == 0) {
-                 res.send({status: true});
-              } else {
-                  res.send({ status: false })
-              }
-          });
+// function setEmployeeChecklists(req, res) {
+//     console.log("val-1");
+//   try {
+//     con.query(
+//         "CALL `set_employee_checklists` (?,?,?,?,?,?,?,?)",
+//         [
+//           JSON.stringify(req.body.cid),
+//           req.body.eid,
+//           req.body.did,
+//           req.body.cmmt,
+//           req.body.status,
+//           req.body.fstatus,
+//           req.body.category,
+//           req.body.actionBy,
+//           ],
+//         function (err, result, fields) {
+//          if (result && result[0][0].successstate == 0) {
+//                  res.send({status: true});
+//               } else {
+//                   res.send({ status: false })
+//               }
+//           });
+//
+//     } catch (e) {
+//         console.log('setEmployeeChecklists :', e)
+//
+//     }
+// }
 
-    } catch (e) {
-        console.log('setEmployeeChecklists :', e)
-
-    }
-}
-
-function getDocumentOrImagesForEMS(req, res) {
-    try{
-        folderName = req.body.filepath;
-        var imageData={}
-        var flag=false;
-        fs.readFile(folderName + req.body.filename, function (err, result) {
+// function getDocumentOrImagesForEMS(req, res) {
+//     try{
+//         folderName = req.body.filepath;
+//         var imageData={}
+//         var flag=false;
+//         fs.readFile(folderName + req.body.filename, function (err, result) {
             
-            console.log("error=",err,"folder--",folderName)
-            console.log("result=",result)
-            if(err){
-                flag=false;
-            }else{
-                flag=true
-                imageData.image=result;
-            }
-            imageData.success=flag;
-            // imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
-            // return imageData;
-            res.send(imageData)
-        })
+//             console.log("error=",err,"folder--",folderName)
+//             console.log("result=",result)
+//             if(err){
+//                 flag=false;
+//             }else{
+//                 flag=true
+//                 imageData.image=result;
+//             }
+//             imageData.success=flag;
+//             // imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
+//             // return imageData;
+//             res.send(imageData)
+//         })
 
-    }
-    catch(e){
-        console.log('getDocumentOrImagesForEMS',e)
-    }
-
-function getEmpOffboardTerminationChecklists(req, res) {
-  try {
-    con.query(
-      "CALL `get_emp_offboard_termination_checklists` (?,?,?,?)",
-      [req.body.name, req.body.date, req.body.eid, req.body.did],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getEmpOffboardTerminationChecklists :", e);
-  }
-}
+//     }
+//     catch(e){
+//         console.log('getDocumentOrImagesForEMS',e)
+//     }
+// }
 
 /*To Get getEmpAnnouncements*/
-function getEmpAnnouncements(req, res) {
-  try {
-    con.query(
-      "CALL `get_emp_announcements` ()",
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getEmpAnnouncements :", e);
-  }
-}
+// function getEmpAnnouncements(req, res) {
+//   try {
+//     con.query(
+//       "CALL `get_emp_announcements` ()",
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("getEmpAnnouncements :", e);
+//   }
+// }
 
-function getEmpResignationPendingChecklists(req, res) {
-  try {
-    con.query(
-      "CALL `get_emp_offboard_resignation_checklists` (?,?,?,?)",
-      [req.body.name, req.body.date, req.body.eid, req.body.did],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getEmpResignationPendingChecklists :", e);
-  }
-}
 
-function getEmployeesResignationForHr(req, res) {
-  try {
-    con.query(
-      "CALL `get_resignation_data` (?,?,?)",
-      [req.body.regId, req.body.empId, req.body.rmId],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getEmployeesResignationForHr :", e);
-  }
-}
+
 
 async function deleteFilesMaster(req,res){
     try {
@@ -2474,38 +2545,50 @@ async function deleteFilesMaster(req,res){
     }catch (e) {
         console.log('deleteFilesMaster :',e)
     }
-function getReportingManagerForEmp(req, res) {
-  try {
-    con.query(
-      "CALL `get_reporting_manager_for_emp` (?)",
-      [JSON.parse(req.params.id)],
-      function (err, result, fields) {
-        if (result && result.length > 0) {
-          res.send({ data: result[0], status: true });
-        } else {
-          res.send({ status: false });
-        }
-      }
-    );
-  } catch (e) {
-    console.log("getReportingManagerForEmp :", e);
-  }
 }
-async function getUserLoginData(req,res){
+// function getReportingManagerForEmp(req, res) {
+//   try {
+//     con.query(
+//       "CALL `get_reporting_manager_for_emp` (?)",
+//       [JSON.parse(req.params.id)],
+//       function (err, result, fields) {
+//         if (result && result.length > 0) {
+//           res.send({ data: result[0], status: true });
+//         } else {
+//           res.send({ status: false });
+//         }
+//       }
+//     );
+//   } catch (e) {
+//     console.log("getReportingManagerForEmp :", e);
+//   }
+// }
+// async function getUserLoginData(req,res){
 function getHrDetails(req, res) {
   try {
-    con.query("CALL `get_hr_details` ()", function (err, result, fields) {
+      let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('e65',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_hr_details` ()", function (err, result, fields) {
       if (result && result.length > 0) {
         res.send({ data: result[0], status: true });
       } else {
         res.send({ status: false });
       }
     });
+    }else {
+        res.send({ status: false });
+    }
   } catch (e) {
     console.log("getHrDetails :", e);
   }
 }
-function getnoticeperiods(req,res){
+async function getnoticeperiods(req,res){
     try{
         let companyName =req.params.companyName;
         let  dbName = await getDatebaseName(companyName)
@@ -2513,19 +2596,21 @@ function getnoticeperiods(req,res){
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection('e46',companyName)
             if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        con.query("CALL `get_notice_period` ()", function (err, result, fields) {
+                listOfConnections[companyName] = await
+                connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_notice_period` ()", function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({ data: result[0], status: true });
             } else {
                res.send({ status: false })
             }
-            listOfConnections[companyName].query("CALL `get_user_login_data` ()", [], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
-                }
+            // listOfConnections[companyName].query("CALL `get_user_login_data` ()", [], function (err, result, fields) {
+            //     if (result && result.length > 0) {
+            //         res.send({ data: result[0], status: true });
+            //     } else {
+            //         res.send({ status: false })
+            //     }
             });
         }
         else {
@@ -2536,37 +2621,46 @@ function getnoticeperiods(req,res){
         console.log('getnoticeperiods :', e)
     }
 }
-async function usersLogin(req,res){
-    try{
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
+async function usersLogin(req,res) {
+    try {
+        let companyName = req.body.companyName;
+        let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e48',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e48', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-            listOfConnections[companyName].query('CALL `setemployeelogin`(?,?,?,?,?)',[req.body.empid,req.body.userid,req.body.password,req.body.status,'N'],function(err,result){
-                if(err){
-                    res.send({ status: false })
+            listOfConnections[companyName].query('CALL `setemployeelogin`(?,?,?,?,?)', [req.body.empid, req.body.userid, req.body.password, req.body.status, 'N'], function (err, result) {
+                if (err) {
+                    res.send({status: false})
 
                 }
-                else{
-                    res.send({ status: true })
+                else {
+                    res.send({status: true})
                 }
             })
         }
         else {
-            res.send({ status: false })
+            res.send({status: false})
         }
 
     }
-    catch(e){
-        console.log('usersLogin',e)
+    catch (e) {
+        console.log('usersLogin', e)
     }
+}
 function setprogramspasterstatus(req, res) {
   try {
-    con.query(
+    let companyName = req.body.companyName;
+    let dbName = await getDatebaseName(companyName)
+    var listOfConnections = {};
+    if (dbName) {
+        listOfConnections = connection.checkExistingDBConnection('e48', companyName)
+        if (!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+        }
+        listOfConnections[companyName].query(
       "CALL `set_programs_status` (?,?,?)",
       [req.body.pid, req.body.pStatus, req.body.actionby],
       function (err, result, fields) {
@@ -2577,24 +2671,35 @@ function setprogramspasterstatus(req, res) {
         }
       }
     );
+    }else {
+            res.send({ status: false });
+        }
   } catch (e) {
-    console.log("getnoticeperiods :", e);
+    console.log("setprogramspasterstatus :", e);
   }
 }
 
-async function getEmsEmployeeColumnFilterData(req,res){
-    try{
-        let companyName =req.params.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e49',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+// async function getEmsEmployeeColumnFilterData(req,res){
+//     try{
+//         let companyName =req.params.companyName;
+//         let  dbName = await getDatebaseName(companyName)
+//         var listOfConnections = {};
+//         if(dbName){
+//             listOfConnections= connection.checkExistingDBConnection('e49',companyName)
+//             if(!listOfConnections.succes) {
+//                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
 function getEmailsByEmpid(req, res) {
  
     try {
-        con.query("CALL `get_emails_by_empid` (?)", [req], function (err, result, fields) {
+        let companyName = req.params.companyName;
+        let dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e48', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+        listOfConnections[companyName].query("CALL `get_emails_by_empid` (?)", [req], function (err, result, fields) {
             emailComponentData = [];
              if (result && result.length > 0) {
                  emailComponentData =result[0][0];
@@ -2610,7 +2715,9 @@ function getEmailsByEmpid(req, res) {
                     res.send({ status: false })
                 }
             });
-        }
+            
+        });
+    }
         else {
             res.send({ status: false })
         }
@@ -2620,10 +2727,12 @@ function getEmailsByEmpid(req, res) {
     }
 }
 
+
+
 /** send email to Admin About NewHire */
-function sendEmailToAdminAboutNewHire(req,res){
+function sendEmailToAdminAboutNewHire(mailData){
     try {
-       let data = JSON.parse(req.jsonvalu)[0];
+       let data = JSON.parse(mailData.jsonvalu)[0];
          let email = data.admin_email
         let empname = data.emp_name;
         var transporter = nodemailer.createTransport({
@@ -2645,18 +2754,7 @@ function sendEmailToAdminAboutNewHire(req,res){
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
         <p style="color:black">Hi ${data.admin_name},</p>
-
-
-
-async function getOffboardingSettings(req,res){
-    try{
-        let companyName =req.params.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e50',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        
         <p style="color:black">I hope you are doing well! I just wanted to let you know to create Login Credentials for new Employee : <b>${data.emp_name}</b></p>
         
         <p style="color:black">Thank you,,</p>
@@ -2671,25 +2769,14 @@ async function getOffboardingSettings(req,res){
             subject: 'Create a new login for'+' '+empname,
             html: html
         };
-        transporter.sendMail(mailOptions, function (error, info) {
+         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                res.send({ status: false, })
+                console.log("Failed To Sent  Mail",error)
             } else {
-                res.send({ status: true })
+                console.log("Mail Sent Successfully")
             }
-            listOfConnections[companyName].query("CALL `get_offboard_settings` ()",  function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
-                }
-            });
-        }
-        else {
-            res.send({ status: false })
-        }
         });
-   
+
     }
     catch (e) {
         console.log('sendEmailToAdminAboutNewHire :', e)
@@ -2698,10 +2785,9 @@ async function getOffboardingSettings(req,res){
 }
 
 /** send email to employee About logins */
-function sendEmailToEmployeeAboutLogins(req, res) {
+function sendEmailToEmployeeAboutLogins(maileData, result) {
   try {
-    console.log("Login Email:",req);
-    let email = req[0].email;
+    let email = maileData[0].email;
     var transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -2722,42 +2808,18 @@ function sendEmailToEmployeeAboutLogins(req, res) {
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hello ${req[0].empname},</p>
+        <p style="color:black">Hello ${maileData[0].empname},</p>
         
         <p style="color:black">Thank you for joining our organization.</p>
 
-/**  */
-async function setOffboardingSettings(req, res) {
-    try {
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e51',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-            }
-            listOfConnections[companyName].query("CALL `set_offboard_settings` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
-                }
-            });
-        }
-        else {
-            res.send({ status: false })
-        }
-    } catch (e) {
-        console.log('setOffboardingSettings :', e)
-    }
+
         <p style="color:black">We’d like to confirm that your account is created successfully. To access ${req[0].company_name}, click the link below.<b></b></p>
        
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
         <p style="color:black">Following are your login credentials:</p>
-        <p style="color:black">Username:${req[0].userid}</p>
-        <p style="color:black">Password:${req[0].password}</p>
+        <p style="color:black">Username:${maileData[0].userid}</p>
+        <p style="color:black">Password:${maileData[0].password}</p>
         <p style="color:black">If you experience any issues logging on into your account, reach out to us at ${req[0].contact_mail}</p>
         
         <p style="color:black">Best,</p>
@@ -2776,9 +2838,12 @@ async function setOffboardingSettings(req, res) {
     transporter.sendMail(mailOptions, function (error, info) {
         console.log(error);
       if (error) {
-        res.send({ status: false });
+          console.log("Failed To Sent  Mail",error)
+        // res.send({ status: false });
       } else {
-        res.send({ status: true });
+          console.log("Mail Sent Successfully")
+
+          // res.send({ status: true });
       }
     });
   } catch (e) {
@@ -2786,12 +2851,37 @@ async function setOffboardingSettings(req, res) {
   }
 }
 
-/** send email to checklist manager */
-function sendEmailToChecklistManager(req,res){
 /**  */
-async function setOnboardingSettings(req, res) {
+async function setOffboardingSettings(req, res) {
     try {
-        let data = JSON.parse(req.jsonvalu)[0];
+        let companyName = req.body.companyName;
+        let dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e51', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query("CALL `set_offboard_settings` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({data: result[0], status: true});
+                } else {
+                    res.send({status: false})
+                }
+            });
+        }
+        else {
+            res.send({status: false})
+        }
+    } catch (e) {
+        console.log('setOffboardingSettings :', e)
+    }
+}
+
+/** send email to checklist manager */
+function sendEmailToChecklistManager(mailData){
+try {
+        let data = JSON.parse(mailData.jsonvalu)[0];
         let email = data.admin_email
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
@@ -2835,33 +2925,39 @@ async function setOnboardingSettings(req, res) {
       html: html,
     };
     transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        res.send({ status: false });
-      } else {
-        res.send({ status: true });
-      }
+        if (error) {
+            console.log("Failed To Sent  Mail",err)
+        } else {
+            console.log("Mail Sent Successfully")
+        }
     });
   } catch (e) {
     console.log("sendEmailToChecklistManager :", e);
   }
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
+
+}
+async function setOnboardingSettings(req, res) {
+    try {
+        let companyName = req.body.companyName;
+        let dbName = await
+        getDatebaseName(companyName)
         var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e52',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e52', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await
+                connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query("CALL `set_onboard_settings` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
                 if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
+                    res.send({data: result[0], status: true});
                 } else {
-                    res.send({ status: false })
+                    res.send({status: false})
                 }
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false})
         }
     } catch (e) {
         console.log('setOnboardingSettings :', e)
@@ -2889,11 +2985,44 @@ async function getEmsEmployeeDataForReports(req,res){
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection('e53',companyName)
             if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-/** send email to employee about checklist update */
-function sendEmailToEmployeeAboutChecklistUpdate(req, res) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query(
+                    "CALL `get_ems_employee_data_for_reports` (?,?,?,?,?,?,?,?,?,?,?,?)",
+                    [
+                        empid,
+                        empstatus,
+                        emptype,
+                        dept,
+                        desg,
+                        location,
+                        gender,
+                        bloodgroup,
+                        maritalstatus,
+                        shift,
+                        manager,
+                        "",
+                    ],
+                    function (err, result, fields) {
+                        if (result && result.length > 0) {
+                            // console.log(result)
+                            res.send({ data: result[0], status: true });
+                        } else {
+                            res.send({ status: false });
+                        }
+                    }
+                );
+                } else {
+                    res.send({ status: false });
+                }
+            } catch (e) {
+                console.log("getEmsEmployeeDataForReports :", e);
+            }
+        }
+                /** send email to employee about checklist update */
+function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
   try {
-    let email = req;
+    let email = maileData;
     var transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -2934,11 +3063,11 @@ function sendEmailToEmployeeAboutChecklistUpdate(req, res) {
       html: html,
     };
     transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        res.send({ status: false });
-      } else {
-        res.send({ status: true });
-      }
+        if (error) {
+            console.log("Failed To Sent  Mail",error)
+        } else {
+            console.log("Mail Sent Successfully")
+        }
     });
   } catch (e) {
     console.log("sendEmailToEmployeeAboutChecklistUpdate :", e);
@@ -2946,9 +3075,9 @@ function sendEmailToEmployeeAboutChecklistUpdate(req, res) {
 }
 
 /** send email to employee about checklist final update */
-function sendEmailToEmployeeAboutChecklistFinalUpdate(req, res) {
+function sendEmailToEmployeeAboutChecklistFinalUpdate(mailData) {
   try {
-    let email = req;
+    let email = mailData;
     var transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -2967,7 +3096,7 @@ function sendEmailToEmployeeAboutChecklistFinalUpdate(req, res) {
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hi ${req[0].emp_name},</p>
+        <p style="color:black">Hi ${mailData[0].emp_name},</p>
 
         <p style="color:black">Hope you're doing well.</p>
         
@@ -2989,11 +3118,11 @@ function sendEmailToEmployeeAboutChecklistFinalUpdate(req, res) {
       html: html,
     };
     transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        res.send({ status: false });
-      } else {
-        res.send({ status: true });
-      }
+        if (error) {
+            console.log("Failed To Sent  Mail",error)
+        } else {
+            console.log("Mail Sent Successfully")
+        }
     });
   } catch (e) {
     console.log("sendEmailToEmployeeAboutChecklistFinalUpdate :", e);
@@ -3001,9 +3130,9 @@ function sendEmailToEmployeeAboutChecklistFinalUpdate(req, res) {
 }
 
 /** send email to employee about checklist complete */
-function sendEmailToEmployeeAboutChecklistComplete(req, res) {
+function sendEmailToEmployeeAboutChecklistComplete(mailData) {
   try {
-    let email = req;
+    let email = mailData;
     var transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -3022,7 +3151,7 @@ function sendEmailToEmployeeAboutChecklistComplete(req, res) {
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hi ${req[0].emp_name},</p>
+        <p style="color:black">Hi ${mailData[0].emp_name},</p>
 
         <p style="color:black">We're delighted to have you on board. I'll just quickly go through the onboarding checklist that we've completed for you. </p>
         
@@ -3047,22 +3176,11 @@ function sendEmailToEmployeeAboutChecklistComplete(req, res) {
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                res.send({ status: false, })
+                console.log("Failed To Sent  Mail",error)
             } else {
-                res.send({ status: true })
+                console.log("Mail Sent Successfully")
             }
-            listOfConnections[companyName].query("CALL `get_ems_employee_data_for_reports` (?,?,?,?,?,?,?,?,?,?,?,?)", [empid,empstatus,emptype,dept,desg,location,gender,bloodgroup,maritalstatus,shift,manager,''], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    // console.log(result)
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
-                }
-            });
-        }
-        else {
-            res.send({ status: false })
-        }
+
         });
    
     }
@@ -3075,10 +3193,39 @@ function sendEmailToEmployeeAboutChecklistComplete(req, res) {
 /*To get active announcements*/
 async function getActiveAnnouncementsTopics(req,res){
 
+try {
+
+
+    let companyName = req.params.companyName;
+    let dbName = await getDatebaseName(companyName)
+    var listOfConnections = {};
+    if (dbName) {
+        listOfConnections = connection.checkExistingDBConnection('e54', companyName)
+        if (!listOfConnections.succes) {
+            listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+        }
+
+        listOfConnections[companyName].query("CALL `get_active_announcements_topics` ()", [], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: result[0], status: true});
+            } else {
+                res.send({status: false})
+            }
+        });
+    }
+    else {
+        res.send({status: false})
+    }
+}catch(e){
+    console.log('getActiveAnnouncementsTopics :', e)
+}
+
+}
+
 /** send email to employee about induction cancel */
-function sendEmailToEmployeeAboutInductionCancel(req,res){
+function sendEmailToEmployeeAboutInductionCancel(mailData){
     try{
-       let email = req
+       let email = mailData;
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
@@ -3097,7 +3244,7 @@ function sendEmailToEmployeeAboutInductionCancel(req,res){
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Dear ${req[0].emp_name},</p>
+        <p style="color:black">Dear ${mailData[0].emp_name},</p>
 
         <p style="color:black">I hope that you are doing well. </p>
         
@@ -3121,36 +3268,16 @@ function sendEmailToEmployeeAboutInductionCancel(req,res){
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                res.send({ status: false, })
+                console.log("Failed To Sent  Mail",error)
             } else {
-                res.send({ status: true })
-        let companyName =req.params.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e54',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+                console.log("Mail Sent Successfully")
             }
-        });
-   
-            listOfConnections[companyName].query("CALL `get_active_announcements_topics` ()", [], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
-                }
-            });
-        }
-        else {
-            res.send({ status: false })
-        }
+    });
     }
     catch (e) {
         console.log('sendEmailToEmployeeAboutInductionCancel :', e)
-    catch(e){
-        console.log('getActiveAnnouncementsTopics :', e)
     }
+
 }
 /*To Get Announcements*/
 async function getAnnouncements(req, res) {
@@ -3211,90 +3338,67 @@ async function getEmployeesPendingChecklists(req, res) {
 }
 
 
-async function Messages(req,res){
+async function Messages(req,res) {
     try {
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
+        let companyName = req.body.companyName;
+        let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e57',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e57', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query("CALL `get_ems_messages` (?,?,?)", [req.body.code,
-                req.body.pagenumber,req.body.pagesize],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
-                } else {
-                    res.send({ status: false, data: [] });
-                }
-            })
-            }
-            else {
-                res.send({ status: false })
-            }
-        } catch (e) {
-        console.log('Messages');
-/** send email to Hr about document approval */
-function sendEmailToHrAboutDocumentApproval(req,res){
-    try{
-       let email = req
-       var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
-        secureConnection: false, // TLS requires secureConnection to be false
-        port: 587, // port for secure SMTP
-        tls: {
-            ciphers: 'SSLv3'
-        },
-        auth: {
-            user: 'smattupalli@sreebtech.com',
-            pass: 'Sree$sreebt'
-        }
-       });
-       var html = `<html>
-        <head>
-        <title>Documents uploaded</title></head>
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-      
-        <p style="color:black">Dear ${req[0].manager_name},</p>
-
-}
-async function setAnnouncements(req,res){
-    try{
-
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e58',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-            }
-            listOfConnections[companyName].query("CALL `set_announcements` (?)", [JSON.stringify(req.body)], function (err, result, fields) {
-                
-                if(result && result[0] && result[0][0] && result[0][0].statuscode == 0){
-                    res.send({ status: true })
-                }
-                else{
-                    res.send({ status: false })
-                }
-            
-            });
+                    req.body.pagenumber, req.body.pagesize],
+                function (err, result, fields) {
+                    if (result && result.length > 0) {
+                        res.send({status: true, data: result[0]})
+                    } else {
+                        res.send({status: false, data: []});
+                    }
+                })
         }
         else {
-            res.send({ status: false })
+            res.send({status: false})
         }
-        <p style="color:black">I would like to inform you that I have uploaded the documents for your approval. Please find document details in my profile. </p>
-        
-         <p style="color:black">Sincerely</p>
+    } catch (e) {
+        console.log('Messages', e);
+    }
+}
+        /** send email to Hr about document approval */
+function sendEmailToHrAboutDocumentApproval(mailData){
+    try{
+        let email = mailData
+        var transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+                ciphers: 'SSLv3'
+            },
+            auth: {
+                user: 'smattupalli@sreebtech.com',
+                pass: 'Sree$sreebt'
+            }
+        });
+        var html = `<html>
+                    <head>
+                    <title>Documents uploaded</title></head>
+                    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+                    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+                    
+                    <p style="color:black">Dear ${mailData[0].manager_name},</p>
+                    
+                    
+                    <p style="color:black">I would like to inform you that I have uploaded the documents for your approval. Please find document details in my profile. </p>
+                    
+                     <p style="color:black">Sincerely</p>
+                    
+                    <p style="color:black">${mailData[0].emp_name}.</p>
+                    <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+                    </div></body>
+                    </html> `;
 
-        <p style="color:black">${req[0].emp_name}.</p>
-        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-        </div></body>
-        </html> `;
-   
         var mailOptions = {
             from: 'smattupalli@sreebtech.com',
             to: email,
@@ -3303,10 +3407,13 @@ async function setAnnouncements(req,res){
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                res.send({ status: false, })
+                console.log("Failed To Sent  Mail",error)
             } else {
-                res.send({ status: true })
-    }catch(e){
+                console.log("Mail Sent Successfully")
+            }
+        });
+    }
+    catch(e){
         console.log('setAnnouncements :', e)
     }
 }
@@ -3336,102 +3443,93 @@ async function getFilesForApproval(req, res) {
         console.log('getFilesForApproval :', e)
     }
 }
-async function documentApproval(req, res){
+async function documentApproval(req, res) {
     try {
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
+        let companyName = req.body.companyName;
+        let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e60',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e60', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-        });
-   
-            listOfConnections[companyName].query("CALL `set_files_master_status` (?,?)", [req.body.id,req.body.status], function (err, result, fields) {
-                if (result && result[0]&&result[0][0]&&result[0][0].successstate==0) {
-                    res.send({ status: true })
-                
+            listOfConnections[companyName].query("CALL `set_files_master_status` (?,?)", [req.body.id, req.body.status], function (err, result, fields) {
+                if (result && result[0] && result[0][0] && result[0][0].successstate == 0) {
+                    res.send({status: true})
+
                 } else {
-                    res.send({ status: false });
+                    res.send({status: false});
                 }
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false})
         }
     } catch (e) {
         console.log('documentApproval :', e)
     }
-    catch (e) {
-        console.log('sendEmailToHrAboutDocumentApproval :', e)
-
-    }
+}
 async function setEmployeeChecklists(req, res) {
     try {
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
+        let companyName = req.body.companyName;
+        let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e61',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection('e61', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query("CALL `set_employee_checklists` (?,?,?,?,?,?,?,?)", [JSON.stringify(req.body.cid),
-                req.body.eid, req.body.did, req.body.cmmt,
-            req.body.status, req.body.fstatus,req.body.category,
-            req.body.actionBy,
-            ],
+                    req.body.eid, req.body.did, req.body.cmmt,
+                    req.body.status, req.body.fstatus, req.body.category,
+                    req.body.actionBy,
+                ],
                 function (err, result, fields) {
-                    console.log("error--",err)
-                console.log("1st result",result)
+                    console.log("error--", err)
+                    console.log("1st result", result)
                     console.log("3st result", result[0])
                     if (result && result[0][0].successstate == 0) {
-                res.send({status: true});
-                } else {
-                    res.send({ status: false })
-                }
-            });
+                        res.send({status: true});
+                    } else {
+                        res.send({status: false})
+                    }
+                });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false})
+        }
+    }catch (e) {
+            console.log('setEmployeeChecklists :', e)
+
         }
 
 }
 
 /** send email to employee about document approval */
-function sendEmailToEmployeeAboutDocumentApproval(req,res){
-    try{
-       let email = req
-       var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
-        secureConnection: false, // TLS requires secureConnection to be false
-        port: 587, // port for secure SMTP
-        tls: {
-            ciphers: 'SSLv3'
-        },
-        auth: {
-            user: 'smattupalli@sreebtech.com',
-            pass: 'Sree$sreebt'
-        }
-       });
-       var html = `<html>
+function sendEmailToEmployeeAboutDocumentApproval(mailData){
+    try {
+        let email = mailData
+        var transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+                ciphers: 'SSLv3'
+            },
+            auth: {
+                user: 'smattupalli@sreebtech.com',
+                pass: 'Sree$sreebt'
+            }
+        });
+        var html = `<html>
         <head>
         <title>Documents approval</title></head>
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hi ${req[0].emp_name},</p>
+        <p style="color:black">Hi ${mailData[0].emp_name},</p>
 
-async function getEmpOffboardTerminationChecklists(req,res) {
-    try {
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e62',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+
         <p style="color:black">Just wanted to let you know that the HR department has approved your uploaded document. Don’t hesitate to contact me if you have any questions. </p>
         
          <p style="color:black">Best,</p>
@@ -3440,7 +3538,7 @@ async function getEmpOffboardTerminationChecklists(req,res) {
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
-   
+
         var mailOptions = {
             from: 'smattupalli@sreebtech.com',
             to: email,
@@ -3449,25 +3547,11 @@ async function getEmpOffboardTerminationChecklists(req,res) {
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                res.send({ status: false, })
+                console.log("Failed To Sent  Mail",error)
             } else {
-                res.send({ status: true })
+                console.log("Mail Sent Successfully")
             }
-            listOfConnections[companyName].query("CALL `get_emp_offboard_termination_checklists` (?,?,?,?)", [req.body.name,req.body.date,req.body.eid,req.body.did], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
-                }
-            });
-        }
-        else {
-            res.send({ status: false })
-        }
-    } catch (e) {
-        console.log('getEmpOffboardTerminationChecklists :', e)
         });
-   
     }
     catch (e) {
         console.log('sendEmailToEmployeeAboutDocumentApproval :', e)
@@ -3475,11 +3559,36 @@ async function getEmpOffboardTerminationChecklists(req,res) {
     }
 
 }
+async function getEmpOffboardTerminationChecklists(req,res) {
+    try {
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection('e62',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+                listOfConnections[companyName].query("CALL `get_emp_offboard_termination_checklists` (?,?,?,?)", [req.body.name,req.body.date,req.body.eid,req.body.did], function (err, result, fields) {
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+                });
+            }
+            else {
+                res.send({ status: false })
+            }
+        } catch (e) {
+            console.log('getEmpOffboardTerminationChecklists :', e)
+        }
 
+    }
 /** send email to employee about reject document */
-function sendEmailToEmployeeAboutDocumentReject(req,res){
+function sendEmailToEmployeeAboutDocumentReject(mailData){
     try{
-       let email = req
+       let email = mailData
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
@@ -3495,10 +3604,10 @@ function sendEmailToEmployeeAboutDocumentReject(req,res){
        var html = `<html>
         <head>
         <title>Documents approval</title></head>
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <body style="font-family:'Segoe UI',sans-serif; color:s #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hi ${req[0].emp_name},</p>
+        <p style="color:black">Hi ${mailData[0].emp_name},</p>
 
         <p style="color:black">Please re-upload the documents that were rejected. We apologize for the inconvenience. </p>
         
@@ -3517,9 +3626,9 @@ function sendEmailToEmployeeAboutDocumentReject(req,res){
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                res.send({ status: false, })
+                console.log("Failed To Sent  Mail",error)
             } else {
-                res.send({ status: true })
+                console.log("Mail Sent Successfully")
             }
         });
      }
@@ -3553,13 +3662,8 @@ async function getEmpResignationPendingChecklists(req, res) {
         }
     } catch (e) {
         console.log('getEmpResignationPendingChecklists :', e)
-        });
+
      }
-    catch (e) {
-        console.log('sendEmailToHrAboutDocumentReupload :', e)
-
-    }
-
 }
 
 async function getEmployeesResignationForHr(req,res) {
@@ -3570,12 +3674,30 @@ async function getEmployeesResignationForHr(req,res) {
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection('e64',companyName)
             if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+                listOfConnections[companyName].query("CALL `get_resignation_data` (?,?,?)", [req.body.regId,req.body.empId,req.body.rmId], function (err, result, fields) {
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+                });
+            }
+            else {
+                res.send({ status: false })
+            }
+    }
+    catch (e) {
+        console.log('getEmployeesResignationForHr :', e)
 
+    }
+
+}
 /** send email to employee about new role */
-function sendEmailToEmployeeAboutNewRole(req,res){
+function sendEmailToEmployeeAboutNewRole(mailData){
     try{
-       let email = req
+       let email = mailData
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
@@ -3594,7 +3716,7 @@ function sendEmailToEmployeeAboutNewRole(req,res){
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Dear ${req[0].hr_name},</p>
+        <p style="color:black">Dear ${mailData[0].hr_name},</p>
 
         <p style="color:black">Congratulations on your new role as Tech Lead! We're confident that your experience and expertise will help us grow and succeed.</p>
         
@@ -3614,21 +3736,11 @@ function sendEmailToEmployeeAboutNewRole(req,res){
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                res.send({ status: false, })
+                console.log("Failed To Sent  Mail",error)
             } else {
-                res.send({ status: true })
+                console.log("Mail Sent Successfully")
             }
-            listOfConnections[companyName].query("CALL `get_resignation_data` (?,?,?)", [req.body.regId,req.body.empId,req.body.rmId], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
-                }
-            });
-        }
-        else {
-            res.send({ status: false })
-        }
+
         });
      }
     catch (e) {
@@ -3639,37 +3751,37 @@ function sendEmailToEmployeeAboutNewRole(req,res){
 }
 
 /** send email to employee about remove role */
-function sendEmailToEmployeeAboutRemoveRole(req,res){
+function sendEmailToEmployeeAboutRemoveRole(mailData){
 
-async function getHrDetails(req,res){
-    try{
-        let companyName =req.params.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e65',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-       let email = req
-       var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
-        secureConnection: false, // TLS requires secureConnection to be false
-        port: 587, // port for secure SMTP
-        tls: {
-            ciphers: 'SSLv3'
-        },
-        auth: {
-            user: 'smattupalli@sreebtech.com',
-            pass: 'Sree$sreebt'
-        }
-       });
-       var html = `<html>
+// async function getHrDetails(req,res){
+    try {
+        // let companyName =req.params.companyName;
+        // let  dbName = await getDatebaseName(companyName)
+        // var listOfConnections = {};
+        // if(dbName){
+        //     listOfConnections= connection.checkExistingDBConnection('e65',companyName)
+        //     if(!listOfConnections.succes) {
+        //         listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        let email = mailData
+        var transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+                ciphers: 'SSLv3'
+            },
+            auth: {
+                user: 'smattupalli@sreebtech.com',
+                pass: 'Sree$sreebt'
+            }
+        });
+        var html = `<html>
         <head>
         <title>Role Change </title></head>
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hi ${req[0].hr_name},</p>
+        <p style="color:black">Hi ${mailData[0].hr_name},</p>
 
         <p style="color:black">We would like to let you know that you have been removed from the ${req[0].role_name} role. This means that you will no longer be able to access the administrative interface, which manages campaign and customer data as well as internal company information. </p>
         
@@ -3680,7 +3792,7 @@ async function getHrDetails(req,res){
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
-   
+
         var mailOptions = {
             from: 'smattupalli@sreebtech.com',
             to: email,
@@ -3689,46 +3801,26 @@ async function getHrDetails(req,res){
         };
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                res.send({ status: false, })
+                console.log("Failed To Sent  Mail",error)
             } else {
-                res.send({ status: true })
+                console.log("Mail Sent Successfully")
             }
-            listOfConnections[companyName].query("CALL `get_hr_details` ()", function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
-                }
-            });
-        }
-        else {
-            res.send({ status: false })
-        }
+
         });
-     }
+
+//      // })
+// }
+// else{
+//
+//         }
+    }
     catch (e) {
         console.log('sendEmailToEmployeeAboutRemoveRole :', e)
 
     }
-    catch(e){
-        console.log('getHrDetails :', e)
-    }
+
 
 }
-async function getnoticeperiods(req,res){
-    try{
-        let companyName =req.params.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e66',companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-            }
-            listOfConnections[companyName].query("CALL `get_notice_period` ()", function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
 
 function getCompanyNameByEmail(req, res) {
     try {
@@ -3741,10 +3833,7 @@ function getCompanyNameByEmail(req, res) {
                 }
             });
         }
-        else {
-            res.send({ status: false })
-        }
-    }
+
     catch(e){
         console.log('getnoticeperiods :', e)
     }
@@ -3752,13 +3841,6 @@ function getCompanyNameByEmail(req, res) {
 
 
 }
-
-
-
-
-
-
-
 
 async function getReportingManagerForEmp(req,res){
     try{
@@ -3772,7 +3854,6 @@ async function getReportingManagerForEmp(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        });
 
             listOfConnections[companyName].query("CALL `get_reporting_manager_for_emp` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
             console.log(result,"hgvhghgvghvhgvghvghvghvhgvghvhgv")
@@ -3788,8 +3869,6 @@ async function getReportingManagerForEmp(req,res){
         }
 
     }
-    catch (e) {
-        console.log('getCompanyNameByEmail :', e)
     catch(e){
         console.log('getReportingManagerForEmp :', e)
     }
@@ -3871,8 +3950,7 @@ async function getDocumentsForEMS(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            console.log('req.body',req.body)
-            con.query("CALL `get_files_master` (?,?,?,?,?,?)",
+            listOfConnections[companyName].query("CALL `get_files_master` (?,?,?,?,?,?)",
                 [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory?req.body.filecategory:null,req.body.requestId,req.body.status], function (err, result, fields) {
                     if (result && result.length>0) {
                         res.send({status: true,data:result[0]})
@@ -3893,7 +3971,16 @@ async function getDocumentsForEMS(req,res){
 }
 function getActiveEmployeeProgramSchedules(req, res) {
   try {
-    con.query(
+    var  dbName = await common.getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(4,companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query(
       "CALL `get_allemployees_program_schedules` (?)",[JSON.parse(req.params.sid)],
         function (err, result, fields) {
         if (result && result.length > 0) {
@@ -3903,6 +3990,9 @@ function getActiveEmployeeProgramSchedules(req, res) {
         }
       }
     );
+} else {
+    res.send({ status: false });
+  }
   } catch (e) {
     console.log("getActiveEmployeeProgramSchedules :", e);
   }
@@ -3929,17 +4019,4 @@ function getDatebaseName(companyName){
     });
 
 }
-function setprogramspasterstatus(req,res){
-    try{
-        con.query("CALL `set_programs_status` (?,?,?)", [req.body.pid,req.body.pStatus, req.body.actionby], function (err, result, fields) {
-            if (result[0][0].successstate == 0) {
-                res.send({ status:true});
-            } else {
-                res.send({status:false})
-            }
-        });
-    }
-    catch(e){
-        console.log('getnoticeperiods :', e)
-    }
-}
+
