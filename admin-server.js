@@ -634,7 +634,11 @@ async function putCompanyInformation(req,res) {
             let companyInformation={}
             companyInformation.CompanyName=req.body.companyname;
             companyInformation.CompanyWebsite = req.body.companywebsite;
-            companyInformation.PrimaryContactNumber=req.body.primarycontactnumber;
+            companyInformation.cin = req.body.cin;
+            companyInformation.gstnumber = req.body.gstnumber;
+            companyInformation.established_date = req.body.established_date;
+            companyInformation.primarycontactnumber=req.body.primarycontactnumber;
+            companyInformation.secondarycontactnumber=req.body.secondarycontactnumber;
             companyInformation.PrimaryContactEmail=req.body.primarycontactemail;
             companyInformation.Address1=req.body.address1;
             companyInformation.Address2=req.body.address2?req.body.address2:" ";
@@ -646,12 +650,14 @@ async function putCompanyInformation(req,res) {
             companyInformation.updated_on=req.body.updated_on;
 
             listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.id,JSON.stringify(companyInformation)], function (err, result, fields) {
+                console.log(err)
                 if (err) {
                     res.send({status: false, message: 'Unable to update company information'});
                 } else {
                     res.send({status: true, message: 'Company Information updated Successfully'})
                 }
             });
+
         }  else {
             res.send({ status: false })
         }
@@ -669,27 +675,31 @@ async function setCompanyInformation(req,res) {
 
     var listOfConnections = {};
     if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a14',companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        let companyInformation={}
-        companyInformation.companyname=req.body.companyname;
-        companyInformation.companywebsite = req.body.companywebsite;
-        companyInformation.primarycontactnumber=req.body.primarycontactnumber;
-        companyInformation.primarycontactemail=req.body.primarycontactemail;
-        companyInformation.address1=req.body.address1;
-        companyInformation.address2=req.body.address2?req.body.address2:'';
-        companyInformation.country = req.body.country;
-        companyInformation.state = req.body.state;
-        companyInformation.city = req.body.city;
-        companyInformation.pincode=req.body.pincode;
-        companyInformation.created_by=req.body.created_by;
-        companyInformation.created_on = req.body.created_on;
-        companyInformation.updated_on = null;
-        companyInformation.updated_by = null;
         try {
-            listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)",['companyinformation',dbName,JSON.stringify(companyInformation)],function (err, result, fields) {
+            listOfConnections= connection.checkExistingDBConnection('a14',companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            let companyInformation={}
+            companyInformation.companyname=req.body.companyname;
+            companyInformation.companywebsite = req.body.companywebsite;
+            companyInformation.cin = req.body.cin;
+            companyInformation.gstnumber = req.body.gstnumber;
+            companyInformation.established_date = req.body.established_date;
+            companyInformation.primarycontactnumber=req.body.primarycontactnumber;
+            companyInformation.secondarycontactnumber=req.body.secondarycontactnumber;
+            companyInformation.primarycontactemail=req.body.primarycontactemail;
+            companyInformation.address1=req.body.address1;
+            companyInformation.address2=req.body.address2?req.body.address2:'';
+            companyInformation.country = req.body.country;
+            companyInformation.state = req.body.state;
+            companyInformation.city = req.body.city;
+            companyInformation.pincode=req.body.pincode;
+            companyInformation.created_by=req.body.created_by;
+            companyInformation.created_on = req.body.created_on;
+            companyInformation.updated_on = null;
+            companyInformation.updated_by = null;
+            listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)",['companyinformation',req.body.companyDBName,JSON.stringify(companyInformation)],function (err, result, fields) {
                 if (err) {
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {

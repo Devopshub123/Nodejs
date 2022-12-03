@@ -95,11 +95,9 @@ async function login(req,res){
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
-                //  console.log("firstone",results)
                 var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
                 if (result[0] > 0) {
                     listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0]], function (err, results, next) {
-                        // console.log("firstTwo",results)
                         try {
                             if (results.length > 0) {
                                 var result = JSON.parse(results[0][0].result)
@@ -363,7 +361,7 @@ async function forgetpassword(req, res, next) {
                         pass: 'Sree$sreebt'
                     }
                 });
-                var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:req.params.email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
+                var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:req.params.email,date:new Date()}))).toString('base64')
 
                 // var url = 'http://localhost:4200/ResetPassword/'+token
                 var url = 'http://localhost:4200/ResetPassword/'+token

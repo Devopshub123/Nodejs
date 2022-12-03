@@ -2228,11 +2228,16 @@ app.post('/ems/api/setprogramspasterstatus/', function(req,res) {
 });
 
 app.get('/ems/api/getEmailsByEmpid/:eid/:companyName', function (req, res) {
-    ems.getEmailsByEmpid(req,res)
+    // ems.getEmailsByEmpid(req,res)
+    ems.getEmployeeEmailData(req,res)
+
 })
 
 app.get('/ems/api/getActiveEmployeeProgramSchedules/:sid/:companyName', function (req, res) {
     ems.getActiveEmployeeProgramSchedules(req,res)
+})
+app.get('/ems/api/getInductionProgramAssignedEmployee/:sid/:companyName', function (req, res) {
+    ems.getInductionProgramAssignedEmployee(req,res)
 })
 ////////
 // app.use("/admin", admin);

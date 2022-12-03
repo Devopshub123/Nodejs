@@ -982,8 +982,19 @@ async function setattendanceapprovalstatus(req, res) {
                         res.send({ status: false, message: "UnableToApprove" });
                     } else {
                         res.send({ status: true, message: "ApprovalRequest" });
+                        if (req.body.emailData.emp_email !='' || req.body.emailData.emp_email !=null) {
+                            console.log("va-0")
+                            if (req.body.approvelstatus == 'Approved') {
+                                console.log("va-1")
+                                approveAttendanceRequestEmail(emailData);
+                            } else if (req.body.approvelstatus == 'Rejected') {
+                                console.log("va-2")
+                                this.rejectedAttendanceRequestEmail(emailData);
+                            }
+                        }
+
                     }
-                    console.log(err);
+
                 });
  
         }
@@ -991,7 +1002,7 @@ async function setattendanceapprovalstatus(req, res) {
             res.send({ status: false })
         }
     }
-    catch {
+    catch(e) {
         console.log('setattendanceapprovalstatus');
     }
 
@@ -1319,4 +1330,134 @@ async function getrolescreenfunctionalitiesforrole(req, res) {
     catch (e) {
         console.log('getrolescreenfunctionalities_for_role :', e)
     }
+}
+
+
+
+
+
+
+
+
+
+
+
+function editedAttendanceRequestEmail(mailData){
+    try {
+        let email = mailData
+        var transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+                ciphers: 'SSLv3'
+            },
+            auth: {
+                user: 'no-reply@sreebtech.com',
+                pass: 'Sreeb@#123'
+            }
+        });
+        var html = `<html>
+      <head>
+      <title>edited Attendance Request</title></head>
+      <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+      <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+    
+      <p style="color:black">Hi ${mailData[0].rm_name},</p>
+  
+      <p style="color:black">An attendance request edited by ${mailData[0].emp_name} is awaiting your approval</p>
+      
+       <p style="color:black">Shift:</p>
+       <p style="color:black">Work Type:</p>
+       <p style="color:black">From Date:</p>
+       <p style="color:black">To Date:</p>
+       <p style="color:black">Reason:</p>
+       <p style="color:black">Best regards,</p>
+  
+      <p style="color:black">${mailData[0].emp_name}</p>
+      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+      </div></body>
+      </html> `;
+
+        var mailOptions = {
+            from: 'no-reply@sreebtech.com',
+            to: email,
+            subject: 'Edited Attendance request by {employee}',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log("Failed To Sent  Mail",error)
+            } else {
+                console.log("Mail Sent Successfully")
+            }
+
+        });
+
+    }
+    catch (e) {
+        console.log('editedAttendanceRequestEmail :', e)
+
+    }
+
+}
+
+function deleteAttendanceRequestEmail(mailData){
+    try {
+        let email = mailData
+        var transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+                ciphers: 'SSLv3'
+            },
+            auth: {
+                user: 'no-reply@sreebtech.com',
+                pass: 'Sreeb@#123'
+            }
+        });
+        var html = `<html>
+      <head>
+      <title>Delete Attendance Request</title></head>
+      <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+      <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+    
+      <p style="color:black">Hi ${mailData[0].emp_name},</p>
+  
+      <p style="color:black">An attendance request deleted by {employee}.</p>
+      
+       <p style="color:black">Shift:</p>
+       <p style="color:black">Work Type:</p>
+       <p style="color:black">From Date:</p>
+       <p style="color:black">To Date:</p>
+       <p style="color:black">Reason:</p>
+       <p style="color:black">Best regards,</p>
+  
+      <p style="color:black">${mailData[0].emp_name}</p>
+      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+      </div></body>
+      </html> `;
+
+        var mailOptions = {
+            from: 'no-reply@sreebtech.com',
+            to: email,
+            subject: 'Deleted Attendance request by {employee}',
+            html: html
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log("Failed To Sent  Mail",error)
+            } else {
+                console.log("Mail Sent Successfully")
+            }
+
+        });
+
+    }
+    catch (e) {
+        console.log('deleteAttendanceRequestEmail :', e)
+
+    }
+
 }
