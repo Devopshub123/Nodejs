@@ -3032,7 +3032,7 @@ app.get('/api/getscreensmaster/:companyName',function(req,res) {
 
 
 /*Get Functionalities Master*/
-app.get('/api/getfunctionalitiesmaster/companyName',function(req,res) {
+app.get('/api/getfunctionalitiesmaster/:companyName',function(req,res) {
    admin.getfunctionalitiesmaster(req,res);
 });
 /*Get Screen Functionalities Master*/

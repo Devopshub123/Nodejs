@@ -719,7 +719,7 @@ async function setemployeeleave(req,res){
                 }
                 else{
                     res.send({status:true,isLeaveUpdated:id?1:0,data:result[0]})
-                    this.leaveRequestEmail(req.body)
+                    leaveRequestEmail(req.body)
 
                 }
             })
