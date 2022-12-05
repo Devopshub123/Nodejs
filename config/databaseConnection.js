@@ -51,7 +51,7 @@ function checkExistingDBConnection(sample,companyName) {
     }
     else {
     listOfExistedConnections.forEach(function(element,key) {
-console.log("hhhhh",listOfExistedConnections.length,sample)
+console.log("multitenant connection",listOfExistedConnections.length,sample)
         for(var keyVal in element){
           if(keyVal === companyName){
             result[keyVal]=element[keyVal];

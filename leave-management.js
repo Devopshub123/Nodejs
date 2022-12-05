@@ -37,7 +37,7 @@ module.exports = {
     getYearsForReport:getYearsForReport,
     // getStates:getStates,
     // getCities:getCities,
-    removeProfileImage:removeProfileImage,
+    // removeProfileImage:removeProfileImage,
     setFilesMaster:setFilesMaster,
     deleteFilesMaster:deleteFilesMaster,
 
@@ -90,20 +90,11 @@ module.exports = {
     approveCancelLeaveRequestEmail: approveCancelLeaveRequestEmail,
     rejectCancelLeaveRequestEmail: rejectCancelLeaveRequestEmail,
     deleteLeaveRequestEmail: deleteLeaveRequestEmail,
-    editLeaveRequestEmail:editLeaveRequestEmail
-
-
-
-
-
+    editLeaveRequestEmail:editLeaveRequestEmail,
+    getDaysToBeDisabledForFromDateCompOff:getDaysToBeDisabledForFromDateCompOff,
+    deleteLeaveRequest:deleteLeaveRequest
 
 };
-
-
-
-
-
-
 
 
 
@@ -139,7 +130,6 @@ async function getYearsForReport(req,res) {
     try {
             var  dbName = await getDatebaseName(req.params.companyName)
             let companyName = req.params.companyName;
-
             var listOfConnections = {};
             if(dbName){
                 listOfConnections= connection.checkExistingDBConnection(2,companyName)
@@ -205,33 +195,32 @@ function setProfileImage(req,res) {
 }
 
 
-function removeProfileImage(req,res) {
-        try{
-            let foldername = './Files/google/employee/'
-            fs.unlink(foldername+req.params.Id+'.png',function(err,result){
-                if(err){
-                    console.log(err)
-                }
-                else{
-                    console.log("Image Deleted successfully")
-                }
-            })
-        }
-        catch(e){
-            console.log("removeImage",e)
-        }
-
-}
-
-
+// function removeProfileImage(req,res) {
+//         try{
+//             let foldername = './Files/google/employee/'
+//             fs.unlink(foldername+req.params.Id+'.png',function(err,result){
+//                 if(err){
+//                     console.log(err)
+//                 }
+//                 else{
+//                     console.log("Image Deleted successfully")
+//                 }
+//             })
+//         }
+//         catch(e){
+//             console.log("removeImage",e)
+//         }
+//
+// }
 
 
-
-
-
-
-
-
+/**
+ * get all leaves related to employee
+ * @empId
+ * @page
+ * @size
+ * @company
+ * */
 
 async function getemployeeleaves(req,res){
     try{  
@@ -266,7 +255,11 @@ async function getemployeeleaves(req,res){
     }
 }
 
-
+/**
+ * get leaves balance related to employee
+ * @empId
+ * @company
+ * */
 
 async function getLeaveBalance(req,res){
     try {
@@ -342,7 +335,6 @@ async function getleavecalender(req,res){
                     if(result[0][i].ltype == 'weekoff'){
                         result[0][i].color = '#2e0cf3'
                     }else if (result[0][i].ltype != 'weekoff' && !result[0][i].color ){
-
                         result[0][i].color = '#800000'
                     }
                     if(i === result[0].length-1){
@@ -1565,13 +1557,14 @@ async function cancelLeaveRequest(req,res) {
             let id = req.body.id;
             let empid = req.body.empid;
             let leavetype = req.body.leavetypeid;
-            let fromDate = new Date(req.body.fromdate);
-            let toDate = new Date(req.body.todate);
-            var myDateString1,myDateString2;
-            myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
-            myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
-            let fdate = myDateString1;
-            let tdate = myDateString2;let fromhalfday = req.body.fromhalfdayleave;
+            let fromDate = req.body.fromdate;
+            let toDate = req.body.todate;
+            // var myDateString1,myDateString2;
+            // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+            // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+            // let fdate = myDateString1;
+            // let tdate = myDateString2;
+            let fromhalfday = req.body.fromhalfdayleave;
             let tohalfday =  req.body.tohalfdayleave;
             let leavecount = req.body.leavecount;
             let leavereason = req.body.leavereason;
@@ -1582,7 +1575,7 @@ async function cancelLeaveRequest(req,res) {
             let actionreason = req.body.actionreason;
 
             listOfConnections[companyName].query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                [id,empid,leavetype,fdate,tdate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
+                [id,empid,leavetype,fromDate,toDate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
                     if (err) {
                         res.send({status: false});
                     } else {
@@ -2264,5 +2257,87 @@ function editLeaveRequestEmail(mailData){
     }
     catch (e) {
         console.log('editLeaveRequestEmail :', e)
+    }
+}
+
+
+async function getDaysToBeDisabledForFromDateCompOff(req,res){
+    try{
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(9,companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+
+            listOfConnections[companyName].query("CALL `getdays_to_be_disabled_for_from_date_comp_off` (?,?,?)",[req.body.employeeId,
+                req.body.leaveId,req.body.workedDateValue],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ status: true, data: result[0] })
+                } else {
+                    res.send({ status: false, data: [] });
+                }
+
+            })
+        } else {
+            res.send({ status: false });
+        }
+    }
+    catch(e){
+        console.log('getDaysToBeDisabledForFromDateCompOff',e);
+    }
+}
+
+/*Set Delete Leave Request */
+async function deleteLeaveRequest(req,res) {
+    try {
+        let id = req.body.id;
+        let empid = req.body.empid;
+        let leavetype = req.body.leavetypeid;
+        let fromDate = req.body.fromdate;
+        let toDate = req.body.todate;
+        // var myDateString1,myDateString2;
+        // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
+        // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
+        // let fdate = myDateString1;
+        // let tdate = myDateString2;
+        let fromhalfday = req.body.fromhalfdayleave;
+        let tohalfday =  req.body.tohalfdayleave;
+        let leavecount = req.body.leavecount;
+        let leavereason = req.body.leavereason;
+        let contactnumber = req.body.contactnumber;
+        let email = req.body.contactemail;
+        let address = 'test';
+        let leavestatus = "Deleted"
+        let actionreason = req.body.actionreason;
+        let workedDate = req.body.worked_date?req.body.worked_date:null;
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(9,companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+
+            listOfConnections[companyName].query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            [id,empid,leavetype,fromDate,toDate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,workedDate], function (err, result, fields) {
+                if (err) {
+                    res.send({status: false});
+                } else {
+                    res.send({status: true})
+                }
+            });
+
+        } else {
+            res.send({status: true})
+        }
+    }catch (e) {
+        console.log('deleteLeaveRequest :',e)
     }
 }

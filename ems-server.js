@@ -3631,8 +3631,8 @@ async function getDocumentsForEMS(req,res){
 }
 async function getActiveEmployeeProgramSchedules(req, res) {
   try {
-    var  dbName = await getDatebaseName(req.body.companyName)
-        let companyName = req.body.companyName;
+    var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
 
         var listOfConnections = {};
         if(dbName){

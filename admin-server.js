@@ -101,6 +101,7 @@ app.post('/api/getRolesByDepartment',function(req,res) {
      setRoleAccess:setRoleAccess,
      setRoleMaster:setRoleMaster,
      getReportingManager:getReportingManager,
+     getrolescreenfunctionalities:getrolescreenfunctionalities,
 
  }
 
@@ -162,7 +163,6 @@ function getDatebaseName(companyName){
 async function setDesignation(req,res) {
     try{
 
-        console.log(req.body,"vjhvhjvgvhgjvghvhgjvhg        console.log(req.body)\n")
 
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -1749,5 +1749,31 @@ async function getReportingManager(req,res){
     }
     catch(e){
         console.log("getreportingmanager",e)
+    }
+}
+
+/*Get Role Screen Functionalities*/
+async function getrolescreenfunctionalities(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+        var listOfConnections = {};
+        if(dbName) {
+            listOfConnections = connection.checkExistingDBConnection('at22', companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query("CALL `getrolescreenfunctionalities` (?,?)", [req.params.roleId, '2'], function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({data: result, status: true});
+                } else {
+                    res.send({status: false})
+                }
+            });
+        }else {
+                res.send({status: false})
+            }
+    }catch (e) {
+        console.log('getscreenfunctionalitiesmaster :',e)
     }
 }
