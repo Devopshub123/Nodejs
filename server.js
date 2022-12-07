@@ -1255,7 +1255,7 @@ app.post('/ems/api/setAnnouncements/',function(req,res){
     ems.setAnnouncements(req,res)
 })
 
-app.get('/ems/api/getFilesForApproval/',function(req,res){
+app.get('/ems/api/getFilesForApproval/:companyName',function(req,res){
     ems.getFilesForApproval(req,res)
 })
 /**Document Approval */
@@ -1777,13 +1777,16 @@ app.get('/api/getCities/:id/:companyName',function(req,res){
     admin.getCities(req,res)
 })
 
-//get Leavepolices
+/**
+ * getting leave polices based on leave category Id
+ */
 app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageSize/:companyName',function(req,res) {
     admin.getLeavePolicies(req,res)
 });
 
 
-/*set Designation*/
+/**
+ * Update Leave type display name*/
 app.post('/api/updateLeaveDisplayName',function(req,res) {
     admin.updateLeaveDisplayName(req,res);
 });
@@ -1796,10 +1799,16 @@ app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
 app.post('/api/setToggleLeaveType',function(req,res) {
     admin.setToggleLeaveType(req,res);
 });
+/**
+ * get Leave Types to set as AdvancedLeave
+ */
 app.get('/api/getLeaveTypesForAdvancedLeave/:companyName',function(req,res) {
     admin.getLeaveTypesForAdvancedLeave(req,res)
 });
 
+/**
+ * Insert or update leave polices
+ */
 app.post('/api/setLeavePolicies',function(req,res) {
     admin.setLeavePolicies(req,res)
 });
@@ -1813,21 +1822,23 @@ app.get('/api/getCarryforwardedLeaveMaxCount/:leaveId/:companyName', function(re
 
 });
 
-/*Get Work Location*/
+/** Get all Work Location for company*/
 app.post('/api/getWorkLocation',function(req,res) {
     admin.getWorkLocation(req,res)
 });
+
+/** Update status is a generic call to update status*/
 
 app.post('/api/updateStatusall',checkRecord, function(req,res) {
     admin.updateStatusall(req,res)
 });
 
-/*set Work Location*/
+/** Insert or update Work Location for company*/
 app.post('/api/setWorkLocation',function(req,res) {
     admin.setWorkLocation(req,res)
 });
 
-/*setErrorMessages */
+/**SetErrorMessages is a generic procedure for insert messages */
 app.post('/api/setErrorMessages',function(req,res) {
     common.setErrorMessages(req,res)
 });
@@ -2155,9 +2166,6 @@ app.post('/api/setRoleMaster',function(req,res) {
 /**getreportingmanagers */
 app.post('/api/getReportingManager',function(req,res){
    admin.getReportingManager(req,res)
-})
-app.get('/api/hello',function(req,res){
-    ems.hello(req,res)
 })
 
 /*Get Role Screen Functionalities*/

@@ -75,6 +75,12 @@ module.exports = {
 }
 
 
+/**
+ * Login
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 
 
 
@@ -95,17 +101,16 @@ async function login(req,res){
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
-                var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
-                if (result[0] > 0) {
+                var result = results ? results[0] ? results[0][0]? Object.values(JSON.parse(JSON.stringify(results[0][0]))):null:null:null;
+                if (result && result[0] > 0) {
                     listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0]], function (err, results, next) {
                         try {
-                            if (results.length > 0) {
+                            if (results && results.length > 0) {
                                 var result = JSON.parse(results[0][0].result)
                                 res.send({status: true, result})
-
                             }
                             else {
-                                res.send({status: false, result})
+                                res.send({status: false})
                             }
                         }
                          
@@ -128,7 +133,12 @@ async function login(req,res){
 }
 
 
-// /*Get Master table*/
+/**
+ * getMastertable is generic procedure
+ * @param req(tName,page, size)
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function getMastertable(req,res){
     try {
         let  dbName = await getDatebaseName(req.params.companyName);
@@ -194,7 +204,11 @@ async function getMastertable(req,res){
 }
 
 
-/*Get Leave Rules*/
+/**Error messages
+ * @errorCode
+ * @page
+ * @size
+ * */
 async function getErrorMessages(req,res) {
     try {
         let  dbName = await getDatebaseName(req.params.companyName);
@@ -233,7 +247,12 @@ async function getErrorMessages(req,res) {
 }
 
 
-/*setErrorMessages */
+/**
+ * setErrorMessages is used to inserted error messages
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
 async function setErrorMessages(req,res) {
     try {
         let  dbName = await getDatebaseName(req.body[0].companyName);
@@ -446,6 +465,7 @@ async function changePassword(req,res){
     let newpassword = req.body.newPassword;
     let id = req.body.empId;
     let login = req.body.email;
+    console.log(req.body,"req.body")
     try{
         let  dbName = await getDatebaseName(req.body.companyName);
         let companyName = req.body.companyName;
@@ -465,8 +485,6 @@ async function changePassword(req,res){
                     else{
                         let results =[0]
                         res.send(results)
-
-
                     }
                 })
 
