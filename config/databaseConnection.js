@@ -42,7 +42,7 @@ async function getNewDBConnection(companyName,dbName)
     //  });   
 }
 
-function checkExistingDBConnection(sample,companyName) {
+function checkExistingDBConnection(companyName) {
   var result = {};
   result.succes=false;
     if(listOfExistedConnections.length == 0)
@@ -51,7 +51,6 @@ function checkExistingDBConnection(sample,companyName) {
     }
     else {
     listOfExistedConnections.forEach(function(element,key) {
-console.log("multitenant connection",listOfExistedConnections.length,sample)
         for(var keyVal in element){
           if(keyVal === companyName){
             result[keyVal]=element[keyVal];

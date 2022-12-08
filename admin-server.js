@@ -113,7 +113,7 @@ async function getstatuslist(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a1',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -129,7 +129,7 @@ async function getstatuslist(req,res){
 
                 })
               }  else {
-                res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
             }
     }
     catch(e){
@@ -169,7 +169,7 @@ async function setDesignation(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a2',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -190,7 +190,7 @@ async function setDesignation(req,res) {
                 }
             });
     }  else {
-        res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
     }
     }catch (e){
 
@@ -209,7 +209,7 @@ async function putDesignation(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a3',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -229,7 +229,7 @@ async function putDesignation(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -246,7 +246,7 @@ async function putDepartments(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a4',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -268,7 +268,7 @@ async function putDepartments(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -286,7 +286,7 @@ async function setDepartment(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a5',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -315,7 +315,7 @@ async function setDepartment(req,res) {
             });
 
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('setmastertable :',e)
@@ -330,7 +330,7 @@ async function updateStatus(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a6',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -350,7 +350,7 @@ async function updateStatus(req,res) {
                 res.send({status: false, message: "This department have Active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again"});
             }
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('updateStatus :',e)
@@ -373,7 +373,7 @@ async function designationStatus(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a7',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -392,7 +392,7 @@ async function designationStatus(req,res) {
                 res.send({status: false, message: "This designation have active employees. So we are unable to inactivate this designation now. Please move those employee to another designation and try again"});
             }
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('designationStatus :',e) }
@@ -407,7 +407,7 @@ async function getactiveWorkLocation(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a8',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -433,7 +433,7 @@ async function getactiveWorkLocation(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('getWorkLocation :',e)
@@ -452,7 +452,7 @@ async function setHolidays(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a9',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -496,7 +496,7 @@ async function setHolidays(req,res) {
         }  else {
             console.log("else condition")
 
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -517,7 +517,7 @@ async function getHolidysFilter(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a10',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -529,7 +529,7 @@ async function getHolidysFilter(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -548,7 +548,7 @@ async function deleteHoliday(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a11',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -560,7 +560,7 @@ async function deleteHoliday(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -577,7 +577,7 @@ async function putHolidays(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a12',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -607,7 +607,7 @@ async function putHolidays(req,res) {
             });
 
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -627,7 +627,7 @@ async function putCompanyInformation(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a13',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -659,7 +659,7 @@ async function putCompanyInformation(req,res) {
             });
 
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -676,7 +676,7 @@ async function setCompanyInformation(req,res) {
     var listOfConnections = {};
     if(dbName){
         try {
-            listOfConnections= connection.checkExistingDBConnection('a14',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -712,7 +712,7 @@ async function setCompanyInformation(req,res) {
             console.log('setCompanyInformation :',e)
         }
     }  else {
-        res.send({ status: false })
+        res.send({status: false,Message:'Database Name is missed'})
     }
 }
 
@@ -726,7 +726,7 @@ async function getStates(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a15',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -739,7 +739,7 @@ async function getStates(req,res){
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch(e){
@@ -755,7 +755,7 @@ async function getCities(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a16',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -768,7 +768,7 @@ async function getCities(req,res){
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch(e){
@@ -802,7 +802,7 @@ async function getLeavePolicies(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a17',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -814,7 +814,7 @@ async function getLeavePolicies(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch(e){
         console.log("getLeavePolicies",e)
@@ -833,7 +833,7 @@ async function updateLeaveDisplayName(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a18',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -849,7 +849,7 @@ async function updateLeaveDisplayName(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -866,7 +866,7 @@ async function setAdvancedLeaveRuleValues(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a19',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -879,7 +879,7 @@ async function setAdvancedLeaveRuleValues(req,res) {
             });
 
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('getemployeeleavebalance :',e)
@@ -895,7 +895,7 @@ async function setToggleLeaveType(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a20',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -910,7 +910,7 @@ async function setToggleLeaveType(req,res) {
                     }
                 });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -925,7 +925,7 @@ async function getLeaveTypesForAdvancedLeave(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a21',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -937,7 +937,7 @@ async function getLeaveTypesForAdvancedLeave(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -953,7 +953,7 @@ async function setLeavePolicies(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -969,7 +969,7 @@ async function setLeavePolicies(req,res) {
 
         });
     }  else {
-        res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
     }
     }
     catch(e){
@@ -985,7 +985,7 @@ async function getWorkLocation(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a23',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1000,7 +1000,7 @@ async function getWorkLocation(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -1018,7 +1018,7 @@ async function updateStatusall(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a24',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1038,7 +1038,7 @@ async function updateStatusall(req,res) {
                 res.send({status: false, message: "This department have Active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again"});
             }
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('updateStatusall :',e)
@@ -1055,7 +1055,7 @@ async function setWorkLocation(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a25',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1104,7 +1104,7 @@ async function setWorkLocation(req,res) {
             });
 
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('setWorkLocation :',e)
@@ -1124,7 +1124,7 @@ async function getIntegrationEmpidsLookup(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a26',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1137,7 +1137,7 @@ async function getIntegrationEmpidsLookup(req, res) {
                     }
                 })
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('get_integration_empids_lookup');
@@ -1156,7 +1156,7 @@ async function setIntegrationEmpidsLookup(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a27',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1170,7 +1170,7 @@ async function setIntegrationEmpidsLookup(req, res) {
                     }
                 })
             }  else {
-                res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
             }
     } catch (e) {
         console.log('set_integration_empids_lookup');
@@ -1186,7 +1186,7 @@ async function getAttendenceMessages(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a28',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1200,7 +1200,7 @@ async function getAttendenceMessages(req, res) {
                     }
                 })
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('get_attendance_messages');
@@ -1217,7 +1217,7 @@ async function setAttendenceMessages(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a29',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1230,7 +1230,7 @@ async function setAttendenceMessages(req, res) {
                     }
                 })
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('set_attendance_messages');
@@ -1247,7 +1247,7 @@ async function getActiveShiftIds(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('a29',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1259,7 +1259,7 @@ async function getActiveShiftIds(req, res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1276,7 +1276,7 @@ async function setShiftMaster(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1296,7 +1296,7 @@ async function setShiftMaster(req, res) {
                     }
                 });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('setShiftMaster')
@@ -1313,7 +1313,7 @@ async function getAllShifts(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1326,7 +1326,7 @@ async function getAllShifts(req, res) {
             });
 
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('get_all_shifts :', e)
@@ -1347,7 +1347,7 @@ async function updateShiftStatus(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1367,7 +1367,7 @@ async function updateShiftStatus(req, res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('updateShiftStatus :', e)
@@ -1388,7 +1388,7 @@ async function getShiftsDetailsById(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1400,7 +1400,7 @@ async function getShiftsDetailsById(req, res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1419,7 +1419,7 @@ async function getEMSMessages(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-                listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+                listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1433,7 +1433,7 @@ async function getEMSMessages(req, res) {
                     }
                 })
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('get_attendance_messages');
@@ -1447,7 +1447,7 @@ async function setEMSMessages(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1460,7 +1460,7 @@ async function setEMSMessages(req, res) {
                     }
                 })
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('set_ems_messages');
@@ -1476,7 +1476,7 @@ async function getModulesWithScreens(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1488,7 +1488,7 @@ async function getModulesWithScreens(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('get_modules_screens :',e)
@@ -1503,7 +1503,7 @@ async function getScreenWithFunctionalities(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1515,7 +1515,7 @@ async function getScreenWithFunctionalities(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('get_screens_functionalities :',e)
@@ -1531,7 +1531,7 @@ async function getRoleScreenfunctionalitiesByRoleId(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1543,7 +1543,7 @@ async function getRoleScreenfunctionalitiesByRoleId(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('getscreenfunctionalitiesmaster :',e)
@@ -1559,7 +1559,7 @@ async function getrolemaster(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1571,7 +1571,7 @@ async function getrolemaster(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -1589,7 +1589,7 @@ async function getscreensmaster(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1602,7 +1602,7 @@ async function getscreensmaster(req,res) {
             });
 
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('getscreensmaster :',e)
@@ -1619,7 +1619,7 @@ async function getfunctionalitiesmaster(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1632,7 +1632,7 @@ async function getfunctionalitiesmaster(req,res) {
             });
 
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('getfunctionalitiesmaster :',e)
@@ -1646,7 +1646,7 @@ async function getscreenfunctionalitiesmaster(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1658,7 +1658,7 @@ async function getscreenfunctionalitiesmaster(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('getscreenfunctionalitiesmaster :',e)
@@ -1673,7 +1673,7 @@ async function setRoleAccess(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1685,7 +1685,7 @@ async function setRoleAccess(req,res) {
                 }
             });
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('setRoleAccess :',e)
@@ -1701,7 +1701,7 @@ async function setRoleMaster(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('at22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1714,7 +1714,7 @@ async function setRoleMaster(req,res){
             });
 
         }  else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log('setRoleMaster :',e)
@@ -1729,7 +1729,7 @@ async function getReportingManager(req,res){
         console.log("jkdfjkjb",req.body)
         var listOfConnections = {};
         if(dbName) {
-            listOfConnections = connection.checkExistingDBConnection('at22', companyName)
+            listOfConnections = connection.checkExistingDBConnection( companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -1743,7 +1743,7 @@ async function getReportingManager(req,res){
 
             });
         }else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }
@@ -1759,7 +1759,7 @@ async function getrolescreenfunctionalities(req,res) {
         let companyName = req.params.companyName;
         var listOfConnections = {};
         if(dbName) {
-            listOfConnections = connection.checkExistingDBConnection('at22', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -1771,7 +1771,7 @@ async function getrolescreenfunctionalities(req,res) {
                 }
             });
         }else {
-                res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
             }
     }catch (e) {
         console.log('getscreenfunctionalitiesmaster :',e)

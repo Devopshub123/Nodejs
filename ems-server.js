@@ -153,7 +153,7 @@ async function setNewHire(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e67',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -216,7 +216,7 @@ async function setNewHire(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch (e) {
@@ -230,7 +230,7 @@ async function getNewHireDetails(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e68',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -243,7 +243,7 @@ async function getNewHireDetails(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch (e) {
@@ -264,7 +264,7 @@ async function setReasonMaster(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e69',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -279,7 +279,7 @@ async function setReasonMaster(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }    
 
     }catch (e) {
@@ -294,7 +294,7 @@ async function getActiveReasonList(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e70',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -308,7 +308,7 @@ async function getActiveReasonList(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }    
     }
     catch (e) {
@@ -325,7 +325,7 @@ async function getActiveReasonList(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e71',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -338,7 +338,7 @@ async function getActiveReasonList(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }    
     }
     catch (e) {
@@ -358,7 +358,7 @@ async function getActiveReasonList(req,res) {
             let  dbName = await getDatebaseName(companyName)
             var listOfConnections = {};
             if(dbName){
-                listOfConnections= connection.checkExistingDBConnection('e72',companyName)
+                listOfConnections= connection.checkExistingDBConnection(companyName)
                 if(!listOfConnections.succes) {
                     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
                 }
@@ -374,7 +374,7 @@ async function getActiveReasonList(req,res) {
                     });
                 }
                 else {
-                    res.send({ status: false })
+                res.send({status: false,Message:'Database Name is missed'})
                 }        
 
         }catch (e) {
@@ -391,7 +391,7 @@ async function getTerminationCategory(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e73',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -404,7 +404,7 @@ async function getTerminationCategory(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getTerminationCategory :', e)
@@ -422,7 +422,7 @@ async function setDocumentCategory(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e74',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -437,7 +437,7 @@ async function setDocumentCategory(req,res) {
                 });
             }
             else {
-                res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
             }
     }catch (e) {
         console.log('setDocumentCategory',e)
@@ -450,7 +450,7 @@ async function getDocumentCategory(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e75',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -464,7 +464,7 @@ async function getDocumentCategory(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getDocumentCategory :', e)
@@ -481,7 +481,7 @@ async function setProgramsMaster(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e1',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -496,7 +496,7 @@ async function setProgramsMaster(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -512,7 +512,7 @@ async function getProgramsMaster(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e2',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -525,7 +525,7 @@ async function getProgramsMaster(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -543,7 +543,7 @@ async function setProgramTasks() {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e3',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -556,7 +556,7 @@ async function setProgramTasks() {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -575,7 +575,7 @@ async function getProgramTasks(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e4',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -588,7 +588,7 @@ async function getProgramTasks(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -606,7 +606,7 @@ async function setProgramSchedules(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-                listOfConnections= connection.checkExistingDBConnection('e5',companyName)
+                listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -645,7 +645,7 @@ async function setProgramSchedules(req,res) {
             );
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -662,7 +662,7 @@ async function getProgramSchedules(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e6',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -675,7 +675,7 @@ async function getProgramSchedules(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -693,7 +693,7 @@ async function setEmployeeProgramSchedules(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e7',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -707,7 +707,7 @@ async function setEmployeeProgramSchedules(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -722,7 +722,7 @@ async function getEmployeeProgramSchedules(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e8',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -760,7 +760,7 @@ async function setChecklistsMaster(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e9',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -774,7 +774,7 @@ async function setChecklistsMaster(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('setChecklistsMaster :', e)
@@ -789,7 +789,7 @@ async function getChecklistsMasterActive(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e10',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -804,7 +804,7 @@ async function getChecklistsMasterActive(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getChecklistsMasterActive :', e)
@@ -821,7 +821,7 @@ async function getChecklistsMaster(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e11',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -836,7 +836,7 @@ async function getChecklistsMaster(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getChecklistsMaster :', e)
@@ -851,7 +851,7 @@ async function getEmployeesList(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e12',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -864,8 +864,8 @@ async function getEmployeesList(req,res) {
             });
         }
         else {
-            res.send({ status: false })
-        }  
+            res.send({status: false,Message:'Database Name is missed'})
+        }
     } catch (e) {
         console.log('getEmployeesList :', e)
     }
@@ -881,7 +881,7 @@ async function setPreonboardCandidateInformation(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e13',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -896,7 +896,7 @@ async function setPreonboardCandidateInformation(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('setPreonboardCandidateInformation :', e)
@@ -912,7 +912,7 @@ async function setPreonboardCandidateInformation(req, res) {
             let  dbName = await getDatebaseName(companyName)
             var listOfConnections = {};
             if(dbName){
-                listOfConnections= connection.checkExistingDBConnection('e14',companyName)
+                listOfConnections= connection.checkExistingDBConnection(companyName)
                 if(!listOfConnections.succes) {
                     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
                 }
@@ -925,7 +925,7 @@ async function setPreonboardCandidateInformation(req, res) {
                 });
             }
             else {
-                res.send({ status: false })
+                res.send({status: false,Message:'Database Name is missed'})
             }    
           } catch (e) {
             console.log('getCandidateDetails :', e)
@@ -940,7 +940,7 @@ async function getEmployeeChecklists(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e15',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -955,7 +955,7 @@ async function getEmployeeChecklists(req, res) {
             });
             }
             else {
-                res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
             }
         } catch (e) {
            console.log('getEmployeeChecklists :', e)
@@ -969,7 +969,7 @@ async function getEmployeesTermination(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e17',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -983,7 +983,7 @@ async function getEmployeesTermination(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -999,7 +999,7 @@ async function setEmployeeTermination(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e19',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1012,7 +1012,7 @@ async function setEmployeeTermination(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1030,7 +1030,7 @@ async function getEmployeesResignation(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e20',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1045,7 +1045,7 @@ async function getEmployeesResignation(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getEmployeesResignation :', e)
@@ -1059,7 +1059,7 @@ async function setEmployeeResignation(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e21',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1073,7 +1073,7 @@ async function setEmployeeResignation(req,res) {
             })
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('setEmployeeResignation :', e)
@@ -1087,7 +1087,7 @@ async function getActiveTerminationCategories(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e22',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1100,7 +1100,7 @@ async function getActiveTerminationCategories(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('get_active_termination_categories :', e)
@@ -1113,7 +1113,7 @@ async function getEmployeeslistforTermination(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e23',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1126,7 +1126,7 @@ async function getEmployeeslistforTermination(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('get_active_emps_list :', e)
@@ -1140,7 +1140,7 @@ async function setCandidateExperience(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e24',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1153,7 +1153,7 @@ async function setCandidateExperience(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('setCandidateExperience :', e)
@@ -1167,7 +1167,7 @@ async function setCandidateEducation(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e25',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1181,7 +1181,7 @@ async function setCandidateEducation(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('setCandidateEducation :', e)
@@ -1207,7 +1207,7 @@ async function getDepartmentEmployeesByDesignation(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1225,7 +1225,7 @@ async function setselectEmployeesProgramSchedules(req,res){
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e26', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -1240,7 +1240,7 @@ async function setselectEmployeesProgramSchedules(req,res){
             });
         }
         else {
-            res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
         console.log("setselectEmployeesProgramSchedules", e);
@@ -1256,7 +1256,7 @@ async function setselectEmployeesProgramSchedules(req, res) {
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e26', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -1281,7 +1281,7 @@ async function setselectEmployeesProgramSchedules(req, res) {
     );
 }
 else {
-    res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
 }
   } catch (e) {
     console.log("setselectEmployeesProgramSchedules", e);
@@ -1294,7 +1294,7 @@ async function updateselectEmployeesProgramSchedules(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e27',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1308,7 +1308,7 @@ async function updateselectEmployeesProgramSchedules(req,res){
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }     
 
     }
@@ -1376,7 +1376,7 @@ async function getallEmployeeProgramSchedules(req,res) {
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e29', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -1389,7 +1389,7 @@ async function getallEmployeeProgramSchedules(req,res) {
             });
         }
         else {
-            res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log("getallEmployeeProgramSchedules :", e);
@@ -1402,7 +1402,7 @@ async function getEmployeesForProgramSchedule(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e30',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1415,7 +1415,7 @@ async function getEmployeesForProgramSchedule(req,res){
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }
@@ -1434,7 +1434,7 @@ async function getFileMasterForEMS(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e31',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1449,7 +1449,7 @@ async function getFileMasterForEMS(req,res){
                 });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }
@@ -1466,7 +1466,7 @@ async function setFileMasterForEMS(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e32',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1480,7 +1480,7 @@ async function setFileMasterForEMS(req,res){
                 });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }
@@ -1499,7 +1499,7 @@ async function getFilecategoryMasterForEMS(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e33',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1513,7 +1513,7 @@ async function getFilecategoryMasterForEMS(req,res){
                 });
             }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }    
     }
     catch(e){
@@ -1530,7 +1530,7 @@ async function setEmpPersonalInfo(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e34',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1545,7 +1545,7 @@ async function setEmpPersonalInfo(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1560,7 +1560,7 @@ async function getOnboardingSettings(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e30',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1573,7 +1573,7 @@ async function getOnboardingSettings(req,res){
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch(e){
@@ -1589,7 +1589,7 @@ async function setEmpJobDetails(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e35',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1603,7 +1603,7 @@ async function setEmpJobDetails(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1619,7 +1619,7 @@ async function getEmpJobDetails(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e36',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1633,7 +1633,7 @@ async function getEmpJobDetails(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1681,7 +1681,7 @@ async function setEmpEmployement(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e37',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1695,7 +1695,7 @@ async function setEmpEmployement(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1710,7 +1710,7 @@ async function getEmpEmployement(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e38',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1723,7 +1723,7 @@ async function getEmpEmployement(req,res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
       } catch (e) {
         console.log('getEmpEmployement :', e)
@@ -1737,7 +1737,7 @@ async function setEmpEducationDetails(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e39',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1752,7 +1752,7 @@ async function setEmpEducationDetails(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1769,7 +1769,7 @@ async function getEmpEducationDetails(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e39',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1781,7 +1781,7 @@ async function getEmpEducationDetails(req,res) {
             }
         });
     } else {
-        res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
     }
       } catch (e) {
         console.log('getEmpEducationDetails :', e)
@@ -1794,7 +1794,7 @@ async function getEmsEmployeeColumnConfigurationValue(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e41',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1807,7 +1807,7 @@ async function getEmsEmployeeColumnConfigurationValue(req,res){
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch(e){
@@ -1821,7 +1821,7 @@ async function setEmsEmployeeColumnConfigurationValues(req, res) {
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e42', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -1836,7 +1836,7 @@ async function setEmsEmployeeColumnConfigurationValues(req, res) {
                 });
         }
         else {
-            res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
     console.log("getFilepathsMasterForEMS :", e);
@@ -1851,7 +1851,7 @@ async function getFilepathsMasterForEMS(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e43',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -1866,7 +1866,7 @@ async function getFilepathsMasterForEMS(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
         } catch (err) {
         console.error(err);
@@ -1922,7 +1922,7 @@ async function setFilesMasterForEMS(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e44',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -1940,7 +1940,7 @@ async function setFilesMasterForEMS(req, res) {
                 });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -1998,7 +1998,7 @@ async function getUserLoginData(req, res) {
 
     var listOfConnections = {};
     if(dbName){
-        listOfConnections= connection.checkExistingDBConnection(4,companyName)
+        listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -2014,7 +2014,7 @@ async function getUserLoginData(req, res) {
       }
     );
     } else {
-        res.send({ status: false });
+        res.send({status: false,Message:'Database Name is missed'})
   
     }
   } catch (e) {
@@ -2034,7 +2034,7 @@ async function usersLogin(req, res) {
     
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(4,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -2061,7 +2061,7 @@ async function usersLogin(req, res) {
       }
     );
         }else {
-            res.send({ status: false });
+            res.send({status: false,Message:'Database Name is missed'})
 
         }
   } catch (e) {
@@ -2079,7 +2079,7 @@ async function getEmsEmployeeColumnFilterData(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e49',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -2096,7 +2096,7 @@ async function getEmsEmployeeColumnFilterData(req, res) {
       }
     );
     }else {
-        res.send({ status: false });
+            res.send({status: false,Message:'Database Name is missed'})
       }
 
   } catch (e) {
@@ -2110,7 +2110,7 @@ async function getOffboardingSettings(req, res) {
       let  dbName = await getDatebaseName(companyName)
       var listOfConnections = {};
       if(dbName){
-          listOfConnections= connection.checkExistingDBConnection('e50',companyName)
+          listOfConnections= connection.checkExistingDBConnection(companyName)
           if(!listOfConnections.succes) {
               listOfConnections[companyName] = await
               connection.getNewDBConnection(companyName, dbName);
@@ -2126,7 +2126,7 @@ async function getOffboardingSettings(req, res) {
       }
     );
       } else {
-          res.send({ status: false });
+          res.send({status: false,Message:'Database Name is missed'})
       }
   } catch (e) {
     console.log("getOffboardingSettings :", e);
@@ -2139,7 +2139,7 @@ async function setAnnouncements(req, res) {
       let  dbName = await getDatebaseName(companyName)
       var listOfConnections = {};
       if(dbName) {
-          listOfConnections = connection.checkExistingDBConnection('e44', companyName)
+          listOfConnections = connection.checkExistingDBConnection(companyName)
           if (!listOfConnections.succes) {
               listOfConnections[companyName] = await
               connection.getNewDBConnection(companyName, dbName);
@@ -2161,7 +2161,7 @@ async function setAnnouncements(req, res) {
               }
           );
       }else{
-          res.send({status: false});
+          res.send({status: false,Message:'Database Name is missed'})
 
       }
   }
@@ -2175,7 +2175,7 @@ async function deleteFilesMaster(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e45',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -2191,7 +2191,7 @@ async function deleteFilesMaster(req,res){
                 });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
@@ -2204,7 +2204,7 @@ async function getHrDetails(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e65',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -2216,7 +2216,7 @@ async function getHrDetails(req, res) {
       }
     });
     }else {
-        res.send({ status: false });
+            res.send({status: false,Message:'Database Name is missed'})
     }
   } catch (e) {
     console.log("getHrDetails :", e);
@@ -2228,7 +2228,7 @@ async function getnoticeperiods(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e46',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await
                 connection.getNewDBConnection(companyName, dbName);
@@ -2248,7 +2248,7 @@ async function getnoticeperiods(req,res){
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch(e){
@@ -2261,7 +2261,7 @@ async function usersLogin(req,res) {
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e48', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -2276,7 +2276,7 @@ async function usersLogin(req,res) {
             })
         }
         else {
-            res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }
@@ -2290,7 +2290,7 @@ async function setprogramspasterstatus(req, res) {
     let dbName = await getDatebaseName(companyName)
     var listOfConnections = {};
     if (dbName) {
-        listOfConnections = connection.checkExistingDBConnection('e48', companyName)
+        listOfConnections = connection.checkExistingDBConnection( companyName)
         if (!listOfConnections.succes) {
             listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
         }
@@ -2306,7 +2306,7 @@ async function setprogramspasterstatus(req, res) {
       }
     );
     }else {
-            res.send({ status: false });
+        res.send({status: false,Message:'Database Name is missed'})
         }
   } catch (e) {
     console.log("setprogramspasterstatus :", e);
@@ -2329,7 +2329,7 @@ async function getEmailsByEmpid(req, res) {
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e48', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -2353,7 +2353,7 @@ async function getEmailsByEmpid(req, res) {
         });
     }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch (e) {
@@ -2492,7 +2492,7 @@ async function setOffboardingSettings(req, res) {
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e51', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -2505,7 +2505,7 @@ async function setOffboardingSettings(req, res) {
             });
         }
         else {
-            res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('setOffboardingSettings :', e)
@@ -2577,7 +2577,7 @@ async function setOnboardingSettings(req, res) {
         getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e52', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await
                 connection.getNewDBConnection(companyName, dbName);
@@ -2617,7 +2617,7 @@ async function getEmsEmployeeDataForReports(req,res){
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e53',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -2647,7 +2647,7 @@ async function getEmsEmployeeDataForReports(req,res){
                     }
                 );
                 } else {
-                    res.send({ status: false });
+            res.send({status: false,Message:'Database Name is missed'})
                 }
             } catch (e) {
                 console.log("getEmsEmployeeDataForReports :", e);
@@ -2834,7 +2834,7 @@ try {
     let dbName = await getDatebaseName(companyName)
     var listOfConnections = {};
     if (dbName) {
-        listOfConnections = connection.checkExistingDBConnection('e54', companyName)
+        listOfConnections = connection.checkExistingDBConnection(companyName)
         if (!listOfConnections.succes) {
             listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
         }
@@ -2848,7 +2848,7 @@ try {
         });
     }
     else {
-        res.send({status: false})
+        res.send({status: false,Message:'Database Name is missed'})
     }
 }catch(e){
     console.log('getActiveAnnouncementsTopics :', e)
@@ -2920,7 +2920,7 @@ async function getAnnouncements(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e55',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -2934,7 +2934,7 @@ async function getAnnouncements(req, res) {
             
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getAnnouncements :', e)
@@ -2948,7 +2948,7 @@ async function getEmployeesPendingChecklists(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e56',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -2962,7 +2962,7 @@ async function getEmployeesPendingChecklists(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getEmployeesPendingChecklists :', e)
@@ -2978,7 +2978,7 @@ async function Messages(req,res) {
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e57', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -2993,7 +2993,7 @@ async function Messages(req,res) {
                 })
         }
         else {
-            res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('Messages', e);
@@ -3058,7 +3058,7 @@ async function getFilesForApproval(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e59',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -3071,7 +3071,7 @@ async function getFilesForApproval(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getFilesForApproval :', e)
@@ -3083,7 +3083,7 @@ async function documentApproval(req, res) {
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e60', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -3097,7 +3097,7 @@ async function documentApproval(req, res) {
             });
         }
         else {
-            res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('documentApproval :', e)
@@ -3109,7 +3109,7 @@ async function setEmployeeChecklists(req, res) {
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e61', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -3137,7 +3137,7 @@ async function setEmployeeChecklists(req, res) {
 
         }
         else {
-            res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
             console.log('setEmployeeChecklists :', e)
@@ -3206,7 +3206,7 @@ async function getEmpOffboardTerminationChecklists(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e62',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -3219,7 +3219,7 @@ async function getEmpOffboardTerminationChecklists(req,res) {
                 });
             }
             else {
-                res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
             }
         } catch (e) {
             console.log('getEmpOffboardTerminationChecklists :', e)
@@ -3286,7 +3286,7 @@ async function getEmpResignationPendingChecklists(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e63',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -3299,7 +3299,7 @@ async function getEmpResignationPendingChecklists(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getEmpResignationPendingChecklists :', e)
@@ -3313,7 +3313,7 @@ async function getEmployeesResignationForHr(req,res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection('e64',companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -3326,7 +3326,7 @@ async function getEmployeesResignationForHr(req,res) {
                 });
             }
             else {
-                res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
             }
     }
     catch (e) {
@@ -3470,7 +3470,7 @@ async function getCompanyNameByEmail(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(1,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -3484,7 +3484,7 @@ async function getCompanyNameByEmail(req, res) {
                 }
             });
         } else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
         }
 
@@ -3505,7 +3505,7 @@ async function getReportingManagerForEmp(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(1,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -3520,7 +3520,7 @@ async function getReportingManagerForEmp(req,res){
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     }
@@ -3538,7 +3538,7 @@ async function getEmpPersonalInfo(req,res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -3556,7 +3556,7 @@ async function getEmpPersonalInfo(req,res) {
             );
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
@@ -3574,7 +3574,7 @@ async  function getEmpAnnouncements(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(3,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -3587,7 +3587,7 @@ async  function getEmpAnnouncements(req, res) {
             });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
         console.log('getEmpAnnouncements :', e)
@@ -3606,7 +3606,7 @@ async function getDocumentsForEMS(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(4,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -3620,7 +3620,7 @@ async function getDocumentsForEMS(req,res){
                 });
         }
         else {
-            res.send({ status: false })
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch(e){
@@ -3636,7 +3636,7 @@ async function getActiveEmployeeProgramSchedules(req, res) {
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(4,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
@@ -3651,7 +3651,7 @@ async function getActiveEmployeeProgramSchedules(req, res) {
                 }
             );
 } else {
-    res.send({ status: false });
+            res.send({status: false,Message:'Database Name is missed'})
   }
   } catch (e) {
     console.log("getActiveEmployeeProgramSchedules :", e);
@@ -5210,7 +5210,7 @@ async function getEmployeeEmailData(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e38', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -5227,7 +5227,7 @@ async function getEmployeeEmailData(req, res) {
             }
         );
         } else {
-            res.send({ status: false });
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch (e) {
@@ -5302,7 +5302,7 @@ async function getInductionProgramAssignedEmployee(req, res) {
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if(dbName) {
-            listOfConnections = connection.checkExistingDBConnection('e38', companyName)
+            listOfConnections = connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -5318,7 +5318,7 @@ async function getInductionProgramAssignedEmployee(req, res) {
                 }
             );
         }else {
-            res.send({ status: false });
+            res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch (e) {

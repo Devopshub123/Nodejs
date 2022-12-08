@@ -96,7 +96,7 @@ async function login(req,res){
         // console.log("single",req.body)
             var listOfConnections = {};
             if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(0, companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
@@ -146,7 +146,7 @@ async function getMastertable(req,res){
         let companyName = req.params.companyName;
         let listOfConnections = {};
         if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(1,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -195,7 +195,7 @@ async function getMastertable(req,res){
 
         }
     }else {
-        res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
     } }
     catch (e) {
         console.log('getMastertable :',e)
@@ -216,7 +216,7 @@ async function getErrorMessages(req,res) {
         let companyName = req.params.companyName;
         let listOfConnections = {};
         if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -238,7 +238,7 @@ async function getErrorMessages(req,res) {
 
 
     }else {
-        res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
     } }
     catch (e) {
         console.log('geterrormessages :',e)
@@ -260,7 +260,7 @@ async function setErrorMessages(req,res) {
         let companyName = req.body[0].companyName;
         let listOfConnections = {};
         if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -275,7 +275,7 @@ async function setErrorMessages(req,res) {
 
 
     }else {
-        res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
     } }
     catch (e) {
         console.log('seterrormessages :',e)
@@ -291,7 +291,7 @@ async function getEmployeeInformation(req,res) {
         let companyName = req.params.companyName;
         let listOfConnections = {};
         if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -304,7 +304,7 @@ async function getEmployeeInformation(req,res) {
         });
 
     }else {
-        res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
     } }
     catch (e) {
         console.log('getEmployeeInformation :',e)
@@ -322,7 +322,7 @@ async function editProfile(req,res){
         let companyName = req.body.companyName;
         let listOfConnections = {};
         if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -337,7 +337,7 @@ async function editProfile(req,res){
 
 
     }else {
-        res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
     } }
     catch (e) {
         console.log('editProfile :',e)
@@ -355,7 +355,7 @@ async function forgetpassword(req, res, next) {
         let companyName = req.params.companyName;
         let listOfConnections = {};
         if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -414,7 +414,7 @@ async function forgetpassword(req, res, next) {
             }
         });
     }else {
-        res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
     }
      }
     catch (e) {
@@ -434,7 +434,7 @@ async function resetpassword(req, res, next) {
         let companyName = req.body.companyName;
         let listOfConnections = {};
         if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -450,7 +450,7 @@ async function resetpassword(req, res, next) {
         });
 
     }else {
-        res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
     }
      }
     catch (e) {
@@ -471,7 +471,7 @@ async function changePassword(req,res){
         let companyName = req.body.companyName;
         let listOfConnections = {};
         if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(5,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
@@ -499,7 +499,7 @@ async function changePassword(req,res){
 
         });
     }else {
-        res.send({status: false})
+            res.send({status: false,Message:'Database Name is missed'})
     }}
     catch(e){
         console.log("changepassword",e)
