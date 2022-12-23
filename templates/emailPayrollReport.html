@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 5px;
+        text-align: left;
+        font-size: 10px;
+        color: #000;
+        font-weight: normal;
+        font-style: normal;
+        text-decoration: none;
+    }
+</style>
+<body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A;">
+<p>Hi Finance Team</p>
+<p>Please Find Atachments</p>
+
+<h1 align="center">Payroll Report - {{date}}</h1>
+
+<table style="margin-top: 0px;width: 100%">
+    <tr>
+        <th align="center">Sl.No.</th>
+        <th align="center">Employee Id</th>
+        <th align="center">Employee Name</th>
+        <!--<th>Leaves Approve</th>-->
+        <th align="center">Loss of Pay Count</th>
+        <th align="center">Absents</th>
+
+    </tr>
+    {{#each payrollData}}
+    <tr>
+
+        <td>{{ this.index }}</td>
+        <td> {{this.empid}}</td>
+        <td> {{this.empname}}</td>
+        <!--<td> {{this.approved_leaves}}</td>-->
+        <td> {{this.lopcount}}</td>
+        <td> {{this.absents}}</td>
+
+    </tr>
+    {{/each}}
+
+</table><br>
+<h3 align="center">Thanks& Regards</h3>
+<h3 align="center">{{companyName}} </h3>
+</body>
+</html>
+
+
+<!DOCTYPE html>
+<html>

@@ -1637,8 +1637,8 @@ function leaveRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var url = 'http://122.175.62.210:6565/Login';
@@ -1667,7 +1667,7 @@ function leaveRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Leave request by'+' '+mailData.emailData.emp_name,
             html: html
@@ -1700,8 +1700,8 @@ function approveLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -1728,9 +1728,9 @@ function approveLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Leave request approved by'+' '+ mailData.emaildata.emp_name,
+            subject: 'Leave request approved by'+' '+ mailData.emaildata.rm_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -1758,8 +1758,8 @@ function rejectedLeaveRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -1786,7 +1786,7 @@ function rejectedLeaveRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Leave request rejected by'+' '+ mailData.emaildata.rm_name,
             html: html
@@ -1818,8 +1818,8 @@ function compOffRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var url = 'http://122.175.62.210:6565/Login';
@@ -1847,7 +1847,7 @@ function compOffRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Comp off request by' +' '+ mailData.emaildata.emp_name,
             html: html
@@ -1876,8 +1876,8 @@ function compOffApprovalRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -1902,7 +1902,7 @@ function compOffApprovalRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Comp-Off request approved by'+' '+mailData.emaildata.rm_name,
             html: html
@@ -1932,8 +1932,8 @@ function compOffRejectRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -1959,7 +1959,7 @@ function compOffRejectRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Comp-Off request rejected by'+' '+ mailData.emaildata.rm_name,
             html: html
@@ -1988,8 +1988,8 @@ function cancelLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -2015,7 +2015,7 @@ function cancelLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Leave request cancelled by {employee} ',
             html: html
@@ -2044,8 +2044,8 @@ function approveCancelLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -2072,7 +2072,7 @@ function approveCancelLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Approve Cancelled Leave request by {manager} ',
             html: html
@@ -2101,8 +2101,8 @@ function rejectCancelLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -2129,7 +2129,7 @@ function rejectCancelLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Cancelled Leave request rejected by {Manager Name} ',
             html: html
@@ -2158,8 +2158,8 @@ function deleteLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -2186,7 +2186,7 @@ function deleteLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Delete Leave request by  {Employee Name} ',
             html: html
@@ -2215,8 +2215,8 @@ function editLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -2242,7 +2242,7 @@ function editLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Edited Leave request by {employee}',
             html: html

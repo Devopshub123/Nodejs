@@ -24,6 +24,15 @@ app.use(bodyParser.urlencoded({
 var connection = require('./config/databaseConnection')
 
 var con = connection.switchDatabase();
+var pdf = require("pdf-creator-node");
+var handlebars = require('handlebars');
+const excelJS = require("exceljs");
+var cron = require('node-cron');
+const _ = require('underscore');
+const async = require('async');
+
+
+
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(fileUpload())
 app.all("*", function (req, res, next) {
@@ -2172,6 +2181,244 @@ app.post('/api/getReportingManager',function(req,res){
 app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
     admin.getrolescreenfunctionalities(req,res)
 });
+//-------------------
+/** get employees list by department */
+app.get('/ems/api/getEmployeesListByDeptId/:did', function (req, res) {
+    ems.getEmployeesListByDeptId(req,res)
+})
+
+/** set induction conduct by */
+app.post('/ems/api/setInductionConductedby', function (req, res) {
+    ems.setInductionConductedby(req,res)
+})
+
+/** get induction conducted by employees */
+app.get('/ems/api/getInductionConductedbyEmployees', function (req, res) {
+    ems.getInductionConductedbyEmployees(req,res)
+})
+
+/** get employees list by program id and dept id */
+app.get('/ems/api/getCondcutedEmployeesByPrgIdAndDeptId/:pid/:did', function (req, res) {
+    ems.getCondcutedEmployeesByPrgIdAndDeptId(req,res)
+})
+
+/** get departments by program id  */
+app.get('/ems/api/getDepartmentsByProgramId/:pid', function (req, res) {
+    ems.getDepartmentsByProgramId(req,res)
+})
+
+/** update induction conduct by status */
+app.post('/ems/api/updateInductionConductedbyStatus', function (req, res) {
+    ems.updateInductionConductedbyStatus(req,res)
+})
+
+
+
+
+cron.schedule('0 * 11 * * *', async function () {   // Every day 11 am
+    let date = new Date();
+    let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+    let day = new Date(lastDay.toJSON().slice(0, 10).replace(/-/g, '/')).getDay();
+    if (day != 0 && day != 6) {
+        lastDay = lastDay;
+    } else if (day === 0) {   //0 means Sunday
+        lastDay.setDate(lastDay.getDate() - 2); // last but two days
+    } else if (day === 6) { //6 means Saturday
+        lastDay.setDate(lastDay.getDate() - 1); // last but one dasy
+    }
+    let todayDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/')
+    if (lastDay.toJSON().slice(0, 10).replace(/-/g, '/') == todayDate) {
+        generatePayrollReport()
+    }
+});
+
+
+
+async function generatePayrollReport() {
+    con.query("CALL `get_report_for_payroll_processing` (?,?)", [null, new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate()], async function (err, result, fields) {
+        if (result && result[0] && result[0].length > 0) {
+            for (let i = 0; i < result[0].length; i++) {
+                result[0][i].index = i + 1;
+                if (i === result[0].length - 1) {
+                    await generateExcel(result[0]);
+                    generatePDF(result[0]);
+                }
+            }
+
+        } else {
+            console.log(err, 'Payroll report error ')
+        }
+    });
+
+}
+
+
+/**
+ * file or html read function
+ * @param {*} path is for file path
+ * @param {*} callback
+ */
+
+var readHTMLFile = function (path, callback) {
+    fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
+        if (err) {
+            callback(err);
+        }
+        else {
+            callback(null, html);
+        }
+    });
+};
+
+
+
+var transporter = nodemailer.createTransport({
+    host: "smtp-mail.outlook.com", // hostname
+    secureConnection: false, // TLS requires secureConnection to be false
+    port: 587, // port for secure SMTP
+    tls: {
+        ciphers: 'SSLv3'
+    },
+    auth: {
+        user: 'no-reply@spryple.com',
+        pass: 'Sreeb@#321'
+    }
+});
+
+
+async function generatePDF(data) {
+    let info = data;
+    let html = fs.readFileSync("./templates/monthlyPayrollReport.html", "utf8");
+    let options = {
+        format: "A3",
+        orientation: "portrait",
+        border: "10mm",
+        header: {
+            height: "15mm",
+            contents: '<div style="text-align: center;">Payroll Report -' + new Date().toJSON().slice(0, 10).replace(/-/g, '/') + ' </div>'
+        },
+        footer: {
+            height: "28mm",
+            contents: {
+                first: 'Cover page',
+                2: 'Second page', // Any page number is working. 1-based index
+                default: '<span style="color: #444;">{{page}}</span>/<span>{{pages}}</span>', // fallback value
+                last: 'Last Page'
+            }
+        }
+    };
+    let document = {
+        html: html,
+        data: {
+            payrollData: data,
+            // users:users
+        },
+        path: "./files/Payroll Report.pdf",
+        type: "",
+    };
+    await pdf.create(document, options).then((res) => { console.log(res); }).catch((error) => {
+        console.error(error);
+    });
+
+    let subject = 'Payroll report-' + new Date().toJSON().slice(0, 10).replace(/-/g, '/');
+    fs.readFile("./files/Payroll Report.pdf", function (err, data) {
+        fs.readFile("./files/Payroll Report.xlsx", function (err, xlsx) {
+            readHTMLFile('./templates/emailPayrollReport.html', function (err, html) {
+                if (err) {
+                    console.log('error reading file', err);
+                    return;
+                }
+                var template = handlebars.compile(html);
+                var replacements = {
+                    payrollData: info,
+                    date: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
+                    companyName: 'Sreeb Technologies Pvt Ltd'
+                };
+                var htmlToSend = template(replacements);
+                transporter.sendMail({
+                    sender: 'no-reply@spryple.com',
+                    to: 'smattupalli@sreebtech.com',
+                    subject: subject,
+                    body: 'mail content...',
+                    html: htmlToSend,
+                    attachments: [{ 'filename': 'Payroll report ' + new Date().toJSON().slice(0, 10).replace(/-/g, '/') + '.pdf', 'content': data }, { 'filename': 'Payroll report ' + new Date().toJSON().slice(0, 10).replace(/-/g, '/') + '.xlsx', 'content': xlsx }]
+                }), function (err, success) {
+                    if (err) {
+                        // Handle error
+                    }
+
+                }
+            });
+        })
+    });
+
+
+}
+
+
+
+
+async function generateExcel(results) {
+
+
+    /** Create Excel workbook and worksheet **/
+    const workbook = new excelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Report');
+
+    /** Define columns in the worksheet, these columns are identified using a key.**/
+    worksheet.columns = [
+        { header: "S no", key: "index", width: 15 },
+        { header: "Employee Id", key: "empid", width: 15 },
+        { header: "Employee Name", key: "empname", width: 25 },
+        { header: "Loss of Pay Count ", key: "lopcount", width: 20 },
+        { header: "Absent ", key: "absents", width: 10 },
+
+    ]
+
+    /** Add rows from database to worksheet **/
+    for (const row of results) {
+        worksheet.addRow(row);
+    }
+    worksheet.autoFilter = 'A1:E1';
+
+    worksheet.eachRow(function (row, rowNumber) {
+
+        row.eachCell((cell, colNumber) => {
+            if (rowNumber == 1) {
+                /** First set the background of header row **/
+                cell.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: '41f5b9' }
+                }
+            }
+            /** Set border of each cell **/
+            cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+            };
+        })
+        /** Commit the changed row to the stream **/
+        row.commit();
+    });
+    // Finally save the worksheet into the folder from where we are running the code.
+    return await workbook.xlsx.writeFile('./files/Payroll Report.xlsx');
+}
+
+/** get maindashborad employee count data   */
+app.get('/ems/api/getAttendanceCountsForDate/:mid/:empid/:date', function (req, res) {
+    ems.getAttendanceCountsForDate(req,res)
+})
+
+
+/** get induction alerts to employee in maindashboard   */
+app.get('/ems/api/getEmployeeProgramAlerts/:empid', function (req, res) {
+    ems.getEmployeeProgramAlerts(req,res)
+})
+
+
 app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');

@@ -989,8 +989,8 @@ function editedAttendanceRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -1016,7 +1016,7 @@ function editedAttendanceRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Edited Attendance request by {employee}',
             html: html
@@ -1049,8 +1049,8 @@ function deleteAttendanceRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -1076,7 +1076,7 @@ function deleteAttendanceRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Deleted Attendance request by {employee}',
             html: html

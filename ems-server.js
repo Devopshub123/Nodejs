@@ -14,6 +14,7 @@ var connection = require('./config/databaseConnection')
 var common = require('./common');
 
 
+
 var con = connection.switchDatabase();
 app.use(bodyParser.json({ limit: "5mb" }));
 app.use(fileUpload());
@@ -141,7 +142,16 @@ module.exports = {
     getEmployeeEmailData: getEmployeeEmailData,
     rescheduledInductionProgramEmail: rescheduledInductionProgramEmail,
     getInductionProgramAssignedEmployee:getInductionProgramAssignedEmployee,
-    getEmpAnnouncements:getEmpAnnouncements
+    getEmpAnnouncements:getEmpAnnouncements,
+    getEmployeesListByDeptId: getEmployeesListByDeptId,
+    setInductionConductedby: setInductionConductedby,
+    getInductionConductedbyEmployees: getInductionConductedbyEmployees,
+    getCondcutedEmployeesByPrgIdAndDeptId: getCondcutedEmployeesByPrgIdAndDeptId,
+    getDepartmentsByProgramId: getDepartmentsByProgramId,
+    updateInductionConductedbyStatus:updateInductionConductedbyStatus,
+    getAttendanceCountsForDate:getAttendanceCountsForDate,
+    getEmployeeProgramAlerts:getEmployeeProgramAlerts
+
 
     
 };
@@ -169,8 +179,8 @@ async function setNewHire(req,res) {
                             ciphers:'SSLv3'
                         },
                         auth: {
-                            user: 'no-reply@sreebtech.com',
-                            pass: 'Sreeb@#123'
+                            user: 'no-reply@spryple.com',
+                            pass: 'Sreeb@#321'
                         }
                     });
                     var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,companyName :companyName,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
@@ -195,7 +205,7 @@ async function setNewHire(req,res) {
                     </div></body>
                     </html> `;
                     var mailOptions = {
-                        from: 'no-reply@sreebtech.com',
+                        from: 'no-reply@spryple.com',
                         to: req.body.personal_email,
                         subject: 'Acknowledgement form',
                         html:html
@@ -611,28 +621,28 @@ async function setProgramSchedules(req,res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query(
-                "CALL `set_program_schedules` (?,?,?,?,?,?,?,?,?,?,?,?)",
+                "CALL `set_program_schedules` (?,?,?,?,?,?,?,?,?,?,?)",
                 [
-                    req.body.scheduleId,
-                    req.body.programId,
-                    req.body.department,
-                    req.body.designation,
-                    req.body.description,
-                    req.body.status,
+                    req.body.scheduleid,
+                    req.body.programid,
+                    req.body.department_id,
+                    //req.body.designation,
+                    req.body.s_description,
+                    req.body.s_status,
                     req.body.reason,
                     req.body.conductedby,
-                    req.body.scheduleDate,
-                    req.body.startTime,
-                    req.body.endTime,
+                    req.body.scheduledate,
+                    req.body.starttime,
+                    req.body.endtime,
                     req.body.actionby,
                 ],
                 function (err, result, fields) {
                     if (result && result[0][0].successstate == 0) {
                         res.send({ status: true, data: result[0][0].successstate});
-                        if (req.body.status == "Rescheduled") {
+                        if (req.body.s_status == "Rescheduled") {
                             rescheduledInductionProgramEmail(req.body);
 
-                        } else if (req.body.status == "Cancelled") {
+                        } else if (req.body.s_status == "Cancelled") {
 
                             inductionProgramCancelEmailToEmployee(req.body)
                         }
@@ -1220,7 +1230,8 @@ async function setselectEmployeesProgramSchedules(req,res){
     
     try {
         let array = []
-        array.push(req.body.email)
+        array.push(req.body.email);
+        array.push(req.body.companyname);
         let companyName = req.body.companyName;
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
@@ -1327,8 +1338,8 @@ function setProgramSchedulemail(mailData) {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'no-reply@sreebtech.com',
-          pass: 'Sreeb@#123'
+          user: 'no-reply@spryple.com',
+          pass: 'Sreeb@#321'
       },
     });
     var html = `<html>
@@ -1338,11 +1349,11 @@ function setProgramSchedulemail(mailData) {
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Employee,</p>
         <p style="color:black">We are very excited to welcome you to our organization!<b></b></p>
-        <p style="color:black"> At ${companyNameData.companyname} we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.</p>
+        <p style="color:black"> At ${mailData[1]} we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.</p>
         <p style="color:black">You are required to attend the induction program by the SPRYPLE<b></b></p>
-        <p style="color:black">Name of the Induction Program: <b>${mailData[1].program_name}</b></p>
-        <p style="color:black">Your Meeting Scheduled On <b>${req[1].schedule_date}</b></p>
-        <p style="color:black">from <b>${mailData[1].schedule_starttime}</b> to <b>${mailData[1].schedule_endtime}</b></p>
+        <p style="color:black">Name of the Induction Program: <b>${mailData[2].program_name}</b></p>
+        <p style="color:black">Your Meeting Scheduled On <b>${mailData[2].schedule_date}</b></p>
+        <p style="color:black">from <b>${mailData[2].schedule_starttime}</b> to <b>${mailData[2].schedule_endtime}</b></p>
         <p style="color:black">We are looking forward to working with you and seeing you achieve great things!<b></b></p>
         
         <p style="color:black">Warm Regards,</p>
@@ -1352,7 +1363,7 @@ function setProgramSchedulemail(mailData) {
         </html> `;
 
     var mailOptions = {
-      from: "no-reply@sreebtech.com",
+      from: "no-reply@spryple.com",
       to: email,
       subject: "Induction Program Meeting",
       html: html,
@@ -2028,7 +2039,8 @@ async function usersLogin(req, res) {
         email:req.body.email,
         empid:req.body.empid,
         userid:req.body.userid,
-        password:req.body.password}];
+        password: req.body.password,
+        companyname:req.body.companyname}];
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
     
@@ -2377,8 +2389,8 @@ function sendEmailToAdminAboutNewHire(mailData){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@sreebtech.com',
-            pass: 'Sreeb@#123'
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
         }
         });
         var html = `<html>
@@ -2398,7 +2410,7 @@ function sendEmailToAdminAboutNewHire(mailData){
         </html> `;
    
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Create a new login for'+' '+empname,
             html: html
@@ -2430,8 +2442,8 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'no-reply@sreebtech.com',
-          pass: 'Sreeb@#123'
+          user: 'no-reply@spryple.com',
+          pass: 'Sreeb@#321'
       },
     });
     //var url = "http://localhost:4200/Login";
@@ -2447,14 +2459,14 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black">Thank you for joining our organization.</p>
 
 
-        <p style="color:black">We’d like to confirm that your account is created successfully. To access ${req[0].company_name}, click the link below.<b></b></p>
+        <p style="color:black">We’d like to confirm that your account is created successfully. To access ${maileData[0].companyname}, click the link below.<b></b></p>
        
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
         <p style="color:black">Following are your login credentials:</p>
         <p style="color:black">Username:${maileData[0].userid}</p>
         <p style="color:black">Password:${maileData[0].password}</p>
-        <p style="color:black">If you experience any issues logging on into your account, reach out to us at ${req[0].contact_mail}</p>
+        <p style="color:black">If you experience any issues logging on into your account, reach out to HR Team</p>
         
         <p style="color:black">Best,</p>
 
@@ -2464,7 +2476,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         </html> `;
 
     var mailOptions = {
-      from: "no-reply@sreebtech.com",
+      from: "no-reply@spryple.com",
       to: email,
       subject: "New login Credentiols",
       html: html,
@@ -2525,8 +2537,8 @@ try {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@sreebtech.com',
-            pass: 'Sreeb@#123'
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
         }
        });
        var html = `<html>
@@ -2553,7 +2565,7 @@ try {
         </html> `;
 
     var mailOptions = {
-      from: "no-reply@sreebtech.com",
+      from: "no-reply@spryple.com",
       to: email,
       subject: "New employee onboarding checklist",
       html: html,
@@ -2665,8 +2677,8 @@ function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'no-reply@sreebtech.com',
-          pass: 'Sreeb@#123'
+          user: 'no-reply@spryple.com',
+          pass: 'Sreeb@#321'
       },
     });
     var html = `<html>
@@ -2691,7 +2703,7 @@ function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
         </html> `;
 
     var mailOptions = {
-      from: "no-reply@sreebtech.com",
+      from: "no-reply@spryple.com",
       to: email,
       subject: "Onboarding Checklist Updates",
       html: html,
@@ -2720,8 +2732,8 @@ function sendEmailToEmployeeAboutChecklistFinalUpdate(mailData) {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'no-reply@sreebtech.com',
-          pass: 'Sreeb@#123'
+          user: 'no-reply@spryple.com',
+          pass: 'Sreeb@#321'
       },
     });
     var html = `<html>
@@ -2746,7 +2758,7 @@ function sendEmailToEmployeeAboutChecklistFinalUpdate(mailData) {
         </html> `;
 
     var mailOptions = {
-      from: "no-reply@sreebtech.com",
+      from: "no-reply@spryple.com",
       to: email,
       subject: "Onboarding Checklist Final Update",
       html: html,
@@ -2775,8 +2787,8 @@ function sendEmailToEmployeeAboutChecklistComplete(mailData) {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'no-reply@sreebtech.com',
-          pass: 'Sreeb@#123'
+          user: 'no-reply@spryple.com',
+          pass: 'Sreeb@#321'
       },
     });
     var html = `<html>
@@ -2803,7 +2815,7 @@ function sendEmailToEmployeeAboutChecklistComplete(mailData) {
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Welcome to'+' '+'{company name}!',
             html: html
@@ -2868,8 +2880,8 @@ function sendEmailToEmployeeAboutInductionCancel(mailData){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@sreebtech.com',
-            pass: 'Sreeb@#123'
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
         }
        });
        var html = `<html>
@@ -2895,7 +2907,7 @@ function sendEmailToEmployeeAboutInductionCancel(mailData){
         </html> `;
    
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Welcome to'+' '+'{company name}!',
             html: html
@@ -3011,8 +3023,8 @@ function sendEmailToHrAboutDocumentApproval(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -3034,7 +3046,7 @@ function sendEmailToHrAboutDocumentApproval(mailData){
                     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Approving Documents ',
             html: html
@@ -3158,8 +3170,8 @@ function sendEmailToEmployeeAboutDocumentApproval(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -3181,7 +3193,7 @@ function sendEmailToEmployeeAboutDocumentApproval(mailData){
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'HR Approved your uploaded document',
             html: html
@@ -3238,8 +3250,8 @@ function sendEmailToEmployeeAboutDocumentReject(mailData){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@sreebtech.com',
-            pass: 'Sreeb@#123'
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
         }
        });
        var html = `<html>
@@ -3260,7 +3272,7 @@ function sendEmailToEmployeeAboutDocumentReject(mailData){
         </html> `;
    
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Re-upload document ',
             html: html
@@ -3347,8 +3359,8 @@ function sendEmailToEmployeeAboutNewRole(mailData){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@sreebtech.com',
-            pass: 'Sreeb@#123'
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
         }
        });
        var html = `<html>
@@ -3370,7 +3382,7 @@ function sendEmailToEmployeeAboutNewRole(mailData){
         </html> `;
    
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Welcome to Tech Lead ',
             html: html
@@ -3412,8 +3424,8 @@ function sendEmailToEmployeeAboutRemoveRole(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -3435,7 +3447,7 @@ function sendEmailToEmployeeAboutRemoveRole(mailData){
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Role Change ',
             html: html
@@ -3691,8 +3703,8 @@ function attendanceRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var url = 'http://122.175.62.210:6565/Login';
@@ -3719,7 +3731,7 @@ function attendanceRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Attendance request',
             html: html
@@ -3752,8 +3764,8 @@ function approveAttendanceRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -3779,7 +3791,7 @@ function approveAttendanceRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Attendance request approved by'+' '+mailData.emailData.rm_name,
             html: html
@@ -3812,8 +3824,8 @@ function rejectedAttendanceRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -3838,7 +3850,7 @@ function rejectedAttendanceRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Attendance request rejected  by '+''+ mailData.emailData.rm_name,
             html: html
@@ -3871,8 +3883,8 @@ function editedAttendanceRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -3896,7 +3908,7 @@ function editedAttendanceRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Edited Attendance request by {employee}',
             html: html
@@ -3929,8 +3941,8 @@ function deleteAttendanceRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -3954,7 +3966,7 @@ function deleteAttendanceRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Deleted Attendance request by {employee}',
             html: html
@@ -3987,8 +3999,8 @@ function attendanceRequestBeHalfOfEmployeeEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4011,7 +4023,7 @@ function attendanceRequestBeHalfOfEmployeeEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Attendance request behalf of {employee} ',
             html: html
@@ -4044,8 +4056,8 @@ function leaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4070,7 +4082,7 @@ function leaveRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Leave request by {employee} ',
             html: html
@@ -4103,8 +4115,8 @@ function approveLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4129,7 +4141,7 @@ function approveLeaveRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Leave request approved by {manager} ',
             html: html
@@ -4158,8 +4170,8 @@ function rejectedLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4184,7 +4196,7 @@ function rejectedLeaveRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Leave request rejected by {manager} ',
             html: html
@@ -4213,8 +4225,8 @@ function cancelLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4238,7 +4250,7 @@ function cancelLeaveRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Leave request cancelled by {employee} ',
             html: html
@@ -4267,8 +4279,8 @@ function approveCancelLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4293,7 +4305,7 @@ function approveCancelLeaveRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Approve Cancelled Leave request by {manager} ',
             html: html
@@ -4322,8 +4334,8 @@ function rejectCancelLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4348,7 +4360,7 @@ function rejectCancelLeaveRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Cancelled Leave request rejected by {Manager Name} ',
             html: html
@@ -4377,8 +4389,8 @@ function deleteLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4403,7 +4415,7 @@ function deleteLeaveRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Delete Leave request by  {Employee Name} ',
             html: html
@@ -4432,8 +4444,8 @@ function editLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4457,7 +4469,7 @@ function editLeaveRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Edited Leave request by {employee}',
             html: html
@@ -4486,8 +4498,8 @@ function compOffRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4510,7 +4522,7 @@ function compOffRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Comp off request by Employee',
             html: html
@@ -4539,8 +4551,8 @@ function compOffApprovalRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4564,7 +4576,7 @@ function compOffApprovalRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Comp-Off request approved by {Manager Name}',
             html: html
@@ -4594,8 +4606,8 @@ function compOffRejectRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4619,7 +4631,7 @@ function compOffRejectRequestEmail(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Comp-Off request rejected by {Manager Name}',
             html: html
@@ -4648,8 +4660,8 @@ function checklistFinalUpdateEmailToEmployee(mailData) {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             },
         });
         var html = `<html>
@@ -4674,7 +4686,7 @@ function checklistFinalUpdateEmailToEmployee(mailData) {
         </html> `;
 
         var mailOptions = {
-            from: "no-reply@sreebtech.com",
+            from: "no-reply@spryple.com",
             to: email,
             subject: "Onboarding Checklist Final Update",
             html: html,
@@ -4702,8 +4714,8 @@ function checklistCompleteEmailToEmployee(mailData) {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             },
         });
         var html = `<html>
@@ -4730,7 +4742,7 @@ function checklistCompleteEmailToEmployee(mailData) {
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Welcome to'+' '+ companyNameData.companyname,
             html: html
@@ -4769,8 +4781,8 @@ function roleRemoveInformationEmailToEmployee(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4792,7 +4804,7 @@ function roleRemoveInformationEmailToEmployee(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Role Change ',
             html: html
@@ -4833,8 +4845,8 @@ function newRoleInformationEmailToEmployee(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4856,7 +4868,7 @@ function newRoleInformationEmailToEmployee(mailData){
      </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Welcome to Tech Lead ',
             html: html
@@ -4888,8 +4900,8 @@ function documentReuploadInformationEmailToHr(req,res){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4911,7 +4923,7 @@ function documentReuploadInformationEmailToHr(req,res){
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Documents Re uploaded ',
             html: html
@@ -4942,8 +4954,8 @@ function documentReuploadInformationEmailToHr(req,res){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -4965,7 +4977,7 @@ function documentReuploadInformationEmailToHr(req,res){
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Documents Re uploaded ',
             html: html
@@ -4996,8 +5008,8 @@ function documentApprovalEmailToEmployee(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -5020,7 +5032,7 @@ function documentApprovalEmailToEmployee(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: toEmail,
             // to: 'mchennagani@sreebtech.com',
             subject: 'HR Approved your uploaded document',
@@ -5053,8 +5065,8 @@ function documentRejectEmailtoEmployee(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -5076,7 +5088,7 @@ function documentRejectEmailtoEmployee(mailData) {
           </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: toEmail,
             // to: 'mchennagani@sreebtech.com',
             subject: 'Re-upload document ',
@@ -5110,8 +5122,8 @@ function documentApprovalEmailToHR(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -5128,7 +5140,7 @@ function documentApprovalEmailToHR(mailData) {
                 </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: toEmail,
             // to: 'mchennagani@sreebtech.com',
             subject: 'Approving Documents ',
@@ -5158,8 +5170,8 @@ function inductionProgramCancelEmailToEmployee(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -5185,7 +5197,7 @@ function inductionProgramCancelEmailToEmployee(mailData) {
      </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Induction Program Cancelled',
             html: html
@@ -5247,8 +5259,8 @@ function rescheduledInductionProgramEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@sreebtech.com',
-                pass: 'Sreeb@#123'
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
             }
         });
         var html = `<html>
@@ -5276,7 +5288,7 @@ function rescheduledInductionProgramEmail(mailData){
      </html> `;
 
         var mailOptions = {
-            from: 'no-reply@sreebtech.com',
+            from: 'no-reply@spryple.com',
             to: email,
             subject: 'Induction program rescheduled' ,
             html: html
@@ -5323,5 +5335,189 @@ async function getInductionProgramAssignedEmployee(req, res) {
     }
     catch (e) {
         console.log('getInductionProgramAssignedEmployee :', e)
+    }
+}
+
+/** employee list by department id */
+function getEmployeesListByDeptId(req, res) {
+    try {
+        con.query(
+            "CALL `get_employees_for_department` (?)",[JSON.parse(req.params.did)],
+            function (err, result, fields) {
+                if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false });
+                }
+            }
+        );
+    }
+    catch (e) {
+        console.log('getEmployeesListByDeptId :', e)
+    }
+}
+
+/** set induction conducted by employees*/
+function setInductionConductedby(req, res) {
+    console.log("value--",JSON.stringify(req.body))
+    try {
+        con.query(
+            "CALL `set_ems_induction_conductedby` (?)",
+            [JSON.stringify(req.body)],
+
+            function (err, result, fields) {
+                console.log("err--",err)
+                console.log("res--",result[0][0])
+                if (result && result[0][0].statuscode == 0) {
+                    res.send({ status: true });
+                } else {
+                    res.send({ status: false })
+                }
+            });
+
+    } catch (e) {
+        console.log('setInductionConductedby :', e)
+
+    }
+}
+/** get induction conducted employees */
+function getInductionConductedbyEmployees(req, res) {
+    try {
+        con.query(
+            "CALL `get_ems_induction_conductedby` ()",[],
+            function (err, result, fields) {
+                console.log("err",err)
+                console.log("res",result[0])
+                if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false });
+                }
+            }
+        );
+    }
+    catch (e) {
+        console.log('getInductionConductedbyEmployees :', e)
+    }
+}
+
+/** get employees by program id and department id */
+function getCondcutedEmployeesByPrgIdAndDeptId(req, res) {
+    try {
+        con.query(
+            "CALL `get_conducted_employees_for_department` (?,?)",
+            [
+                JSON.parse(req.params.pid),
+                JSON.parse(req.params.did)
+            ],
+            function (err, result, fields) {
+                if (err) {
+                    res.send({ status: false });
+                }else if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false });
+                }
+            }
+        );
+    }
+    catch (e) {
+        console.log('getCondcutedEmployeesByPrgIdAndDeptId :', e)
+    }
+}
+
+/** get departments by program id */
+function getDepartmentsByProgramId(req, res) {
+    try {
+        con.query(
+            "CALL `get_departmentss_for_program` (?)",[ JSON.parse(req.params.pid)],
+            function (err, result, fields) {
+                if (err) {
+                    res.send({ status: false });
+                }else if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } else {
+                    res.send({ status: false });
+                }
+            }
+        );
+    }
+    catch (e) {
+        console.log('getDepartmentsByProgramId :', e)
+    }
+}
+
+/** set induction conducted by status*/
+function updateInductionConductedbyStatus(req, res) {
+    try {
+        con.query(
+            "CALL `update_ems_induction_conductedby_status` (?,?)",
+            [JSON.stringify(req.body.id),JSON.stringify(req.body.status)],
+
+            function (err, result, fields) {
+                console.log("err--",err)
+                console.log("res--",result[0][0])
+                if (result && result[0][0].statuscode == 0) {
+                    res.send({ status: true });
+                } else {
+                    res.send({ status: false })
+                }
+            });
+
+    } catch (e) {
+        console.log('updateInductionConductedbyStatus :', e)
+
+    }
+}
+
+
+
+/** get maindashborad employee count data */
+function getAttendanceCountsForDate(req, res) {
+    try {
+        con.query(
+            "CALL `get_attendance_counts_for_date` (?,?,?)",
+            [JSON.parse(req.params.mid),
+                JSON.parse(req.params.empid),
+                req.params.date,
+            ],
+            function (err, result, fields) {
+                if (err) {
+                    res.send({ status: false });
+                }else if (result && result.length > 0) {
+                    res.send({ data: result[0][0], status: true });
+                } else {
+                    res.send({ status: false });
+                }
+            }
+        );
+    }
+    catch (e) {
+        console.log('getAttendanceCountsForDate :', e)
+    }
+}
+
+
+
+/** get induction program alerts to employee in maindashboard */
+function getEmployeeProgramAlerts(req, res) {
+    try {
+        con.query(
+            "CALL `get_employee_program_alerts` (?)",[ JSON.parse(req.params.empid) ],
+            function (err, result, fields) {
+                console.log("err--",err)
+                console.log("res--",result)
+                if (err) {
+                    res.send({ status: false });
+                }else if (result && result.length > 0) {
+                    res.send({ data: result[0][0], status: true });
+                } else {
+                    res.send({ status: false });
+                }
+            }
+        );
+    }
+    catch (e) {
+        console.log('getEmployeeProgramAlerts :', e)
     }
 }
