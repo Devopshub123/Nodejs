@@ -3036,9 +3036,9 @@ function sendEmailToHrAboutDocumentApproval(mailData){
                     <p style="color:black">Dear ${mailData[0].manager_name},</p>
                     
                     
-                    <p style="color:black">I would like to inform you that I have uploaded the documents for your approval. Please find document details in my profile. </p>
+                    <p style="color:black">I would like to inform you that I have uploaded the documents for your approval. Please find documents. </p>
                     
-                     <p style="color:black">Sincerely</p>
+                     <p style="color:black">Sincerely,</p>
                     
                     <p style="color:black">${mailData[0].emp_name}.</p>
                     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
@@ -5339,185 +5339,268 @@ async function getInductionProgramAssignedEmployee(req, res) {
 }
 
 /** employee list by department id */
-function getEmployeesListByDeptId(req, res) {
+async function getEmployeesListByDeptId(req,res) {
     try {
-        con.query(
-            "CALL `get_employees_for_department` (?)",[JSON.parse(req.params.did)],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false });
-                }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        );
-    }
-    catch (e) {
-        console.log('getEmployeesListByDeptId :', e)
-    }
-}
-
-/** set induction conducted by employees*/
-function setInductionConductedby(req, res) {
-    console.log("value--",JSON.stringify(req.body))
-    try {
-        con.query(
-            "CALL `set_ems_induction_conductedby` (?)",
-            [JSON.stringify(req.body)],
-
-            function (err, result, fields) {
-                console.log("err--",err)
-                console.log("res--",result[0][0])
-                if (result && result[0][0].statuscode == 0) {
-                    res.send({ status: true });
-                } else {
-                    res.send({ status: false })
+            listOfConnections[companyName].query(
+                "CALL `get_employees_for_department` (?)",
+                [JSON.parse(req.params.did)],
+                function (err, result, fields) {
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false });
+                    }
                 }
-            });
+            );
+        }
+        else {
+            res.send({ status: false })
+        }
+
+    } catch (e) {
+        console.log('getEmployeesListByDeptId :', e)
+
+    }
+
+}
+/** set induction conducted by employees*/
+async function setInductionConductedby(req,res) {
+    try {
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `set_ems_induction_conductedby` (?)",
+                [JSON.stringify(req.body)],
+                function (err, result, fields) {
+                    if (result && result[0][0].statuscode == 0) {
+                        res.send({ status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+                });
+        }
+        else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
 
     } catch (e) {
         console.log('setInductionConductedby :', e)
-
     }
 }
+
 /** get induction conducted employees */
-function getInductionConductedbyEmployees(req, res) {
+async function getInductionConductedbyEmployees(req,res) {
     try {
-        con.query(
-            "CALL `get_ems_induction_conductedby` ()",[],
-            function (err, result, fields) {
-                console.log("err",err)
-                console.log("res",result[0])
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false });
-                }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        );
-    }
-    catch (e) {
+            listOfConnections[companyName].query(
+                "CALL `get_ems_induction_conductedby` ()",[],
+                function (err, result, fields) {
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false });
+                    }
+                }
+            );
+        }
+        else {
+            res.send({ status: false })
+        }
+
+    } catch (e) {
         console.log('getInductionConductedbyEmployees :', e)
     }
 }
 
 /** get employees by program id and department id */
-function getCondcutedEmployeesByPrgIdAndDeptId(req, res) {
+async function getCondcutedEmployeesByPrgIdAndDeptId(req,res) {
     try {
-        con.query(
-            "CALL `get_conducted_employees_for_department` (?,?)",
-            [
-                JSON.parse(req.params.pid),
-                JSON.parse(req.params.did)
-            ],
-            function (err, result, fields) {
-                if (err) {
-                    res.send({ status: false });
-                }else if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false });
-                }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        );
-    }
-    catch (e) {
+            listOfConnections[companyName].query(
+                "CALL `get_conducted_employees_for_department` (?,?)",
+                [
+                    JSON.parse(req.params.pid),
+                    JSON.parse(req.params.did)
+                ],
+                function (err, result, fields) {
+                    if (err) {
+                        res.send({ status: false });
+                    }else if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false });
+                    }
+                }
+            );
+        }
+        else {
+            res.send({ status: false })
+        }
+
+    } catch (e) {
         console.log('getCondcutedEmployeesByPrgIdAndDeptId :', e)
     }
 }
 
 /** get departments by program id */
-function getDepartmentsByProgramId(req, res) {
+async function getDepartmentsByProgramId(req,res) {
     try {
-        con.query(
-            "CALL `get_departmentss_for_program` (?)",[ JSON.parse(req.params.pid)],
-            function (err, result, fields) {
-                if (err) {
-                    res.send({ status: false });
-                }else if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false });
-                }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        );
-    }
-    catch (e) {
+            listOfConnections[companyName].query(
+                "CALL `get_departmentss_for_program` (?)",[ JSON.parse(req.params.pid)],
+                function (err, result, fields) {
+                    if (err) {
+                        res.send({ status: false });
+                    }else if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false });
+                    }
+                }
+            );
+        }
+        else {
+            res.send({ status: false })
+        }
+
+    } catch (e) {
         console.log('getDepartmentsByProgramId :', e)
     }
 }
 
 /** set induction conducted by status*/
-function updateInductionConductedbyStatus(req, res) {
+async function updateInductionConductedbyStatus(req,res) {
     try {
-        con.query(
-            "CALL `update_ems_induction_conductedby_status` (?,?)",
-            [JSON.stringify(req.body.id),JSON.stringify(req.body.status)],
-
-            function (err, result, fields) {
-                console.log("err--",err)
-                console.log("res--",result[0][0])
-                if (result && result[0][0].statuscode == 0) {
-                    res.send({ status: true });
-                } else {
-                    res.send({ status: false })
-                }
-            });
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query(
+                "CALL `update_ems_induction_conductedby_status` (?,?)",
+                [JSON.stringify(req.body.id),JSON.stringify(req.body.status)],
+                function (err, result, fields) {
+                   if (result && result[0][0].statuscode == 0) {
+                        res.send({ status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+                });
+        }
+        else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
 
     } catch (e) {
         console.log('updateInductionConductedbyStatus :', e)
-
     }
 }
 
 
-
 /** get maindashborad employee count data */
-function getAttendanceCountsForDate(req, res) {
+async function getAttendanceCountsForDate(req, res) {
     try {
-        con.query(
-            "CALL `get_attendance_counts_for_date` (?,?,?)",
-            [JSON.parse(req.params.mid),
-                JSON.parse(req.params.empid),
-                req.params.date,
-            ],
-            function (err, result, fields) {
-                if (err) {
-                    res.send({ status: false });
-                }else if (result && result.length > 0) {
-                    res.send({ data: result[0][0], status: true });
-                } else {
-                    res.send({ status: false });
-                }
+       let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        );
-    }
-    catch (e) {
+            listOfConnections[companyName].query(
+                "CALL `get_attendance_counts_for_date` (?,?,?)",
+                [JSON.parse(req.params.mid),
+                    JSON.parse(req.params.empid),
+                    req.params.date,
+                ],
+                function (err, result, fields) {
+                   if (err) {
+                        res.send({ status: false });
+                    }else if (result && result.length > 0) {
+                        res.send({ data: result[0][0], status: true });
+                    } else {
+                        res.send({ status: false });
+                    }
+                }
+            );
+        }
+        else {
+            res.send({ status: false })
+        }
+
+    } catch (e) {
         console.log('getAttendanceCountsForDate :', e)
     }
 }
 
 
-
 /** get induction program alerts to employee in maindashboard */
-function getEmployeeProgramAlerts(req, res) {
+async function getEmployeeProgramAlerts(req,res) {
     try {
-        con.query(
-            "CALL `get_employee_program_alerts` (?)",[ JSON.parse(req.params.empid) ],
-            function (err, result, fields) {
-                console.log("err--",err)
-                console.log("res--",result)
-                if (err) {
-                    res.send({ status: false });
-                }else if (result && result.length > 0) {
-                    res.send({ data: result[0][0], status: true });
-                } else {
-                    res.send({ status: false });
-                }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        );
-    }
-    catch (e) {
+            listOfConnections[companyName].query(
+                "CALL `get_employee_program_alerts` (?)",[ JSON.parse(req.params.empid) ],
+                function (err, result, fields) {
+                 if (err) {
+                        res.send({ status: false });
+                    }else if (result && result.length > 0) {
+                        res.send({ data: result[0][0], status: true });
+                    } else {
+                        res.send({ status: false });
+                    }
+                }
+            );
+        }
+        else {
+            res.send({ status: false })
+        }
+
+    } catch (e) {
         console.log('getEmployeeProgramAlerts :', e)
     }
 }

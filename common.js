@@ -95,7 +95,8 @@ async function login(req,res){
         var companyName = req.body.companyName;
         // console.log("single",req.body)
             var listOfConnections = {};
-            if(dbName) {
+        console.log("db name", dbName);
+        if (dbName) {
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);

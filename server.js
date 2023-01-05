@@ -1348,7 +1348,8 @@ app.use("/payroll",payroll);
 
  
 /**employee login */
-app.post('/api/emp_login',function(req,res,next){
+app.post('/api/emp_login', function (req, res, next) {
+    console.log("FFFFFFFFFf",req.body)
     common.login(req,res)
 })
 
@@ -2178,12 +2179,12 @@ app.post('/api/getReportingManager',function(req,res){
 })
 
 /*Get Role Screen Functionalities*/
-app.get('/api/getrolescreenfunctionalities/:roleId',function(req,res) {
+app.get('/api/getrolescreenfunctionalities/:roleId/:companyName',function(req,res) {
     admin.getrolescreenfunctionalities(req,res)
 });
 //-------------------
 /** get employees list by department */
-app.get('/ems/api/getEmployeesListByDeptId/:did', function (req, res) {
+app.get('/ems/api/getEmployeesListByDeptId/:did/:companyName', function (req, res) {
     ems.getEmployeesListByDeptId(req,res)
 })
 
@@ -2193,19 +2194,19 @@ app.post('/ems/api/setInductionConductedby', function (req, res) {
 })
 
 /** get induction conducted by employees */
-app.get('/ems/api/getInductionConductedbyEmployees', function (req, res) {
+app.get('/ems/api/getInductionConductedbyEmployees/:companyName', function (req, res) {
     ems.getInductionConductedbyEmployees(req,res)
 })
 
 /** get employees list by program id and dept id */
-app.get('/ems/api/getCondcutedEmployeesByPrgIdAndDeptId/:pid/:did', function (req, res) {
+app.get('/ems/api/getCondcutedEmployeesByPrgIdAndDeptId/:pid/:did/:companyName',function(req,res) {
     ems.getCondcutedEmployeesByPrgIdAndDeptId(req,res)
-})
+ });
 
 /** get departments by program id  */
-app.get('/ems/api/getDepartmentsByProgramId/:pid', function (req, res) {
+app.get('/ems/api/getDepartmentsByProgramId/:pid/:companyName',function(req,res) {
     ems.getDepartmentsByProgramId(req,res)
-})
+ });
 
 /** update induction conduct by status */
 app.post('/ems/api/updateInductionConductedbyStatus', function (req, res) {
@@ -2408,16 +2409,17 @@ async function generateExcel(results) {
 }
 
 /** get maindashborad employee count data   */
-app.get('/ems/api/getAttendanceCountsForDate/:mid/:empid/:date', function (req, res) {
+app.get('/ems/api/getAttendanceCountsForDate/:mid/:empid/:date/:companyName', function (req, res) {
     ems.getAttendanceCountsForDate(req,res)
-})
-
+ });
 
 /** get induction alerts to employee in maindashboard   */
-app.get('/ems/api/getEmployeeProgramAlerts/:empid', function (req, res) {
+app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName',function(req,res) {
     ems.getEmployeeProgramAlerts(req,res)
-})
+ });
 
+
+//**--------------------------------------------------- */
 
 app.listen(6060,function (err) {
     if (err)
@@ -2426,8 +2428,7 @@ app.listen(6060,function (err) {
         console.log('Server Started at : http://localhost:6060');
 });
 
-
-
+/** uncomment in QA build time */
 
 // app.listen(6464,'0.0.0.0',function (err) {
 //     if (err)
