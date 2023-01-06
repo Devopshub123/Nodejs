@@ -3671,11 +3671,13 @@ async function getActiveEmployeeProgramSchedules(req, res) {
 }
 
 function getDatebaseName(companyName){
-
+console.log("db-",companyName)
     return new Promise((res,rej)=>{
         try {
 
             con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
+                console.log("db-err",err)
+                console.log("db-ress",results[0])
                 if (results && results[0] && results[0].length != 0) {
                     res(results[0][0].db_name);
 
@@ -5372,11 +5374,14 @@ async function getEmployeesListByDeptId(req,res) {
 
 }
 /** set induction conducted by employees*/
-async function setInductionConductedby(req,res) {
+async function setInductionConductedby(req, res) {
+    console.log("data--",req.body)
     try {
-        let companyName =req.body.companyName;
+        let companyName = req.body.companyName;
+        console.log("s-1",companyName)
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
+        console.log("s-2",dbName)
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
@@ -5385,6 +5390,8 @@ async function setInductionConductedby(req,res) {
             listOfConnections[companyName].query("CALL `set_ems_induction_conductedby` (?)",
                 [JSON.stringify(req.body)],
                 function (err, result, fields) {
+                    console.log("err--",err)
+                    console.log("ress--",result[0][0])
                     if (result && result[0][0].statuscode == 0) {
                         res.send({ status: true });
                     } else {
