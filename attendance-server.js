@@ -50,7 +50,7 @@ module.exports={
     getAttendanceRegularizationsHistoryForManager:getAttendanceRegularizationsHistoryForManager,
     setEmployeeAttendance:setEmployeeAttendance,
     getrolescreenfunctionalitiesforrole:getrolescreenfunctionalitiesforrole,
-
+    getSideNavigation:getSideNavigation
 }
 
 
@@ -1097,3 +1097,38 @@ function deleteAttendanceRequestEmail(mailData){
     }
 
 }
+
+async function getSideNavigation(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `SidenaveOne` (?)", [req.body.empid], function (err, result, fields) {
+                console.log('resulrt',err,result)
+                if (result && result.length > 0) {
+                    for(let i=0;i<result[0].length;i++){
+                        if(!result[0][i].children){
+                            result[0][i].children =JSON.stringify(result[0][i].children)
+                        }                   
+                    }
+                     res.send({ data: result[0], status: true });
+     
+                 } else {
+                     res.send({ status: false })
+                 }
+            });
+        }
+        else {
+           res.send({status: false,Message:'Database Name is missed'})
+        } 
+    } 
+    catch (e) {
+            console.log('getSideNavigation :', e)
+        }
+};

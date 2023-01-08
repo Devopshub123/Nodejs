@@ -2418,6 +2418,10 @@ app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName',function(req,res
     ems.getEmployeeProgramAlerts(req,res)
  });
 
+  /** get sidenavigation */
+  app.post('/attendance/api/getSideNavigation', function (req, res) {
+    attendance.getSideNavigation(req,res)
+    });
 
 //**--------------------------------------------------- */
 
