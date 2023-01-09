@@ -706,7 +706,7 @@ async function setemployeeleave(req, res) {
                 else{
                     res.send({status:true,isLeaveUpdated:id?1:0,data:result[0]})
                     if (emailData.emailData.rm_email != '' || emailData.emailData.rm_email != null) {
-                        leaveManagement.leaveRequestEmail(emailData);
+                       leaveRequestEmail(emailData);
                     }
                 }
             })
