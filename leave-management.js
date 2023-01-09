@@ -671,7 +671,8 @@ async function getNextLeaveDate(req,res){
     }
 }
 
-async function setemployeeleave(req,res){
+async function setemployeeleave(req, res) {
+    let emailData = req.body;
     try{
 
         let  dbName = await getDatebaseName(req.body.companyName)
@@ -689,13 +690,6 @@ async function setemployeeleave(req,res){
             let leavetype = req.body.leaveTypeId;
             let fromdate = req.body.fromDate;
             let todate = req.body.toDate;
-            // var fromDate = new Date(fromdate);
-            // var toDate = new Date(todate);
-            // var myDateString1,myDateString2;
-            // myDateString1 =  fromDate.getFullYear() + '-' +((fromDate.getMonth()+1) < 10 ? '0' + (fromDate.getMonth()+1) : (fromDate.getMonth()+1)) +'-'+ (fromDate.getDate() < 10 ? '0' + fromDate.getDate() : fromDate.getDate());
-            // myDateString2 =  toDate.getFullYear() + '-' +((toDate.getMonth()+1) < 10 ? '0' + (toDate.getMonth()+1) : (toDate.getMonth()+1)) +'-'+ (toDate.getDate() < 10 ? '0' + toDate.getDate() : toDate.getDate());
-            // let fdate = myDateString1;
-            // let tdate = myDateString2;
             let leavecount = req.body.leaveCount
             let leavereason = req.body.reason;
             let leavestatus = "Submitted";
@@ -711,8 +705,9 @@ async function setemployeeleave(req,res){
                 }
                 else{
                     res.send({status:true,isLeaveUpdated:id?1:0,data:result[0]})
-                    leaveRequestEmail(req.body)
-
+                    if (emailData.emailData.rm_email != '' || emailData.emailData.rm_email != null) {
+                        leaveManagement.leaveRequestEmail(emailData);
+                    }
                 }
             })
         }
@@ -1624,25 +1619,25 @@ async function getCarryforwardedLeaveMaxCount(req,res){
     }
 
 }
-
+/** new leave request */
 function leaveRequestEmail(mailData) {
-
+   
     try {
         let email = mailData.emailData.rm_email
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var url = 'http://122.175.62.210:6565/Login';
-        var html = `<html>
+      var transporter = nodemailer.createTransport({
+          host: "smtp-mail.outlook.com", // hostname
+          secureConnection: false, // TLS requires secureConnection to be false
+          port: 587, // port for secure SMTP
+          tls: {
+              ciphers: 'SSLv3'
+          },
+          auth: {
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
+          }
+      });
+     var url = 'http://122.175.62.210:9080/#/Login';
+      var html = `<html>
       <head>
       <title>Leave Request</title></head>
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
@@ -1651,60 +1646,82 @@ function leaveRequestEmail(mailData) {
       <p style="color:black">Hi ${mailData.emailData.rm_name},</p>
   
       <p style="color:black">A new leave request by  ${mailData.emailData.emp_name} is awaiting your approval.</p>
-      
-       <p style="color:black">Leave Type:${mailData.leavetypename}</p>
-      <p style="color:black">From Date:${mailData.fromDate}</p>
-       <p style="color:black">To Date:${mailData.toDate}</p>
-       <p style="color:black">Leave Count:${mailData.leaveCount}</p>
-       <p style="color:black">Reason:${mailData.reason}</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+       <tbody>
+       <tr>
+       <td width="30%"><b>Leave Type</b></td>
+       <td>${mailData.leavetypename}</td>
+        </tr>
+         <tr>
+         <td width="30%"><b>From Date</b></td>
+         <td>${mailData.fromDate}</td>
+          </tr>
+ 
+          <tr>
+          <td width="30%"><b>To Date</b></td>
+          <td>${mailData.toDate}</td>
+           </tr>
+ 
+           <tr>
+          <td width="30%"><b>Leave Count</b></td>
+          <td>${mailData.leaveCount}</td>
+           </tr>
+           <tr>
+           <td width="30%"><b>Reason</b></td>
+           <td>${mailData.reason}</td>
+            </tr>
+ 
+       </tbody>
+       </table>
        <p style="color:black">Best regards,</p>
        <p style="color:black">${mailData.emailData.emp_name}</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-       <p style="color:black">Click here to perform a Quick Action on this request: <a href="${url}" >${url} </a></p>  
+       <p style="color:black">Click here to perform a quick action on this request: <a href="${url}" >${url} </a></p>  
      
       </div></body>
       </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Leave request by'+' '+mailData.emailData.emp_name,
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-
-        });
-
-    }
-    catch (e) {
-        console.log('leaveRequestEmail :', e)
-
-    }
-
+  
+      var mailOptions = {
+          from: 'no-reply@spryple.com',
+          to: email,
+          subject: 'Leave Request by'+' '+mailData.emailData.emp_name,
+          html: html
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log("Failed To Sent  Mail",error)
+          } else {
+              console.log("Mail Sent Successfully")
+          }
+  
+      });
+  
+  }
+  catch (e) {
+      console.log('leaveRequestEmail :', e)
+  
+  }
+  
 }
-
+/** approved leave request mail to employee */
 function approveLeaveRequestEmail(mailData){
     try {
         let email = mailData.emaildata.emp_email
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
+       let approvereason = mailData.reason !=undefined ? mailData.reason:''
+      var transporter = nodemailer.createTransport({
+          host: "smtp-mail.outlook.com", // hostname
+          secureConnection: false, // TLS requires secureConnection to be false
+          port: 587, // port for secure SMTP
+          tls: {
+              ciphers: 'SSLv3'
+          },
+          auth: {
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
+          }
+      });
+      var html = `<html>
       <head>
       <title>Approved Leave Request</title></head>
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
@@ -1712,57 +1729,81 @@ function approveLeaveRequestEmail(mailData){
     
       <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
-      <p style="color:black">A leave request by ${mailData.emaildata.emp_name} has been Approved by ${mailData.emaildata.rm_name}</p>
+      <p style="color:black">A leave request by you has been Approved by ${mailData.emaildata.rm_name}</p>
       
-       <p style="color:black">Leave Type: ${mailData.leavedata.display_name}</p>
-           <p style="color:black">From Date: ${mailData.leavedata.fromdate}</p>
-       <p style="color:black">To Date: ${mailData.leavedata.todate}</p>
-       <p style="color:black">Leave Count: ${mailData.leavedata.leavecount}</p>
-       <p style="color:black">Reason: ${mailData.leavedata.leavereason}</p>
-       <p style="color:black">Approve Reason: ${mailData.reason}</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Leave Type</b></td>
+      <td>${mailData.leavedata.display_name}</td>
+       </tr>
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${mailData.leavedata.fromdate}</td>
+         </tr>
+      
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${mailData.leavedata.todate}</td>
+          </tr>
+      
+          <tr>
+         <td width="30%"><b>Leave Count</b></td>
+         <td>${mailData.leavedata.leavecount}</td>
+          </tr>
+          <tr>
+          <td width="30%"><b>Reason</b></td>
+          <td>${mailData.leavedata.leavereason}</td>
+           </tr>
+           <tr>
+           <td width="30%"><b>Approve Reason</b></td>
+           <td>${approvereason}</td>
+            </tr>
+      
+      </tbody>
+      </table>
        <p style="color:black">Best regards,</p>
-       <p style="color:black">${mailData.emaildata.rm_name}</p>
+       <p style="color:black">Spryple Mailer Team</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
       </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Leave request approved by'+' '+ mailData.emaildata.rm_name,
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('approveLeaveRequestEmail :', e)
-    }
-}
-
+  
+      var mailOptions = {
+          from: 'no-reply@spryple.com',
+          to: email,
+          subject: 'Leave Request Approved by'+' '+ mailData.emaildata.rm_name,
+          html: html
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log("Failed To Sent  Mail",error)
+          } else {
+              console.log("Mail Sent Successfully")
+          }
+      });
+  }
+  catch (e) {
+      console.log('approveLeaveRequestEmail :', e)
+  }
+  }
+  
 function rejectedLeaveRequestEmail(mailData) {
-    console.log("rec-data",mailData.emaildata)
-    try {
+     try {
         let email = mailData.emaildata.emp_email
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
+      var transporter = nodemailer.createTransport({
+          host: "smtp-mail.outlook.com", // hostname
+          secureConnection: false, // TLS requires secureConnection to be false
+          port: 587, // port for secure SMTP
+          tls: {
+              ciphers: 'SSLv3'
+          },
+          auth: {
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
+          }
+      });
+      var html = `<html>
       <head>
       <title>Rejected Leave Request</title></head>
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
@@ -1770,60 +1811,83 @@ function rejectedLeaveRequestEmail(mailData) {
     
       <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
-      <p style="color:black">A leave request by ${mailData.emaildata.emp_name} has been Rejected by ${mailData.emaildata.rm_name}</p>
+      <p style="color:black">A leave request by you has been Rejected by ${mailData.emaildata.rm_name}</p>
       
-      <p style="color:black">Leave Type: ${mailData.leavedata.display_name}</p>
-      <p style="color:black">From Date: ${mailData.leavedata.fromdate}</p>
-  <p style="color:black">To Date: ${mailData.leavedata.todate}</p>
-  <p style="color:black">Leave Count: ${mailData.leavedata.leavecount}</p>
-  <p style="color:black">Reason: ${mailData.leavedata.leavereason}</p>
-  <p style="color:black">Rejected Reason: ${mailData.reason}</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Leave Type</b></td>
+      <td>${mailData.leavedata.display_name}</td>
+       </tr>
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${mailData.leavedata.fromdate}</td>
+         </tr>
+      
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${mailData.leavedata.todate}</td>
+          </tr>
+      
+          <tr>
+         <td width="30%"><b>Leave Count</b></td>
+         <td>${mailData.leavedata.leavecount}</td>
+          </tr>
+          <tr>
+          <td width="30%"><b>Reason</b></td>
+          <td>${mailData.leavedata.leavereason}</td>
+           </tr>
+           <tr>
+           <td width="30%"><b>Rejected Reason</b></td>
+           <td>${mailData.reason}</td>
+            </tr>
+      
+      </tbody>
+      </table>
   <p style="color:black">Best regards,</p>
-  <p style="color:black">${mailData.emaildata.rm_name}</p>
+  <p style="color:black">${mailData.emaildata.rm_name}.</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
       </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Leave request rejected by'+' '+ mailData.emaildata.rm_name,
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('rejectedLeaveRequestEmail :', e)
-    }
+  
+      var mailOptions = {
+          from: 'no-reply@spryple.com',
+          to: email,
+          subject: 'Leave Request Rejected by'+' '+ mailData.emaildata.rm_name,
+          html: html
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log("Failed To Sent  Mail",error)
+          } else {
+              console.log("Mail Sent Successfully")
+          }
+      });
+  }
+  catch (e) {
+      console.log('rejectedLeaveRequestEmail :', e)
+  }
 }
-
-
 
 
 function compOffRequestEmail(mailData){
     try {
         let email = mailData.emaildata.rm_email
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var url = 'http://122.175.62.210:6565/Login';
-        var html = `<html>
+      var transporter = nodemailer.createTransport({
+          host: "smtp-mail.outlook.com", // hostname
+          secureConnection: false, // TLS requires secureConnection to be false
+          port: 587, // port for secure SMTP
+          tls: {
+              ciphers: 'SSLv3'
+          },
+          auth: {
+              user: 'no-reply@spryple.com',
+              pass: 'Sreeb@#321'
+          }
+      });
+     var url = 'http://122.175.62.210:9080/#/Login';
+      var html = `<html>
       <head>
       <title>Comp-off request</title></head>
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
@@ -1833,54 +1897,72 @@ function compOffRequestEmail(mailData){
   
       <p style="color:black">A new comp-off request by ${mailData.emaildata.emp_name} is awaiting your approval</p>
       
-       <p style="color:black">Worked Date:${mailData.workDate}</p>
-           <p style="color:black">Worked Hours:${mailData.workedHours}</p>
-       <p style="color:black">Minutes:${mailData.workedMinutes}</p>
-       <p style="color:black">Reason:${mailData.reason}</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Worked Date</b></td>
+      <td>${mailData.workDate}</td>
+       </tr>
+        <tr>
+        <td width="30%"><b>Worked Hours</b></td>
+        <td>${mailData.workedHours}</td>
+         </tr>
+      
+         <tr>
+         <td width="30%"><b>Minutes</b></td>
+         <td>${mailData.workedMinutes}</td>
+          </tr>
+      
+          <tr>
+         <td width="30%"><b>Reason</b></td>
+         <td>${mailData.reason}</td>
+          </tr>
+       </tbody>
+      </table>
        <p style="color:black">Best regards,</p>
        <p style="color:black">${mailData.emaildata.emp_name}</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-       <p style="color:black">Click here to perform a Quick Action on this request: <a href="${url}" >${url} </a></p>  
+       <p style="color:black">Click here to perform a quick action on this request: <a href="${url}" >${url} </a></p>  
      
       </div></body>
       </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Comp off request by' +' '+ mailData.emaildata.emp_name,
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('compOffRequestEmail :', e)
-    }
+  
+      var mailOptions = {
+          from: 'no-reply@spryple.com',
+          to: email,
+          subject: 'Comp off request by' +' '+ mailData.emaildata.emp_name,
+          html: html
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log("Failed To Sent  Mail",error)
+          } else {
+              console.log("Mail Sent Successfully")
+          }
+      });
+  }
+  catch (e) {
+      console.log('compOffRequestEmail :', e)
+  }
 }
-
+  
 function compOffApprovalRequestEmail(mailData){
     try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
+      let email = mailData
+      var transporter = nodemailer.createTransport({
+          host: "smtp-mail.outlook.com", // hostname
+          secureConnection: false, // TLS requires secureConnection to be false
+          port: 587, // port for secure SMTP
+          tls: {
+              ciphers: 'SSLv3'
+          },
+          auth: {
+              user: 'no-reply@spryple.com',
+              pass: 'Sreeb@#321'
+          }
+      });
+      var html = `<html>
       <head>
       <title>Comp-off request approve</title></head>
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
@@ -1889,54 +1971,70 @@ function compOffApprovalRequestEmail(mailData){
       <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
       <p style="color:black">A comp-off request by ${mailData.emaildata.emp_name} has been Approved by ${mailData.emaildata.rm_name}</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Worked Date</b></td>
+      <td>${mailData.comp_off_date}</td>
+       </tr>
+        <tr>
+        <td width="30%"><b>Worked Hours</b></td>
+        <td>${mailData.worked_hours}</td>
+         </tr>
       
-       <p style="color:black">Worked Date:${mailData.comp_off_date}</p>
-           <p style="color:black">Worked Hours:${mailData.worked_hours}</p>
-       <p style="color:black">Minutes:${mailData.worked_minutes}</p>
-       <p style="color:black">Reason:${mailData.reason}</p>
-       <p style="color:black">Best regards,</p>
+         <tr>
+         <td width="30%"><b>Minutes</b></td>
+         <td>${mailData.worked_minutes}</td>
+          </tr>
+      
+          <tr>
+         <td width="30%"><b>Reason</b></td>
+         <td>${mailData.reason}</td>
+          </tr>
+       </tbody>
+      </table> <p style="color:black">Best regards,</p>
        <p style="color:black">${mailData.emaildata.rm_name}</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
       </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Comp-Off request approved by'+' '+mailData.emaildata.rm_name,
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('compOffApprovalRequestEmail:', e)
-    }
-}
-
-
-function compOffRejectRequestEmail(mailData){
+  
+      var mailOptions = {
+          from: 'no-reply@spryple.com',
+          to: email,
+          subject: 'Comp-Off request approved by'+' '+mailData.emaildata.rm_name,
+          html: html
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log("Failed To Sent  Mail",error)
+          } else {
+              console.log("Mail Sent Successfully")
+          }
+      });
+  }
+  catch (e) {
+      console.log('compOffApprovalRequestEmail:', e)
+  }
+  }
+  
+  
+  function compOffRejectRequestEmail(mailData){
     try {
         let email = mailData.emaildata.emp_email
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
+      var transporter = nodemailer.createTransport({
+          host: "smtp-mail.outlook.com", // hostname
+          secureConnection: false, // TLS requires secureConnection to be false
+          port: 587, // port for secure SMTP
+          tls: {
+              ciphers: 'SSLv3'
+          },
+          auth: {
+              user: 'no-reply@spryple.com',
+              pass: 'Sreeb@#321'
+          }
+      });
+      var html = `<html>
       <head>
       <title>Comp-off reject</title></head>
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
@@ -1957,24 +2055,24 @@ function compOffRejectRequestEmail(mailData){
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
       </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Comp-Off request rejected by'+' '+ mailData.emaildata.rm_name,
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('compOffRejectRequestEmail:', e)
-    }
+  
+      var mailOptions = {
+          from: 'no-reply@spryple.com',
+          to: email,
+          subject: 'Comp-Off request rejected by'+' '+ mailData.emaildata.rm_name,
+          html: html
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log("Failed To Sent  Mail",error)
+          } else {
+              console.log("Mail Sent Successfully")
+          }
+      });
+  }
+  catch (e) {
+      console.log('compOffRejectRequestEmail:', e)
+  }
 }
 
 function cancelLeaveRequestEmail(mailData){

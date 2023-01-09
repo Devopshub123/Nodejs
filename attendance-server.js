@@ -354,6 +354,7 @@ async function getemployeeattendanceregularization(req, res) {
  `status` varchar(32)
  *  */
 async function setemployeeattendanceregularization(req, res) {
+    let emailData = req.body;
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -376,6 +377,7 @@ async function setemployeeattendanceregularization(req, res) {
                             res.send({ status: true, message: "duplicate" })
                         } else {
                             res.send({ status: true, message: "save" })
+                            attendanceRequestEmail(emailData);
                         }
                     }
                 });
@@ -619,13 +621,10 @@ async function setattendanceapprovalstatus(req, res) {
                     } else {
                         res.send({ status: true, message: "ApprovalRequest" });
                         if (req.body.emailData.emp_email !='' || req.body.emailData.emp_email !=null) {
-                            console.log("va-0")
                             if (req.body.approvelstatus == 'Approved') {
-                                console.log("va-1")
                                 approveAttendanceRequestEmail(emailData);
                             } else if (req.body.approvelstatus == 'Rejected') {
-                                console.log("va-2")
-                                this.rejectedAttendanceRequestEmail(emailData);
+                                rejectedAttendanceRequestEmail(emailData);
                             }
                         }
 
@@ -968,16 +967,296 @@ async function getrolescreenfunctionalitiesforrole(req, res) {
     }
 }
 
+async function getSideNavigation(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
 
+        var listOfConnections = {};
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `SidenaveOne` (?)", [req.body.empid], function (err, result, fields) {
+                console.log('resulrt',err,result)
+                if (result && result.length > 0) {
+                    for(let i=0;i<result[0].length;i++){
+                        if(!result[0][i].children){
+                            result[0][i].children =JSON.stringify(result[0][i].children)
+                        }                   
+                    }
+                     res.send({ data: result[0], status: true });
+     
+                 } else {
+                     res.send({ status: false })
+                 }
+            });
+        }
+        else {
+           res.send({status: false,Message:'Database Name is missed'})
+        } 
+    } 
+    catch (e) {
+            console.log('getSideNavigation :', e)
+        }
+};
 
+/**new  attendance request mail to manager */
+function attendanceRequestEmail(mailData) {
+    try {
+         let email = mailData.emails.rm_email
+         var transporter = nodemailer.createTransport({
+           host: "smtp-mail.outlook.com", // hostname
+           secureConnection: false, // TLS requires secureConnection to be false
+           port: 587, // port for secure SMTP
+           tls: {
+               ciphers: 'SSLv3'
+           },
+           auth: {
+             user: 'no-reply@spryple.com',
+             pass: 'Sreeb@#321'
+           }
+         });
+         var url = 'http://122.175.62.210:9080/#/Login';
+       var html = `<html>
+       <head>
+       <title>Attendance Request</title></head>
+       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+     
+       <p style="color:black">Hi ${mailData.emails.rm_name},</p>
+   
+       <p style="color:black">A new attendance request by ${mailData.emails.emp_name}, is awaiting your approval. </p>
+       
+       <table border="1" style='border-collapse:collapse;color:black'>
+       <tbody>
+       <tr>
+       <td width="30%"><b>Shift</b></td>
+       <td>${mailData.shiftname}</td>
+        </tr>
+ 
+        <tr>
+        <td width="30%"><b>Work Type</b></td>
+        <td>${mailData.worktypename}</td>
+         </tr>
+ 
+         <tr>
+         <td width="30%"><b>From Date</b></td>
+         <td>${mailData.fromdate}</td>
+          </tr>
+ 
+          <tr>
+          <td width="30%"><b>To Date</b></td>
+          <td>${mailData.todate}</td>
+           </tr>
+ 
+           <tr>
+          <td width="30%"><b>Reason</b></td>
+          <td>${mailData.reason}</td>
+           </tr>
+ 
+       </tbody>
+       </table>
+ 
+        <p style="color:black">Best regards,</p>
+        <p style="color:black">${mailData.emails.emp_name}</p>
+       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+       <p style="color:black">Click here to perform a quick action on this request: <a href="${url}" >${url} </a></p>  
+       </div></body>
+       </html> `;
+   
+       var mailOptions = {
+           from: 'no-reply@spryple.com',
+           to: email,
+           subject: 'Attendance Request',
+           html: html
+       };
+       transporter.sendMail(mailOptions, function (error, info) {
+           if (error) {
+               console.log("Failed To Sent  Mail",error)
+           } else {
+               console.log("Mail Sent Successfully")
+           }
+   
+       });
+   
+   }
+   catch (e) {
+       console.log('attendanceRequestEmail :', e)
+     }
+   
+   }
 
+/** approve attendance mail to employee */
+function approveAttendanceRequestEmail(mailData) {
+   
+    try {
+        let email = mailData.emailData.emp_email
+      var transporter = nodemailer.createTransport({
+          host: "smtp-mail.outlook.com", // hostname
+          secureConnection: false, // TLS requires secureConnection to be false
+          port: 587, // port for secure SMTP
+          tls: {
+              ciphers: 'SSLv3'
+          },
+          auth: {
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
+          }
+      });
+      var html = `<html>
+      <head>
+      <title>Approve Attendance Request</title></head>
+      <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+      <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+    
+      <p style="color:black">Hi ${mailData.emailData.emp_name},</p>
+  
+      <p style="color:black">An attendance request by you has been approved by ${mailData.emailData.rm_name} On ${mailData.empData.fromdate}</p>
+      
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Shift</b></td>
+      <td>${mailData.empData.shift}</td>
+       </tr>
 
+       <tr>
+       <td width="30%"><b>Work Type</b></td>
+       <td>${mailData.empData.worktype}</td>
+        </tr>
 
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${mailData.empData.fromdate}</td>
+         </tr>
 
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${mailData.empData.todate}</td>
+          </tr>
 
+          <tr>
+         <td width="30%"><b>Reason</b></td>
+         <td>${mailData.approvercomments}</td>
+          </tr>
 
+      </tbody>
+      </table>
+  <p style="color:black">Best regards,</p>
+  
+      <p style="color:black"><b>Spryple Mailer Team</b></p>
+      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+      </div></body>
+      </html> `;
+  
+      var mailOptions = {
+          from: 'no-reply@spryple.com',
+          to: email,
+          subject: 'Attendance Request Approved by'+' '+mailData.emailData.rm_name,
+          html: html
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log("Failed To Sent  Mail",error)
+          } else {
+              console.log("Mail Sent Successfully")
+          }
+  
+      });
+  
+  }
+  catch (e) {
+      console.log('approveAttendanceRequestEmail :', e)
+  
+  }
+  
+  }
+  
+  function rejectedAttendanceRequestEmail(mailData){
+    try {
+        let email = mailData.emailData.emp_email
+      var transporter = nodemailer.createTransport({
+          host: "smtp-mail.outlook.com", // hostname
+          secureConnection: false, // TLS requires secureConnection to be false
+          port: 587, // port for secure SMTP
+          tls: {
+              ciphers: 'SSLv3'
+          },
+          auth: {
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
+          }
+      });
+      var html = `<html>
+      <head>
+      <title>Rejected Attendance Request</title></head>
+      <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+      <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+    
+      <p style="color:black">Hi ${mailData.emailData.emp_name},</p>
+  
+      <p style="color:black">An attendance request by you has been Rejected  by ${mailData.emailData.rm_name} On ${mailData.empData.fromdate}</p>
+      
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Shift</b></td>
+      <td>${mailData.empData.shift}</td>
+       </tr>
 
+       <tr>
+       <td width="30%"><b>Work Type</b></td>
+       <td>${mailData.empData.worktype}</td>
+        </tr>
 
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${mailData.empData.fromdate}</td>
+         </tr>
+
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${mailData.empData.todate}</td>
+          </tr>
+
+          <tr>
+         <td width="30%"><b>Reason</b></td>
+         <td>${mailData.approvercomments}</td>
+          </tr>
+
+      </tbody>
+      </table>
+
+      <p style="color:black">${mailData.emailData.rm_name}</p>
+      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+      </div></body>
+      </html> `;
+  
+      var mailOptions = {
+          from: 'no-reply@spryple.com',
+          to: email,
+          subject: 'Attendance Request Rejected  by '+''+ mailData.emailData.rm_name,
+          html: html
+      };
+      transporter.sendMail(mailOptions, function (error, info) {
+          if (error) {
+              console.log("Failed To Sent  Mail",error)
+          } else {
+              console.log("Mail Sent Successfully")
+          }
+  
+      });
+  
+  }
+  catch (e) {
+      console.log('rejectedAttendanceRequestEmail :', e)
+  
+  }
+  
+}
+  
 function editedAttendanceRequestEmail(mailData){
     try {
         let email = mailData
@@ -1087,9 +1366,7 @@ function deleteAttendanceRequestEmail(mailData){
             } else {
                 console.log("Mail Sent Successfully")
             }
-
         });
-
     }
     catch (e) {
         console.log('deleteAttendanceRequestEmail :', e)
@@ -1097,38 +1374,3 @@ function deleteAttendanceRequestEmail(mailData){
     }
 
 }
-
-async function getSideNavigation(req, res) {
-    try {
-        let  dbName = await getDatebaseName(req.body.companyName)
-        let companyName = req.body.companyName;
-
-        var listOfConnections = {};
-       if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-            }
-            listOfConnections[companyName].query("CALL `SidenaveOne` (?)", [req.body.empid], function (err, result, fields) {
-                console.log('resulrt',err,result)
-                if (result && result.length > 0) {
-                    for(let i=0;i<result[0].length;i++){
-                        if(!result[0][i].children){
-                            result[0][i].children =JSON.stringify(result[0][i].children)
-                        }                   
-                    }
-                     res.send({ data: result[0], status: true });
-     
-                 } else {
-                     res.send({ status: false })
-                 }
-            });
-        }
-        else {
-           res.send({status: false,Message:'Database Name is missed'})
-        } 
-    } 
-    catch (e) {
-            console.log('getSideNavigation :', e)
-        }
-};

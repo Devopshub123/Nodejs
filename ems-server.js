@@ -128,9 +128,6 @@ module.exports = {
     documentApprovalEmailToEmployee: documentApprovalEmailToEmployee,
     documentApprovalEmailToHR: documentApprovalEmailToHR,
     inductionProgramCancelEmailToEmployee: inductionProgramCancelEmailToEmployee,
-    editedAttendanceRequestEmail: editedAttendanceRequestEmail,
-    deleteAttendanceRequestEmail: deleteAttendanceRequestEmail,
-    attendanceRequestBeHalfOfEmployeeEmail: attendanceRequestBeHalfOfEmployeeEmail,
     cancelLeaveRequestEmail: cancelLeaveRequestEmail,
     approveCancelLeaveRequestEmail: approveCancelLeaveRequestEmail,
     rejectCancelLeaveRequestEmail: rejectCancelLeaveRequestEmail,
@@ -186,8 +183,8 @@ async function setNewHire(req,res) {
                     var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,companyName :companyName,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
 
 
-                //   var url = 'http://localhost:4200/pre-onboarding/'+token;
-                    var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
+                  var url = 'http://localhost:4200/pre-onboarding/'+token;
+                    // var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
                     
                     var html = `<html>
                     <head>
@@ -195,11 +192,11 @@ async function setNewHire(req,res) {
                     <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
                     <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
                     <p style="color:black">Hello,</p>
-                    <p style="color:black">Thank you for using Spryple HCM&nbsp; We’re really happy to have you!<b></b></p>
-                    <p style="color:black"> kindly complete your application here by following link</p>
+                    <p style="color:black">Thank you for using Spryple HCM. We’re really happy to have you!<b></b></p>
+                    <p style="color:black"> Kindly complete your application here by following link</p>
                     <p style="color:black"> <a href="${url}" >${url} </a></p>   
                     <p style="color:black"> Fill in all the information as per your supporting documents.</p>
-                    <p style="color:black">Thank You!</p>
+                    <p style="color:black">Best Regards,</p>
                     <p style="color:black">Human Resources Team.</p>
                     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                     </div></body>
@@ -207,7 +204,7 @@ async function setNewHire(req,res) {
                     var mailOptions = {
                         from: 'no-reply@spryple.com',
                         to: req.body.personal_email,
-                        subject: 'Acknowledgement form',
+                        subject: 'Acknowledgement Form',
                         html:html
                     };
                     transporter.sendMail(mailOptions, function(error, info){
@@ -1356,8 +1353,8 @@ function setProgramSchedulemail(mailData) {
         <p style="color:black">from <b>${mailData[2].schedule_starttime}</b> to <b>${mailData[2].schedule_endtime}</b></p>
         <p style="color:black">We are looking forward to working with you and seeing you achieve great things!<b></b></p>
         
-        <p style="color:black">Warm Regards,</p>
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">Best Regards,</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -1888,9 +1885,13 @@ async function getFilepathsMasterForEMS(req, res) {
 
 function setDocumentOrImageForEMS(req, res) {
     try {
+        let emailData;
         file = req.files.file;
         var localPath = JSON.parse(req.body.info);
         var folderName = localPath.filepath;
+        if (req.body.email != undefined) {
+            emailData = JSON.parse(req.body.email);
+          }
         try {
             if (!fs.existsSync(folderName)) {
                 fs.mkdirSync(folderName);
@@ -1907,6 +1908,11 @@ function setDocumentOrImageForEMS(req, res) {
                                     status: true,
                                     message: "Image Uploaded Succesfully",
                                 });
+                                if (req.body.data != "Approved") {
+                                    if (emailData.rm_email !='' || emailData.rm_name !=null) [
+                                      documentApprovalEmailToHR(emailData)
+                                  ]
+                                  }
                             }
                         });
                 } catch (err) {
@@ -2403,7 +2409,7 @@ function sendEmailToAdminAboutNewHire(mailData){
         
         <p style="color:black">I hope you are doing well! I just wanted to let you know to create Login Credentials for new Employee : <b>${data.emp_name}</b></p>
         
-        <p style="color:black">Thank you,,</p>
+        <p style="color:black">Thank you,</p>
         <p style="color:black">The Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
@@ -2464,13 +2470,13 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
         <p style="color:black">Following are your login credentials:</p>
-        <p style="color:black">Username:${maileData[0].userid}</p>
-        <p style="color:black">Password:${maileData[0].password}</p>
-        <p style="color:black">If you experience any issues logging on into your account, reach out to HR Team</p>
+        <p style="color:black"><b>Username:</b>${maileData[0].userid}</p>
+        <p style="color:black"><b>Password:</b>${maileData[0].password}</p>
+        <p style="color:black">If you experience any issues logging on into your account, reach out to HR Team.</p>
         
-        <p style="color:black">Best,</p>
+        <p style="color:black">Best Regards,</p>
 
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -2478,7 +2484,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
     var mailOptions = {
       from: "no-reply@spryple.com",
       to: email,
-      subject: "New login Credentiols",
+      subject: "New Login Credentials",
       html: html,
     };
     transporter.sendMail(mailOptions, function (error, info) {
@@ -2567,7 +2573,7 @@ try {
     var mailOptions = {
       from: "no-reply@spryple.com",
       to: email,
-      subject: "New employee onboarding checklist",
+      subject: "New Employee Onboarding Checklist",
       html: html,
     };
     transporter.sendMail(mailOptions, function (error, info) {
@@ -2720,122 +2726,6 @@ function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
   }
 }
 
-/** send email to employee about checklist final update */
-function sendEmailToEmployeeAboutChecklistFinalUpdate(mailData) {
-  try {
-    let email = mailData;
-    var transporter = nodemailer.createTransport({
-      host: "smtp-mail.outlook.com", // hostname
-      secureConnection: false, // TLS requires secureConnection to be false
-      port: 587, // port for secure SMTP
-      tls: {
-        ciphers: "SSLv3",
-      },
-      auth: {
-          user: 'no-reply@spryple.com',
-          pass: 'Sreeb@#321'
-      },
-    });
-    var html = `<html>
-        <head>
-        <title>Employee Onboarding Checklist</title></head>
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-      
-        <p style="color:black">Hi ${mailData[0].emp_name},</p>
-
-        <p style="color:black">Hope you're doing well.</p>
-        
-        <p style="color:black">I wanted to give you an update about the checklist, we completed it! </p>
-
-        <p style="color:black">If you have any questions, feel free to reach out anytime! <b></b></p>
-                   
-        <p style="color:black">Thanks, and have a great day! </p>
-
-        <p style="color:black">The Human Resources Team.</p>
-        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-        </div></body>
-        </html> `;
-
-    var mailOptions = {
-      from: "no-reply@spryple.com",
-      to: email,
-      subject: "Onboarding Checklist Final Update",
-      html: html,
-    };
-    transporter.sendMail(mailOptions, function (error, info) {
-        if (error) {
-            console.log("Failed To Sent  Mail",error)
-        } else {
-            console.log("Mail Sent Successfully")
-        }
-    });
-  } catch (e) {
-    console.log("sendEmailToEmployeeAboutChecklistFinalUpdate :", e);
-  }
-}
-
-/** send email to employee about checklist complete */
-function sendEmailToEmployeeAboutChecklistComplete(mailData) {
-  try {
-    let email = mailData;
-    var transporter = nodemailer.createTransport({
-      host: "smtp-mail.outlook.com", // hostname
-      secureConnection: false, // TLS requires secureConnection to be false
-      port: 587, // port for secure SMTP
-      tls: {
-        ciphers: "SSLv3",
-      },
-      auth: {
-          user: 'no-reply@spryple.com',
-          pass: 'Sreeb@#321'
-      },
-    });
-    var html = `<html>
-        <head>
-        <title>Employee Onboarding Checklist</title></head>
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-      
-        <p style="color:black">Hi ${mailData[0].emp_name},</p>
-
-        <p style="color:black">We're delighted to have you on board. I'll just quickly go through the onboarding checklist that we've completed for you. </p>
-        
-        <p style="color:black">-You are now set up with a user account and can start working on the tasks assigned to you. </p>
-
-        <p style="color:black">-The HR team has welcomed you and given you a rundown of all the benefits that come with your role. <b></b></p>
-                   
-        <p style="color:black">-You have been briefed on our company values and mission, as well as any company specific policies and procedures. </p>
-        <p style="color:black">-We've also sent you an email welcoming you to the team.</p>
-        <p style="color:black">Please let us know if there is anything else we should be doing for your onboarding process! We hope this helps, welcome aboard! </p>
-
-        <p style="color:black">The Human Resources Team.</p>
-        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-        </div></body>
-        </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Welcome to'+' '+'{company name}!',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-
-        });
-   
-    }
-    catch (e) {
-        console.log('sendEmailToEmployeeAboutChecklistComplete :', e)
-
-    }
-
-}
 /*To get active announcements*/
 async function getActiveAnnouncementsTopics(req,res){
 
@@ -2868,63 +2758,7 @@ try {
 
 }
 
-/** send email to employee about induction cancel */
-function sendEmailToEmployeeAboutInductionCancel(mailData){
-    try{
-       let email = mailData;
-       var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
-        secureConnection: false, // TLS requires secureConnection to be false
-        port: 587, // port for secure SMTP
-        tls: {
-            ciphers: 'SSLv3'
-        },
-        auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
-        }
-       });
-       var html = `<html>
-        <head>
-        <title>Induction program cancel</title></head>
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-      
-        <p style="color:black">Dear ${mailData[0].emp_name},</p>
 
-        <p style="color:black">I hope that you are doing well. </p>
-        
-        <p style="color:black">We regret to inform you that the planned date for our induction program has been cancelled and will be rescheduled soon. I hope that we can all look forward to the next induction program soon. </p>
-
-        <p style="color:black">Unfortunately, all confirmed participants will have to wait for the new date of the induction program. We apologize for any inconvenience caused. </p>
-                   
-        <p style="color:black">We hope to see you soon at our upcoming induction program! </p>
-         <p style="color:black">Sincerely</p>
-
-        <p style="color:black">The Human Resources Team.</p>
-        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-        </div></body>
-        </html> `;
-   
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Welcome to'+' '+'{company name}!',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-    });
-    }
-    catch (e) {
-        console.log('sendEmailToEmployeeAboutInductionCancel :', e)
-    }
-
-}
 /*To Get Announcements*/
 async function getAnnouncements(req, res) {
     try {
@@ -3011,58 +2845,7 @@ async function Messages(req,res) {
         console.log('Messages', e);
     }
 }
-        /** send email to Hr about document approval */
-function sendEmailToHrAboutDocumentApproval(mailData){
-    try{
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-                    <head>
-                    <title>Documents uploaded</title></head>
-                    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-                    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-                    
-                    <p style="color:black">Dear ${mailData[0].manager_name},</p>
-                    
-                    
-                    <p style="color:black">I would like to inform you that I have uploaded the documents for your approval. Please find documents. </p>
-                    
-                     <p style="color:black">Sincerely,</p>
-                    
-                    <p style="color:black">${mailData[0].emp_name}.</p>
-                    <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-                    </div></body>
-                    </html> `;
 
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Approving Documents ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch(e){
-        console.log('setAnnouncements :', e)
-    }
-}
 /*To Get Announcements*/
 async function getFilesForApproval(req, res) {
     try {
@@ -3091,6 +2874,7 @@ async function getFilesForApproval(req, res) {
 }
 async function documentApproval(req, res) {
     try {
+        let emailData = JSON.parse(req.body.email)
         let companyName = req.body.companyName;
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
@@ -3101,7 +2885,14 @@ async function documentApproval(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_files_master_status` (?,?)", [req.body.id, req.body.status], function (err, result, fields) {
                 if (result && result[0] && result[0][0] && result[0][0].successstate == 0) {
-                    res.send({status: true})
+                    res.send({ status: true })
+                    if (emailData.emp_email !='' || emailData.emp_email !=null) {
+                        if (req.body.status == 'Approved') {
+                          documentApprovalEmailToEmployee(emailData);
+                        } else {
+                         documentRejectEmailtoEmployee(emailData)
+                        }   
+                      }
 
                 } else {
                     res.send({status: false});
@@ -3158,60 +2949,7 @@ async function setEmployeeChecklists(req, res) {
 
 }
 
-/** send email to employee about document approval */
-function sendEmailToEmployeeAboutDocumentApproval(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-        <head>
-        <title>Documents approval</title></head>
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-      
-        <p style="color:black">Hi ${mailData[0].emp_name},</p>
 
-
-        <p style="color:black">Just wanted to let you know that the HR department has approved your uploaded document. Don’t hesitate to contact me if you have any questions. </p>
-        
-         <p style="color:black">Best,</p>
-
-        <p style="color:black">The Human Resources Team.</p>
-        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-        </div></body>
-        </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'HR Approved your uploaded document',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('sendEmailToEmployeeAboutDocumentApproval :', e)
-
-    }
-
-}
 async function getEmpOffboardTerminationChecklists(req,res) {
     try {
         let companyName =req.body.companyName;
@@ -3676,8 +3414,6 @@ console.log("db-",companyName)
         try {
 
             con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
-                console.log("db-err",err)
-                console.log("db-ress",results[0])
                 if (results && results[0] && results[0].length != 0) {
                     res(results[0][0].db_name);
 
@@ -3692,528 +3428,6 @@ console.log("db-",companyName)
         }
     });
 
-}
-
-function attendanceRequestEmail(mailData) {
-    try {
-        let email = mailData.emails.rm_email
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var url = 'http://122.175.62.210:6565/Login';
-        var html = `<html>
-      <head>
-      <title>Attendance Request</title></head>
-      <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-      <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-    
-      <p style="color:black">Hi ${mailData.emails.rm_name},</p>
-  
-      <p style="color:black">A new Attendance request by ${mailData.emails.emp_name}, is awaiting your approval. </p>
-      
-       <p style="color:black"><b>Shift:</b>${mailData.shiftname}</p>
-       <p style="color:black"><b>Work Type:</b>${mailData.worktypename}</p>
-       <p style="color:black"><b>From Date:</b>${mailData.fromdate}</p>
-       <p style="color:black"><b>To Date:</b>${mailData.fromdate}</p>
-       <p style="color:black"><b>Reason:</b>${mailData.reason}</p>
-       <p style="color:black">Best regards,</p>
-       <p style="color:black">${mailData.emails.emp_name}</p>
-      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-      <p style="color:black">Click here to perform a Quick Action on this request: <a href="${url}" >${url} </a></p>  
-      </div></body>
-      </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Attendance request',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-
-        });
-
-    }
-    catch (e) {
-        console.log('attendanceRequestEmail :', e)
-    }
-
-}
-
-function approveAttendanceRequestEmail(mailData) {
-
-    try {
-        let email = mailData.emailData.emp_email
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-      <head>
-      <title>Approve Attendance Request</title></head>
-      <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-      <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-    
-      <p style="color:black">Hi ${mailData.emailData.emp_name},</p>
-  
-      <p style="color:black">An attendance request by ${mailData.emailData.emp_name} has been Approved by ${mailData.emailData.rm_name} On ${mailData.empData.fromdate}</p>
-      
-      <p style="color:black"><b>Shift: </b> ${mailData.empData.shift}</p>
-       <p style="color:black"><b>Work Type: </b> ${mailData.empData.worktype}</p>
-       <p style="color:black"><b>From Date: </b> ${mailData.empData.fromdate}</p>
-       <p style="color:black"><b>To Date: </b> ${mailData.empData.todate}</p>
-       <p style="color:black"><b>Reason: </b> ${mailData.approvercomments}</p>
-       <p style="color:black">Best regards,</p>
-  
-      <p style="color:black">${mailData.emailData.rm_name}</p>
-      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-      </div></body>
-      </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Attendance request approved by'+' '+mailData.emailData.rm_name,
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-
-        });
-
-    }
-    catch (e) {
-        console.log('approveAttendanceRequestEmail :', e)
-
-    }
-
-}
-
-function rejectedAttendanceRequestEmail(mailData){
-    try {
-        let email = mailData.emailData.emp_email
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-      <head>
-      <title>Rejected Attendance Request</title></head>
-      <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-      <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-    
-      <p style="color:black">Hi ${mailData.emailData.emp_name},</p>
-  
-      <p style="color:black">An attendance request by ${mailData.emailData.emp_name} has been Rejected  by ${mailData.emailData.rm_name} On ${mailData.empData.fromdate}</p>
-      
-      <p style="color:black"><b>Shift: </b> ${mailData.empData.shift}</p>
-      <p style="color:black"><b>Work Type: </b> ${mailData.empData.worktype}</p>
-      <p style="color:black"><b>From Date: </b> ${mailData.empData.fromdate}</p>
-      <p style="color:black"><b>To Date: </b> ${mailData.empData.todate}</p>
-      <p style="color:black"><b>Reason: </b> ${mailData.approvercomments}</p>
-  
-      <p style="color:black">${mailData.emailData.rm_name}</p>
-      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-      </div></body>
-      </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Attendance request rejected  by '+''+ mailData.emailData.rm_name,
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-
-        });
-
-    }
-    catch (e) {
-        console.log('rejectedAttendanceRequestEmail :', e)
-
-    }
-
-}
-
-function editedAttendanceRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>edited Attendance Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].rm_name},</p>
-    <p style="color:black">An attendance request edited by ${mailData[0].emp_name} is awaiting your approval</p>
-    
-     <p style="color:black">Shift:</p>
-     <p style="color:black">Work Type:</p>
-     <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Best regards,</p>
-    <p style="color:black">${mailData[0].emp_name}</p>
-    <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Edited Attendance request by {employee}',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-
-        });
-
-    }
-    catch (e) {
-        console.log('editedAttendanceRequestEmail :', e)
-
-    }
-
-}
-
-function deleteAttendanceRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Delete Attendance Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">An attendance request deleted by {employee}.</p>
-    
-     <p style="color:black">Shift:</p>
-     <p style="color:black">Work Type:</p>
-     <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Best regards,</p>
-    <p style="color:black">${mailData[0].emp_name}</p>
-    <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Deleted Attendance request by {employee}',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-
-        });
-
-    }
-    catch (e) {
-        console.log('deleteAttendanceRequestEmail :', e)
-
-    }
-
-}
-
-function attendanceRequestBeHalfOfEmployeeEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Attendance Request Be Half Of Employee</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].rm_name},</p>
-    <p style="color:black">A new Attendance request behalf of ${mailData[0].emp_name}.</p>
-    
-     <p style="color:black">Shift:</p>
-     <p style="color:black">Work Type:</p>
-     <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Attendance request behalf of {employee} ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-
-        });
-
-    }
-    catch (e) {
-        console.log('attendanceRequestBeHalfOfEmployeeEmail :', e)
-
-    }
-
-}
-
-function leaveRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Leave Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].rm_name},</p>
-    <p style="color:black">A new leave request by  ${mailData[0].emp_name} is awaiting your approval.</p>
-    
-     <p style="color:black">Leave Type:</p>
-    
-     <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Leave Count:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <p style="color:black">${mailData[0].emp_name}</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Leave request by {employee} ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-
-        });
-
-    }
-    catch (e) {
-        console.log('leaveRequestEmail :', e)
-
-    }
-
-}
-
-function approveLeaveRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Approved Leave Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A leave request by ${mailData[0].emp_name} has been Approved by ${mailData[0].rm_name} On.</p>
-    
-     <p style="color:black">Leave Type:</p>
-         <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Leave Count:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Approve Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <p style="color:black">${mailData[0].rm_name}</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Leave request approved by {manager} ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('approveLeaveRequestEmail :', e)
-    }
-}
-
-function rejectedLeaveRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Rejected Leave Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A leave request by ${mailData[0].emp_name} has been Rejected by ${mailData[0].rm_name} On.</p>
-    
-     <p style="color:black">Leave Type:</p>
-         <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Leave Count:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Rejected Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <p style="color:black">${mailData[0].rm_name}</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Leave request rejected by {manager} ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('rejectedLeaveRequestEmail :', e)
-    }
 }
 
 function cancelLeaveRequestEmail(mailData){
@@ -4728,7 +3942,7 @@ function checklistCompleteEmailToEmployee(mailData) {
       
         <p style="color:black">Hi ${mailData[0].emp_name},</p>
 
-        <p style="color:black">We're delighted to have you on board. I'll just quickly go through the onboarding checklist that we've completed for you. </p>
+        <p style="color:black">We're delighted to have you Onboard. I'll just quickly go through the onboarding checklist that we've completed for you. </p>
         
         <p style="color:black">-You are now set up with a user account and can start working on the tasks assigned to you. </p>
 
@@ -4737,8 +3951,8 @@ function checklistCompleteEmailToEmployee(mailData) {
         <p style="color:black">-You have been briefed on our company values and mission, as well as any company specific policies and procedures. </p>
         <p style="color:black">-We've also sent you an email welcoming you to the team.</p>
         <p style="color:black">Please let us know if there is anything else we should be doing for your onboarding process! We hope this helps, welcome aboard! </p>
-
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">Sincerely,</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5025,9 +4239,9 @@ function documentApprovalEmailToEmployee(mailData) {
   
       <p style="color:black">Just wanted to let you know that the HR department has approved your uploaded document. Don’t hesitate to contact me if you have any questions. </p>
       
-       <p style="color:black">Best,</p>
+       <p style="color:black">Best Regards,</p>
   
-      <p style="color:black">The Human Resources Team.</p>
+      <p style="color:black">Human Resources Team.</p>
       <p style="color:black">${mailData.companyname}.</p>
       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
@@ -5036,8 +4250,7 @@ function documentApprovalEmailToEmployee(mailData) {
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: toEmail,
-            // to: 'mchennagani@sreebtech.com',
-            subject: 'HR Approved your uploaded document',
+            subject: 'HR Approved Your Uploaded Document',
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -5059,7 +4272,7 @@ function documentApprovalEmailToEmployee(mailData) {
 function documentRejectEmailtoEmployee(mailData) {
     try{
         let toEmail = mailData.emp_email;
-        var transporter = nodemailer.createTransport({
+           var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
@@ -5070,46 +4283,45 @@ function documentRejectEmailtoEmployee(mailData) {
                 user: 'no-reply@spryple.com',
                 pass: 'Sreeb@#321'
             }
-        });
-        var html = `<html>
-          <head>
-          <title>Documents approval</title></head>
-          <body style="font-family:'Segoe UI',sans-serif; color:s #7A7A7A">
-          <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-        
-          <p style="color:black">Hi ${emailData.emp_name},</p>
-  
-          <p style="color:black">Please re-upload the documents that were rejected. We apologize for the inconvenience. </p>
+           });
+           var html = `<html>
+            <head>
+            <title>Documents approval</title></head>
+            <body style="font-family:'Segoe UI',sans-serif; color:s #7A7A7A">
+            <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
           
-           <p style="color:black">Thank you,</p>
-  
-          <p style="color:black">The Human Resources Team.</p>
-          <p style="color:black">${emailData.companyname}</p>
-          <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-          </div></body>
-          </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: toEmail,
-            // to: 'mchennagani@sreebtech.com',
-            subject: 'Re-upload document ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
+            <p style="color:black">Hi ${mailData.emp_name},</p>
+    
+            <p style="color:black">Please re-upload the documents that were rejected. We apologize for the inconvenience. </p>
+            
+             <p style="color:black">Thank you,</p>
+    
+            <p style="color:black">The Human Resources Team.</p>
+            <p style="color:black">${mailData.companyname}</p>
+            <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+            </div></body>
+            </html> `;
+       
+            var mailOptions = {
+                from: 'no-reply@spryple.com',
+                  to: toEmail,
+                subject: 'Re-upload Document ',
+                html: html
+            };
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log("Failed To Sent  Mail",error)
+                } else {
+                    console.log("Mail Sent Successfully")
+                }
+            });
+         }
+        catch (e) {
+            console.log('documentRejectEmailtoEmployee :', e)
+    
+        }
+    
     }
-    catch (e) {
-        console.log('documentRejectEmailtoEmployee :', e)
-
-    }
-
-}
 
 /** send email to Hr about document approval */
 function documentApprovalEmailToHR(mailData) {
@@ -5134,8 +4346,8 @@ function documentApprovalEmailToHR(mailData) {
                 <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
                 <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
                 <p style="color:black">Dear ${emailData.rm_name},</p>
-                 <p style="color:black">I would like to inform you that I have uploaded the documents for your approval. Please find document details in my profile. </p>
-                 <p style="color:black">Sincerely</p>
+                 <p style="color:black">I would like to inform you that I have uploaded the documents for your approval. Please find document.</p>
+                 <p style="color:black">Sincerely,</p>
                 <p style="color:black">${emailData.emp_name}.</p>
                 <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                 </div></body>
@@ -5144,8 +4356,7 @@ function documentApprovalEmailToHR(mailData) {
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: toEmail,
-            // to: 'mchennagani@sreebtech.com',
-            subject: 'Approving Documents ',
+            subject: 'Documents Uploaded by'+' '+emailData.emp_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -5375,13 +4586,10 @@ async function getEmployeesListByDeptId(req,res) {
 }
 /** set induction conducted by employees*/
 async function setInductionConductedby(req, res) {
-    console.log("data--",req.body)
     try {
         let companyName = req.body.companyName;
-        console.log("s-1",companyName)
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
-        console.log("s-2",dbName)
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
@@ -5390,8 +4598,6 @@ async function setInductionConductedby(req, res) {
             listOfConnections[companyName].query("CALL `set_ems_induction_conductedby` (?)",
                 [JSON.stringify(req.body)],
                 function (err, result, fields) {
-                    console.log("err--",err)
-                    console.log("ress--",result[0][0])
                     if (result && result[0][0].statuscode == 0) {
                         res.send({ status: true });
                     } else {

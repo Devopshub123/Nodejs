@@ -382,27 +382,27 @@ async function forgetpassword(req, res, next) {
                 });
                 var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:req.params.email,date:new Date()}))).toString('base64')
 
-                // var url = 'http://localhost:4200/ResetPassword/'+token
                 var url = 'http://localhost:4200/ResetPassword/'+token
+                // var url = 'http://122.175.62.210:9080/#/ResetPassword/' + token
                 var html = `<html>
                     <head>
                     <title>HRMS ResetPassword</title></head>
                     <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
                     <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-                    <p style="color:black">hello!,</p>
+                    <p style="color:black">Hello!,</p>
                     <p style="color:black">You recently requested to reset the password to your HRMS account<b></b></p>
                     <p style="color:black"> To set a new password, click here.</p>
                     <p style="color:black"> <a href="${url}" >${url}</a></p>
                     <p style="color:black"> Didn’t request a password change? Ignore this email.</p>
                     <p style="color:black">Thank You!</p>
-                    <p style="color:black">HRMS Team</p>
+                    <p style="color:black">Human Resources Team.</p>
                     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                     </div></body>
                     </html> `;
                 var mailOptions = {
                     from: 'smattupalli@sreebtech.com',
                     to: email,
-                    subject: 'Reset Password email',
+                    subject: 'Reset Password',
                     html: html
                 };
                 transporter.sendMail(mailOptions, function (error, info) {

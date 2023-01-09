@@ -1746,7 +1746,7 @@ app.post('/api/setHolidays',function(req,res) {
 /**
  * Get Holidays filter
  * */
-app.get('/api/getHolidysFilter/:year/:locationId/:page/:size/:companyName',function(req,res) {
+app.get('/api/getHolidaysFilter/:year/:locationId/:page/:size/:companyName', function (req, res) {
     admin.getHolidysFilter(req,res)
 });
 
