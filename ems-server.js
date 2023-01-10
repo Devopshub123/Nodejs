@@ -183,7 +183,7 @@ async function setNewHire(req,res) {
                     var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,companyName :companyName,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
 
 
-                  var url = 'http://localhost:4200/pre-onboarding/'+token;
+                  var url = 'http://localhost:4200/#/pre-onboarding/'+token;
                     // var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
                     
                     var html = `<html>
@@ -912,7 +912,6 @@ async function setPreonboardCandidateInformation(req, res) {
 }
     /** get candidates list */
     async function getCandidateDetails(req, res) {
-
         try {
 
             let companyName =req.params.companyName;
@@ -923,8 +922,9 @@ async function setPreonboardCandidateInformation(req, res) {
                 if(!listOfConnections.succes) {
                     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
                 }
+ 
                 listOfConnections[companyName].query("CALL `get_candidate_details` (?)", [req.params.emp_Id], function (err, result, fields) {
-                    if (result && result.length > 0) {
+                  if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
                     } else {
                         res.send({ status: false })
@@ -1945,8 +1945,6 @@ async function setFilesMasterForEMS(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_files_master` (?,?,?,?,?,?,?,?,?,?)",
                 [req.body.id,req.body.employeeId,req.body.candidateId,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId,req.body.status], function (err, result, fields) {
-                    console.log("error--",err)
-                    console.log("res--",result)
                     if (result && result.length>0) {
                         res.send({status: true,data:result[0]})
                     } else {

@@ -1219,7 +1219,8 @@ async function getLeavesForApprovals(req,res) {
 
 
 
-async function leaveSattus(req,res){
+async function leaveSattus(req, res) {
+    let emailData = req.body;
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;

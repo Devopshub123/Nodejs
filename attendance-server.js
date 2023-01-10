@@ -979,7 +979,8 @@ async function getSideNavigation(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `SidenaveOne` (?)", [req.body.empid], function (err, result, fields) {
-                console.log('resulrt',err,result)
+                console.log('err',err)
+                console.log('resulrt',result)
                 if (result && result.length > 0) {
                     for(let i=0;i<result[0].length;i++){
                         if(!result[0][i].children){

@@ -140,7 +140,8 @@ async function login(req,res){
  * @param res
  * @returns {Promise<void>}
  */
-async function getMastertable(req,res){
+async function getMastertable(req, res) {
+    console.log("rdata--",req.params)
     try {
         let  dbName = await getDatebaseName(req.params.companyName);
 
@@ -154,7 +155,8 @@ async function getMastertable(req,res){
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-
+console.log("nda--",err)
+console.log("nda-ress-",result[0])
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
                         for (let i=0; i<result[0].length;i++){
