@@ -510,7 +510,7 @@ async function setHolidays(req,res) {
 }
 
 /*Get Holidays filter */
-async function getHolidysFilter(req,res) {
+async function getHolidysFilter(req, res) {
     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
@@ -523,7 +523,7 @@ async function getHolidysFilter(req,res) {
             }
             listOfConnections[companyName].query("CALL `getholidaysbyfilter` (?,?,?,?)", [req.params.year ==='null'?null:req.params.year,req.params.locationId ==='null'?null:req.params.locationId,req.params.page,req.params.size],function (err, result, fields) {
                 if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+               res.send({ data: result[0], status: true });
                 } else {
                     res.send({status: false})
                 }
