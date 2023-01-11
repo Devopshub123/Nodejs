@@ -2602,6 +2602,23 @@ app.get('/api/getMonthlyPayrollDataForGraph/:month/:year/:companyName',function(
 app.get('/api/getComponentConfiguredValuesForPayGroup/:pgmid/:flat/:companyName',function(req,res){
     payroll.getComponentConfiguredValuesForPayGroup(req,res);
 });
+
+/**getDocumentsFiles */
+app.post('/ems/api/getDocumentsFiles/',function(req,res){
+    ems.getDocumentsFiles(req, res)
+})
+
+
+
+
+
+
+
+
+
+
+
+///** */
 app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
