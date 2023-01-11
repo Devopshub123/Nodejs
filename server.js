@@ -2435,11 +2435,11 @@ app.get('/api/employerprofessionaltax/:companyName', function (req, res) {
     payroll.employerprofessionaltax(req,res);
 });
 /**getesidetails */
-app.post('/api/getesidetails/:companyName', function (req, res) {
+app.get('/api/getesidetails/:companyName', function (req, res) {
     payroll.getesidetails(req,res);
 });
 /**getpayrollsections */
-app.post('/api/getpayrollsections', function (req, res) {
+app.post('/api/getpayrollsections/:companyName', function (req, res) {
     payroll.getpayrollsections(req,res);
 });
 /**getearningsalarycomponent */
@@ -2480,7 +2480,7 @@ app.get('/api/getCtcDetails/:eid/:ctcid/:companyName',function(req,res){
 
 });
 /**getEmployeeInvestments */
-app.get('/api/getEmployeeInvestments/:empid',function(req,res){
+app.get('/api/getEmployeeInvestments/:empid/:companyName',function(req,res){
     payroll.getEmployeeInvestments(req,res);
 });
 /**deleteEmployeeInvestments */
@@ -2551,7 +2551,7 @@ app.get('/api/MonthYear/:fyear/:companyName',function(req,res){
     payroll.MonthYear(req,res);
 });
 /**getEpfDetails */
-app.get('/payroll/api/getEpfDetails/:companyName',function(req,res){
+app.get('/api/getEpfDetails/:companyName',function(req,res){
     payroll.getEpfDetails(req,res);
 });
 /**getEmployeeListForSalaryProcessing */
