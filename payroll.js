@@ -66,7 +66,27 @@ module.exports = {
     getMonthlyPayrollDataForGraph:getMonthlyPayrollDataForGraph,
     getComponentConfiguredValuesForPayGroup:getComponentConfiguredValuesForPayGroup,
 };
+function getDatebaseName(companyName){
 
+    return new Promise((res,rej)=>{
+        try {
+
+            con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
+                if (results && results[0] && results[0].length != 0) {
+                    res(results[0][0].db_name);
+
+                } else {
+                    res(null)
+
+                }
+            })
+        }
+        catch (e) {
+            rej(e)
+        }
+    });
+
+}
 /**Employee professional tax */
 async function employeeprofessionaltax(req,res){
     try {
@@ -336,7 +356,7 @@ async function getsalarycomponentsforpaygroup(req,res){
 async function setincomegroup(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -673,7 +693,7 @@ async function deleteEmployeeInvestments(req,res){
 async function setEmployeeInvestments(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -768,7 +788,7 @@ async function getComponentEditableConfigurations(req,res){
 async function configurePayGroupComponent(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -861,7 +881,7 @@ async function getPayGroupComponentValues(req,res){
 async function editPayGroupComponent(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -1042,7 +1062,7 @@ async function getEmployeeEpfContributionOptions(req,res){
 async function setCompanyEpfValues(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){

@@ -2427,15 +2427,15 @@ app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName',function(req,res
 
 /**Payroll */
 /**employeeprofessionaltax */
-app.post('/api/employeeprofessionaltax', function (req, res) {
+app.get('/api/employeeprofessionaltax/:companyName', function (req, res) {
     payroll.employeeprofessionaltax(req,res);
 });
 /**employerprofessionaltax */
-app.post('/api/employerprofessionaltax', function (req, res) {
+app.get('/api/employerprofessionaltax/:companyName', function (req, res) {
     payroll.employerprofessionaltax(req,res);
 });
 /**getesidetails */
-app.post('/api/getesidetails', function (req, res) {
+app.post('/api/getesidetails/:companyName', function (req, res) {
     payroll.getesidetails(req,res);
 });
 /**getpayrollsections */
@@ -2451,7 +2451,7 @@ app.post('/api/getdeductionsalarycomponent/:id/:companyName', function (req, res
     payroll.getdeductionsalarycomponent(req,res);
 });
 /**getpayrollincomegroups*/
-app.post('/api/getpayrollincomegroups', function (req, res) {
+app.post('/api/getpayrollincomegroups/:companyName', function (req, res) {
     payroll.getpayrollincomegroups(req,res);
 });
 /**getsalarycomponentsforpaygroup */
