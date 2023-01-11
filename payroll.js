@@ -90,8 +90,8 @@ function getDatebaseName(companyName){
 /**Employee professional tax */
 async function employeeprofessionaltax(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -310,8 +310,8 @@ async function getpayrollincomegroups(req,res){
 
 async function getsalarycomponentsforpaygroup(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -355,7 +355,7 @@ async function getsalarycomponentsforpaygroup(req,res){
 
 async function setincomegroup(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
+        var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
@@ -465,8 +465,8 @@ async function setincomegroup(req,res){
 /*setErrorMessages */
 async function setErrorMessages(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -787,7 +787,7 @@ async function getComponentEditableConfigurations(req,res){
 
 async function configurePayGroupComponent(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
+        var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
@@ -880,7 +880,7 @@ async function getPayGroupComponentValues(req,res){
 /**edit_pay_group_component */
 async function editPayGroupComponent(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
+        var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
@@ -1061,7 +1061,7 @@ async function getEmployeeEpfContributionOptions(req,res){
 
 async function setCompanyEpfValues(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
+        var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
         var listOfConnections = {};
@@ -1221,8 +1221,8 @@ async function getCompanyPaySchedule(req,res){
 /**set_company_pay_schedule*/
 async function setCompanyPaySchedule(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -1267,8 +1267,8 @@ async function setCompanyPaySchedule(req,res){
 /**update_monthly_salary */
 async function updateMonthlySalary(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -1488,8 +1488,8 @@ async function getEmployeeListForSalaryProcessing(req,res){
 
 async function getEmployeesForAssignPaygroup(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
@@ -1874,8 +1874,9 @@ async function getMonthlyPayrollData(req,res){
 // get_monthly_payroll_data_for_graph
 async function getMonthlyPayrollDataForGraph(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        console.log("req.params",req.params)
+        var  dbName = await getDatebaseName("spryple")
+        let companyName = 'spryple';
 
         var listOfConnections = {};
         if(dbName){
