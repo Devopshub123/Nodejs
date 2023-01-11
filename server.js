@@ -1335,7 +1335,7 @@ app.get('/ems/api/getInductionProgramAssignedEmployee/:sid/:companyName', functi
 // app.use("/admin", admin);
 // app.use("/attendance", attendance);
 // app.use("/ems",ems);
-app.use("/payroll",payroll);
+// app.use("/payroll",payroll);
 
 
 
@@ -2425,6 +2425,183 @@ app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName',function(req,res
 
 //**--------------------------------------------------- */
 
+/**Payroll */
+/**employeeprofessionaltax */
+app.post('/api/employeeprofessionaltax', function (req, res) {
+    payroll.employeeprofessionaltax(req,res);
+});
+/**employerprofessionaltax */
+app.post('/api/employerprofessionaltax', function (req, res) {
+    payroll.employerprofessionaltax(req,res);
+});
+/**getesidetails */
+app.post('/api/getesidetails', function (req, res) {
+    payroll.getesidetails(req,res);
+});
+/**getpayrollsections */
+app.post('/api/getpayrollsections', function (req, res) {
+    payroll.getpayrollsections(req,res);
+});
+/**getearningsalarycomponent */
+app.post('/api/getearningsalarycomponent/:id/:companyName', function (req, res) {
+    payroll.getearningsalarycomponent(req,res);
+});
+/**getdeductionsalarycomponent */
+app.post('/api/getdeductionsalarycomponent/:id/:companyName', function (req, res) {
+    payroll.getdeductionsalarycomponent(req,res);
+});
+/**getpayrollincomegroups*/
+app.post('/api/getpayrollincomegroups', function (req, res) {
+    payroll.getpayrollincomegroups(req,res);
+});
+/**getsalarycomponentsforpaygroup */
+app.post('/api/getsalarycomponentsforpaygroup', function (req, res) {
+    payroll.getsalarycomponentsforpaygroup(req,res);
+});
+/**setincomegroup */
+app.post('/api/setincomegroup', function (req, res) {
+    payroll.setincomegroup(req,res);
+});
+/**getErrorMessages */
+app.get('/api/getErrorMessages/:errorCode/:page/:size/:companyName', function (req, res) {
+    payroll.getErrorMessages(req,res);
+});
+/**setErrorMessages */
+app.post('/api/setErrorMessages', function (req, res) {
+    payroll.setErrorMessages(req,res);
+});
+/**getEmployeeDurationsForSalaryDisplay */
+app.get('/api/getEmployeeDurationsForSalaryDisplay/:id/:companyName',function(req,res){
+    payroll.getEmployeeDurationsForSalaryDisplay(req,res);
+});
+/** getCtcDetails*/
+app.get('/api/getCtcDetails/:eid/:ctcid/:companyName',function(req,res){
+    payroll.getCtcDetails(req,res);
+
+});
+/**getEmployeeInvestments */
+app.get('/api/getEmployeeInvestments/:empid',function(req,res){
+    payroll.getEmployeeInvestments(req,res);
+});
+/**deleteEmployeeInvestments */
+app.post('/api/deleteEmployeeInvestments/',function(req,res){
+    payroll.deleteEmployeeInvestments(req,res);
+});
+/**setEmployeeInvestments */
+app.post('/api/setEmployeeInvestments',function(req,res){
+    payroll.setEmployeeInvestments(req,res);
+
+});
+/**getComponentEditableConfigurations */
+app.get('/api/getComponentEditableConfigurations/:empid/:companyName',function(req,res){
+    payroll.getComponentEditableConfigurations(req,res);
+});
+/**configurePayGroupComponent */
+app.post('/api/configurePayGroupComponent',function(req,res){
+    payroll.configurePayGroupComponent(req,res);
+});
+/**getPayGroupComponentValues*/
+app.get('/api/getPayGroupComponentValues/:id/:companyName',function(req,res){
+    payroll.getPayGroupComponentValues(req,res);
+});
+/** editPayGroupComponent*/
+app.post('/api/editPayGroupComponent',function(req,res){
+    payroll.editPayGroupComponent(req,res);
+
+});
+/**getEmployeesListForInvestmentsApproval*/
+app.get('/api/getEmployeesListForInvestmentsApproval/:companyName',function(req,res){
+    payroll.getEmployeesListForInvestmentsApproval(req,res);
+});
+/**getEmployerEpfContributionOptions */
+app.get('/api/getEmployerEpfContributionOptions/:companyName',function(req,res){
+    payroll.getEmployerEpfContributionOptions(req,res);
+});
+/**getEmployeeEpfContributionOptions */
+app.get('/api/getEmployeeEpfContributionOptions/:companyName',function(req,res){
+    payroll.getEmployeeEpfContributionOptions(req,res);
+
+});
+/**setCompanyEpfValues */
+app.post('/api/setCompanyEpfValues',function(req,res){
+    payroll.setCompanyEpfValues(req,res);
+});
+/**getStatutoryMaxPfWageForEmployerContribution */
+app.get('/api/getStatutoryMaxPfWageForEmployerContribution/:companyName',function(req,res){
+    payroll.getStatutoryMaxPfWageForEmployerContribution(req,res);
+});
+/**getCompanyPaySchedule */
+app.get('/api/getCompanyPaySchedule/:companyName',function(req,res){
+    payroll.getCompanyPaySchedule(req,res);
+});
+/**setCompanyPaySchedule */
+app.post('/api/setCompanyPaySchedule',function(req,res){
+    payroll.setCompanyPaySchedule(req,res);
+});
+/**updateMonthlySalary */
+app.post('/api/updateMonthlySalary',function(req,res){
+    payroll.updateMonthlySalary(req,res);
+});
+/**getFinancialYears */
+app.get('/api/getFinancialYears/:companyName',function(req,res){
+    payroll.getFinancialYears(req,res);
+});
+/**MonthYear */
+app.get('/api/MonthYear/:fyear/:companyName',function(req,res){
+    payroll.MonthYear(req,res);
+});
+/**getEpfDetails */
+app.get('/payroll/api/getEpfDetails/:companyName',function(req,res){
+    payroll.getEpfDetails(req,res);
+});
+/**getEmployeeListForSalaryProcessing */
+app.get('/api/getEmployeeListForSalaryProcessing/:year/:month/:companyName',function(req,res){
+    payroll.getEmployeeListForSalaryProcessing(req,res);
+});
+/**getEmployeesForAssignPaygroup */
+app.get('/api/getEmployeesForAssignPaygroup/:companyName',function(req,res){
+    payroll.getEmployeesForAssignPaygroup(req,res);
+});
+/**getPayGroupsForCtc */
+app.get('/api/getPayGroupsForCtc/:amount/:companyName',function(req,res){
+    payroll.getPayGroupsForCtc(req,res);
+});
+/**getActiveComponentsValuesForPayGroup */
+app.get('/api/getActiveComponentsValuesForPayGroup/:id/:companyName',function(req,res){
+    payroll.getActiveComponentsValuesForPayGroup(req,res);
+});
+/**assignPayGroup */
+app.post('/api/assignPayGroup',function(req,res){
+    payroll.assignPayGroup(req,res);
+});
+/**getComponentWiseValuesForPayGroupAssignment */
+app.get('/api/getComponentWiseValuesForPayGroupAssignment/:ctc/:pgid/:companyName',function(req,res){
+    payroll.getComponentWiseValuesForPayGroupAssignment(req,res);
+});
+/**getEmployeePaySlips */
+app.get('/api/getEmployeePaySlips/:fyear/:empid/:companyName',function(req,res){
+    payroll.getEmployeePaySlips(req,res);
+});
+/** getEmployeePayslipDetails*/
+app.get('/api/getEmployeePayslipDetails/:id/:empid/:companyName',function(req,res){
+    payroll.getEmployeePayslipDetails(req,res);
+});
+/**getEmployeeEpfDetails */
+app.get('/api/getEmployeeEpfDetails/:id/:companyName',function(req,res){
+    payroll.getEmployeeEpfDetails(req,res);
+});
+/**getMonthlyPayrollData */
+app.get('/api/getMonthlyPayrollData/:month/:year/:deptid/:companyName',function(req,res){
+    payroll.getMonthlyPayrollData(req,res);
+})
+/** getMonthlyPayrollDataForGraph*/
+app.get('/api/getMonthlyPayrollDataForGraph/:month/:year/:companyName',function(req,res){
+    payroll.getMonthlyPayrollDataForGraph(req,res);
+});
+/**getComponentConfiguredValuesForPayGroup */
+app.get('/api/getComponentConfiguredValuesForPayGroup/:pgmid/:flat/:companyName',function(req,res){
+    payroll.getComponentConfiguredValuesForPayGroup(req,res);
+});
 app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');

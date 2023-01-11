@@ -3,8 +3,8 @@ var listOfExistedConnections = [];
 // /*Switching database connection*/
 function switchDatabase() {
         return mysql.createConnection({
-          // host: "192.168.1.30",
-          host: "122.175.62.210",
+          host: "192.168.1.30",
+          // host: "122.175.62.210",
             user: "spryple_client_user",
             port: 3306,
             password: "Client&*123",
@@ -20,8 +20,8 @@ async function getNewDBConnection(companyName,dbName)
 
   return new Promise((res,rej)=>{
     var connectionParams = {
-      // host: "192.168.1.30",
-      host: "122.175.62.210",
+      host: "192.168.1.30",
+      // host: "122.175.62.210",
       user: "spryple_client_user",
       port: 3306,
       password: "Client&*123",
