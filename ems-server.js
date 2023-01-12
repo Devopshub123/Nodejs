@@ -1909,11 +1909,12 @@ function setDocumentOrImageForEMS(req, res) {
                                     status: true,
                                     message: "Image Uploaded Succesfully",
                                 });
-                                // if (req.body.data != "Approved") {
-                                //     if (emailData.rm_email !='' || emailData.rm_name !=null) [
-                                //       documentApprovalEmailToHR(emailData)
-                                //   ]
-                                //   }
+                                if (req.body.data != "Approved") {
+                                    console.log("rva-",emailData)
+                                    if (emailData.rm_email !='' || emailData.rm_name !=null) [
+                                      documentApprovalEmailToHR(emailData)
+                                  ]
+                                  }
                             }
                         });
                 } catch (err) {
@@ -1966,14 +1967,11 @@ async function setFilesMasterForEMS(req, res) {
 
 
 function getDocumentOrImagesForEMS(req, res) {
-  console.log("body--", req.body);
   try {
     folderName = req.body.filepath;
     var imageData = {};
     var flag = false;
     fs.readFile(folderName + req.body.filename, function (err, result) {
-      console.log("error=", err, "folder--", folderName);
-      console.log("result=", result);
       if (err) {
         flag = false;
       } else {
@@ -4324,7 +4322,7 @@ function documentRejectEmailtoEmployee(mailData) {
 
 /** send email to Hr about document approval */
 function documentApprovalEmailToHR(mailData) {
-    let emailData = JSON.parse(mailData[0]);
+    let emailData = mailData;
     try{
         let toEmail = mailData.rm_email;
         var transporter = nodemailer.createTransport({
