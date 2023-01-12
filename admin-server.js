@@ -735,7 +735,7 @@ async function getStates(req,res){
                     console.log(error)
                 }
                 else{
-                    res.send(result)
+                    res.send({data: result[0], status: true});
                 }
             });
         }  else {
@@ -764,7 +764,7 @@ async function getCities(req,res){
                     console.log(error)
                 }
                 else{
-                    res.send(result)
+                    res.send({data: result[0], status: true});
                 }
             });
         }  else {

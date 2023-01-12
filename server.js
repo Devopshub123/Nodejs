@@ -738,19 +738,19 @@ app.get('/api/getYearsForReport/:companyName', function(req,res) {
 /**
  * get States
  * */
-app.get('/api/getStatesPerCountry/:Id', function(req,res) {
+// app.get('/api/getStatesPerCountry/:Id', function(req,res) {
 
-    leaveManagement.getStates(req,res);
+//     leaveManagement.getStates(req,res);
 
-});
+// });
 /**
  * get States
  * */
-app.get('/api/getCitiesPerCountry/:Id', function(req,res) {
+// app.get('/api/getCitiesPerCountry/:Id', function(req,res) {
 
-    leaveManagement.getCities(req,res);
+//     leaveManagement.getCities(req,res);
 
-});
+// });
 /**
  * get States
  * */
