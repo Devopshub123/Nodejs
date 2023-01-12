@@ -96,15 +96,18 @@ async function login(req,res){
         // console.log("single",req.body)
             var listOfConnections = {};
         console.log("db name", dbName);
-        if (dbName) {
+        if (dbName && dbName!=null) {
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
+                console.log("authetic",results)
                 var result = results ? results[0] ? results[0][0]? Object.values(JSON.parse(JSON.stringify(results[0][0]))):null:null:null;
                 if (result && result[0] > 0) {
+                    console.log("result[0]",result[0])
                     listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0]], function (err, results, next) {
+                        console.log("getemployeeinformation",results)
                         try {
                             if (results && results.length > 0) {
                                 var result = JSON.parse(results[0][0].result)
@@ -125,7 +128,7 @@ async function login(req,res){
                 }
             });
         }else {
-            res.send({status: false, message: "Invalid userName or password"})
+            res.send({status: false, message: "dbnotthere"})
         }
      }
     catch (e){

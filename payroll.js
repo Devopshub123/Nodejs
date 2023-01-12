@@ -90,8 +90,8 @@ function getDatebaseName(companyName){
 /**Employee professional tax */
 async function employeeprofessionaltax(req,res){
     try {
-        var  dbName = await getDatebaseName(req.body.companyName)
-        let companyName = req.body.companyName;
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
 
         var listOfConnections = {};
         if(dbName){
