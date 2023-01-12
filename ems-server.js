@@ -147,7 +147,8 @@ module.exports = {
     getDepartmentsByProgramId: getDepartmentsByProgramId,
     updateInductionConductedbyStatus:updateInductionConductedbyStatus,
     getAttendanceCountsForDate:getAttendanceCountsForDate,
-    getEmployeeProgramAlerts:getEmployeeProgramAlerts
+    getEmployeeProgramAlerts:getEmployeeProgramAlerts,
+    getDocumentsFiles:getDocumentsFiles
 
 
     
@@ -4813,5 +4814,34 @@ async function getEmployeeProgramAlerts(req,res) {
 
     } catch (e) {
         console.log('getEmployeeProgramAlerts :', e)
+    }
+}
+
+/** */
+async function getDocumentsFiles(req,res) {
+    try{
+  var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_documents_files` (?,?,?,?,?,?)",
+                [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory?req.body.filecategory:null,req.body.requestId,req.body.status], function (err, result, fields) {
+                    if (result && result.length>0) {
+                        res.send({status: true,data:result[0]})
+                    } else {
+                        res.send({status: false})
+                    }
+                });
+        }
+        else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }
+    catch(e){
+        console.log('getDocumentsForEMS :', e)
     }
 }
