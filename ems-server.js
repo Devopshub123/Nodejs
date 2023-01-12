@@ -1909,11 +1909,11 @@ function setDocumentOrImageForEMS(req, res) {
                                     status: true,
                                     message: "Image Uploaded Succesfully",
                                 });
-                                if (req.body.data != "Approved") {
-                                    if (emailData.rm_email !='' || emailData.rm_name !=null) [
-                                      documentApprovalEmailToHR(emailData)
-                                  ]
-                                  }
+                                // if (req.body.data != "Approved") {
+                                //     if (emailData.rm_email !='' || emailData.rm_name !=null) [
+                                //       documentApprovalEmailToHR(emailData)
+                                //   ]
+                                //   }
                             }
                         });
                 } catch (err) {
