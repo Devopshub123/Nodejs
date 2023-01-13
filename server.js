@@ -1147,7 +1147,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
     })
 
 /**setDocumentOrImageForEMS */
-app.post('/ems/api/setDocumentOrImageForEMS/',function(req,res){
+app.post('/ems/api/setDocumentOrImageForEMS/:companyName',function(req,res){
     ems.setDocumentOrImageForEMS(req,res)
     })
 /**EMS getUserLoginData */
@@ -2471,7 +2471,7 @@ app.get('/payroll/api/getErrorMessages/:errorCode/:page/:size/:companyName', fun
     payroll.getErrorMessages(req,res);
 });
 /**setErrorMessages */
-app.post('/api/setErrorMessages', function (req, res) {
+app.post('/payroll/api/setErrorMessages/:companyName', function (req, res) {
     payroll.setErrorMessages(req,res);
 });
 /**getEmployeeDurationsForSalaryDisplay */
