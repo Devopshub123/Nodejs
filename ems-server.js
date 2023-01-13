@@ -1912,6 +1912,7 @@ function setDocumentOrImageForEMS(req, res) {
                     file.mv(
                         path.resolve(__dirname, folderName, localPath.filename),
                         function (error) {
+                            console.log("err=",error)
                             if (error) {
                                 console.log(error);
                                 res.send({status: false});

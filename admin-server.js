@@ -1777,3 +1777,33 @@ async function getrolescreenfunctionalities(req,res) {
         console.log('getscreenfunctionalitiesmaster :',e)
     }
 }
+
+/** set holidays */
+app.post('/api/setHolidaysMaster', function setHolidaysMaster(req, res) {
+    try {
+       con.query(
+          "CALL `set_holidays_master` (?,?,?,?,?,?)",
+           [
+             req.body.hid ,
+             req.body.holiday_year,
+             req.body.holiday_description,
+              req.body.holiday_date,
+              JSON.stringify(req.body.holiday_location),
+              req.body.createdby
+           ],
+           function (err, result, fields) {
+             if (result && result[0][0].successstate == 0) {
+             res.send({ status: true ,data:result[0][0].successstate});
+            } else if (result && result[0][0].successstate == 1) {
+                res.send({ status: true ,data:result[0][0].successstate}); 
+            }
+            else {
+                    res.send({ status: false })
+             }
+            });
+  
+      } catch (e) {
+          console.log('setHolidaysMaster :', e)
+  
+      }
+  })
