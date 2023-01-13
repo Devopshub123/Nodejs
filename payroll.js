@@ -1617,8 +1617,8 @@ async function getActiveComponentsValuesForPayGroup(req,res){
 /**assignPayGroup*/
 async function assignPayGroup(req,res){
     try {
-        var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
 
         var listOfConnections = {};
         if(dbName){
