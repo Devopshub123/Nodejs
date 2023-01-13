@@ -675,6 +675,7 @@ async function getNextLeaveDate(req,res){
 
 async function setemployeeleave(req, res) {
     let emailData = req.body;
+    console.log("data--",emailData)
     try{
 
         let  dbName = await getDatebaseName(req.body.companyName)
@@ -1624,7 +1625,8 @@ async function getCarryforwardedLeaveMaxCount(req,res){
 }
 /** new leave request */
 function leaveRequestEmail(mailData) {
-   
+    let fdate =new Date(mailData.fromDate).getDate()+'-'+(new Date(mailData.fromDate).getMonth()+1) +'-'+new Date(mailData.fromDate).getFullYear()
+    let tdate =new Date(mailData.toDate).getDate()+'-'+(new Date(mailData.toDate).getMonth()+1) +'-'+new Date(mailData.toDate).getFullYear()
     try {
         let email = mailData.emailData.rm_email
       var transporter = nodemailer.createTransport({
@@ -1657,12 +1659,12 @@ function leaveRequestEmail(mailData) {
         </tr>
          <tr>
          <td width="30%"><b>From Date</b></td>
-         <td>${mailData.fromDate}</td>
+         <td>${fdate}</td>
           </tr>
  
           <tr>
           <td width="30%"><b>To Date</b></td>
-          <td>${mailData.toDate}</td>
+          <td>${tdate}</td>
            </tr>
  
            <tr>
@@ -1708,10 +1710,13 @@ function leaveRequestEmail(mailData) {
   
 }
 /** approved leave request mail to employee */
-function approveLeaveRequestEmail(mailData){
+function approveLeaveRequestEmail(mailData) {
+    let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
+    let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
+   
     try {
         let email = mailData.emaildata.emp_email
-       let approvereason = mailData.reason !=undefined ? mailData.reason:''
+       let approvereason = mailData.reason !=undefined || null ? mailData.reason:''
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -1732,7 +1737,7 @@ function approveLeaveRequestEmail(mailData){
     
       <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
-      <p style="color:black">A leave request by you has been Approved by ${mailData.emaildata.rm_name}</p>
+      <p style="color:black">A leave request by you has been Approved by ${mailData.emaildata.rm_name}.</p>
       
       <table border="1" style='border-collapse:collapse;color:black'>
       <tbody>
@@ -1742,12 +1747,12 @@ function approveLeaveRequestEmail(mailData){
        </tr>
         <tr>
         <td width="30%"><b>From Date</b></td>
-        <td>${mailData.leavedata.fromdate}</td>
+        <td>${fdate}</td>
          </tr>
       
          <tr>
          <td width="30%"><b>To Date</b></td>
-         <td>${mailData.leavedata.todate}</td>
+         <td>${tdate}</td>
           </tr>
       
           <tr>
@@ -1792,6 +1797,9 @@ function approveLeaveRequestEmail(mailData){
   }
   
 function rejectedLeaveRequestEmail(mailData) {
+    let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
+    let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
+   
      try {
         let email = mailData.emaildata.emp_email
       var transporter = nodemailer.createTransport({
@@ -1824,12 +1832,12 @@ function rejectedLeaveRequestEmail(mailData) {
        </tr>
         <tr>
         <td width="30%"><b>From Date</b></td>
-        <td>${mailData.leavedata.fromdate}</td>
+        <td>${fdate}</td>
          </tr>
       
          <tr>
          <td width="30%"><b>To Date</b></td>
-         <td>${mailData.leavedata.todate}</td>
+         <td>${tdate}</td>
           </tr>
       
           <tr>
