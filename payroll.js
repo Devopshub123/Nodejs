@@ -404,6 +404,7 @@ async function setincomegroup(req,res){
 
 
     async function getErrorMessages(req,res){
+        console.log(req.params);
         try {
             var  dbName = await getDatebaseName(req.params.companyName)
             let companyName = req.params.companyName;
@@ -1488,8 +1489,8 @@ async function getEmployeeListForSalaryProcessing(req,res){
 
 async function getEmployeesForAssignPaygroup(req,res){
     try {
-        var  dbName = await getDatebaseName(req.body.companyName)
-        let companyName = req.body.companyName;
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
 
         var listOfConnections = {};
         if(dbName){

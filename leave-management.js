@@ -272,7 +272,7 @@ async function getLeaveBalance(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            let id = req.params.empid;
+            let id = Number(req.params.empid);
             listOfConnections[companyName].query("CALL `get_employee_leave_balance` (?)",[id], function (err, result, fields) {
                 if (result && result.length > 0) {
                     res.send({data: result, status: true});

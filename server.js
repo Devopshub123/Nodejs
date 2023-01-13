@@ -2463,7 +2463,7 @@ app.post('/api/setincomegroup', function (req, res) {
     payroll.setincomegroup(req,res);
 });
 /**getErrorMessages */
-app.get('/api/getErrorMessages/:errorCode/:page/:size/:companyName', function (req, res) {
+app.get('/payroll/api/getErrorMessages/:errorCode/:page/:size/:companyName', function (req, res) {
     payroll.getErrorMessages(req,res);
 });
 /**setErrorMessages */
