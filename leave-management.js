@@ -99,10 +99,11 @@ module.exports = {
 
 
 async function getApprovedLeaves(req,res){
+    console.log("req.params",req.params)
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
+       
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(2,companyName)
@@ -110,7 +111,8 @@ async function getApprovedLeaves(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_approved_leaves_above_currentdate` (?)",[req.params.id],function (err, result, fields) {
-            if (result && result.length > 0) {
+            console.log("result",result)
+                if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
                 res.send({status: false})
