@@ -1831,6 +1831,10 @@ app.get('/api/getCarryforwardedLeaveMaxCount/:leaveId/:companyName', function(re
     leaveManagement.getCarryforwardedLeaveMaxCount(req,res);
 
 });
+app.get('/api/getApprovedLeaves/:id/:companyName', function(req,res) {
+    leaveManagement.getApprovedLeaves(req,res);
+});
+
 
 /** Get all Work Location for company*/
 app.post('/api/getWorkLocation',function(req,res) {
