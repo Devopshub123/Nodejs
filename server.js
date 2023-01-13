@@ -2612,6 +2612,12 @@ app.post('/ems/api/getDocumentsFiles/',function(req,res){
     ems.getDocumentsFiles(req, res)
 })
 
+/*setHolidaysMaster */
+app.post('/api/setHolidaysMaster', function (req, res) {
+    console.log("jedf",req.body)
+    admin.setHolidaysMaster(req,res)
+});
+
 
 
 
