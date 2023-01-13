@@ -604,6 +604,7 @@ async function getAttendanceRegularizationByManagerId(req, res) {
  ) */
 async function setattendanceapprovalstatus(req, res) {
     try {
+        let emailData = req.body;
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
@@ -1003,6 +1004,9 @@ async function getSideNavigation(req, res) {
 
 /**new  attendance request mail to manager */
 function attendanceRequestEmail(mailData) {
+    let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
+    let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
+   
     try {
          let email = mailData.emails.rm_email
          var transporter = nodemailer.createTransport({
@@ -1042,12 +1046,12 @@ function attendanceRequestEmail(mailData) {
  
          <tr>
          <td width="30%"><b>From Date</b></td>
-         <td>${mailData.fromdate}</td>
+         <td>${fdate}</td>
           </tr>
  
           <tr>
           <td width="30%"><b>To Date</b></td>
-          <td>${mailData.todate}</td>
+          <td>${tdate}</td>
            </tr>
  
            <tr>
@@ -1089,9 +1093,11 @@ function attendanceRequestEmail(mailData) {
 
 /** approve attendance mail to employee */
 function approveAttendanceRequestEmail(mailData) {
-   
     try {
-        let email = mailData.emailData.emp_email
+        let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
+        let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
+        let approvereason = mailData.approvercomments !=undefined || null ? mailData.approvercomments:''
+       let email = mailData.emailData.emp_email
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -1112,7 +1118,7 @@ function approveAttendanceRequestEmail(mailData) {
     
       <p style="color:black">Hi ${mailData.emailData.emp_name},</p>
   
-      <p style="color:black">An attendance request by you has been approved by ${mailData.emailData.rm_name} On ${mailData.empData.fromdate}</p>
+      <p style="color:black">An attendance request by you has been approved by ${mailData.emailData.rm_name}.</p>
       
       <table border="1" style='border-collapse:collapse;color:black'>
       <tbody>
@@ -1128,17 +1134,17 @@ function approveAttendanceRequestEmail(mailData) {
 
         <tr>
         <td width="30%"><b>From Date</b></td>
-        <td>${mailData.empData.fromdate}</td>
+        <td>${fdate}</td>
          </tr>
 
          <tr>
          <td width="30%"><b>To Date</b></td>
-         <td>${mailData.empData.todate}</td>
+         <td>${tdate}</td>
           </tr>
 
           <tr>
          <td width="30%"><b>Reason</b></td>
-         <td>${mailData.approvercomments}</td>
+         <td>${approvereason}</td>
           </tr>
 
       </tbody>
@@ -1174,7 +1180,10 @@ function approveAttendanceRequestEmail(mailData) {
   }
   
   function rejectedAttendanceRequestEmail(mailData){
-    try {
+      try {
+        let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
+        let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
+       
         let email = mailData.emailData.emp_email
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
@@ -1196,7 +1205,7 @@ function approveAttendanceRequestEmail(mailData) {
     
       <p style="color:black">Hi ${mailData.emailData.emp_name},</p>
   
-      <p style="color:black">An attendance request by you has been Rejected  by ${mailData.emailData.rm_name} On ${mailData.empData.fromdate}</p>
+      <p style="color:black">An attendance request by you has been Rejected  by ${mailData.emailData.rm_name}.</p>
       
       <table border="1" style='border-collapse:collapse;color:black'>
       <tbody>
@@ -1212,12 +1221,12 @@ function approveAttendanceRequestEmail(mailData) {
 
         <tr>
         <td width="30%"><b>From Date</b></td>
-        <td>${mailData.empData.fromdate}</td>
+        <td>${fdate}</td>
          </tr>
 
          <tr>
          <td width="30%"><b>To Date</b></td>
-         <td>${mailData.empData.todate}</td>
+         <td>${tdate}</td>
           </tr>
 
           <tr>
