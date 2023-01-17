@@ -102,6 +102,7 @@ app.post('/api/getRolesByDepartment',function(req,res) {
      setRoleMaster:setRoleMaster,
      getReportingManager:getReportingManager,
      getrolescreenfunctionalities:getrolescreenfunctionalities,
+     setHolidaysMaster:setHolidaysMaster
 
  }
 
@@ -1778,3 +1779,46 @@ async function getrolescreenfunctionalities(req,res) {
         console.log('getscreenfunctionalitiesmaster :',e)
     }
 }
+
+/** set holidays */
+async function setHolidaysMaster(req,res){
+
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query(
+                "CALL `set_holidays_master` (?,?,?,?,?,?)",
+                 [
+                   req.body.hid ,
+                   req.body.holiday_year,
+                   req.body.holiday_description,
+                    req.body.holiday_date,
+                    JSON.stringify(req.body.holiday_location),
+                    req.body.createdby
+                 ],
+                 function (err, result, fields) {
+                   if (result && result[0][0].successstate == 0) {
+                   res.send({ status: true ,data:result[0][0].successstate});
+                  } else if (result && result[0][0].successstate == 1) {
+                      res.send({ status: true ,data:result[0][0].successstate}); 
+                  }
+                  else {
+                          res.send({ status: false })
+                   }
+                  })
+
+        }  else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        console.log('setHolidaysMaster :',e)
+    }
+}
+

@@ -144,6 +144,7 @@ async function login(req,res){
  * @returns {Promise<void>}
  */
 async function getMastertable(req, res) {
+    console.log("req.params",req.params)
     try {
         let  dbName = await getDatebaseName(req.params.companyName);
 

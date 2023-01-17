@@ -156,7 +156,8 @@ module.exports = {
 //// set new hire list
 async function setNewHire(req,res) {
     try {
-
+        let emailData = req.body;
+        console.log("asdfas",emailData)
         let companyName =req.body.companyName;
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
@@ -166,61 +167,71 @@ async function setNewHire(req,res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
-
                 if (result[0][0].statuscode == 0) {
-                    // res.send({status:true,data:result[0][0]})
-                    var transporter = nodemailer.createTransport({
-                        host: "smtp-mail.outlook.com", // hostname
-                        secureConnection: false, // TLS requires secureConnection to be false
-                        port: 587, // port for secure SMTP
-                        tls: {
-                            ciphers:'SSLv3'
-                        },
-                        auth: {
-                            user: 'no-reply@spryple.com',
-                            pass: 'Sreeb@#321'
-                        }
-                    });
-                    var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,companyName :companyName,email:req.body.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
-
-
-                  var url = 'http://localhost:4200/#/pre-onboarding/'+token;
-                    // var url = 'http://122.175.62.210:6565/pre-onboarding/'+token;
-                    
-                    var html = `<html>
-                    <head>
-                    <title>Candidate Form</title></head>
-                    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-                    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-                    <p style="color:black">Hello,</p>
-                    <p style="color:black">Thank you for using Spryple HCM. We’re really happy to have you!<b></b></p>
-                    <p style="color:black"> Kindly complete your application here by following link</p>
-                    <p style="color:black"> <a href="${url}" >${url} </a></p>   
-                    <p style="color:black"> Fill in all the information as per your supporting documents.</p>
-                    <p style="color:black">Best Regards,</p>
-                    <p style="color:black">Human Resources Team.</p>
-                    <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-                    </div></body>
-                    </html> `;
-                    var mailOptions = {
-                        from: 'no-reply@spryple.com',
-                        to: req.body.personal_email,
-                        subject: 'Acknowledgement Form',
-                        html:html
-                    };
-                    transporter.sendMail(mailOptions, function(error, info){
-                        if (error) {
-                            res.send({status: false})
-                        } else {
-                            res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });                        }
-                    });
-                    res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
-                }else if (result[0][0].statuscode == 1) {
-                    res.send({status: true,data: { empid: result[0][0].empid,email:result[0][0].email }  });
-                }
-                else {
-                    res.send({status:false})
-                }
+                    console.log("date--",emailData.personal_email)
+                    if (emailData.personal_email != '' || undefined|| null) {
+                        var transporter = nodemailer.createTransport({
+                            host: "smtp-mail.outlook.com", // hostname
+                            secureConnection: false, // TLS requires secureConnection to be false
+                            port: 587, // port for secure SMTP
+                            tls: {
+                                ciphers:'SSLv3'
+                            },
+                            auth: {
+                                user: 'no-reply@spryple.com',
+                                pass: 'Sreeb@#321'
+                            }
+                        });
+                        var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:emailData.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
+                     /**Local */
+                        //  var url = 'http://localhost:4200/#/pre-onboarding/'+token;
+                    /**QA */
+                   var url = 'http://122.175.62.210:2020/#/pre-onboarding/'+token;
+                    /**AWS */
+                       // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
+                        
+                        var html = `<html>
+                        <head>
+                        <title>Candidate Form</title></head>
+                        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+                        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+                        <p style="color:black">Hello,</p>
+                        <p style="color:black">Thank you for using Spryple HCM&nbsp; We re really happy to have you!<b></b></p>
+                        <p style="color:black"> Kindly complete your application here by following link.</p>
+                        <p style="color:black"> <a href="${url}" >${url} </a></p>   
+                        <p style="color:black"> Fill in all the information as per your supporting documents.</p>
+                        <p style="color:black">Thank You!</p>
+                        <p style="color:black">Human Resources Team.</p>
+                        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+                        </div></body>
+                        </html> `;
+                        var mailOptions = {
+                            from: 'no-reply@spryple.com',
+                            to: emailData.personal_email,
+                            subject: 'Acknowledgement form',
+                            html:html
+                        };
+                        transporter.sendMail(mailOptions, function (error, info) {
+                            console.log("t1-",error)
+                            console.log("t2-",info)
+                            if (error) {
+                                res.send({status: false})
+                            } else {
+                                res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
+                            }
+                        }); 
+                    }
+                    res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });   
+                 }
+               else if (result[0][0].statuscode == 2) {
+                   res.send({status: true, data: { empid: result[0][0].empid ,email:null}  });
+              }
+               else if (result[0][0].statuscode == 1) {
+                   res.send({status: true,data: { empid: result[0][0].empid,email:result[0][0].email }  });
+              }
+               else {
+                   res.send({status:false})
+               }
             });
         }
         else {
@@ -1901,6 +1912,7 @@ function setDocumentOrImageForEMS(req, res) {
                     file.mv(
                         path.resolve(__dirname, folderName, localPath.filename),
                         function (error) {
+                            console.log("err=",error)
                             if (error) {
                                 console.log(error);
                                 res.send({status: false});
