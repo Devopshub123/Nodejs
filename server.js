@@ -2623,18 +2623,18 @@ app.post('/ems/api/getDocumentsFiles/',function(req,res){
 
 
 ///** */
-app.listen(6060,function (err) {
-    if (err)
-        console.log('Server Cant Start ...Erorr....');
-    else
-        console.log('Server Started at : http://localhost:6060');
-});
-
-/** uncomment in QA build time */
-
-// app.listen(6464,'0.0.0.0',function (err) {
+// app.listen(6060,function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://122.175.62.210:6464');
+//         console.log('Server Started at : http://localhost:6060');
 // });
+
+/** uncomment in QA build time */
+
+app.listen(202,'0.0.0.0',function (err) {
+    if (err)
+        console.log('Server Cant Start ...Erorr....');
+    else
+        console.log('Server Started at :  http://122.175.62.210:6464');
+});

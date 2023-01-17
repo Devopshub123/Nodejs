@@ -511,6 +511,7 @@ async function setHolidays(req,res) {
 
 /*Get Holidays filter */
 async function getHolidysFilter(req, res) {
+    console.log("req.params",req.params)
     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
