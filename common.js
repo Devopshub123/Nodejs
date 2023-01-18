@@ -95,19 +95,15 @@ async function login(req,res){
         var companyName = req.body.companyName;
         // console.log("single",req.body)
             var listOfConnections = {};
-        console.log("db name", dbName);
         if (dbName && dbName!=null) {
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
-                console.log("authetic",results)
                 var result = results ? results[0] ? results[0][0]? Object.values(JSON.parse(JSON.stringify(results[0][0]))):null:null:null;
                 if (result && result[0] > 0) {
-                    console.log("result[0]",result[0])
                     listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0]], function (err, results, next) {
-                        console.log("getemployeeinformation",results)
                         try {
                             if (results && results.length > 0) {
                                 var result = JSON.parse(results[0][0].result)
@@ -366,7 +362,7 @@ async function forgetpassword(req, res, next) {
         listOfConnections[companyName].query('CALL `getemployeestatus`(?)', [email], function (err, result) {
             let data = result[0][0]
             if (data === undefined) {
-                res.send({ status: false })
+                res.send({ status: false,message:"notvalid" })
             }
             else if (data.status == 1) {
                 let id = data.id;
@@ -379,8 +375,8 @@ async function forgetpassword(req, res, next) {
                         ciphers: 'SSLv3'
                     },
                     auth: {
-                        user: 'smattupalli@sreebtech.com',
-                        pass: 'Sree$sreebt'
+                        user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
                     }
                 });
                 var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:req.params.email,date:new Date()}))).toString('base64')
@@ -403,7 +399,7 @@ async function forgetpassword(req, res, next) {
                     </div></body>
                     </html> `;
                 var mailOptions = {
-                    from: 'smattupalli@sreebtech.com',
+                    from: 'no-reply@spryple.com',
                     to: email,
                     subject: 'Reset Password',
                     html: html
@@ -418,7 +414,7 @@ async function forgetpassword(req, res, next) {
             }
         });
     }else {
-            res.send({status: false,Message:'Database Name is missed'})
+            res.send({status: false,message:'datanotthere'})
     }
      }
     catch (e) {

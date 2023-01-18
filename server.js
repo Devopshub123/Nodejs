@@ -1349,7 +1349,6 @@ app.get('/ems/api/getInductionProgramAssignedEmployee/:sid/:companyName', functi
  
 /**employee login */
 app.post('/api/emp_login', function (req, res, next) {
-    console.log("FFFFFFFFFf",req.body)
     common.login(req,res)
 })
 

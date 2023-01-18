@@ -332,7 +332,7 @@ async function getleavecalender(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
             listOfConnections[companyName].query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
-                if (result && result[0].length > 0) {
+             if (result && result[0].length > 0) {
                 for(var i = 0; i< result[0].length; i ++ ){
                     if(result[0][i].ltype == 'weekoff'){
                         result[0][i].color = '#2e0cf3'

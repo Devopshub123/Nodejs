@@ -3290,7 +3290,8 @@ async function getReportingManagerForEmp(req,res){
 
 /** get employee personal detials(HR) */
 
-async function getEmpPersonalInfo(req,res) {
+async function getEmpPersonalInfo(req, res) {
+    console.log("data-",req.params)
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
@@ -3305,6 +3306,8 @@ async function getEmpPersonalInfo(req,res) {
                 "CALL `get_emp_personal_info` (?)",
                 [JSON.parse(req.params.id)],
                 function (err, result, fields) {
+                    console.log("err",err)
+                    console.log("ress",result[0])
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
                     } else {
