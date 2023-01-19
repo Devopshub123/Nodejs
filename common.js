@@ -93,7 +93,6 @@ async function login(req,res){
      var email = req.body.email;
         var password = req.body.password;
         var companyName = req.body.companyName;
-        // console.log("single",req.body)
             var listOfConnections = {};
         if (dbName && dbName!=null) {
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -381,8 +380,8 @@ async function forgetpassword(req, res, next) {
                 });
                 var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:req.params.email,date:new Date()}))).toString('base64')
 
-                var url = 'http://localhost:4200/ResetPassword/'+token
-                // var url = 'http://122.175.62.210:9080/#/ResetPassword/' + token
+                // var url = 'http://localhost:4200/ResetPassword/'+token
+                var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
                 var html = `<html>
                     <head>
                     <title>HRMS ResetPassword</title></head>

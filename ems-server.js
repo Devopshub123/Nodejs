@@ -186,7 +186,7 @@ async function setNewHire(req,res) {
                      /**Local */
                         //  var url = 'http://localhost:4200/#/pre-onboarding/'+token;
                     /**QA */
-                   var url = 'http://122.175.62.210:2020/#/pre-onboarding/'+token;
+                   var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                     /**AWS */
                        // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
                         
@@ -504,22 +504,65 @@ async function setProgramsMaster(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_programs_master` (?,?,?,?,?)", [req.body.pid,req.body.programType,req.body.pDescription,req.body.pStatus, req.body.actionby], function (err, result, fields) {
-                console.log(result)
-                if (result) {
-                    result[0][0].pid=req.body.pid;
-                    res.send({ data: result[0]});
+            listOfConnections[companyName].query("CALL `set_programs_master` (?,?,?,?)", [req.body.pid,req.body.programType,req.body.pDescription,req.body.pStatus], function (err, result, fields) {
+                if (err) {
+                    listOfConnections[companyName].query(
+                          "CALL `set_error_logs` (?,?,?,?,?,?)",
+                          [
+                            "setProgramsMaster",
+                            "setProgramsMaster",
+                            "POST",
+                            JSON.stringify(req.body),
+                            " ("+  err.errno +") "+err.sqlMessage ,
+                            null
+                          ],
+                           function (err, result, fields) {
+                            console.log("er-2",err)
+                            console.log("resss",result)
+                           if (result) {
+                               res.send({ status: true });
+                            } else {
+                              res.send({ status: false});
+                            }
+                          }
+                        );
+                
                 } else {
-                    res.send({data:[{successstate:-1,pid:req.body.pid}]})
+                    if (result) {
+                        result[0][0].pid=req.body.pid;
+                        res.send({ data: result[0]});
+                    } else {
+                        res.send({data:[{successstate:-1,pid:req.body.pid}]})
+                    }        
                 }
-            });
+             });
         }
         else {
             res.send({status: false,Message:'Database Name is missed'})
         }
 
     } catch (e) {
-        console.log('setProgramsMaster :', e)
+        // console.log('setProgramsMaster :', e);
+        con.query(
+            "CALL `set_error_logs` (?,?,?,?,?,?)",
+            [
+              "setProgramsMaster",
+              "setProgramsMaster",
+              "POST",
+              JSON.stringify(req.body),
+              e.message,
+              null
+            ],
+             function (err, result, fields) {
+              console.log("er-2",err)
+              console.log("resss",result)
+             if (result) {
+                 res.send({ status: true });
+              } else {
+                res.send({ status: false});
+              }
+            }
+          );
 
     }
 
@@ -2462,7 +2505,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
       },
     });
     //var url = "http://localhost:4200/Login";
-      var url = 'http://122.175.62.210:6565/Login';
+      var url = 'http://122.175.62.210:7575/Login';
     var html = `<html>
         <head>
         <title>New login Credentiols</title></head>
@@ -4858,3 +4901,14 @@ async function getDocumentsFiles(req,res) {
         console.log('getDocumentsForEMS :', e)
     }
 }
+
+
+//** */
+// PROCEDURE `set_error_logs`(
+//     `service` varchar(255),
+//     `function` varchar(255),
+//     `method` varchar(512),
+//     `request` varchar(10000),
+//     `response` varchar(10000),
+//     `statuscode` int(11)
+// )
