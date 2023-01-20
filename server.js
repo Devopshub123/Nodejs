@@ -30,7 +30,7 @@ const excelJS = require("exceljs");
 var cron = require('node-cron');
 const _ = require('underscore');
 const async = require('async');
-
+const jwt = require('jsonwebtoken');
 
 
 app.use(bodyParser.json({ limit: '5mb' }));
@@ -41,6 +41,23 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
+
+function verifyJWTToken(req,res,next){
+    const jwtToken = req.headers.authorization?req.headers.authorization:null;
+    if(jwtToken){
+        // let token = jwtToken.split('-t')[1];
+        let token =jwtToken
+        jwt.verify(token, "HRMS",(err, data) => {
+            if (err) {
+                return res.send({statuscode:401,status: false,message:'In-valid Token' }); //403 is Invalid token
+            }
+            next();
+        });
+    }else {
+        res.send({statuscode:403,status: false ,message:'Token is required'}); //401 is Unauthorized
+    }
+
+}
 //
 //
 // /*Get employee Master*/
@@ -2430,190 +2447,191 @@ app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName',function(req,res
 
 /**Payroll */
 /**employeeprofessionaltax */
-app.get('/api/employeeprofessionaltax/:companyName', function (req, res) {
-    payroll.employeeprofessionaltax(req,res);
-});
+app.get('/api/employeeprofessionaltax/:companyName',verifyJWTToken,function (req, res) {
+    console.log("itsworking")
+     payroll.employeeprofessionaltax(req,res);
+ });
 /**employerprofessionaltax */
-app.get('/api/employerprofessionaltax/:companyName', function (req, res) {
+app.get('/api/employerprofessionaltax/:companyName',verifyJWTToken, function (req, res) {
+    console.log("employerprofessionaltaxitsworking")
     payroll.employerprofessionaltax(req,res);
 });
 /**getesidetails */
-app.get('/api/getesidetails/:companyName', function (req, res) {
+app.get('/api/getesidetails/:companyName',verifyJWTToken, function (req, res) {
     payroll.getesidetails(req,res);
 });
 /**getpayrollsections */
-app.post('/api/getpayrollsections/:companyName', function (req, res) {
+app.post('/api/getpayrollsections/:companyName',verifyJWTToken, function (req, res) {
     payroll.getpayrollsections(req,res);
 });
 /**getearningsalarycomponent */
-app.post('/api/getearningsalarycomponent/:id/:companyName', function (req, res) {
+app.post('/api/getearningsalarycomponent/:id/:companyName',verifyJWTToken, function (req, res) {
     payroll.getearningsalarycomponent(req,res);
 });
 /**getdeductionsalarycomponent */
-app.post('/api/getdeductionsalarycomponent/:id/:companyName', function (req, res) {
+app.post('/api/getdeductionsalarycomponent/:id/:companyName',verifyJWTToken, function (req, res) {
     payroll.getdeductionsalarycomponent(req,res);
 });
 /**getpayrollincomegroups*/
-app.post('/api/getpayrollincomegroups/:companyName', function (req, res) {
+app.post('/api/getpayrollincomegroups/:companyName',verifyJWTToken, function (req, res) {
     payroll.getpayrollincomegroups(req,res);
 });
 /**getsalarycomponentsforpaygroup */
-app.post('/api/getsalarycomponentsforpaygroup', function (req, res) {
+app.post('/api/getsalarycomponentsforpaygroup',verifyJWTToken, function (req, res) {
     payroll.getsalarycomponentsforpaygroup(req,res);
 });
 /**setincomegroup */
-app.post('/api/setincomegroup', function (req, res) {
+app.post('/api/setincomegroup',verifyJWTToken, function (req, res) {
     payroll.setincomegroup(req,res);
 });
 /**getErrorMessages */
-app.get('/payroll/api/getErrorMessages/:errorCode/:page/:size/:companyName', function (req, res) {
+app.get('/payroll/api/getErrorMessages/:errorCode/:page/:size/:companyName',verifyJWTToken, function (req, res) {
     payroll.getErrorMessages(req,res);
 });
 /**setErrorMessages */
-app.post('/payroll/api/setErrorMessages/:companyName', function (req, res) {
+app.post('/payroll/api/setErrorMessages/:companyName',verifyJWTToken, function (req, res) {
     payroll.setErrorMessages(req,res);
 });
 /**getEmployeeDurationsForSalaryDisplay */
-app.get('/api/getEmployeeDurationsForSalaryDisplay/:id/:companyName',function(req,res){
+app.get('/api/getEmployeeDurationsForSalaryDisplay/:id/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeeDurationsForSalaryDisplay(req,res);
 });
 /** getCtcDetails*/
-app.get('/api/getCtcDetails/:eid/:ctcid/:companyName',function(req,res){
+app.get('/api/getCtcDetails/:eid/:ctcid/:companyName',verifyJWTToken,function(req,res){
     payroll.getCtcDetails(req,res);
 
 });
 /**getEmployeeInvestments */
-app.get('/api/getEmployeeInvestments/:empid/:companyName',function(req,res){
+app.get('/api/getEmployeeInvestments/:empid/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeeInvestments(req,res);
 });
 /**deleteEmployeeInvestments */
-app.post('/api/deleteEmployeeInvestments/',function(req,res){
+app.post('/api/deleteEmployeeInvestments/',verifyJWTToken,function(req,res){
     payroll.deleteEmployeeInvestments(req,res);
 });
 /**setEmployeeInvestments */
-app.post('/api/setEmployeeInvestments',function(req,res){
+app.post('/api/setEmployeeInvestments',verifyJWTToken,function(req,res){
     payroll.setEmployeeInvestments(req,res);
 
 });
 /**getComponentEditableConfigurations */
-app.get('/api/getComponentEditableConfigurations/:empid/:companyName',function(req,res){
+app.get('/api/getComponentEditableConfigurations/:empid/:companyName',verifyJWTToken,function(req,res){
     payroll.getComponentEditableConfigurations(req,res);
 });
 /**configurePayGroupComponent */
-app.post('/api/configurePayGroupComponent',function(req,res){
+app.post('/api/configurePayGroupComponent',verifyJWTToken,function(req,res){
     payroll.configurePayGroupComponent(req,res);
 });
 /**getPayGroupComponentValues*/
-app.get('/api/getPayGroupComponentValues/:id/:companyName',function(req,res){
+app.get('/api/getPayGroupComponentValues/:id/:companyName',verifyJWTToken,function(req,res){
     payroll.getPayGroupComponentValues(req,res);
 });
 /** editPayGroupComponent*/
-app.post('/api/editPayGroupComponent',function(req,res){
+app.post('/api/editPayGroupComponent',verifyJWTToken,function(req,res){
     payroll.editPayGroupComponent(req,res);
 
 });
 /**getEmployeesListForInvestmentsApproval*/
-app.get('/api/getEmployeesListForInvestmentsApproval/:companyName',function(req,res){
+app.get('/api/getEmployeesListForInvestmentsApproval/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeesListForInvestmentsApproval(req,res);
 });
 /**getEmployerEpfContributionOptions */
-app.get('/api/getEmployerEpfContributionOptions/:companyName',function(req,res){
+app.get('/api/getEmployerEpfContributionOptions/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployerEpfContributionOptions(req,res);
 });
 /**getEmployeeEpfContributionOptions */
-app.get('/api/getEmployeeEpfContributionOptions/:companyName',function(req,res){
+app.get('/api/getEmployeeEpfContributionOptions/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeeEpfContributionOptions(req,res);
 
 });
 /**setCompanyEpfValues */
-app.post('/api/setCompanyEpfValues',function(req,res){
+app.post('/api/setCompanyEpfValues',verifyJWTToken,function(req,res){
     payroll.setCompanyEpfValues(req,res);
 });
 /**getStatutoryMaxPfWageForEmployerContribution */
-app.get('/api/getStatutoryMaxPfWageForEmployerContribution/:companyName',function(req,res){
+app.get('/api/getStatutoryMaxPfWageForEmployerContribution/:companyName',verifyJWTToken,function(req,res){
     payroll.getStatutoryMaxPfWageForEmployerContribution(req,res);
 });
 /**getCompanyPaySchedule */
-app.get('/api/getCompanyPaySchedule/:companyName',function(req,res){
+app.get('/api/getCompanyPaySchedule/:companyName',verifyJWTToken,function(req,res){
     payroll.getCompanyPaySchedule(req,res);
 });
 /**setCompanyPaySchedule */
-app.post('/api/setCompanyPaySchedule',function(req,res){
+app.post('/api/setCompanyPaySchedule',verifyJWTToken,function(req,res){
     payroll.setCompanyPaySchedule(req,res);
 });
 /**updateMonthlySalary */
-app.post('/api/updateMonthlySalary',function(req,res){
+app.post('/api/updateMonthlySalary',verifyJWTToken,function(req,res){
     payroll.updateMonthlySalary(req,res);
 });
 /**getFinancialYears */
-app.get('/api/getFinancialYears/:companyName',function(req,res){
+app.get('/api/getFinancialYears/:companyName',verifyJWTToken,function(req,res){
     payroll.getFinancialYears(req,res);
 });
 /**MonthYear */
-app.get('/api/MonthYear/:fyear/:companyName',function(req,res){
+app.get('/api/MonthYear/:fyear/:companyName',verifyJWTToken,function(req,res){
     payroll.MonthYear(req,res);
 });
 /**getEpfDetails */
-app.get('/api/getEpfDetails/:companyName',function(req,res){
+app.get('/api/getEpfDetails/:companyName',verifyJWTToken,function(req,res){
     payroll.getEpfDetails(req,res);
 });
 /**getEmployeeListForSalaryProcessing */
-app.get('/api/getEmployeeListForSalaryProcessing/:year/:month/:companyName',function(req,res){
+app.get('/api/getEmployeeListForSalaryProcessing/:year/:month/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeeListForSalaryProcessing(req,res);
 });
 /**getEmployeesForAssignPaygroup */
-app.get('/api/getEmployeesForAssignPaygroup/:companyName',function(req,res){
+app.get('/api/getEmployeesForAssignPaygroup/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeesForAssignPaygroup(req,res);
 });
 /**getPayGroupsForCtc */
-app.get('/api/getPayGroupsForCtc/:amount/:companyName',function(req,res){
+app.get('/api/getPayGroupsForCtc/:amount/:companyName',verifyJWTToken,function(req,res){
     payroll.getPayGroupsForCtc(req,res);
 });
 /**getActiveComponentsValuesForPayGroup */
-app.get('/api/getActiveComponentsValuesForPayGroup/:id/:companyName',function(req,res){
+app.get('/api/getActiveComponentsValuesForPayGroup/:id/:companyName',verifyJWTToken,function(req,res){
     payroll.getActiveComponentsValuesForPayGroup(req,res);
 });
 /**assignPayGroup */
-app.post('/api/assignPayGroup',function(req,res){
+app.post('/api/assignPayGroup',verifyJWTToken,function(req,res){
     payroll.assignPayGroup(req,res);
 });
 /**getComponentWiseValuesForPayGroupAssignment */
-app.get('/api/getComponentWiseValuesForPayGroupAssignment/:ctc/:pgid/:companyName',function(req,res){
+app.get('/api/getComponentWiseValuesForPayGroupAssignment/:ctc/:pgid/:companyName',verifyJWTToken,function(req,res){
     payroll.getComponentWiseValuesForPayGroupAssignment(req,res);
 });
 /**getEmployeePaySlips */
-app.get('/api/getEmployeePaySlips/:fyear/:empid/:companyName',function(req,res){
+app.get('/api/getEmployeePaySlips/:fyear/:empid/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeePaySlips(req,res);
 });
 /** getEmployeePayslipDetails*/
-app.get('/api/getEmployeePayslipDetails/:id/:empid/:companyName',function(req,res){
+app.get('/api/getEmployeePayslipDetails/:id/:empid/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeePayslipDetails(req,res);
 });
 /**getEmployeeEpfDetails */
-app.get('/api/getEmployeeEpfDetails/:id/:companyName',function(req,res){
+app.get('/api/getEmployeeEpfDetails/:id/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeeEpfDetails(req,res);
 });
 /**getMonthlyPayrollData */
-app.get('/api/getMonthlyPayrollData/:month/:year/:deptid/:companyName',function(req,res){
+app.get('/api/getMonthlyPayrollData/:month/:year/:deptid/:companyName',verifyJWTToken,function(req,res){
     payroll.getMonthlyPayrollData(req,res);
 })
 /** getMonthlyPayrollDataForGraph*/
-app.get('/api/getMonthlyPayrollDataForGraph/:month/:year/:companyName',function(req,res){
+app.get('/api/getMonthlyPayrollDataForGraph/:month/:year/:companyName',verifyJWTToken,function(req,res){
     payroll.getMonthlyPayrollDataForGraph(req,res);
 });
 /**getComponentConfiguredValuesForPayGroup */
-app.get('/api/getComponentConfiguredValuesForPayGroup/:pgmid/:flat/:companyName',function(req,res){
+app.get('/api/getComponentConfiguredValuesForPayGroup/:pgmid/:flat/:companyName',verifyJWTToken,function(req,res){
     payroll.getComponentConfiguredValuesForPayGroup(req,res);
 });
 
 /**getDocumentsFiles */
-app.post('/ems/api/getDocumentsFiles/',function(req,res){
+app.post('/ems/api/getDocumentsFiles/',verifyJWTToken,function(req,res){
     ems.getDocumentsFiles(req, res)
 })
 
 /*setHolidaysMaster */
-app.post('/api/setHolidaysMaster', function (req, res) {
-    console.log("jedf",req.body)
+app.post('/api/setHolidaysMaster',verifyJWTToken, function (req, res) {
     admin.setHolidaysMaster(req,res)
 });
 
@@ -2627,19 +2645,20 @@ app.post('/api/setHolidaysMaster', function (req, res) {
 
 
 
+
 ///** */
-// app.listen(6060,function (err) {
-//     if (err)
-//         console.log('Server Cant Start ...Erorr....');
-//     else
-//         console.log('Server Started at : http://localhost:6060');
-// });
-
-/** uncomment in QA build time */
-
-app.listen(202,'0.0.0.0',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://122.175.62.210:202');
+        console.log('Server Started at : http://localhost:6060');
 });
+
+/** uncomment in QA build time */
+
+// app.listen(202,'0.0.0.0',function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at :  http://122.175.62.210:202');
+// });

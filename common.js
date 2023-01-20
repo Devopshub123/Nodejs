@@ -14,6 +14,7 @@ var attendance= require('./attendance-server');
 var leaveManagement = require('./leave-management')
 var file
 var url = require('url');
+const jwt = require('jsonwebtoken');
 
 app.use(bodyParser.urlencoded({
     limit: '5mb',
@@ -49,7 +50,18 @@ module.exports = {
 
 
 };
-
+/**generate JWT token  */
+function generateJWTToken(info){
+    return new Promise((res,rej)=>{
+        try{
+            res(jwt.sign({id:info.id,email:info.email}, "HRMS" , {expiresIn: "24h",}));
+        }
+        catch(e){
+            rej(e);
+        }
+    });
+    
+}
 
  function getDatebaseName(companyName){
 
@@ -99,14 +111,20 @@ async function login(req,res){
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-            listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], function (err, results, next) {
+            listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
                 var result = results ? results[0] ? results[0][0]? Object.values(JSON.parse(JSON.stringify(results[0][0]))):null:null:null;
                 if (result && result[0] > 0) {
+                    var info = {
+                        id:result[0],
+                        email:email
+                        
+                    }
+                    var  token = await generateJWTToken(info)
                     listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0]], function (err, results, next) {
                         try {
                             if (results && results.length > 0) {
                                 var result = JSON.parse(results[0][0].result)
-                                res.send({status: true, result})
+                                res.send({status: true, result,token:token})
                             }
                             else {
                                 res.send({status: false})
