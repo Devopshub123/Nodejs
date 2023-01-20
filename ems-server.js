@@ -184,9 +184,9 @@ async function setNewHire(req,res) {
                         });
                         var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:emailData.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
                      /**Local */
-                        //  var url = 'http://localhost:4200/#/pre-onboarding/'+token;
+                         var url = 'http://localhost:4200/#/pre-onboarding/'+token;
                     /**QA */
-                   var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                     /**AWS */
                        // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
                         
@@ -517,8 +517,6 @@ async function setProgramsMaster(req,res) {
                             null
                           ],
                            function (err, result, fields) {
-                            console.log("er-2",err)
-                            console.log("resss",result)
                            if (result) {
                                res.send({ status: true });
                             } else {
@@ -542,7 +540,6 @@ async function setProgramsMaster(req,res) {
         }
 
     } catch (e) {
-        // console.log('setProgramsMaster :', e);
         con.query(
             "CALL `set_error_logs` (?,?,?,?,?,?)",
             [
@@ -554,9 +551,7 @@ async function setProgramsMaster(req,res) {
               null
             ],
              function (err, result, fields) {
-              console.log("er-2",err)
-              console.log("resss",result)
-             if (result) {
+            if (result) {
                  res.send({ status: true });
               } else {
                 res.send({ status: false});
@@ -2504,8 +2499,8 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
           pass: 'Sreeb@#321'
       },
     });
-    //var url = "http://localhost:4200/Login";
-      var url = 'http://122.175.62.210:7575/Login';
+    var url = "http://localhost:4200/Login";
+    //   var url = 'http://122.175.62.210:7575/Login';
     var html = `<html>
         <head>
         <title>New login Credentiols</title></head>

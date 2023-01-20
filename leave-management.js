@@ -1641,7 +1641,8 @@ function leaveRequestEmail(mailData) {
             pass: 'Sreeb@#321'
           }
       });
-     var url = 'http://122.175.62.210:7575/#/Login';
+      var url = 'http://localhost:4200/Login';
+    //  var url = 'http://122.175.62.210:7575/#/Login';
       var html = `<html>
       <head>
       <title>Leave Request</title></head>
@@ -1897,7 +1898,8 @@ function compOffRequestEmail(mailData){
               pass: 'Sreeb@#321'
           }
       });
-     var url = 'http://122.175.62.210:7575/#/Login';
+     var url = 'http://localhost:4200/Login';
+    //  var url = 'http://122.175.62.210:7575/#/Login';
       var html = `<html>
       <head>
       <title>Comp-off request</title></head>

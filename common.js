@@ -380,8 +380,8 @@ async function forgetpassword(req, res, next) {
                 });
                 var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:req.params.email,date:new Date()}))).toString('base64')
 
-                // var url = 'http://localhost:4200/ResetPassword/'+token
-                var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
+                var url = 'http://localhost:4200/ResetPassword/'+token
+                // var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
                 var html = `<html>
                     <head>
                     <title>HRMS ResetPassword</title></head>
