@@ -153,11 +153,11 @@ module.exports = {
 
     
 };
+
 //// set new hire list
 async function setNewHire(req,res) {
     try {
         let emailData = req.body;
-        console.log("asdfas",emailData)
         let companyName =req.body.companyName;
         let  dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
@@ -166,31 +166,45 @@ async function setNewHire(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_new_hire` (?)",[JSON.stringify(req.body)],function (err, result, fields) {
-                if (result[0][0].statuscode == 0) {
-                    console.log("date--",emailData.personal_email)
-                    if (emailData.personal_email != '' || undefined|| null) {
-                        var transporter = nodemailer.createTransport({
-                            host: "smtp-mail.outlook.com", // hostname
-                            secureConnection: false, // TLS requires secureConnection to be false
-                            port: 587, // port for secure SMTP
-                            tls: {
-                                ciphers:'SSLv3'
-                            },
-                            auth: {
-                                user: 'no-reply@spryple.com',
-                                pass: 'Sreeb@#321'
-                            }
-                        });
-                        var token = (Buffer.from(JSON.stringify({candidateId:result[0][0].candidate_id,email:emailData.personal_email,date:new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate()}))).toString('base64')
-                     /**Local */
-                         var url = 'http://localhost:4200/#/pre-onboarding/'+token;
-                    /**QA */
-                //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
-                    /**AWS */
-                       // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
+            listOfConnections[companyName].query("CALL `set_new_hire` (?)", [JSON.stringify(req.body)],
+                async function (err, result, fields) {
+                    if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("setNewHire");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } else {
+
+                    if (result[0][0].statuscode == 0) {
+                        console.log("date--", emailData.personal_email)
+                        if (emailData.personal_email != '' || undefined || null) {
+                            var transporter = nodemailer.createTransport({
+                                host: "smtp-mail.outlook.com", // hostname
+                                secureConnection: false, // TLS requires secureConnection to be false
+                                port: 587, // port for secure SMTP
+                                tls: {
+                                    ciphers: 'SSLv3'
+                                },
+                                auth: {
+                                    user: 'no-reply@spryple.com',
+                                    pass: 'Sreeb@#321'
+                                }
+                            });
+                            var token = (Buffer.from(JSON.stringify({ candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate() }))).toString('base64')
+                            /**Local */
+                            var url = 'http://localhost:4200/#/pre-onboarding/' + token;
+                            /**QA */
+                            //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                            /**AWS */
+                            // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
                         
-                        var html = `<html>
+                            var html = `<html>
                         <head>
                         <title>Candidate Form</title></head>
                         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
@@ -205,33 +219,34 @@ async function setNewHire(req,res) {
                         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                         </div></body>
                         </html> `;
-                        var mailOptions = {
-                            from: 'no-reply@spryple.com',
-                            to: emailData.personal_email,
-                            subject: 'Acknowledgement form',
-                            html:html
-                        };
-                        transporter.sendMail(mailOptions, function (error, info) {
-                            console.log("t1-",error)
-                            console.log("t2-",info)
-                            if (error) {
-                                res.send({status: false})
-                            } else {
-                                res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });
-                            }
-                        }); 
+                            var mailOptions = {
+                                from: 'no-reply@spryple.com',
+                                to: emailData.personal_email,
+                                subject: 'Acknowledgement form',
+                                html: html
+                            };
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                console.log("t1-", error)
+                                console.log("t2-", info)
+                                if (error) {
+                                    res.send({ status: false })
+                                } else {
+                                    res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
+                                }
+                            });
+                        }
+                        res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
                     }
-                    res.send({ status: true, data: { empid: result[0][0].empid ,email:null} });   
-                 }
-               else if (result[0][0].statuscode == 2) {
-                   res.send({status: true, data: { empid: result[0][0].empid ,email:null}  });
-              }
-               else if (result[0][0].statuscode == 1) {
-                   res.send({status: true,data: { empid: result[0][0].empid,email:result[0][0].email }  });
-              }
-               else {
-                   res.send({status:false})
-               }
+                    else if (result[0][0].statuscode == 2) {
+                        res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
+                    }
+                    else if (result[0][0].statuscode == 1) {
+                        res.send({ status: true, data: { empid: result[0][0].empid, email: result[0][0].email } });
+                    }
+                    else {
+                        res.send({ status: false })
+                    }
+                }
             });
         }
         else {
@@ -239,7 +254,18 @@ async function setNewHire(req,res) {
         }
     }
     catch (e) {
-        console.log('setNewHire',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("setNewHire");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 //// get new hire list
@@ -253,11 +279,27 @@ async function getNewHireDetails(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_new_hire_details` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
-            if (result && result.length > 0) {
+            listOfConnections[companyName].query("CALL `get_new_hire_details` (?)", [JSON.parse(req.params.id)],
+                async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("getNewHireDetails");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } else {
+                    
+         
+                if (result && result.length > 0) {
                     res.send({ data: result[0], status: true });
                 } else {
                     res.send({ status: false })
+                    }
                 }
             });
         }
@@ -266,7 +308,18 @@ async function getNewHireDetails(req, res) {
         }
     }
     catch (e) {
-        console.log('getNewHireDetails',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("getNewHireDetails");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -288,13 +341,26 @@ async function setReasonMaster(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_reason_master` (?,?,?,?)",
-            [req.body.reason_id,req.body.reason, parseInt(req.body.reason_status),req.body.actionby], function (err, result, fields) {
-                console.log(result)
+                [req.body.reason_id, req.body.reason, parseInt(req.body.reason_status), req.body.actionby],
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("EMSAPI");
+                        errorLogArray.push("setReasonMaster");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray)
+                    } else {
                         if (result[0][0].statuscode == 0) {
-                            res.send({ status: true, message: "",data: result[0][0]})
+                            res.send({ status: true, message: "", data: result[0][0] })
                         } else {
                             res.send({ status: false, message: "unable to save" })
                         }
+                    }
             });
         }
         else {
@@ -302,7 +368,18 @@ async function setReasonMaster(req, res) {
         }    
 
     }catch (e) {
-        console.log('setReasonMaster')
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("setReasonMaster");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -317,12 +394,25 @@ async function getActiveReasonList(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_active_reasons` ()", function (err, result, fields) {
-
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
+            listOfConnections[companyName].query("CALL `get_active_reasons` ()",
+                async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("getActiveReasonList");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({ status: false })
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -331,7 +421,18 @@ async function getActiveReasonList(req,res) {
         }    
     }
     catch (e) {
-        console.log('getActiveReasonList',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("getActiveReasonList");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -348,11 +449,25 @@ async function getActiveReasonList(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_reason_master` (?)", [null], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
+            listOfConnections[companyName].query("CALL `get_reason_master` (?)", [null],
+                async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("getReasonMasterData");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({ status: false })
+                     if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -361,7 +476,18 @@ async function getActiveReasonList(req,res) {
         }    
     }
     catch (e) {
-        console.log('getReasonMasterData',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("getReasonMasterData");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -383,13 +509,26 @@ async function getActiveReasonList(req,res) {
                 }
                 listOfConnections[companyName].query("CALL `set_termination_category` (?,?,?,?)",
                     [req.body.termination_id, req.body.termination_category,
-                    parseInt(req.body.termination_status), req.body.actionby], function (err, result, fields) {
-                    console.log(result)   
-                    if (result[0][0].statuscode == 0) {
-                                res.send({ status: true, message: "",data: result[0][0]})
+                        parseInt(req.body.termination_status), req.body.actionby],
+                    async function (err, result, fields) {
+                        if (err) {
+                            let errorLogArray = [];
+                            errorLogArray.push("EMSAPI");
+                            errorLogArray.push("setTerminationCategory");
+                            errorLogArray.push("POST");
+                            errorLogArray.push(JSON.stringify(req.body));
+                            errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                            errorLogArray.push(null);
+                            errorLogArray.push(companyName);
+                            errorLogArray.push(dbName);
+                            errorLogs = await errorLogs(errorLogArray)
+                        } else {
+                            if (result[0][0].statuscode == 0) {
+                                res.send({ status: true, message: "", data: result[0][0] })
                             } else {
                                 res.send({ status: false, message: "unable to save" })
                             }
+                        }
                     });
                 }
                 else {
@@ -397,7 +536,18 @@ async function getActiveReasonList(req,res) {
                 }        
 
         }catch (e) {
-            console.log('setTerminationCategory')
+            let companyName =req.body.companyName;
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("EMSAPI");
+            errorLogArray.push("setTerminationCategory");
+            errorLogArray.push("POST");
+            errorLogArray.push(JSON.stringify(req.body));
+            errorLogArray.push( e.message);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
+            errorLogs = await errorLogs(errorLogArray)
         }
       }
 
@@ -414,11 +564,24 @@ async function getTerminationCategory(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_termination_category` (null)", function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
+            listOfConnections[companyName].query("CALL `get_termination_category` (null)", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("getTerminationCategory");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({ status: false })
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -426,7 +589,18 @@ async function getTerminationCategory(req, res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-        console.log('getTerminationCategory :', e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("getTerminationCategory");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 /** set document category
@@ -447,19 +621,44 @@ async function setDocumentCategory(req,res) {
             }
             listOfConnections[companyName].query("CALL `set_document_category` (?,?,?,?)",
                 [req.body.document_id, req.body.document_category,
-                parseInt(req.body.document_status), req.body.actionby], function (err, result, fields) {
-                    if (result[0][0].statuscode == 0) {
-                            res.send({ status: true, message: "",data: result[0][0]})
+                    parseInt(req.body.document_status), req.body.actionby],
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("EMSAPI");
+                        errorLogArray.push("setDocumentCategory");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray)
+                    } else {
+                        if (result[0][0].statuscode == 0) {
+                            res.send({ status: true, message: "", data: result[0][0] })
                         } else {
                             res.send({ status: false, message: "unable to save" })
                         }
+                    }
                 });
             }
             else {
             res.send({status: false,Message:'Database Name is missed'})
             }
     }catch (e) {
-        console.log('setDocumentCategory',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("setDocumentCategory");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
              }
 }
 /**Get document category Data **/
@@ -504,27 +703,19 @@ async function setProgramsMaster(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_programs_master` (?,?,?,?)", [req.body.pid,req.body.programType,req.body.pDescription,req.body.pStatus], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `set_programs_master` (?,?,?,?,?)", [req.body.pid, req.body.programType, req.body.pDescription, req.body.pStatus, req.body.actionby],
+                async function (err, result, fields) {
                 if (err) {
-                    listOfConnections[companyName].query(
-                          "CALL `set_error_logs` (?,?,?,?,?,?)",
-                          [
-                            "setProgramsMaster",
-                            "setProgramsMaster",
-                            "POST",
-                            JSON.stringify(req.body),
-                            " ("+  err.errno +") "+err.sqlMessage ,
-                            null
-                          ],
-                           function (err, result, fields) {
-                           if (result) {
-                               res.send({ status: true });
-                            } else {
-                              res.send({ status: false});
-                            }
-                          }
-                        );
-                
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("setProgramsMaster");
+                    errorLogArray.push("post");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
                     if (result) {
                         result[0][0].pid=req.body.pid;
@@ -540,24 +731,18 @@ async function setProgramsMaster(req,res) {
         }
 
     } catch (e) {
-        con.query(
-            "CALL `set_error_logs` (?,?,?,?,?,?)",
-            [
-              "setProgramsMaster",
-              "setProgramsMaster",
-              "POST",
-              JSON.stringify(req.body),
-              e.message,
-              null
-            ],
-             function (err, result, fields) {
-            if (result) {
-                 res.send({ status: true });
-              } else {
-                res.send({ status: false});
-              }
-            }
-          );
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let arr = [];
+        arr.push("EMSAPI");
+        arr.push("setProgramsMaster");
+        arr.push("post");
+        arr.push(JSON.stringify(req.body));
+        arr.push( e.message);
+        arr.push(null);
+        arr.push(companyName);
+        arr.push(dbName);
+        errorLogs = await errorLogs(arr)
 
     }
 
@@ -4897,13 +5082,32 @@ async function getDocumentsFiles(req,res) {
     }
 }
 
+/** error logs */
+function errorLogs(errorLogArray) {
+    console.log("dat==",JSON.stringify(errorLogArray[3]))
+    return new Promise(async (res,rej)=>{
+       try {
+           let companyName =errorLogArray[6];
+           let dbName = errorLogArray[7];
+           listOfConnections= connection.checkExistingDBConnection(companyName)
+           if(!listOfConnections.succes) {
+               listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+           }
+               listOfConnections[companyName].query(  "CALL `set_error_logs` (?,?,?,?,?,?)",
+               [
+                errorLogArray[0], errorLogArray[1], errorLogArray[2], JSON.stringify(errorLogArray[3]),errorLogArray[4], errorLogArray[5]
+               ],
+             function (err, result, fields) {
+              if (result) {
+                       res({ status: true });
+                   } else {
+                       res({ status: false })
+                   }
+               });
+           }
+         catch (e) {
+           rej(e)
+       }
+   });
 
-//** */
-// PROCEDURE `set_error_logs`(
-//     `service` varchar(255),
-//     `function` varchar(255),
-//     `method` varchar(512),
-//     `request` varchar(10000),
-//     `response` varchar(10000),
-//     `statuscode` int(11)
-// )
+}

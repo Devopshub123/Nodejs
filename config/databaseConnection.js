@@ -70,6 +70,7 @@ function checkExistingDBConnection(companyName) {
 
 function getConnections()
 {
+  console.log("ExistConnections",listOfExistedConnections)
   return listOfExistedConnections
 }
 

@@ -42,7 +42,8 @@ app.all("*", function (req, res, next) {
     return next();
 });
 
-function verifyJWTToken(req,res,next){
+function verifyJWTToken(req, res, next) {
+    console.log("fgdfg",req.headers.authorization)
     const jwtToken = req.headers.authorization?req.headers.authorization:null;
     if(jwtToken){
         // let token = jwtToken.split('-t')[1];

@@ -54,7 +54,8 @@ module.exports = {
 function generateJWTToken(info){
     return new Promise((res,rej)=>{
         try{
-            res(jwt.sign({id:info.id,email:info.email}, "HRMS" , {expiresIn: "24h",}));
+            res(jwt.sign({ id: info.id, email: info.email }, "HRMS", { expiresIn: "24h", }));
+            console.log("hkjdhfjkdhfjkhdfgh")
         }
         catch(e){
             rej(e);
@@ -114,6 +115,7 @@ async function login(req,res){
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
                 var result = results ? results[0] ? results[0][0]? Object.values(JSON.parse(JSON.stringify(results[0][0]))):null:null:null;
                 if (result && result[0] > 0) {
+                    console.log("info",info)
                     var info = {
                         id:result[0],
                         email:email
@@ -124,6 +126,7 @@ async function login(req,res){
                         try {
                             if (results && results.length > 0) {
                                 var result = JSON.parse(results[0][0].result)
+                                console.log("token",token)
                                 res.send({status: true, result,token:token})
                             }
                             else {
