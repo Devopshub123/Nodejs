@@ -564,7 +564,7 @@ function verifyJWTToken(req, res, next) {
 // });
 
 /*Get Employee Roles*/
-app.get('/api/getemployeeroles/:empId',function(req,res) {
+app.get('/api/getemployeeroles/:empId',verifyJWTToken,function(req,res) {
     try {
 
         con.query("CALL `getemployeeroles` (?)",[req.params.empId], function (err, result, fields) {
@@ -746,7 +746,7 @@ function checkRecord (req, res, next){
  * No Inputs
  *
  * */
-app.get('/api/getYearsForReport/:companyName', function(req,res) {
+app.get('/api/getYearsForReport/:companyName', verifyJWTToken,function(req,res) {
 
     leaveManagement.getYearsForReport(req,res);
 
@@ -772,7 +772,7 @@ app.get('/api/getYearsForReport/:companyName', function(req,res) {
 /**
  * get States
  * */
- app.post('/api/getProfileImage/', function(req,res) {
+ app.post('/api/getProfileImage/', verifyJWTToken,function(req,res) {
     leaveManagement.getProfileImage(req,res);
 });
 
@@ -783,7 +783,7 @@ app.get('/api/getYearsForReport/:companyName', function(req,res) {
 /**
  * get Leaves For Cancellation
  * */
-app.get('/api/getEmployeeInformation/:Id/:companyName', function(req,res) {
+app.get('/api/getEmployeeInformation/:Id/:companyName',verifyJWTToken, function(req,res) {
 
     common.getEmployeeInformation(req,res);
 
@@ -792,11 +792,11 @@ app.get('/api/getEmployeeInformation/:Id/:companyName', function(req,res) {
 /**
  * setProfileImage
  * */
- app.post('/api/setProfileImage/', function(req,res) {
+ app.post('/api/setProfileImage/', verifyJWTToken,function(req,res) {
     leaveManagement.setProfileImage(req,res);
 });
 
-app.post('/api/getDaysToBeDisabledForFromDateCompOff/',function(req,res){
+app.post('/api/getDaysToBeDisabledForFromDateCompOff/',verifyJWTToken,function(req,res){
     leaveManagement.getDaysToBeDisabledForFromDateCompOff(req,res)
 })
 // /**
@@ -813,7 +813,7 @@ app.post('/api/getDaysToBeDisabledForFromDateCompOff/',function(req,res){
 /**
  * Edit Profile
  * */
-app.post('/api/editProfile', function(req,res) {
+app.post('/api/editProfile',verifyJWTToken, function(req,res) {
 
     common.editProfile(req,res);
 
@@ -832,7 +832,7 @@ app.post('/api/editProfile', function(req,res) {
  *  EMS
  * set programs master
  * */
-app.post('/ems/api/setProgramsMaster/', function(req,res) {
+app.post('/ems/api/setProgramsMaster/',verifyJWTToken, function(req,res) {
 
     ems.setProgramsMaster(req,res);
 
@@ -842,7 +842,7 @@ app.post('/ems/api/setProgramsMaster/', function(req,res) {
  *  EMS
  * get programs master
  * */
-app.get('/ems/api/getProgramsMaster/:pId/:companyName', function(req,res) {
+app.get('/ems/api/getProgramsMaster/:pId/:companyName',verifyJWTToken, function(req,res) {
 
     ems.getProgramsMaster(req,res);
 
@@ -853,7 +853,7 @@ app.get('/ems/api/getProgramsMaster/:pId/:companyName', function(req,res) {
  *  EMS
  * set program tasks
  * */
-app.get('/ems/api/setProgramTasks/:companyName', function(req,res) {
+app.get('/ems/api/setProgramTasks/:companyName', verifyJWTToken,function(req,res) {
 
     ems.setProgramTasks(req,res);
 
@@ -864,7 +864,7 @@ app.get('/ems/api/setProgramTasks/:companyName', function(req,res) {
  *  EMS
  * get_program_tasks
  * */
-app.get('/ems/api/getProgramTasks/:companyName', function(req,res) {
+app.get('/ems/api/getProgramTasks/:companyName',verifyJWTToken, function(req,res) {
 
     ems.getProgramTasks(req,res);
 
@@ -876,7 +876,7 @@ app.get('/ems/api/getProgramTasks/:companyName', function(req,res) {
  *  EMS
  * set program schedules
  * */
-app.post('/ems/api/setProgramSchedules/', function(req,res) {
+app.post('/ems/api/setProgramSchedules/',verifyJWTToken, function(req,res) {
 
     ems.setProgramSchedules(req,res);
 
@@ -886,7 +886,7 @@ app.post('/ems/api/setProgramSchedules/', function(req,res) {
  *  EMS
  * get program schedules
  * */
-app.get('/ems/api/getProgramSchedules/:sid/:pid/:companyName', function(req,res) {
+app.get('/ems/api/getProgramSchedules/:sid/:pid/:companyName',verifyJWTToken, function(req,res) {
 
     ems.getProgramSchedules(req,res);
 
@@ -897,7 +897,7 @@ app.get('/ems/api/getProgramSchedules/:sid/:pid/:companyName', function(req,res)
  *  EMS
  * set employee program schedules
  * */
-app.get('/ems/api/setEmployeeProgramSchedules/', function(req,res) {
+app.get('/ems/api/setEmployeeProgramSchedules/',verifyJWTToken, function(req,res) {
 
     ems.setEmployeeProgramSchedules(req,res);
 
@@ -907,7 +907,7 @@ app.get('/ems/api/setEmployeeProgramSchedules/', function(req,res) {
  *  EMS
  * get employee program schedules
  * */
-app.get('/ems/api/getEmployeeProgramSchedules/', function(req,res) {
+app.get('/ems/api/getEmployeeProgramSchedules/', verifyJWTToken,function(req,res) {
 
     ems.getEmployeeProgramSchedules(req,res);
 
@@ -919,7 +919,7 @@ app.get('/ems/api/getEmployeeProgramSchedules/', function(req,res) {
  *  EMS
  * set checklists master
  * */
-app.post('/ems/api/setChecklistsMaster', function(req,res) {
+app.post('/ems/api/setChecklistsMaster',verifyJWTToken, function(req,res) {
 
     ems.setChecklistsMaster(req, res);
 
@@ -931,12 +931,12 @@ app.post('/ems/api/setChecklistsMaster', function(req,res) {
  *  EMS
  * get checklists master
  * */
-app.get('/ems/api/getChecklistsMaster/:deptId/:category/:companyName', function(req,res) {
+app.get('/ems/api/getChecklistsMaster/:deptId/:category/:companyName', verifyJWTToken,function(req,res) {
     ems.getChecklistsMaster(req,res);
 
 });
 
-app.get('/ems/api/getChecklistsMasterActive/:deptId/:category/:status/:companyName', function(req,res) {
+app.get('/ems/api/getChecklistsMasterActive/:deptId/:category/:status/:companyName', verifyJWTToken,function(req,res) {
         ems.getChecklistsMasterActive(req,res);
 
     });
@@ -945,7 +945,7 @@ app.get('/ems/api/getChecklistsMasterActive/:deptId/:category/:status/:companyNa
  * EMS
  * set new hire
  */
-app.post('/ems/api/setNewHire/', function(req,res) {
+app.post('/ems/api/setNewHire/', verifyJWTToken,function(req,res) {
 
     ems.setNewHire(req,res);
 });
@@ -955,7 +955,7 @@ app.post('/ems/api/setNewHire/', function(req,res) {
  * get new hire list
  * */
 
-app.get('/ems/api/getNewHireDetails/:id/:companyName', function(req,res) {
+app.get('/ems/api/getNewHireDetails/:id/:companyName',verifyJWTToken, function(req,res) {
 
     ems.getNewHireDetails(req,res);
 
@@ -965,7 +965,7 @@ app.get('/ems/api/getNewHireDetails/:id/:companyName', function(req,res) {
  * EMS
  * set reason master
  * */
-app.post('/ems/api/setReasonMaster/', function(req,res) {
+app.post('/ems/api/setReasonMaster/', verifyJWTToken,function(req,res) {
 
     ems.setReasonMaster(req,res);
 });
@@ -973,7 +973,7 @@ app.post('/ems/api/setReasonMaster/', function(req,res) {
 /** EMS
  * get active reasons list
  */
-app.get('/ems/api/getActiveReasonList/:companyName', function(req,res) {
+app.get('/ems/api/getActiveReasonList/:companyName',verifyJWTToken, function(req,res) {
 
     ems.getActiveReasonList(req,res);
 });
@@ -981,7 +981,7 @@ app.get('/ems/api/getActiveReasonList/:companyName', function(req,res) {
 /** EMS
  * get all reasons list
  */
- app.get('/ems/api/getReasonMasterData/:companyName', function(req,res) {
+ app.get('/ems/api/getReasonMasterData/:companyName', verifyJWTToken,function(req,res) {
 
      ems.getReasonMasterData(req, res);
  });
@@ -989,7 +989,7 @@ app.get('/ems/api/getActiveReasonList/:companyName', function(req,res) {
 /** EMS
  * set termination category
  */
-app.post('/ems/api/setTerminationCategory/', function(req,res) {
+app.post('/ems/api/setTerminationCategory/', verifyJWTToken,function(req,res) {
 
         ems.setTerminationCategory(req, res);
 });
@@ -997,7 +997,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get termination category
  */
- app.get('/ems/api/getTerminationCategory/:companyName', function(req,res) {
+ app.get('/ems/api/getTerminationCategory/:companyName', verifyJWTToken,function(req,res) {
 
     ems.getTerminationCategory(req, res);
  });
@@ -1005,7 +1005,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * set document category
  */
- app.post('/ems/api/setDocumentCategory/', function(req,res) {
+ app.post('/ems/api/setDocumentCategory/',verifyJWTToken, function(req,res) {
 
     ems.setDocumentCategory(req,res);
  });
@@ -1013,7 +1013,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
  /** EMS
  * get document category
  */
-  app.get('/ems/api/getDocumentCategory/:companyName', function(req,res) {
+  app.get('/ems/api/getDocumentCategory/:companyName', verifyJWTToken,function(req,res) {
 
     ems.getDocumentCategory(req, res);
   });
@@ -1021,7 +1021,7 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get document category
  */
-    app.get('/ems/api/getEmployeesList/:companyName', function(req,res) {
+    app.get('/ems/api/getEmployeesList/:companyName', verifyJWTToken,function(req,res) {
 
         ems.getEmployeesList(req, res);
     });
@@ -1029,14 +1029,14 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
  /** EMS
  * set candidate pre onboarding details
  */
-  app.post('/ems/api/setPreonboardCandidateInformation', function(req,res) {
+  app.post('/ems/api/setPreonboardCandidateInformation',verifyJWTToken, function(req,res) {
    ems.setPreonboardCandidateInformation(req,res);
  });
 
 /** EMS
  * get candidate list
  */
- app.get('/ems/api/getCandidateDetails/:emp_Id/:companyName', function(req,res) {
+ app.get('/ems/api/getCandidateDetails/:emp_Id/:companyName', verifyJWTToken,function(req,res) {
 
     ems.getCandidateDetails(req, res);
 });
@@ -1045,90 +1045,90 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 /** EMS
  * get employee check list
  */
- app.get('/ems/api/getEmployeeChecklists/:emp_Id/:category/:dept_Id/:companyName', function(req,res) {
+ app.get('/ems/api/getEmployeeChecklists/:emp_Id/:category/:dept_Id/:companyName',verifyJWTToken, function(req,res) {
 
     ems.getEmployeeChecklists(req, res);
 });
 
 
-  app.post('/ems/api/setEmployeeResignation/', function(req,res) {
+  app.post('/ems/api/setEmployeeResignation/', verifyJWTToken,function(req,res) {
 
     ems.setEmployeeResignation(req, res);
   });
-  app.get('/ems/api/getEmployeesResignation/:id/:companyName', function(req,res) {
+  app.get('/ems/api/getEmployeesResignation/:id/:companyName', verifyJWTToken,function(req,res) {
 
     ems.getEmployeesResignation(req, res);
   });
-  app.post('/ems/api/setEmployeeTermination/', function(req,res) {
+  app.post('/ems/api/setEmployeeTermination/', verifyJWTToken,function(req,res) {
 
     ems.setEmployeeTermination(req, res);
   });
-  app.get('/ems/api/getEmployeesTermination/:id/:companyName', function(req,res) {
+  app.get('/ems/api/getEmployeesTermination/:id/:companyName',verifyJWTToken, function(req,res) {
 
     ems.getEmployeesTermination(req, res);
   });
-  app.get('/ems/api/getActiveTerminationCategories/:companyName', function(req,res){
+  app.get('/ems/api/getActiveTerminationCategories/:companyName',verifyJWTToken, function(req,res){
     ems.getActiveTerminationCategories(req,res)
   })
-  app.get('/ems/api/getEmployeeslistforTermination/:companyName', function(req,res){
+  app.get('/ems/api/getEmployeeslistforTermination/:companyName', verifyJWTToken,function(req,res){
     ems.getEmployeeslistforTermination(req,res)
   })
 
 
   /** set onboard candidate work experience */
-  app.post('/ems/api/setCandidateExperience', function(req,res) {
+  app.post('/ems/api/setCandidateExperience',verifyJWTToken,function(req,res) {
 
     ems.setCandidateExperience(req, res);
   });
 
     /** set onboard candidate education */
-    app.post('/ems/api/setCandidateEducation', function(req,res) {
+    app.post('/ems/api/setCandidateEducation',verifyJWTToken, function(req,res) {
         ems.setCandidateEducation(req, res);
     });
 
    /** getDepartmentEmployeesByDesignation */
-    app.get('/ems/api/getDepartmentEmployeesByDesignation/:sid/:pid/:companyName', function(req,res) {
+    app.get('/ems/api/getDepartmentEmployeesByDesignation/:sid/:pid/:companyName', verifyJWTToken,function(req,res) {
 
         ems.getDepartmentEmployeesByDesignation(req,res);
 
     });
 
     /** */
-    app.post('/ems/api/setProgramSchedulemail/',function(req,res){
+    app.post('/ems/api/setProgramSchedulemail/',verifyJWTToken,function(req,res){
         ems.setProgramSchedulemail(req,res);
     });
     /** */
-    app.get('/ems/api/getallEmployeeProgramSchedules/:eid/:sid/:companyName',function(req,res){
+    app.get('/ems/api/getallEmployeeProgramSchedules/:eid/:sid/:companyName',verifyJWTToken,function(req,res){
         ems.getallEmployeeProgramSchedules(req,res)
     })
     /** */
-    app.post('/ems/api/setselectEmployeesProgramSchedules/',function(req,res){
+    app.post('/ems/api/setselectEmployeesProgramSchedules/',verifyJWTToken,function(req,res){
         ems.setselectEmployeesProgramSchedules(req,res)
     })
     /** */
-    app.get('/ems/api/getEmployeesForProgramSchedule/:id/:companyName',function(req,res){
+    app.get('/ems/api/getEmployeesForProgramSchedule/:id/:companyName',verifyJWTToken,function(req,res){
         ems.getEmployeesForProgramSchedule(req,res)
     });
 
     /** getFileMasterForEMS*/
-    app.post('/ems/api/getFileMasterForEMS/',function(req,res){
+    app.post('/ems/api/getFileMasterForEMS/',verifyJWTToken,function(req,res){
         ems.getFileMasterForEMS(req,res)
     });
 
     /** */
-    app.post('/ems/api/setFileMasterForEMS/',function(req,res){
+    app.post('/ems/api/setFileMasterForEMS/',verifyJWTToken,function(req,res){
         ems.setFileMasterForEMS(req,res)
     });
 
     /** */
-    app.post('/ems/api/getFilecategoryMasterForEMS',function(req,res){
+    app.post('/ems/api/getFilecategoryMasterForEMS',verifyJWTToken,function(req,res){
         ems.getFilecategoryMasterForEMS(req,res)
     });
 
 
   /** EMS set employee master details */
 
-  app.post('/ems/api/setEmpPersonalInfo', function(req,res) {
+  app.post('/ems/api/setEmpPersonalInfo', verifyJWTToken,function(req,res) {
     ems.setEmpPersonalInfo(req,res);
   });
 
@@ -1138,78 +1138,78 @@ app.post('/ems/api/setTerminationCategory/', function(req,res) {
 
 
     /** getOnboardingSettings*/
-    app.get('/ems/api/getOnboardingSettings/:companyName',function(req,res){
+    app.get('/ems/api/getOnboardingSettings/:companyName',verifyJWTToken,function(req,res){
         ems.getOnboardingSettings(req,res)
     })
      /** updateselectEmployeesProgramSchedules*/
-     app.post('/ems/api/updateselectEmployeesProgramSchedules/',function(req,res){
+     app.post('/ems/api/updateselectEmployeesProgramSchedules/',verifyJWTToken,function(req,res){
         ems.updateselectEmployeesProgramSchedules(req,res)
     })
     /**setEmsEmployeeColumnConfigurationValues */
-    app.post('/ems/api/setEmsEmployeeColumnConfigurationValues/',function(req,res){
+    app.post('/ems/api/setEmsEmployeeColumnConfigurationValues/',verifyJWTToken,function(req,res){
         ems.setEmsEmployeeColumnConfigurationValues(req,res)
     })
     /**getEmsEmployeeColumnConfigurationValue */
-    app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id/:companyName',function(req,res){
+    app.get('/ems/api/getEmsEmployeeColumnConfigurationValue/:id/:companyName',verifyJWTToken,function(req,res){
         ems.getEmsEmployeeColumnConfigurationValue(req,res)
     })
 
       /**getFilepathsMasterForEMS */
-    app.get('/ems/api/getFilepathsMasterForEMS/:moduleId/:companyName',function(req,res){
+    app.get('/ems/api/getFilepathsMasterForEMS/:moduleId/:companyName',verifyJWTToken,function(req,res){
         ems.getFilepathsMasterForEMS(req,res)
     })
 
    /**setFilesMasterForEMS */
-   app.post('/ems/api/setFilesMasterForEMS/',function(req,res){
+   app.post('/ems/api/setFilesMasterForEMS/',verifyJWTToken,function(req,res){
     ems.setFilesMasterForEMS(req,res)
     })
 
 /**setDocumentOrImageForEMS */
-app.post('/ems/api/setDocumentOrImageForEMS/:companyName',function(req,res){
+app.post('/ems/api/setDocumentOrImageForEMS/:companyName',verifyJWTToken,function(req,res){
     ems.setDocumentOrImageForEMS(req,res)
     })
 /**EMS getUserLoginData */
-app.get('/ems/api/getUserLoginData/:companyName',function(req,res){
+app.get('/ems/api/getUserLoginData/:companyName',verifyJWTToken,function(req,res){
     ems.getUserLoginData(req,res)
 })
 /**usersLogin*/
-app.post('/ems/api/usersLogin/',function(req,res){
+app.post('/ems/api/usersLogin/',verifyJWTToken,function(req,res){
     ems.usersLogin(req,res)
 })
 /**EMS getEmsEmployeeColumnFilterData */
-app.get('/ems/api/getEmsEmployeeColumnFilterData/:companyName',function(req,res){
+app.get('/ems/api/getEmsEmployeeColumnFilterData/:companyName',verifyJWTToken,function(req,res){
     ems.getEmsEmployeeColumnFilterData(req,res)
 })
 /**EMS getEmsEmployeeDataForReports */
-app.post('/ems/api/getEmsEmployeeDataForReports/',function(req,res){
+app.post('/ems/api/getEmsEmployeeDataForReports/',verifyJWTToken,function(req,res){
     ems.getEmsEmployeeDataForReports(req,res)
 })
 
     /** get Employee Personal Info (HR)*/
-    app.get('/ems/api/getEmpPersonalInfo/:id/:companyName',function(req,res){
+    app.get('/ems/api/getEmpPersonalInfo/:id/:companyName',verifyJWTToken,function(req,res){
         ems.getEmpPersonalInfo(req,res)
     })
 
 /**getDocumentsForEMS */
-app.post('/ems/api/getDocumentsForEMS/',function(req,res){
+app.post('/ems/api/getDocumentsForEMS/',verifyJWTToken,function(req,res){
     ems.getDocumentsForEMS(req,res)
     })
 
     /**getDocumentsForEMS */
-app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
+app.post('/ems/api/getDocumentOrImagesForEMS/',verifyJWTToken,function(req,res){
     ems.getDocumentOrImagesForEMS(req,res)
     })
 
 
     /**removeDocumentOrImagesForEMS */
-    app.delete('/ems/api/removeDocumentOrImagesForEMS/:path',function(req,res){
+    app.delete('/ems/api/removeDocumentOrImagesForEMS/:path',verifyJWTToken,function(req,res){
         ems.removeDocumentOrImagesForEMS(req,res)
         })
 
 /**
  * Delete Files Master
  * */
- app.get('/ems/api/deleteFilesMaster/:id/:companyName', function(req,res) {
+ app.get('/ems/api/deleteFilesMaster/:id/:companyName', verifyJWTToken,function(req,res) {
 
     ems.deleteFilesMaster(req,res);
 
@@ -1218,100 +1218,100 @@ app.post('/ems/api/getDocumentOrImagesForEMS/',function(req,res){
 /**
  * Delete Files Master
  * */
- app.post('/ems/api/Messages', function(req,res) {
+ app.post('/ems/api/Messages',verifyJWTToken, function(req,res) {
     ems.Messages(req,res);
 
 });
   /** EMS set employee job details */
-  app.post('/ems/api/setEmpJobDetails', function(req,res) {
+  app.post('/ems/api/setEmpJobDetails',verifyJWTToken, function(req,res) {
     ems.setEmpJobDetails(req,res);
   });
 
     /** EMS set employee education details */
-    app.post('/ems/api/setEmpEducationDetails', function(req,res) {
+    app.post('/ems/api/setEmpEducationDetails', verifyJWTToken,function(req,res) {
         ems.setEmpEducationDetails(req,res);
       });
 
 /** EMS set employee education details */
-    app.post('/ems/api/setEmpEmployement', function(req,res) {
+    app.post('/ems/api/setEmpEmployement',verifyJWTToken, function(req,res) {
         ems.setEmpEmployement(req,res);
     });
 
 /** get Employee Personal Info (HR)*/
-    app.get('/ems/api/getEmpEmployement/:id/:companyName',function(req,res){
+    app.get('/ems/api/getEmpEmployement/:id/:companyName',verifyJWTToken,function(req,res){
         ems.getEmpEmployement(req,res)
     })
 
 /** get Employee Personal Info (HR)*/
-app.get('/ems/api/getEmpEducationDetails/:id/:companyName',function(req,res){
+app.get('/ems/api/getEmpEducationDetails/:id/:companyName',verifyJWTToken,function(req,res){
     ems.getEmpEducationDetails(req,res)
 })
 
 /** get Employee Personal Info (HR)*/
-app.get('/ems/api/getEmpJobDetails/:id/:companyName',function(req,res){
+app.get('/ems/api/getEmpJobDetails/:id/:companyName',verifyJWTToken,function(req,res){
     ems.getEmpJobDetails(req,res)
 })
 /** getOffboardingSettings*/
-app.get('/ems/api/getOffboardingSettings/:companyName',function(req,res){
+app.get('/ems/api/getOffboardingSettings/:companyName',verifyJWTToken,function(req,res){
     ems.getOffboardingSettings(req,res)
 });
 /** EMS setOffboardingSettings */
-app.post('/ems/api/setOffboardingSettings', function(req,res) {
+app.post('/ems/api/setOffboardingSettings',verifyJWTToken, function(req,res) {
     ems.setOffboardingSettings(req,res);
 });
 
 //** */
-app.post('/ems/api/getEmployeesPendingChecklists', function(req,res) {
+app.post('/ems/api/getEmployeesPendingChecklists', verifyJWTToken,function(req,res) {
     ems.getEmployeesPendingChecklists(req,res);
 
 });
 
     ////////
 /** EMS setOnboardingSettings */
-app.post('/ems/api/setOnboardingSettings', function(req,res) {
+app.post('/ems/api/setOnboardingSettings',verifyJWTToken, function(req,res) {
     ems.setOnboardingSettings(req,res);
 });
 
-app.get('/ems/api/getActiveAnnouncementsTopics/:companyName',function(req,res){
+app.get('/ems/api/getActiveAnnouncementsTopics/:companyName',verifyJWTToken,function(req,res){
     ems.getActiveAnnouncementsTopics(req,res)
 })
-app.get('/ems/api/getAnnouncements/:announcement_id/:companyName',function(req,res){
+app.get('/ems/api/getAnnouncements/:announcement_id/:companyName',verifyJWTToken,function(req,res){
     ems.getAnnouncements(req,res)
 })
-app.post('/ems/api/setAnnouncements/',function(req,res){
+app.post('/ems/api/setAnnouncements/',verifyJWTToken,function(req,res){
     ems.setAnnouncements(req,res)
 })
 
-app.get('/ems/api/getFilesForApproval/:companyName',function(req,res){
+app.get('/ems/api/getFilesForApproval/:companyName',verifyJWTToken,function(req,res){
     ems.getFilesForApproval(req,res)
 })
 /**Document Approval */
-app.post('/ems/api/documentApproval/',function(req,res){
+app.post('/ems/api/documentApproval/',verifyJWTToken,function(req,res){
     ems.documentApproval(req,res)
 })
 
 
 /**Document Approval */
-app.post('/ems/api/setEmployeeChecklists',function(req,res){
+app.post('/ems/api/setEmployeeChecklists',verifyJWTToken,function(req,res){
     ems.setEmployeeChecklists(req,res)
 })
 //** */
-app.post('/ems/api/getEmpOffboardTerminationChecklists', function(req,res) {
+app.post('/ems/api/getEmpOffboardTerminationChecklists',verifyJWTToken, function(req,res) {
     ems.getEmpOffboardTerminationChecklists(req,res);
 
 });
   /** get Employee Personal Info (HR)*/
-  app.get('/ems/api/getEmpAnnouncements/:companyName',function(req,res){
+  app.get('/ems/api/getEmpAnnouncements/:companyName',verifyJWTToken,function(req,res){
     ems.getEmpAnnouncements(req,res)
   })
 
   //** */
-app.post('/ems/api/getEmpResignationPendingChecklists', function(req,res) {
+app.post('/ems/api/getEmpResignationPendingChecklists', verifyJWTToken,function(req,res) {
     ems.getEmpResignationPendingChecklists(req,res);
 
 });
 
-app.post('/ems/api/getEmployeesResignationForHr/', function(req,res) {
+app.post('/ems/api/getEmployeesResignationForHr/', verifyJWTToken,function(req,res) {
 
     ems.getEmployeesResignationForHr(req, res);
 });
@@ -1320,33 +1320,33 @@ app.post('/ems/api/getEmployeesResignationForHr/', function(req,res) {
 /** EMS
  * get employee check list
  */
-app.get('/ems/api/getReportingManagerForEmp/:id/:companyName', function(req,res) {
+app.get('/ems/api/getReportingManagerForEmp/:id/:companyName',verifyJWTToken, function(req,res) {
 
     ems.getReportingManagerForEmp(req, res);
 });
 
 
-app.get('/ems/api/getHrDetails/:companyName', function(req,res) {
+app.get('/ems/api/getHrDetails/:companyName', verifyJWTToken,function(req,res) {
 
     ems.getHrDetails(req, res);
 });
-app.get('/ems/api/getnoticeperiods/:companyName', function(req,res) {
+app.get('/ems/api/getnoticeperiods/:companyName', verifyJWTToken,function(req,res) {
     ems.getnoticeperiods(req, res);
 });
-app.post('/ems/api/setprogramspasterstatus/', function(req,res) {
+app.post('/ems/api/setprogramspasterstatus/', verifyJWTToken,function(req,res) {
     ems.setprogramspasterstatus(req,res);
 });
 
-app.get('/ems/api/getEmailsByEmpid/:eid/:companyName', function (req, res) {
+app.get('/ems/api/getEmailsByEmpid/:eid/:companyName',verifyJWTToken, function (req, res) {
     // ems.getEmailsByEmpid(req,res)
     ems.getEmployeeEmailData(req,res)
 
 })
 
-app.get('/ems/api/getActiveEmployeeProgramSchedules/:sid/:companyName', function (req, res) {
+app.get('/ems/api/getActiveEmployeeProgramSchedules/:sid/:companyName',verifyJWTToken, function (req, res) {
     ems.getActiveEmployeeProgramSchedules(req,res)
 })
-app.get('/ems/api/getInductionProgramAssignedEmployee/:sid/:companyName', function (req, res) {
+app.get('/ems/api/getInductionProgramAssignedEmployee/:sid/:companyName',verifyJWTToken, function (req, res) {
     ems.getInductionProgramAssignedEmployee(req,res)
 })
 ////////
@@ -1375,21 +1375,21 @@ app.post('/api/emp_login', function (req, res, next) {
  * get all leaves related to employee
  * @empId
  * */
-app.get('/api/getemployeeleaves/:empid/:page/:size/:companyName',function(req,res){
+app.get('/api/getemployeeleaves/:empid/:page/:size/:companyName',verifyJWTToken,function(req,res){
     leaveManagement.getemployeeleaves(req,res)
 })
 
 
 
 /*Get User Leave Balance*/
-app.get('/api/getLeaveBalance/:empid/:companyName',function(req,res) {
+app.get('/api/getLeaveBalance/:empid/:companyName',verifyJWTToken,function(req,res) {
     leaveManagement.getLeaveBalance(req,res)
 });
 
 /**
  * Get Holidays based on employeeId
  * */
-app.get('/api/getHolidaysList/:empId/:companyName',function(req,res) {
+app.get('/api/getHolidaysList/:empId/:companyName',verifyJWTToken,function(req,res) {
     leaveManagement.getHolidaysList(req,res)
 })
 
@@ -1399,61 +1399,61 @@ app.get('/api/getHolidaysList/:empId/:companyName',function(req,res) {
  *  retuens weekoffs,holidays and leaves
  * */
 
-app.post('/api/getleavecalender/:id/:companyName',function(req,res){
+app.post('/api/getleavecalender/:id/:companyName',verifyJWTToken,function(req,res){
     
     leaveManagement.getleavecalender(req,res)
 })
 
 /**Get Duration for back dated leave*/
-app.get('/api/getdurationforbackdatedleave/:companyName',function(req,res) {
+app.get('/api/getdurationforbackdatedleave/:companyName',verifyJWTToken,function(req,res) {
     leaveManagement.getdurationforbackdatedleave(req,res)
     
 });
 /**get leave cycle for last month */
-app.post('/api/getleavecyclelastmonth/:companyName',function(req,res){
+app.post('/api/getleavecyclelastmonth/:companyName',verifyJWTToken,function(req,res){
     leaveManagement.getleavecyclelastmonth(req,res)
 
 })
 
 
 /**Get Leaves Types*/
-app.get('/api/getLeavesTypeInfo/:companyName',function(req,res) {
+app.get('/api/getLeavesTypeInfo/:companyName',verifyJWTToken,function(req,res) {
    leaveManagement.getLeavesTypeInfo(req,res)
 });
 
 
 /**Get approved compoffs dates for leave submit*/
-app.post('/api/getApprovedCompoffs',function(req,res) {
+app.post('/api/getApprovedCompoffs',verifyJWTToken,function(req,res) {
     leaveManagement.getApprovedCompoffs(req,res)
 });
 
 /**get relations for bereavement leave submit*/
-app.post('/api/getEmployeeRelationsForBereavementLeave',function(req,res) {
+app.post('/api/getEmployeeRelationsForBereavementLeave',verifyJWTToken,function(req,res) {
 
     leaveManagement.getEmployeeRelationsForBereavementLeave(req,res)
 });
 
 /**Get days to be disabled fromdate */
-app.get('/api/getdaystobedisabledfromdate/:id/:leaveId/:companyName',function(req,res){
+app.get('/api/getdaystobedisabledfromdate/:id/:leaveId/:companyName',verifyJWTToken,function(req,res){
     leaveManagement.getdaystobedisabledfromdate(req,res)
 })
 
 
 /**Get days to be disabled to-date */
-app.get('/api/getdaystobedisabledtodate/:id/:leaveId/:companyName',function(req,res){
+app.get('/api/getdaystobedisabledtodate/:id/:leaveId/:companyName',verifyJWTToken,function(req,res){
    leaveManagement.getdaystobedisabletodate(req,res)
 })
 
 /**
  * Event based leave getting max number of leaves eligible per term
  **/
-app.get('/api/getMaxCountPerTermValue/:id/:companyName',function(req,res) {
+app.get('/api/getMaxCountPerTermValue/:id/:companyName',verifyJWTToken,function(req,res) {
     leaveManagement.getMaxCountPerTermValue(req,res);
     
 });
 
 /**Validate leave and get count of leaves based on from date and to date */
-app.post('/api/validateleave',function(req,res) {
+app.post('/api/validateleave',verifyJWTToken,function(req,res) {
     leaveManagement.validateleave(req,res)
     
 });
@@ -1463,12 +1463,12 @@ app.post('/api/validateleave',function(req,res) {
  * @no parameters
  * */
 
- app.get('/api/getNextLeaveDate/:input',function(req,res) {
+ app.get('/api/getNextLeaveDate/:input',verifyJWTToken,function(req,res) {
     leaveManagement.getNextLeaveDate(req,res);
 });
 
 /**Submit leave */
-app.post('/api/setemployeeleave',function(req,res){
+app.post('/api/setemployeeleave',verifyJWTToken,function(req,res){
 
     leaveManagement.setemployeeleave(req,res)
 })
@@ -1476,14 +1476,14 @@ app.post('/api/setemployeeleave',function(req,res){
  * Leave
  * Insert or Update file data
  * */
- app.post('/api/setFilesMaster/', function(req,res) {
+ app.post('/api/setFilesMaster/', verifyJWTToken,function(req,res) {
 
     leaveManagement.setFilesMaster(req,res);
 
 });
 
 /**remove/delete image */
-app.delete('/api/removeImage/:path',function(req,res){
+app.delete('/api/removeImage/:path',verifyJWTToken,function(req,res){
     leaveManagement.removeImage(req,res)
 });
 
@@ -1491,7 +1491,7 @@ app.delete('/api/removeImage/:path',function(req,res){
  * All modules
  * Delete files paths based on @id
  * */
- app.get('/ems/api/deleteFilesMaster/:id/:companyName', function(req,res) {
+ app.get('/ems/api/deleteFilesMaster/:id/:companyName', verifyJWTToken,function(req,res) {
 
     leaveManagement.deleteFilesMaster(req,res);
 
@@ -1499,23 +1499,23 @@ app.delete('/api/removeImage/:path',function(req,res){
 /**
  * Get module code for set file paths
  * */
- app.post('/api/getFilesMaster/', function(req,res) {
+ app.post('/api/getFilesMaster/',verifyJWTToken, function(req,res) {
     leaveManagement.getFilesMaster(req,res);
 });
 /**
  * Get module code for set file paths
  * */
- app.get('/api/getFilepathsMaster/:moduleId/:companyName', function(req,res) {
+ app.get('/api/getFilepathsMaster/:moduleId/:companyName',verifyJWTToken, function(req,res) {
 
     leaveManagement.getFilepathsMaster(req,res);
 
 });
-app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',function(req,res) {
+app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',verifyJWTToken,function(req,res) {
 
     common.getMastertable(req,res)
 });
 
-app.post('/attendance/api/getEmployeeAttendanceNotifications', function (req, res) {
+app.post('/attendance/api/getEmployeeAttendanceNotifications', verifyJWTToken,function (req, res) {
      attendance.getEmployeeAttendanceNotifications(req,res)
 
 });
@@ -1524,12 +1524,12 @@ app.post('/attendance/api/getEmployeeAttendanceNotifications', function (req, re
  *
  * */
 
-app.get('/api/getCompOffMinWorkingHours/:companyName',function(req,res) {
+app.get('/api/getCompOffMinWorkingHours/:companyName',verifyJWTToken,function(req,res) {
     leaveManagement.getCompOffMinWorkingHours(req,res)
 });
 
 /**Get compOff details*/
-app.get('/api/getCompOff/:employeeId/:rmid/:companyName',function(req,res) {
+app.get('/api/getCompOff/:employeeId/:rmid/:companyName',verifyJWTToken,function(req,res) {
     leaveManagement.getCompOff(req,res)
 });
 
@@ -1539,7 +1539,7 @@ app.get('/api/getCompOff/:employeeId/:rmid/:companyName',function(req,res) {
  * @year
  * */
 
-app.get('/api/getCompoffCalender/:calender',function(req,res) {
+app.get('/api/getCompoffCalender/:calender',verifyJWTToken,function(req,res) {
    leaveManagement.getCompoffCalender(req,res)
 });
 
@@ -1549,31 +1549,31 @@ app.get('/api/getCompoffCalender/:calender',function(req,res) {
  * @no parameters
  * */
 
-app.get('/api/getDurationforBackdatedCompoffLeave/:companyName',function(req,res) {
+app.get('/api/getDurationforBackdatedCompoffLeave/:companyName',verifyJWTToken,function(req,res) {
     leaveManagement.getDurationforBackdatedCompoffLeave(req,res)
 
 });
 
 /**Set compOff*/
 
-app.post('/api/setCompOff',function(req,res) {
+app.post('/api/setCompOff',verifyJWTToken,function(req,res) {
     leaveManagement.setCompOff(req,res)
 });
 /*Get Role Screen Functionalities*/
-app.post('/attendance/api/getrolescreenfunctionalities', function (req, res) {
+app.post('/attendance/api/getrolescreenfunctionalities',verifyJWTToken, function (req, res) {
 attendance.getrolescreenfunctionalities(req,res)
 });
 /**
  * Manager dashboard approved or reject leaves
  * */
-app.get('/api/getHandledLeaves/:id/:companyName', function(req,res) {
+app.get('/api/getHandledLeaves/:id/:companyName',verifyJWTToken, function(req,res) {
 
     leaveManagement.getHandledLeaves(req,res);
 
 });
 
 /**Get approved compoffs dates for leave submit*/
-app.get('/api/getLeavesForApprovals/:id/:companyName', function(req,res) {
+app.get('/api/getLeavesForApprovals/:id/:companyName',verifyJWTToken, function(req,res) {
 
     leaveManagement.getLeavesForApprovals(req,res);
 
@@ -1583,13 +1583,13 @@ app.get('/api/getLeavesForApprovals/:id/:companyName', function(req,res) {
 
 
 
-app.get('/api/getcompoffleavestatus/:companyName',function(req,res){
+app.get('/api/getcompoffleavestatus/:companyName',verifyJWTToken,function(req,res){
     leaveManagement.getCompoffLeaveStatus(req,res)
 });
 /**
  * Manager and employee comp-off history
  * */
-app.post('/api/getCompoffs', function(req,res) {
+app.post('/api/getCompoffs',verifyJWTToken, function(req,res) {
 
     leaveManagement.getCompoffs(req,res);
 
@@ -1601,7 +1601,7 @@ app.post('/api/getCompoffs', function(req,res) {
  * Manager approved or reject leaves
  * leave delete and cancel
  * */
-app.post('/api/setLeaveStatus', function(req,res) {
+app.post('/api/setLeaveStatus',verifyJWTToken, function(req,res) {
 
     leaveManagement.leaveSattus(req,res);
 
@@ -1609,7 +1609,7 @@ app.post('/api/setLeaveStatus', function(req,res) {
 /**
  * Manager dashboard approved or reject compoffs
  * */
-app.get('/api/getCompoffsForApproval/:id/:companyName', function(req,res) {
+app.get('/api/getCompoffsForApproval/:id/:companyName', verifyJWTToken,function(req,res) {
 
     leaveManagement.getCompoffsForApproval(req,res);
 
@@ -1618,7 +1618,7 @@ app.get('/api/getCompoffsForApproval/:id/:companyName', function(req,res) {
 /**
  * Manager dashboard approved or reject leaves
  * */
-app.post('/api/setCompoffForApproveOrReject', function(req,res) {
+app.post('/api/setCompoffForApproveOrReject', verifyJWTToken,function(req,res) {
 
     leaveManagement.setCompoffForApproveOrReject(req,res);
 
@@ -1627,7 +1627,7 @@ app.post('/api/setCompoffForApproveOrReject', function(req,res) {
 /**
  * get Leaves For Cancellation
  * */
-app.get('/api/getLeavesForCancellation/:Id/:companyName', function(req,res) {
+app.get('/api/getLeavesForCancellation/:Id/:companyName',verifyJWTToken, function(req,res) {
 
     leaveManagement.getLeavesForCancellation(req,res);
 
@@ -1637,26 +1637,26 @@ app.get('/api/getLeavesForCancellation/:Id/:companyName', function(req,res) {
 /**
  * get Leave Calendar For Manager
  * */
-app.get('/api/getLeaveCalendarForManager/:managerId/:companyName', function(req,res) {
+app.get('/api/getLeaveCalendarForManager/:managerId/:companyName',verifyJWTToken, function(req,res) {
 
     leaveManagement.getLeaveCalendarForManager(req,res);
 
 });
 
-app.post('/api/getMastertables', function(req,res) {
+app.post('/api/getMastertables', verifyJWTToken,function(req,res) {
 
     leaveManagement.getMastertables(req,res);
 
 
 });
-app.post('/api/getEmployeesForReportingManager', function(req,res) {
+app.post('/api/getEmployeesForReportingManager',verifyJWTToken, function(req,res) {
 
     leaveManagement.getEmployeesForReportingManager(req,res);
 
 
 });
 
-app.post('/api/getEmployeeLeaveDetailedReportForManager', function(req,res) {
+app.post('/api/getEmployeeLeaveDetailedReportForManager',verifyJWTToken, function(req,res) {
 
     leaveManagement.getEmployeeLeaveDetailedReportForManager(req,res);
 
@@ -1667,7 +1667,7 @@ app.post('/api/getEmployeeLeaveDetailedReportForManager', function(req,res) {
  *
  * */
 
-app.post('/api/getSummaryReportForManager', function(req,res) {
+app.post('/api/getSummaryReportForManager', verifyJWTToken,function(req,res) {
 
     leaveManagement.getSummaryReportForManager(req,res);
 
@@ -1677,7 +1677,7 @@ app.post('/api/getSummaryReportForManager', function(req,res) {
  *
  */
 
-app.get('/attendance/api/getallemployeeslist/:companyName', function (req, res) {
+app.get('/attendance/api/getallemployeeslist/:companyName', verifyJWTToken,function (req, res) {
 
     attendance.getallemployeeslist(req,res);
 
@@ -1685,51 +1685,51 @@ app.get('/attendance/api/getallemployeeslist/:companyName', function (req, res) 
 
 
 /**getReportForPayrollProcessing */
-app.post('/api/getReportForPayrollProcessing/', function(req,res) {
+app.post('/api/getReportForPayrollProcessing/',verifyJWTToken, function(req,res) {
     leaveManagement.getReportForPayrollProcessing(req,res);
 });
 
 /**CancelLeave Request */
-app.post('/api/cancelLeaveRequest',function(req,res) {
+app.post('/api/cancelLeaveRequest',verifyJWTToken,function(req,res) {
    leaveManagement.cancelLeaveRequest(req,res)
 });
 /** Delete Leave Request */
-app.post('/api/setDeleteLeaveRequest',function(req,res) {
+app.post('/api/setDeleteLeaveRequest',verifyJWTToken,function(req,res) {
     leaveManagement.deleteLeaveRequest(req,res)
 });
 
 /**Get Leave Rules*/
-app.get('/api/getErrorMessages/:errorCode/:page/:size/:companyName',function(req,res) {
+app.get('/api/getErrorMessages/:errorCode/:page/:size/:companyName',verifyJWTToken,function(req,res) {
 common.getErrorMessages(req,res)
 });
 
 
 
-app.post('/admin/api/getstatuslist/:companyName',function(req,res){
+app.post('/admin/api/getstatuslist/:companyName',verifyJWTToken,function(req,res){
     admin.getstatuslist(req,res)
 })
 
 /*set Designation*/
-app.post('/api/setDesignation',function (req,res) {
+app.post('/api/setDesignation',verifyJWTToken,function (req,res) {
     admin.setDesignation(req,res)
 });
 
 /*set Designation*/
-app.put('/api/putDesignation',function(req,res) {
+app.put('/api/putDesignation',verifyJWTToken,function(req,res) {
     admin.putDesignation(req,res)
 });
 
 /*Set Departments*/
-app.put('/api/putDepartments',function(req,res) {
+app.put('/api/putDepartments',verifyJWTToken,function(req,res) {
     admin.putDepartments(req,res);
 });
 
 /*set Department*/
-app.post('/api/setDepartments',function(req,res) {
+app.post('/api/setDepartments',verifyJWTToken,function(req,res) {
     admin.setDepartment(req,res)
 });
 
-app.post('/api/updateStatus',checkRecord, function(req,res) {
+app.post('/api/updateStatus',checkRecord, verifyJWTToken,function(req,res) {
     admin.updateStatus(req,res)
 });
 
@@ -1739,14 +1739,14 @@ app.post('/api/updateStatus',checkRecord, function(req,res) {
  * @status
  *
  * */
-app.post('/api/designationstatus',checkRecord,function(req,res) {
+app.post('/api/designationstatus',checkRecord,verifyJWTToken,function(req,res) {
     admin.designationStatus(req,res)
 });
 
 /**
  * Get Work Location
  * */
-app.post('/api/getactiveWorkLocation',function(req,res) {
+app.post('/api/getactiveWorkLocation',verifyJWTToken,function(req,res) {
     admin.getactiveWorkLocation(req,res)
 });
 
@@ -1755,7 +1755,7 @@ app.post('/api/getactiveWorkLocation',function(req,res) {
  *
  * */
 
-app.post('/api/setHolidays',function(req,res) {
+app.post('/api/setHolidays',verifyJWTToken,function(req,res) {
     admin.setHolidays(req,res)
 
 
@@ -1763,14 +1763,14 @@ app.post('/api/setHolidays',function(req,res) {
 /**
  * Get Holidays filter
  * */
-app.get('/api/getHolidaysFilter/:year/:locationId/:page/:size/:companyName', function (req, res) {
+app.get('/api/getHolidaysFilter/:year/:locationId/:page/:size/:companyName', verifyJWTToken,function (req, res) {
     admin.getHolidysFilter(req,res)
 });
 
 /**
  * Delete Holiday
  * */
-app.delete('/api/deleteHoliday/:holidayId/:companyName',function(req,res) {
+app.delete('/api/deleteHoliday/:holidayId/:companyName',verifyJWTToken,function(req,res) {
     admin.deleteHoliday(req,res)
 
 });
@@ -1779,105 +1779,105 @@ app.delete('/api/deleteHoliday/:holidayId/:companyName',function(req,res) {
 /**
  * set Holidays
  * **/
-app.put('/api/putHolidays',function(req,res) {
+app.put('/api/putHolidays',verifyJWTToken,function(req,res) {
     admin.putHolidays(req,res)
 });
 
 /*put comapny information*/
-app.put('/api/putCompanyInformation',function(req,res) {
+app.put('/api/putCompanyInformation',verifyJWTToken,function(req,res) {
 
     admin.putCompanyInformation(req,res)
 });
 
 /*Set comapny information*/
-app.post('/api/setCompanyInformation',function(req,res) {
+app.post('/api/setCompanyInformation',verifyJWTToken,function(req,res) {
     admin.setCompanyInformation(req,res)
 });
 
 
 /**getstates */
-app.get('/api/getStates/:id/:companyName',function(req,res){
+app.get('/api/getStates/:id/:companyName',verifyJWTToken,function(req,res){
    admin.getStates(req,res)
 })
 /**get Cities */
-app.get('/api/getCities/:id/:companyName',function(req,res){
+app.get('/api/getCities/:id/:companyName',verifyJWTToken,function(req,res){
     admin.getCities(req,res)
 })
 
 /**
  * getting leave polices based on leave category Id
  */
-app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageSize/:companyName',function(req,res) {
+app.get('/api/getLeavePolicies/:leaveCategoryId/:isCommonRule/:pageNumber/:pageSize/:companyName',verifyJWTToken,function(req,res) {
     admin.getLeavePolicies(req,res)
 });
 
 
 /**
  * Update Leave type display name*/
-app.post('/api/updateLeaveDisplayName',function(req,res) {
+app.post('/api/updateLeaveDisplayName',verifyJWTToken,function(req,res) {
     admin.updateLeaveDisplayName(req,res);
 });
 
-app.post('/api/setAdvancedLeaveRuleValues',function(req,res) {
+app.post('/api/setAdvancedLeaveRuleValues',verifyJWTToken,function(req,res) {
     admin.setAdvancedLeaveRuleValues(req,res);
 });
 
 /*setToggleLeaveType */
-app.post('/api/setToggleLeaveType',function(req,res) {
+app.post('/api/setToggleLeaveType',verifyJWTToken,function(req,res) {
     admin.setToggleLeaveType(req,res);
 });
 /**
  * get Leave Types to set as AdvancedLeave
  */
-app.get('/api/getLeaveTypesForAdvancedLeave/:companyName',function(req,res) {
+app.get('/api/getLeaveTypesForAdvancedLeave/:companyName',verifyJWTToken,function(req,res) {
     admin.getLeaveTypesForAdvancedLeave(req,res)
 });
 
 /**
  * Insert or update leave polices
  */
-app.post('/api/setLeavePolicies',function(req,res) {
+app.post('/api/setLeavePolicies',verifyJWTToken,function(req,res) {
     admin.setLeavePolicies(req,res)
 });
 
 /**
  * get Carry forwarded Leave MaxCount
  * */
-app.get('/api/getCarryforwardedLeaveMaxCount/:leaveId/:companyName', function(req,res) {
+app.get('/api/getCarryforwardedLeaveMaxCount/:leaveId/:companyName',verifyJWTToken, function(req,res) {
 
     leaveManagement.getCarryforwardedLeaveMaxCount(req,res);
 
 });
-app.get('/api/getApprovedLeaves/:id/:companyName', function(req,res) {
+app.get('/api/getApprovedLeaves/:id/:companyName',verifyJWTToken, function(req,res) {
     leaveManagement.getApprovedLeaves(req,res);
 });
 
 
 /** Get all Work Location for company*/
-app.post('/api/getWorkLocation',function(req,res) {
+app.post('/api/getWorkLocation',verifyJWTToken,function(req,res) {
     admin.getWorkLocation(req,res)
 });
 
 /** Update status is a generic call to update status*/
 
-app.post('/api/updateStatusall',checkRecord, function(req,res) {
+app.post('/api/updateStatusall',checkRecord,verifyJWTToken, function(req,res) {
     admin.updateStatusall(req,res)
 });
 
 /** Insert or update Work Location for company*/
-app.post('/api/setWorkLocation',function(req,res) {
+app.post('/api/setWorkLocation',verifyJWTToken,function(req,res) {
     admin.setWorkLocation(req,res)
 });
 
 /**SetErrorMessages is a generic procedure for insert messages */
-app.post('/api/setErrorMessages',function(req,res) {
+app.post('/api/setErrorMessages',verifyJWTToken,function(req,res) {
     common.setErrorMessages(req,res)
 });
 
 /**
  *
  *@param boon_emp_id *@param biometric_id */
-app.post('/admin/api/getIntegrationEmpidsLookup', function (req, res) {
+app.post('/admin/api/getIntegrationEmpidsLookup',verifyJWTToken, function (req, res) {
     admin.getIntegrationEmpidsLookup(req,res)
 
 
@@ -1887,40 +1887,40 @@ app.post('/admin/api/getIntegrationEmpidsLookup', function (req, res) {
  *
  *@param boon_emp_id *@param biometric_id */
 
-app.post('/admin/api/setIntegrationEmpidsLookup', function (req, res) {
+app.post('/admin/api/setIntegrationEmpidsLookup',verifyJWTToken, function (req, res) {
     admin.setIntegrationEmpidsLookup(req,res)
 
 });
 
 
 //**@param code ,*@param pagenumber, @param pagesize **/
-app.post('/admin/api/getAttendenceMessages', function (req, res) {
+app.post('/admin/api/getAttendenceMessages',verifyJWTToken, function (req, res) {
     admin.getAttendenceMessages(req,res)
 });
 
 //**@param jsonData */
-app.post('/admin/api/setAttendenceMessages', function (req, res) {
+app.post('/admin/api/setAttendenceMessages', verifyJWTToken,function (req, res) {
     admin.setAttendenceMessages(req,res)
 });
 
 /**@param employee_id */
-app.post('/attendance/api/getEmployeeCurrentShifts',function(req,res){
+app.post('/attendance/api/getEmployeeCurrentShifts',verifyJWTToken,function(req,res){
     attendance.getEmployeeCurrentShifts(req,res)
 });
 
 /**
  *@param manager_id *@param employee_id *@param date */
 
-app.post('/attendance/api/getemployeeattendancedashboard', function (req, res) {
+app.post('/attendance/api/getemployeeattendancedashboard',verifyJWTToken, function (req, res) {
     attendance.getemployeeattendancedashboard(req,res)
 });
 /**@param employee_id in, `fromd_date` date,in `to_date` date)*/
-app.post('/attendance/api/getEmployeeShiftByDates',function(req,res){
+app.post('/attendance/api/getEmployeeShiftByDates',verifyJWTToken,function(req,res){
     attendance.getEmployeeShiftByDates(req,res)
 });
 
 /**@param employee_id in, `fromd_date` date,in `to_date` date)*/
-app.post('/attendance/api/getEmployeeWeekoffsHolidaysForAttendance',function(req,res){
+app.post('/attendance/api/getEmployeeWeekoffsHolidaysForAttendance',verifyJWTToken,function(req,res){
     attendance.getEmployeeWeekoffsHolidaysForAttendance(req,res)
 });
 
@@ -1928,7 +1928,7 @@ app.post('/attendance/api/getEmployeeWeekoffsHolidaysForAttendance',function(req
  **@employee_id  parameters
  * **/
 
-app.get('/attendance/api/getemployeeattendanceregularization/:employee_id/:companyName', function (req, res) {
+app.get('/attendance/api/getemployeeattendanceregularization/:employee_id/:companyName',verifyJWTToken, function (req, res) {
     attendance.getemployeeattendanceregularization(req,res)
 });
 /** setemployeeattendanceregularization
@@ -1946,12 +1946,12 @@ app.get('/attendance/api/getemployeeattendanceregularization/:employee_id/:compa
  `actionby` int(11),
  `status` varchar(32)
  *  */
-app.post('/attendance/api/setemployeeattendanceregularization', function (req, res) {
+app.post('/attendance/api/setemployeeattendanceregularization',verifyJWTToken, function (req, res) {
     attendance.setemployeeattendanceregularization(req,res)
 })
 
 //**delete_employee_attendance_regularization */
-app.post('/attendance/api/deleteAttendanceRequestById', function (req, res) {
+app.post('/attendance/api/deleteAttendanceRequestById',verifyJWTToken, function (req, res) {
     attendance.deleteAttendanceRequestById(req,res)
 });
 
@@ -1964,7 +1964,7 @@ app.post('/attendance/api/deleteAttendanceRequestById', function (req, res) {
  )
  *@param manager_employee_id *@param employee_id *@param date */
 
-app.post('/attendance/api/getAttendanceMonthlyReport', function (req, res) {
+app.post('/attendance/api/getAttendanceMonthlyReport',verifyJWTToken, function (req, res) {
     attendance.getAttendanceMonthlyReport(req,res)
 });
 
@@ -1972,7 +1972,7 @@ app.post('/attendance/api/getAttendanceMonthlyReport', function (req, res) {
  **@employee_id  parameters
  */
 
-app.get('/attendance/api/getpendingattendanceregularizations/:employee_id/:companyName', function (req, res) {
+app.get('/attendance/api/getpendingattendanceregularizations/:employee_id/:companyName',verifyJWTToken, function (req, res) {
     attendance.getpendingattendanceregularizations(req,res)
 });
 
@@ -1981,17 +1981,17 @@ app.get('/attendance/api/getpendingattendanceregularizations/:employee_id/:compa
  **@employee_id  parameters
  *@designation_id  parameters
  */
-app.get('/attendance/api/getEmployeesByManagerId/:employee_id/:companyName', function (req, res) {
+app.get('/attendance/api/getEmployeesByManagerId/:employee_id/:companyName',verifyJWTToken, function (req, res) {
     attendance.getEmployeesByManagerId(req,res);
 });
 /** Get Shift Detaild By Employee Id
  * @employee_id Parameter */
-app.get('/attendance/api/getemployeeshift/:employee_id/:companyName', function (req, res) {
+app.get('/attendance/api/getemployeeshift/:employee_id/:companyName',verifyJWTToken, function (req, res) {
     attendance.getemployeeshift(req,res);
 });
 
 
-app.get('/attendance/api/getAttendanceRegularizationByManagerId/:manager_employee_id/:companyName', function (req, res) {
+app.get('/attendance/api/getAttendanceRegularizationByManagerId/:manager_employee_id/:companyName', verifyJWTToken,function (req, res) {
     attendance.getAttendanceRegularizationByManagerId(req,res);
 });
 
@@ -2003,12 +2003,12 @@ app.get('/attendance/api/getAttendanceRegularizationByManagerId/:manager_employe
  `action_by` int(11),
  `approval_status` varchar(32)
  ) */
-app.post('/attendance/api/setattendanceapprovalstatus', function (req, res) {
+app.post('/attendance/api/setattendanceapprovalstatus',verifyJWTToken, function (req, res) {
     attendance.setattendanceapprovalstatus(req,res)
 
 })
 
-app.post('/attendance/api/getallemployeeslistByManagerId', function (req, res) {
+app.post('/attendance/api/getallemployeeslistByManagerId',verifyJWTToken, function (req, res) {
     attendance.getallemployeeslistByManagerId(req,res)
 
 })
@@ -2016,7 +2016,7 @@ app.post('/attendance/api/getallemployeeslistByManagerId', function (req, res) {
 /**
  *@param manager_empid *@param employee *@param fromdate *@param todate */
 
-app.post('/attendance/api/getAttendanceSummaryReport', function (req, res) {
+app.post('/attendance/api/getAttendanceSummaryReport',verifyJWTToken, function (req, res) {
     attendance.getAttendanceSummaryReport(req,res)
 });
 
@@ -2024,16 +2024,16 @@ app.post('/attendance/api/getAttendanceSummaryReport', function (req, res) {
 /**
  *@param attendanceid  */
 
-app.post('/attendance/api/getAttendanceDetailsByAttendanceId', function (req, res) {
+app.post('/attendance/api/getAttendanceDetailsByAttendanceId',verifyJWTToken, function (req, res) {
     attendance.getAttendanceDetailsByAttendanceId(req,res)
 });
 
 
-app.post('/attendance/api/getEmployeeConfigureShifts', function (req, res) {
+app.post('/attendance/api/getEmployeeConfigureShifts',verifyJWTToken, function (req, res) {
     attendance.getEmployeeConfigureShifts(req,res)
 });
 /**Get All Active Shifts */
-app.get('/admin/api/getActiveShiftIds/:companyName', function (req, res) {
+app.get('/admin/api/getActiveShiftIds/:companyName',verifyJWTToken, function (req, res) {
     admin.getActiveShiftIds(req,res);
 
 });
@@ -2045,7 +2045,7 @@ app.get('/admin/api/getActiveShiftIds/:companyName', function (req, res) {
  `weekoffs` JSON, -- format: [1,2] 1- Sunday, 2 - Monday etc.
  `empids` JSON -- format: [1,2,3,4]
  ) */
-app.post('/attendance/api/setEmployeeConfigureShift', function (req, res) {
+app.post('/attendance/api/setEmployeeConfigureShift',verifyJWTToken, function (req, res) {
     attendance.setEmployeeConfigureShift(req,res);
 });
 
@@ -2060,29 +2060,29 @@ app.post('/attendance/api/setEmployeeConfigureShift', function (req, res) {
      `to_date` date
  )
  */
-app.post('/attendance/api/getEmployeeLateAttendanceReport', function (req, res) {
+app.post('/attendance/api/getEmployeeLateAttendanceReport', verifyJWTToken,function (req, res) {
     attendance.getEmployeeLateAttendanceReport(req,res);
 });
 
 
-app.get('/attendance/api/getAttendanceRegularizationsHistoryForManager/:employee_id/:companyName', function (req, res) {
+app.get('/attendance/api/getAttendanceRegularizationsHistoryForManager/:employee_id/:companyName', verifyJWTToken,function (req, res) {
     attendance.getAttendanceRegularizationsHistoryForManager(req,res)
 });
 /**attendance Excel Data insert Method  set_employee_attendance
 
  */
 
-app.post('/api/setEmployeeAttendance', function (req, res) {
+app.post('/api/setEmployeeAttendance',verifyJWTToken, function (req, res) {
   attendance.setEmployeeAttendance(req,res);
 });
 
 
 
-app.post('/admin/api/setShiftMaster', function (req, res) {
+app.post('/admin/api/setShiftMaster',verifyJWTToken, function (req, res) {
     admin.setShiftMaster(req,res)
 })
 /**Get All SHifts */
-app.get('/admin/api/getAllShifts/:companyName', function (req, res) {
+app.get('/admin/api/getAllShifts/:companyName',verifyJWTToken, function (req, res) {
     admin.getAllShifts(req,res);
 
 });
@@ -2092,7 +2092,7 @@ app.get('/admin/api/getAllShifts/:companyName', function (req, res) {
 
  * **/
 
-app.post('/admin/api/updateShiftStatus', function (req, res) {
+app.post('/admin/api/updateShiftStatus',verifyJWTToken, function (req, res) {
     admin.updateShiftStatus(req,res);
 
 });
@@ -2103,7 +2103,7 @@ app.post('/admin/api/updateShiftStatus', function (req, res) {
  **@shift_id  parameters
  * **/
 
-app.get('/admin/api/getShiftsDetailsById/:shift_id/:companyName', function(req, res) {
+app.get('/admin/api/getShiftsDetailsById/:shift_id/:companyName', verifyJWTToken,function(req, res) {
     admin.getShiftsDetailsById(req,res)
 });
 
@@ -2115,7 +2115,7 @@ app.get('/admin/api/getShiftsDetailsById/:shift_id/:companyName', function(req, 
 
 
 /**verify email for forget password */
-app.get('/api/forgetpassword/:email/:companyName', function (req, res, next) {
+app.get('/api/forgetpassword/:email/:companyName', verifyJWTToken,function (req, res, next) {
     common.forgetpassword(req,res)
 
 })
@@ -2123,12 +2123,12 @@ app.get('/api/forgetpassword/:email/:companyName', function (req, res, next) {
 
 
 /**reset password */
-app.post('/api/resetpassword', function (req, res, next) {
+app.post('/api/resetpassword',verifyJWTToken, function (req, res, next) {
  common.resetpassword(req,res);
 })
 
 /**Change Password */
-app.post('/api/changePassword',function(req,res){
+app.post('/api/changePassword',verifyJWTToken,function(req,res){
    common.changePassword(req,res);
 })
 
@@ -2136,101 +2136,101 @@ app.post('/api/changePassword',function(req,res){
 
 
 /**EMS messagemaster */
-app.post('/admin/api/getEMSMessages', function (req, res) {
+app.post('/admin/api/getEMSMessages', verifyJWTToken,function (req, res) {
  admin.getEMSMessages(req,res)
 });
-app.post('/admin/api/setEMSMessages', function (req, res) {
+app.post('/admin/api/setEMSMessages',verifyJWTToken, function (req, res) {
     admin.setEMSMessages(req,res)
 });
 
 /*Get Modules Screens Master*/
-app.get('/api/getModulesWithScreens/:companyName',function(req,res) {
+app.get('/api/getModulesWithScreens/:companyName',verifyJWTToken,function(req,res) {
   admin.getModulesWithScreens(req,res);
 });
 
 /*Get Screens Functionalities*/
-app.get('/api/getScreenWithFunctionalities/:moduleId/:companyName',function(req,res) {
+app.get('/api/getScreenWithFunctionalities/:moduleId/:companyName',verifyJWTToken,function(req,res) {
     admin.getScreenWithFunctionalities(req,res);
 });
 
 /*Get Role Screen Functionalities By Role Id*/
-app.get('/api/getRoleScreenfunctionalitiesByRoleId/:roleId/:companyName',function(req,res) {
+app.get('/api/getRoleScreenfunctionalitiesByRoleId/:roleId/:companyName',verifyJWTToken,function(req,res) {
     admin.getRoleScreenfunctionalitiesByRoleId(req,res);
 });
 
 /*Get Role Screen Functionalities Based On Role*/
-app.post('/attendance/api/getrolescreenfunctionalitiesforrole', function (req, res) {
+app.post('/attendance/api/getrolescreenfunctionalitiesforrole',verifyJWTToken, function (req, res) {
    attendance.getrolescreenfunctionalitiesforrole(req,res)
 });
 
 /*Get Role Master*/
-app.get('/api/getrolemaster/:companyName',function(req,res) {
+app.get('/api/getrolemaster/:companyName',verifyJWTToken,function(req,res) {
     admin.getrolemaster(req,res);
 });
 
 
 /*Get Screen Master*/
-app.get('/api/getscreensmaster/:companyName',function(req,res) {
+app.get('/api/getscreensmaster/:companyName',verifyJWTToken,function(req,res) {
     admin.getscreensmaster(req,res)
 });
 
 
 /*Get Functionalities Master*/
-app.get('/api/getfunctionalitiesmaster/:companyName',function(req,res) {
+app.get('/api/getfunctionalitiesmaster/:companyName',verifyJWTToken,function(req,res) {
    admin.getfunctionalitiesmaster(req,res);
 });
 /*Get Screen Functionalities Master*/
-app.get('/api/getscreenfunctionalitiesmaster/:companyName',function(req,res) {
+app.get('/api/getscreenfunctionalitiesmaster/:companyName',verifyJWTToken,function(req,res) {
    admin.getscreenfunctionalitiesmaster(req,res)
 });
 
 /*setRoleAccess */
-app.post('/api/setRoleAccess',function(req,res) {
+app.post('/api/setRoleAccess',verifyJWTToken,function(req,res) {
     admin.setRoleAccess(req,res)
 });
 
 /*setRoleMaster */
-app.post('/api/setRoleMaster',function(req,res) {
+app.post('/api/setRoleMaster',verifyJWTToken,function(req,res) {
     admin.setRoleMaster(req,res)
 });
 
 /**getreportingmanagers */
-app.post('/api/getReportingManager',function(req,res){
+app.post('/api/getReportingManager',verifyJWTToken,function(req,res){
    admin.getReportingManager(req,res)
 })
 
 /*Get Role Screen Functionalities*/
-app.get('/api/getrolescreenfunctionalities/:roleId/:companyName',function(req,res) {
+app.get('/api/getrolescreenfunctionalities/:roleId/:companyName',verifyJWTToken,function(req,res) {
     admin.getrolescreenfunctionalities(req,res)
 });
 //-------------------
 /** get employees list by department */
-app.get('/ems/api/getEmployeesListByDeptId/:did/:companyName', function (req, res) {
+app.get('/ems/api/getEmployeesListByDeptId/:did/:companyName',verifyJWTToken, function (req, res) {
     ems.getEmployeesListByDeptId(req,res)
 })
 
 /** set induction conduct by */
-app.post('/ems/api/setInductionConductedby', function (req, res) {
+app.post('/ems/api/setInductionConductedby',verifyJWTToken, function (req, res) {
     ems.setInductionConductedby(req,res)
 })
 
 /** get induction conducted by employees */
-app.get('/ems/api/getInductionConductedbyEmployees/:companyName', function (req, res) {
+app.get('/ems/api/getInductionConductedbyEmployees/:companyName',verifyJWTToken, function (req, res) {
     ems.getInductionConductedbyEmployees(req,res)
 })
 
 /** get employees list by program id and dept id */
-app.get('/ems/api/getCondcutedEmployeesByPrgIdAndDeptId/:pid/:did/:companyName',function(req,res) {
+app.get('/ems/api/getCondcutedEmployeesByPrgIdAndDeptId/:pid/:did/:companyName',verifyJWTToken,function(req,res) {
     ems.getCondcutedEmployeesByPrgIdAndDeptId(req,res)
  });
 
 /** get departments by program id  */
-app.get('/ems/api/getDepartmentsByProgramId/:pid/:companyName',function(req,res) {
+app.get('/ems/api/getDepartmentsByProgramId/:pid/:companyName',verifyJWTToken,function(req,res) {
     ems.getDepartmentsByProgramId(req,res)
  });
 
 /** update induction conduct by status */
-app.post('/ems/api/updateInductionConductedbyStatus', function (req, res) {
+app.post('/ems/api/updateInductionConductedbyStatus', verifyJWTToken,function (req, res) {
     ems.updateInductionConductedbyStatus(req,res)
 })
 
@@ -2430,17 +2430,17 @@ async function generateExcel(results) {
 }
 
 /** get maindashborad employee count data   */
-app.get('/ems/api/getAttendanceCountsForDate/:mid/:empid/:date/:companyName', function (req, res) {
+app.get('/ems/api/getAttendanceCountsForDate/:mid/:empid/:date/:companyName', verifyJWTToken,function (req, res) {
     ems.getAttendanceCountsForDate(req,res)
  });
 
 /** get induction alerts to employee in maindashboard   */
-app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName',function(req,res) {
+app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName',verifyJWTToken,function(req,res) {
     ems.getEmployeeProgramAlerts(req,res)
  });
 
   /** get sidenavigation */
-  app.post('/attendance/api/getSideNavigation', function (req, res) {
+  app.post('/attendance/api/getSideNavigation',verifyJWTToken, function (req, res) {
     attendance.getSideNavigation(req,res)
     });
 
