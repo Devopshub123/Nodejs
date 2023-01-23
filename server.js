@@ -43,7 +43,6 @@ app.all("*", function (req, res, next) {
 });
 
 function verifyJWTToken(req, res, next) {
-    console.log("fgdfg",req.headers.authorization)
     const jwtToken = req.headers.authorization?req.headers.authorization:null;
     if(jwtToken){
         // let token = jwtToken.split('-t')[1];
@@ -2115,7 +2114,7 @@ app.get('/admin/api/getShiftsDetailsById/:shift_id/:companyName', verifyJWTToken
 
 
 /**verify email for forget password */
-app.get('/api/forgetpassword/:email/:companyName', verifyJWTToken,function (req, res, next) {
+app.get('/api/forgetpassword/:email/:companyName', function (req, res, next) {
     common.forgetpassword(req,res)
 
 })
@@ -2123,7 +2122,7 @@ app.get('/api/forgetpassword/:email/:companyName', verifyJWTToken,function (req,
 
 
 /**reset password */
-app.post('/api/resetpassword',verifyJWTToken, function (req, res, next) {
+app.post('/api/resetpassword', function (req, res, next) {
  common.resetpassword(req,res);
 })
 
@@ -2462,19 +2461,19 @@ app.get('/api/getesidetails/:companyName',verifyJWTToken, function (req, res) {
     payroll.getesidetails(req,res);
 });
 /**getpayrollsections */
-app.post('/api/getpayrollsections/:companyName',verifyJWTToken, function (req, res) {
+app.post('/api/getpayrollsections/:companyName',function (req, res) {
     payroll.getpayrollsections(req,res);
 });
 /**getearningsalarycomponent */
-app.post('/api/getearningsalarycomponent/:id/:companyName',verifyJWTToken, function (req, res) {
+app.post('/api/getearningsalarycomponent/:id/:companyName', function (req, res) {
     payroll.getearningsalarycomponent(req,res);
 });
 /**getdeductionsalarycomponent */
-app.post('/api/getdeductionsalarycomponent/:id/:companyName',verifyJWTToken, function (req, res) {
+app.post('/api/getdeductionsalarycomponent/:id/:companyName', function (req, res) {
     payroll.getdeductionsalarycomponent(req,res);
 });
 /**getpayrollincomegroups*/
-app.post('/api/getpayrollincomegroups/:companyName',verifyJWTToken, function (req, res) {
+app.get('/api/getpayrollincomegroups/:companyName',verifyJWTToken, function (req, res) {
     payroll.getpayrollincomegroups(req,res);
 });
 /**getsalarycomponentsforpaygroup */
