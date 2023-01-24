@@ -95,23 +95,50 @@ async function employeeprofessionaltax(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_professional_tax_details` ()", [], function (err, result, fields) {
-                if(result &&result[0] && result[0].length>0){
-                    res.send({data: result[0], status: true});
-                }
+            listOfConnections[companyName].query("CALL `get_employee_professional_tax_details` ()", [], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("employeeprofessionaltax");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } 
                 else{
-                    res.send({status: false});
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('employeeprofessionaltax :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("employeeprofessionaltax");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
 
     }
 }
@@ -124,23 +151,50 @@ async function employerprofessionaltax(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employer_professional_tax_details` ()", [], function (err, result, fields) {
-                if(result &&result[0] && result[0].length>0){
-                    res.send({data: result[0], status: true});
-                }
+            listOfConnections[companyName].query("CALL `get_employer_professional_tax_details` ()", [], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("employerprofessionaltax");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } 
                 else{
-                    res.send({status: false});
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
                 }
+               
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('employerprofessionaltax :',e)
+        // console.log('employerprofessionaltax :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("employerprofessionaltax");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
 
     }
 }
@@ -152,23 +206,51 @@ async function getesidetails(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_esi_details` ()", [], function (err, result, fields) {
-                if(result &&result[0] && result[0].length>0){
-                    res.send({data: result[0], status: true});
-                }
+            listOfConnections[companyName].query("CALL `get_esi_details` ()", [], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getesidetails");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } 
                 else{
-                    res.send({status: false});
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+                    
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getesidetails :',e)
+        // console.log('getesidetails :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getesidetails");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
@@ -181,23 +263,51 @@ async function getpayrollsections(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_payroll_sections` ()", [], function (err, result, fields) {
-                if(result && result[0]&& result[0].length>0){
-                    res.send({data: result[0], status: true});
-                }
+            listOfConnections[companyName].query("CALL `get_payroll_sections` ()", [], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getesidetails");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } 
                 else{
-                    res.send({status: false});
+                    if(result && result[0]&& result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getpayrollsections :',e)
+        // console.log('getpayrollsections :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getpayrollsections");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
@@ -211,23 +321,53 @@ async function getearningsalarycomponent(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_salary_components` (?)", [req.params.id], function (err, result, fields) {
-                if(result && result[0]&& result[0].length>0){
-                    res.send({data: result[0], status: true});
-                }
+            listOfConnections[companyName].query("CALL `get_salary_components` (?)", [req.params.id], async function (err, result, fields) {
+                console.log("getearningsalarycomponenterr",err);
+                console.log("getearningsalarycomponentresult",result);
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getesidetails");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } 
                 else{
-                    res.send({status: false});
+                    console.log("its Workimg")
+                    if(result && result[0]&& result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getearningsalarycomponent :',e)
+        // console.log('getearningsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getearningsalarycomponent");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
@@ -240,23 +380,51 @@ async function getdeductionsalarycomponent(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_salary_components` (?)", [req.params.id], function (err, result, fields) {
-                if(result && result[0]&& result[0].length>0){
-                    res.send({data: result[0], status: true});
-                }
+            listOfConnections[companyName].query("CALL `get_salary_components` (?)", [req.params.id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getdeductionsalarycomponent");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } 
                 else{
-                    res.send({status: false});
+                    if(result && result[0]&& result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getdeductionsalarycomponent :',e)
+        // console.log('getdeductionsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getdeductionsalarycomponent");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
@@ -268,23 +436,51 @@ async function getpayrollincomegroups(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_payroll_income_groups` ()", [], function (err, result, fields) {
-                if(result &&result[0] && result[0].length>0){
-                    res.send({data: result[0], status: true});
-                }
+            listOfConnections[companyName].query("CALL `get_payroll_income_groups` ()", [], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getpayrollincomegroups");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } 
                 else{
-                    res.send({status: false});
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e)
+        // console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getdeductigetpayrollincomegroupsonsalarycomponent");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
+        
 
     }
 }
@@ -315,23 +511,50 @@ async function getsalarycomponentsforpaygroup(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_salary_components_for_pay_group` (?)", [req.body.id], function (err, result, fields) {
-                if(result &&result[0] && result[0].length>0){
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `get_salary_components_for_pay_group` (?)", [req.body.id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getdeductionsalarycomponent");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 }
                 else{
-                    res.send({status: false});
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e)
+        // console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getdeductigetpayrollincomegroupsonsalarycomponent");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
@@ -360,24 +583,47 @@ async function setincomegroup(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_income_group` (?,?,?,?,?,?)", [req.body.group,req.body.from,req.body.to,req.body.status,req.body.description,JSON.stringify(req.body.component)], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `set_income_group` (?,?,?,?,?,?)", [req.body.group,req.body.from,req.body.to,req.body.status,req.body.description,JSON.stringify(req.body.component)], async function (err, result, fields) {
                 console.log("err",err);
                 console.log("result",result)
-                 if (err) {
-                     res.send({ status: false });
-                 } else {
-                     res.send({ status: true })
-                 }
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("setincomegroup");
+                    errorLogArray.push("POST");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
+                }
+                else {
+                    res.send({ status: true })
+                }
              });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setincomegroup :',e)
+        // console.log('setincomegroup :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("setincomegroup");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
@@ -411,7 +657,7 @@ async function setincomegroup(req,res){
     
             var listOfConnections = {};
             if(dbName){
-                listOfConnections= connection.checkExistingDBConnection(2,companyName)
+                listOfConnections= connection.checkExistingDBConnection(companyName)
                 if(!listOfConnections.succes) {
                     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
                 }
@@ -424,45 +670,48 @@ async function setincomegroup(req,res){
                     errorCode = req.params.errorCode
                 }
                 
-                listOfConnections[companyName].query("CALL `get_payroll_messages` (?,?,?)", [errorCode,req.params.page,req.params.size],function (err, result, fields) {
-                    if (result &&result[0] && result[0].length>0) {
-                        res.send({data: result[0], status: true});
-                    } else {
-                        res.send({status: false})
+                listOfConnections[companyName].query("CALL `get_payroll_messages` (?,?,?)", [errorCode,req.params.page,req.params.size],async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("PAYROLLAPI");
+                        errorLogArray.push("getErrorMessages");
+                        errorLogArray.push("GET");
+                        errorLogArray.push('');
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
                     }
+                    else{
+                        if (result &&result[0] && result[0].length>0) {
+                            res.send({data: result[0], status: true});
+                        } else {
+                            res.send({status: false})
+                        }
+                    }
+                    
                 });
             } else {
                 res.send({status: false,Message:'Database Name is missed'})
             }
         }catch (e) {
-            console.log('setincomegroup :',e)
+            // console.log('setincomegroup :',e)
+            let companyName =req.params.companyName;
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("PAYROLLAPI");
+            errorLogArray.push("getErrorMessages");
+            errorLogArray.push("GET");
+            errorLogArray.push("");
+            errorLogArray.push( e.message);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
+            errorLogs = await errorLogs(errorLogArray);
     
         }
     }
-//     app.get('/api/getErrorMessages/:errorCode/:page/:size',function(req,res) {
-//     try {
-//         let errorCode;
-//         if(req.params.errorCode == 'null')
-//         {
-//             errorCode = '';
-//         }
-//         else {
-//             errorCode = req.params.errorCode
-//         }
-//         con.query("CALL `get_payroll_messages` (?,?,?)", [errorCode,req.params.page,req.params.size],function (err, result, fields) {
-//             if (result &&result[0] && result[0].length>0) {
-//                 res.send({data: result[0], status: true});
-//             } else {
-//                 res.send({status: false})
-//             }
-//         });
-        
-
-//     }catch (e) {
-//         console.log('geterrormessages :',e);
-
-//     }
-// });
 /*setErrorMessages */
 async function setErrorMessages(req,res){
     try {
@@ -471,15 +720,26 @@ async function setErrorMessages(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_payroll_messages` (?)",
-            [JSON.stringify(req.body)], function (err, result, fields) {
+            [JSON.stringify(req.body)], async function (err, result, fields) {
                 if (err) {
-                    res.send({status: false, message: 'Unable to update leave error messages'});
-                } else {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("setErrorMessages");
+                    errorLogArray.push("POST");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({status: false, message: 'Unable to update leave error messages'});                
+                }
+                else {
                     res.send({status: true, message: 'Messages updated successfully'})
                 }
             });
@@ -487,27 +747,22 @@ async function setErrorMessages(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setErrorMessages :',e)
+        // console.log('setErrorMessages :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("setErrorMessages");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-
-// app.post('/api/setErrorMessages',function(req,res) {
-//     try {
-//         con.query("CALL `set_payroll_messages` (?)",
-//             [JSON.stringify(req.body)], function (err, result, fields) {
-//                 if (err) {
-//                     res.send({status: false, message: 'Unable to update leave error messages'});
-//                 } else {
-//                     res.send({status: true, message: 'Messages updated successfully'})
-//                 }
-//             });
-        
-
-//     }catch (e) {
-//         console.log('seterrormessages :',e);
-//     }
-// });
 
 /**getEmployeeDurationsForSalaryDisplay*/
 
@@ -518,23 +773,50 @@ async function getEmployeeDurationsForSalaryDisplay(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_durations_for_salary_display` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){              
-                   res.send({status:true,data:result});
+            listOfConnections[companyName].query("CALL `get_employee_durations_for_salary_display` (?)", [JSON.parse(req.params.id)], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeeDurationsForSalaryDisplay");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);               
                 }
                 else{
-                    res.send({status:false});
+                    if(result && result[0] && result[0].length>0){              
+                        res.send({status:true,data:result});
+                     }
+                     else{
+                         res.send({status:false});
+                     }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeeDurationsForSalaryDisplay :',e)
+        // console.log('getEmployeeDurationsForSalaryDisplay :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeeDurationsForSalaryDisplay");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
@@ -563,43 +845,53 @@ async function getCtcDetails(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_ctc_details` (?,?)", [JSON.parse(req.params.eid),JSON.parse(req.params.ctcid)], function (err, result, fields) {            
-                if(result && result[0] && result[0].length>0){   
-                    res.send({status:true,data:result})
+            listOfConnections[companyName].query("CALL `get_ctc_details` (?,?)", [JSON.parse(req.params.eid),JSON.parse(req.params.ctcid)], async function (err, result, fields) {            
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getCtcDetails");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);               
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){   
+                        res.send({status:true,data:result})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getCtcDetails :',e)
+        // console.log('getCtcDetails :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getCtcDetails");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-
-// app.get('/api/getCtcDetails/:eid/:ctcid',function(req,res){
-//     try{
-//         con.query("CALL `get_ctc_details` (?,?)", [JSON.parse(req.params.eid),JSON.parse(req.params.ctcid)], function (err, result, fields) {            
-//             if(result && result[0] && result[0].length>0){   
-//                 res.send({status:true,data:result})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-
-//     }
-//     catch(e){
-//         console.log('getCtcDetails :', e);
-//     }
-// })
 /**getEmployeeInvestments */
 async function getEmployeeInvestments(req,res){
     try {
@@ -608,41 +900,55 @@ async function getEmployeeInvestments(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_investments` (?)", [JSON.parse(req.params.empid)], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){               
-                    res.send({status:true,data:result})
+            listOfConnections[companyName].query("CALL `get_employee_investments` (?)", [JSON.parse(req.params.empid)], async function (err, result, fields) {
+                console.log(err)
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeeInvestments");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(req.params.empid);
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);               
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){               
+                        res.send({status:true,data:result})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeeInvestments :',e)
+        // console.log('getEmployeeInvestments :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeeInvestments");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
 
-// app.get('/api/getEmployeeInvestments/:empid',function(req,res){
-//     try{
-//         con.query("CALL `get_employee_investments` (?)", [JSON.parse(req.params.empid)], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){               
-//                 res.send({status:true,data:result})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEmployeeInvestments',e);
-//     }
-// })
 /**delete_employee_investments */
 
 async function deleteEmployeeInvestments(req,res){
@@ -652,13 +958,23 @@ async function deleteEmployeeInvestments(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `delete_employee_investments` (?)", [req.body.id], function (err, result, fields) {
-                if(err){
-                    res.send({status:false})
+            listOfConnections[companyName].query("CALL `delete_employee_investments` (?)", [req.body.id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeeInvestments");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
                     res.send({status:true})
@@ -668,29 +984,23 @@ async function deleteEmployeeInvestments(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('deleteEmployeeInvestments :',e)
-
+        // console.log('deleteEmployeeInvestments :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("deleteEmployeeInvestments");
+        errorLogArray.push("DELETE");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
-// app.post('/api/deleteEmployeeInvestments/',function(req,res){
-//     try{
-//         con.query("CALL `delete_employee_investments` (?)", [req.body.id], function (err, result, fields) {
-//              if(err){
-//                  res.send({status:false})
-//              }
-//              else{
-//                  res.send({status:true})
-//              }
-//          });
-//     }
-//     catch(e){
-//         console.log('deleteEmployeeInvestments',e);
-//     }
-// })
-
 
 /**set_employee_investments */
-
 async function setEmployeeInvestments(req,res){
     try {
         var  dbName = await getDatebaseName(req.body.companyName)
@@ -698,49 +1008,55 @@ async function setEmployeeInvestments(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_employee_investments` (?,?,?,?,?,?,?,?,?,?,?)",
-            [req.body.iid,req.body.empid,req.body.investmentid,req.body.declaredamount,req.body.submittedamount,req.body.verifiedamount,req.body.receiptnumber,req.body.disabilitypercentage,req.body.statusvalue,req.body.statusreason,req.body.actionby], function (err, result, fields) {
-                console.log("err",err);
-                console.log("res",result)
-                if (result && result[0] && result[0][0]&& result[0][0].successstate==0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
+            [req.body.iid,req.body.empid,req.body.investmentid,req.body.declaredamount,req.body.submittedamount,req.body.verifiedamount,req.body.receiptnumber,req.body.disabilitypercentage,req.body.statusvalue,req.body.statusreason,req.body.actionby], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("setEmployeeInvestments");
+                    errorLogArray.push("POST");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
+                else{
+                    if (result && result[0] && result[0][0]&& result[0][0].successstate==0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+                }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setEmployeeInvestments :',e)
+        // console.log('setEmployeeInvestments :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("deleteEmployeeInvestments");
+        errorLogArray.push("DELETE");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
 
-// app.post('/api/setEmployeeInvestments',function(req,res){
-//     try{  
-
-//         con.query("CALL `set_employee_investments` (?,?,?,?,?,?,?,?,?,?,?)",
-//         [req.body.iid,req.body.empid,req.body.investmentid,req.body.declaredamount,req.body.submittedamount,req.body.verifiedamount,req.body.receiptnumber,req.body.disabilitypercentage,req.body.statusvalue,req.body.statusreason,req.body.actionby], function (err, result, fields) {
-//             console.log("err",err);
-//             console.log("res",result)
-//             if (result && result[0] && result[0][0]&& result[0][0].successstate==0) {
-//                 res.send({ data: result[0], status: true });
-//             } else {
-//                 res.send({ status: false })
-//             }
-//         });
-
-//     }
-//     catch(e)
-//     {
-//        console.log('setEmployeeInvestments',e);
-//     }
-// })
 /**get_component_editable_configurations*/
 async function getComponentEditableConfigurations(req,res){
     try {
@@ -749,41 +1065,57 @@ async function getComponentEditableConfigurations(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_component_editable_configurations` (?)", [JSON.parse(req.params.empid)], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){               
-                    res.send({status:true,data:result});
+            listOfConnections[companyName].query("CALL `get_component_editable_configurations` (?)", [JSON.parse(req.params.empid)], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getComponentEditableConfigurations");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false});
+                    if(result && result[0] && result[0].length>0){               
+                        res.send({status:true,data:result});
+                    }
+                    else{
+                        res.send({status:false});
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getComponentEditableConfigurations :',e)
+        // console.log('getComponentEditableConfigurations :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getComponentEditableConfigurations");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
+
 
     }
 }
 
-// app.get('/api/getComponentEditableConfigurations/:empid',function(req,res){
-//     try{
-//         con.query("CALL `get_component_editable_configurations` (?)", [JSON.parse(req.params.empid)], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){               
-//                 res.send({status:true,data:result});
-//             }
-//             else{
-//                 res.send({status:false});
-//             }
-//         });
-//     }catch(e){
-//         console.log('getComponentEditableConfigurations',e);
-//     }
-// });
 /** configure_pay_group_component*/  
 
 async function configurePayGroupComponent(req,res){
@@ -793,14 +1125,24 @@ async function configurePayGroupComponent(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `configure_pay_group_component` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",  [req.body.pigcm_id_value,req.body.is_percentage_or_flat_amount_value,Number(req.body.input_value),req.body.parent_component_id_value,req.body.display_name_value,req.body.is_this_component_a_part_of_employee_salary_structure_value,req.body.calculate_on_pro_rata_basis_value,req.body.is_this_component_taxable_value,req.body.consider_for_esi_contribution_value,req.body.consider_for_epf_contribution_value,req.body.epf_always_value,req.body.epf_only_when_pf_wage_is_less_than_standard_pf_wage_value,req.body.show_this_component_in_payslip_value,req.body.status], function (err, result, fields) {
-                console.log(err);
-                if(err){
-                    res.send({status:false})
+            listOfConnections[companyName].query("CALL `configure_pay_group_component` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",  [req.body.pigcm_id_value,req.body.is_percentage_or_flat_amount_value,Number(req.body.input_value),req.body.parent_component_id_value,req.body.display_name_value,req.body.is_this_component_a_part_of_employee_salary_structure_value,req.body.calculate_on_pro_rata_basis_value,req.body.is_this_component_taxable_value,req.body.consider_for_esi_contribution_value,req.body.consider_for_epf_contribution_value,req.body.epf_always_value,req.body.epf_only_when_pf_wage_is_less_than_standard_pf_wage_value,req.body.show_this_component_in_payslip_value,req.body.status], async function (err, result, fields) {
+                
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("configurePayGroupComponent");
+                    errorLogArray.push("POST");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
                     res.send({status:true,data:result})
@@ -810,29 +1152,22 @@ async function configurePayGroupComponent(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('configurePayGroupComponent :',e)
+        // console.log('configurePayGroupComponent :',e);
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("configurePayGroupComponent");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.post('/api/configurePayGroupComponent',function(req,res){
-//     try{
-//         con.query("CALL `configure_pay_group_component` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",  [req.body.pigcm_id_value,req.body.is_percentage_or_flat_amount_value,Number(req.body.input_value),req.body.parent_component_id_value,req.body.display_name_value,req.body.is_this_component_a_part_of_employee_salary_structure_value,req.body.calculate_on_pro_rata_basis_value,req.body.is_this_component_taxable_value,req.body.consider_for_esi_contribution_value,req.body.consider_for_epf_contribution_value,req.body.epf_always_value,req.body.epf_only_when_pf_wage_is_less_than_standard_pf_wage_value,req.body.show_this_component_in_payslip_value,req.body.status], function (err, result, fields) {
-//             console.log(err);
-//             if(err){
-//                 res.send({status:false})
-//             }
-//             else{
-//                 res.send({status:true,data:result})
-//             }
-//         });
-
-//     }
-//     catch(e){
-//         console.log('configurePayGroupComponent',e);
-//     }
-
-// })
-
 /**get_pay_group_component_values*/
 
 async function getPayGroupComponentValues(req,res){
@@ -842,42 +1177,54 @@ async function getPayGroupComponentValues(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_pay_group_component_values`(?)",  [JSON.parse(req.params.id)], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result});
+            listOfConnections[companyName].query("CALL `get_pay_group_component_values`(?)",  [JSON.parse(req.params.id)], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getPayGroupComponentValues");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false});
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result});
+                    }
+                    else{
+                        res.send({status:false});
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getPayGroupComponentValues :',e)
+        // console.log('getPayGroupComponentValues :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getPayGroupComponentValues");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getPayGroupComponentValues/:id',function(req,res){
-//     try{
-//         con.query("CALL `get_pay_group_component_values`(?)",  [JSON.parse(req.params.id)], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result});
-//             }
-//             else{
-//                 res.send({status:false});
-//             }
-//         });
-//     }
-//     catch(e){
-//         console.log('getPayGroupComponentValues',e);
-//     }
-
-// })
 /**edit_pay_group_component */
 async function editPayGroupComponent(req,res){
     try {
@@ -886,14 +1233,23 @@ async function editPayGroupComponent(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `edit_pay_group_component` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",  [req.body.pigcm_id_value,req.body.is_percentage_or_flat_amount_value,Number(req.body.input_value),req.body.parent_component_id_value,req.body.display_name_value,req.body.is_this_component_a_part_of_employee_salary_structure_value,req.body.calculate_on_pro_rata_basis_value,req.body.is_this_component_taxable_value,req.body.consider_for_esi_contribution_value,req.body.consider_for_epf_contribution_value,Number(req.body.epf_always_value),Number(req.body.epf_only_when_pf_wage_is_less_than_standard_pf_wage_value),req.body.show_this_component_in_payslip_value,req.body.status], function (err, result, fields) {
-                console.log(err);
-                if(err){
-                    res.send({status:false})
+            listOfConnections[companyName].query("CALL `edit_pay_group_component` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",  [req.body.pigcm_id_value,req.body.is_percentage_or_flat_amount_value,Number(req.body.input_value),req.body.parent_component_id_value,req.body.display_name_value,req.body.is_this_component_a_part_of_employee_salary_structure_value,req.body.calculate_on_pro_rata_basis_value,req.body.is_this_component_taxable_value,req.body.consider_for_esi_contribution_value,req.body.consider_for_epf_contribution_value,Number(req.body.epf_always_value),Number(req.body.epf_only_when_pf_wage_is_less_than_standard_pf_wage_value),req.body.show_this_component_in_payslip_value,req.body.status], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("editPayGroupComponent");
+                    errorLogArray.push("POST");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
                     res.send({status:true,data:result})
@@ -903,32 +1259,24 @@ async function editPayGroupComponent(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('editPayGroupComponent :',e)
+        // console.log('editPayGroupComponent :',e);
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("editPayGroupComponent");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.post('/api/editPayGroupComponent',function(req,res){
-//     try{
-//         console.log(req.body)
-//         con.query("CALL `edit_pay_group_component` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",  [req.body.pigcm_id_value,req.body.is_percentage_or_flat_amount_value,Number(req.body.input_value),req.body.parent_component_id_value,req.body.display_name_value,req.body.is_this_component_a_part_of_employee_salary_structure_value,req.body.calculate_on_pro_rata_basis_value,req.body.is_this_component_taxable_value,req.body.consider_for_esi_contribution_value,req.body.consider_for_epf_contribution_value,Number(req.body.epf_always_value),Number(req.body.epf_only_when_pf_wage_is_less_than_standard_pf_wage_value),req.body.show_this_component_in_payslip_value,req.body.status], function (err, result, fields) {
-//             console.log(err);
-//             if(err){
-//                 res.send({status:false})
-//             }
-//             else{
-//                 res.send({status:true,data:result})
-//             }
-//         });
-
-//     }
-//     catch(e){
-//         console.log('editPayGroupComponent',e);
-//     }
-
-// });
 
 // get_employees_list_for_investments_approval
-
 async function getEmployeesListForInvestmentsApproval(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
@@ -936,40 +1284,54 @@ async function getEmployeesListForInvestmentsApproval(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employees_list_for_investments_approval` ()", function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result});
+            listOfConnections[companyName].query("CALL `get_employees_list_for_investments_approval` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeesListForInvestmentsApproval");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false});
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result});
+                    }
+                    else{
+                        res.send({status:false});
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeesListForInvestmentsApproval :',e)
+        // console.log('getEmployeesListForInvestmentsApproval :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeesListForInvestmentsApproval");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getEmployeesListForInvestmentsApproval',function(req,res){
-//     try{
-//         con.query("CALL `get_employees_list_for_investments_approval` ()", function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result});
-//             }
-//             else{
-//                 res.send({status:false});
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEmployeesListForInvestmentsApproval',e);
-//     }
-// });
 
 /**  get_employer_epf_contribution_options */
 async function getEmployerEpfContributionOptions(req,res){
@@ -979,40 +1341,55 @@ async function getEmployerEpfContributionOptions(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employer_epf_contribution_options` ()", function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){  
-                    res.send({status:true,data:result})
+            listOfConnections[companyName].query("CALL `get_employer_epf_contribution_options` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployerEpfContributionOptions");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){  
+                        res.send({status:true,data:result})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployerEpfContributionOptions :',e)
+        // console.log('getEmployerEpfContributionOptions :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployerEpfContributionOptions");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getEmployerEpfContributionOptions',function(req,res){
-//     try{
-//         con.query("CALL `get_employer_epf_contribution_options` ()", function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){  
-//                 res.send({status:true,data:result})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEmployerEpfContributionOptions',e);
-//     }
-// });
+
 
 
 // get_employee_epf_contribution_options
@@ -1024,40 +1401,55 @@ async function getEmployeeEpfContributionOptions(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_epf_contribution_options` ()", function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result})
+            listOfConnections[companyName].query("CALL `get_employee_epf_contribution_options` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeeEpfContributionOptions");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeeEpfContributionOptions :',e)
+        // console.log('getEmployeeEpfContributionOptions :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeeEpfContributionOptions");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getEmployeeEpfContributionOptions',function(req,res){
-//     try{
-//         con.query("CALL `get_employee_epf_contribution_options` ()", function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEmployeeEpfContributionOptions',e);
-//     }
-// });
+
 //setCompanyEpfValues 
 
 async function setCompanyEpfValues(req,res){
@@ -1067,14 +1459,25 @@ async function setCompanyEpfValues(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_company_epf_values` (?,?,?,?,?,?,?,?)",   [req.body.pf_number,req.body.actual_pf_wage_or_restricted_pf_wage_for_employer_contribution,req.body.actual_pf_wage_or_restricted_pf_wage_for_employee_contribution ,req.body.include_employer_contribution_in_ctc_value ,req.body.include_employer_edli_contribution_in_ctc_value,req.body.include_admin_charges_in_ctc_value,req.body.consider_all_comp_if_pf_wage_is_lt_statutory_value,req.body.effective_fdate],function (err, result, fields) {
-                if(err){
-                    res.send({status:false})
+            listOfConnections[companyName].query("CALL `set_company_epf_values` (?,?,?,?,?,?,?,?)",   [req.body.pf_number,req.body.actual_pf_wage_or_restricted_pf_wage_for_employer_contribution,req.body.actual_pf_wage_or_restricted_pf_wage_for_employee_contribution ,req.body.include_employer_contribution_in_ctc_value ,req.body.include_employer_edli_contribution_in_ctc_value,req.body.include_admin_charges_in_ctc_value,req.body.consider_all_comp_if_pf_wage_is_lt_statutory_value,req.body.effective_fdate],async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("setCompanyEpfValues");
+                    errorLogArray.push("POST");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
+            
                 else{
                     res.send({status:true,data:result})
                 }
@@ -1083,27 +1486,24 @@ async function setCompanyEpfValues(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setCompanyEpfValues :',e)
+        // console.log('setCompanyEpfValues :',e);
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("setCompanyEpfValues");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.post('/api/setCompanyEpfValues',function(req,res){
-//     try{
-//         con.query("CALL `set_company_epf_values` (?,?,?,?,?,?,?,?)",   [req.body.pf_number,req.body.actual_pf_wage_or_restricted_pf_wage_for_employer_contribution,req.body.actual_pf_wage_or_restricted_pf_wage_for_employee_contribution ,req.body.include_employer_contribution_in_ctc_value ,req.body.include_employer_edli_contribution_in_ctc_value,req.body.include_admin_charges_in_ctc_value,req.body.consider_all_comp_if_pf_wage_is_lt_statutory_value,req.body.effective_fdate],function (err, result, fields) {
-//             if(err){
-//                 res.send({status:false})
-//             }
-//             else{
-//                 res.send({status:true,data:result})
-//             }
-//         });
-//     }
-//     catch(e){
-//         console.log('setCompanyEpfValues',e);
-//     }
-// });
-// get_statutory_max_pf_wage_for_employer_contribution
 
+// get_statutory_max_pf_wage_for_employer_contribution
 async function getStatutoryMaxPfWageForEmployerContribution(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
@@ -1111,40 +1511,55 @@ async function getStatutoryMaxPfWageForEmployerContribution(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_statutory_max_pf_wage_for_employer_contribution` ()", function (err, result, fields) {
-                if(result && result.length>0){
-                    res.send({status:true,data:result})
+            listOfConnections[companyName].query("CALL `get_statutory_max_pf_wage_for_employer_contribution` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getStatutoryMaxPfWageForEmployerContribution");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result.length>0){
+                        res.send({status:true,data:result})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getStatutoryMaxPfWageForEmployerContribution :',e)
+        // console.log('getStatutoryMaxPfWageForEmployerContribution :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getStatutoryMaxPfWageForEmployerContribution");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getStatutoryMaxPfWageForEmployerContribution',function(req,res){
-//     try{
-//         con.query("CALL `get_statutory_max_pf_wage_for_employer_contribution` ()", function (err, result, fields) {
-//             if(result && result.length>0){
-//                 res.send({status:true,data:result})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getStatutoryMaxPfWageForEmployerContribution',e);
-//     }
-// });
 // update_epf_wages
 app.post('/api/updateEpfWages',function(req,res){
     try{
@@ -1185,40 +1600,54 @@ async function getCompanyPaySchedule(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_company_pay_schedule`()", function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result})
+            listOfConnections[companyName].query("CALL `get_company_pay_schedule`()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getCompanyPaySchedule");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getCompanyPaySchedule :',e)
+        // console.log('getCompanyPaySchedule :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getCompanyPaySchedule");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getCompanyPaySchedule',function(req,res){
-//     try{
-//         con.query("CALL `get_company_pay_schedule`()", function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getCompanyPaySchedule',e);
-//     }
-// });
 /**set_company_pay_schedule*/
 async function setCompanyPaySchedule(req,res){
     try {
@@ -1227,44 +1656,55 @@ async function setCompanyPaySchedule(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_company_pay_schedule` (?,?,?,?,?,?,?)",   [req.body.monthlySalaryCalculationBasis,req.body.payDayOfMonth,req.body.payrollWindowFromDate ,req.body.payrollWindowToDate ,req.body.leaveWindowFromDateInPreviousMonth,req.body.leaveWindowToDateInCurrentMonth,req.body.nonWorkingDayPaymentOption],function (err, result, fields) {
-                if(result && result[0] && result[0][0] && result[0][0].successstate ==0){
-                    res.send({status:true})
+            listOfConnections[companyName].query("CALL `set_company_pay_schedule` (?,?,?,?,?,?,?)",   [req.body.monthlySalaryCalculationBasis,req.body.payDayOfMonth,req.body.payrollWindowFromDate ,req.body.payrollWindowToDate ,req.body.leaveWindowFromDateInPreviousMonth,req.body.leaveWindowToDateInCurrentMonth,req.body.nonWorkingDayPaymentOption],async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("setCompanyPaySchedule");
+                    errorLogArray.push("POST");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
-    
+                    if(result && result[0] && result[0][0] && result[0][0].successstate ==0){
+                        res.send({status:true})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setCompanyPaySchedule :',e)
+        // console.log('setCompanyPaySchedule :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("setCompanyPaySchedule");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.post('/api/setCompanyPaySchedule',function(req,res){
-//     try{
-
-//         con.query("CALL `set_company_pay_schedule` (?,?,?,?,?,?,?)",   [req.body.monthlySalaryCalculationBasis,req.body.payDayOfMonth,req.body.payrollWindowFromDate ,req.body.payrollWindowToDate ,req.body.leaveWindowFromDateInPreviousMonth,req.body.leaveWindowToDateInCurrentMonth,req.body.nonWorkingDayPaymentOption],function (err, result, fields) {
-//             if(result && result[0] && result[0][0] && result[0][0].successstate ==0){
-//                 res.send({status:true})
-//             }
-//             else{
-//                 res.send({status:false})
-
-//             }
-//         });
-//     }
-//     catch(e){
-//         console.log('setCompanyPaySchedule',e);
-//     }
-// });
 /**update_monthly_salary */
 async function updateMonthlySalary(req,res){
     try {
@@ -1273,15 +1713,24 @@ async function updateMonthlySalary(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `update_monthly_salary` (?,?,?,?,?)",[JSON.stringify(req.body.employee_list),req.body.year_value, req.body.month_value ,req.body.financial_year_value,req.body.created_by_value] ,function (err, result, fields) {
-                console.log(err)
-                 if(err){
-                     res.send({status:false})
-                 }
+            listOfConnections[companyName].query("CALL `update_monthly_salary` (?,?,?,?,?)",[JSON.stringify(req.body.employee_list),req.body.year_value, req.body.month_value ,req.body.financial_year_value,req.body.created_by_value] ,async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("updateMonthlySalary");
+                    errorLogArray.push("POST");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
+                }
                  else{
                      res.send({status:true,data:result})
                  }
@@ -1290,26 +1739,22 @@ async function updateMonthlySalary(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('updateMonthlySalary :',e)
+        // console.log('updateMonthlySalary :',e);
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("updateMonthlySalary");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.post('/api/updateMonthlySalary',function(req,res){
-//     try{
-//         con.query("CALL `update_monthly_salary` (?,?,?,?,?)",[JSON.stringify(req.body.employee_list),req.body.year_value, req.body.month_value ,req.body.financial_year_value,req.body.created_by_value] ,function (err, result, fields) {
-//            console.log(err)
-//             if(err){
-//                 res.send({status:false})
-//             }
-//             else{
-//                 res.send({status:true,data:result})
-//             }
-//         });
-//     }
-//     catch(e){
-//         console.log('updateMonthlySalary',e);
-//     }
-// });
 /**getFinancialYears */
  
 async function getFinancialYears(req,res){
@@ -1319,40 +1764,56 @@ async function getFinancialYears(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_financial_years`()", function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_financial_years`()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getFinancialYears");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getFinancialYears :',e)
+        // console.log('getFinancialYears :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getFinancialYears");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getFinancialYears',function(req,res){
-//     try{
-//         con.query("CALL `get_financial_years`()", function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getFinancialYears',e);;
-//     }
-// });
+
 /**MonthYear Details */
 
 async function MonthYear(req,res){
@@ -1362,44 +1823,55 @@ async function MonthYear(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_months_for_financial_year`(?)",[req.params.fyear] ,function (err, result, fields) {
-                console.log("year",result)
-                 if(result && result[0] && result[0].length>0){
-                     res.send({status:true,data:result[0]})
-                 }
-                 else{
-                     res.send({status:false})
-                 }
+            listOfConnections[companyName].query("CALL `get_months_for_financial_year`(?)",[req.params.fyear] ,async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("MonthYear");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
+                }
+                else{
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+                }
+                 
              });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('MonthYear :',e)
+        // console.log('MonthYear :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("MonthYear");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
 
-// app.get('/api/MonthYear/:fyear',function(req,res){
-//     try{
-//         console.log("fyear",req.params.fyear)
-//         con.query("CALL `get_months_for_financial_year`(?)",[req.params.fyear] ,function (err, result, fields) {
-//            console.log("year",result)
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('MonthYear',e);
-//     }
-// });
 /**get_epf_details */
 
 async function getEpfDetails(req,res){
@@ -1409,40 +1881,55 @@ async function getEpfDetails(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_epf_details`()", function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_epf_details`()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEpfDetails");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEpfDetails :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEpfDetails");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getEpfDetails',function(req,res){
-//     try{
-//         con.query("CALL `get_epf_details`()", function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEpfDetails',e);
-//     }
-// });
+
 /**getEmployeeListForSalaryProcessing */
 async function getEmployeeListForSalaryProcessing(req,res){
     try {
@@ -1451,42 +1938,56 @@ async function getEmployeeListForSalaryProcessing(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_list_for_salary_processing`(?,?)",[req.params.year,req.params.month], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_employee_list_for_salary_processing`(?,?)",[req.params.year,req.params.month], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeeListForSalaryProcessing");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeeListForSalaryProcessing :',e)
+        // console.log('getEmployeeListForSalaryProcessing :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeeListForSalaryProcessing");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getEmployeeListForSalaryProcessing/:year/:month',function(req,res){
-//     try{
-//         con.query("CALL `get_employee_list_for_salary_processing`(?,?)",[req.params.year,req.params.month], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEmployeeListForSalaryProcessing',e);
-//     }
-// });
-/** getEmployeesForAssignPaygroup */
 
+/** getEmployeesForAssignPaygroup */
 async function getEmployeesForAssignPaygroup(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
@@ -1494,41 +1995,55 @@ async function getEmployeesForAssignPaygroup(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employees_for_assign_pay_group`()", function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_employees_for_assign_pay_group`()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeesForAssignPaygroup");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeesForAssignPaygroup :',e)
+        // console.log('getEmployeesForAssignPaygroup :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeesForAssignPaygroup");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getEmployeesForAssignPaygroup',function(req,res){
-//     try{
-//         con.query("CALL `get_employees_for_assign_pay_group`()", function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEmployeesForAssignPaygroup',e);
-//     }
-// });
-
 /**getPayGroupsForCtc */
 
 async function getPayGroupsForCtc(req,res){
@@ -1538,40 +2053,54 @@ async function getPayGroupsForCtc(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_pay_groups_for_ctc`(?)",[req.params.amount], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_pay_groups_for_ctc`(?)",[req.params.amount], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getPayGroupsForCtc");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+               
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getPayGroupsForCtc :',e)
+        // console.log('getPayGroupsForCtc :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getPayGroupsForCtc");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getPayGroupsForCtc/:amount',function(req,res){
-//     try{
-//         con.query("CALL `get_pay_groups_for_ctc`(?)",[req.params.amount], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getPayGroupsForCtc',e);
-//     }
-// });
 /**getActiveComponentsValuesForPayGroup */
 async function getActiveComponentsValuesForPayGroup(req,res){
     try {
@@ -1580,40 +2109,54 @@ async function getActiveComponentsValuesForPayGroup(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_active_components_values_for_pay_group`(?)",[Number(req.params.id)], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_active_components_values_for_pay_group`(?)",[Number(req.params.id)], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getActiveComponentsValuesForPayGroup");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getActiveComponentsValuesForPayGroup :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getActiveComponentsValuesForPayGroup");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getActiveComponentsValuesForPayGroup/:id',function(req,res){
-//     try{
-//         con.query("CALL `get_active_components_values_for_pay_group`(?)",[Number(req.params.id)], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getActiveComponentsValuesForPayGroup',e);
-//     }
-// });
 /**assignPayGroup*/
 async function assignPayGroup(req,res){
     try {
@@ -1622,13 +2165,23 @@ async function assignPayGroup(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_pay_group_to_employee` (?,?,?,?)",[Number(req.body.empid), Number(req.body.paygroupid) ,Number(req.body.CTC),JSON.stringify(req.body.data)] ,function (err, result, fields) {
-                if(err){
-                    res.send({status:false})
+            listOfConnections[companyName].query("CALL `set_pay_group_to_employee` (?,?,?,?)",[Number(req.body.empid), Number(req.body.paygroupid) ,Number(req.body.CTC),JSON.stringify(req.body.data)] ,async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("assignPayGroup");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
                     res.send({status:true,data:result})
@@ -1638,25 +2191,23 @@ async function assignPayGroup(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('assignPayGroup :',e)
+        // console.log('assignPayGroup :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("assignPayGroup");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.post('/api/assignPayGroup',function(req,res){
-//     try{
-//         con.query("CALL `set_pay_group_to_employee` (?,?,?,?)",[Number(req.body.empid), Number(req.body.paygroupid) ,Number(req.body.CTC),JSON.stringify(req.body.data)] ,function (err, result, fields) {
-//             if(err){
-//                 res.send({status:false})
-//             }
-//             else{
-//                 res.send({status:true,data:result})
-//             }
-//         });
-//     }
-//     catch(e){
-//         console.log('assignPayGroup',e);
-//     }
-// });
+
 /**get_component_wise_values_for_pay_group_assignment  */
 async function getComponentWiseValuesForPayGroupAssignment(req,res){
     try {
@@ -1665,40 +2216,54 @@ async function getComponentWiseValuesForPayGroupAssignment(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_component_wise_values_for_pay_group_assignment`(?,?)",[req.params.ctc,Number(req.params.pgid)], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_component_wise_values_for_pay_group_assignment`(?,?)",[req.params.ctc,Number(req.params.pgid)], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getComponentWiseValuesForPayGroupAssignment");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getComponentWiseValuesForPayGroupAssignment :',e)
+        // console.log('getComponentWiseValuesForPayGroupAssignment :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getComponentWiseValuesForPayGroupAssignment");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getComponentWiseValuesForPayGroupAssignment/:ctc/:pgid',function(req,res){
-//     try{
-//         con.query("CALL `get_component_wise_values_for_pay_group_assignment`(?,?)",[req.params.ctc,Number(req.params.pgid)], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getComponentWiseValuesForPayGroupAssignment',e);
-//     }
-// });
 /**getEmployeePaySlips */
 async function getEmployeePaySlips(req,res){
     try {
@@ -1707,42 +2272,55 @@ async function getEmployeePaySlips(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_payslips`(?,?)",[Number(req.params.empid),req.params.fyear], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_employee_payslips`(?,?)",[Number(req.params.empid),req.params.fyear], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeePaySlips");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeePaySlips :',e)
+        // console.log('getEmployeePaySlips :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeePaySlips");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
 
-// app.get('/api/getEmployeePaySlips/:fyear/:empid',function(req,res){
-//     try{
-//         console.log(req.params);
-//         con.query("CALL `get_employee_payslips`(?,?)",[Number(req.params.empid),req.params.fyear], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEmployeePaySlips',e);
-//     }
-// });
 /**get_employee_payslip_details */
 async function getEmployeePayslipDetails(req,res){
     try {
@@ -1751,41 +2329,54 @@ async function getEmployeePayslipDetails(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_payslip_details`(?,?)",[Number(req.params.id),Number(req.params.empid)], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_employee_payslip_details`(?,?)",[Number(req.params.id),Number(req.params.empid)], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeePayslipDetails");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeePayslipDetails :',e)
+        // console.log('getEmployeePayslipDetails :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeePayslipDetails");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getEmployeePayslipDetails/:id/:empid',function(req,res){
-//     try{
-//         console.log("params",req.params)
-//         con.query("CALL `get_employee_payslip_details`(?,?)",[Number(req.params.id),Number(req.params.empid)], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEmployeePaySlips',e);
-//     }
-// });
 
 // get_employee_epf_details
 async function getEmployeeEpfDetails(req,res){
@@ -1795,40 +2386,56 @@ async function getEmployeeEpfDetails(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_epf_details`(?)",[Number(req.params.id)], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_employee_epf_details`(?)",[Number(req.params.id)], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeeEpfDetails");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeeEpfDetails :',e)
+        // console.log('getEmployeeEpfDetails :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeeEpfDetails");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getEmployeeEpfDetails/:id',function(req,res){
-//     try{
-//         con.query("CALL `get_employee_epf_details`(?)",[Number(req.params.id)], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getEmployeeEpfDetails',e);
-//     }
-// });
+
 // get_monthly_payroll_data
 async function getMonthlyPayrollData(req,res){
     try {
@@ -1837,84 +2444,112 @@ async function getMonthlyPayrollData(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_monthly_payroll_data`(?,?,?)",[Number(req.params.month),Number(req.params.year),null], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_monthly_payroll_data`(?,?,?)",[Number(req.params.month),Number(req.params.year),null], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getMonthlyPayrollData");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("req.params.month");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getMonthlyPayrollData :',e)
+        // console.log('getMonthlyPayrollData :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getMonthlyPayrollData");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getMonthlyPayrollData/:month/:year/:deptid',function(req,res){
-//     try{
-       
-//         con.query("CALL `get_monthly_payroll_data`(?,?,?)",[Number(req.params.month),Number(req.params.year),null], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getMonthlyPayrollData',e);
-//     }
-// });
+
 // get_monthly_payroll_data_for_graph
 async function getMonthlyPayrollDataForGraph(req,res){
     try {
-        console.log("req.params",req.params)
-        var  dbName = await getDatebaseName("spryple")
-        let companyName = 'spryple';
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_monthly_payroll_data_for_graph`(?,?)",[Number(req.params.month),req.params.year], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_monthly_payroll_data_for_graph`(?,?)",[Number(req.params.month),req.params.year], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getMonthlyPayrollDataForGraph");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false})             
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
                 }
+                
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getMonthlyPayrollDataForGraph :',e)
+        // console.log('getMonthlyPayrollDataForGraph :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getMonthlyPayrollDataForGraph");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getMonthlyPayrollDataForGraph/:month/:year',function(req,res){
-//     try{
-//         con.query("CALL `get_monthly_payroll_data_for_graph`(?,?)",[Number(req.params.month),req.params.year], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getMonthlyPayrollData',e);
-//     }
-// });
 // get_component_configured_values_for_pay_group
 async function getComponentConfiguredValuesForPayGroup(req,res){
     try {
@@ -1923,39 +2558,82 @@ async function getComponentConfiguredValuesForPayGroup(req,res){
 
         var listOfConnections = {};
         if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(2,companyName)
+            listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_component_configured_values_for_pay_group`(?,?)",[Number(req.params.pgmid),Number(req.params.flat)], function (err, result, fields) {
-                if(result && result[0] && result[0].length>0){
-                    res.send({status:true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_component_configured_values_for_pay_group`(?,?)",[Number(req.params.pgmid),Number(req.params.flat)], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getComponentConfiguredValuesForPayGroup");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false});           
                 }
                 else{
-                    res.send({status:false})
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]});
+                    }
+                    else{
+                        res.send({status:false});
+                    }
+
                 }
+               
             });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getComponentConfiguredValuesForPayGroup :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getComponentConfiguredValuesForPayGroup");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
     }
 }
-// app.get('/api/getComponentConfiguredValuesForPayGroup/:pgmid/:flat',function(req,res){
-//     try{
-//         con.query("CALL `get_component_configured_values_for_pay_group`(?,?)",[Number(req.params.pgmid),Number(req.params.flat)], function (err, result, fields) {
-//             if(result && result[0] && result[0].length>0){
-//                 res.send({status:true,data:result[0]})
-//             }
-//             else{
-//                 res.send({status:false})
-//             }
-//         });
-//     }catch(e){
-//         console.log('getComponentConfiguredValuesForPayGroup',e);
-//     }
-// });
 // module.exports = app;
 
+/** error logs */
+function errorLogs(errorLogArray) {
+    console.log("dat==",JSON.stringify(errorLogArray[3]))
+    return new Promise(async (res,rej)=>{
+       try {
+           let companyName =errorLogArray[6];
+           let dbName = errorLogArray[7];
+           listOfConnections= connection.checkExistingDBConnection(companyName)
+           if(!listOfConnections.succes) {
+               listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+           }
+               listOfConnections[companyName].query(  "CALL `set_error_logs` (?,?,?,?,?,?)",
+               [
+                errorLogArray[0], errorLogArray[1], errorLogArray[2], JSON.stringify(errorLogArray[3]),errorLogArray[4], errorLogArray[5]
+               ],
+             function (err, result, fields) {
+              if (result) {
+                       res({ status: true });
+                   } else {
+                       res({ status: false })
+                   }
+               });
+           }
+         catch (e) {
+           rej(e)
+       }
+   });
+
+}
