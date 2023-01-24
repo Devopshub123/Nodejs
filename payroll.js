@@ -159,7 +159,7 @@ async function employerprofessionaltax(req,res){
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
-                    errorLogArray.push("employeeprofessionaltax");
+                    errorLogArray.push("employerprofessionaltax");
                     errorLogArray.push("GET");
                     errorLogArray.push('');
                     errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
@@ -905,12 +905,13 @@ async function getEmployeeInvestments(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employee_investments` (?)", [JSON.parse(req.params.empid)], async function (err, result, fields) {
+                console.log(err)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
                     errorLogArray.push("getEmployeeInvestments");
                     errorLogArray.push("GET");
-                    errorLogArray.push('');
+                    errorLogArray.push(req.params.empid);
                     errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
@@ -2453,7 +2454,7 @@ async function getMonthlyPayrollData(req,res){
                     errorLogArray.push("PAYROLLAPI");
                     errorLogArray.push("getMonthlyPayrollData");
                     errorLogArray.push("GET");
-                    errorLogArray.push("");
+                    errorLogArray.push("req.params.month");
                     errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
