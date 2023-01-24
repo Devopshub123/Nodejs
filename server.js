@@ -1398,7 +1398,7 @@ app.get('/api/getHolidaysList/:empId/:companyName',verifyJWTToken,function(req,r
  *  retuens weekoffs,holidays and leaves
  * */
 
-app.post('/api/getleavecalender/:id/:companyName',verifyJWTToken,function(req,res){
+app.get('/api/getleavecalender/:id/:companyName',verifyJWTToken,function(req,res){
     
     leaveManagement.getleavecalender(req,res)
 })
@@ -1509,7 +1509,7 @@ app.delete('/api/removeImage/:path',verifyJWTToken,function(req,res){
     leaveManagement.getFilepathsMaster(req,res);
 
 });
-app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',verifyJWTToken,function(req,res) {
+app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',function(req,res) {
 
     common.getMastertable(req,res)
 });
@@ -1704,7 +1704,7 @@ common.getErrorMessages(req,res)
 
 
 
-app.post('/admin/api/getstatuslist/:companyName',verifyJWTToken,function(req,res){
+app.get('/admin/api/getstatuslist/:companyName',verifyJWTToken,function(req,res){
     admin.getstatuslist(req,res)
 })
 

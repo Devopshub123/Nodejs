@@ -102,7 +102,8 @@ app.post('/api/getRolesByDepartment',function(req,res) {
      setRoleMaster:setRoleMaster,
      getReportingManager:getReportingManager,
      getrolescreenfunctionalities:getrolescreenfunctionalities,
-     setHolidaysMaster:setHolidaysMaster
+     setHolidaysMaster: setHolidaysMaster,
+     errorLogs:errorLogs
 
  }
 
@@ -119,22 +120,44 @@ async function getstatuslist(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_status_list` (null)",
-                function (err, result, fields) {
-                    console.log(err)
-                    if (result && result.length > 0) {
-                        console.log("dfgfgh")
-                        res.send({ status: true, data: result[0] })
-                    } else {
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("getstatuslist");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.params));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
                         res.send({ status: false, data: [] });
+                    } else {
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
                     }
-
                 })
               }  else {
             res.send({status: false,Message:'Database Name is missed'})
             }
     }
     catch(e){
-        console.log('get statuslist');
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getstatuslist");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -163,11 +186,8 @@ function getDatebaseName(companyName){
 /*set Designation*/
 async function setDesignation(req,res) {
     try{
-
-
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -175,16 +195,24 @@ async function setDesignation(req,res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             let infoDesignationMaster = {}
-
             infoDesignationMaster.designation= req.body.designationName;
             infoDesignationMaster.status= 1;
             infoDesignationMaster.created_by=req.body.created_by;
             infoDesignationMaster.created_on= req.body.created_on;
             infoDesignationMaster.updated_on=null;
             infoDesignationMaster.updated_by= null;
-            listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)", ['designationsmaster',dbName, JSON.stringify(infoDesignationMaster)],function (err,result, fields) {
-                console.log(err);
-                if(err) {
+            listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)", ['designationsmaster',dbName, JSON.stringify(infoDesignationMaster)],async function (err,result, fields) {
+               if (err) {
+                    let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("setDesignation");
+    errorLogArray.push("POST");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: "Unable to insert designation"});
                 }else {
                     res.send({status: true, message: "Designation added successfully"})
@@ -194,10 +222,18 @@ async function setDesignation(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
     }
     }catch (e){
-
-        console.log('setDesignation :', e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setDesignation");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 
 }
 
@@ -207,7 +243,6 @@ async function putDesignation(req,res) {
 
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -221,9 +256,20 @@ async function putDesignation(req,res) {
             infoDesignationMaster.created_by = req.body.created_by;
             infoDesignationMaster.updated_on = req.body.updated_on;
             infoDesignationMaster.updated_by = req.body.updated_by;
-            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",['designationsmaster','id',req.body.id,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)", ['designationsmaster', 'id', req.body.id, JSON.stringify(infoDesignationMaster)],
+                async function (err, result, fields) {
 
                 if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("putDesignation");
+                    errorLogArray.push("PUT");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update designation'});
                 } else {
                     res.send({status: true,message:'Designation updated successfully'})
@@ -234,9 +280,18 @@ async function putDesignation(req,res) {
         }
 
     }catch (e) {
-        console.log('setDesignation :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("putDesignation");
+        errorLogArray.push("PUT");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 /*Set Departments*/
@@ -261,8 +316,18 @@ async function putDepartments(req,res) {
             info.created_by = req.body.created_by;
             info.updated_on = req.body.updated_on;
             info.updated_by = req.body.updated_by;
-            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",['departmentsmaster','id',req.body.id,JSON.stringify(info)], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",['departmentsmaster','id',req.body.id,JSON.stringify(info)], async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("putDepartments");
+                    errorLogArray.push("PUT");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false,message:'Unable to update departments'});
                 } else {
                     res.send({status: true,message:'Department updated successfully'})
@@ -273,18 +338,25 @@ async function putDepartments(req,res) {
         }
 
     }catch (e) {
-        console.log('getHolidays :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("putDepartments");
+        errorLogArray.push("PUT");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 /*set Department*/
 async function setDepartment(req,res) {
     try {
-        console.log("hgvhvhhvhv",req.body)
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -303,12 +375,18 @@ async function setDepartment(req,res) {
             info.updated_by = null;
 
 
-            listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)",['departmentsmaster',dbName,JSON.stringify(info)], function (err, result, fields) {
-                console.log(err)
-                console.log(result,"listOfConnections[companyName]")
-
+            listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)",['departmentsmaster',dbName,JSON.stringify(info)], async function (err, result, fields) {
                 if (err) {
-
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("setDepartment");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false,message:'Unable to add department'});
                 } else {
                     res.send({status: true,message:'Departments added successfully'})
@@ -319,16 +397,24 @@ async function setDepartment(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setmastertable :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setDepartment");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 async function updateStatus(req,res) {
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -336,9 +422,19 @@ async function updateStatus(req,res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             if(req.body.status === 1 ||(!req.body.isexists.result && req.body.isexists.status)){
-                listOfConnections[companyName].query("CALL `updatestatus` (?,?,?)",['departmentsmaster',req.body.id,req.body.status], function (err, result, fields) {
-
+                listOfConnections[companyName].query("CALL `updatestatus` (?,?,?)", ['departmentsmaster', req.body.id, req.body.status],
+                    async function (err, result, fields) {
                     if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("updateStatus");
+                        errorLogArray.push("PUT");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
                         res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
                     } else {
                         res.send({status: true,message:'Department is '+req.body.status+' successfully'})
@@ -354,8 +450,18 @@ async function updateStatus(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('updateStatus :',e)
-
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("updateStatus");
+        errorLogArray.push("PUT");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -368,10 +474,8 @@ async function updateStatus(req,res) {
  * */
 async function designationStatus(req,res) {
     try {
-
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -379,8 +483,19 @@ async function designationStatus(req,res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             if(req.body.status === 1 ||(!req.body.isexists.result && req.body.isexists.status)) {
-                listOfConnections[companyName].query("CALL `updatestatus` (?,?,?)", ['designationsmaster', req.body.id, req.body.status], function (err, result, fields) {
+                listOfConnections[companyName].query("CALL `updatestatus` (?,?,?)", ['designationsmaster', req.body.id, req.body.status],
+                    async function (err, result, fields) {
                     if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("designationStatus");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
                         res.send({status: false, message: 'Unable to update designation status'});
                     } else {
                         res.send({status: true, message: 'Designation is '+req.body.status+' successfully'})
@@ -396,7 +511,20 @@ async function designationStatus(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('designationStatus :',e) }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("designationStatus");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
+    
+    }
 }
 
 
@@ -413,33 +541,57 @@ async function getactiveWorkLocation(req,res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             var id = null;
-            listOfConnections[companyName].query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    var data = JSON.parse((result[0][0].json))
-                    var resultdata=[];
-                    var inactive =[];
-                    for(var i=0;i<data.length;i++){
-                        if(data[i].status == 1){
-                            resultdata.push(data[i]);
-                        }
-                        else{
-                            inactive.push(data[i])
-                        }
-
-                    }
-                    res.send({data: resultdata, status: true});
-
+            listOfConnections[companyName].query("CALL `getcompanyworklocation` (?)", [id],
+                async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getactiveWorkLocation");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        var data = JSON.parse((result[0][0].json))
+                        var resultdata = [];
+                        var inactive = [];
+                        for (var i = 0; i < data.length; i++) {
+                            if (data[i].status == 1) {
+                                resultdata.push(data[i]);
+                            }
+                            else {
+                                inactive.push(data[i])
+                            }
+
+                        }
+                        res.send({ data: resultdata, status: true });
+
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getWorkLocation :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getactiveWorkLocation");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 /*set Holidays*/
@@ -447,10 +599,8 @@ async function getactiveWorkLocation(req,res) {
 async function setHolidays(req,res) {
 
     try {
-        console.log(req.body,"req.body.companyName")
         let  dbName = await getDatebaseName(req.body[0].companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -479,11 +629,21 @@ async function setHolidays(req,res) {
                     info.created_on = element.created_on;
                     info.updated_by = null;
                     info.updated_on = null;
-                    listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)",[tname,dbName,JSON.stringify(info)], function (err, result, fields) {
+                    listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)", [tname, dbName, JSON.stringify(info)],
+                        async function (err, result, fields) {
                         k+=1;
                         if (err) {
-                            console.log(err);
-                            res.send({status: false, message: 'Unable to insert holidays'});
+                            let errorLogArray = [];
+                            errorLogArray.push("AdminAPI");
+                            errorLogArray.push("setHolidays");
+                            errorLogArray.push("POST");
+                            errorLogArray.push(JSON.stringify(req.body));
+                            errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                            errorLogArray.push(null);
+                            errorLogArray.push(companyName);
+                            errorLogArray.push(dbName);
+                            errorLogs = await errorLogs(errorLogArray);
+                           res.send({status: false, message: 'Unable to insert holidays'});
                         } else {
                             if(k===reqData.length) {
                                 res.send({status: true, message: 'Holidays added successfully'});
@@ -495,39 +655,57 @@ async function setHolidays(req,res) {
                 res.send({status: false, message: 'Unable to insert holidays'});
             }
         }  else {
-            console.log("else condition")
-
-            res.send({status: false,Message:'Database Name is missed'})
+             res.send({status: false,Message:'Database Name is missed'})
         }
 
     }catch (e) {
-
-        console.log('setHolidays :',e)
-
-
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setHolidays");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)  }
 
 }
 
 /*Get Holidays filter */
 async function getHolidysFilter(req, res) {
-    console.log("req.params",req.params)
-    try {
+     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getholidaysbyfilter` (?,?,?,?)", [req.params.year ==='null'?null:req.params.year,req.params.locationId ==='null'?null:req.params.locationId,req.params.page,req.params.size],function (err, result, fields) {
-                if (result && result.length > 0) {
-               res.send({ data: result[0], status: true });
+            listOfConnections[companyName].query("CALL `getholidaysbyfilter` (?,?,?,?)", [req.params.year === 'null' ? null : req.params.year, req.params.locationId === 'null' ? null : req.params.locationId, req.params.page, req.params.size],
+                async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getHolidysFilter");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+            
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
@@ -535,9 +713,18 @@ async function getHolidysFilter(req, res) {
         }
 
     }catch (e) {
-        console.log('getDesignation :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getHolidysFilter");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 /**
@@ -554,8 +741,18 @@ async function deleteHoliday(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `deleteholidays` (?)",[req.params.holidayId], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `deleteholidays` (?)",[req.params.holidayId], async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("deleteHoliday");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to delete holiday'});
                 } else {
                     res.send({status: true, message: 'Holiday deleted successfully'})
@@ -566,7 +763,19 @@ async function deleteHoliday(req,res) {
         }
 
     }catch (e) {
-        console.log('deleteHoliday :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("deleteHoliday");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
+    
     }
 }
 
@@ -599,8 +808,18 @@ async function putHolidays(req,res) {
             info.created_on = req.body.created_on;
             info.updated_on = req.body.updated_on;
             info.updated_by = req.body.updated_by;
-            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",[tname,'id',req.body.id,JSON.stringify(info)], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",[tname,'id',req.body.id,JSON.stringify(info)], async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("putHolidays");
+    errorLogArray.push("PUT");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update holidays'});
                 } else {
 
@@ -613,8 +832,18 @@ async function putHolidays(req,res) {
         }
 
     }catch (e) {
-        console.log('putHolidays :',e)
-
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("putHolidays");
+        errorLogArray.push("PUT");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -651,9 +880,18 @@ async function putCompanyInformation(req,res) {
             companyInformation.updated_by=req.body.updated_by;
             companyInformation.updated_on=req.body.updated_on;
 
-            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.id,JSON.stringify(companyInformation)], function (err, result, fields) {
-                console.log(err)
+            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",['companyinformation','Id',req.body.id,JSON.stringify(companyInformation)], async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("putCompanyInformation");
+                    errorLogArray.push("PUT");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update company information'});
                 } else {
                     res.send({status: true, message: 'Company Information updated Successfully'})
@@ -665,7 +903,18 @@ async function putCompanyInformation(req,res) {
         }
 
     }catch (e) {
-        console.log('putCompanyInformation :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("putCompanyInformation");
+        errorLogArray.push("PUT");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -701,8 +950,19 @@ async function setCompanyInformation(req,res) {
             companyInformation.created_on = req.body.created_on;
             companyInformation.updated_on = null;
             companyInformation.updated_by = null;
-            listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)",['companyinformation',req.body.companyDBName,JSON.stringify(companyInformation)],function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `setmastertable` (?,?,?)", ['companyinformation', req.body.companyDBName, JSON.stringify(companyInformation)],
+                async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("setCompanyInformation");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {
                     res.send({status: true, message: 'Company Information added successfully'})
@@ -711,7 +971,18 @@ async function setCompanyInformation(req,res) {
 
 
         }catch (e) {
-            console.log('setCompanyInformation :',e)
+            let companyName =req.body.companyName;
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("AdminAPI");
+            errorLogArray.push("setCompanyInformation");
+            errorLogArray.push("POST");
+            errorLogArray.push(JSON.stringify(req.body));
+            errorLogArray.push( e.message);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
+            errorLogs = await errorLogs(errorLogArray)
         }
     }  else {
         res.send({status: false,Message:'Database Name is missed'})
@@ -732,9 +1003,19 @@ async function getStates(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getstatesforcountry`(?)",[id],function(error,result,fields){
+            listOfConnections[companyName].query("CALL `getstatesforcountry`(?)",[id],async function(error,result,fields){
                 if(error){
-                    console.log(error)
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getStates");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({status:false})
                 }
                 else{
                     res.send({data: result[0], status: true});
@@ -745,7 +1026,18 @@ async function getStates(req,res){
         }
     }
     catch(e){
-        console.log('getstates',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getStates");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 /**get Cities */
@@ -754,16 +1046,26 @@ async function getCities(req,res){
     try{
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getcitiesforstate`(?)",[id],function(error,result,fields){
+            listOfConnections[companyName].query("CALL `getcitiesforstate`(?)", [id],
+                async function (error, result, fields) {
                 if(error){
-                    console.log(error)
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getCities");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({status:false})
                 }
                 else{
                     res.send({data: result[0], status: true});
@@ -774,7 +1076,18 @@ async function getCities(req,res){
         }
     }
     catch(e){
-        console.log('getstates',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getCities");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -808,18 +1121,44 @@ async function getLeavePolicies(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getleavepolicies` (?,?)",[leaveCategoryId,isCommonRule], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `getleavepolicies` (?,?)", [leaveCategoryId, isCommonRule],
+                async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getLeavePolicies");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch(e){
-        console.log("getLeavePolicies",e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getLeavePolicies");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 
 }
@@ -843,8 +1182,18 @@ async function updateLeaveDisplayName(req,res) {
             infoDesignationMaster.id = req.body.leaveId;
             infoDesignationMaster.display_name = req.body.displayName;
 
-            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",['lm_leavesmaster','id',req.body.leaveId,JSON.stringify(infoDesignationMaster)], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)",['lm_leavesmaster','id',req.body.leaveId,JSON.stringify(infoDesignationMaster)], async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("updateLeaveDisplayName");
+    errorLogArray.push("POST");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update designation'});
                 } else {
                     res.send({status: true,message:'Designation updated successfully'})
@@ -855,9 +1204,18 @@ async function updateLeaveDisplayName(req,res) {
         }
 
     }catch (e) {
-        console.log('setDesignation :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("updateLeaveDisplayName");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 
@@ -872,8 +1230,18 @@ async function setAdvancedLeaveRuleValues(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_advanced_leave_rule_values` (?)",[req.body.id],function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `set_advanced_leave_rule_values` (?)",[req.body.id],async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("setAdvancedLeaveRuleValues");
+    errorLogArray.push("POST");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                     res.send({message: 'Unable to update leave policy', status: false});
                 } else {
                     res.send({message: 'Rules updated successfully', status: true})
@@ -884,7 +1252,18 @@ async function setAdvancedLeaveRuleValues(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getemployeeleavebalance :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setAdvancedLeaveRuleValues");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -904,8 +1283,19 @@ async function setToggleLeaveType(req,res) {
             let leaveId = req.body.id;
             let leavetype_status = req.body.leavetype_status;
             listOfConnections[companyName].query("CALL `toggle_leavetype` (?,?)",
-                [leaveId,leavetype_status], function (err, result, fields) {
+                [leaveId, leavetype_status],
+                async function (err, result, fields) {
                     if (err) {
+                        let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("setToggleLeaveType");
+    errorLogArray.push("POST");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                         res.send({status: false, message: 'Unable to update leave policies status'});
                     } else {
                         res.send({status: true, message: 'Leave policies status updated successfully'})
@@ -916,7 +1306,18 @@ async function setToggleLeaveType(req,res) {
         }
 
     }catch (e) {
-        console.log('setToggleLeaveType :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setToggleLeaveType");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -931,11 +1332,26 @@ async function getLeaveTypesForAdvancedLeave(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getleavetypesforadvancedleave` ()",function (err, result, fields) {
-                if (result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `getleavetypesforadvancedleave` ()",
+                async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getLeaveTypesForAdvancedLeave");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
@@ -943,7 +1359,18 @@ async function getLeaveTypesForAdvancedLeave(req,res) {
         }
 
     }catch (e) {
-        console.log('getemployeeholidays :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getLeaveTypesForAdvancedLeave");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -959,11 +1386,18 @@ async function setLeavePolicies(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `set_leavepolicies` (?)",[JSON.stringify(ruleData)], function (err, result, fields) {
-            console.log(JSON.stringify(ruleData));
-            console.log(result);
-            console.log(err);
-            if(err){
+        listOfConnections[companyName].query("CALL `set_leavepolicies` (?)",[JSON.stringify(ruleData)], async function (err, result, fields) {
+            if (err) {
+                let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("setLeavePolicies");
+    errorLogArray.push("POST");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                 res.send({message: 'Unable to update leave policy', status: false})
             }else{
                 res.send({message: "Rules updated successfully", status: true})
@@ -975,7 +1409,18 @@ async function setLeavePolicies(req,res) {
     }
     }
     catch(e){
-        console.log("setLeavePolicies",e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setLeavePolicies");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -984,7 +1429,6 @@ async function getWorkLocation(req,res) {
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -992,13 +1436,27 @@ async function getWorkLocation(req,res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             var id = null;
-            listOfConnections[companyName].query("CALL `getcompanyworklocation` (?)",[id], function (err, result, fields) {
-                if (result.length > 0) {
-                    var data = JSON.parse((result[0][0].json))
-                    res.send({data: data, status: true});
-
+            listOfConnections[companyName].query("CALL `getcompanyworklocation` (?)",[id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getWorkLocation");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result.length > 0) {
+                        var data = JSON.parse((result[0][0].json))
+                        res.send({ data: data, status: true });
+
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
@@ -1006,8 +1464,18 @@ async function getWorkLocation(req,res) {
         }
 
     }catch (e) {
-        console.log('getWorkLocation :',e)
-
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getWorkLocation");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1025,9 +1493,19 @@ async function updateStatusall(req,res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             if(req.body.status === 'Active'||(!req.body.isexists.result && req.body.isexists.status)){
-                listOfConnections[companyName].query("CALL `updatestatus` (?,?,?)",[req.body.checktable,req.body.id,req.body.status], function (err, result, fields) {
+                listOfConnections[companyName].query("CALL `updatestatus` (?,?,?)",[req.body.checktable,req.body.id,req.body.status], async function (err, result, fields) {
 
                     if (err) {
+                        let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("updateStatusall");
+    errorLogArray.push("POST");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                         res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
                     } else {
                         res.send({status: true,message:'Department is '+req.body.status+' successfully'})
@@ -1043,8 +1521,18 @@ async function updateStatusall(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('updateStatusall :',e)
-
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("updateStatusall");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1097,8 +1585,18 @@ async function setWorkLocation(req,res) {
             }
 
             let data = JSON.stringify(req.body)
-            listOfConnections[companyName].query("CALL `setcompanyworklocation` (?)",[data], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `setcompanyworklocation` (?)",[data], async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("setWorkLocation");
+    errorLogArray.push("POST");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to add work location'});
                 } else {
                     res.send({status: true,message:'Work Location added successfully'})
@@ -1109,8 +1607,18 @@ async function setWorkLocation(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setWorkLocation :',e)
-
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setWorkLocation");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1118,12 +1626,9 @@ async function setWorkLocation(req,res) {
  *
  *@param boon_emp_id *@param biometric_id */
 async function getIntegrationEmpidsLookup(req, res) {
-
     try {
-
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -1131,18 +1636,44 @@ async function getIntegrationEmpidsLookup(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_integration_empids_lookup` (?,?)", [req.body.boon_emp_id,req.body.biometric_id, req.body.calendar_date],
-                function (err, result, fields) {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data:result[0]})
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("getTerminationCategory");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false })
                     } else {
-                        res.send({ status: false, data: [] });
+                
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
                     }
                 })
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-        console.log('get_integration_empids_lookup');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getTerminationCategory");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1151,31 +1682,54 @@ async function getIntegrationEmpidsLookup(req, res) {
  *@param boon_emp_id *@param biometric_id */
 
 async function setIntegrationEmpidsLookup(req, res) {
-
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-
             listOfConnections[companyName].query("CALL `set_integration_empids_lookup` (?,?)", [req.body.boon_emp_id,parseInt(req.body.biometric_id), req.body.calendar_date],
-                function (err, result, fields) {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, message: 'Mapping added successfully.' })
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("setIntegrationEmpidsLookup");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false })
                     } else {
-                        res.send({ status: false, message: 'Unable to Mapping.' });
+                        if (result && result.length > 0) {
+                            res.send({ status: true, message: 'Mapping added successfully.' })
+                        } else {
+                            res.send({ status: false, message: 'Unable to Mapping.' });
+                        }
                     }
                 })
             }  else {
             res.send({status: false,Message:'Database Name is missed'})
             }
     } catch (e) {
-        console.log('set_integration_empids_lookup');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setIntegrationEmpidsLookup");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
+    
     }
 }
 
@@ -1194,18 +1748,43 @@ async function getAttendenceMessages(req, res) {
             }
             listOfConnections[companyName].query("CALL `get_attendance_messages` (?,?,?)", [req.body.code,
                     req.body.pagenumber,req.body.pagesize],
-                function (err, result, fields) {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("getAttendenceMessages");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false })
                     } else {
-                        res.send({ status: false, data: [] });
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
                     }
                 })
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-        console.log('get_attendance_messages');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getAttendenceMessages");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1216,7 +1795,6 @@ async function setAttendenceMessages(req, res) {
     try {
         let  dbName = await getDatebaseName(req.body[0].companyName)
         let companyName = req.body[0].companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -1224,8 +1802,18 @@ async function setAttendenceMessages(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_attendance_messages` (?)", [data],
-                function (err, result, fields) {
+                async function (err, result, fields) {
                     if (err) {
+                        let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("setAttendenceMessages");
+    errorLogArray.push("POST");
+    errorLogArray.push(data);
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                         res.send({ status: false, data: "unableToSave" })
                     } else {
                         res.send({ status: true, data:"dataSaved" });
@@ -1235,7 +1823,18 @@ async function setAttendenceMessages(req, res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-        console.log('set_attendance_messages');
+        let companyName =req.body[0].companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setAttendenceMessages");
+        errorLogArray.push("POST");
+        errorLogArray.push(data);
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1253,11 +1852,26 @@ async function getActiveShiftIds(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_active_shift_ids`", function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
+            listOfConnections[companyName].query("CALL `get_active_shift_ids`",
+                async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getActiveShiftIds");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({ data: [],status: false })
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ data: [], status: false })
+                    }
                 }
             });
         }  else {
@@ -1265,8 +1879,18 @@ async function getActiveShiftIds(req, res) {
         }
 
     } catch (e) {
-        console.log('getActiveShiftIds :', e)
-
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getActiveShiftIds");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1285,9 +1909,19 @@ async function setShiftMaster(req, res) {
             listOfConnections[companyName].query("CALL `set_shift_master` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [req.body.shift_name, req.body.shiftdescription, req.body.from_time, req.body.to_time,
                     req.body.total_hours, req.body.grace_intime, req.body.grace_outtime, req.body.max_lates, req.body.leave_deduction_count,
-                    req.body.leavetype_for_deduction, req.body.overtimeduration,req.body.status,req.body.created_by], function (err, result, fields) {
+                    req.body.leavetype_for_deduction, req.body.overtimeduration,req.body.status,req.body.created_by], async function (err, result, fields) {
 
                     if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("setShiftMaster");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
                         res.send({ status: false, message: 'UnableToSave' });
                     } else {
                         if (result[0][0].validity_status == 0) {
@@ -1301,29 +1935,51 @@ async function setShiftMaster(req, res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-        console.log('setShiftMaster')
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setShiftMaster");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 /**Get All SHifts */
 async function getAllShifts(req, res) {
 
     try {
-
-
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_all_shifts`", function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
+            listOfConnections[companyName].query("CALL `get_all_shifts`", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getAllShifts");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false })
+                } else {
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
 
@@ -1331,8 +1987,18 @@ async function getAllShifts(req, res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-        console.log('get_all_shifts :', e)
-
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getAllShifts");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 /**Update Shift Status
@@ -1353,9 +2019,19 @@ async function updateShiftStatus(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `update_shift_status` (?,?)", [req.body.shift_id,req.body.status_value], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `update_shift_status` (?,?)", [req.body.shift_id,req.body.status_value], async function (err, result, fields) {
 
                 if (err) {
+                    let errorLogArray = [];
+    errorLogArray.push("AdminAPI");
+    errorLogArray.push("updateShiftStatus");
+    errorLogArray.push("PUT");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false, message: "unableToUpdate" });
                 }
                 else {
@@ -1372,7 +2048,18 @@ async function updateShiftStatus(req, res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-        console.log('updateShiftStatus :', e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("updateShiftStatus");
+        errorLogArray.push("PUT");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1384,21 +2071,33 @@ async function updateShiftStatus(req, res) {
 async function getShiftsDetailsById(req, res) {
 
     try {
-
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_shifts_details_by_id` (?)", [req.params.shift_id], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
+            listOfConnections[companyName].query("CALL `get_shifts_details_by_id` (?)", [req.params.shift_id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getShiftsDetailsById");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false })
+                } else {
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
@@ -1406,8 +2105,18 @@ async function getShiftsDetailsById(req, res) {
         }
 
     } catch (e) {
-        console.log('get_shifts_details_by_id :', e)
-
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getShiftsDetailsById");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1418,7 +2127,6 @@ async function getEMSMessages(req, res) {
 
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
                 listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -1427,18 +2135,43 @@ async function getEMSMessages(req, res) {
             }
             listOfConnections[companyName].query("CALL `get_ems_messages` (?,?,?)", [req.body.code,
                     req.body.pagenumber,req.body.pagesize],
-                function (err, result, fields) {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("getEMSMessages");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false })
                     } else {
-                        res.send({ status: false, data: [] });
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
                     }
                 })
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-        console.log('get_attendance_messages');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getEMSMessages");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 async function setEMSMessages(req, res) {
@@ -1454,8 +2187,19 @@ async function setEMSMessages(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_ems_messages` (?)", [data],
-                function (err, result, fields) {
+                async function (err, result, fields) {
                     if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("setEMSMessages");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({status:false})
                         res.send({ status: false, data: "unableToSave" })
                     } else {
                         res.send({ status: true, data:"dataSaved" });
@@ -1465,7 +2209,18 @@ async function setEMSMessages(req, res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-        console.log('set_ems_messages');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setEMSMessages");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1475,25 +2230,49 @@ async function getModulesWithScreens(req,res) {
     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_modules_screens` ()", function (err, result, fields) {
-                if (result.length > 0) {
-                    res.send({data: result[0][0], status: true});
+            listOfConnections[companyName].query("CALL `get_modules_screens` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getModulesWithScreens");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result.length > 0) {
+                        res.send({ data: result[0][0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('get_modules_screens :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getModulesWithScreens");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1509,18 +2288,43 @@ async function getScreenWithFunctionalities(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_screens_functionalities` (?)",[req.params.moduleId], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0][0], status: true});
+            listOfConnections[companyName].query("CALL `get_screens_functionalities` (?)",[req.params.moduleId], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getScreenWithFunctionalities");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0][0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('get_screens_functionalities :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getScreenWithFunctionalities");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1530,46 +2334,82 @@ async function getRoleScreenfunctionalitiesByRoleId(req,res) {
     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_screens_functionalities_for_role` (?)",[req.params.roleId], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result, status: true});
+            listOfConnections[companyName].query("CALL `get_screens_functionalities_for_role` (?)",[req.params.roleId], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getRoleScreenfunctionalitiesByRoleId");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result, status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getscreenfunctionalitiesmaster :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getRoleScreenfunctionalitiesByRoleId");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
 /*Get Role Master*/
 async function getrolemaster(req,res) {
     try {
-
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getrolemaster` ()", function (err, result, fields) {
-                if (result.length > 0) {
-                    res.send({data: result, status: true});
+            listOfConnections[companyName].query("CALL `getrolemaster` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getrolemaster");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result.length > 0) {
+                        res.send({ data: result, status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
@@ -1577,7 +2417,18 @@ async function getrolemaster(req,res) {
         }
 
     }catch (e) {
-        console.log('getrolemaster :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getrolemaster");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1588,18 +2439,32 @@ async function getscreensmaster(req,res) {
 
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getscreensmaster` (?)",['4'], function (err, result, fields) {
-                if (result.length > 0) {
-                    res.send({data: result, status: true});
+            listOfConnections[companyName].query("CALL `getscreensmaster` (?)", ['4'],
+                async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getscreensmaster");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result.length > 0) {
+                        res.send({ data: result, status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
 
@@ -1607,7 +2472,18 @@ async function getscreensmaster(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getscreensmaster :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getscreensmaster");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1618,18 +2494,31 @@ async function getfunctionalitiesmaster(req,res) {
 
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getfunctionalitiesmaster` ()", function (err, result, fields) {
-                if (result.length > 0) {
-                    res.send({data: result, status: true});
+            listOfConnections[companyName].query("CALL `getfunctionalitiesmaster` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getfunctionalitiesmaster");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result.length > 0) {
+                        res.send({ data: result, status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
 
@@ -1637,7 +2526,18 @@ async function getfunctionalitiesmaster(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getfunctionalitiesmaster :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getfunctionalitiesmaster");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 /*Get Screen Functionalities Master*/
@@ -1645,25 +2545,49 @@ async function getscreenfunctionalitiesmaster(req,res) {
     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getscreenfunctionalitiesmaster` ()", function (err, result, fields) {
-                if (result.length > 0) {
-                    res.send({data: result, status: true});
+            listOfConnections[companyName].query("CALL `getscreenfunctionalitiesmaster` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getscreenfunctionalitiesmaster");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result.length > 0) {
+                        res.send({ data: result, status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getscreenfunctionalitiesmaster :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getscreenfunctionalitiesmaster");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1672,15 +2596,24 @@ async function setRoleAccess(req,res) {
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_role_access` (?)",[JSON.stringify(req.body)], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `set_role_access` (?)",[JSON.stringify(req.body)], async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("setRoleAccess");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update role permissions'});
                 } else {
                     res.send({status: true, message: 'Role permissions updated successfully'})
@@ -1690,7 +2623,19 @@ async function setRoleAccess(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setRoleAccess :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setRoleAccess");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
+    
     }
 }
 
@@ -1700,15 +2645,24 @@ async function setRoleMaster(req,res){
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName]=await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `setrolemaster` (?)",[req.body.roleName], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `setrolemaster` (?)",[req.body.roleName], async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("setRoleMaster");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to add role name'});
                 } else {
                     res.send({status: true, message: 'Role name successfully'})
@@ -1719,7 +2673,18 @@ async function setRoleMaster(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setRoleMaster :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setRoleMaster");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1728,15 +2693,24 @@ async function getReportingManager(req,res){
     try{
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-        console.log("jkdfjkjb",req.body)
         var listOfConnections = {};
         if(dbName) {
             listOfConnections = connection.checkExistingDBConnection( companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-            listOfConnections[companyName].query("CALL `getreportingmanagers`(?)", [req.body.id], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `getreportingmanagers`(?)", [req.body.id], async function (err, result, fields) {
                 if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getReportingManager");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false })
                 }
                 else {
@@ -1750,7 +2724,18 @@ async function getReportingManager(req,res){
 
     }
     catch(e){
-        console.log("getreportingmanager",e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getReportingManager");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1765,18 +2750,43 @@ async function getrolescreenfunctionalities(req,res) {
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-            listOfConnections[companyName].query("CALL `getrolescreenfunctionalities` (?,?)", [req.params.roleId, '2'], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result, status: true});
+            listOfConnections[companyName].query("CALL `getrolescreenfunctionalities` (?,?)", [req.params.roleId, '2'], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getrolescreenfunctionalities");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result, status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }else {
             res.send({status: false,Message:'Database Name is missed'})
             }
     }catch (e) {
-        console.log('getscreenfunctionalitiesmaster :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getrolescreenfunctionalities");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -1803,22 +2813,77 @@ async function setHolidaysMaster(req,res){
                     JSON.stringify(req.body.holiday_location),
                     req.body.createdby
                  ],
-                 function (err, result, fields) {
-                   if (result && result[0][0].successstate == 0) {
-                   res.send({ status: true ,data:result[0][0].successstate});
-                  } else if (result && result[0][0].successstate == 1) {
-                      res.send({ status: true ,data:result[0][0].successstate}); 
-                  }
-                  else {
-                          res.send({ status: false })
-                   }
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("AdminAPI");
+                        errorLogArray.push("setHolidaysMaster");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false })
+                    } else {
+                        if (result && result[0][0].successstate == 0) {
+                            res.send({ status: true, data: result[0][0].successstate });
+                        } else if (result && result[0][0].successstate == 1) {
+                            res.send({ status: true, data: result[0][0].successstate });
+                        }
+                        else {
+                            res.send({ status: false })
+                        }
+                    }
                   })
 
         }  else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setHolidaysMaster :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("setHolidaysMaster");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
+
+
+/** error logs */
+function errorLogs(errorLogArray) {
+    return new Promise(async (res,rej)=>{
+       try {
+           let companyName =errorLogArray[6];
+           let dbName = errorLogArray[7];
+           listOfConnections= connection.checkExistingDBConnection(companyName)
+           if(!listOfConnections.succes) {
+               listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+           }
+               listOfConnections[companyName].query(  "CALL `set_error_logs` (?,?,?,?,?,?)",
+               [
+                errorLogArray[0], errorLogArray[1], errorLogArray[2], JSON.stringify(errorLogArray[3]),errorLogArray[4], errorLogArray[5]
+               ],
+             function (err, result, fields) {
+              if (result) {
+                       res({ status: true });
+                   } else {
+                       res({ status: false })
+                   }
+               });
+           }
+         catch (e) {
+           rej(e)
+       }
+   });
+
+}

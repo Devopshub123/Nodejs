@@ -2192,7 +2192,7 @@ async function getMastertables(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)", [req.body.tableName, req.body.status, req.body.pageNumber, req.body.pageSize, 'spryple_sreeb'],
+             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)", [req.body.tableName, req.body.status, req.body.pageNumber, req.body.pageSize, dbName],
                  async function (err, result, fields) {
                 if (err) {
                     let errorLogArray = [];
@@ -2479,7 +2479,7 @@ async function cancelLeaveRequest(req,res) {
             let leavereason = req.body.leavereason;
             let contactnumber = req.body.contactnumber;
             let email = req.body.contactemail;
-            let address = 'test';
+            let address = '';
             let leavestatus = "Cancelled"
             let actionreason = req.body.actionreason;
 

@@ -178,7 +178,8 @@ async function setNewHire(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                 } else {
 
                     if (result[0][0].statuscode == 0) {
@@ -291,7 +292,8 @@ async function getNewHireDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     
          
@@ -353,7 +355,8 @@ async function setReasonMaster(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result[0][0].statuscode == 0) {
                             res.send({ status: true, message: "", data: result[0][0] })
@@ -406,7 +409,8 @@ async function getActiveReasonList(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -461,7 +465,8 @@ async function getActiveReasonList(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                      if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -521,7 +526,8 @@ async function getActiveReasonList(req,res) {
                             errorLogArray.push(null);
                             errorLogArray.push(companyName);
                             errorLogArray.push(dbName);
-                            errorLogs = await errorLogs(errorLogArray)
+                            errorLogs = await errorLogs(errorLogArray);
+                            res.send({ status: false });
                         } else {
                             if (result[0][0].statuscode == 0) {
                                 res.send({ status: true, message: "", data: result[0][0] })
@@ -575,7 +581,8 @@ async function getTerminationCategory(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -633,7 +640,8 @@ async function setDocumentCategory(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result[0][0].statuscode == 0) {
                             res.send({ status: true, message: "", data: result[0][0] })
@@ -683,7 +691,8 @@ async function getDocumentCategory(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -738,7 +747,8 @@ async function setProgramsMaster(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result) {
                         result[0][0].pid=req.body.pid;
@@ -793,7 +803,8 @@ async function getProgramsMaster(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -848,7 +859,8 @@ async function setProgramTasks() {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -949,7 +961,8 @@ async function setProgramSchedules(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result[0][0].successstate == 0) {
                             res.send({ status: true, data: result[0][0].successstate });
@@ -1014,7 +1027,8 @@ async function getProgramSchedules(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1070,7 +1084,8 @@ async function setEmployeeProgramSchedules(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1124,7 +1139,8 @@ async function getEmployeeProgramSchedules(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ data: result[0], status: true });
@@ -1183,7 +1199,8 @@ async function setChecklistsMaster(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result[0][0].successstate == 0) {
                         res.send({ status: true });
@@ -1235,7 +1252,8 @@ async function getChecklistsMasterActive(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1288,7 +1306,8 @@ async function getChecklistsMaster(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
             
                     if (result && result.length > 0) {
@@ -1342,7 +1361,8 @@ async function getEmployeesList(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
             
                     if (result && result.length > 0) {
@@ -1397,7 +1417,8 @@ async function setPreonboardCandidateInformation(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1450,7 +1471,8 @@ async function setPreonboardCandidateInformation(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                 
                         if (result && result.length > 0) {
@@ -1504,7 +1526,8 @@ async function getEmployeeChecklists(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1556,7 +1579,8 @@ async function getEmployeesTermination(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1608,7 +1632,8 @@ async function setEmployeeTermination(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result[0] && result[0][0] && result[0][0].statuscode == 0) {
                         res.send({ data: result[0][0].statuscode, status: true });
@@ -1661,7 +1686,8 @@ async function getEmployeesResignation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
             
                     if (result && result.length > 0) {
@@ -1764,7 +1790,8 @@ async function getActiveTerminationCategories(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1815,7 +1842,8 @@ async function getEmployeeslistforTermination(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1865,7 +1893,8 @@ async function setCandidateExperience(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1916,7 +1945,8 @@ async function setCandidateEducation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1966,7 +1996,8 @@ async function getDepartmentEmployeesByDesignation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
             
                     if (result && result.length > 0) {
@@ -2021,7 +2052,8 @@ async function setselectEmployeesProgramSchedules(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result[0][0].successstate == 0) {
                         array.push(result[0][0])
@@ -2072,7 +2104,8 @@ async function updateselectEmployeesProgramSchedules(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result[0][0].successstate == 0) {
                         res.send({ data: result[0], status: true });
@@ -2179,7 +2212,8 @@ async function getallEmployeeProgramSchedules(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -2228,7 +2262,8 @@ async function getEmployeesForProgramSchedule(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -2283,7 +2318,8 @@ async function getFileMasterForEMS(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -2336,7 +2372,8 @@ async function setFileMasterForEMS(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -2391,7 +2428,8 @@ async function getFilecategoryMasterForEMS(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -2443,7 +2481,8 @@ async function setEmpPersonalInfo(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result[0][0].statuscode == 0) {
                         res.send({ status: true, data: result[0][0].empid });
@@ -2493,7 +2532,8 @@ async function getOnboardingSettings(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -2545,7 +2585,8 @@ async function setEmpJobDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -2596,7 +2637,8 @@ async function getEmpJobDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -2678,7 +2720,8 @@ async function setEmpEmployement(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -2728,7 +2771,8 @@ async function getEmpEmployement(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -2778,7 +2822,8 @@ async function setEmpEducationDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -2830,7 +2875,8 @@ async function getEmpEducationDetails(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -2878,7 +2924,8 @@ async function getEmsEmployeeColumnConfigurationValue(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -3132,7 +3179,8 @@ async function setFilesMasterForEMS(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -3256,7 +3304,8 @@ async function getUserLoginData(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -3383,7 +3432,8 @@ async function getEmsEmployeeColumnFilterData(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -3437,7 +3487,8 @@ async function getOffboardingSettings(req, res) {
                       errorLogArray.push(null);
                       errorLogArray.push(companyName);
                       errorLogArray.push(dbName);
-                      errorLogs = await errorLogs(errorLogArray)
+                      errorLogs = await errorLogs(errorLogArray);
+                      res.send({ status: false });
                   } else {
                       if (result && result.length > 0) {
                           res.send({ data: result[0], status: true });
@@ -3550,7 +3601,8 @@ async function deleteFilesMaster(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -4187,7 +4239,8 @@ async function getEmsEmployeeDataForReports(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             // console.log(result)
@@ -4348,7 +4401,8 @@ async function getAnnouncements(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -4399,7 +4453,8 @@ async function getEmployeesPendingChecklists(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -4452,7 +4507,8 @@ async function Messages(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -4503,7 +4559,8 @@ async function getFilesForApproval(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -4554,7 +4611,8 @@ async function documentApproval(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                   
                     if (result && result[0] && result[0][0] && result[0][0].successstate == 0) {
@@ -4625,7 +4683,8 @@ async function setEmployeeChecklists(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result[0][0].successstate == 0) {
                             res.send({ status: true });
@@ -4679,7 +4738,8 @@ async function getEmpOffboardTerminationChecklists(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ data: result[0], status: true });
@@ -4783,7 +4843,8 @@ async function getEmpResignationPendingChecklists(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -4832,7 +4893,8 @@ async function getEmployeesResignationForHr(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ data: result[0], status: true });
@@ -5011,7 +5073,8 @@ async function getCompanyNameByEmail(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
             
                     if (result && result.length > 0) {
@@ -5061,7 +5124,8 @@ async function getReportingManagerForEmp(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -5117,7 +5181,8 @@ async function getEmpPersonalInfo(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ data: result[0], status: true });
@@ -5173,7 +5238,8 @@ async  function getEmpAnnouncements(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -5230,7 +5296,8 @@ async function getDocumentsForEMS(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -5284,7 +5351,8 @@ async function getActiveEmployeeProgramSchedules(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ data: result[0], status: true });
@@ -6380,7 +6448,8 @@ async function getEmployeeEmailData(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             companyNameData = JSON.parse(result[0][0].jsonvalu)[0];
@@ -6495,7 +6564,8 @@ async function getInductionProgramAssignedEmployee(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                 
                         if (result && result.length > 0) {
@@ -6552,7 +6622,8 @@ async function getEmployeesListByDeptId(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ data: result[0], status: true });
@@ -6606,7 +6677,8 @@ async function setInductionConductedby(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result[0][0].statuscode == 0) {
                             res.send({ status: true });
@@ -6660,7 +6732,8 @@ async function getInductionConductedbyEmployees(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ data: result[0], status: true });
@@ -6830,7 +6903,8 @@ async function updateInductionConductedbyStatus(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result[0][0].statuscode == 0) {
                             res.send({ status: true });
@@ -6997,7 +7071,8 @@ async function getDocumentsFiles(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
