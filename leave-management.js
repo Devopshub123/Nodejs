@@ -92,39 +92,59 @@ module.exports = {
     deleteLeaveRequestEmail: deleteLeaveRequestEmail,
     editLeaveRequestEmail:editLeaveRequestEmail,
     getDaysToBeDisabledForFromDateCompOff:getDaysToBeDisabledForFromDateCompOff,
-    deleteLeaveRequest:deleteLeaveRequest
+    deleteLeaveRequest: deleteLeaveRequest,
+    errorLogs:errorLogs
 
 };
 
 
 
 async function getApprovedLeaves(req,res){
-    console.log("req.params",req.params)
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-       
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(2,companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_approved_leaves_above_currentdate` (?)",[req.params.id],function (err, result, fields) {
-            console.log("result",result)
-                if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
+            listOfConnections[companyName].query("CALL `get_approved_leaves_above_currentdate` (?)",[req.params.id],async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getApprovedLeaves");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } else {
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+                }
         });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getApprovedLeaves :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getApprovedLeaves");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)  }
 }
 
 
@@ -138,20 +158,42 @@ async function getYearsForReport(req,res) {
                 if(!listOfConnections.succes) {
                     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
                 }
-                listOfConnections[companyName].query("CALL `get_years_for_report` ()",function (err, result, fields) {
-            if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
-            } else {
-                res.send({status: false})
-            }
+                listOfConnections[companyName].query("CALL `get_years_for_report` ()",async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("getYearsForReport");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.params));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray)
+                    } else {
+                        if (result && result.length > 0) {
+                            res.send({ data: result[0], status: true });
+                        } else {
+                            res.send({ status: false })
+                        }
+                    }
         });
             } else {
                 res.send({status: false,Message:'Database Name is missed'})
             }
     }catch (e) {
-        console.log('getYearsForReport :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getYearsForReport");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 
 
 }
@@ -238,11 +280,24 @@ async function getemployeeleaves(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `get_employee_leaves`(?,?,?)",[id,page,size],async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getemployeeleaves");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
 
             });
@@ -253,8 +308,18 @@ async function getemployeeleaves(req,res){
         
     }
     catch(e){
-        console.log('getemployeeholidays :',e)
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getemployeeleaves");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 /**
@@ -275,11 +340,25 @@ async function getLeaveBalance(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             let id = Number(req.params.empid);
-            listOfConnections[companyName].query("CALL `get_employee_leave_balance` (?)",[id], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result, status: true});
+             listOfConnections[companyName].query("CALL `get_employee_leave_balance` (?)", [id],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getLeaveBalance");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result, status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -288,26 +367,48 @@ async function getLeaveBalance(req,res){
         }
 
     }catch (e) {
-        console.log('getLeaveBalance :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getLeaveBalance");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)  }
 }
 
 async function getHolidaysList(req,res){
     try { 
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }       
-            listOfConnections[companyName].query("CALL `getemployeeholidays` (?)",[req.params.empId], function (err, result, fields) {
-                if (result && result.length > 0) {.0
-                    res.send({data: result, status: true});
-                }
+             listOfConnections[companyName].query("CALL `getemployeeholidays` (?)", [req.params.empId],
+                 async function (err, result, fields) {
+                     if (err) {
+                         let errorLogArray = [];
+                         errorLogArray.push("LMSAPI");
+                         errorLogArray.push("getHolidaysList");
+                         errorLogArray.push("GET");
+                         errorLogArray.push(JSON.stringify(req.params));
+                         errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                         errorLogArray.push(null);
+                         errorLogArray.push(companyName);
+                         errorLogArray.push(dbName);
+                         errorLogs = await errorLogs(errorLogArray)
+                     } else {
+                         if (result && result.length > 0) {
+                             res.send({ data: result, status: true });
+                         }
+                     }
             });
         }
         else {
@@ -316,7 +417,18 @@ async function getHolidaysList(req,res){
 
     }
     catch(e){
-        console.log()
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getHolidaysList");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -331,21 +443,34 @@ async function getleavecalender(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
-            listOfConnections[companyName].query("CALL `getleavecalendar` (?)",[req.params.id],function (err, result, fields) {
-             if (result && result[0].length > 0) {
-                for(var i = 0; i< result[0].length; i ++ ){
-                    if(result[0][i].ltype == 'weekoff'){
-                        result[0][i].color = '#2e0cf3'
-                    }else if (result[0][i].ltype != 'weekoff' && !result[0][i].color ){
-                        result[0][i].color = '#800000'
-                    }
-                    if(i === result[0].length-1){
-                        res.send({data: result[0], status: true});
-                    }
-
-                }
+            listOfConnections[companyName].query("CALL `getleavecalendar` (?)",[req.params.id],async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getleavecalender");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+                    if (result && result[0].length > 0) {
+                        for (var i = 0; i < result[0].length; i++) {
+                            if (result[0][i].ltype == 'weekoff') {
+                                result[0][i].color = '#2e0cf3'
+                            } else if (result[0][i].ltype != 'weekoff' && !result[0][i].color) {
+                                result[0][i].color = '#800000'
+                            }
+                            if (i === result[0].length - 1) {
+                                res.send({ data: result[0], status: true });
+                            }
+
+                        }
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -353,9 +478,18 @@ async function getleavecalender(req,res){
              res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getleavecalender :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getleavecalender");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 
@@ -363,7 +497,6 @@ async function getdurationforbackdatedleave(req, res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -371,11 +504,24 @@ async function getdurationforbackdatedleave(req, res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
             
-            listOfConnections[companyName].query("CALL `getdurationforbackdatedleave` ()", function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `getdurationforbackdatedleave` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getdurationforbackdatedleave");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -384,7 +530,18 @@ async function getdurationforbackdatedleave(req, res){
         }
 
     }catch (e) {
-        console.log('getdurationforbackdatedleave :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getdurationforbackdatedleave");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -392,20 +549,30 @@ async function getleavecyclelastmonth(req,res){
     try{
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
-            
-        
-            listOfConnections[companyName].query("CALL `get_leave_cycle_last_month`()",function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `get_leave_cycle_last_month`()",async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getleavecyclelastmonth");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -414,7 +581,18 @@ async function getleavecyclelastmonth(req,res){
         }
     }
     catch(e){
-        console.log('getleavecyclelastmonth :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getleavecyclelastmonth");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -422,19 +600,31 @@ async function getLeavesTypeInfo(req,res){
     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
-        var listOfConnections = {};
+   var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
-            
-            listOfConnections[companyName].query("CALL `get_leavetypes_data` ()", function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `get_leavetypes_data` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getLeavesTypeInfo");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+            
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -442,9 +632,18 @@ async function getLeavesTypeInfo(req,res){
              res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getLeavesTypeInfo :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getLeavesTypeInfo");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)  }
 }
 
 async function getApprovedCompoffs(req,res){
@@ -452,19 +651,30 @@ async function getApprovedCompoffs(req,res){
     try {
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
-            
-            listOfConnections[companyName].query("CALL `get_approved_compoffs` (?,?)",[req.body.id,req.body.leaveId],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `get_approved_compoffs` (?,?)",[req.body.id,req.body.leaveId],async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getApprovedCompoffs");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -473,11 +683,20 @@ async function getApprovedCompoffs(req,res){
         } 
 
     }catch (e) {
-        console.log('getApprovedCompoffs :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getApprovedCompoffs");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
-
+/**completed */
 async function getEmployeeRelationsForBereavementLeave(req,res){
     try {
         var  dbName = await getDatebaseName(req.body.companyName)
@@ -489,11 +708,24 @@ async function getEmployeeRelationsForBereavementLeave(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
-            listOfConnections[companyName].query("CALL `get_employee_relations_for_bereavement_leave` (?,?)",[req.body.id,req.body.leaveId],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `get_employee_relations_for_bereavement_leave` (?,?)",[req.body.id,req.body.leaveId],async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getEmployeeRelationsForBereavementLeave");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false,Message:'Database Name is missed'})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false, Message: 'Database Name is missed' })
+                    }
                 }
             });
         }
@@ -502,9 +734,18 @@ async function getEmployeeRelationsForBereavementLeave(req,res){
         } 
 
     }catch (e) {
-        console.log('getEmployeeRelationsForBereavementLeave :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getEmployeeRelationsForBereavementLeave");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)  }
 }
 
 async function getdaystobedisabletodate(req,res){
@@ -519,11 +760,24 @@ async function getdaystobedisabletodate(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
             
-            listOfConnections[companyName].query("CALL `getdays_to_be_disabled_for_to_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `getdays_to_be_disabled_for_to_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],async function(err,result,fields){
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getdaystobedisabletodate");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             })
             
@@ -533,7 +787,18 @@ async function getdaystobedisabletodate(req,res){
         }
     }
     catch (e){
-        console.log('getdaystobedisabletodate :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getdaystobedisabletodate");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -550,11 +815,26 @@ async function getdaystobedisabledfromdate(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
             
-            listOfConnections[companyName].query("CALL `getdays_to_be_disabled_for_from_date` (?,?)",[req.params.id,req.params.leaveId == 'null'?null:req.params.leaveId],function(err,result,fields){
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `getdays_to_be_disabled_for_from_date` (?,?)", [req.params.id, req.params.leaveId == 'null' ? null : req.params.leaveId],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getdaystobedisabledfromdate");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+            
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             })
         }
@@ -563,7 +843,18 @@ async function getdaystobedisabledfromdate(req,res){
         }
     }
     catch (e){
-        console.log('getdaystobedisabledfromdate :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getdaystobedisabledfromdate");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -579,11 +870,25 @@ async function getMaxCountPerTermValue(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
             
-            listOfConnections[companyName].query("CALL `get_max_count_per_term_value` (?)",[req.params.id],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_max_count_per_term_value` (?)", [req.params.id],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getMaxCountPerTermValue");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -592,8 +897,18 @@ async function getMaxCountPerTermValue(req,res){
         }  
 
     }catch (e) {
-        console.log('getMaxCountPerTermValue :',e)
-
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getMaxCountPerTermValue");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -626,12 +941,25 @@ async function validateleave(req,res){
             var leaveId = req.body.leaveId?req.body.leaveId:null
 
             /*Sample Format: call validateleave(23,2,'2022-04-20','2022-04-29',0,0)*/
-            listOfConnections[companyName].query("CALL `validateleave` (?,?,?,?,?,?,?,?)",[id,leavetype,fromdate,todate,fromhalfday,tohalfday,document,leaveId], function (err, result, fields) {
-                console.log("jkbbjbbbbb",err,)
-                if(result && result.length > 0) {
-                    res.send({data: result[0], status: true});
-                }else {
-                    res.send({status: false})
+             listOfConnections[companyName].query("CALL `validateleave` (?,?,?,?,?,?,?,?)", [id, leavetype, fromdate, todate, fromhalfday, tohalfday, document, leaveId],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("validateleave");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
+                } else {
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -639,7 +967,18 @@ async function validateleave(req,res){
              res.send({status: false,Message:'Database Name is missed'})
         }  
     }catch (e) {
-        console.log('validateleave :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("validateleave");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -648,19 +987,32 @@ async function getNextLeaveDate(req,res){
         var input = JSON.parse(req.params.input)
         var  dbName = await getDatebaseName(input.companyName)
         let companyName = input.companyName;
-
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-             listOfConnections[companyName].query("CALL `get_next_leave_date` (?,?)",[input.id,input.date],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
-                } else {
-                    res.send({status: false})
-                }
+             listOfConnections[companyName].query("CALL `get_next_leave_date` (?,?)", [input.id, input.date],
+                 async function (err, result, fields) {
+                 if (err) {
+                     let errorLogArray = [];
+                     errorLogArray.push("LMSAPI");
+                     errorLogArray.push("getNextLeaveDate");
+                     errorLogArray.push("GET");
+                     errorLogArray.push(JSON.stringify(req.params));
+                     errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                     errorLogArray.push(null);
+                     errorLogArray.push(companyName);
+                     errorLogArray.push(dbName);
+                     errorLogs = await errorLogs(errorLogArray)
+                 } else {
+                     if (result && result.length > 0) {
+                         res.send({ data: result[0], status: true });
+                     } else {
+                         res.send({ status: false })
+                     }
+                 }
             });
         }
         else {
@@ -668,14 +1020,22 @@ async function getNextLeaveDate(req,res){
         }
 
     }catch (e) {
-        console.log('getNextLeaveDate :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getNextLeaveDate");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 async function setemployeeleave(req, res) {
     let emailData = req.body;
-    console.log("data--",emailData)
     try{
 
         let  dbName = await getDatebaseName(req.body.companyName)
@@ -702,8 +1062,19 @@ async function setemployeeleave(req, res) {
             var fromhalfdayleave=req.body.fromDateHalf?1:0;
             var tohalfdayleave =req.body.toDateHalf?1:0;
             var details = req.body.relation?req.body.relation:req.body.compOffWorkedDate?req.body.compOffWorkedDate:null;
-            listOfConnections[companyName].query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[id,empid,leavetype,fromdate,todate,fromhalfdayleave,tohalfdayleave,leavecount,leavereason,leavestatus,contactnumber,email,address,null,details],function(err,result,fields){
-                if(err){
+             listOfConnections[companyName].query("CALL `set_employee_leave`(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", [id, empid, leavetype, fromdate, todate, fromhalfdayleave, tohalfdayleave, leavecount, leavereason, leavestatus, contactnumber, email, address, null, details],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("setemployeeleave");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({status:false})
                 }
                 else{
@@ -719,7 +1090,18 @@ async function setemployeeleave(req, res) {
         }
     }
     catch(e){
-        console.log('setemployeeleaverr',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("setemployeeleave");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -735,13 +1117,27 @@ async function setFilesMaster(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_files_master` (?,?,?,?,?,?,?,?,?,?)",
-                [req.body.id,req.body.employeeId,null,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId,req.body.status], function (err, result, fields) {
-                    if (result && result.length>0) {
-                        res.send({status: true,data:result[0]})
-
+                [req.body.id, req.body.employeeId, null, req.body.filecategory, req.body.moduleId, req.body.documentnumber, req.body.fileName, req.body.modulecode, req.body.requestId, req.body.status],
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("setFilesMaster");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray)
                     } else {
-                        res.send({status: false});
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
 
+                        } else {
+                            res.send({ status: false });
+
+                        }
                     }
                 });
 
@@ -750,7 +1146,18 @@ async function setFilesMaster(req, res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setFilesMaster :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("setFilesMaster");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 
 }
@@ -759,7 +1166,6 @@ async function deleteFilesMaster(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -768,13 +1174,25 @@ async function deleteFilesMaster(req,res){
             } 
 
             listOfConnections[companyName].query("CALL `delete_files_master` (?)",
-                [req.params.id], function (err, result, fields) {
-                    if (result && result.length>0) {
-                        res.send({status: true,data:result[0]})
-
-                        // res.send({status: false});
+                [req.params.id],
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("deleteFilesMaster");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.params));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray)
                     } else {
-                        res.send({status: false})
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false })
+                        }
                     }
                 });
 
@@ -783,7 +1201,18 @@ async function deleteFilesMaster(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('deleteFilesMaster :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("deleteFilesMaster");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 
 }
@@ -800,21 +1229,25 @@ async function getFilesMaster(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
              listOfConnections[companyName].query("CALL `get_files_master` (?,?,?,?,?,?)",
-                [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory,req.body.requestId,req.body.status], function (err, result, fields) {
-                    if (result && result.length>0) {
-
-                        // let serverName:string = "localhost:4200";
-                        // if(result[0][0]){
-                        //     let filePath = result[0][0].filepath+result[0][0].filename;
-                        //     let path = url.pathToFileURL(filePath);
-                        //     result[0][0].path = path;
-                        // }
-                                    
-                        res.send({status: true,data:result[0]})
-
-                        // res.send({status: false});
+                 [req.body.employeeId, req.body.candidateId, req.body.moduleId, req.body.filecategory, req.body.requestId, req.body.status],
+                 async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("getFilesMaster");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray)
                     } else {
-                        res.send({status: false})
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false })
+                        }
                     }
                 });
         }
@@ -823,7 +1256,18 @@ async function getFilesMaster(req,res){
         }
 
     }catch (e) {
-        console.log('getFilesMaster :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getFilesMaster");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 
 }
@@ -860,13 +1304,26 @@ async function getFilepathsMaster(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
             listOfConnections[companyName].query("CALL `get_filepaths_master` (?)",
-                [req.params.moduleId], function (err, result, fields) {
-                    if (result && result.length>0) {
-                        res.send({status: true,data:result[0]})
-
+                [req.params.moduleId], async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("getFilepathsMaster");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.params));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray)
                     } else {
-                        res.send({status: false});
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
 
+                        } else {
+                            res.send({ status: false });
+
+                        }
                     }
                 });
 
@@ -875,7 +1332,18 @@ async function getFilepathsMaster(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getFilepathsMaster :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getFilepathsMaster");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 
 }
@@ -897,11 +1365,25 @@ async function getCompOffMinWorkingHours(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_compoff_min_working_hours` ()", function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `get_compoff_min_working_hours` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getCompOffMinWorkingHours");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -909,9 +1391,18 @@ async function getCompOffMinWorkingHours(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
         } catch (e) {
-        console.log('getCompOffMinWorkingHours :', e)
-
-    }
+            let companyName =req.params.companyName;
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("LMSAPI");
+            errorLogArray.push("getCompOffMinWorkingHours");
+            errorLogArray.push("GET");
+            errorLogArray.push(JSON.stringify(req.params));
+            errorLogArray.push( e.message);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
+            errorLogs = await errorLogs(errorLogArray)  }
 }
 
 /**Get compOff details*/
@@ -926,12 +1417,26 @@ async function getCompOff(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_compoffs` (?,?)",[req.params.employeeId,null], function (err, result, fields) {
-                console.log("result",result)
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_compoffs` (?,?)", [req.params.employeeId, null],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getCompOff");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -939,7 +1444,18 @@ async function getCompOff(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getCompOff :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getCompOff");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -958,11 +1474,26 @@ async  function getCompoffCalender(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getcompoff_calendar` (?)",[calender.employeeId],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `getcompoff_calendar` (?)", [calender.employeeId],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getCompoffCalender");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params.calender));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -972,9 +1503,18 @@ async  function getCompoffCalender(req,res) {
 
 
     }catch (e) {
-        console.log('getCompoffCalender :',e)
-
-    }
+        let companyName =req.params.calender.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getCompoffCalender");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params.calender));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 
@@ -995,11 +1535,26 @@ async function getDurationforBackdatedCompoffLeave(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_duration_for_backdated_compoff_leave` ()",function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_duration_for_backdated_compoff_leave` ()",
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getDurationforBackdatedCompoffLeave");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1008,9 +1563,18 @@ async function getDurationforBackdatedCompoffLeave(req,res) {
         }
 
     }catch (e) {
-        console.log('getDurationforBackdatedCompoffLeave :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getDurationforBackdatedCompoffLeave");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 
@@ -1029,9 +1593,20 @@ async function setCompOff(req,res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
-                [req.body.id,req.body.empId,req.body.workDate,parseInt(req.body.workedHours),parseInt(req.body.workedMinutes),req.body.reason,req.body.rmId,req.body.status,req.body.remarks], function (err, result, fields) {
+                [req.body.id, req.body.empId, req.body.workDate, parseInt(req.body.workedHours), parseInt(req.body.workedMinutes), req.body.reason, req.body.rmId, req.body.status, req.body.remarks],
+                async function (err, result, fields) {
                     if(err){
-                        res.send({status: false, message: 'Unable to applied comp-off'});
+                        res.send({ status: false, message: 'Unable to applied comp-off' });
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("setCompOff");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
                     }else {
                         res.send({status: true, message: 'Comp-off applied successfully'})
                         if (req.body.emaildata.rm_email != '' || req.body.emaildata.rm_email != null) {
@@ -1047,7 +1622,18 @@ async function setCompOff(req,res) {
 
 
     }catch (e) {
-        console.log('setCompOff :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("setCompOff");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 };
 
@@ -1110,11 +1696,27 @@ async function getHandledLeaves(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_handled_leaves` (?)",[req.params.id],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_handled_leaves` (?)", [req.params.id],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getHandledLeaves");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+            
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1123,9 +1725,18 @@ async function getHandledLeaves(req,res){
         }
 
     }catch (e) {
-        console.log('getHandledLeaves :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getHandledLeaves");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 async function getCompoffLeaveStatus(req,res) {
@@ -1139,15 +1750,28 @@ async function getCompoffLeaveStatus(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_compoff_leave_status`()", function (err, result, fields) {
-                if(result && result.length >0){
-                    res.send({data: result[0][0], status: true});
-                }
-                else{
-                    res.send({status: false})
-                }
+            listOfConnections[companyName].query("CALL `get_compoff_leave_status`()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getCompoffLeaveStatus");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
+                } else {
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0][0], status: true });
+                    }
+                    else {
+                        res.send({ status: false })
+                    }
 
-
+                }
             })
         }
         else {
@@ -1155,7 +1779,18 @@ async function getCompoffLeaveStatus(req,res) {
         }
     }
     catch(e){
-        console.log('get_compoff_leave_status :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getCompoffLeaveStatus");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 
 }
@@ -1172,11 +1807,26 @@ async function getCompoffs(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_compoffs` (?,?)",[req.body.empId,req.body.rmId],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_compoffs` (?,?)", [req.body.empId, req.body.rmId],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getCompoffs");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1184,9 +1834,18 @@ async function getCompoffs(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getCompoffs :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getCompoffs");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 
@@ -1202,11 +1861,26 @@ async function getLeavesForApprovals(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_leaves_for_approval` (?)",[req.params.id],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_leaves_for_approval` (?)", [req.params.id],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getLeavesForApprovals");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1215,9 +1889,18 @@ async function getLeavesForApprovals(req,res) {
         }
 
     }catch (e) {
-        console.log('getLeavesForApprovals :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getLeavesForApprovals");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 
@@ -1235,9 +1918,21 @@ async function leaveSattus(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_approve_leave` (?,?,?,?,?,?,?)",
-                [req.body.id,req.body.leaveId,req.body.empId,req.body.approverId,req.body.leaveStatus,req.body.reason,req.body.detail], function (err, result, fields) {
+                [req.body.id, req.body.leaveId, req.body.empId, req.body.approverId, req.body.leaveStatus, req.body.reason, req.body.detail],
+                async function (err, result, fields) {
                     if (err) {
-                        res.send({status: false});
+                        res.send({ status: false });
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("leaveSattus");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({status:false})
                     } else {
                         res.send({status: true,leaveStatus:req.body.leaveStatus})
                         if (req.body.emaildata.emp_email !='' || req.body.emaildata.emp_email !=null) {
@@ -1255,7 +1950,18 @@ async function leaveSattus(req, res) {
         }
 
     }catch (e) {
-        console.log('setDeleteLeaveRequest :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("leaveSattus");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 
 }
@@ -1272,11 +1978,26 @@ async function getCompoffsForApproval(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_compoffs_for_approval` (?)",[req.params.id],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_compoffs_for_approval` (?)", [req.params.id],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getCompoffsForApproval");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1284,12 +2005,21 @@ async function getCompoffsForApproval(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getCompoffsForApproval :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getCompoffsForApproval");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
-
+/**completed */
 async  function setCompoffForApproveOrReject(req,res){
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
@@ -1302,9 +2032,19 @@ async  function setCompoffForApproveOrReject(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_compoff` (?,?,?,?,?,?,?,?,?)",
-                [req.body.id,req.body.empid,req.body.comp_off_date,parseInt(req.body.worked_hours),parseInt(req.body.worked_minutes),req.body.reason,req.body.rmid,req.body.status,req.body.remarks], function (err, result, fields) {
+                [req.body.id,req.body.empid,req.body.comp_off_date,parseInt(req.body.worked_hours),parseInt(req.body.worked_minutes),req.body.reason,req.body.rmid,req.body.status,req.body.remarks], async function (err, result, fields) {
                     if(err){
-                        res.send({status: false, message: 'Unable to applied comp-off'});
+                        res.send({ status: false, message: 'Unable to applied comp-off' });
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("setCompoffForApproveOrReject");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
                     }else {
                         res.send({status: true,compoffStatus:req.body.status})
                         if (req.body.emaildata.emp_email !='' || req.body.emaildata.emp_email !=null) {
@@ -1321,9 +2061,18 @@ async  function setCompoffForApproveOrReject(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('setCompoffForApproveOrReject :', e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("setCompoffForApproveOrReject");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 
@@ -1338,12 +2087,25 @@ async function getLeavesForCancellation(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_leaves_for_cancellation` (?)",[req.params.Id],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    console.log("hbdjhvbjhdfbhvh",result,req.params.Id)
-                    res.send({data: result[0], status: true});
+            listOfConnections[companyName].query("CALL `get_leaves_for_cancellation` (?)",[req.params.Id],async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getLeavesForCancellation");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1351,16 +2113,23 @@ async function getLeavesForCancellation(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getLeavesForCancellation :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getLeavesForCancellation");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)  }
 
 }
 
 
 async function getLeaveCalendarForManager(req,res) {
-
-
     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
@@ -1371,11 +2140,26 @@ async function getLeaveCalendarForManager(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_leave_calendar_for_manager` (?)",[req.params.managerId],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_leave_calendar_for_manager` (?)", [req.params.managerId],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getLeaveCalendarForManager");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.params));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1383,9 +2167,18 @@ async function getLeaveCalendarForManager(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getLeaveCalendarForManager :',e)
-
-    }
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getLeaveCalendarForManager");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)  }
 }
 
 async function getMastertables(req,res) {
@@ -1399,11 +2192,26 @@ async function getMastertables(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[req.body.tableName,req.body.status,req.body.pageNumber,req.body.pageSize,'spryple_sreeb'], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)", [req.body.tableName, req.body.status, req.body.pageNumber, req.body.pageSize, 'spryple_sreeb'],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getMastertables");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1411,9 +2219,18 @@ async function getMastertables(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getMastertables :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getMastertables");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 
@@ -1428,11 +2245,26 @@ async function getEmployeesForReportingManager(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employees_for_reporting_manager` (?,?)",[req.body.managerId,req.body.departmentId], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_employees_for_reporting_manager` (?,?)", [req.body.managerId, req.body.departmentId],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getEmployeesForReportingManager");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1440,27 +2272,50 @@ async function getEmployeesForReportingManager(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeesForReportingManager :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getEmployeesForReportingManager");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 async function getEmployeeLeaveDetailedReportForManager(req,res){
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_leave_detailed_report_for_manager` (?,?,?,?,?,?,?,?,?)",[req.body.employeeId,req.body.managerId,req.body.leaveType,req.body.leaveStatus,req.body.designation,req.body.fromDate,req.body.toDate,req.body.pageNumber,req.body.pageSize],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_employee_leave_detailed_report_for_manager` (?,?,?,?,?,?,?,?,?)", [req.body.employeeId, req.body.managerId, req.body.leaveType, req.body.leaveStatus, req.body.designation, req.body.fromDate, req.body.toDate, req.body.pageNumber, req.body.pageSize],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getEmployeeLeaveDetailedReportForManager");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1468,9 +2323,18 @@ async function getEmployeeLeaveDetailedReportForManager(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getEmployeeLeaveDetailedReportForManager :',e)
-
-    }
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getEmployeeLeaveDetailedReportForManager");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)  }
 }
 
 
@@ -1486,12 +2350,26 @@ async function getSummaryReportForManager(req,res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-
-            listOfConnections[companyName].query("CALL `get_summary_report_for_manager` (?,?,?,?,?)",[req.body.managerId,req.body.employeeId,req.body.designationId,req.body.departmentId,req.body.calenderYear],function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({data: result[0], status: true});
+             listOfConnections[companyName].query("CALL `get_summary_report_for_manager` (?,?,?,?,?)", [req.body.managerId, req.body.employeeId, req.body.designationId, req.body.departmentId, req.body.calenderYear],
+                 async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getSummaryReportForManager");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false})
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
                 }
             });
         }
@@ -1499,11 +2377,18 @@ async function getSummaryReportForManager(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getSummaryReportForManager :',e)
-
-    }
-
-
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getSummaryReportForManager");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }
 
 
@@ -1523,11 +2408,25 @@ async function getReportForPayrollProcessing(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_report_for_payroll_processing` (?,?)",[req.body.empid,req.body.date], function (err, result, fields) {
-                if (result && result[0]&& result[0].length>0) {
-                    res.send({status: true,data:result[0]})
+            listOfConnections[companyName].query("CALL `get_report_for_payroll_processing` (?,?)",[req.body.empid,req.body.date], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getReportForPayrollProcessing");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({status: false});
+                    if (result && result[0] && result[0].length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false });
+                    }
                 }
             });
         }
@@ -1536,7 +2435,18 @@ async function getReportForPayrollProcessing(req,res){
         }
 
     }catch (e) {
-        console.log('getReportForPayrollProcessing :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getReportForPayrollProcessing");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 
 }
@@ -1574,12 +2484,22 @@ async function cancelLeaveRequest(req,res) {
             let actionreason = req.body.actionreason;
 
             listOfConnections[companyName].query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                [id,empid,leavetype,fromDate,toDate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], function (err, result, fields) {
+                [id,empid,leavetype,fromDate,toDate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], async function (err, result, fields) {
                     if (err) {
-                        res.send({status: false});
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("cancelLeaveRequest");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false })
                     } else {
-                        res.send({status: true})
-                    }
+                            res.send({ status: true })
+                     }
                 });
         }
         else {
@@ -1587,7 +2507,19 @@ async function cancelLeaveRequest(req,res) {
         }
 
     }catch (e) {
-        console.log('cancelLeaveRequest :',e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("cancelLeaveRequest");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
+    
     }
 }
 
@@ -1596,7 +2528,6 @@ async function getCarryforwardedLeaveMaxCount(req,res){
     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -1604,13 +2535,28 @@ async function getCarryforwardedLeaveMaxCount(req,res){
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_carryforwarded_leave_max_count` (?)",
-                [req.params.leaveId], function (err, result, fields) {
-                    if (result && result.length>0) {
-                        res.send({status: true,data:result[0]})
-
+                [req.params.leaveId],
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("LMSAPI");
+                        errorLogArray.push("getCarryforwardedLeaveMaxCount");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.params));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);
+                        res.send({ status: false })
                     } else {
-                        res.send({status: false});
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
 
+                        } else {
+                            res.send({ status: false });
+
+                        }
                     }
                 });
 
@@ -1619,7 +2565,18 @@ async function getCarryforwardedLeaveMaxCount(req,res){
             res.send({status: false,Message:'Database Name is missed'})
         }
     }catch (e) {
-        console.log('getCarryforwardedLeaveMaxCount :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getCarryforwardedLeaveMaxCount");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 
 }
@@ -2376,30 +3333,52 @@ async function getDaysToBeDisabledForFromDateCompOff(req,res){
     try{
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-
             listOfConnections[companyName].query("CALL `getdays_to_be_disabled_for_from_date_comp_off` (?,?,?)",[req.body.employeeId,
                 req.body.leaveId,req.body.workedDateValue],
-            function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ status: true, data: result[0] })
+            async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getDaysToBeDisabledForFromDateCompOff");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
-                    res.send({ status: false, data: [] });
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
                 }
-
             })
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
     }
     catch(e){
-        console.log('getDaysToBeDisabledForFromDateCompOff',e);
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getDaysToBeDisabledForFromDateCompOff");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -2437,9 +3416,19 @@ async function deleteLeaveRequest(req,res) {
             }
 
             listOfConnections[companyName].query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-            [id,empid,leavetype,fromDate,toDate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,workedDate], function (err, result, fields) {
+            [id,empid,leavetype,fromDate,toDate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,workedDate], async function (err, result, fields) {
                 if (err) {
-                    res.send({status: false});
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("deleteLeaveRequest");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({status:false})
                 } else {
                     res.send({status: true})
                 }
@@ -2449,6 +3438,50 @@ async function deleteLeaveRequest(req,res) {
             res.send({status: true})
         }
     }catch (e) {
-        console.log('deleteLeaveRequest :',e)
+       
+    let companyName =req.body.companyName;
+    let  dbName = await getDatebaseName(companyName)
+    let errorLogArray = [];
+    errorLogArray.push("LMSAPI");
+    errorLogArray.push("deleteLeaveRequest");
+    errorLogArray.push("POST");
+    errorLogArray.push(JSON.stringify(req.body));
+    errorLogArray.push( e.message);
+    errorLogArray.push(null);
+    errorLogArray.push(companyName);
+    errorLogArray.push(dbName);
+    errorLogs = await errorLogs(errorLogArray)
     }
+}
+
+
+
+/** */
+/** error logs */
+function errorLogs(errorLogArray) {
+    return new Promise(async (res,rej)=>{
+       try {
+           let companyName =errorLogArray[6];
+           let dbName = errorLogArray[7];
+           listOfConnections= connection.checkExistingDBConnection(companyName)
+           if(!listOfConnections.succes) {
+               listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+           }
+               listOfConnections[companyName].query(  "CALL `set_error_logs` (?,?,?,?,?,?)",
+               [
+                errorLogArray[0], errorLogArray[1], errorLogArray[2], JSON.stringify(errorLogArray[3]),errorLogArray[4], errorLogArray[5]
+               ],
+             function (err, result, fields) {
+              if (result) {
+                       res({ status: true });
+                   } else {
+                       res({ status: false })
+                   }
+               });
+           }
+         catch (e) {
+           rej(e)
+       }
+   });
+
 }

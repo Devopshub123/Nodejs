@@ -68,13 +68,28 @@ async function getEmployeeAttendanceNotifications(req,res){
 
             listOfConnections[companyName].query("CALL `get_employee_attendance_notifications` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
 
-            function (err, result, fields) {
-
-                if (result && result.length > 0) {
+            async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getEmployeeAttendanceNotifications");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false});           
+                }
+                else{
+                    if (result && result.length > 0) {
                         res.send({ status: true, data: result[0] })
                     } else {
                         res.send({ status: false, data: [] });
                     }
+
+                }   
                 })
         }
         else {
@@ -82,7 +97,19 @@ async function getEmployeeAttendanceNotifications(req,res){
         }
     } 
     catch (e) {
-            console.log('getemployeeattendancedashboard');
+            // console.log('getemployeeattendancedashboard');
+            let companyName =req.body.companyName;
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("ATTENDANCEAPI");
+            errorLogArray.push("getEmployeeAttendanceNotifications");
+            errorLogArray.push("GET");
+            errorLogArray.push("");
+            errorLogArray.push( e.message);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
+            errorLogs = await errorLogs(errorLogArray);
         }
 }
 
@@ -99,12 +126,29 @@ async function getrolescreenfunctionalities(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getrolescreenfunctionalities` (?,?)", [req.body.empid, req.body.moduleid], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
+            listOfConnections[companyName].query("CALL `getrolescreenfunctionalities` (?,?)", [req.body.empid, req.body.moduleid], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getrolescreenfunctionalities");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false});           
                 }
+                else{
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+
+                }
+                
             });
 
         }
@@ -113,7 +157,18 @@ async function getrolescreenfunctionalities(req, res) {
         } 
     } 
     catch (e) {
-            console.log('getscreenfunctionalitiesmaster :', e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getrolescreenfunctionalities");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
         }
 };
 
@@ -133,16 +188,31 @@ async function getallemployeeslist(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_all_employees_list`()", function (err, result, fields) {
-                if (result && result.length > 0) {
+            listOfConnections[companyName].query("CALL `get_all_employees_list`()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getallemployeeslist");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false});           
+                }
+                else{
+                    if (result && result.length > 0) {
 
-                    res.send({ status: true, data: result[0] })
-
-                } else {
-
-                    res.send({ status: false, data: [] });
+                        res.send({ status: true, data: result[0] })
+    
+                    } else {
+                        res.send({ status: false, data: [] });
+                    }
 
                 }
+                
 
             })
 
@@ -152,8 +222,18 @@ async function getallemployeeslist(req, res) {
         }
     } 
     catch (e) {
-
-            console.log('getAllEmployees');
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getrolescreenfunctionalities");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
         }
 
@@ -194,13 +274,28 @@ async function getEmployeeCurrentShifts(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employee_current_shifts`(?)",[req.body.employee_id],
-                function(err,result){
-                    console.log(result);
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
+                async function(err,result){
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getEmployeeCurrentShifts");
+                        errorLogArray.push("GET");
+                        errorLogArray.push("");
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({status:false});           
                     }
+                    else{
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
+                    }
+                    
                 })
         }
         else {
@@ -208,7 +303,19 @@ async function getEmployeeCurrentShifts(req,res){
         }
     }
     catch(e){
-        console.log("get_employee_current_shifts")
+        // console.log("get_employee_current_shifts");
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getEmployeeCurrentShifts");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -227,19 +334,46 @@ async function getemployeeattendancedashboard(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
-                function (err, result, fields) {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getemployeeattendancedashboard");
+                        errorLogArray.push("GET");
+                        errorLogArray.push("");
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({status:false});           
                     }
+                    else{
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
+                    }
+                    
                 })
         } 
         else {
            res.send({status: false,Message:'Database Name is missed'})
         }
     } catch (e) {
-            console.log('get_employee_attendance_dashboard');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getemployeeattendancedashboard");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
         }
 }
 
@@ -257,13 +391,28 @@ async function getEmployeeShiftByDates(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employee_shift_by_dates`(?,?,?)",[req.body.employee_id,req.body.fromd_date,req.body.to_date],
-                function(err,result){
-                    console.log(result);
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
+                async function(err,result){
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getEmployeeShiftByDates");
+                        errorLogArray.push("GET");
+                        errorLogArray.push("");
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({status:false});           
                     }
+                    else{
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
+                    }
+                    
                 })
         }
         else {
@@ -271,7 +420,18 @@ async function getEmployeeShiftByDates(req,res){
         }
     }
     catch(e){
-            console.log(get_employee_shift_by_dates)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getEmployeeShiftByDates");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
         }
 }
 
@@ -288,20 +448,48 @@ async function getEmployeeWeekoffsHolidaysForAttendance(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employee_weekoffs_holidays_for_attendance`(?)",[req.body.employee_id],
-                function(err,result){
-                    console.log(result);
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
+                async function(err,result){
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getEmployeeWeekoffsHolidaysForAttendance");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(req.body.employee_id);
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({status:false});           
                     }
+                    else{
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
+
+                    }
+                    
                 })
         }
         else {
            res.send({status: false,Message:'Database Name is missed'})
         }
     }catch(e){
-            console.log("get_employee_weekoffs_holidays_for_attendance")
+            // console.log("get_employee_weekoffs_holidays_for_attendance")
+            let companyName =req.body.companyName;
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("ATTENDANCEAPI");
+            errorLogArray.push("getEmployeeWeekoffsHolidaysForAttendance");
+            errorLogArray.push("GET");
+            errorLogArray.push("");
+            errorLogArray.push( e.message);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
+            errorLogs = await errorLogs(errorLogArray);
         }
 }
 
@@ -320,12 +508,29 @@ async function getemployeeattendanceregularization(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_attendance_regularization` (?)", [req.params.employee_id], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
+            listOfConnections[companyName].query("CALL `get_employee_attendance_regularization` (?)", [req.params.employee_id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getemployeeattendanceregularization");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(req.body.employee_id);
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({status:false});           
                 }
+                else{
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+
+                }
+                
             });
         } 
         else {
@@ -333,7 +538,18 @@ async function getemployeeattendanceregularization(req, res) {
         }
     } 
     catch (e) {
-            console.log('getemployeeattendanceregularization :', e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getemployeeattendanceregularization");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
         }
 }
@@ -368,16 +584,26 @@ async function setemployeeattendanceregularization(req, res) {
             listOfConnections[companyName].query("CALL `set_employee_attendance_regularization` (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [req.body.id, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
                     req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
-                    req.body.approvercomments, req.body.actionby, req.body.status], function (err, result, fields) {
-
-                    if (err) {
-                        res.send({ status: false, message: "notSave" });
-                    } else {
+                    req.body.approvercomments, req.body.actionby, req.body.status], async function (err, result, fields) {
+                        if (err) {
+                            let errorLogArray = [];
+                            errorLogArray.push("ATTENDANCEAPI");
+                            errorLogArray.push("setemployeeattendanceregularization");
+                            errorLogArray.push("POST");
+                            errorLogArray.push(JSON.stringify(req.body));
+                            errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                            errorLogArray.push(null);
+                            errorLogArray.push(companyName);
+                            errorLogArray.push(dbName);
+                            errorLogs = await errorLogs(errorLogArray);  
+                            res.send({ status: false, message: "notSave" });          
+                        }
+                     else {
                         if (result[0][0].validity_status == 0) {
                             res.send({ status: true, message: "duplicate" })
                         } else {
                             res.send({ status: true, message: "save" })
-                            attendanceRequestEmail(emailData);
+                            attendanceRequestEmail(emailData,companyName);
                         }
                     }
                 });
@@ -388,7 +614,18 @@ async function setemployeeattendanceregularization(req, res) {
         }
     } 
     catch (e) {
-            console.log('setemployeeattendanceregularization')
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("setemployeeattendanceregularization");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
         }
     }
 
@@ -406,15 +643,30 @@ async function deleteAttendanceRequestById(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `delete_employee_attendance_regularization` (?)", [req.body.id],
-                function (err, result, fields) {
-                    console.log(result[0]);
-                    console.log(result[0][0]);
-                    if (result[0][0].successState == 0) {
-                        res.send({ status: true, message: 'Attendance request deleted successfully.' })
-
-                    } else {
-                        res.send({ status: true, message: 'Unable to attendance request deleted.' })
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("deleteAttendanceRequestById");
+                        errorLogArray.push("DELETE");
+                        errorLogArray.push(req.body.id);
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false});          
                     }
+                    else{
+                        if (result[0][0].successState == 0) {
+                            res.send({ status: true, message: 'Attendance request deleted successfully.' })
+    
+                        } else {
+                            res.send({ status: true, message: 'Unable to attendance request deleted.' })
+                        }
+
+                    }
+                    
 
                 })
         }
@@ -423,7 +675,19 @@ async function deleteAttendanceRequestById(req, res) {
         }
     }
     catch (e) {
-            console.log('delete_employee_attendance_regularization');
+            // console.log('deleteEmployeeAttendanceRegularization');
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("deleteEmployeeAttendanceRegularization");
+        errorLogArray.push("DELETE");
+        errorLogArray.push(req.body.id);
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
      }
 }
 
@@ -450,12 +714,29 @@ async function getAttendanceMonthlyReport(req, res) {
             }
 
             listOfConnections[companyName].query("CALL `get_attendance_monthly_report` (?,?,?)", [req.body.manager_employee_id, req.body.employee_id, req.body.calendar_date],
-                function (err, result, fields) {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getAttendanceMonthlyReport");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.body.id));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false});          
                     }
+                    else{
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
+
+                    }
+                    
                 })
         } 
         else {
@@ -463,7 +744,18 @@ async function getAttendanceMonthlyReport(req, res) {
         }
     } 
     catch (e) {
-        console.log('getemployeeattendancedashboard');
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getAttendanceMonthlyReport");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -482,7 +774,20 @@ async function getpendingattendanceregularizations(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_pending_attendance_regularizations` (?)", [req.params.employee_id], function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `get_pending_attendance_regularizations` (?)", [req.params.employee_id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getpendingattendanceregularizations");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(req.params.employee_id);
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({ status: false});          
+                }
                 if (result && result.length > 0) {
                     res.send({ data: result[0], status: true });
                 } else {
@@ -495,7 +800,19 @@ async function getpendingattendanceregularizations(req, res) {
         }
     } 
     catch (e) {
-        console.log('getpendingattendanceregularizations :', e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getpendingattendanceregularizations");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
+    
     }
 }
 
@@ -516,12 +833,29 @@ async function getEmployeesByManagerId(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employees_for_reporting_manager` (?,?)", [req.params.employee_id,'All'],
-                function (err, result, fields) {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getEmployeesByManagerId");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(req.params.employee_id);
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false});          
                     }
+                    else{
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
+
+                    }
+                    
                 })
         } 
         else {
@@ -529,7 +863,18 @@ async function getEmployeesByManagerId(req, res) {
         }
     }
      catch (e) {
-        console.log('getEmployeesByManagerId');
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getEmployeesByManagerId");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -546,13 +891,29 @@ async function getemployeeshift(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employee_shift` (?)", [req.params.employee_id], function (err, result, fields) {
-                if (result) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
-
+            listOfConnections[companyName].query("CALL `get_employee_shift` (?)", [req.params.employee_id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getemployeeshift");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(req.params.employee_id);
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({ status: false});          
                 }
+                else{
+                    if (result) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+    
+                    }
+                }
+                
             });
         }
         else {
@@ -560,7 +921,18 @@ async function getemployeeshift(req, res) {
         }
     } 
     catch {
-        console.log('get_employee_shift :')
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getemployeeshift");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -577,12 +949,29 @@ async function getAttendanceRegularizationByManagerId(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_manager_on_behalf_of_employee_attendance_regularizations` (?)", [req.params.manager_employee_id],
-                function (err, result, fields) {
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getAttendanceRegularizationByManagerId");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(req.params.manager_employee_id);
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false});          
                     }
+                    else{
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
+
+                    }
+                    
                 })
         }
         else {
@@ -590,7 +979,18 @@ async function getAttendanceRegularizationByManagerId(req, res) {
         }
      } 
      catch (e) {
-        console.log('getAttendanceRegularizationByManagerId');
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getAttendanceRegularizationByManagerId");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -616,16 +1016,27 @@ async function setattendanceapprovalstatus(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_attendance_approval_status` (?,?,?,?)",
                 [req.body.id, req.body.approvercomments, req.body.actionby, req.body.approvelstatus],
-                function (err, result, fields) {
+                async function (err, result, fields) {
                     if (err) {
-                        res.send({ status: false, message: "UnableToApprove" });
-                    } else {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getAttendanceRegularizationByManagerId");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(req.params.manager_employee_id);
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false, message: "UnableToApprove" });       
+                    }
+                     else {
                         res.send({ status: true, message: "ApprovalRequest" });
                         if (req.body.emailData.emp_email !='' || req.body.emailData.emp_email !=null) {
                             if (req.body.approvelstatus == 'Approved') {
-                                approveAttendanceRequestEmail(emailData);
+                                approveAttendanceRequestEmail(emailData,companyName);
                             } else if (req.body.approvelstatus == 'Rejected') {
-                                rejectedAttendanceRequestEmail(emailData);
+                                rejectedAttendanceRequestEmail(emailData,companyName);
                             }
                         }
 
@@ -639,7 +1050,18 @@ async function setattendanceapprovalstatus(req, res) {
         }
     }
     catch(e) {
-        console.log('setattendanceapprovalstatus');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("setattendanceapprovalstatus");
+        errorLogArray.push("POSt");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 
 }
@@ -661,16 +1083,30 @@ async function getallemployeeslistByManagerId(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_employees_of_manager` (?)",[req.body.rm_id], function (err, result, fields) {
-                if (result && result.length > 0) {
+            listOfConnections[companyName].query("CALL `get_employees_of_manager` (?)",[req.body.rm_id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getallemployeeslistByManagerId");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(req.params.manager_employee_id);
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({ status: false, message: "UnableToApprove" });       
+                }
+                else{
+                    if (result && result.length > 0) {
+                        res.send({ status: true, data: result[0] })
+                    } else {
+                        res.send({ status: false, data: [] });
 
-                    res.send({ status: true, data: result[0] })
-
-                } else {
-
-                    res.send({ status: false, data: [] });
+                    }
 
                 }
+                
 
             })
 
@@ -680,8 +1116,19 @@ async function getallemployeeslistByManagerId(req, res) {
         }
     } 
     catch (e) {
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getallemployeeslistByManagerId");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
 
-        console.log('get_employees_of_manager');
 
     }
 
@@ -702,9 +1149,19 @@ async function getAttendanceSummaryReport(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_attendance_summary_report` (?,?,?,?)", [req.body.manager_empid,req.body.employee, req.body.fromdate, req.body.todate],
-                function (err, result, fields) {
+                async function (err, result, fields) {
                     if (err) {
-
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getAttendanceSummaryReport");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(req.params.manager_employee_id);
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false, message: "UnableToApprove" });       
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -719,7 +1176,18 @@ async function getAttendanceSummaryReport(req, res) {
         } 
     } 
     catch (e) {
-        console.log('get_attendance_summary_report');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getAttendanceSummaryReport");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -739,9 +1207,19 @@ async function getAttendanceDetailsByAttendanceId(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_attendance_details_report` (?)", [req.body.attendanceid],
-                function (err, result, fields) {
+                async function (err, result, fields) {
                     if (err) {
-                        console.log(err);
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getAttendanceDetailsByAttendanceId");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(req.body.attendanceid);
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false, message: "UnableToApprove" });       
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -756,7 +1234,18 @@ async function getAttendanceDetailsByAttendanceId(req, res) {
         } 
     } 
     catch (e) {
-        console.log('getAttendanceDetailsByAttendanceId');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getAttendanceDetailsByAttendanceId");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -776,13 +1265,29 @@ async function getEmployeeConfigureShifts(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employee_shifts_for_manager_or_department` (?,?)", [req.body.manager_empid, req.body.department_id],
-                function (err, result, fields) {
-
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getEmployeeConfigureShifts");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(req.body.attendanceid);
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false });       
                     }
+                    else{
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
+                    }
+
+                    
                 })
         } 
         else {
@@ -790,7 +1295,18 @@ async function getEmployeeConfigureShifts(req, res) {
         }
     } 
     catch (e) {
-        console.log('get_employee_shifts_for_manager_or_department');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getEmployeeConfigureShifts");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -814,14 +1330,30 @@ async function setEmployeeConfigureShift(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_employee_shifts` (?,?,?,?,?)", [req.body.shift_id,req.body.from_date,
                     req.body.to_date, req.body.weekoffs, req.body.empids],
-                function (err, result, fields) {
-                    console.log(result[0][0].successstate);
-                    if (result[0][0].successstate == 1) {
-                        res.send({ status: true, message: "dataSaved" })
-
-                    } else {
-                        res.send({ status: true, message: "UnableToSave" })
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("setEmployeeConfigureShift");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false });       
                     }
+                    else{
+                        if (result[0][0].successstate == 1) {
+                            res.send({ status: true, message: "dataSaved" })
+    
+                        } else {
+                            res.send({ status: true, message: "UnableToSave" })
+                        }
+
+                    }
+                    
 
                 })
         } 
@@ -830,7 +1362,18 @@ async function setEmployeeConfigureShift(req, res) {
         }
     } 
     catch (e) {
-        console.log('set_employee_shifts');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("setEmployeeConfigureShift");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -856,13 +1399,29 @@ async function getEmployeeLateAttendanceReport(req, res) {
             }
             listOfConnections[companyName].query("CALL `get_employee_late_attendance_report` (?,?,?,?,?)", [req.body.manager_empid,req.body.employee_id,
                     req.body.shift_id,req.body.from_date, req.body.to_date],
-                function (err, result, fields) {
-
-                    if (result && result.length > 0) {
-                        res.send({ status: true, data: result[0] })
-                    } else {
-                        res.send({ status: false, data: [] });
+                async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("getEmployeeLateAttendanceReport");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false });       
                     }
+                    else{
+                        if (result && result.length > 0) {
+                            res.send({ status: true, data: result[0] })
+                        } else {
+                            res.send({ status: false, data: [] });
+                        }
+                    }
+
+                    
                 })
         } 
         else {
@@ -870,7 +1429,18 @@ async function getEmployeeLateAttendanceReport(req, res) {
         }
     } 
     catch (e) {
-        console.log('get_employee_late_attendance_report');
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getEmployeeLateAttendanceReport");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -886,12 +1456,29 @@ async function getAttendanceRegularizationsHistoryForManager(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_attendance_regularizations_history_for_manager` (?)", [req.params.employee_id], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
+            listOfConnections[companyName].query("CALL `get_attendance_regularizations_history_for_manager` (?)", [req.params.employee_id], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getAttendanceRegularizationsHistoryForManager");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({ status: false });       
                 }
+                else{
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+
+                }
+                
             });
         } 
         else {
@@ -899,7 +1486,18 @@ async function getAttendanceRegularizationsHistoryForManager(req, res) {
         }
     } 
     catch (e) {
-        console.log('get_attendance_regularizations_history_for_manager :', e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getAttendanceRegularizationsHistoryForManager");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 /**attendance Excel Data insert Method  set_employee_attendance
@@ -918,11 +1516,21 @@ async function setEmployeeAttendance(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_employee_attendance` (?)",
-                [JSON.stringify(req.body)], function (err, result, fields) {
-                    console.log(result);
+                [JSON.stringify(req.body)], async function (err, result, fields) {
                     if (err) {
-                        res.send({ status: false, message: "unableToUpload" });
-                    } else {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("setEmployeeAttendance");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs = await errorLogs(errorLogArray);  
+                        res.send({ status: false, message: "unableToUpload" });      
+                    }
+                    else {
                         res.send({ status: true, message: "excelUploadSave" })
                     }
                 });
@@ -933,7 +1541,18 @@ async function setEmployeeAttendance(req, res) {
         }
      } 
      catch (e) {
-        console.log('setEmployeeAttendance :', e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("setEmployeeAttendance");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -949,12 +1568,29 @@ async function getrolescreenfunctionalitiesforrole(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `getrolescreenfunctionalities_for_role` (?,?)", [req.body.roleid, req.body.moduleid], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    res.send({ data: result[0], status: true });
-                } else {
-                    res.send({ status: false })
+            listOfConnections[companyName].query("CALL `getrolescreenfunctionalities_for_role` (?,?)", [req.body.roleid, req.body.moduleid], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getrolescreenfunctionalitiesforrole");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({ status: false, message: "unableToUpload" });      
                 }
+                else{
+                    if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+
+                }
+                
             });
 
 
@@ -964,7 +1600,18 @@ async function getrolescreenfunctionalitiesforrole(req, res) {
         }
     } 
     catch (e) {
-        console.log('getrolescreenfunctionalities_for_role :', e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getrolescreenfunctionalitiesforrole");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
     }
 }
 
@@ -979,18 +1626,35 @@ async function getSideNavigation(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `SidenaveOne` (?)", [req.body.empid], function (err, result, fields) {
-                if (result && result.length > 0) {
-                    for(let i=0;i<result[0].length;i++){
-                        if(!result[0][i].children){
-                            result[0][i].children =JSON.stringify(result[0][i].children)
-                        }                   
-                    }
-                     res.send({ data: result[0], status: true });
-     
-                 } else {
-                     res.send({ status: false })
-                 }
+            listOfConnections[companyName].query("CALL `SidenaveOne` (?)", [req.body.empid], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("ATTENDANCEAPI");
+                    errorLogArray.push("getSideNavigation");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({ status: false, message: "unableToUpload" });      
+                }
+                else{
+                    if (result && result.length > 0) {
+                        for(let i=0;i<result[0].length;i++){
+                            if(!result[0][i].children){
+                                result[0][i].children =JSON.stringify(result[0][i].children)
+                            }                   
+                        }
+                         res.send({ data: result[0], status: true });
+         
+                     } else {
+                         res.send({ status: false })
+                     }
+
+                }
+                
             });
         }
         else {
@@ -998,15 +1662,26 @@ async function getSideNavigation(req, res) {
         } 
     } 
     catch (e) {
-            console.log('getSideNavigation :', e)
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("ATTENDANCEAPI");
+        errorLogArray.push("getSideNavigation");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray);
         }
 };
 
 /**new  attendance request mail to manager */
-function attendanceRequestEmail(mailData) {
+function attendanceRequestEmail(mailData,companyName) {
     let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
     let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
-   
+     var companyName = companyName;
     try {
          let email = mailData.emails.rm_email
          var transporter = nodemailer.createTransport({
@@ -1076,9 +1751,19 @@ function attendanceRequestEmail(mailData) {
            subject: 'Attendance Request',
            html: html
        };
-       transporter.sendMail(mailOptions, function (error, info) {
+       transporter.sendMail(mailOptions, async function (error, info) {
            if (error) {
-               console.log("Failed To Sent  Mail",error)
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("ATTENDANCEAPI");
+            errorLogArray.push("attendanceRequestEmail");
+            errorLogArray.push("SEND");
+            errorLogArray.push("");
+            errorLogArray.push( error);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
+            console.log("Failed To Sent  Mail",error)
            } else {
                console.log("Mail Sent Successfully")
            }
@@ -1093,8 +1778,9 @@ function attendanceRequestEmail(mailData) {
    }
 
 /** approve attendance mail to employee */
-function approveAttendanceRequestEmail(mailData) {
+function approveAttendanceRequestEmail(mailData,companyName) {
     try {
+        var companyName = companyName;
         let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
         let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
         let approvereason = mailData.approvercomments !=undefined || null ? mailData.approvercomments:''
@@ -1163,8 +1849,18 @@ function approveAttendanceRequestEmail(mailData) {
           subject: 'Attendance Request Approved by'+' '+mailData.emailData.rm_name,
           html: html
       };
-      transporter.sendMail(mailOptions, function (error, info) {
+      transporter.sendMail(mailOptions, async function (error, info) {
           if (error) {
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("ATTENDANCEAPI");
+            errorLogArray.push("approveAttendanceRequestEmail");
+            errorLogArray.push("SEND");
+            errorLogArray.push("");
+            errorLogArray.push( error);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
               console.log("Failed To Sent  Mail",error)
           } else {
               console.log("Mail Sent Successfully")
@@ -1180,8 +1876,9 @@ function approveAttendanceRequestEmail(mailData) {
   
   }
   
-  function rejectedAttendanceRequestEmail(mailData){
+  function rejectedAttendanceRequestEmail(mailData,companyName){
       try {
+        var companyName =companyName;
         let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
         let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
        
@@ -1249,8 +1946,20 @@ function approveAttendanceRequestEmail(mailData) {
           subject: 'Attendance Request Rejected  by '+''+ mailData.emailData.rm_name,
           html: html
       };
-      transporter.sendMail(mailOptions, function (error, info) {
+      transporter.sendMail(mailOptions, async function (error, info) {
           if (error) {
+            
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("ATTENDANCEAPI");
+            errorLogArray.push("rejectedAttendanceRequestEmail");
+            errorLogArray.push("SEND");
+            errorLogArray.push("");
+            errorLogArray.push( error);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
+            errorLogs = await errorLogs(errorLogArray);
               console.log("Failed To Sent  Mail",error)
           } else {
               console.log("Mail Sent Successfully")
@@ -1381,5 +2090,34 @@ function deleteAttendanceRequestEmail(mailData){
         console.log('deleteAttendanceRequestEmail :', e)
 
     }
+
+}
+/** error logs */
+function errorLogs(errorLogArray) {
+    console.log("dat==",JSON.stringify(errorLogArray[3]))
+    return new Promise(async (res,rej)=>{
+       try {
+           let companyName =errorLogArray[6];
+           let dbName = errorLogArray[7];
+           listOfConnections= connection.checkExistingDBConnection(companyName)
+           if(!listOfConnections.succes) {
+               listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+           }
+               listOfConnections[companyName].query(  "CALL `set_error_logs` (?,?,?,?,?,?)",
+               [
+                errorLogArray[0], errorLogArray[1], errorLogArray[2], JSON.stringify(errorLogArray[3]),errorLogArray[4], errorLogArray[5]
+               ],
+             function (err, result, fields) {
+              if (result) {
+                       res({ status: true });
+                   } else {
+                       res({ status: false })
+                   }
+               });
+           }
+         catch (e) {
+           rej(e)
+       }
+   });
 
 }

@@ -45,17 +45,14 @@ module.exports = {
     editProfile:editProfile,
     forgetpassword:forgetpassword,
     resetpassword:resetpassword,
-    changePassword:changePassword,
-
-
-
+    changePassword: changePassword,
+    errorLogs:errorLogs
 };
 /**generate JWT token  */
 function generateJWTToken(info){
     return new Promise((res,rej)=>{
         try{
             res(jwt.sign({ id: info.id, email: info.email }, "HRMS", { expiresIn: "24h", }));
-            console.log("hkjdhfjkdhfjkhdfgh")
         }
         catch(e){
             rej(e);
@@ -485,7 +482,6 @@ async function changePassword(req,res){
     let newpassword = req.body.newPassword;
     let id = req.body.empId;
     let login = req.body.email;
-    console.log(req.body,"req.body")
     try{
         let  dbName = await getDatebaseName(req.body.companyName);
         let companyName = req.body.companyName;
@@ -527,4 +523,32 @@ async function changePassword(req,res){
 
 }
 
+/** error logs */
+function errorLogs(errorLogArray) {
+    console.log("dat==",JSON.stringify(errorLogArray[3]))
+    return new Promise(async (res,rej)=>{
+       try {
+           let companyName =errorLogArray[6];
+           let dbName = errorLogArray[7];
+           listOfConnections= connection.checkExistingDBConnection(companyName)
+           if(!listOfConnections.succes) {
+               listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+           }
+               listOfConnections[companyName].query(  "CALL `set_error_logs` (?,?,?,?,?,?)",
+               [
+                errorLogArray[0], errorLogArray[1], errorLogArray[2], JSON.stringify(errorLogArray[3]),errorLogArray[4], errorLogArray[5]
+               ],
+             function (err, result, fields) {
+              if (result) {
+                       res({ status: true });
+                   } else {
+                       res({ status: false })
+                   }
+               });
+           }
+         catch (e) {
+           rej(e)
+       }
+   });
 
+}
