@@ -2,7 +2,9 @@ var mysql = require('mysql');
 var listOfExistedConnections = [];
 // /*Switching database connection*/
 function switchDatabase() {
-        return mysql.createConnection({
+  return mysql.createConnection({
+    /** Local */
+    
           // host: "192.168.1.30",
           host: "122.175.62.210",
             user: "spryple_client_user",
@@ -11,7 +13,16 @@ function switchDatabase() {
             // database: 'spryple',
             database: 'spryple_qa',
             dateStrings: true,
-            multipleStatements: true
+          multipleStatements: true
+
+     /** AWS */
+    // host: "65.0.224.72",
+    // user: "root",
+    //  port: 3306,
+    //  password: "Sreebaw$1103",
+    //  database: 'spryple_sreeb',
+    //  dateStrings: true,
+    //  multipleStatements: true
         });
     
 }
@@ -29,6 +40,15 @@ async function getNewDBConnection(companyName,dbName)
       database: dbName,
       dateStrings: true,
       multipleStatements: true
+
+      /** AWS */
+    // host: "65.0.224.72",
+    // user: "root",
+    //  port: 3306,
+    //  password: "Sreebaw$1103",
+    //  database: 'spryple_sreeb',
+    //  dateStrings: true,
+    //  multipleStatements: true
   };
     var con;
     con = mysql.createConnection(connectionParams);

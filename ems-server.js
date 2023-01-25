@@ -5,6 +5,12 @@ var path = require("path");
 var fileUpload = require("express-fileupload");
 var nodemailer = require("nodemailer");
 var app = new express();
+/**AWS */
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3({
+    accessKeyId: 'AKIASAAZ23LF4AA5IPDN',
+    secretAccessKey: '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',
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     limit: '5mb',
@@ -12,9 +18,6 @@ app.use(bodyParser.urlencoded({
 }));
 var connection = require('./config/databaseConnection')
 var common = require('./common');
-
-
-
 var con = connection.switchDatabase();
 app.use(bodyParser.json({ limit: "5mb" }));
 app.use(fileUpload());
@@ -3064,6 +3067,8 @@ async function getFilepathsMasterForEMS(req, res) {
       }
 
 async function setDocumentOrImageForEMS(req, res) {
+   //** for local deployment */ 
+  
     try {
         let emailData;
         file = req.files.file;
@@ -3155,6 +3160,47 @@ async function setDocumentOrImageForEMS(req, res) {
         errorLogs = await errorLogs(errorLogArray)
 
     }
+
+/**For AWS Documents */
+
+//   try {
+//   let emailData;
+//   file = req.files.file;
+//   var localPath = JSON.parse(req.body.info);
+//   var folderName = localPath.filepath;
+//   if (req.body.email != undefined) {
+//       emailData = JSON.parse(req.body.email);
+//   } 
+//   try {
+//     const params = {
+//       Bucket: folderName, //format:spryple/core
+//       Key: localPath.filename, // file will be saved as testBucket/contacts.csv
+//       Body: file.data
+//     };
+//     s3.upload(params, function(error, data) {
+//       if(error){
+//           res.send({status:false})
+//       }
+//       else{
+//           res.send({status:true,message:'Image Uploaded Succesfully'})
+//           if (req.body.data != "Approved") {
+//             if (emailData.rm_email !='' || emailData.rm_name !=null) [
+//               documentApprovalEmailToHR(emailData)
+//             ]
+//           }
+//       }
+//     });
+//   } 
+//   catch (err) {
+//     console.error(err);
+//     res.send({ status: false });
+//   }
+// } 
+// catch (e) {
+//     console.log("setDocumentOrImageForEMS:", e);
+//     res.send({ status: false });
+//   }
+
 }
 
 async function setFilesMasterForEMS(req, res) {
@@ -3224,6 +3270,25 @@ async function getDocumentOrImagesForEMS(req, res) {
             folderName = req.body.filepath;
             var imageData = {};
             var flag = false;
+/** AWS */
+    // const params = {
+    //   Bucket: data, // pass your bucket name
+    //   Key: req.body.filename 
+    // };
+    
+    // s3.getObject(params, function (err, data) {
+    //   if (err) {
+    //     flag = false;
+    //   }
+    //   else {
+    //     flag = true;
+    //     imageData.image = data.Body;
+    //   }
+    //       imageData.success = flag;
+    //       res.send(imageData);
+    // });
+
+/**Local */
         fs.readFile(folderName + req.body.filename, async function (err, result) {
                 if (err) {
                     let errorLogArray = [];
@@ -3974,8 +4039,11 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
           pass: 'Sreeb@#321'
       },
     });
-    var url = "http://localhost:4200/Login";
+      var url = "http://localhost:4200/Login";
+      /**QA */
     //   var url = 'http://122.175.62.210:7575/Login';
+      /**AWS */
+    //   var url = 'http://sreeb.spryple.com/#/Login';
     var html = `<html>
         <head>
         <title>New login Credentiols</title></head>

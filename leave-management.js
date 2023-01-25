@@ -4,6 +4,12 @@ var express = require('express');
 var app = new express();
 var fs = require('fs');
 var path = require('path');
+/**AWS */
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3({
+    accessKeyId: 'AKIASAAZ23LF4AA5IPDN',
+    secretAccessKey: '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',
+});
 var fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer')
 var crypto = require("crypto");
@@ -37,7 +43,7 @@ module.exports = {
     getYearsForReport:getYearsForReport,
     // getStates:getStates,
     // getCities:getCities,
-    // removeProfileImage:removeProfileImage,
+    removeProfileImage:removeProfileImage,
     setFilesMaster:setFilesMaster,
     deleteFilesMaster:deleteFilesMaster,
 
@@ -198,7 +204,34 @@ async function getYearsForReport(req,res) {
 
 }
 
-function setProfileImage(req,res) {
+function setProfileImage(req, res) {
+        /**  ------- For AWS Document Upload ---------*/
+    // try{
+    //     file=req.files.file;
+    //     var localPath = JSON.parse(req.body.info);
+    //     const folderName = JSON.parse(JSON.stringify(localPath.filepath));
+    //     const params = {
+    //         Bucket: folderName, //format:spryple/core
+    //         Key: localPath.filename, // file will be saved as testBucket/contacts.csv
+    //         Body: file.data
+    //     };
+    //     console.log(params)
+    //     s3.upload(params, function(error, data) {
+    //         console.log(error)
+    //         if(error){
+    //             console.log(error);
+    //             res.send({status:false})
+    //         }else{
+    //             res.send({status:true,message:'Image Uploaded Succesfully'})
+    //         }
+    //     });  
+    // }catch (e) {
+    //     console.log("setUploadImage:",e)
+    //     res.send({status:false})
+    // }
+
+
+    /**  --------- For Local  ---------*/
     try{
         file=req.files.file;
         var localPath = JSON.parse(req.body.info);
@@ -216,14 +249,11 @@ function setProfileImage(req,res) {
                     }else{
                         res.send({status:true,message:'Image Uploaded Succesfully'})
                     }
-
                 })
             }
             catch(err){
                 res.send({status:false})
             }
-
-
             }
         }
         catch (err) {
@@ -233,29 +263,35 @@ function setProfileImage(req,res) {
     }catch (e) {
         console.log("setUploadImage:",e)
         res.send({status:false})
-
     }
-
 }
 
 
-// function removeProfileImage(req,res) {
-//         try{
-//             let foldername = './Files/google/employee/'
-//             fs.unlink(foldername+req.params.Id+'.png',function(err,result){
-//                 if(err){
-//                     console.log(err)
-//                 }
-//                 else{
-//                     console.log("Image Deleted successfully")
-//                 }
-//             })
-//         }
-//         catch(e){
-//             console.log("removeImage",e)
-//         }
-//
-// }
+function removeProfileImage(req,res) {
+    try {
+              /**--------   For AWS Document Upload  -----------*/
+        // var params = {  Bucket: 'your bucket', Key: 'your object' };
+        // s3.deleteObject(params, function(err, data) {
+        //     if (err) console.log(err, err.stack);  // error
+        //     else     console.log();                 // deleted
+        //   });
+
+        /**------- For Local ------------*/
+            let foldername = './Files/google/employee/'
+            fs.unlink(foldername+req.params.Id+'.png',function(err,result){
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log("Image Deleted successfully")
+                }
+            })
+        }
+        catch(e){
+            console.log("removeImage",e)
+        }
+
+}
 
 
 /**
@@ -1637,7 +1673,35 @@ async function setCompOff(req,res) {
     }
 };
 
-function getProfileImage(req,res) {
+function getProfileImage(req, res) {
+        /**  ------- For AWS Document Upload -----*/
+    // try{
+    //     folderName = req.body.filepath;
+    //     let data = JSON.parse(JSON.stringify(folderName));
+    //     var imageData = {};
+    //     var flag = false;
+    //     const params = {
+    //       Bucket: data, // pass your bucket name
+    //       Key: req.body.filename 
+    //   };
+
+    //     s3.getObject(params, function (err, data) {
+    //         if (err) {
+    //           flag = false;
+    //         }
+    //         else {
+    //           flag = true;
+    //           imageData.image = data.Body;
+    //         }
+    //             imageData.success = flag;
+    //             res.send(imageData);
+    //     });
+    // }
+    // catch(e){
+    //     console.log('getProfileImage',e)
+    // }
+
+        /**For Local Document Upload */
     try{
         folderName = req.body.filepath;
         var imageData={}
@@ -1651,7 +1715,6 @@ function getProfileImage(req,res) {
             }
             imageData.success=flag;
             // imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
-
             res.send(imageData)
         })
     

@@ -30,6 +30,12 @@ const excelJS = require("exceljs");
 var cron = require('node-cron');
 const _ = require('underscore');
 const async = require('async');
+/**AWS */
+const AWS = require('aws-sdk');
+const s3 = new AWS.S3({
+    accessKeyId: 'AKIASAAZ23LF4AA5IPDN',
+    secretAccessKey: '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',
+});
 const jwt = require('jsonwebtoken');
 
 
@@ -1200,12 +1206,18 @@ app.post('/ems/api/getDocumentOrImagesForEMS/',verifyJWTToken,function(req,res){
     })
 
 
-    /**removeDocumentOrImagesForEMS */
+    /**removeDocumentOrImagesForEMS LOCAL */
     app.delete('/ems/api/removeDocumentOrImagesForEMS/:path',verifyJWTToken,function(req,res){
         ems.removeDocumentOrImagesForEMS(req,res)
         })
+//** -------------------- */
+/**removeDocumentOrImagesForEMS for AWS */
 
+// app.post('/ems/api/removeDocumentOrImagesForEMS/', function (req, res) {
+//     ems.removeDocumentOrImagesForEMS(req, res)
+// })
 /**
+ * 
  * Delete Files Master
  * */
  app.get('/ems/api/deleteFilesMaster/:id/:companyName', verifyJWTToken,function(req,res) {
@@ -2661,4 +2673,13 @@ app.listen(6060,function (err) {
 //         console.log('Server Cant Start ...Erorr....');
 //     else
 //         console.log('Server Started at :  http://122.175.62.210:202');
+// });
+
+/** uncomment in AWS_Prod build time */
+
+// app.listen(6060,'0.0.0.0',function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at : http://13.232.185.196:6060');
 // });
