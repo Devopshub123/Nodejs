@@ -777,7 +777,7 @@ app.get('/api/getYearsForReport/:companyName', verifyJWTToken,function(req,res) 
 /**
  * get States
  * */
- app.post('/api/getProfileImage/', verifyJWTToken,function(req,res) {
+ app.post('/api/getProfileImage/',function(req,res) {
     leaveManagement.getProfileImage(req,res);
 });
 
@@ -1207,7 +1207,7 @@ app.post('/ems/api/getDocumentOrImagesForEMS/',verifyJWTToken,function(req,res){
 
 
     /**removeDocumentOrImagesForEMS LOCAL */
-    app.delete('/ems/api/removeDocumentOrImagesForEMS/:path',verifyJWTToken,function(req,res){
+    app.delete('/ems/api/removeDocumentOrImagesForEMS/:companyName/:path',verifyJWTToken,function(req,res){
         ems.removeDocumentOrImagesForEMS(req,res)
         })
 //** -------------------- */
@@ -1494,7 +1494,7 @@ app.post('/api/setemployeeleave',verifyJWTToken,function(req,res){
 });
 
 /**remove/delete image */
-app.delete('/api/removeImage/:path',verifyJWTToken,function(req,res){
+app.delete('/api/removeImage/:path',function(req,res){
     leaveManagement.removeImage(req,res)
 });
 

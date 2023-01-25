@@ -3290,17 +3290,19 @@ async function getDocumentOrImagesForEMS(req, res) {
 
 /**Local */
         fs.readFile(folderName + req.body.filename, async function (err, result) {
-                if (err) {
-                    // let errorLogArray = [];
-                    // errorLogArray.push("EMSAPI");
-                    // errorLogArray.push("getDocumentOrImagesForEMS");
-                    // errorLogArray.push("GET");
-                    // errorLogArray.push(JSON.stringify(req.body));
-                    // errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-                    // errorLogArray.push(null);
-                    // errorLogArray.push(companyName);
-                    // errorLogArray.push(dbName);
-                    // errorLogs = await errorLogs(errorLogArray)
+            if (err) {
+                    let companyName =req.params.companyName;
+                    let  dbName = await getDatebaseName(companyName)
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("getDocumentOrImagesForEMS");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(err);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray)
                 } else {
                     flag = true;
                     imageData.image = result;
@@ -3312,7 +3314,7 @@ async function getDocumentOrImagesForEMS(req, res) {
         } 
         
   } catch (e) {
-    let companyName =req.body.companyName;
+    let companyName =req.params.companyName;
     let  dbName = await getDatebaseName(companyName)
     let errorLogArray = [];
     errorLogArray.push("EMSAPI");
