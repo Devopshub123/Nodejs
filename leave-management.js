@@ -27,6 +27,7 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 var connection = require('./config/databaseConnection');
+const { Console } = require('console');
 
 var con = connection.switchDatabase();
 app.use(bodyParser.json({ limit: '5mb' }));
@@ -232,21 +233,20 @@ function setProfileImage(req, res) {
 
 
     /**  --------- For Local  ---------*/
-    try{
-        file=req.files.file;
+    try {
+       file=req.files.file;
         var localPath = JSON.parse(req.body.info);
-        var folderName =localPath.filepath;
+        var folderName = localPath.filepath;
         try {
             if (!fs.existsSync(folderName)) {
                 fs.mkdirSync(folderName)
 
             }else {
-                try{
-                file.mv(path.resolve(__dirname,folderName,localPath.filename),function(error){
+                try {
+                    file.mv(path.resolve(__dirname,folderName,localPath.filename),function(error){
                     if(error){
-                        console.log(error);
-                        res.send({status:false})
-                    }else{
+                       res.send({status:false})
+                    } else {
                         res.send({status:true,message:'Image Uploaded Succesfully'})
                     }
                 })

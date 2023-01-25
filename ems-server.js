@@ -3291,16 +3291,16 @@ async function getDocumentOrImagesForEMS(req, res) {
 /**Local */
         fs.readFile(folderName + req.body.filename, async function (err, result) {
                 if (err) {
-                    let errorLogArray = [];
-                    errorLogArray.push("EMSAPI");
-                    errorLogArray.push("getDocumentOrImagesForEMS");
-                    errorLogArray.push("GET");
-                    errorLogArray.push(JSON.stringify(req.body));
-                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-                    errorLogArray.push(null);
-                    errorLogArray.push(companyName);
-                    errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    // let errorLogArray = [];
+                    // errorLogArray.push("EMSAPI");
+                    // errorLogArray.push("getDocumentOrImagesForEMS");
+                    // errorLogArray.push("GET");
+                    // errorLogArray.push(JSON.stringify(req.body));
+                    // errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    // errorLogArray.push(null);
+                    // errorLogArray.push(companyName);
+                    // errorLogArray.push(dbName);
+                    // errorLogs = await errorLogs(errorLogArray)
                 } else {
                     flag = true;
                     imageData.image = result;

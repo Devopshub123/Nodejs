@@ -797,7 +797,7 @@ app.get('/api/getEmployeeInformation/:Id/:companyName',verifyJWTToken, function(
 /**
  * setProfileImage
  * */
- app.post('/api/setProfileImage/', verifyJWTToken,function(req,res) {
+ app.post('/api/setProfileImage/',function(req,res) {
     leaveManagement.setProfileImage(req,res);
 });
 
