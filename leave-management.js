@@ -234,6 +234,7 @@ function setProfileImage(req, res) {
 
     /**  --------- For Local  ---------*/
     try {
+        console.log("reqfiles",req.files)
        file=req.files.file;
         var localPath = JSON.parse(req.body.info);
         var folderName = localPath.filepath;
@@ -1311,13 +1312,25 @@ async function getFilesMaster(req,res){
 
 
 
-function removeImage(req,res){
+async function removeImage(req,res){
     try{
         var localPath = JSON.parse(decodeURI(req.params.path))
         let foldername = localPath.filepath;
-        fs.unlink(foldername+localPath.filename,function(err,result){
+        fs.unlink(foldername+localPath.filename,async function(err,result){
             if(err){
-                console.log(err)
+                let companyName =req.params.companyName;
+                let  dbName = await getDatebaseName(companyName)
+                let errorLogArray = [];
+                errorLogArray.push("LMSAPI");
+                errorLogArray.push("removeImage");
+                errorLogArray.push("remove");
+                errorLogArray.push("");
+                errorLogArray.push( e.message);
+                errorLogArray.push(null);
+                errorLogArray.push(companyName);
+                errorLogArray.push(dbName);
+                errorLogs = await errorLogs(errorLogArray)
+                console.log(err);
             }
             else{
                 res.send({status: true});
@@ -1326,7 +1339,19 @@ function removeImage(req,res){
         })
     }
     catch(e){
-        console.log("removeImage",e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("removeImage");
+        errorLogArray.push("remove");
+        errorLogArray.push("");
+        errorLogArray.push( e.Message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
+        
     }
 }
 async function getFilepathsMaster(req,res){
@@ -1720,7 +1745,8 @@ async function getProfileImage(req, res) {
                 errorLogArray.push(null);
                 errorLogArray.push(companyName);
                 errorLogArray.push(dbName);
-                 await errorLogs(errorLogArray)
+                await errorLogs(errorLogArray)
+
                 flag=false;
             }else{
                 flag=true
@@ -1734,6 +1760,7 @@ async function getProfileImage(req, res) {
 
     }
     catch(e){
+
         let companyName =req.params.companyName;
                 let  dbName = await getDatebaseName(companyName)
                 let errorLogArray = [];
