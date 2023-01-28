@@ -47,7 +47,7 @@ module.exports = {
     removeProfileImage:removeProfileImage,
     setFilesMaster:setFilesMaster,
     deleteFilesMaster:deleteFilesMaster,
-
+    setNewLeaveType:setNewLeaveType,
     getemployeeleaves:getemployeeleaves,
     getLeaveBalance:getLeaveBalance,
     getHolidaysList:getHolidaysList,
@@ -864,7 +864,8 @@ async function getdaystobedisabledfromdate(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs = await errorLogs(errorLogArray);
+                    res.send({ status: false })
                 } else {
             
                     if (result && result.length > 0) {
@@ -1699,8 +1700,7 @@ async function setCompOff(req,res) {
 };
 
 async function getProfileImage(req, res) {
-    console.log("reqb---",req.body)
-        /**  ------- For AWS Document Upload -----*/
+    /**  ------- For AWS Document Upload -----*/
     // try{
     //     folderName = req.body.filepath;
     //     let data = JSON.parse(JSON.stringify(folderName));
@@ -1733,20 +1733,20 @@ async function getProfileImage(req, res) {
         var imageData={}
         var flag=false;
         fs.readFile(folderName+req.body.filename,async function(err,result){
-            if (err) {
-                console.log("errr---",err)
-        //         let companyName =req.params.companyName;
-        //         let  dbName = await getDatebaseName(companyName)
-        //         let errorLogArray = [];
-        // errorLogArray.push("LMSAPI");
-        // errorLogArray.push("getProfileImage");
-        // errorLogArray.push("GET");
-        // errorLogArray.push(JSON.stringify(req.body));
-        // errorLogArray.push( err);
-        // errorLogArray.push(null);
-        // errorLogArray.push(companyName);
-        // errorLogArray.push(dbName);
-        // errorLogs = await errorLogs(errorLogArray)
+            if(err){
+                let companyName =req.params.companyName;
+                let  dbName = await getDatebaseName(companyName)
+                let errorLogArray = [];
+                errorLogArray.push("LMSAPI");
+                errorLogArray.push("getProfileImage");
+                errorLogArray.push("get");
+                errorLogArray.push('');
+                errorLogArray.push(err );
+                errorLogArray.push(null);
+                errorLogArray.push(companyName);
+                errorLogArray.push(dbName);
+                await errorLogs(errorLogArray)
+
                 flag=false;
             }else{
                 flag=true
@@ -1761,17 +1761,17 @@ async function getProfileImage(req, res) {
     }
     catch(e){
         let companyName =req.params.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        let errorLogArray = [];
-        errorLogArray.push("LMSAPI");
-        errorLogArray.push("getProfileImage");
-        errorLogArray.push("GET");
-        errorLogArray.push(JSON.stringify(req.body));
-        errorLogArray.push( e.Message);
-        errorLogArray.push(null);
-        errorLogArray.push(companyName);
-        errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+                let  dbName = await getDatebaseName(companyName)
+                let errorLogArray = [];
+                errorLogArray.push("LMSAPI");
+                errorLogArray.push("getProfileImage");
+                errorLogArray.push("get");
+                errorLogArray.push('');
+                errorLogArray.push(err );
+                errorLogArray.push(null);
+                errorLogArray.push(companyName);
+                errorLogArray.push(dbName);
+                await errorLogs(errorLogArray)
     }
 
 }
@@ -3571,7 +3571,7 @@ async function deleteLeaveRequest(req,res) {
 
 /** */
 /** error logs */
-function errorLogs(errorLogArray) {
+async function errorLogs(errorLogArray) {
     return new Promise(async (res,rej)=>{
        try {
            let companyName =errorLogArray[6];
@@ -3597,4 +3597,46 @@ function errorLogs(errorLogArray) {
        }
    });
 
+}
+
+// setNewLeaveType
+
+async function setNewLeaveType(req,res){
+    try {
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let leaveType = req.body.leaveTypeName;
+        let leaveColor = req.body.leaveColor;
+        let leaveDisplayName = req.body.displayName;
+        con.query("CALL `setnewleavetype` (?,?,?)",[leaveType,leaveDisplayName,leaveColor], async function (err, result, fields) {
+            if (err) {
+                let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("setnewleavetype");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray)
+                res.send({status: false, message: 'Unable to add leave type'});
+            } else {
+                res.send({status: true, message: 'Leave Type added successfully'})
+            }
+        });
+
+    }catch (e) {
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("setnewleavetype");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = await errorLogs(errorLogArray) }
 }

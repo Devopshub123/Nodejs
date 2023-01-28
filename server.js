@@ -472,7 +472,7 @@ function verifyJWTToken(req, res, next) {
 // });
 // app.post('/api/setNewLeaveType',function(req,res) {
 //     try {
-//
+
 //         let leaveType = req.body.leaveTypeName;
 //         let leaveColor = req.body.leaveColor;
 //         let leaveDisplayName = req.body.displayName;
@@ -483,10 +483,10 @@ function verifyJWTToken(req, res, next) {
 //                 res.send({status: true, message: 'Leave Type added successfully'})
 //             }
 //         });
-//
+
 //     }catch (e) {
 //         console.log('setNewLeaveType :',e)
-//
+
 //     }
 // });
 
@@ -757,7 +757,10 @@ app.get('/api/getYearsForReport/:companyName', verifyJWTToken,function(req,res) 
 
 });
 
-
+app.post('/api/setNewLeaveType/:companyName',function(req,res) {
+    console.log("hghghgh",req.body)
+    leaveManagement.setNewLeaveType(req,res)
+});
 /**
  * get States
  * */
@@ -777,7 +780,8 @@ app.get('/api/getYearsForReport/:companyName', verifyJWTToken,function(req,res) 
 /**
  * get States
  * */
- app.post('/api/getProfileImage/',function(req,res) {
+
+ app.post('/api/getProfileImage/:companyName',verifyJWTToken,function(req,res) {
     leaveManagement.getProfileImage(req,res);
 });
 

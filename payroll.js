@@ -110,7 +110,7 @@ async function employeeprofessionaltax(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                     await errorLogs(errorLogArray)
                 } 
                 else{
                     if(result &&result[0] && result[0].length>0){
@@ -138,7 +138,7 @@ async function employeeprofessionaltax(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         await errorLogs(errorLogArray)
 
     }
 }
@@ -166,7 +166,7 @@ async function employerprofessionaltax(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                     await errorLogs(errorLogArray)
                 } 
                 else{
                     if(result &&result[0] && result[0].length>0){
@@ -194,7 +194,7 @@ async function employerprofessionaltax(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         await errorLogs(errorLogArray)
 
     }
 }
@@ -221,7 +221,7 @@ async function getesidetails(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                     await errorLogs(errorLogArray)
                 } 
                 else{
                     if(result &&result[0] && result[0].length>0){
@@ -250,7 +250,7 @@ async function getesidetails(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -278,7 +278,7 @@ async function getpayrollsections(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                     await errorLogs(errorLogArray)
                 } 
                 else{
                     if(result && result[0]&& result[0].length>0){
@@ -307,7 +307,7 @@ async function getpayrollsections(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -338,7 +338,7 @@ async function getearningsalarycomponent(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                     await errorLogs(errorLogArray)
                 } 
                 else{
                     console.log("its Workimg")
@@ -367,7 +367,7 @@ async function getearningsalarycomponent(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -395,7 +395,7 @@ async function getdeductionsalarycomponent(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                     await errorLogs(errorLogArray)
                 } 
                 else{
                     if(result && result[0]&& result[0].length>0){
@@ -424,7 +424,7 @@ async function getdeductionsalarycomponent(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -451,7 +451,7 @@ async function getpayrollincomegroups(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                     await errorLogs(errorLogArray)
                 } 
                 else{
                     if(result &&result[0] && result[0].length>0){
@@ -479,7 +479,7 @@ async function getpayrollincomegroups(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
         
 
     }
@@ -526,7 +526,7 @@ async function getsalarycomponentsforpaygroup(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                     await errorLogs(errorLogArray)
                 }
                 else{
                     if(result &&result[0] && result[0].length>0){
@@ -554,7 +554,7 @@ async function getsalarycomponentsforpaygroup(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -600,7 +600,7 @@ async function setincomegroup(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     await errorLogs(errorLogArray);
                     res.send({ status: false });
                 }
                 else {
@@ -623,7 +623,7 @@ async function setincomegroup(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -681,7 +681,7 @@ async function setincomegroup(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         await errorLogs(errorLogArray);
                     }
                     else{
                         if (result &&result[0] && result[0].length>0) {
@@ -708,7 +708,7 @@ async function setincomegroup(req,res){
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray);
+             await errorLogs(errorLogArray);
     
         }
     }
@@ -736,7 +736,7 @@ async function setErrorMessages(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     await errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update leave error messages'});                
                 }
                 else {
@@ -759,7 +759,7 @@ async function setErrorMessages(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -788,7 +788,7 @@ async function getEmployeeDurationsForSalaryDisplay(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);               
+                     await errorLogs(errorLogArray);               
                 }
                 else{
                     if(result && result[0] && result[0].length>0){              
@@ -816,7 +816,7 @@ async function getEmployeeDurationsForSalaryDisplay(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -860,7 +860,7 @@ async function getCtcDetails(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);               
+                     await errorLogs(errorLogArray);               
                 }
                 else{
                     if(result && result[0] && result[0].length>0){   
@@ -888,7 +888,7 @@ async function getCtcDetails(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -916,7 +916,7 @@ async function getEmployeeInvestments(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);               
+                     await errorLogs(errorLogArray);               
                 }
                 else{
                     if(result && result[0] && result[0].length>0){               
@@ -944,7 +944,7 @@ async function getEmployeeInvestments(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -973,7 +973,7 @@ async function deleteEmployeeInvestments(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -996,7 +996,7 @@ async function deleteEmployeeInvestments(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
     }
 }
 
@@ -1024,7 +1024,7 @@ async function setEmployeeInvestments(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1052,7 +1052,7 @@ async function setEmployeeInvestments(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1080,7 +1080,7 @@ async function getComponentEditableConfigurations(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1110,7 +1110,7 @@ async function getComponentEditableConfigurations(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
 
     }
@@ -1141,7 +1141,7 @@ async function configurePayGroupComponent(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1164,7 +1164,7 @@ async function configurePayGroupComponent(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1192,7 +1192,7 @@ async function getPayGroupComponentValues(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1221,7 +1221,7 @@ async function getPayGroupComponentValues(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1248,7 +1248,7 @@ async function editPayGroupComponent(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1271,7 +1271,7 @@ async function editPayGroupComponent(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1299,7 +1299,7 @@ async function getEmployeesListForInvestmentsApproval(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1328,7 +1328,7 @@ async function getEmployeesListForInvestmentsApproval(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1356,7 +1356,7 @@ async function getEmployerEpfContributionOptions(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1385,7 +1385,7 @@ async function getEmployerEpfContributionOptions(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1416,7 +1416,7 @@ async function getEmployeeEpfContributionOptions(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1445,7 +1445,7 @@ async function getEmployeeEpfContributionOptions(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1474,7 +1474,7 @@ async function setCompanyEpfValues(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
             
@@ -1498,7 +1498,7 @@ async function setCompanyEpfValues(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1526,7 +1526,7 @@ async function getStatutoryMaxPfWageForEmployerContribution(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1556,7 +1556,7 @@ async function getStatutoryMaxPfWageForEmployerContribution(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1615,7 +1615,7 @@ async function getCompanyPaySchedule(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1644,7 +1644,7 @@ async function getCompanyPaySchedule(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1671,7 +1671,7 @@ async function setCompanyPaySchedule(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1701,7 +1701,7 @@ async function setCompanyPaySchedule(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1728,7 +1728,7 @@ async function updateMonthlySalary(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                  else{
@@ -1751,7 +1751,7 @@ async function updateMonthlySalary(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1779,7 +1779,7 @@ async function getFinancialYears(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1809,7 +1809,7 @@ async function getFinancialYears(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1838,7 +1838,7 @@ async function MonthYear(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1867,7 +1867,7 @@ async function MonthYear(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1896,7 +1896,7 @@ async function getEpfDetails(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1925,7 +1925,7 @@ async function getEpfDetails(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -1953,7 +1953,7 @@ async function getEmployeeListForSalaryProcessing(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -1982,7 +1982,7 @@ async function getEmployeeListForSalaryProcessing(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2010,7 +2010,7 @@ async function getEmployeesForAssignPaygroup(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2040,7 +2040,7 @@ async function getEmployeesForAssignPaygroup(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2068,7 +2068,7 @@ async function getPayGroupsForCtc(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2097,7 +2097,7 @@ async function getPayGroupsForCtc(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2124,7 +2124,7 @@ async function getActiveComponentsValuesForPayGroup(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2153,7 +2153,7 @@ async function getActiveComponentsValuesForPayGroup(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2180,7 +2180,7 @@ async function assignPayGroup(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2203,7 +2203,7 @@ async function assignPayGroup(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2231,7 +2231,7 @@ async function getComponentWiseValuesForPayGroupAssignment(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2260,7 +2260,7 @@ async function getComponentWiseValuesForPayGroupAssignment(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2287,7 +2287,7 @@ async function getEmployeePaySlips(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2316,7 +2316,7 @@ async function getEmployeePaySlips(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2344,7 +2344,7 @@ async function getEmployeePayslipDetails(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2373,7 +2373,7 @@ async function getEmployeePayslipDetails(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2401,7 +2401,7 @@ async function getEmployeeEpfDetails(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2431,7 +2431,7 @@ async function getEmployeeEpfDetails(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2459,7 +2459,7 @@ async function getMonthlyPayrollData(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2488,7 +2488,7 @@ async function getMonthlyPayrollData(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        await errorLogs(errorLogArray);
 
     }
 }
@@ -2516,7 +2516,7 @@ async function getMonthlyPayrollDataForGraph(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    await errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2546,7 +2546,7 @@ async function getMonthlyPayrollDataForGraph(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
@@ -2573,7 +2573,7 @@ async function getComponentConfiguredValuesForPayGroup(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                     await errorLogs(errorLogArray);  
                     res.send({status:false});           
                 }
                 else{
@@ -2602,14 +2602,14 @@ async function getComponentConfiguredValuesForPayGroup(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+         await errorLogs(errorLogArray);
 
     }
 }
 // module.exports = app;
 
 /** error logs */
-function errorLogs(errorLogArray) {
+async function errorLogs(errorLogArray) {
     console.log("dat==",JSON.stringify(errorLogArray[3]))
     return new Promise(async (res,rej)=>{
        try {
