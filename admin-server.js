@@ -2175,10 +2175,10 @@ async function getEMSMessages(req, res) {
     }
 }
 async function setEMSMessages(req, res) {
-    let data = JSON.stringify(req.body)
-    try {
-        let  dbName = await getDatebaseName(req.body.companyName)
-        let companyName = req.body.companyName;
+    let data = JSON.stringify(req.body);
+     try {
+        let  dbName = await getDatebaseName(req.body[0].companyName)
+        let companyName = req.body[0].companyName;
 
         var listOfConnections = {};
         if(dbName){

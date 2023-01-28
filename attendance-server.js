@@ -1696,8 +1696,8 @@ function attendanceRequestEmail(mailData,companyName) {
              pass: 'Sreeb@#321'
            }
          });
-         var url = 'http://localhost:4200/#/Login';
-        //  var url = 'http://122.175.62.210:7575/#/Login';
+        //  var url = 'http://localhost:4200/#/Login';
+         var url = 'http://122.175.62.210:7575/#/Login';
        var html = `<html>
        <head>
        <title>Attendance Request</title></head>

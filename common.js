@@ -112,7 +112,6 @@ async function login(req,res){
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
                 var result = results ? results[0] ? results[0][0]? Object.values(JSON.parse(JSON.stringify(results[0][0]))):null:null:null;
                 if (result && result[0] > 0) {
-                    console.log("info",info)
                     var info = {
                         id:result[0],
                         email:email
@@ -123,7 +122,6 @@ async function login(req,res){
                         try {
                             if (results && results.length > 0) {
                                 var result = JSON.parse(results[0][0].result)
-                                console.log("token",token)
                                 res.send({status: true, result,token:token})
                             }
                             else {
@@ -398,8 +396,8 @@ async function forgetpassword(req, res, next) {
                 });
                 var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:req.params.email,date:new Date()}))).toString('base64')
 
-                var url = 'http://localhost:4200/ResetPassword/'+token
-                // var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
+                // var url = 'http://localhost:4200/ResetPassword/'+token
+                var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
                 var html = `<html>
                     <head>
                     <title>HRMS ResetPassword</title></head>

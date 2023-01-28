@@ -1699,6 +1699,7 @@ async function setCompOff(req,res) {
 };
 
 async function getProfileImage(req, res) {
+    console.log("reqb---",req.body)
         /**  ------- For AWS Document Upload -----*/
     // try{
     //     folderName = req.body.filepath;
@@ -1732,7 +1733,8 @@ async function getProfileImage(req, res) {
         var imageData={}
         var flag=false;
         fs.readFile(folderName+req.body.filename,async function(err,result){
-            if(err){
+            if (err) {
+                console.log("errr---",err)
         //         let companyName =req.params.companyName;
         //         let  dbName = await getDatebaseName(companyName)
         //         let errorLogArray = [];
@@ -1758,7 +1760,6 @@ async function getProfileImage(req, res) {
 
     }
     catch(e){
-        console.log('getProfileImage',e)
         let companyName =req.params.companyName;
         let  dbName = await getDatebaseName(companyName)
         let errorLogArray = [];
@@ -2710,8 +2711,8 @@ function leaveRequestEmail(mailData) {
             pass: 'Sreeb@#321'
           }
       });
-      var url = 'http://localhost:4200/Login';
-    //  var url = 'http://122.175.62.210:7575/#/Login';
+    //   var url = 'http://localhost:4200/Login';
+     var url = 'http://122.175.62.210:7575/#/Login';
       var html = `<html>
       <head>
       <title>Leave Request</title></head>
@@ -2967,8 +2968,8 @@ function compOffRequestEmail(mailData){
               pass: 'Sreeb@#321'
           }
       });
-     var url = 'http://localhost:4200/Login';
-    //  var url = 'http://122.175.62.210:7575/#/Login';
+    //  var url = 'http://localhost:4200/Login';
+     var url = 'http://122.175.62.210:7575/#/Login';
       var html = `<html>
       <head>
       <title>Comp-off request</title></head>
