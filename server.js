@@ -2253,7 +2253,7 @@ app.post('/ems/api/updateInductionConductedbyStatus', verifyJWTToken,function (r
 
 
 
-cron.schedule('0 * 11 * * *', async function () {   // Every day 11 am
+cron.schedule('0  11 * * *', async function () {   // Every day 11 am
     let date = new Date();
     let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
     let day = new Date(lastDay.toJSON().slice(0, 10).replace(/-/g, '/')).getDay();
