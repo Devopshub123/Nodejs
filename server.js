@@ -1174,7 +1174,8 @@ app.post('/ems/api/setTerminationCategory/', verifyJWTToken,function(req,res) {
     })
 
 /**setDocumentOrImageForEMS */
-app.post('/ems/api/setDocumentOrImageForEMS/:companyName',verifyJWTToken,function(req,res){
+app.post('/ems/api/setDocumentOrImageForEMS/:companyName', function (req, res) {
+    console.log("data-0",req.body)
     ems.setDocumentOrImageForEMS(req,res)
     })
 /**EMS getUserLoginData */
@@ -2663,21 +2664,21 @@ app.post('/api/setHolidaysMaster',verifyJWTToken, function (req, res) {
 
 
 ///** */
-// app.listen(6060,function (err) {
-//     if (err)
-//         console.log('Server Cant Start ...Erorr....');
-//     else
-//         console.log('Server Started at : http://localhost:6060');
-// });
-
-/** uncomment in QA build time */
-
-app.listen(202,'0.0.0.0',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://122.175.62.210:202');
+        console.log('Server Started at : http://localhost:6060');
 });
+
+/** uncomment in QA build time */
+
+// app.listen(202,'0.0.0.0',function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at :  http://122.175.62.210:202');
+// });
 
 /** uncomment in AWS_Prod build time */
 

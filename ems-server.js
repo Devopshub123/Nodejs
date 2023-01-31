@@ -3068,25 +3068,32 @@ async function getFilepathsMasterForEMS(req, res) {
 
 async function setDocumentOrImageForEMS(req, res) {
    //** for local deployment */ 
-  
+  console.log("data-00",req.body)
     try {
         let emailData;
         file = req.files.file;
         var localPath = JSON.parse(req.body.info);
         var folderName = localPath.filepath;
+        console.log("dat-01",req.body)
         if (req.body.email != undefined) {
             emailData = JSON.parse(req.body.email);
           }
         try {
+            console.log("dat-02",folderName)
             if (!fs.existsSync(folderName)) {
                 fs.mkdirSync(folderName);
             } else {
                 try {
                     file.mv(
                         path.resolve(__dirname, folderName, localPath.filename),
+                        console.log("dat-03", folderName),
                         async function (error) {
+                            console.log("fdsdferrr", error);
                             if (error) {
+                                res.send({ status: false });
                                 let errorLogArray = [];
+                                let companyName =req.params.companyName;
+                                let  dbName = await getDatebaseName(companyName)
                                 errorLogArray.push("EMSAPI");
                                 errorLogArray.push("setDocumentOrImageForEMS");
                                 errorLogArray.push("POST");
@@ -3095,9 +3102,10 @@ async function setDocumentOrImageForEMS(req, res) {
                                 errorLogArray.push(null);
                                 errorLogArray.push(companyName);
                                 errorLogArray.push(dbName);
-                                errorLogs = await errorLogs(errorLogArray);
-                                res.send({ status: false });
+                                errorLogs(errorLogArray);
+                                
                             } else {
+                                console.log("dat-04", folderName),
                                 res.send({
                                     status: true,
                                     message: "Image Uploaded Succesfully",
@@ -3113,7 +3121,7 @@ async function setDocumentOrImageForEMS(req, res) {
                         });
                 } catch (err) {
                     res.send({ status: false });
-                    let companyName =req.body.companyName;
+                    let companyName =req.params.companyName;
                     let  dbName = await getDatebaseName(companyName)
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -3124,7 +3132,7 @@ async function setDocumentOrImageForEMS(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
 
                 }
             }
@@ -3215,6 +3223,8 @@ async function setFilesMasterForEMS(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_files_master` (?,?,?,?,?,?,?,?,?,?)",
                 [req.body.id,req.body.employeeId,req.body.candidateId,req.body.filecategory,req.body.moduleId,req.body.documentnumber,req.body.fileName,req.body.modulecode,req.body.requestId,req.body.status], async function (err, result, fields) {
+                    
+                    
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
@@ -3302,7 +3312,7 @@ async function getDocumentOrImagesForEMS(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                     errorLogs(errorLogArray)
                 } else {
                     flag = true;
                     imageData.image = result;
@@ -6552,7 +6562,8 @@ async function getEmployeeEmailData(req, res) {
 }
 
 
-function rescheduledInductionProgramEmail(mailData){
+function rescheduledInductionProgramEmail(mailData) {
+    console.log("edata-",mailData)
     try {
         let email = mailData.emails;
         var transporter = nodemailer.createTransport({
@@ -6581,7 +6592,7 @@ function rescheduledInductionProgramEmail(mailData){
 
      <p style="color:black">Name of the Induction Program: <b>${mailData.programName}</b></p>
      <p style="color:black">Your Meeting Scheduled On <b>${mailData.programDate}</b></p>
-     <p style="color:black">from <b>${mailData.startTime}</b> to <b>${mailData.endTime}</b></p>           
+     <p style="color:black">from <b>${mailData.starttime}</b> to <b>${mailData.endtime}</b></p>           
     
      <p style="color:black">We hope to see you soon at our upcoming induction program! </p>
      
