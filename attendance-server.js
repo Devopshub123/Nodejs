@@ -1748,7 +1748,7 @@ function attendanceRequestEmail(mailData,companyName) {
        var mailOptions = {
            from: 'no-reply@spryple.com',
            to: email,
-           subject: 'Attendance Request',
+           subject: 'Attendance Request by'+' '+mailData.emails.emp_name,
            html: html
        };
        transporter.sendMail(mailOptions, async function (error, info) {

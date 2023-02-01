@@ -864,7 +864,7 @@ async function getdaystobedisabledfromdate(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
             
@@ -1866,7 +1866,7 @@ async function getCompoffLeaveStatus(req,res) {
             listOfConnections[companyName].query("CALL `get_compoff_leave_status`()", async function (err, result, fields) {
                 if (err) {
                     let errorLogArray = [];
-                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("LMSAPI");   
                     errorLogArray.push("getCompoffLeaveStatus");
                     errorLogArray.push("GET");
                     errorLogArray.push(JSON.stringify(req.params));
@@ -1878,6 +1878,7 @@ async function getCompoffLeaveStatus(req,res) {
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
+                        console.log("Da---",result[0][0])
                         res.send({ data: result[0][0], status: true });
                     }
                     else {
@@ -2162,6 +2163,7 @@ async  function setCompoffForApproveOrReject(req,res){
                         res.send({status: true,compoffStatus:req.body.status})
                         if (req.body.emaildata.emp_email !='' || req.body.emaildata.emp_email !=null) {
                             if (req.body.status == 'Approved') {
+                                console.log("t-1")
                                 compOffApprovalRequestEmail(req.body);
                             } else{
                                 compOffRejectRequestEmail(req.body)
@@ -3030,9 +3032,9 @@ function compOffRequestEmail(mailData){
   }
 }
   
-function compOffApprovalRequestEmail(mailData){
+function compOffApprovalRequestEmail(mailData) {
     try {
-      let email = mailData
+        let email = mailData.emaildata.emp_email;
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -3053,7 +3055,7 @@ function compOffApprovalRequestEmail(mailData){
     
       <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
-      <p style="color:black">A comp-off request by ${mailData.emaildata.emp_name} has been Approved by ${mailData.emaildata.rm_name}</p>
+      <p style="color:black">A comp-off request by you has been Approved by ${mailData.emaildata.rm_name}</p>
       <table border="1" style='border-collapse:collapse;color:black'>
       <tbody>
       <tr>
@@ -3125,7 +3127,7 @@ function compOffApprovalRequestEmail(mailData){
     
       <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
-      <p style="color:black">A comp-off request by ${mailData.emaildata.emp_name} has been Rejected by ${mailData.emaildata.emp_name}</p>
+      <p style="color:black">A comp-off request by you has been Rejected by ${mailData.emaildata.emp_name}</p>
       
        <p style="color:black">Worked Date:${mailData.comp_off_date}</p>
            <p style="color:black">Worked Hours:${mailData.worked_hours}</p>
