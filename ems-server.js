@@ -214,7 +214,7 @@ async function setNewHire(req,res) {
                         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
                         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
                         <p style="color:black">Hello,</p>
-                        <p style="color:black">Thank you for using Spryple HCM&nbsp; We re really happy to have you!<b></b></p>
+                        <p style="color:black">" Thank you for using Spryple HCM. We re really happy to have you! "<b></b></p>
                         <p style="color:black"> Kindly complete your application here by following link.</p>
                         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                         <p style="color:black"> Fill in all the information as per your supporting documents.</p>
@@ -226,7 +226,7 @@ async function setNewHire(req,res) {
                             var mailOptions = {
                                 from: 'no-reply@spryple.com',
                                 to: emailData.personal_email,
-                                subject: 'Acknowledgement form',
+                                subject: 'Acknowledgement Form',
                                 html: html
                             };
                             transporter.sendMail(mailOptions, function (error, info) {
@@ -4091,12 +4091,9 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         console.log(error);
       if (error) {
           console.log("Failed To Sent  Mail",error)
-        // res.send({ status: false });
       } else {
           console.log("Mail Sent Successfully")
-
-          // res.send({ status: true });
-      }
+  }
     });
   } catch (e) {
     console.log("sendEmailToEmployeeAboutLogins :", e);
@@ -6561,7 +6558,6 @@ async function getEmployeeEmailData(req, res) {
 
 
 function rescheduledInductionProgramEmail(mailData) {
-    console.log("edata-",mailData)
     try {
         let email = mailData.emails;
         var transporter = nodemailer.createTransport({
@@ -6603,7 +6599,7 @@ function rescheduledInductionProgramEmail(mailData) {
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Induction program rescheduled' ,
+            subject: 'Induction Program Rescheduled' ,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
