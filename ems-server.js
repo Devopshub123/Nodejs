@@ -186,8 +186,7 @@ async function setNewHire(req,res) {
                 } else {
 
                     if (result[0][0].statuscode == 0) {
-                        console.log("date--", emailData.personal_email)
-                        if (emailData.personal_email != '' || undefined || null) {
+                       if (emailData.personal_email != '' || undefined || null) {
                             var transporter = nodemailer.createTransport({
                                 host: "smtp-mail.outlook.com", // hostname
                                 secureConnection: false, // TLS requires secureConnection to be false
@@ -2486,10 +2485,17 @@ async function setEmpPersonalInfo(req, res) {
                     res.send({ status: false });
                 } else {
                     if (result && result[0][0].statuscode == 0) {
-                        res.send({ status: true, data: result[0][0].empid });
-                    } else {
-                        res.send({ status: false })
-                    }
+                        res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
+                        //getEmailsByEmpid(result[0][0].empid);
+                      
+                    } else if (result && result[0][0].statuscode == 2) {
+                      res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
+                      
+                    }  else if (result && result[0][0].statuscode == 1) {
+                       res.send({status: true,data: { empid: result[0][0].empid,email:result[0][0].email }  });
+                  } else {
+                   res.send({ status: false, })
+                   }
                 }
             });
         }
@@ -6730,6 +6736,7 @@ async function getEmployeesListByDeptId(req,res) {
 }
 /** set induction conducted by employees*/
 async function setInductionConductedby(req, res) {
+    console.log("data-",req.body)
     try {
         let companyName = req.body.companyName;
         let  dbName = await getDatebaseName(companyName)
@@ -6742,6 +6749,7 @@ async function setInductionConductedby(req, res) {
             listOfConnections[companyName].query("CALL `set_ems_induction_conductedby` (?)",
                 [JSON.stringify(req.body)],
                 async function (err, result, fields) {
+                    console.log("errr-",err)
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
@@ -6752,7 +6760,7 @@ async function setInductionConductedby(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result[0][0].statuscode == 0) {
@@ -7095,8 +7103,9 @@ async function getEmployeeProgramAlerts(req,res) {
                     errorLogArray.push(dbName);
                      errorLogs = await errorLogs(errorLogArray);
                      res.send({ status: false });
+
                     }else if (result && result.length > 0) {
-                        res.send({ data: result[0][0], status: true });
+                        res.send({ data: result[0], status: true });
                     } else {
                         res.send({ status: false });
                     }
