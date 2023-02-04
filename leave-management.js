@@ -27,7 +27,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 var connection = require('./config/databaseConnection');
-const { Console } = require('console');
 
 var con = connection.switchDatabase();
 app.use(bodyParser.json({ limit: '5mb' }));
@@ -127,7 +126,7 @@ async function getApprovedLeaves(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -151,7 +150,7 @@ async function getApprovedLeaves(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+        errorLogs(errorLogArray)  }
 }
 
 
@@ -176,7 +175,7 @@ async function getYearsForReport(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs(errorLogArray)
                     } else {
                         if (result && result.length > 0) {
                             res.send({ data: result[0], status: true });
@@ -200,7 +199,7 @@ async function getYearsForReport(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 
 
 }
@@ -328,7 +327,7 @@ async function getemployeeleaves(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -356,7 +355,7 @@ async function getemployeeleaves(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 /**
@@ -389,7 +388,7 @@ async function getLeaveBalance(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result, status: true });
@@ -415,7 +414,7 @@ async function getLeaveBalance(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+        errorLogs(errorLogArray)  }
 }
 
 async function getHolidaysList(req,res){
@@ -440,7 +439,7 @@ async function getHolidaysList(req,res){
                          errorLogArray.push(null);
                          errorLogArray.push(companyName);
                          errorLogArray.push(dbName);
-                         errorLogs = await errorLogs(errorLogArray)
+                         errorLogs(errorLogArray)
                      } else {
                          if (result && result.length > 0) {
                              res.send({ data: result, status: true });
@@ -465,7 +464,7 @@ async function getHolidaysList(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -491,7 +490,7 @@ async function getleavecalender(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result[0].length > 0) {
                         for (var i = 0; i < result[0].length; i++) {
@@ -526,7 +525,7 @@ async function getleavecalender(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 
@@ -552,7 +551,7 @@ async function getdurationforbackdatedleave(req, res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -578,7 +577,7 @@ async function getdurationforbackdatedleave(req, res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -603,7 +602,7 @@ async function getleavecyclelastmonth(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -629,7 +628,7 @@ async function getleavecyclelastmonth(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -654,7 +653,7 @@ async function getLeavesTypeInfo(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
             
                     if (result && result.length > 0) {
@@ -680,7 +679,7 @@ async function getLeavesTypeInfo(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+        errorLogs(errorLogArray)  }
 }
 
 async function getApprovedCompoffs(req,res){
@@ -705,7 +704,7 @@ async function getApprovedCompoffs(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -731,7 +730,7 @@ async function getApprovedCompoffs(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 /**completed */
 async function getEmployeeRelationsForBereavementLeave(req,res){
@@ -756,7 +755,7 @@ async function getEmployeeRelationsForBereavementLeave(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -782,7 +781,7 @@ async function getEmployeeRelationsForBereavementLeave(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+        errorLogs(errorLogArray)  }
 }
 
 async function getdaystobedisabletodate(req,res){
@@ -808,7 +807,7 @@ async function getdaystobedisabletodate(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -835,7 +834,7 @@ async function getdaystobedisabletodate(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -892,7 +891,7 @@ async function getdaystobedisabledfromdate(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -920,7 +919,7 @@ async function getMaxCountPerTermValue(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                   errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -946,7 +945,7 @@ async function getMaxCountPerTermValue(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -991,7 +990,7 @@ async function validateleave(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
+                    errorLogs(errorLogArray)
                 } else {
                     if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -1016,7 +1015,7 @@ async function validateleave(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+       errorLogs(errorLogArray)
     }
 }
 
@@ -1043,7 +1042,7 @@ async function getNextLeaveDate(req,res){
                      errorLogArray.push(null);
                      errorLogArray.push(companyName);
                      errorLogArray.push(dbName);
-                     errorLogs = await errorLogs(errorLogArray)
+                     errorLogs(errorLogArray)
                  } else {
                      if (result && result.length > 0) {
                          res.send({ data: result[0], status: true });
@@ -1069,7 +1068,7 @@ async function getNextLeaveDate(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 async function setemployeeleave(req, res) {
@@ -1112,7 +1111,7 @@ async function setemployeeleave(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({status:false})
                 }
                 else{
@@ -1139,7 +1138,7 @@ async function setemployeeleave(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -1167,7 +1166,7 @@ async function setFilesMaster(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs(errorLogArray)
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -1195,7 +1194,7 @@ async function setFilesMaster(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 
 }
@@ -1224,7 +1223,7 @@ async function deleteFilesMaster(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs(errorLogArray)
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -1250,7 +1249,7 @@ async function deleteFilesMaster(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 
 }
@@ -1305,7 +1304,7 @@ async function getFilesMaster(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+       errorLogs(errorLogArray)
     }
 
 }
@@ -1329,7 +1328,7 @@ async function removeImage(req,res){
                 errorLogArray.push(null);
                 errorLogArray.push(companyName);
                 errorLogArray.push(dbName);
-                errorLogs = await errorLogs(errorLogArray)
+                errorLogs(errorLogArray)
                 console.log(err);
             }
             else{
@@ -1350,7 +1349,7 @@ async function removeImage(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
         
     }
 }
@@ -1377,7 +1376,7 @@ async function getFilepathsMaster(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray)
+                        errorLogs(errorLogArray)
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
@@ -1405,7 +1404,7 @@ async function getFilepathsMaster(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 
 }
@@ -1438,7 +1437,7 @@ async function getCompOffMinWorkingHours(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -1464,7 +1463,7 @@ async function getCompOffMinWorkingHours(req,res) {
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray)  }
+             errorLogs(errorLogArray)  }
 }
 
 /**Get compOff details*/
@@ -1491,7 +1490,7 @@ async function getCompOff(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -1517,7 +1516,7 @@ async function getCompOff(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -1548,7 +1547,7 @@ async  function getCompoffCalender(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -1576,7 +1575,7 @@ async  function getCompoffCalender(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 
@@ -1609,7 +1608,7 @@ async function getDurationforBackdatedCompoffLeave(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -1636,7 +1635,7 @@ async function getDurationforBackdatedCompoffLeave(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 
@@ -1668,7 +1667,7 @@ async function setCompOff(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                     }else {
                         res.send({status: true, message: 'Comp-off applied successfully'})
                         if (req.body.emaildata.rm_email != '' || req.body.emaildata.rm_email != null) {
@@ -1695,7 +1694,7 @@ async function setCompOff(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 };
 
@@ -1771,7 +1770,7 @@ async function getProfileImage(req, res) {
                 errorLogArray.push(null);
                 errorLogArray.push(companyName);
                 errorLogArray.push(dbName);
-                await errorLogs(errorLogArray)
+                errorLogs(errorLogArray)
     }
 
 }
@@ -1821,7 +1820,7 @@ async function getHandledLeaves(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
             
@@ -1849,7 +1848,7 @@ async function getHandledLeaves(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 async function getCompoffLeaveStatus(req,res) {
@@ -1874,7 +1873,7 @@ async function getCompoffLeaveStatus(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -1904,7 +1903,7 @@ async function getCompoffLeaveStatus(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 
 }
@@ -1933,7 +1932,7 @@ async function getCompoffs(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -1959,7 +1958,7 @@ async function getCompoffs(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 
@@ -1987,7 +1986,7 @@ async function getLeavesForApprovals(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2014,7 +2013,7 @@ async function getLeavesForApprovals(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 
@@ -2075,7 +2074,7 @@ async function leaveSattus(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 
 }
@@ -2104,7 +2103,7 @@ async function getCompoffsForApproval(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2130,7 +2129,7 @@ async function getCompoffsForApproval(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 /**completed */
@@ -2158,7 +2157,7 @@ async  function setCompoffForApproveOrReject(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                     }else {
                         res.send({status: true,compoffStatus:req.body.status})
                         if (req.body.emaildata.emp_email !='' || req.body.emaildata.emp_email !=null) {
@@ -2187,7 +2186,7 @@ async  function setCompoffForApproveOrReject(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 
@@ -2213,7 +2212,7 @@ async function getLeavesForCancellation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2239,7 +2238,7 @@ async function getLeavesForCancellation(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+        errorLogs(errorLogArray)  }
 
 }
 
@@ -2267,7 +2266,7 @@ async function getLeaveCalendarForManager(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2293,7 +2292,7 @@ async function getLeaveCalendarForManager(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+        errorLogs(errorLogArray)  }
 }
 
 async function getMastertables(req,res) {
@@ -2319,7 +2318,7 @@ async function getMastertables(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2345,7 +2344,7 @@ async function getMastertables(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 
@@ -2372,7 +2371,7 @@ async function getEmployeesForReportingManager(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2398,7 +2397,7 @@ async function getEmployeesForReportingManager(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 async function getEmployeeLeaveDetailedReportForManager(req,res){
@@ -2423,7 +2422,7 @@ async function getEmployeeLeaveDetailedReportForManager(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2449,7 +2448,7 @@ async function getEmployeeLeaveDetailedReportForManager(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+        errorLogs(errorLogArray)  }
 }
 
 
@@ -2477,7 +2476,7 @@ async function getSummaryReportForManager(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2503,7 +2502,7 @@ async function getSummaryReportForManager(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+        errorLogs(errorLogArray) }
 }
 
 
@@ -2534,7 +2533,7 @@ async function getReportForPayrollProcessing(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result[0] && result[0].length > 0) {
@@ -2561,7 +2560,7 @@ async function getReportForPayrollProcessing(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 
 }
@@ -2610,7 +2609,7 @@ async function cancelLeaveRequest(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                         res.send({ status: false })
                     } else {
                             res.send({ status: true })
@@ -2633,7 +2632,7 @@ async function cancelLeaveRequest(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     
     }
 }
@@ -2662,7 +2661,7 @@ async function getCarryforwardedLeaveMaxCount(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                         res.send({ status: false })
                     } else {
                         if (result && result.length > 0) {
@@ -2691,7 +2690,7 @@ async function getCarryforwardedLeaveMaxCount(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 
 }
@@ -3467,7 +3466,7 @@ async function getDaysToBeDisabledForFromDateCompOff(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -3493,7 +3492,7 @@ async function getDaysToBeDisabledForFromDateCompOff(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -3542,7 +3541,7 @@ async function deleteLeaveRequest(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({status:false})
                 } else {
                     res.send({status: true})
@@ -3565,7 +3564,7 @@ async function deleteLeaveRequest(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+    errorLogs(errorLogArray)
     }
 }
 

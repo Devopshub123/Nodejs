@@ -335,6 +335,8 @@ async function getemployeeattendancedashboard(req, res) {
             }
             listOfConnections[companyName].query("CALL `get_employee_attendance_dashboard` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
                 async function (err, result, fields) {
+                    console.log("err-",err)
+                    console.log("ress-",result[0])
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("ATTENDANCEAPI");

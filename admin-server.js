@@ -1386,7 +1386,7 @@ async function setLeavePolicies(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `set_leavepolicies` (?)",[JSON.stringify(ruleData)], async function (err, result, fields) {
+        listOfConnections[companyName].query("CALL `setleavepolicies` (?)",[JSON.stringify(ruleData)], async function (err, result, fields) {
             if (err) {
                 let errorLogArray = [];
     errorLogArray.push("AdminAPI");

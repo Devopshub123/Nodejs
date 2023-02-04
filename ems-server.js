@@ -181,7 +181,7 @@ async function setNewHire(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                         res.send({ status: false });
                 } else {
 
@@ -199,7 +199,7 @@ async function setNewHire(req,res) {
                                     pass: 'Sreeb@#321'
                                 }
                             });
-                            var token = (Buffer.from(JSON.stringify({ candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate() }))).toString('base64')
+                            var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate() }))).toString('base64')
                             /**Local */
                             var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
@@ -1449,7 +1449,6 @@ async function setPreonboardCandidateInformation(req, res) {
     /** get candidates list */
     async function getCandidateDetails(req, res) {
         try {
-
             let companyName =req.params.companyName;
             let  dbName = await getDatebaseName(companyName)
             var listOfConnections = {};
@@ -1471,7 +1470,7 @@ async function setPreonboardCandidateInformation(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                       errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                 
@@ -2481,12 +2480,12 @@ async function setEmpPersonalInfo(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
-                    if (result && result[0][0].statuscode == 0) {
+                   if (result && result[0][0].statuscode == 0) {
                         res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
-                        //getEmailsByEmpid(result[0][0].empid);
+                        getEmailsByEmpid(result[0][0].empid);
                       
                     } else if (result && result[0][0].statuscode == 2) {
                       res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
@@ -3090,8 +3089,8 @@ async function setDocumentOrImageForEMS(req, res) {
                 try {
                     file.mv(
                         path.resolve(__dirname, folderName, localPath.filename),
-                        console.log("dat-03", folderName),
                         async function (error) {
+                            console.log("dat-03", folderName),
                             console.log("fdsdferrr", error);
                             if (error) {
                                 res.send({ status: false });
@@ -3281,7 +3280,7 @@ async function getDocumentOrImagesForEMS(req, res) {
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-            folderName = req.body.filepath;
+            folderName = req.body.filepath+'/';
             var imageData = {};
             var flag = false;
 /** AWS */
@@ -4732,6 +4731,7 @@ async function documentApproval(req, res) {
 }
 
 async function setEmployeeChecklists(req, res) {
+    console.log("re-da--",req.body)
     try {
         let companyName = req.body.companyName;
         let dbName = await getDatebaseName(companyName)

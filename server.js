@@ -1045,8 +1045,8 @@ app.post('/ems/api/setTerminationCategory/', verifyJWTToken,function(req,res) {
 /** EMS
  * get candidate list
  */
- app.get('/ems/api/getCandidateDetails/:emp_Id/:companyName', verifyJWTToken,function(req,res) {
-
+ app.get('/ems/api/getCandidateDetails/:emp_Id/:companyName', function(req,res) {
+    console.log("t3")
     ems.getCandidateDetails(req, res);
 });
 
@@ -2451,7 +2451,7 @@ app.get('/ems/api/getAttendanceCountsForDate/:mid/:empid/:date/:companyName', ve
  });
 
 /** get induction alerts to employee in maindashboard   */
-app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName',verifyJWTToken,function(req,res) {
+app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName', verifyJWTToken, function (req, res) {
     ems.getEmployeeProgramAlerts(req,res)
  });
 
