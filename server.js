@@ -2651,8 +2651,10 @@ app.post('/ems/api/getDocumentsFiles/',verifyJWTToken,function(req,res){
 app.post('/api/setHolidaysMaster',verifyJWTToken, function (req, res) {
     admin.setHolidaysMaster(req,res)
 });
-
-
+/**otherAllowancePopup */
+app.get('/api/otherAllowancePopup/:pgid/:companyName',function (req, res) {
+    payroll.otherAllowancePopup(req,res);
+});
 
 
 

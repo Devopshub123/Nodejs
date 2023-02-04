@@ -65,6 +65,7 @@ module.exports = {
     getMonthlyPayrollData:getMonthlyPayrollData,
     getMonthlyPayrollDataForGraph:getMonthlyPayrollDataForGraph,
     getComponentConfiguredValuesForPayGroup:getComponentConfiguredValuesForPayGroup,
+    otherAllowancePopup:otherAllowancePopup
 };
 function getDatebaseName(companyName){
 
@@ -2607,7 +2608,62 @@ async function getComponentConfiguredValuesForPayGroup(req,res){
     }
 }
 // module.exports = app;
+// otherAllowancePopup
+async function otherAllowancePopup(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
 
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `other_allowance_popup`(?)",[Number(req.params.pgid)], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("otherAllowancePopup");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray);  
+                    res.send({status:false})             
+                }
+                else{
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
+                }
+                
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('getEmployeeEpfDetails :',e)
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("otherAllowancePopup");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs(errorLogArray);
+    }
+}
 /** error logs */
 async function errorLogs(errorLogArray) {
     console.log("dat==",JSON.stringify(errorLogArray[3]))
