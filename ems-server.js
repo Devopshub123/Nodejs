@@ -203,9 +203,9 @@ async function setNewHire(req, res) {
                             });
                             var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate(),loginToken:loginToken }))).toString('base64')
                             /**Local */
-                            var url = 'http://localhost:4200/#/pre-onboarding/' + token;
+                            // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                            //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                             /**AWS */
                             // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
                         
@@ -5857,7 +5857,7 @@ function compOffApprovalRequestEmail(mailData){
     <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
   
     <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A comp-off request by ${mailData[0].emp_name} has been Approved by ${mailData[0].rm_name} On 19/11/2022</p>
+    <p style="color:black">A comp-off request by ${mailData[0].emp_name} has been Approved by ${mailData[0].rm_name}</p>
     
      <p style="color:black">Worked Date:</p>
          <p style="color:black">Worked Hours:</p>
@@ -5912,7 +5912,7 @@ function compOffRejectRequestEmail(mailData){
     <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
   
     <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A comp-off request by ${mailData[0].emp_name} has been Rejected by ${mailData[0].rm_name} On 19/11/2022 </p>
+    <p style="color:black">A comp-off request by ${mailData[0].emp_name} has been Rejected by ${mailData[0].rm_name}</p>
     
      <p style="color:black">Worked Date:</p>
          <p style="color:black">Worked Hours:</p>
