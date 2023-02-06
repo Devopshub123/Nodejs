@@ -158,11 +158,13 @@ module.exports = {
 };
 
 //// set new hire list
-async function setNewHire(req,res) {
+async function setNewHire(req, res) {
     try {
         let emailData = req.body;
         let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
+        let dbName = await getDatebaseName(companyName);
+        let loginToken = req.body.loginToken;
+        console.log("tok--",loginToken)
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -199,7 +201,7 @@ async function setNewHire(req,res) {
                                     pass: 'Sreeb@#321'
                                 }
                             });
-                            var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate() }))).toString('base64')
+                            var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate(),loginToken:loginToken }))).toString('base64')
                             /**Local */
                             var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
@@ -1417,7 +1419,7 @@ async function setPreonboardCandidateInformation(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                   errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2251,6 +2253,8 @@ async function getEmployeesForProgramSchedule(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employees_for_program_schedule` (?)", [JSON.parse(req.params.id)], async function (err, result, fields) {
+              console.log("err--",err)
+              console.log("re--",result[0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -2261,7 +2265,7 @@ async function getEmployeesForProgramSchedule(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -3108,13 +3112,11 @@ async function setDocumentOrImageForEMS(req, res) {
                                 errorLogs(errorLogArray);
                                 
                             } else {
-                                console.log("dat-04", folderName),
                                 res.send({
                                     status: true,
                                     message: "Image Uploaded Succesfully",
                                 });
                                 if (req.body.data != "Approved") {
-                                    console.log("rva-", emailData)
                                     if (emailData.rm_email != '' || emailData.rm_name != null) [
                                         documentApprovalEmailToHR(emailData)
                                     ]
@@ -3238,7 +3240,7 @@ async function setFilesMasterForEMS(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                       errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
