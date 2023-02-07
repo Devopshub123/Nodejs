@@ -65,7 +65,12 @@ module.exports = {
     getMonthlyPayrollData:getMonthlyPayrollData,
     getMonthlyPayrollDataForGraph:getMonthlyPayrollDataForGraph,
     getComponentConfiguredValuesForPayGroup:getComponentConfiguredValuesForPayGroup,
-    otherAllowancePopup:otherAllowancePopup
+    otherAllowancePopup:otherAllowancePopup,
+    getStateForEsi:getStateForEsi,
+    setCompanyEsiValues:setCompanyEsiValues,
+    setEsiForState:setEsiForState,
+    getCompanyEsiValues:getCompanyEsiValues
+    
 };
 function getDatebaseName(companyName){
 
@@ -2158,6 +2163,63 @@ async function getActiveComponentsValuesForPayGroup(req,res){
 
     }
 }
+/**getStateForEsi */
+async function getStateForEsi(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+       console.log( "getStateForEsi",req.params.companyName,dbName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_states_for_esi`()", async function (err, result, fields) {
+               console.log("result",result,err)
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getStateForEsi");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray);  
+                    res.send({status:false})             
+                }
+                else{
+                    if(result && result[0] && result[0].length>0){
+                        res.send({status:true,data:result[0]})
+                    }
+                    else{
+                        res.send({status:false})
+                    }
+
+                }
+                
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getStateForEsi");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs(errorLogArray);
+
+    }
+}
 /**assignPayGroup*/
 async function assignPayGroup(req,res){
     try {
@@ -2662,6 +2724,159 @@ async function otherAllowancePopup(req,res){
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
         errorLogs(errorLogArray);
+    }
+}
+
+/**assignPayGroup*/
+async function setEsiForState(req,res){
+    try {
+        console.log("data",req.body)
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `set_esi_for_state` (?,?)",[req.body.esi_number ,req.body.state_id] ,async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("setEsiForState");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray);  
+                    res.send({status:false})             
+                }
+                else{
+                    res.send({status:true,data:result})
+                }
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('assignPayGroup :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("setEsiForState");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+/**setCompanyEsiValues */
+async function setCompanyEsiValues(req,res){
+    try {
+        console.log("data",req.body)
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            // listOfConnections[companyName].query("CALL `set_company_esi_values` (?)",[Number(req.body.include_employer_contribution_in_ctc)] ,async function (err, result, fields) {
+            //     if (err) {
+            //         let errorLogArray = [];
+            //         errorLogArray.push("PAYROLLAPI");
+            //         errorLogArray.push("setCompanyEsiValues");
+            //         errorLogArray.push("POST");
+            //         errorLogArray.push(JSON.stringify(req.body));
+            //         errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+            //         errorLogArray.push(null);
+            //         errorLogArray.push(companyName);
+            //         errorLogArray.push(dbName);
+            //          await errorLogs(errorLogArray);  
+            //         res.send({status:false})             
+            //     }
+            //     else{
+            //         res.send({status:true,data:result})
+            //     }
+            // });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('assignPayGroup :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("setCompanyEsiValues");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+async function getCompanyEsiValues(req,res){
+    try {
+        console.log("data",req.body)
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            // listOfConnections[companyName].query("CALL `set_company_esi_values` (?)",[Number(req.body.include_employer_contribution_in_ctc)] ,async function (err, result, fields) {
+            //     if (err) {
+            //         let errorLogArray = [];
+            //         errorLogArray.push("PAYROLLAPI");
+            //         errorLogArray.push("getCompanyEsiValues");
+            //         errorLogArray.push("get");
+            //         errorLogArray.push();
+            //         errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+            //         errorLogArray.push(null);
+            //         errorLogArray.push(companyName);
+            //         errorLogArray.push(dbName);
+            //          await errorLogs(errorLogArray);  
+            //         res.send({status:false})             
+            //     }
+            //     else{
+            //         res.send({status:true,data:result})
+            //     }
+            // });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('assignPayGroup :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getCompanyEsiValues");
+        errorLogArray.push("get");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
     }
 }
 /** error logs */

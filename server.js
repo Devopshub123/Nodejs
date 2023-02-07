@@ -1812,11 +1812,11 @@ app.post('/api/setCompanyInformation',verifyJWTToken,function(req,res) {
 
 
 /**getstates */
-app.get('/api/getStates/:id/:companyName',verifyJWTToken,function(req,res){
+app.get('/api/getStates/:id/:companyName',function(req,res){
    admin.getStates(req,res)
 })
 /**get Cities */
-app.get('/api/getCities/:id/:companyName',verifyJWTToken,function(req,res){
+app.get('/api/getCities/:id/:companyName',function(req,res){
     admin.getCities(req,res)
 })
 
@@ -2654,6 +2654,23 @@ app.post('/api/setHolidaysMaster',verifyJWTToken, function (req, res) {
 /**otherAllowancePopup */
 app.get('/api/otherAllowancePopup/:pgid/:companyName',function (req, res) {
     payroll.otherAllowancePopup(req,res);
+});
+/**getStateForEsi */
+app.get('/api/getStateForEsi/:companyName',verifyJWTToken,function (req, res) {
+    payroll.getStateForEsi(req,res);
+});
+/**set_esi_for_state */
+app.post('/api/setEsiForState',verifyJWTToken, function (req, res) {
+    payroll.setEsiForState(req,res)
+});
+
+// set_company_esi_values
+app.post('/api/setCompanyEsiValues',verifyJWTToken, function (req, res) {
+    payroll.setCompanyEsiValues(req,res)
+});
+/** */
+app.get('/api/getCompanyEsiValues',verifyJWTToken, function (req, res) {
+    payroll.getCompanyEsiValues(req,res)
 });
 
 
