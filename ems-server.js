@@ -164,7 +164,6 @@ async function setNewHire(req, res) {
         let companyName =req.body.companyName;
         let dbName = await getDatebaseName(companyName);
         let loginToken = req.body.loginToken;
-        console.log("tok--",loginToken)
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -173,6 +172,7 @@ async function setNewHire(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_new_hire` (?)", [JSON.stringify(req.body)],
                 async function (err, result, fields) {
+                    console.log("reg-",result[0][0].statuscode)
                     if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -2488,8 +2488,8 @@ async function setEmpPersonalInfo(req, res) {
                     res.send({ status: false });
                 } else {
                    if (result && result[0][0].statuscode == 0) {
-                        res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
-                        getEmailsByEmpid(result[0][0].empid);
+                       res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
+                       getEmailsByEmpid(result[0][0].empid,companyName);
                       
                     } else if (result && result[0][0].statuscode == 2) {
                       res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
@@ -3418,6 +3418,7 @@ async function getUserLoginData(req, res) {
 }
 
 async function usersLogin(req, res) {
+    console.log("req.body",req.body)
   try {
     let array=[{
         empname:req.body.empname,
@@ -3445,6 +3446,7 @@ async function usersLogin(req, res) {
         "N",
       ],
                 async function (err, result) {
+                    console.log("eress===",result)
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
@@ -3455,10 +3457,11 @@ async function usersLogin(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                       errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (array[0].email != '' && array[0].email != null) {
+                            console.log("array[0]");
                                 sendEmailToEmployeeAboutLogins(array, result);
                             }
                             res.send({ status: true });
@@ -3940,6 +3943,9 @@ async function getEmailsByEmpid(req, res) {
             }
         listOfConnections[companyName].query("CALL `get_emails_by_empid` (?)", [req], async function (err, result, fields) {
             emailComponentData = [];
+            console.log("err",err)
+            console.log("res",result[0][0])
+          
             if (err) {
                 let errorLogArray = [];
                 errorLogArray.push("EMSAPI");
@@ -3950,11 +3956,12 @@ async function getEmailsByEmpid(req, res) {
                 errorLogArray.push(null);
                 errorLogArray.push(companyName);
                 errorLogArray.push(dbName);
-                errorLogs = await errorLogs(errorLogArray);
+                errorLogs(errorLogArray);
                 res.send({ status: false })
             } else {
                 if (result && result.length > 0) {
                     emailComponentData = result[0][0];
+                    console.log("emailComponentData",emailComponentData)
                     sendEmailToAdminAboutNewHire(emailComponentData);
                     sendEmailToChecklistManager(emailComponentData);
                 } else {
@@ -3988,7 +3995,8 @@ async function getEmailsByEmpid(req, res) {
 /** send email to Admin About NewHire */
 function sendEmailToAdminAboutNewHire(mailData){
     try {
-       let data = JSON.parse(mailData.jsonvalu)[0];
+        let data = JSON.parse(mailData.jsonvalu)[0];
+        console.log("email--",data)
          let email = data.admin_email
         let empname = data.emp_name;
         var transporter = nodemailer.createTransport({
@@ -4042,6 +4050,8 @@ function sendEmailToAdminAboutNewHire(mailData){
 
 /** send email to employee About logins */
 function sendEmailToEmployeeAboutLogins(maileData, result) {
+    console.log("asfsadfa--",maileData)
+    console.log("asf--",maileData[0])
   try {
     let email = maileData[0].email;
     var transporter = nodemailer.createTransport({
