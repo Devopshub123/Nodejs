@@ -1038,7 +1038,7 @@ app.post('/ems/api/setTerminationCategory/', verifyJWTToken,function(req,res) {
  /** EMS
  * set candidate pre onboarding details
  */
-  app.post('/ems/api/setPreonboardCandidateInformation',verifyJWTToken, function(req,res) {
+  app.post('/ems/api/setPreonboardCandidateInformation',function(req,res) {
    ems.setPreonboardCandidateInformation(req,res);
  });
 
@@ -1046,7 +1046,6 @@ app.post('/ems/api/setTerminationCategory/', verifyJWTToken,function(req,res) {
  * get candidate list
  */
  app.get('/ems/api/getCandidateDetails/:emp_Id/:companyName', function(req,res) {
-    console.log("t3")
     ems.getCandidateDetails(req, res);
 });
 
@@ -1085,13 +1084,13 @@ app.post('/ems/api/setTerminationCategory/', verifyJWTToken,function(req,res) {
 
 
   /** set onboard candidate work experience */
-  app.post('/ems/api/setCandidateExperience',verifyJWTToken,function(req,res) {
+  app.post('/ems/api/setCandidateExperience',function(req,res) {
 
     ems.setCandidateExperience(req, res);
   });
 
     /** set onboard candidate education */
-    app.post('/ems/api/setCandidateEducation',verifyJWTToken, function(req,res) {
+    app.post('/ems/api/setCandidateEducation',function(req,res) {
         ems.setCandidateEducation(req, res);
     });
 
@@ -1133,6 +1132,9 @@ app.post('/ems/api/setTerminationCategory/', verifyJWTToken,function(req,res) {
     app.post('/ems/api/getFilecategoryMasterForEMS',verifyJWTToken,function(req,res){
         ems.getFilecategoryMasterForEMS(req,res)
     });
+    app.post('/ems/api/getFilecategoryMasterForEMSPreonboarding',function(req,res){
+        ems.getFilecategoryMasterForEMS(req,res)
+    });
 
 
   /** EMS set employee master details */
@@ -1168,8 +1170,17 @@ app.post('/ems/api/setTerminationCategory/', verifyJWTToken,function(req,res) {
         ems.getFilepathsMasterForEMS(req,res)
     })
 
+ /**getFilepathsMasterForEMS */
+          app.get('/ems/api/getFilepathsMasterForEMSPreonboarding/:moduleId/:companyName',function(req,res){
+            ems.getFilepathsMasterForEMS(req,res)
+        })
+
    /**setFilesMasterForEMS */
    app.post('/ems/api/setFilesMasterForEMS/',verifyJWTToken,function(req,res){
+    ems.setFilesMasterForEMS(req,res)
+   })
+       /**setFilesMasterForEMS */
+   app.post('/ems/api/setFilesMasterForEMSPreonboarding/',function(req,res){
     ems.setFilesMasterForEMS(req,res)
     })
 
@@ -1210,6 +1221,10 @@ app.post('/ems/api/getDocumentOrImagesForEMS/',verifyJWTToken,function(req,res){
     ems.getDocumentOrImagesForEMS(req,res)
     })
 
+        /**getDocumentsForEMS */
+app.post('/ems/api/getDocumentOrImagesForEMSPreonboarding/',function(req,res){
+    ems.getDocumentOrImagesForEMS(req,res)
+    })
 
     /**removeDocumentOrImagesForEMS LOCAL */
     app.delete('/ems/api/removeDocumentOrImagesForEMS/:companyName/:path',verifyJWTToken,function(req,res){
@@ -1232,9 +1247,12 @@ app.post('/ems/api/getDocumentOrImagesForEMS/',verifyJWTToken,function(req,res){
 });
 
 /**
- * Delete Files Master
  * */
  app.post('/ems/api/Messages',verifyJWTToken, function(req,res) {
+    ems.Messages(req,res);
+
+ });
+ app.post('/ems/api/MessagesPreonboarding',function(req,res) {
     ems.Messages(req,res);
 
 });
@@ -2644,6 +2662,9 @@ app.get('/api/getComponentConfiguredValuesForPayGroup/:pgmid/:flat/:companyName'
 
 /**getDocumentsFiles */
 app.post('/ems/api/getDocumentsFiles/',verifyJWTToken,function(req,res){
+    ems.getDocumentsFiles(req, res)
+})
+app.post('/ems/api/getDocumentsFilesPreonboarding/',function(req,res){
     ems.getDocumentsFiles(req, res)
 })
 

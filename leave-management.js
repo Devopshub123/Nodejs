@@ -1254,7 +1254,8 @@ async function deleteFilesMaster(req,res){
 
 }
 
-async function getFilesMaster(req,res){
+async function getFilesMaster(req, res) {
+    console.log("reqdata--",req.body)
     try {
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -1727,11 +1728,12 @@ async function getProfileImage(req, res) {
     // }
 
         /**For Local Document Upload */
+        console.log("req.body",req.body)
     try{
         folderName = req.body.filepath;
         var imageData={}
         var flag=false;
-        fs.readFile(folderName+req.body.filename,async function(err,result){
+        fs.readFile(folderName + req.body.filename, async function (err, result) {
             if(err){
                 let companyName =req.params.companyName;
                 let  dbName = await getDatebaseName(companyName)

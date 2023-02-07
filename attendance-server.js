@@ -587,7 +587,7 @@ async function setemployeeattendanceregularization(req, res) {
                 [req.body.id, req.body.empid, parseInt(req.body.shiftid), req.body.fromdate, req.body.todate,
                     req.body.logintime, req.body.logouttime, req.body.worktype, req.body.reason, parseInt(req.body.raisedby),
                     req.body.approvercomments, req.body.actionby, req.body.status], async function (err, result, fields) {
-                        if (err) {
+                     if (err) {
                             let errorLogArray = [];
                             errorLogArray.push("ATTENDANCEAPI");
                             errorLogArray.push("setemployeeattendanceregularization");

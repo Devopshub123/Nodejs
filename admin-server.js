@@ -258,7 +258,8 @@ async function putDesignation(req,res) {
             infoDesignationMaster.updated_by = req.body.updated_by;
             listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)", ['designationsmaster', 'id', req.body.id, JSON.stringify(infoDesignationMaster)],
                 async function (err, result, fields) {
-
+console.log("err--",err)
+console.log("result--",result)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("AdminAPI");
@@ -269,7 +270,7 @@ async function putDesignation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update designation'});
                 } else {
                     res.send({status: true,message:'Designation updated successfully'})

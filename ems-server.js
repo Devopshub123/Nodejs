@@ -158,11 +158,12 @@ module.exports = {
 };
 
 //// set new hire list
-async function setNewHire(req,res) {
+async function setNewHire(req, res) {
     try {
         let emailData = req.body;
         let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
+        let dbName = await getDatebaseName(companyName);
+        let loginToken = req.body.loginToken;
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -171,6 +172,7 @@ async function setNewHire(req,res) {
             }
             listOfConnections[companyName].query("CALL `set_new_hire` (?)", [JSON.stringify(req.body)],
                 async function (err, result, fields) {
+                    console.log("reg-",result[0][0].statuscode)
                     if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -199,11 +201,11 @@ async function setNewHire(req,res) {
                                     pass: 'Sreeb@#321'
                                 }
                             });
-                            var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate() }))).toString('base64')
+                            var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate(),loginToken:loginToken }))).toString('base64')
                             /**Local */
-                            var url = 'http://localhost:4200/#/pre-onboarding/' + token;
+                            // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                            //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                             /**AWS */
                             // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
                         
@@ -1417,7 +1419,7 @@ async function setPreonboardCandidateInformation(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                   errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2251,6 +2253,8 @@ async function getEmployeesForProgramSchedule(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employees_for_program_schedule` (?)", [JSON.parse(req.params.id)], async function (err, result, fields) {
+              console.log("err--",err)
+              console.log("re--",result[0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -2261,7 +2265,7 @@ async function getEmployeesForProgramSchedule(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2484,8 +2488,8 @@ async function setEmpPersonalInfo(req, res) {
                     res.send({ status: false });
                 } else {
                    if (result && result[0][0].statuscode == 0) {
-                        res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
-                        getEmailsByEmpid(result[0][0].empid);
+                       res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
+                       getEmailsByEmpid(result[0][0].empid,companyName);
                       
                     } else if (result && result[0][0].statuscode == 2) {
                       res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
@@ -3108,13 +3112,11 @@ async function setDocumentOrImageForEMS(req, res) {
                                 errorLogs(errorLogArray);
                                 
                             } else {
-                                console.log("dat-04", folderName),
                                 res.send({
                                     status: true,
                                     message: "Image Uploaded Succesfully",
                                 });
                                 if (req.body.data != "Approved") {
-                                    console.log("rva-", emailData)
                                     if (emailData.rm_email != '' || emailData.rm_name != null) [
                                         documentApprovalEmailToHR(emailData)
                                     ]
@@ -3238,7 +3240,7 @@ async function setFilesMasterForEMS(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                       errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -3416,6 +3418,7 @@ async function getUserLoginData(req, res) {
 }
 
 async function usersLogin(req, res) {
+    console.log("req.body",req.body)
   try {
     let array=[{
         empname:req.body.empname,
@@ -3443,6 +3446,7 @@ async function usersLogin(req, res) {
         "N",
       ],
                 async function (err, result) {
+                    console.log("eress===",result)
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
@@ -3453,10 +3457,11 @@ async function usersLogin(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                       errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (array[0].email != '' && array[0].email != null) {
+                            console.log("array[0]");
                                 sendEmailToEmployeeAboutLogins(array, result);
                             }
                             res.send({ status: true });
@@ -3938,6 +3943,9 @@ async function getEmailsByEmpid(req, res) {
             }
         listOfConnections[companyName].query("CALL `get_emails_by_empid` (?)", [req], async function (err, result, fields) {
             emailComponentData = [];
+            console.log("err",err)
+            console.log("res",result[0][0])
+          
             if (err) {
                 let errorLogArray = [];
                 errorLogArray.push("EMSAPI");
@@ -3948,11 +3956,12 @@ async function getEmailsByEmpid(req, res) {
                 errorLogArray.push(null);
                 errorLogArray.push(companyName);
                 errorLogArray.push(dbName);
-                errorLogs = await errorLogs(errorLogArray);
+                errorLogs(errorLogArray);
                 res.send({ status: false })
             } else {
                 if (result && result.length > 0) {
                     emailComponentData = result[0][0];
+                    console.log("emailComponentData",emailComponentData)
                     sendEmailToAdminAboutNewHire(emailComponentData);
                     sendEmailToChecklistManager(emailComponentData);
                 } else {
@@ -3986,7 +3995,8 @@ async function getEmailsByEmpid(req, res) {
 /** send email to Admin About NewHire */
 function sendEmailToAdminAboutNewHire(mailData){
     try {
-       let data = JSON.parse(mailData.jsonvalu)[0];
+        let data = JSON.parse(mailData.jsonvalu)[0];
+        console.log("email--",data)
          let email = data.admin_email
         let empname = data.emp_name;
         var transporter = nodemailer.createTransport({
@@ -4040,6 +4050,8 @@ function sendEmailToAdminAboutNewHire(mailData){
 
 /** send email to employee About logins */
 function sendEmailToEmployeeAboutLogins(maileData, result) {
+    console.log("asfsadfa--",maileData)
+    console.log("asf--",maileData[0])
   try {
     let email = maileData[0].email;
     var transporter = nodemailer.createTransport({
@@ -5855,7 +5867,7 @@ function compOffApprovalRequestEmail(mailData){
     <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
   
     <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A comp-off request by ${mailData[0].emp_name} has been Approved by ${mailData[0].rm_name} On 19/11/2022</p>
+    <p style="color:black">A comp-off request by ${mailData[0].emp_name} has been Approved by ${mailData[0].rm_name}</p>
     
      <p style="color:black">Worked Date:</p>
          <p style="color:black">Worked Hours:</p>
@@ -5910,7 +5922,7 @@ function compOffRejectRequestEmail(mailData){
     <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
   
     <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A comp-off request by ${mailData[0].emp_name} has been Rejected by ${mailData[0].rm_name} On 19/11/2022 </p>
+    <p style="color:black">A comp-off request by ${mailData[0].emp_name} has been Rejected by ${mailData[0].rm_name}</p>
     
      <p style="color:black">Worked Date:</p>
          <p style="color:black">Worked Hours:</p>
