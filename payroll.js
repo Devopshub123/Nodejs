@@ -1723,7 +1723,10 @@ async function updateMonthlySalary(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
+            console.log("data",req.body)
             listOfConnections[companyName].query("CALL `update_monthly_salary` (?,?,?,?,?)",[JSON.stringify(req.body.employee_list),req.body.year_value, req.body.month_value ,req.body.financial_year_value,req.body.created_by_value] ,async function (err, result, fields) {
+                console.log("err",err);
+                console.log("result",result)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -1734,7 +1737,7 @@ async function updateMonthlySalary(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     await errorLogs(errorLogArray);  
+                     errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                  else{
@@ -2751,7 +2754,7 @@ async function setEsiForState(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     await errorLogs(errorLogArray);  
+                     errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2791,24 +2794,26 @@ async function setCompanyEsiValues(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            // listOfConnections[companyName].query("CALL `set_company_esi_values` (?)",[Number(req.body.include_employer_contribution_in_ctc)] ,async function (err, result, fields) {
-            //     if (err) {
-            //         let errorLogArray = [];
-            //         errorLogArray.push("PAYROLLAPI");
-            //         errorLogArray.push("setCompanyEsiValues");
-            //         errorLogArray.push("POST");
-            //         errorLogArray.push(JSON.stringify(req.body));
-            //         errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-            //         errorLogArray.push(null);
-            //         errorLogArray.push(companyName);
-            //         errorLogArray.push(dbName);
-            //          await errorLogs(errorLogArray);  
-            //         res.send({status:false})             
-            //     }
-            //     else{
-            //         res.send({status:true,data:result})
-            //     }
-            // });
+            listOfConnections[companyName].query("CALL `set_company_esi_values` (?)",[Number(req.body.include_employer_contribution_in_ctc)] ,async function (err, result, fields) {
+                console.log("err",err);
+                console.log("result",result);
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("setCompanyEsiValues");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray);  
+                    res.send({status:false})             
+                }
+                else{
+                    res.send({status:true,data:result})
+                }
+            });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }
@@ -2831,7 +2836,7 @@ async function setCompanyEsiValues(req,res){
 }
 async function getCompanyEsiValues(req,res){
     try {
-        console.log("data",req.body)
+        console.log("data",req.params)
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.body.companyName;
 
@@ -2841,24 +2846,24 @@ async function getCompanyEsiValues(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            // listOfConnections[companyName].query("CALL `set_company_esi_values` (?)",[Number(req.body.include_employer_contribution_in_ctc)] ,async function (err, result, fields) {
-            //     if (err) {
-            //         let errorLogArray = [];
-            //         errorLogArray.push("PAYROLLAPI");
-            //         errorLogArray.push("getCompanyEsiValues");
-            //         errorLogArray.push("get");
-            //         errorLogArray.push();
-            //         errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-            //         errorLogArray.push(null);
-            //         errorLogArray.push(companyName);
-            //         errorLogArray.push(dbName);
-            //          await errorLogs(errorLogArray);  
-            //         res.send({status:false})             
-            //     }
-            //     else{
-            //         res.send({status:true,data:result})
-            //     }
-            // });
+            listOfConnections[companyName].query("CALL `get_esi_for_states` ()",async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEsiForStates");
+                    errorLogArray.push("get");
+                    errorLogArray.push();
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray);  
+                    res.send({status:false})             
+                }
+                else{
+                    res.send({status:true,data:result})
+                }
+            });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }

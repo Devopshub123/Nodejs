@@ -1544,7 +1544,7 @@ app.delete('/api/removeImage/:path',function(req,res){
     leaveManagement.getFilepathsMaster(req,res);
 
 });
-app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',function(req,res) {
+app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',verifyJWTToken,function(req,res) {
 
     common.getMastertable(req,res)
 });
@@ -2689,8 +2689,8 @@ app.post('/api/setEsiForState',verifyJWTToken, function (req, res) {
 app.post('/api/setCompanyEsiValues',verifyJWTToken, function (req, res) {
     payroll.setCompanyEsiValues(req,res)
 });
-/** */
-app.get('/api/getCompanyEsiValues',verifyJWTToken, function (req, res) {
+/** api/getCompanyEsiValues/*/
+app.get('/api/getCompanyEsiValues/:companyName',verifyJWTToken, function (req, res) {
     payroll.getCompanyEsiValues(req,res)
 });
 
