@@ -2693,7 +2693,10 @@ app.post('/api/setCompanyEsiValues',verifyJWTToken, function (req, res) {
 app.get('/api/getCompanyEsiValues/:companyName',verifyJWTToken, function (req, res) {
     payroll.getCompanyEsiValues(req,res)
 });
-
+/**get_esi_employer_contribution */
+app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function (req, res) {
+    payroll.getEsiEmployerContribution(req,res)
+});
 
 
 

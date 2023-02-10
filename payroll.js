@@ -69,7 +69,8 @@ module.exports = {
     getStateForEsi:getStateForEsi,
     setCompanyEsiValues:setCompanyEsiValues,
     setEsiForState:setEsiForState,
-    getCompanyEsiValues:getCompanyEsiValues
+    getCompanyEsiValues:getCompanyEsiValues,
+    getEsiEmployerContribution:getEsiEmployerContribution
     
 };
 function getDatebaseName(companyName){
@@ -2874,6 +2875,56 @@ async function getCompanyEsiValues(req,res){
         let errorLogArray = [];
         errorLogArray.push("PAYROLLAPI");
         errorLogArray.push("getCompanyEsiValues");
+        errorLogArray.push("get");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+/**getEsiEmployerContribution */
+async function getEsiEmployerContribution(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_esi_employer_contribution` ()",async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEsiEmployerContribution");
+                    errorLogArray.push("get");
+                    errorLogArray.push();
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     errorLogs(errorLogArray);  
+                    res.send({status:false})             
+                }
+                else{
+                    res.send({status:true,data:result})
+                }
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('assignPayGroup :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEsiEmployerContribution");
         errorLogArray.push("get");
         errorLogArray.push("");
         errorLogArray.push( e.message);
