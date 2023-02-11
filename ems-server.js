@@ -3949,7 +3949,7 @@ async function getEmailsByEmpid(req, res) {
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-        listOfConnections[companyName].query("CALL `get_emails_by_empid` (?)", [req.empiid], async function (err, result, fields) {
+        listOfConnections[companyName].query("CALL `get_emails_by_empid` (?)", [req.empid], async function (err, result, fields) {
             emailComponentData = [];
             console.log("err",err)
             console.log("res",result[0][0])
@@ -4003,9 +4003,9 @@ async function getEmailsByEmpid(req, res) {
 /** send email to Admin About NewHire */
 function sendEmailToAdminAboutNewHire(mailData) {
     console.log("sent",mailData)
-    console.log("sent",JSON.parse(mailData.jsonvalu))
+    console.log("sendEmailToAdminAboutNewHire",JSON.parse(mailData.jsonvalu)[0])
     try {
-        let data = JSON.parse(mailData.jsonvalu);
+        let data = JSON.parse(mailData.jsonvalu)[0];
         console.log("email--",data)
          let email = data.admin_email
         let empname = data.emp_name;
@@ -4045,7 +4045,7 @@ function sendEmailToAdminAboutNewHire(mailData) {
         };
          transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
-                console.log("Failed To Sent  Mail",error)
+                console.log("Failed To Sent  Mail for",error)
             } else {
                 console.log("Mail Sent Successfully")
             }
