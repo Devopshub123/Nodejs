@@ -2474,6 +2474,7 @@ async function setEmpPersonalInfo(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
+                console.log("err--",err);
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -2487,9 +2488,16 @@ async function setEmpPersonalInfo(req, res) {
                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
-                   if (result && result[0][0].statuscode == 0) {
-                       res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
-                       getEmailsByEmpid(result[0][0].empid,companyName);
+                    if (result && result[0][0].statuscode == 0) {
+                        res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
+                        console.log("resreq--", result[0][0].empid);
+                        console.log("cname--", companyName);
+                        let edata = {
+                            empid: result[0][0].empid,
+                            cname:companyName
+                        }
+                        console.log("edta--", edata);
+                       getEmailsByEmpid(edata);
                       
                     } else if (result && result[0][0].statuscode == 2) {
                       res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
@@ -3931,9 +3939,9 @@ async function setprogramspasterstatus(req, res) {
 }
 
 async function getEmailsByEmpid(req, res) {
- 
+    console.log("emreq--", req);
     try {
-        let companyName = req.params.companyName;
+        let companyName = req.cname;
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
         if (dbName) {
@@ -3941,7 +3949,7 @@ async function getEmailsByEmpid(req, res) {
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-        listOfConnections[companyName].query("CALL `get_emails_by_empid` (?)", [req], async function (err, result, fields) {
+        listOfConnections[companyName].query("CALL `get_emails_by_empid` (?)", [req.empiid], async function (err, result, fields) {
             emailComponentData = [];
             console.log("err",err)
             console.log("res",result[0][0])
@@ -3993,9 +4001,11 @@ async function getEmailsByEmpid(req, res) {
 
 
 /** send email to Admin About NewHire */
-function sendEmailToAdminAboutNewHire(mailData){
+function sendEmailToAdminAboutNewHire(mailData) {
+    console.log("sent",mailData)
+    console.log("sent",JSON.parse(mailData.jsonvalu))
     try {
-        let data = JSON.parse(mailData.jsonvalu)[0];
+        let data = JSON.parse(mailData.jsonvalu);
         console.log("email--",data)
          let email = data.admin_email
         let empname = data.emp_name;

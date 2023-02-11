@@ -1545,9 +1545,12 @@ app.delete('/api/removeImage/:path',function(req,res){
 
 });
 app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',verifyJWTToken,function(req,res) {
-
-    common.getMastertable(req,res)
+ common.getMastertable(req,res)
 });
+/**pre onboardin master table */
+app.get('/api/getMastertablePreonboarding/:tableName/:status/:page/:size/:companyName',function(req,res) {
+     common.getMastertable(req,res)
+    });
 
 app.post('/attendance/api/getEmployeeAttendanceNotifications', verifyJWTToken,function (req, res) {
      attendance.getEmployeeAttendanceNotifications(req,res)
