@@ -2534,6 +2534,10 @@ app.post('/payroll/api/setErrorMessages/:companyName',verifyJWTToken, function (
 app.get('/api/getEmployeeDurationsForSalaryDisplay/:id/:companyName',verifyJWTToken,function(req,res){
     payroll.getEmployeeDurationsForSalaryDisplay(req,res);
 });
+/**getEmployee ctc Durations For Salary Display */
+app.get('/api/getEmployeeCtcDurations/:id/:companyName',verifyJWTToken,function(req,res){
+    payroll.getEmployeeCtcDurations(req,res);
+});
 /** getCtcDetails*/
 app.get('/api/getCtcDetails/:eid/:ctcid/:companyName',verifyJWTToken,function(req,res){
     payroll.getCtcDetails(req,res);
@@ -2710,21 +2714,21 @@ app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function 
 
 
 ///** */
-app.listen(6060,function (err) {
-    if (err)
-        console.log('Server Cant Start ...Erorr....');
-    else
-        console.log('Server Started at : http://localhost:6060');
-});
-
-/** uncomment in QA build time */
-
-// app.listen(202,'0.0.0.0',function (err) {
+// app.listen(6060,function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://122.175.62.210:202');
+//         console.log('Server Started at : http://localhost:6060');
 // });
+
+/** uncomment in QA build time */
+
+app.listen(202,'0.0.0.0',function (err) {
+    if (err)
+        console.log('Server Cant Start ...Erorr....');
+    else
+        console.log('Server Started at :  http://122.175.62.210:202');
+});
 
 /** uncomment in AWS_Prod build time */
 

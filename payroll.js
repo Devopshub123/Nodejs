@@ -70,7 +70,8 @@ module.exports = {
     setCompanyEsiValues:setCompanyEsiValues,
     setEsiForState:setEsiForState,
     getCompanyEsiValues:getCompanyEsiValues,
-    getEsiEmployerContribution:getEsiEmployerContribution
+    getEsiEmployerContribution: getEsiEmployerContribution,
+    getEmployeeCtcDurations:getEmployeeCtcDurations
     
 };
 function getDatebaseName(companyName){
@@ -827,6 +828,65 @@ async function getEmployeeDurationsForSalaryDisplay(req,res){
 
     }
 }
+
+/**CTC Duration */
+async function getEmployeeCtcDurations(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_employee_ctc_durations` (?)", [JSON.parse(req.params.id)], async function (err, result, fields) {
+             console.log("err-",err)
+             console.log("ress-",result)
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEmployeeCtcDurations");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray);               
+                }
+                else{
+                    if(result && result[0] && result[0].length>0){              
+                        res.send({status:true,data:result});
+                     }
+                     else{
+                         res.send({status:false});
+                     }
+                }
+                
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+         let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEmployeeCtcDurations");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+
+
 // app.get('/api/getEmployeeDurationsForSalaryDisplay/:id',function(req,res){
 //     try{
 //         con.query("CALL `get_employee_durations_for_salary_display` (?)", [JSON.parse(req.params.id)], function (err, result, fields) {
