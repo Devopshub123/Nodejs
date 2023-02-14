@@ -1255,7 +1255,6 @@ async function deleteFilesMaster(req,res){
 }
 
 async function getFilesMaster(req, res) {
-    console.log("reqdata--",req.body)
     try {
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -2650,8 +2649,8 @@ async function getCarryforwardedLeaveMaxCount(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_carryforwarded_leave_max_count` (?)",
-                [req.params.leaveId],
+            listOfConnections[companyName].query("CALL `get_carryforwarded_leave_max_count` ()",
+                [],
                 async function (err, result, fields) {
                     if (err) {
                         let errorLogArray = [];

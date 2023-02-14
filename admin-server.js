@@ -1377,6 +1377,7 @@ async function getLeaveTypesForAdvancedLeave(req,res) {
 
 async function setLeavePolicies(req,res) {
     let ruleData = req.body.ruleData;
+    console.log("rdata--",ruleData)
     try{
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -1388,6 +1389,8 @@ async function setLeavePolicies(req,res) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
         listOfConnections[companyName].query("CALL `setleavepolicies` (?)",[JSON.stringify(ruleData)], async function (err, result, fields) {
+          console.log("err--",err)
+          console.log("ress--",result)
             if (err) {
                 let errorLogArray = [];
     errorLogArray.push("AdminAPI");
@@ -1398,7 +1401,7 @@ async function setLeavePolicies(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+    errorLogs(errorLogArray);
                 res.send({message: 'Unable to update leave policy', status: false})
             }else{
                 res.send({message: "Rules updated successfully", status: true})

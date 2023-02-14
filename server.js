@@ -1372,7 +1372,6 @@ app.post('/ems/api/setprogramspasterstatus/', verifyJWTToken,function(req,res) {
 });
 
 app.get('/ems/api/getEmailsByEmpid/:eid/:companyName',verifyJWTToken, function (req, res) {
-    // ems.getEmailsByEmpid(req,res)
     ems.getEmployeeEmailData(req,res)
 
 })

@@ -1729,6 +1729,8 @@ async function setEmployeeResignation(req,res) {
             }
             listOfConnections[companyName].query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)],
                 async function (err, result, fields) {
+                    console.log("er-",err)
+                    console.log("ress-",result[0][0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -1739,7 +1741,7 @@ async function setEmployeeResignation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                   errorLogs(errorLogArray);
                     res.send({ status: false, statusCode: req.body.resg_status })
                 } else {
                     if (result) {
@@ -2474,7 +2476,7 @@ async function setEmpPersonalInfo(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
-                console.log("err--",err);
+             
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -2488,15 +2490,14 @@ async function setEmpPersonalInfo(req, res) {
                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
+                    console.log("err-",err)
+                    console.log("resss-",result[0][0])
                     if (result && result[0][0].statuscode == 0) {
                         res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
-                        console.log("resreq--", result[0][0].empid);
-                        console.log("cname--", companyName);
                         let edata = {
                             empid: result[0][0].empid,
                             cname:companyName
                         }
-                        console.log("edta--", edata);
                        getEmailsByEmpid(edata);
                       
                     } else if (result && result[0][0].statuscode == 2) {
@@ -3091,6 +3092,7 @@ async function setDocumentOrImageForEMS(req, res) {
         var folderName = localPath.filepath;
         console.log("dat-01",req.body)
         if (req.body.email != undefined) {
+            console.log("eda-1",req.body.email)
             emailData = JSON.parse(req.body.email);
           }
         try {
@@ -3151,6 +3153,7 @@ async function setDocumentOrImageForEMS(req, res) {
             }
         }
         catch (e) {
+            console.log("e-01",e)
             res.send({status: false});
             let companyName =req.body.companyName;
             let  dbName = await getDatebaseName(companyName)
@@ -3166,6 +3169,7 @@ async function setDocumentOrImageForEMS(req, res) {
             errorLogs = await errorLogs(errorLogArray)
         }
     } catch (e) {
+        console.log("e-02",e)
         res.send({ status: false });
         let companyName =req.body.companyName;
         let  dbName = await getDatebaseName(companyName)
@@ -3939,7 +3943,7 @@ async function setprogramspasterstatus(req, res) {
 }
 
 async function getEmailsByEmpid(req, res) {
-    console.log("emreq--", req);
+    console.log("sdf",req.cname)
     try {
         let companyName = req.cname;
         let dbName = await getDatebaseName(companyName)
@@ -3951,10 +3955,7 @@ async function getEmailsByEmpid(req, res) {
             }
         listOfConnections[companyName].query("CALL `get_emails_by_empid` (?)", [req.empid], async function (err, result, fields) {
             emailComponentData = [];
-            console.log("err",err)
-            console.log("res",result[0][0])
-          
-            if (err) {
+              if (err) {
                 let errorLogArray = [];
                 errorLogArray.push("EMSAPI");
                 errorLogArray.push("getEmailsByEmpid");
@@ -3969,7 +3970,6 @@ async function getEmailsByEmpid(req, res) {
             } else {
                 if (result && result.length > 0) {
                     emailComponentData = result[0][0];
-                    console.log("emailComponentData",emailComponentData)
                     sendEmailToAdminAboutNewHire(emailComponentData);
                     sendEmailToChecklistManager(emailComponentData);
                 } else {
@@ -6551,7 +6551,7 @@ async function getEmployeeEmailData(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {

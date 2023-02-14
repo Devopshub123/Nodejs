@@ -380,7 +380,9 @@ async function forgetpassword(req, res, next) {
                 res.send({ status: false,message:"notvalid" })
             }
             else if (data.status == 1) {
+                console.log("data--", data);
                 let id = data.id;
+                let login = data.login;
                 const message = email;
                 var transporter = nodemailer.createTransport({
                     host: "smtp-mail.outlook.com", // hostname
@@ -394,7 +396,7 @@ async function forgetpassword(req, res, next) {
                 pass: 'Sreeb@#321'
                     }
                 });
-                var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:req.params.email,date:new Date()}))).toString('base64')
+                var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:login,date:new Date()}))).toString('base64')
 
                 var url = 'http://localhost:4200/#/ResetPassword/'+token
                 // var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
@@ -454,7 +456,9 @@ async function resetpassword(req, res, next) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
         listOfConnections[companyName].query('CALL `setemployeelogin`(?,?,?,?,?)', [id, email, password, 'active', 'N'], function (err, result) {
-           if (err) {
+            console.log("err",err)
+            console.log("ress",result)
+            if (err) {
                 console.log(err)
             }
             else {
