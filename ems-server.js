@@ -3438,7 +3438,8 @@ async function usersLogin(req, res) {
         empid:req.body.empid,
         userid:req.body.userid,
         password: req.body.password,
-        companyname:req.body.companyname}];
+        companyname:req.body.companyname,
+        companycode:req.body.companyName}];
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
     
@@ -3496,7 +3497,7 @@ async function usersLogin(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+    errorLogs(errorLogArray)
   }
 }
 
@@ -3529,7 +3530,7 @@ async function getEmsEmployeeColumnFilterData(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -3556,7 +3557,7 @@ async function getEmsEmployeeColumnFilterData(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+    errorLogs(errorLogArray)
   }
 }
 
@@ -3584,7 +3585,7 @@ async function getOffboardingSettings(req, res) {
                       errorLogArray.push(null);
                       errorLogArray.push(companyName);
                       errorLogArray.push(dbName);
-                      errorLogs = await errorLogs(errorLogArray);
+                      errorLogs(errorLogArray);
                       res.send({ status: false });
                   } else {
                       if (result && result.length > 0) {
@@ -3610,7 +3611,7 @@ async function getOffboardingSettings(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+    errorLogs(errorLogArray)
   }
 }
 
@@ -3639,7 +3640,7 @@ async function setAnnouncements(req, res) {
                       errorLogArray.push(null);
                       errorLogArray.push(companyName);
                       errorLogArray.push(dbName);
-                      errorLogs = await errorLogs(errorLogArray);
+                      errorLogs(errorLogArray);
                       res.send({ status: false });
                   } else {
                       if (
@@ -3672,7 +3673,7 @@ async function setAnnouncements(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+    errorLogs(errorLogArray)
   }
 }
 
@@ -3698,7 +3699,7 @@ async function deleteFilesMaster(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -3726,7 +3727,7 @@ async function deleteFilesMaster(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -3751,7 +3752,7 @@ async function getHrDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -3776,7 +3777,7 @@ async function getHrDetails(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
   }
 }
 
@@ -3802,7 +3803,7 @@ async function getnoticeperiods(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -3829,7 +3830,7 @@ async function getnoticeperiods(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -3912,7 +3913,7 @@ async function setprogramspasterstatus(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result[0][0].successstate == 0) {
@@ -3994,7 +3995,7 @@ async function getEmailsByEmpid(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs(errorLogArray)
     }
 }
 
@@ -4060,8 +4061,6 @@ function sendEmailToAdminAboutNewHire(mailData) {
 
 /** send email to employee About logins */
 function sendEmailToEmployeeAboutLogins(maileData, result) {
-    console.log("asfsadfa--",maileData)
-    console.log("asf--",maileData[0])
   try {
     let email = maileData[0].email;
     var transporter = nodemailer.createTransport({
@@ -4097,8 +4096,9 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
         <p style="color:black">Following are your login credentials:</p>
-        <p style="color:black"><b>Username:</b>${maileData[0].userid}</p>
-        <p style="color:black"><b>Password:</b>${maileData[0].password}</p>
+        <p style="color:black"><b>Company code: </b>${maileData[0].companycode}</p>
+        <p style="color:black"><b>Username: </b>${maileData[0].userid}</p>
+        <p style="color:black"><b>Password: </b>${maileData[0].password}</p>
         <p style="color:black">If you experience any issues logging on into your account, reach out to HR Team.</p>
         
         <p style="color:black">Best Regards,</p>
@@ -4115,7 +4115,6 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
       html: html,
     };
     transporter.sendMail(mailOptions, function (error, info) {
-        console.log(error);
       if (error) {
           console.log("Failed To Sent  Mail",error)
       } else {
