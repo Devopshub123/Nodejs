@@ -601,6 +601,7 @@ async function setemployeeattendanceregularization(req, res) {
                             res.send({ status: false, message: "notSave" });          
                         }
                      else {
+                         console.log("da",result[0][0])
                         if (result[0][0].validity_status == 0) {
                             res.send({ status: true, message: "duplicate" })
                         } else {

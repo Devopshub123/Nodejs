@@ -208,18 +208,18 @@ async function setNewHire(req, res) {
                                var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                             /**AWS */
                             // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
-                        
+                           let mname = emailData.middlename !=null ? emailData.middlename: ' ';
+                           var name = emailData.firstname + mname + emailData.lastname;
                             var html = `<html>
                         <head>
                         <title>Candidate Form</title></head>
                         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
                         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-                        <p style="color:black">Hello,</p>
-                        <p style="color:black">" Thank you for using Spryple HCM. We re really happy to have you! "<b></b></p>
-                        <p style="color:black"> Kindly complete your application here by following link.</p>
+                        <p style="color:black">Dear ${name},</p>
+                        <p style="color:black">" We are excited to have you aboard and look forward to work with you. Click on the below link, fill your details, and submit the form ASAP."<b></b></p>
+                        <p style="color:black"> Please make it a note that, the below link can be deactivated in 24 Hours.</p>
                         <p style="color:black"> <a href="${url}" >${url} </a></p>   
-                        <p style="color:black"> Fill in all the information as per your supporting documents.</p>
-                        <p style="color:black">Thank You!</p>
+                        <p style="color:black">Thank you!</p>
                         <p style="color:black">Human Resources Team.</p>
                         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                         </div></body>
@@ -3438,8 +3438,7 @@ async function usersLogin(req, res) {
         empid:req.body.empid,
         userid:req.body.userid,
         password: req.body.password,
-        companyname:req.body.companyname,
-        companycode:req.body.companyName}];
+        companyname:req.body.companyname}];
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
     
@@ -3497,7 +3496,7 @@ async function usersLogin(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs(errorLogArray)
+    errorLogs = await errorLogs(errorLogArray)
   }
 }
 
@@ -3530,7 +3529,7 @@ async function getEmsEmployeeColumnFilterData(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs(errorLogArray);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -3557,7 +3556,7 @@ async function getEmsEmployeeColumnFilterData(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs(errorLogArray)
+    errorLogs = await errorLogs(errorLogArray)
   }
 }
 
@@ -3585,7 +3584,7 @@ async function getOffboardingSettings(req, res) {
                       errorLogArray.push(null);
                       errorLogArray.push(companyName);
                       errorLogArray.push(dbName);
-                      errorLogs(errorLogArray);
+                      errorLogs = await errorLogs(errorLogArray);
                       res.send({ status: false });
                   } else {
                       if (result && result.length > 0) {
@@ -3611,7 +3610,7 @@ async function getOffboardingSettings(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs(errorLogArray)
+    errorLogs = await errorLogs(errorLogArray)
   }
 }
 
@@ -3640,7 +3639,7 @@ async function setAnnouncements(req, res) {
                       errorLogArray.push(null);
                       errorLogArray.push(companyName);
                       errorLogArray.push(dbName);
-                      errorLogs(errorLogArray);
+                      errorLogs = await errorLogs(errorLogArray);
                       res.send({ status: false });
                   } else {
                       if (
@@ -3673,7 +3672,7 @@ async function setAnnouncements(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs(errorLogArray)
+    errorLogs = await errorLogs(errorLogArray)
   }
 }
 
@@ -3699,7 +3698,7 @@ async function deleteFilesMaster(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs(errorLogArray);
+                        errorLogs = await errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -3727,7 +3726,7 @@ async function deleteFilesMaster(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs(errorLogArray)
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -3752,7 +3751,7 @@ async function getHrDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs(errorLogArray);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -3777,7 +3776,7 @@ async function getHrDetails(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs(errorLogArray)
+        errorLogs = await errorLogs(errorLogArray)
   }
 }
 
@@ -3803,7 +3802,7 @@ async function getnoticeperiods(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs(errorLogArray);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -3830,7 +3829,7 @@ async function getnoticeperiods(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs(errorLogArray)
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -3913,7 +3912,7 @@ async function setprogramspasterstatus(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs(errorLogArray);
+                    errorLogs = await errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result[0][0].successstate == 0) {
@@ -3995,7 +3994,7 @@ async function getEmailsByEmpid(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs(errorLogArray)
+        errorLogs = await errorLogs(errorLogArray)
     }
 }
 
@@ -4061,6 +4060,8 @@ function sendEmailToAdminAboutNewHire(mailData) {
 
 /** send email to employee About logins */
 function sendEmailToEmployeeAboutLogins(maileData, result) {
+    console.log("asfsadfa--",maileData)
+    console.log("asf--",maileData[0])
   try {
     let email = maileData[0].email;
     var transporter = nodemailer.createTransport({
@@ -4096,9 +4097,8 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
         <p style="color:black">Following are your login credentials:</p>
-        <p style="color:black"><b>Company code: </b>${maileData[0].companycode}</p>
-        <p style="color:black"><b>Username: </b>${maileData[0].userid}</p>
-        <p style="color:black"><b>Password: </b>${maileData[0].password}</p>
+        <p style="color:black"><b>Username:</b>${maileData[0].userid}</p>
+        <p style="color:black"><b>Password:</b>${maileData[0].password}</p>
         <p style="color:black">If you experience any issues logging on into your account, reach out to HR Team.</p>
         
         <p style="color:black">Best Regards,</p>
@@ -4115,6 +4115,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
       html: html,
     };
     transporter.sendMail(mailOptions, function (error, info) {
+        console.log(error);
       if (error) {
           console.log("Failed To Sent  Mail",error)
       } else {
@@ -5484,45 +5485,23 @@ async function getActiveEmployeeProgramSchedules(req, res) {
 }
 
 function getDatebaseName(companyName){
-console.log("db-",companyName)
-    return new Promise(async (res,rej)=>{
-        try {
-            con.query('CALL `get_company_db_name` (?)', [companyName], async function (err, results, next) {
-                if (err) {
-                    let errorLogArray = [];
-                    errorLogArray.push("EMSAPI");
-                    errorLogArray.push("getDatebaseName");
-                    errorLogArray.push("GET");
-                    errorLogArray.push(JSON.stringify(companyName));
-                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-                    errorLogArray.push(null);
-                    errorLogArray.push(companyName);
-                    errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray)
-                } else {
-                    if (results && results[0] && results[0].length != 0) {
-                        res(results[0][0].db_name);
 
-                    } else {
-                        res(null)
-                    }
+    return new Promise((res,rej)=>{
+        try {
+
+            con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
+                if (results && results[0] && results[0].length != 0) {
+                    res(results[0][0].db_name);
+
+                } else {
+                    res(null)
+
                 }
             })
         }
-        catch (e) {
-            rej(e);
-            let companyName =companyName;
-            let  dbName = await getDatebaseName(companyName)
-            let errorLogArray = [];
-            errorLogArray.push("EMSAPI");
-            errorLogArray.push("getDatebaseName");
-            errorLogArray.push("GET");
-            errorLogArray.push(JSON.stringify(companyName));
-            errorLogArray.push( e.message);
-            errorLogArray.push(null);
-            errorLogArray.push(companyName);
-            errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray)
+         
+    catch (e) {
+            rej(e)
         }
     });
 
