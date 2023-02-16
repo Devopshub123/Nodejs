@@ -2600,6 +2600,8 @@ async function cancelLeaveRequest(req,res) {
 
             listOfConnections[companyName].query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [id,empid,leavetype,fromDate,toDate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], async function (err, result, fields) {
+                  console.log("err-",err)
+                  console.log("ress-",result)
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("LMSAPI");

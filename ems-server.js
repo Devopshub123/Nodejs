@@ -172,8 +172,8 @@ async function setNewHire(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_new_hire` (?)", [JSON.stringify(req.body)],
                 async function (err, result, fields) {
-                    console.log("reg-",result[0][0].statuscode)
-                    if (err) {
+             
+                if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
                     errorLogArray.push("setNewHire");
@@ -201,7 +201,7 @@ async function setNewHire(req, res) {
                                     pass: 'Sreeb@#321'
                                 }
                             });
-                            var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date().getFullYear() + "/" + (new Date().getMonth() + 1) + "/" + new Date().getDate(),loginToken:loginToken }))).toString('base64')
+                            var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date(),loginToken:loginToken }))).toString('base64')
                             /**Local */
                             // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */

@@ -95,7 +95,7 @@ function generateJWTToken(info){
 
 
 
-async function login(req,res){
+async function login(req, res) {
     try{
 
     var  dbName = await getDatebaseName(req.body.companyName);
