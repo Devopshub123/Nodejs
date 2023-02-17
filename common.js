@@ -46,7 +46,8 @@ module.exports = {
     forgetpassword:forgetpassword,
     resetpassword:resetpassword,
     changePassword: changePassword,
-    errorLogs:errorLogs
+    errorLogs:errorLogs,
+    getCommonSideNavigation:getCommonSideNavigation
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -554,3 +555,76 @@ function errorLogs(errorLogArray) {
    });
 
 }
+
+async function getCommonSideNavigation(req, res) {
+    let companyName = req.body.companyName||'';
+    try {
+        let dbName = await getDatebaseName(req.body.companyName)
+        let self = 'Employee';
+        // For errorlog
+        let errorLogArray = [];
+            errorLogArray.push("COMMONAPI");
+            errorLogArray.push("getCommonSideNavigation");
+            errorLogArray.push("GET");
+            errorLogArray.push(JSON.stringify(req.body));
+
+       var listOfConnections = {};
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_screens_for_employee` (?)", [req.body.empid], async function (err, result, fields) {
+                if (err) {
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({ status: false, message: "unableToGetData" });      
+                }
+                else{
+                    if (result && result.length > 0) {
+                        for(let i=0;i<result[0].length;i++){ 
+                            result[0][i].displayStatus = false;
+                            result[0][i].parentRoles = [];
+                            result[0][i].children = [];
+                            if(result[0][i].menu_items){
+                                result[0][i].menu_items =JSON.parse(result[0][i].menu_items);
+                                result[0][i].parentRoles = result[0][i].menu_items.map(v => v.parentrole).filter((value, index, self) => self.indexOf(value) === index);
+                                
+                                for(let pr=0;pr<result[0][i].parentRoles.length;pr++){
+                                    result[0][i].children[pr] = {displayName:result[0][i].parentRoles[pr], isOpen:!!(result[0][i].parentRoles[pr]===self) ,subChildren:[]};
+                                    for(let j=0;j<result[0][i].menu_items.length;j++){
+                                        if(result[0][i].parentRoles[pr] === result[0][i].menu_items[j].parentrole){
+                                            result[0][i].menu_items[j].functionalities = result[0][i].menu_items[j].functionalities? JSON.parse(result[0][i].menu_items[j].functionalities):{};
+                                            result[0][i].children[pr].subChildren.push(result[0][i].menu_items[j]);
+                                        }
+                                    }
+                                }
+
+                            } else  result[0][i].menu_items ={};    
+                            
+                        }
+
+                         res.send({ data: result[0], status: true });
+         
+                     } else {
+                         res.send({ status: false })
+                     }
+                }
+            });
+        }
+        else {
+           res.send({status: false,Message:'Database Name is missed'})
+        } 
+    } 
+    catch (e) {
+        let dbName = await getDatebaseName(req.body.companyName)
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName||'');
+        errorLogArray.push(dbName||"");
+        errorLogs = await errorLogs(errorLogArray);
+        }
+};

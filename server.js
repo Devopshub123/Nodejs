@@ -2479,7 +2479,10 @@ app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName', verifyJWTToken,
   app.post('/attendance/api/getSideNavigation',verifyJWTToken, function (req, res) {
     attendance.getSideNavigation(req,res)
     });
-
+    /** get getCommonSideNavigation */
+    app.post('/api/getCommonSideNavigation',verifyJWTToken, function (req, res) {
+        common.getCommonSideNavigation(req,res)
+    });
 //**--------------------------------------------------- */
 
 /**Payroll */
