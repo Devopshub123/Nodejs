@@ -119,7 +119,7 @@ async function login(req, res) {
                     }
                     var  token = await generateJWTToken(info)
                     listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0]], function (err, results, next) {
-                        try {
+                     try {
                             if (results && results.length > 0) {
                                 var result = JSON.parse(results[0][0].result)
                                 res.send({status: true, result,token:token})

@@ -188,6 +188,7 @@ async function setNewHire(req, res) {
                 } else {
 
                     if (result[0][0].statuscode == 0) {
+                        console.log("t1--",emailData)
                        if (emailData.personal_email != '' || undefined || null) {
                             var transporter = nodemailer.createTransport({
                                 host: "smtp-mail.outlook.com", // hostname
@@ -203,9 +204,9 @@ async function setNewHire(req, res) {
                             });
                             var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date(),loginToken:loginToken }))).toString('base64')
                             /**Local */
-                            // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
+                            var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                            //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                             /**AWS */
                             // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
                            let mname = emailData.middlename !=null ? emailData.middlename: ' ';
@@ -230,8 +231,8 @@ async function setNewHire(req, res) {
                                 subject: 'Acknowledgement Form',
                                 html: html
                             };
-                            transporter.sendMail(mailOptions, function (error, info) {
-                                if (error) {
+                           transporter.sendMail(mailOptions, function (error, info) {
+                          if (error) {
                                     res.send({ status: false })
                                 } else {
                                     res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
@@ -6749,7 +6750,6 @@ async function setInductionConductedby(req, res) {
             listOfConnections[companyName].query("CALL `set_ems_induction_conductedby` (?)",
                 [JSON.stringify(req.body)],
                 async function (err, result, fields) {
-                    console.log("errr-",err)
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");

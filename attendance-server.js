@@ -68,7 +68,8 @@ async function getEmployeeAttendanceNotifications(req,res){
 
             listOfConnections[companyName].query("CALL `get_employee_attendance_notifications` (?,?,?)", [req.body.manager_id, req.body.employee_id, req.body.date],
 
-            async function (err, result, fields) {
+                async function (err, result, fields) {
+  
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("ATTENDANCEAPI");
@@ -573,6 +574,7 @@ async function getemployeeattendanceregularization(req, res) {
  *  */
 async function setemployeeattendanceregularization(req, res) {
     let emailData = req.body;
+    console.log("bod---",req.body)
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -1681,7 +1683,7 @@ async function getSideNavigation(req, res) {
 };
 
 /**new  attendance request mail to manager */
-function attendanceRequestEmail(mailData,companyName) {
+function attendanceRequestEmail(mailData, companyName) {
     let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
     let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
      var companyName = companyName;
