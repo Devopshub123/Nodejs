@@ -1887,6 +1887,9 @@ app.get('/api/getCarryforwardedLeaveMaxCount/:leaveId/:companyName',verifyJWTTok
 app.get('/api/getApprovedLeaves/:id/:companyName',verifyJWTToken, function(req,res) {
     leaveManagement.getApprovedLeaves(req,res);
 });
+app.get('/api/getLeaveTypesToAdd/:companyName',verifyJWTToken, function(req,res) {
+    leaveManagement.getLeaveTypesToAdd(req,res);
+});
 
 
 /** Get all Work Location for company*/
