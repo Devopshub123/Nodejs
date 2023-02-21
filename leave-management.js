@@ -3069,7 +3069,7 @@ function compOffRequestEmail(mailData){
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
-          subject: 'Comp off request by' +' '+ mailData.emaildata.emp_name,
+          subject: 'Comp-Off Request by' +' '+ mailData.emaildata.emp_name,
           html: html
       };
       transporter.sendMail(mailOptions, function (error, info) {
@@ -3140,7 +3140,7 @@ function compOffApprovalRequestEmail(mailData) {
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
-          subject: 'Comp-Off request approved by'+' '+mailData.emaildata.rm_name,
+          subject: 'Comp-Off Request Approved by'+' '+mailData.emaildata.rm_name,
           html: html
       };
       transporter.sendMail(mailOptions, function (error, info) {
@@ -3197,7 +3197,7 @@ function compOffApprovalRequestEmail(mailData) {
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
-          subject: 'Comp-Off request rejected by'+' '+ mailData.emaildata.rm_name,
+          subject: 'Comp-Off Request Rejected by'+' '+ mailData.emaildata.rm_name,
           html: html
       };
       transporter.sendMail(mailOptions, function (error, info) {
