@@ -2022,6 +2022,7 @@ async function getLeavesForApprovals(req,res) {
 
 async function leaveSattus(req, res) {
     let emailData = req.body;
+    console.log("dat---",emailData)
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -2050,12 +2051,20 @@ async function leaveSattus(req, res) {
                         res.send({status:false})
                     } else {
                         res.send({status: true,leaveStatus:req.body.leaveStatus})
-                        if (req.body.emaildata.emp_email !='' || req.body.emaildata.emp_email !=null) {
+                        if (req.body.emaildata.emp_email != '' || req.body.emaildata.emp_email != null) {
+                            console.log("st--",req.body.leaveStatus)
                             if (req.body.leaveStatus == 'Approved') {
                                 approveLeaveRequestEmail(emailData);
-                            } else{
+
+                            } else if(req.body.leaveStatus == 'Rejected'){
                                 rejectedLeaveRequestEmail(emailData)
-                            }
+
+                            } else if (req.body.leaveStatus == 'Cancel Approved') {
+                                approveCancelLeaveRequestEmail(emailData)
+                                
+                            } else if (req.body.leaveStatus == 'Cancel Rejected') {
+                                rejectCancelLeaveRequestEmail(emailData)
+                            } 
                         }
                     }
                 });
@@ -2568,7 +2577,8 @@ async function getReportForPayrollProcessing(req,res){
 }
 
 
-async function cancelLeaveRequest(req,res) {
+async function cancelLeaveRequest(req, res) {
+    let emailData = req.body;
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -2601,9 +2611,7 @@ async function cancelLeaveRequest(req,res) {
 
             listOfConnections[companyName].query("CALL `set_employee_leave` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [id,empid,leavetype,fromDate,toDate,fromhalfday,tohalfday,leavecount,leavereason,leavestatus,contactnumber,email,address,actionreason,null], async function (err, result, fields) {
-                  console.log("err-",err)
-                  console.log("ress-",result)
-                    if (err) {
+                 if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("LMSAPI");
                         errorLogArray.push("cancelLeaveRequest");
@@ -2616,7 +2624,10 @@ async function cancelLeaveRequest(req,res) {
                         errorLogs(errorLogArray);
                         res.send({ status: false })
                     } else {
-                            res.send({ status: true })
+                     res.send({ status: true });
+                     if (req.body.emailData.rm_email != '' || req.body.emailData.rm_email != null) {
+                        cancelLeaveRequestEmail(emailData,companyName);
+                    }
                      }
                 });
         }
@@ -3010,6 +3021,8 @@ function rejectedLeaveRequestEmail(mailData) {
 
 function compOffRequestEmail(mailData){
     try {
+        let wdate =new Date(mailData.workDate).getDate()+'-'+(new Date(mailData.workDate).getMonth()+1) +'-'+new Date(mailData.workDate).getFullYear()
+     
         let email = mailData.emaildata.rm_email
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
@@ -3039,7 +3052,7 @@ function compOffRequestEmail(mailData){
       <tbody>
       <tr>
       <td width="30%"><b>Worked Date</b></td>
-      <td>${mailData.workDate}</td>
+      <td>${wdate}</td>
        </tr>
         <tr>
         <td width="30%"><b>Worked Hours</b></td>
@@ -3088,6 +3101,8 @@ function compOffRequestEmail(mailData){
 function compOffApprovalRequestEmail(mailData) {
     try {
         let email = mailData.emaildata.emp_email;
+        let wdate =new Date(mailData.comp_off_date).getDate()+'-'+(new Date(mailData.comp_off_date).getMonth()+1) +'-'+new Date(mailData.comp_off_date).getFullYear()
+     
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -3113,7 +3128,7 @@ function compOffApprovalRequestEmail(mailData) {
       <tbody>
       <tr>
       <td width="30%"><b>Worked Date</b></td>
-      <td>${mailData.comp_off_date}</td>
+      <td>${wdate}</td>
        </tr>
         <tr>
         <td width="30%"><b>Worked Hours</b></td>
@@ -3159,7 +3174,9 @@ function compOffApprovalRequestEmail(mailData) {
   
   function compOffRejectRequestEmail(mailData){
     try {
-        let email = mailData.emaildata.emp_email
+        let email = mailData.emaildata.emp_email;
+        let wdate =new Date(mailData.comp_off_date).getDate()+'-'+(new Date(mailData.comp_off_date).getMonth()+1) +'-'+new Date(mailData.comp_off_date).getFullYear()
+     
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -3182,11 +3199,35 @@ function compOffApprovalRequestEmail(mailData) {
   
       <p style="color:black">A comp-off request by you has been Rejected by ${mailData.emaildata.emp_name}</p>
       
-       <p style="color:black">Worked Date:${mailData.comp_off_date}</p>
-           <p style="color:black">Worked Hours:${mailData.worked_hours}</p>
-       <p style="color:black">Minutes:${mailData.worked_minutes}</p>
-       <p style="color:black">Reason:${mailData.reason}</p>
-       <p style="color:black">Reject Reason:${mailData.remarks}</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Worked Date</b></td>
+      <td>${wdate}</td>
+       </tr>
+
+       <tr>
+       <td width="30%"><b>Worked Hours</b></td>
+       <td>${mailData.worked_hours}</td>
+        </tr>
+
+        <tr>
+        <td width="30%"><b>Minutes</b></td>
+        <td>${mailData.worked_minutes}</td>
+         </tr>
+
+         <tr>
+         <td width="30%"><b>Reason</b></td>
+         <td>${mailData.reason}</td>
+          </tr>
+
+          <tr>
+         <td width="30%"><b>Reject Reason</b></td>
+         <td>${mailData.remarks}</td>
+          </tr>
+      </tbody>
+      </table>
+
        <p style="color:black">Best regards,</p>
        <p style="color:black">${mailData.emaildata.rm_name}</p>
   
@@ -3213,9 +3254,14 @@ function compOffApprovalRequestEmail(mailData) {
   }
 }
 
-function cancelLeaveRequestEmail(mailData){
+function cancelLeaveRequestEmail(mailData, companyName) {
+    let fdate = new Date(mailData.fromdate).getDate() + '-' + (new Date(mailData.fromdate).getMonth() + 1) + '-' + new Date(mailData.fromdate).getFullYear();
+    let tdate = new Date(mailData.todate).getDate() + '-' + (new Date(mailData.todate).getMonth() + 1) + '-' + new Date(mailData.todate).getFullYear();
+    let aprdate = new Date(mailData.approvedon).getDate() + '-' + (new Date(mailData.approvedon).getMonth() + 1) + '-' + new Date(mailData.approvedon).getFullYear();
+   
     try {
-        let email = mailData
+        let email = mailData.emailData.rm_email;
+        var companyName = companyName;
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -3234,17 +3280,45 @@ function cancelLeaveRequestEmail(mailData){
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
     
-      <p style="color:black">Hi ${mailData[0].emp_name},</p>
+      <p style="color:black">Hi ${mailData.emailData.rm_name},</p>
   
-      <p style="color:black">A new leave request cancelled by ${mailData[0].emp_name} is awaiting your approval</p>
-      
-       <p style="color:black">Leave Type:</p>
-           <p style="color:black">From Date:</p>
-       <p style="color:black">To Date:</p>
-       <p style="color:black">Leave Count:</p>
-       <p style="color:black">Reason:</p>
+      <p style="color:black">A new leave request cancelled by ${mailData.emailData.emp_name} is awaiting your approval</p>
+     
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Leave Type</b></td>
+      <td>${mailData.leavetype}</td>
+       </tr>
+     
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${fdate}</td>
+         </tr>
+
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${tdate}</td>
+          </tr>
+
+          <tr>
+         <td width="30%"><b>Leave Count</b></td>
+         <td>${mailData.leavecount}</td>
+          </tr>
+          <tr>
+          <td width="30%"><b>Cancel Reason</b></td>
+          <td>${mailData.actionreason}</td>
+           </tr>
+
+           <tr>
+           <td width="30%"><b>Approved Date</b></td>
+           <td>${aprdate}</td>
+            </tr>
+      </tbody>
+      </table>
+
        <p style="color:black">Best regards,</p>
-       <p style="color:black">${mailData[0].emp_name}</p>
+       <p style="color:black">${mailData.emailData.emp_name}</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
@@ -3253,15 +3327,26 @@ function cancelLeaveRequestEmail(mailData){
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Leave request cancelled by {employee} ',
+            subject: 'Leave request cancelled by '+' '+mailData.emailData.emp_name,
             html: html
         };
-        transporter.sendMail(mailOptions, function (error, info) {
+        transporter.sendMail(mailOptions, async function (error, info) {
             if (error) {
-                console.log("Failed To Sent  Mail",error)
+             let  dbName = await getDatebaseName(companyName)
+             let errorLogArray = [];
+             errorLogArray.push("LeaveAPI");
+             errorLogArray.push("cancelLeaveRequest");
+             errorLogArray.push("SEND");
+             errorLogArray.push("");
+             errorLogArray.push( error);
+             errorLogArray.push(null);
+             errorLogArray.push(companyName);
+             errorLogArray.push(dbName);
+             console.log("Failed To Sent  Mail",error)
             } else {
                 console.log("Mail Sent Successfully")
             }
+    
         });
     }
     catch (e) {
@@ -3269,9 +3354,12 @@ function cancelLeaveRequestEmail(mailData){
     }
 }
 
-function approveCancelLeaveRequestEmail(mailData){
+function approveCancelLeaveRequestEmail(mailData) {
+    let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
+    let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
     try {
-        let email = mailData
+        let email = mailData.emaildata.emp_email
+        let approvereason = mailData.reason !=undefined || null ? mailData.reason:''
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -3290,18 +3378,43 @@ function approveCancelLeaveRequestEmail(mailData){
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
     
-      <p style="color:black">Hi ${mailData[0].emp_name},</p>
+      <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
-      <p style="color:black">A leave request by ${mailData[0].emp_name} has been Approved by ${mailData[0].rm_name} On</p>
+      <p style="color:black">A leave request by you has been Approved by ${mailData.emaildata.rm_name}</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Leave Type</b></td>
+      <td>${mailData.leavedata.display_name}</td>
+       </tr>
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${fdate}</td>
+         </tr>
       
-       <p style="color:black">Leave Type:</p>
-           <p style="color:black">From Date:</p>
-       <p style="color:black">To Date:</p>
-       <p style="color:black">Leave Count:</p>
-       <p style="color:black">Reason:</p>
-       <p style="color:black">Reject Reason:</p>
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${tdate}</td>
+          </tr>
+      
+          <tr>
+         <td width="30%"><b>Leave Count</b></td>
+         <td>${mailData.leavedata.leavecount}</td>
+          </tr>
+          <tr>
+          <td width="30%"><b>Reason</b></td>
+          <td>${mailData.leavedata.leavereason}</td>
+           </tr>
+           <tr>
+           <td width="30%"><b>Approve Reason</b></td>
+           <td>${approvereason}</td>
+            </tr>
+      
+      </tbody>
+      </table>
+
        <p style="color:black">Best regards,</p>
-       <p style="color:black">${mailData[0].rm_name}</p>
+       <p style="color:black">${mailData.emaildata.rm_name}</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
@@ -3310,7 +3423,7 @@ function approveCancelLeaveRequestEmail(mailData){
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Approve Cancelled Leave request by {manager} ',
+            subject: 'Approve Cancelled Leave request by '+' '+ mailData.emaildata.rm_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -3327,8 +3440,10 @@ function approveCancelLeaveRequestEmail(mailData){
 }
 
 function rejectCancelLeaveRequestEmail(mailData){
-    try {
-        let email = mailData
+    let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
+    let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
+     try {
+        let email = mailData.emaildata.emp_email
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -3347,18 +3462,44 @@ function rejectCancelLeaveRequestEmail(mailData){
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
     
-      <p style="color:black">Hi ${mailData[0].emp_name},</p>
+      <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
-      <p style="color:black">A Cancelled leave request by ${mailData[0].emp_name} has been Rejected by ${mailData[0].emp_name} On </p>
+      <p style="color:black">A Cancelled leave request by you has been Rejected by ${mailData.emaildata.rm_name} </p>
       
-       <p style="color:black">Leave Type:</p>
-           <p style="color:black">From Date:</p>
-       <p style="color:black">To Date:</p>
-       <p style="color:black">Leave Count:</p>
-       <p style="color:black">Reason:</p>
-       <p style="color:black">Reject Reason:</p>
-       <p style="color:black">Best regards,</p>
-       <p style="color:black">${mailData[0].rm_name}</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Leave Type</b></td>
+      <td>${mailData.leavedata.display_name}</td>
+       </tr>
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${fdate}</td>
+         </tr>
+      
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${tdate}</td>
+          </tr>
+      
+          <tr>
+         <td width="30%"><b>Leave Count</b></td>
+         <td>${mailData.leavedata.leavecount}</td>
+          </tr>
+          <tr>
+          <td width="30%"><b>Reason</b></td>
+          <td>${mailData.leavedata.leavereason}</td>
+           </tr>
+           <tr>
+           <td width="30%"><b>Rejected Reason</b></td>
+           <td>${mailData.reason}</td>
+            </tr>
+      
+      </tbody>
+      </table>
+
+      <p style="color:black">Best regards,</p>
+       <p style="color:black">${mailData.emaildata.rm_name}</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
@@ -3367,7 +3508,7 @@ function rejectCancelLeaveRequestEmail(mailData){
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Cancelled Leave request rejected by {Manager Name} ',
+            subject: 'Cancelled Leave request rejected by '+' '+ mailData.emaildata.rm_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {

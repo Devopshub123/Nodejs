@@ -574,8 +574,7 @@ async function getemployeeattendanceregularization(req, res) {
  *  */
 async function setemployeeattendanceregularization(req, res) {
     let emailData = req.body;
-    console.log("bod---",req.body)
-    try {
+     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
@@ -599,17 +598,24 @@ async function setemployeeattendanceregularization(req, res) {
                             errorLogArray.push(null);
                             errorLogArray.push(companyName);
                             errorLogArray.push(dbName);
-                            errorLogs = await errorLogs(errorLogArray);  
+                            errorLogs(errorLogArray);  
                             res.send({ status: false, message: "notSave" });          
                         }
                      else {
-                         console.log("da",result[0][0])
                         if (result[0][0].validity_status == 0) {
                             res.send({ status: true, message: "duplicate" })
-                        } else {
+                        }else if (result[0][0].validity_status == 2) {
+                            res.send({ status: true, message: "update" })
+                            if (emailData.emails.rm_email != null || '' ) {
+                                editedAttendanceRequestEmail(emailData,companyName) 
+                            }
+                         }
+                        else {
                             res.send({ status: true, message: "save" })
-                            attendanceRequestEmail(emailData,companyName);
-                        }
+                            if (emailData.emails.rm_email != null || '' ) {
+                                attendanceRequestEmail(emailData,companyName);
+                            }
+                         }
                     }
                 });
 
@@ -637,6 +643,7 @@ async function setemployeeattendanceregularization(req, res) {
 
 //**delete_employee_attendance_regularization */
 async function deleteAttendanceRequestById(req, res) {
+    let emailData = req.body;
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -659,13 +666,15 @@ async function deleteAttendanceRequestById(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false});          
                     }
                     else{
                         if (result[0][0].successState == 0) {
                             res.send({ status: true, message: 'Attendance request deleted successfully.' })
-    
+                            if (emailData.emails.rm_email != null || '' ) {
+                                deleteAttendanceRequestEmail(emailData);
+                            }
                         } else {
                             res.send({ status: true, message: 'Unable to attendance request deleted.' })
                         }
@@ -1980,9 +1989,12 @@ function approveAttendanceRequestEmail(mailData,companyName) {
   
 }
   
-function editedAttendanceRequestEmail(mailData){
+function editedAttendanceRequestEmail(mailData, companyName) {
+    let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
+    let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
+     var companyName = companyName;
     try {
-        let email = mailData
+        let email = mailData.emails.rm_email
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -1995,32 +2007,60 @@ function editedAttendanceRequestEmail(mailData){
                 pass: 'Sreeb@#321'
             }
         });
+        var url = 'http://122.175.62.210:7575/#/Login';
         var html = `<html>
       <head>
       <title>edited Attendance Request</title></head>
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
     
-      <p style="color:black">Hi ${mailData[0].rm_name},</p>
+      <p style="color:black">Hi ${mailData.emails.rm_name},</p>
   
-      <p style="color:black">An attendance request edited by ${mailData[0].emp_name} is awaiting your approval</p>
+      <p style="color:black">An attendance request edited by ${mailData.emails.emp_name} is awaiting your approval</p>
       
-       <p style="color:black">Shift:</p>
-       <p style="color:black">Work Type:</p>
-       <p style="color:black">From Date:</p>
-       <p style="color:black">To Date:</p>
-       <p style="color:black">Reason:</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Shift</b></td>
+      <td>${mailData.shiftname}</td>
+       </tr>
+
+       <tr>
+       <td width="30%"><b>Work Type</b></td>
+       <td>${mailData.worktypename}</td>
+        </tr>
+
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${fdate}</td>
+         </tr>
+
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${tdate}</td>
+          </tr>
+
+          <tr>
+         <td width="30%"><b>Reason</b></td>
+         <td>${mailData.reason}</td>
+          </tr>
+
+      </tbody>
+      </table>
+
        <p style="color:black">Best regards,</p>
   
-      <p style="color:black">${mailData[0].emp_name}</p>
+      <p style="color:black">${mailData.emails.emp_name}</p>
       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+       <p style="color:black">Click here to perform a quick action on this request: <a href="${url}" >${url} </a></p>  
+     
       </div></body>
       </html> `;
 
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Edited Attendance request by {employee}',
+            subject: 'Edited Attendance request by '+' '+mailData.emails.emp_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -2040,9 +2080,11 @@ function editedAttendanceRequestEmail(mailData){
 
 }
 
-function deleteAttendanceRequestEmail(mailData){
+function deleteAttendanceRequestEmail(mailData) {
+    let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
+    let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
     try {
-        let email = mailData
+        let email = mailData.emails.rm_email
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -2061,18 +2103,37 @@ function deleteAttendanceRequestEmail(mailData){
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
     
-      <p style="color:black">Hi ${mailData[0].emp_name},</p>
+      <p style="color:black">Hi ${mailData.emails.rm_name},</p>
   
-      <p style="color:black">An attendance request deleted by {employee}.</p>
+      <p style="color:black">An attendance request deleted by ${mailData.emails.emp_name}.</p>
       
-       <p style="color:black">Shift:</p>
-       <p style="color:black">Work Type:</p>
-       <p style="color:black">From Date:</p>
-       <p style="color:black">To Date:</p>
-       <p style="color:black">Reason:</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Shift</b></td>
+      <td>${mailData.shiftname}</td>
+       </tr>
+
+       <tr>
+       <td width="30%"><b>Work Type</b></td>
+       <td>${mailData.worktypename}</td>
+        </tr>
+
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${fdate}</td>
+         </tr>
+
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${tdate}</td>
+          </tr>
+      </tbody>
+      </table>
+
        <p style="color:black">Best regards,</p>
   
-      <p style="color:black">${mailData[0].emp_name}</p>
+      <p style="color:black">${mailData.emails.emp_name}</p>
       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
       </html> `;
@@ -2080,7 +2141,7 @@ function deleteAttendanceRequestEmail(mailData){
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Deleted Attendance request by {employee}',
+            subject: 'Deleted Attendance request by '+' '+mailData.emails.emp_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {

@@ -131,12 +131,6 @@ module.exports = {
     documentApprovalEmailToEmployee: documentApprovalEmailToEmployee,
     documentApprovalEmailToHR: documentApprovalEmailToHR,
     inductionProgramCancelEmailToEmployee: inductionProgramCancelEmailToEmployee,
-    cancelLeaveRequestEmail: cancelLeaveRequestEmail,
-    approveCancelLeaveRequestEmail: approveCancelLeaveRequestEmail,
-    rejectCancelLeaveRequestEmail: rejectCancelLeaveRequestEmail,
-    deleteLeaveRequestEmail: deleteLeaveRequestEmail,
-    editLeaveRequestEmail: editLeaveRequestEmail,
-    compOffRequestEmail: compOffRequestEmail,
     getEmployeeEmailData: getEmployeeEmailData,
     rescheduledInductionProgramEmail: rescheduledInductionProgramEmail,
     getInductionProgramAssignedEmployee:getInductionProgramAssignedEmployee,
@@ -1190,6 +1184,8 @@ async function setChecklistsMaster(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_checklists_master` (?,?)", [JSON.stringify(req.body), req.body.actionby],
                 async function (err, result, fields) {
+                    console.log("er--",err)
+                    console.log("re--",result[0][0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -2489,8 +2485,6 @@ async function setEmpPersonalInfo(req, res) {
                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
-                    console.log("err-",err)
-                    console.log("resss-",result[0][0])
                     if (result && result[0][0].statuscode == 0) {
                         res.send({ status: true, data: { empid: result[0][0].empid, email: null } });
                         let edata = {
@@ -3942,8 +3936,7 @@ async function setprogramspasterstatus(req, res) {
 }
 
 async function getEmailsByEmpid(req, res) {
-    console.log("sdf",req.cname)
-    try {
+   try {
         let companyName = req.cname;
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
@@ -4001,12 +3994,9 @@ async function getEmailsByEmpid(req, res) {
 
 /** send email to Admin About NewHire */
 function sendEmailToAdminAboutNewHire(mailData) {
-    console.log("sent",mailData)
-    console.log("sendEmailToAdminAboutNewHire",JSON.parse(mailData.jsonvalu)[0])
-    try {
+     try {
         let data = JSON.parse(mailData.jsonvalu)[0];
-        console.log("email--",data)
-         let email = data.admin_email
+        let email = data.admin_email
         let empname = data.emp_name;
         var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
@@ -5506,332 +5496,6 @@ function getDatebaseName(companyName){
 
 }
 
-function cancelLeaveRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Cancel Leave Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A new leave request cancelled by ${mailData[0].emp_name} is awaiting your approval</p>
-    
-     <p style="color:black">Leave Type:</p>
-         <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Leave Count:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <p style="color:black">${mailData[0].emp_name}</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Leave request cancelled by {employee} ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('cancelLeaveRequestEmail :', e)
-    }
-}
-
-function approveCancelLeaveRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Approve Cancel Leave Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A leave request by ${mailData[0].emp_name} has been Approved by ${mailData[0].rm_name} On</p>
-    
-     <p style="color:black">Leave Type:</p>
-         <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Leave Count:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Reject Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <p style="color:black">${mailData[0].rm_name}</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Approve Cancelled Leave request by {manager} ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('approveCancelLeaveRequestEmail :', e)
-    }
-}
-
-function rejectCancelLeaveRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Rejected Cancel Leave Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A Cancelled leave request by ${mailData[0].emp_name} has been Rejected by ${mailData[0].emp_name} On </p>
-    
-     <p style="color:black">Leave Type:</p>
-         <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Leave Count:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Reject Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <p style="color:black">${mailData[0].rm_name}</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Cancelled Leave request rejected by {Manager Name} ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('rejectCancelLeaveRequestEmail :', e)
-    }
-}
-
-function deleteLeaveRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Delete Leave Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A leave request is deleted by ${mailData[0].emp_name}</p>
-    
-     <p style="color:black">Leave Type:</p>
-         <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Leave Count:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Delete Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <p style="color:black">${mailData[0].emp_name}</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Delete Leave request by  {Employee Name} ',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('deleteLeaveRequestEmail :', e)
-    }
-}
-
-function editLeaveRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Edit Leave Request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A leave request is deleted by ${mailData[0].emp_name}</p>
-    
-     <p style="color:black">Leave Type:</p>
-         <p style="color:black">From Date:</p>
-     <p style="color:black">To Date:</p>
-     <p style="color:black">Leave Count:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <p style="color:black">${mailData[0].emp_name}</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Edited Leave request by {employee}',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('editLeaveRequestEmail :', e)
-    }
-}
-
-function compOffRequestEmail(mailData){
-    try {
-        let email = mailData
-        var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
-            secureConnection: false, // TLS requires secureConnection to be false
-            port: 587, // port for secure SMTP
-            tls: {
-                ciphers: 'SSLv3'
-            },
-            auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
-            }
-        });
-        var html = `<html>
-    <head>
-    <title>Comp-off request</title></head>
-    <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-    <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-  
-    <p style="color:black">Hi ${mailData[0].emp_name},</p>
-    <p style="color:black">A new comp-off request by ${mailData[0].emp_name} is awaiting your approval</p>
-    
-     <p style="color:black">Worked Date:</p>
-         <p style="color:black">Worked Hours:</p>
-     <p style="color:black">Minutes:</p>
-     <p style="color:black">Reason:</p>
-     <p style="color:black">Best regards,</p>
-     <p style="color:black">${mailData[0].emp_name}</p>
-     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-    </div></body>
-    </html> `;
-
-        var mailOptions = {
-            from: 'no-reply@spryple.com',
-            to: email,
-            subject: 'Comp off request by Employee',
-            html: html
-        };
-        transporter.sendMail(mailOptions, function (error, info) {
-            if (error) {
-                console.log("Failed To Sent  Mail",error)
-            } else {
-                console.log("Mail Sent Successfully")
-            }
-        });
-    }
-    catch (e) {
-        console.log('compOffRequestEmail :', e)
-    }
-}
-
 
 /** send email to employee about checklist final update */
 function checklistFinalUpdateEmailToEmployee(mailData) {
@@ -7073,7 +6737,7 @@ async function getDocumentsFiles(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+       errorLogs(errorLogArray)
     }
 }
 
