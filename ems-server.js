@@ -196,9 +196,9 @@ async function setNewHire(req, res) {
                             });
                             var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date(),loginToken:loginToken }))).toString('base64')
                             /**Local */
-                            var url = 'http://localhost:4200/#/pre-onboarding/' + token;
+                            // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                            //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                             /**AWS */
                             // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
                            let mname = emailData.middlename !=null ? emailData.middlename: ' ';
