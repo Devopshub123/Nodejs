@@ -1184,9 +1184,7 @@ async function setChecklistsMaster(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_checklists_master` (?,?)", [JSON.stringify(req.body), req.body.actionby],
                 async function (err, result, fields) {
-                    console.log("er--",err)
-                    console.log("re--1",typeof result[0][0].failed_descriptions)
-                    console.log("re--2",JSON.parse(result[0][0].failed_descriptions),typeof JSON.parse(result[0][0].failed_descriptions),JSON.parse(result[0][0].failed_descriptions).length)
+                                       
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -1200,9 +1198,16 @@ async function setChecklistsMaster(req, res) {
                     errorLogs = errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
-                    if (result[0][0].successstate == 0) {
+                    if (result[0][0].successstate == 0 && JSON.parse(result[0][0].failed_descriptions).length == 0) {
+                  
                         res.send({ status: true });
+
+                    } else if(result[0][0].successstate == 0 && JSON.parse(result[0][0].failed_descriptions).length > 0){
+                 
+                        res.send({ status: true, data: JSON.parse(result[0][0].failed_descriptions) })
+                 
                     } else {
+                 
                         res.send({ status: false })
                     }
                 }
@@ -5274,7 +5279,7 @@ async function getEmpPersonalInfo(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs = errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
