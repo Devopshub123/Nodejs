@@ -131,7 +131,7 @@ async function getstatuslist(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false, data: [] });
                     } else {
                         if (result && result.length > 0) {
@@ -157,7 +157,7 @@ async function getstatuslist(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -212,7 +212,7 @@ async function setDesignation(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+     errorLogs(errorLogArray);
                     res.send({status: false, message: "Unable to insert designation"});
                 }else {
                     res.send({status: true, message: "Designation added successfully"})
@@ -233,7 +233,7 @@ async function setDesignation(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 
@@ -292,7 +292,7 @@ console.log("result--",result)
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 /*Set Departments*/
@@ -328,7 +328,7 @@ async function putDepartments(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false,message:'Unable to update departments'});
                 } else {
                     res.send({status: true,message:'Department updated successfully'})
@@ -350,7 +350,7 @@ async function putDepartments(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 /*set Department*/
@@ -387,7 +387,7 @@ async function setDepartment(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false,message:'Unable to add department'});
                 } else {
                     res.send({status: true,message:'Departments added successfully'})
@@ -409,7 +409,7 @@ async function setDepartment(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 async function updateStatus(req,res) {
@@ -435,7 +435,7 @@ async function updateStatus(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
                     } else {
                         res.send({status: true,message:'Department is '+req.body.status+' successfully'})
@@ -462,7 +462,7 @@ async function updateStatus(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -496,7 +496,7 @@ async function designationStatus(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({status: false, message: 'Unable to update designation status'});
                     } else {
                         res.send({status: true, message: 'Designation is '+req.body.status+' successfully'})
@@ -523,7 +523,7 @@ async function designationStatus(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     
     }
 }
@@ -554,7 +554,7 @@ async function getactiveWorkLocation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -592,7 +592,7 @@ async function getactiveWorkLocation(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 /*set Holidays*/
@@ -643,7 +643,7 @@ async function setHolidays(req,res) {
                             errorLogArray.push(null);
                             errorLogArray.push(companyName);
                             errorLogArray.push(dbName);
-                            errorLogs = await errorLogs(errorLogArray);
+                             errorLogs(errorLogArray);
                            res.send({status: false, message: 'Unable to insert holidays'});
                         } else {
                             if(k===reqData.length) {
@@ -671,7 +671,7 @@ async function setHolidays(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+         errorLogs(errorLogArray)  }
 
 }
 
@@ -698,7 +698,7 @@ async function getHolidysFilter(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
             
@@ -725,7 +725,7 @@ async function getHolidysFilter(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 /**
@@ -753,7 +753,7 @@ async function deleteHoliday(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to delete holiday'});
                 } else {
                     res.send({status: true, message: 'Holiday deleted successfully'})
@@ -775,7 +775,7 @@ async function deleteHoliday(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     
     }
 }
@@ -820,7 +820,7 @@ async function putHolidays(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+     errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update holidays'});
                 } else {
 
@@ -844,7 +844,7 @@ async function putHolidays(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -892,7 +892,7 @@ async function putCompanyInformation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update company information'});
                 } else {
                     res.send({status: true, message: 'Company Information updated Successfully'})
@@ -915,7 +915,7 @@ async function putCompanyInformation(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -963,7 +963,7 @@ async function setCompanyInformation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to add company information'});
                 } else {
                     res.send({status: true, message: 'Company Information added successfully'})
@@ -983,7 +983,7 @@ async function setCompanyInformation(req,res) {
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray)
+             errorLogs(errorLogArray)
         }
     }  else {
         res.send({status: false,Message:'Database Name is missed'})
@@ -1015,7 +1015,7 @@ async function getStates(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({status:false})
                 }
                 else{
@@ -1038,7 +1038,7 @@ async function getStates(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 /**get Cities */
@@ -1065,7 +1065,7 @@ async function getCities(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({status:false})
                 }
                 else{
@@ -1088,7 +1088,7 @@ async function getCities(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1134,7 +1134,7 @@ async function getLeavePolicies(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -1159,7 +1159,7 @@ async function getLeavePolicies(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 
 }
@@ -1194,7 +1194,7 @@ async function updateLeaveDisplayName(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+     errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update designation'});
                 } else {
                     res.send({status: true,message:'Designation updated successfully'})
@@ -1216,7 +1216,7 @@ async function updateLeaveDisplayName(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 
@@ -1242,7 +1242,7 @@ async function setAdvancedLeaveRuleValues(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+     errorLogs(errorLogArray);
                     res.send({message: 'Unable to update leave policy', status: false});
                 } else {
                     res.send({message: 'Rules updated successfully', status: true})
@@ -1264,7 +1264,7 @@ async function setAdvancedLeaveRuleValues(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1296,7 +1296,7 @@ async function setToggleLeaveType(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+     errorLogs(errorLogArray);
                         res.send({status: false, message: 'Unable to update leave policies status'});
                     } else {
                         res.send({status: true, message: 'Leave policies status updated successfully'})
@@ -1318,7 +1318,7 @@ async function setToggleLeaveType(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1345,7 +1345,7 @@ async function getLeaveTypesForAdvancedLeave(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result.length > 0) {
@@ -1371,7 +1371,7 @@ async function getLeaveTypesForAdvancedLeave(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1424,7 +1424,7 @@ async function setLeavePolicies(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1451,7 +1451,7 @@ async function getWorkLocation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result.length > 0) {
@@ -1479,7 +1479,7 @@ async function getWorkLocation(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1509,7 +1509,7 @@ async function updateStatusall(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+     errorLogs(errorLogArray);
                         res.send({status: false, message: "We are unable to "+req.body.status+" this department please try again later"});
                     } else {
                         res.send({status: true,message:'Department is '+req.body.status+' successfully'})
@@ -1536,7 +1536,7 @@ async function updateStatusall(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1600,7 +1600,7 @@ async function setWorkLocation(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+     errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to add work location'});
                 } else {
                     res.send({status: true,message:'Work Location added successfully'})
@@ -1622,7 +1622,7 @@ async function setWorkLocation(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1651,7 +1651,7 @@ async function getIntegrationEmpidsLookup(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false })
                     } else {
                 
@@ -1677,7 +1677,7 @@ async function getIntegrationEmpidsLookup(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1707,7 +1707,7 @@ async function setIntegrationEmpidsLookup(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false })
                     } else {
                         if (result && result.length > 0) {
@@ -1732,7 +1732,7 @@ async function setIntegrationEmpidsLookup(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     
     }
 }
@@ -1763,7 +1763,7 @@ async function getAttendenceMessages(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false })
                     } else {
                         if (result && result.length > 0) {
@@ -1788,7 +1788,7 @@ async function getAttendenceMessages(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1817,7 +1817,7 @@ async function setAttendenceMessages(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+     errorLogs(errorLogArray);
                         res.send({ status: false, data: "unableToSave" })
                     } else {
                         res.send({ status: true, data:"dataSaved" });
@@ -1838,7 +1838,7 @@ async function setAttendenceMessages(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1868,7 +1868,7 @@ async function getActiveShiftIds(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -1894,7 +1894,7 @@ async function getActiveShiftIds(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1925,7 +1925,7 @@ async function setShiftMaster(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false, message: 'UnableToSave' });
                     } else {
                         if (result[0][0].validity_status == 0) {
@@ -1950,7 +1950,7 @@ async function setShiftMaster(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 /**Get All SHifts */
@@ -1976,7 +1976,7 @@ async function getAllShifts(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2002,7 +2002,7 @@ async function getAllShifts(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 /**Update Shift Status
@@ -2035,7 +2035,7 @@ async function updateShiftStatus(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray);
+     errorLogs(errorLogArray);
                     res.send({ status: false, message: "unableToUpdate" });
                 }
                 else {
@@ -2063,7 +2063,7 @@ async function updateShiftStatus(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2094,7 +2094,7 @@ async function getShiftsDetailsById(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2120,7 +2120,7 @@ async function getShiftsDetailsById(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2150,7 +2150,7 @@ async function getEMSMessages(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false })
                     } else {
                         if (result && result.length > 0) {
@@ -2175,7 +2175,7 @@ async function getEMSMessages(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 async function setEMSMessages(req, res) {
@@ -2202,7 +2202,7 @@ async function setEMSMessages(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({status:false})
                         res.send({ status: false, data: "unableToSave" })
                     } else {
@@ -2224,7 +2224,7 @@ async function setEMSMessages(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2251,7 +2251,7 @@ async function getModulesWithScreens(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result.length > 0) {
@@ -2276,7 +2276,7 @@ async function getModulesWithScreens(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2303,7 +2303,7 @@ async function getScreenWithFunctionalities(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2328,7 +2328,7 @@ async function getScreenWithFunctionalities(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2355,7 +2355,7 @@ async function getRoleScreenfunctionalitiesByRoleId(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2380,7 +2380,7 @@ async function getRoleScreenfunctionalitiesByRoleId(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2406,7 +2406,7 @@ async function getrolemaster(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result.length > 0) {
@@ -2432,7 +2432,7 @@ async function getrolemaster(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2461,7 +2461,7 @@ async function getscreensmaster(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result.length > 0) {
@@ -2487,7 +2487,7 @@ async function getscreensmaster(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2515,7 +2515,7 @@ async function getfunctionalitiesmaster(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result.length > 0) {
@@ -2541,7 +2541,7 @@ async function getfunctionalitiesmaster(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 /*Get Screen Functionalities Master*/
@@ -2566,7 +2566,7 @@ async function getscreenfunctionalitiesmaster(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result.length > 0) {
@@ -2591,7 +2591,7 @@ async function getscreenfunctionalitiesmaster(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2617,7 +2617,7 @@ async function setRoleAccess(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to update role permissions'});
                 } else {
                     res.send({status: true, message: 'Role permissions updated successfully'})
@@ -2638,7 +2638,7 @@ async function setRoleAccess(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     
     }
 }
@@ -2666,7 +2666,7 @@ async function setRoleMaster(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({status: false, message: 'Unable to add role name'});
                 } else {
                     res.send({status: true, message: 'Role name successfully'})
@@ -2688,7 +2688,7 @@ async function setRoleMaster(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2714,7 +2714,7 @@ async function getReportingManager(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 }
                 else {
@@ -2739,7 +2739,7 @@ async function getReportingManager(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2765,7 +2765,7 @@ async function getrolescreenfunctionalities(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -2790,7 +2790,7 @@ async function getrolescreenfunctionalities(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2828,7 +2828,7 @@ async function setHolidaysMaster(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false })
                     } else {
                         if (result && result[0][0].successstate == 0) {
@@ -2857,7 +2857,7 @@ async function setHolidaysMaster(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 

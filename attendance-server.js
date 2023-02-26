@@ -80,7 +80,7 @@ async function getEmployeeAttendanceNotifications(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false});           
                 }
                 else{
@@ -110,7 +110,7 @@ async function getEmployeeAttendanceNotifications(req,res){
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray);
+            errorLogs(errorLogArray);
         }
 }
 
@@ -138,7 +138,7 @@ async function getrolescreenfunctionalities(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false});           
                 }
                 else{
@@ -169,7 +169,7 @@ async function getrolescreenfunctionalities(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
         }
 };
 
@@ -200,7 +200,7 @@ async function getallemployeeslist(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false});           
                 }
                 else{
@@ -234,7 +234,7 @@ async function getallemployeeslist(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
         }
 
@@ -286,7 +286,7 @@ async function getEmployeeCurrentShifts(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({status:false});           
                     }
                     else{
@@ -316,7 +316,7 @@ async function getEmployeeCurrentShifts(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -348,7 +348,7 @@ async function getemployeeattendancedashboard(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({status:false});           
                     }
                     else{
@@ -376,7 +376,7 @@ async function getemployeeattendancedashboard(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
         }
 }
 
@@ -405,7 +405,7 @@ async function getEmployeeShiftByDates(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({status:false});           
                     }
                     else{
@@ -434,7 +434,7 @@ async function getEmployeeShiftByDates(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
         }
 }
 
@@ -462,7 +462,7 @@ async function getEmployeeWeekoffsHolidaysForAttendance(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({status:false});           
                     }
                     else{
@@ -492,7 +492,7 @@ async function getEmployeeWeekoffsHolidaysForAttendance(req,res){
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray);
+            errorLogs(errorLogArray);
         }
 }
 
@@ -522,7 +522,7 @@ async function getemployeeattendanceregularization(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false});           
                 }
                 else{
@@ -552,7 +552,7 @@ async function getemployeeattendanceregularization(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
         }
 }
@@ -636,7 +636,7 @@ async function setemployeeattendanceregularization(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
         }
     }
 
@@ -701,7 +701,7 @@ async function deleteAttendanceRequestById(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
      }
 }
 
@@ -739,7 +739,7 @@ async function getAttendanceMonthlyReport(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false});          
                     }
                     else{
@@ -769,7 +769,7 @@ async function getAttendanceMonthlyReport(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -799,7 +799,7 @@ async function getpendingattendanceregularizations(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({ status: false});          
                 }
                 if (result && result.length > 0) {
@@ -825,7 +825,7 @@ async function getpendingattendanceregularizations(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     
     }
 }
@@ -858,7 +858,7 @@ async function getEmployeesByManagerId(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false});          
                     }
                     else{
@@ -888,7 +888,7 @@ async function getEmployeesByManagerId(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -916,7 +916,7 @@ async function getemployeeshift(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({ status: false});          
                 }
                 else{
@@ -946,7 +946,7 @@ async function getemployeeshift(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -974,7 +974,7 @@ async function getAttendanceRegularizationByManagerId(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false});          
                     }
                     else{
@@ -1004,7 +1004,7 @@ async function getAttendanceRegularizationByManagerId(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -1041,7 +1041,7 @@ async function setattendanceapprovalstatus(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false, message: "UnableToApprove" });       
                     }
                      else {
@@ -1075,7 +1075,7 @@ async function setattendanceapprovalstatus(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 
 }
@@ -1108,7 +1108,7 @@ async function getallemployeeslistByManagerId(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({ status: false, message: "UnableToApprove" });       
                 }
                 else{
@@ -1141,7 +1141,7 @@ async function getallemployeeslistByManagerId(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
 
     }
@@ -1174,7 +1174,7 @@ async function getAttendanceSummaryReport(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false, message: "UnableToApprove" });       
                     } else {
                         if (result && result.length > 0) {
@@ -1201,7 +1201,7 @@ async function getAttendanceSummaryReport(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -1232,7 +1232,7 @@ async function getAttendanceDetailsByAttendanceId(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false, message: "UnableToApprove" });       
                     } else {
                         if (result && result.length > 0) {
@@ -1259,7 +1259,7 @@ async function getAttendanceDetailsByAttendanceId(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -1290,7 +1290,7 @@ async function getEmployeeConfigureShifts(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false });       
                     }
                     else{
@@ -1320,7 +1320,7 @@ async function getEmployeeConfigureShifts(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -1355,7 +1355,7 @@ async function setEmployeeConfigureShift(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false });       
                     }
                     else{
@@ -1387,7 +1387,7 @@ async function setEmployeeConfigureShift(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -1424,7 +1424,7 @@ async function getEmployeeLateAttendanceReport(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false });       
                     }
                     else{
@@ -1454,7 +1454,7 @@ async function getEmployeeLateAttendanceReport(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -1481,7 +1481,7 @@ async function getAttendanceRegularizationsHistoryForManager(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({ status: false });       
                 }
                 else{
@@ -1511,7 +1511,7 @@ async function getAttendanceRegularizationsHistoryForManager(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 /**attendance Excel Data insert Method  set_employee_attendance
@@ -1541,7 +1541,7 @@ async function setEmployeeAttendance(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);  
+                        errorLogs(errorLogArray);  
                         res.send({ status: false, message: "unableToUpload" });      
                     }
                     else {
@@ -1566,7 +1566,7 @@ async function setEmployeeAttendance(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -1593,7 +1593,7 @@ async function getrolescreenfunctionalitiesforrole(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({ status: false, message: "unableToUpload" });      
                 }
                 else{
@@ -1625,7 +1625,7 @@ async function getrolescreenfunctionalitiesforrole(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
     }
 }
 
@@ -1651,7 +1651,7 @@ async function getSideNavigation(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({ status: false, message: "unableToUpload" });      
                 }
                 else{
@@ -1687,7 +1687,7 @@ async function getSideNavigation(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
         }
 };
 
@@ -1711,7 +1711,12 @@ function attendanceRequestEmail(mailData, companyName) {
            }
          });
         //  var url = 'http://localhost:4200/#/Login';
-         var url = 'http://122.175.62.210:7575/#/Login';
+
+        // var url = 'http://122.175.62.210:7575/#/Login';
+        
+         /**AWS */
+        var url = 'http://sreeb.spryple.com/#/Login';
+        
        var html = `<html>
        <head>
        <title>Attendance Request</title></head>
@@ -1973,7 +1978,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray);
+            errorLogs(errorLogArray);
               console.log("Failed To Sent  Mail",error)
           } else {
               console.log("Mail Sent Successfully")

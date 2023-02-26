@@ -6,6 +6,7 @@ var path = require('path');
 var fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer')
 var crypto = require("crypto");
+var mysql = require('mysql');
 var algorithm = "aes-256-cbc";
                     // generate 16 bytes of random data
 var initVector = crypto.randomBytes(16);
@@ -1226,16 +1227,17 @@ app.post('/ems/api/getDocumentOrImagesForEMSPreonboarding/',function(req,res){
     ems.getDocumentOrImagesForEMS(req,res)
     })
 
-    /**removeDocumentOrImagesForEMS LOCAL */
-    app.delete('/ems/api/removeDocumentOrImagesForEMS/:companyName/:path',verifyJWTToken,function(req,res){
-        ems.removeDocumentOrImagesForEMS(req,res)
-        })
-//** -------------------- */
+    // /**removeDocumentOrImagesForEMS LOCAL */
+
+    // app.delete('/ems/api/removeDocumentOrImagesForEMS/:companyName/:path',verifyJWTToken,function(req,res){
+    //     ems.removeDocumentOrImagesForEMS(req,res)
+    //     })
+
 /**removeDocumentOrImagesForEMS for AWS */
 
-// app.post('/ems/api/removeDocumentOrImagesForEMS/', function (req, res) {
-//     ems.removeDocumentOrImagesForEMS(req, res)
-// })
+app.post('/ems/api/removeDocumentOrImagesForEMS/', function (req, res) {
+    ems.removeDocumentOrImagesForEMS(req, res)
+})
 /**
  * 
  * Delete Files Master
@@ -2274,14 +2276,17 @@ app.post('/ems/api/updateInductionConductedbyStatus', verifyJWTToken,function (r
 })
 
 
+app.get('/api/payrollReport', function (req, res) {
+    generatePayrollReport()
+    res.send({Status :200,Date:new Date()})
+})
 
-
-cron.schedule('0  11 * * *', async function () {   // Every day 11 am
+cron.schedule('0  9 * * *', async function () {   // Every day 11 am
     let date = new Date();
     let lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1);
     let day = new Date(lastDay.toJSON().slice(0, 10).replace(/-/g, '/')).getDay();
     if (day != 0 && day != 6) {
-        lastDay = lastDay;
+        lastDay.setDate(lastDay.getDate() - 1);
     } else if (day === 0) {   //0 means Sunday
         lastDay.setDate(lastDay.getDate() - 2); // last but two days
     } else if (day === 6) { //6 means Saturday
@@ -2296,13 +2301,64 @@ cron.schedule('0  11 * * *', async function () {   // Every day 11 am
 
 
 async function generatePayrollReport() {
-    con.query("CALL `get_report_for_payroll_processing` (?,?)", [null, new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate()], async function (err, result, fields) {
+    let connection  = mysql.createConnection( {
+        // host: "192.168.1.30",
+        host: "65.0.224.72",
+        user: "root",
+         port: 3306,
+         password: "Sreebaw$1103",
+         database: 'spryple_sreeb',
+         dateStrings: true,
+         multipleStatements: true
+    });
+    connection.query("CALL `get_report_for_payroll_processing` (?,?)", [null, new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate()], async function (err, result, fields) {
         if (result && result[0] && result[0].length > 0) {
             for (let i = 0; i < result[0].length; i++) {
                 result[0][i].index = i + 1;
                 if (i === result[0].length - 1) {
-                    await generateExcel(result[0]);
-                    generatePDF(result[0]);
+                    try {
+                        let excelBufferData=  await generateExcel(result[0]);
+                        // let pdfBufferData = await  generatePDF(result[0]);
+                        let info = result[0];
+                        let subject = 'Payroll report-' + new Date().toJSON().slice(0, 10).replace(/-/g, '/');
+                        readHTMLFile('./templates/emailPayrollReport.html', function (err, html) {
+                            if (err) {
+                                console.log('error reading file', err);
+                                return;
+                            }
+                            var template = handlebars.compile(html);
+                            var replacements = {
+                                payrollData: info,
+                                date: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
+                                companyName: 'Sreeb Technologies Pvt Ltd'
+                            };
+                            var htmlToSend = template(replacements);
+                            transporter.sendMail({
+                                sender: 'no-reply@spryple.com',
+                                //  to: 'finance@sreebtech.com',
+                                to:  ['finance@sreebtech.com','sraavi@sreebtech.com'],
+                                subject: subject,
+                                body: 'mail content...',
+                                html: htmlToSend,
+                                attachments: [
+                                   
+                                    {
+                                        'filename': 'Payroll report ' + new Date().toJSON().slice(0, 10).replace(/-/g, '/') + '.xlsx',
+                                        'content': excelBufferData,
+                                        'contentType':
+                                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                    }
+                                ]
+                            }), function (err, success) {
+                                if (err) {
+                                    // Handle error
+                                }
+
+                            }
+                        });
+                    } catch (e) {
+                        console.log("Payroll report error",e)
+                    }
                 }
             }
 
@@ -2348,8 +2404,9 @@ var transporter = nodemailer.createTransport({
 
 
 async function generatePDF(data) {
+    let _this = this;
     let info = data;
-    let html = fs.readFileSync("./templates/monthlyPayrollReport.html", "utf8");
+    const html = fs.readFileSync("./templates/monthlyPayrollReport.html", "utf8");
     let options = {
         format: "A3",
         orientation: "portrait",
@@ -2374,98 +2431,61 @@ async function generatePDF(data) {
             payrollData: data,
             // users:users
         },
-        path: "./files/Payroll Report.pdf",
-        type: "",
+        type:'buffer'
     };
-    await pdf.create(document, options).then((res) => { console.log(res); }).catch((error) => {
-        console.error(error);
-    });
-
-    let subject = 'Payroll report-' + new Date().toJSON().slice(0, 10).replace(/-/g, '/');
-    fs.readFile("./files/Payroll Report.pdf", function (err, data) {
-        fs.readFile("./files/Payroll Report.xlsx", function (err, xlsx) {
-            readHTMLFile('./templates/emailPayrollReport.html', function (err, html) {
-                if (err) {
-                    console.log('error reading file', err);
-                    return;
-                }
-                var template = handlebars.compile(html);
-                var replacements = {
-                    payrollData: info,
-                    date: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
-                    companyName: 'Sreeb Technologies Pvt Ltd'
-                };
-                var htmlToSend = template(replacements);
-                transporter.sendMail({
-                    sender: 'no-reply@spryple.com',
-                    to: 'smattupalli@sreebtech.com',
-                    subject: subject,
-                    body: 'mail content...',
-                    html: htmlToSend,
-                    attachments: [{ 'filename': 'Payroll report ' + new Date().toJSON().slice(0, 10).replace(/-/g, '/') + '.pdf', 'content': data }, { 'filename': 'Payroll report ' + new Date().toJSON().slice(0, 10).replace(/-/g, '/') + '.xlsx', 'content': xlsx }]
-                }), function (err, success) {
-                    if (err) {
-                        // Handle error
-                    }
-
-                }
-            });
-        })
-    });
-
-
+    return await pdf.create(document,options);
+    
 }
 
 
 
 
 async function generateExcel(results) {
+/** Create Excel workbook and worksheet **/
+const workbook = new excelJS.Workbook();
+const worksheet = workbook.addWorksheet('Report');
 
+/** Define columns in the worksheet, these columns are identified using a key.**/
+worksheet.columns = [
+    { header: "S no", key: "index", width: 15 },
+    { header: "Employee Id", key: "empid", width: 15 },
+    { header: "Employee Name", key: "empname", width: 25 },
+    { header: "Loss of Pay Count ", key: "lopcount", width: 20 },
+    { header: "Absent ", key: "absents", width: 10 },
 
-    /** Create Excel workbook and worksheet **/
-    const workbook = new excelJS.Workbook();
-    const worksheet = workbook.addWorksheet('Report');
+]
 
-    /** Define columns in the worksheet, these columns are identified using a key.**/
-    worksheet.columns = [
-        { header: "S no", key: "index", width: 15 },
-        { header: "Employee Id", key: "empid", width: 15 },
-        { header: "Employee Name", key: "empname", width: 25 },
-        { header: "Loss of Pay Count ", key: "lopcount", width: 20 },
-        { header: "Absent ", key: "absents", width: 10 },
+/** Add rows from database to worksheet **/
+for (const row of results) {
+    worksheet.addRow(row);
+}
+worksheet.autoFilter = 'A1:E1';
 
-    ]
+worksheet.eachRow(function (row, rowNumber) {
 
-    /** Add rows from database to worksheet **/
-    for (const row of results) {
-        worksheet.addRow(row);
-    }
-    worksheet.autoFilter = 'A1:E1';
-
-    worksheet.eachRow(function (row, rowNumber) {
-
-        row.eachCell((cell, colNumber) => {
-            if (rowNumber == 1) {
-                /** First set the background of header row **/
-                cell.fill = {
-                    type: 'pattern',
-                    pattern: 'solid',
-                    fgColor: { argb: '41f5b9' }
-                }
+    row.eachCell((cell, colNumber) => {
+        if (rowNumber == 1) {
+            /** First set the background of header row **/
+            cell.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: '41f5b9' }
             }
-            /** Set border of each cell **/
-            cell.border = {
-                top: { style: 'thin' },
-                left: { style: 'thin' },
-                bottom: { style: 'thin' },
-                right: { style: 'thin' }
-            };
-        })
-        /** Commit the changed row to the stream **/
-        row.commit();
-    });
-    // Finally save the worksheet into the folder from where we are running the code.
-    return await workbook.xlsx.writeFile('./files/Payroll Report.xlsx');
+        }
+        /** Set border of each cell **/
+        cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' }
+        };
+    })
+    /** Commit the changed row to the stream **/
+    row.commit();
+});
+// Finally save the worksheet into the folder from where we are running the code.
+// return await workbook.xlsx.writeFile('./files/Payroll Report.xlsx');
+return await workbook.xlsx.writeBuffer()
 }
 
 /** get maindashborad employee count data   */
@@ -2710,6 +2730,11 @@ app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function 
     payroll.getEsiEmployerContribution(req,res)
 });
 
+/** */
+app.get('/ems/api/validateReportingManager/:eid/:companyName',verifyJWTToken, function (req, res) {
+    ems.validateReportingManager(req,res)
+
+})
 
 
 
@@ -2728,18 +2753,20 @@ app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function 
 
 /** uncomment in QA build time */
 
-app.listen(202,'0.0.0.0',function (err) {
-    if (err)
-        console.log('Server Cant Start ...Erorr....');
-    else
-        console.log('Server Started at :  http://122.175.62.210:202');
-});
-
-/** uncomment in AWS_Prod build time */
-
-// app.listen(6060,'0.0.0.0',function (err) {
+// app.listen(202,'0.0.0.0',function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at : http://13.232.185.196:6060');
+//         console.log('Server Started at :  http://122.175.62.210:202');
 // });
+
+/** uncomment in AWS_Prod build time */
+
+app.listen(6060,'0.0.0.0',function (err) {
+    if (err)
+        console.log('Server Cant Start ...Erorr....');
+    else
+        console.log('Server Started at : http://13.232.185.196:6060');
+});
+
+

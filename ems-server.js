@@ -143,7 +143,8 @@ module.exports = {
     updateInductionConductedbyStatus:updateInductionConductedbyStatus,
     getAttendanceCountsForDate:getAttendanceCountsForDate,
     getEmployeeProgramAlerts:getEmployeeProgramAlerts,
-    getDocumentsFiles:getDocumentsFiles
+    getDocumentsFiles: getDocumentsFiles,
+    validateReportingManager:validateReportingManager
 
 
     
@@ -198,9 +199,10 @@ async function setNewHire(req, res) {
                             /**Local */
                             // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                            //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                             /**AWS */
-                            // var url = 'http://sreeb.spryple.com/#/pre-onboarding/'+token;
+                           var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
+                           
                            let mname = emailData.middlename !=null ? emailData.middlename: ' ';
                            var name = emailData.firstname + mname + emailData.lastname;
                             var html = `<html>
@@ -261,7 +263,7 @@ async function setNewHire(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 //// get new hire list
@@ -287,7 +289,7 @@ async function getNewHireDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     
@@ -316,7 +318,7 @@ async function getNewHireDetails(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -350,7 +352,7 @@ async function setReasonMaster(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result[0][0].statuscode == 0) {
@@ -377,7 +379,7 @@ async function setReasonMaster(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -404,7 +406,7 @@ async function getActiveReasonList(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -431,7 +433,7 @@ async function getActiveReasonList(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -460,7 +462,7 @@ async function getActiveReasonList(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                      if (result && result.length > 0) {
@@ -487,7 +489,7 @@ async function getActiveReasonList(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -521,7 +523,7 @@ async function getActiveReasonList(req,res) {
                             errorLogArray.push(null);
                             errorLogArray.push(companyName);
                             errorLogArray.push(dbName);
-                            errorLogs = await errorLogs(errorLogArray);
+                             errorLogs(errorLogArray);
                             res.send({ status: false });
                         } else {
                             if (result[0][0].statuscode == 0) {
@@ -548,7 +550,7 @@ async function getActiveReasonList(req,res) {
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray)
+             errorLogs(errorLogArray)
         }
       }
 
@@ -576,7 +578,7 @@ async function getTerminationCategory(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -602,7 +604,7 @@ async function getTerminationCategory(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 /** set document category
@@ -635,7 +637,7 @@ async function setDocumentCategory(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result[0][0].statuscode == 0) {
@@ -661,7 +663,7 @@ async function setDocumentCategory(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
              }
 }
 /**Get document category Data **/
@@ -686,7 +688,7 @@ async function getDocumentCategory(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -712,7 +714,7 @@ async function getDocumentCategory(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
   }
 }
 
@@ -742,7 +744,7 @@ async function setProgramsMaster(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result) {
@@ -770,7 +772,7 @@ async function setProgramsMaster(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
 
     }
 
@@ -798,7 +800,7 @@ async function getProgramsMaster(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -825,7 +827,7 @@ async function getProgramsMaster(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 
 }
@@ -854,7 +856,7 @@ async function setProgramTasks() {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -881,7 +883,7 @@ async function setProgramTasks() {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 
 }
@@ -956,7 +958,7 @@ async function setProgramSchedules(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result[0][0].successstate == 0) {
@@ -993,7 +995,7 @@ async function setProgramSchedules(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
 
     }
 
@@ -1022,7 +1024,7 @@ async function getProgramSchedules(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -1049,7 +1051,7 @@ async function getProgramSchedules(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
 
     }
 
@@ -1079,7 +1081,7 @@ async function setEmployeeProgramSchedules(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -1106,7 +1108,7 @@ async function setEmployeeProgramSchedules(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
    }
 
 }
@@ -1134,7 +1136,7 @@ async function getEmployeeProgramSchedules(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -1166,7 +1168,7 @@ async function getEmployeeProgramSchedules(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
 
     }
 
@@ -1228,7 +1230,7 @@ async function setChecklistsMaster(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 
 }
@@ -1255,7 +1257,7 @@ async function getChecklistsMasterActive(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -1281,7 +1283,7 @@ async function getChecklistsMasterActive(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+         errorLogs(errorLogArray)  }
 
 }
 
@@ -1309,7 +1311,7 @@ async function getChecklistsMaster(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
             
@@ -1336,7 +1338,7 @@ async function getChecklistsMaster(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
 
     }
 
@@ -1364,7 +1366,7 @@ async function getEmployeesList(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
             
@@ -1391,7 +1393,7 @@ async function getEmployeesList(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1446,7 +1448,7 @@ async function setPreonboardCandidateInformation(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
  }
 }
     /** get candidates list */
@@ -1500,7 +1502,7 @@ async function setPreonboardCandidateInformation(req, res) {
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray)
+             errorLogs(errorLogArray)
         }
       }
 
@@ -1528,7 +1530,7 @@ async function getEmployeeChecklists(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -1554,7 +1556,7 @@ async function getEmployeeChecklists(req, res) {
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray)
+             errorLogs(errorLogArray)
        }
 }
 
@@ -1581,7 +1583,7 @@ async function getEmployeesTermination(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -1608,7 +1610,7 @@ async function getEmployeesTermination(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 
 }
@@ -1634,7 +1636,7 @@ async function setEmployeeTermination(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result[0] && result[0][0] && result[0][0].statuscode == 0) {
@@ -1661,7 +1663,7 @@ async function setEmployeeTermination(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
        }
 
 }
@@ -1688,7 +1690,7 @@ async function getEmployeesResignation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
             
@@ -1715,7 +1717,7 @@ async function getEmployeesResignation(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 async function setEmployeeResignation(req,res) {
@@ -1769,7 +1771,7 @@ async function setEmployeeResignation(req,res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray) }
+     errorLogs(errorLogArray) }
 
 }
 async function getActiveTerminationCategories(req,res) {
@@ -1794,7 +1796,7 @@ async function getActiveTerminationCategories(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -1820,7 +1822,7 @@ async function getActiveTerminationCategories(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 
 }
@@ -1846,7 +1848,7 @@ async function getEmployeeslistforTermination(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -1872,7 +1874,7 @@ async function getEmployeeslistforTermination(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 
@@ -1897,7 +1899,7 @@ async function setCandidateExperience(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -1923,7 +1925,7 @@ async function setCandidateExperience(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -1949,7 +1951,7 @@ async function setCandidateEducation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -1975,7 +1977,7 @@ async function setCandidateEducation(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 // get_department_employees_by_designation
@@ -2000,7 +2002,7 @@ async function getDepartmentEmployeesByDesignation(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
             
@@ -2028,7 +2030,7 @@ async function getDepartmentEmployeesByDesignation(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 
@@ -2056,7 +2058,7 @@ async function setselectEmployeesProgramSchedules(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result[0][0].successstate == 0) {
@@ -2084,7 +2086,7 @@ async function setselectEmployeesProgramSchedules(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)   }
+         errorLogs(errorLogArray)   }
 }
 
 async function updateselectEmployeesProgramSchedules(req,res){
@@ -2108,7 +2110,7 @@ async function updateselectEmployeesProgramSchedules(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result[0][0].successstate == 0) {
@@ -2136,7 +2138,7 @@ async function updateselectEmployeesProgramSchedules(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
      }
 }
 
@@ -2216,7 +2218,7 @@ async function getallEmployeeProgramSchedules(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2242,7 +2244,7 @@ async function getallEmployeeProgramSchedules(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 async function getEmployeesForProgramSchedule(req,res){
@@ -2296,7 +2298,7 @@ async function getEmployeesForProgramSchedule(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 
@@ -2324,7 +2326,7 @@ async function getFileMasterForEMS(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -2352,7 +2354,7 @@ async function getFileMasterForEMS(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 
@@ -2378,7 +2380,7 @@ async function setFileMasterForEMS(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -2406,7 +2408,7 @@ async function setFileMasterForEMS(req,res){
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)  }
+     errorLogs(errorLogArray)  }
 
 }
 
@@ -2434,7 +2436,7 @@ async function getFilecategoryMasterForEMS(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -2461,7 +2463,7 @@ async function getFilecategoryMasterForEMS(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+         errorLogs(errorLogArray)  }
 
 }
 
@@ -2526,7 +2528,7 @@ async function setEmpPersonalInfo(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 async function getOnboardingSettings(req,res){
@@ -2550,7 +2552,7 @@ async function getOnboardingSettings(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2577,7 +2579,7 @@ async function getOnboardingSettings(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+         errorLogs(errorLogArray)  }
     }
     
 
@@ -2603,7 +2605,7 @@ async function setEmpJobDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2630,7 +2632,7 @@ async function setEmpJobDetails(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 /**  */
@@ -2655,7 +2657,7 @@ async function getEmpJobDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2681,7 +2683,7 @@ async function getEmpJobDetails(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 // //** get employee personal detials(HR) */
@@ -2738,7 +2740,7 @@ async function setEmpEmployement(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2765,7 +2767,7 @@ async function setEmpEmployement(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 /** get hired employee list */ 
 async function getEmpEmployement(req,res) {
@@ -2789,7 +2791,7 @@ async function getEmpEmployement(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2815,7 +2817,7 @@ async function getEmpEmployement(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 /**  */
@@ -2840,7 +2842,7 @@ async function setEmpEducationDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2867,7 +2869,7 @@ async function setEmpEducationDetails(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
  }
 }
 
@@ -2893,7 +2895,7 @@ async function getEmpEducationDetails(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2918,7 +2920,7 @@ async function getEmpEducationDetails(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 async function getEmsEmployeeColumnConfigurationValue(req,res){
@@ -2942,7 +2944,7 @@ async function getEmsEmployeeColumnConfigurationValue(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -2969,7 +2971,7 @@ async function getEmsEmployeeColumnConfigurationValue(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -2995,7 +2997,7 @@ async function setEmsEmployeeColumnConfigurationValues(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false })
                     } else {
                         if (err) {
@@ -3022,7 +3024,7 @@ async function setEmsEmployeeColumnConfigurationValues(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
   }
 }
 
@@ -3050,7 +3052,7 @@ async function getFilepathsMasterForEMS(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (err) {
@@ -3077,153 +3079,145 @@ async function getFilepathsMasterForEMS(req, res) {
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray)
+             errorLogs(errorLogArray)
         }
       }
 
 async function setDocumentOrImageForEMS(req, res) {
    //** for local deployment */ 
-  console.log("data-00",req.body)
-    try {
-        let emailData;
-        file = req.files.file;
-        var localPath = JSON.parse(req.body.info);
-        var folderName = localPath.filepath;
-        console.log("dat-01",req.body)
-        if (req.body.email != undefined) {
-            console.log("eda-1",req.body.email)
-            emailData = JSON.parse(req.body.email);
-          }
-        try {
-            console.log("dat-02",folderName)
-            if (!fs.existsSync(folderName)) {
-                fs.mkdirSync(folderName);
-            } else {
-                try {
-                    file.mv(
-                        path.resolve(__dirname, folderName, localPath.filename),
-                        async function (error) {
-                            console.log("dat-03", folderName),
-                            console.log("fdsdferrr", error);
-                            if (error) {
-                                res.send({ status: false });
-                                let errorLogArray = [];
-                                let companyName =req.params.companyName;
-                                let  dbName = await getDatebaseName(companyName)
-                                errorLogArray.push("EMSAPI");
-                                errorLogArray.push("setDocumentOrImageForEMS");
-                                errorLogArray.push("POST");
-                                errorLogArray.push(JSON.stringify(req.body));
-                                errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-                                errorLogArray.push(null);
-                                errorLogArray.push(companyName);
-                                errorLogArray.push(dbName);
-                                errorLogs(errorLogArray);
+//   try {
+//         let emailData;
+//         file = req.files.file;
+//         var localPath = JSON.parse(req.body.info);
+//         var folderName = localPath.filepath;
+//         if (req.body.email != undefined) {
+//              emailData = JSON.parse(req.body.email);
+//           }
+//         try {
+//             if (!fs.existsSync(folderName)) {
+//                 fs.mkdirSync(folderName);
+//             } else {
+//                 try {
+//                     file.mv(
+//                         path.resolve(__dirname, folderName, localPath.filename),
+//                         async function (error) {
+//                             if (error) {
+//                                 res.send({ status: false });
+//                                 let errorLogArray = [];
+//                                 let companyName =req.params.companyName;
+//                                 let  dbName = await getDatebaseName(companyName)
+//                                 errorLogArray.push("EMSAPI");
+//                                 errorLogArray.push("setDocumentOrImageForEMS");
+//                                 errorLogArray.push("POST");
+//                                 errorLogArray.push(JSON.stringify(req.body));
+//                                 errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+//                                 errorLogArray.push(null);
+//                                 errorLogArray.push(companyName);
+//                                 errorLogArray.push(dbName);
+//                                 errorLogs(errorLogArray);
                                 
-                            } else {
-                                res.send({
-                                    status: true,
-                                    message: "Image Uploaded Succesfully",
-                                });
-                                if (req.body.data != "Approved") {
-                                    if (emailData.rm_email != '' || emailData.rm_name != null) [
-                                        documentApprovalEmailToHR(emailData)
-                                    ]
-                                }
+//                             } else {
+//                                 res.send({
+//                                     status: true,
+//                                     message: "Image Uploaded Succesfully",
+//                                 });
+//                                 if (req.body.data != "Approved") {
+//                                     if (emailData.rm_email != '' || emailData.rm_name != null) [
+//                                         documentApprovalEmailToHR(emailData)
+//                                     ]
+//                                 }
                                 
-                            }
-                        });
-                } catch (err) {
-                    res.send({ status: false });
-                    let companyName =req.params.companyName;
-                    let  dbName = await getDatebaseName(companyName)
-                    let errorLogArray = [];
-                    errorLogArray.push("EMSAPI");
-                    errorLogArray.push("setDocumentOrImageForEMS");
-                    errorLogArray.push("POST");
-                    errorLogArray.push(JSON.stringify(req.body));
-                    errorLogArray.push( e.message);
-                    errorLogArray.push(null);
-                    errorLogArray.push(companyName);
-                    errorLogArray.push(dbName);
-                    errorLogs(errorLogArray)
+//                             }
+//                         });
+//                 } catch (err) {
+//                     res.send({ status: false });
+//                     let companyName =req.params.companyName;
+//                     let  dbName = await getDatebaseName(companyName)
+//                     let errorLogArray = [];
+//                     errorLogArray.push("EMSAPI");
+//                     errorLogArray.push("setDocumentOrImageForEMS");
+//                     errorLogArray.push("POST");
+//                     errorLogArray.push(JSON.stringify(req.body));
+//                     errorLogArray.push( e.message);
+//                     errorLogArray.push(null);
+//                     errorLogArray.push(companyName);
+//                     errorLogArray.push(dbName);
+//                     errorLogs(errorLogArray)
 
-                }
-            }
-        }
-        catch (e) {
-            console.log("e-01",e)
-            res.send({status: false});
-            let companyName =req.body.companyName;
-            let  dbName = await getDatebaseName(companyName)
-            let errorLogArray = [];
-            errorLogArray.push("EMSAPI");
-            errorLogArray.push("setDocumentOrImageForEMS");
-            errorLogArray.push("POST");
-            errorLogArray.push(JSON.stringify(req.body));
-            errorLogArray.push( e.message);
-            errorLogArray.push(null);
-            errorLogArray.push(companyName);
-            errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray)
-        }
-    } catch (e) {
-        console.log("e-02",e)
-        res.send({ status: false });
-        let companyName =req.body.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        let errorLogArray = [];
-        errorLogArray.push("EMSAPI");
-        errorLogArray.push("setDocumentOrImageForEMS");
-        errorLogArray.push("POST");
-        errorLogArray.push(JSON.stringify(req.body));
-        errorLogArray.push( e.message);
-        errorLogArray.push(null);
-        errorLogArray.push(companyName);
-        errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+//                 }
+//             }
+//         }
+//         catch (e) {
+//             res.send({status: false});
+//             let companyName =req.body.companyName;
+//             let  dbName = await getDatebaseName(companyName)
+//             let errorLogArray = [];
+//             errorLogArray.push("EMSAPI");
+//             errorLogArray.push("setDocumentOrImageForEMS");
+//             errorLogArray.push("POST");
+//             errorLogArray.push(JSON.stringify(req.body));
+//             errorLogArray.push( e.message);
+//             errorLogArray.push(null);
+//             errorLogArray.push(companyName);
+//             errorLogArray.push(dbName);
+//              errorLogs(errorLogArray)
+//         }
+//     } catch (e) {
+//          res.send({ status: false });
+//         let companyName =req.body.companyName;
+//         let  dbName = await getDatebaseName(companyName)
+//         let errorLogArray = [];
+//         errorLogArray.push("EMSAPI");
+//         errorLogArray.push("setDocumentOrImageForEMS");
+//         errorLogArray.push("POST");
+//         errorLogArray.push(JSON.stringify(req.body));
+//         errorLogArray.push( e.message);
+//         errorLogArray.push(null);
+//         errorLogArray.push(companyName);
+//         errorLogArray.push(dbName);
+//          errorLogs(errorLogArray)
 
-    }
+//     }
 
 /**For AWS Documents */
 
-//   try {
-//   let emailData;
-//   file = req.files.file;
-//   var localPath = JSON.parse(req.body.info);
-//   var folderName = localPath.filepath;
-//   if (req.body.email != undefined) {
-//       emailData = JSON.parse(req.body.email);
-//   } 
-//   try {
-//     const params = {
-//       Bucket: folderName, //format:spryple/core
-//       Key: localPath.filename, // file will be saved as testBucket/contacts.csv
-//       Body: file.data
-//     };
-//     s3.upload(params, function(error, data) {
-//       if(error){
-//           res.send({status:false})
-//       }
-//       else{
-//           res.send({status:true,message:'Image Uploaded Succesfully'})
-//           if (req.body.data != "Approved") {
-//             if (emailData.rm_email !='' || emailData.rm_name !=null) [
-//               documentApprovalEmailToHR(emailData)
-//             ]
-//           }
-//       }
-//     });
-//   } 
-//   catch (err) {
-//     console.error(err);
-//     res.send({ status: false });
-//   }
-// } 
-// catch (e) {
-//     console.log("setDocumentOrImageForEMS:", e);
-//     res.send({ status: false });
-//   }
+  try {
+  let emailData;
+  file = req.files.file;
+  var localPath = JSON.parse(req.body.info);
+  var folderName = localPath.filepath;
+  if (req.body.email != undefined) {
+      emailData = JSON.parse(req.body.email);
+  } 
+  try {
+    const params = {
+      Bucket: folderName, //format:spryple/core
+      Key: localPath.filename, // file will be saved as testBucket/contacts.csv
+      Body: file.data
+    };
+    s3.upload(params, function(error, data) {
+      if(error){
+          res.send({status:false})
+      }
+      else{
+          res.send({status:true,message:'Image Uploaded Succesfully'})
+          if (req.body.data != "Approved") {
+            if (emailData.rm_email !='' || emailData.rm_name !=null) [
+              documentApprovalEmailToHR(emailData)
+            ]
+          }
+      }
+    });
+  } 
+  catch (err) {
+    console.error(err);
+    res.send({ status: false });
+  }
+} 
+catch (e) {
+    console.log("setDocumentOrImageForEMS:", e);
+    res.send({ status: false });
+  }
 
 }
 
@@ -3278,7 +3272,7 @@ async function setFilesMasterForEMS(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
       }
     }
 
@@ -3297,46 +3291,47 @@ async function getDocumentOrImagesForEMS(req, res) {
             var imageData = {};
             var flag = false;
 /** AWS */
-    // const params = {
-    //   Bucket: data, // pass your bucket name
-    //   Key: req.body.filename 
-    // };
+    const params = {
+      Bucket: data, // pass your bucket name
+      Key: req.body.filename 
+    };
     
-    // s3.getObject(params, function (err, data) {
-    //   if (err) {
-    //     flag = false;
-    //   }
-    //   else {
-    //     flag = true;
-    //     imageData.image = data.Body;
-    //   }
-    //       imageData.success = flag;
-    //       res.send(imageData);
-    // });
+    s3.getObject(params, function (err, data) {
+      if (err) {
+        flag = false;
+      }
+      else {
+        flag = true;
+        imageData.image = data.Body;
+      }
+          imageData.success = flag;
+          res.send(imageData);
+    });
 
 /**Local */
-        fs.readFile(folderName + req.body.filename, async function (err, result) {
-            if (err) {
-                    let companyName =req.params.companyName;
-                    let  dbName = await getDatebaseName(companyName)
-                    let errorLogArray = [];
-                    errorLogArray.push("EMSAPI");
-                    errorLogArray.push("getDocumentOrImagesForEMS");
-                    errorLogArray.push("GET");
-                    errorLogArray.push("");
-                    errorLogArray.push(err);
-                    errorLogArray.push(null);
-                    errorLogArray.push(companyName);
-                    errorLogArray.push(dbName);
-                     errorLogs(errorLogArray)
-                } else {
-                    flag = true;
-                    imageData.image = result;
+        // fs.readFile(folderName + req.body.filename, async function (err, result) {
+        //     if (err) {
+        //             let companyName =req.params.companyName;
+        //             let  dbName = await getDatebaseName(companyName)
+        //             let errorLogArray = [];
+        //             errorLogArray.push("EMSAPI");
+        //             errorLogArray.push("getDocumentOrImagesForEMS");
+        //             errorLogArray.push("GET");
+        //             errorLogArray.push("");
+        //             errorLogArray.push(err);
+        //             errorLogArray.push(null);
+        //             errorLogArray.push(companyName);
+        //             errorLogArray.push(dbName);
+        //              errorLogs(errorLogArray)
+        //         } else {
+        //             flag = true;
+        //             imageData.image = result;
              
-                    imageData.success = flag;
-                    res.send(imageData);
-                }
-            });
+        //             imageData.success = flag;
+        //             res.send(imageData);
+        //         }
+        // });
+            
         } 
         
   } catch (e) {
@@ -3351,7 +3346,7 @@ async function getDocumentOrImagesForEMS(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+    errorLogs(errorLogArray)
   }
 }
 
@@ -3397,7 +3392,7 @@ async function getUserLoginData(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -3424,7 +3419,7 @@ async function getUserLoginData(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+    errorLogs(errorLogArray)
   }
 }
 
@@ -3495,7 +3490,7 @@ async function usersLogin(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
   }
 }
 
@@ -3528,7 +3523,7 @@ async function getEmsEmployeeColumnFilterData(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -3555,7 +3550,7 @@ async function getEmsEmployeeColumnFilterData(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+   errorLogs(errorLogArray)
   }
 }
 
@@ -3583,7 +3578,7 @@ async function getOffboardingSettings(req, res) {
                       errorLogArray.push(null);
                       errorLogArray.push(companyName);
                       errorLogArray.push(dbName);
-                      errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                       res.send({ status: false });
                   } else {
                       if (result && result.length > 0) {
@@ -3609,7 +3604,7 @@ async function getOffboardingSettings(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+   errorLogs(errorLogArray)
   }
 }
 
@@ -3638,7 +3633,7 @@ async function setAnnouncements(req, res) {
                       errorLogArray.push(null);
                       errorLogArray.push(companyName);
                       errorLogArray.push(dbName);
-                      errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                       res.send({ status: false });
                   } else {
                       if (
@@ -3671,7 +3666,7 @@ async function setAnnouncements(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
   }
 }
 
@@ -3697,7 +3692,7 @@ async function deleteFilesMaster(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -3725,7 +3720,7 @@ async function deleteFilesMaster(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -3750,7 +3745,7 @@ async function getHrDetails(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -3775,7 +3770,7 @@ async function getHrDetails(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
   }
 }
 
@@ -3801,7 +3796,7 @@ async function getnoticeperiods(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -3828,7 +3823,7 @@ async function getnoticeperiods(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -3853,7 +3848,7 @@ async function getnoticeperiods(req,res){
 //                     errorLogArray.push(null);
 //                     errorLogArray.push(companyName);
 //                     errorLogArray.push(dbName);
-//                     errorLogs = await errorLogs(errorLogArray);
+//                      errorLogs(errorLogArray);
 //                     res.send({ status: false })
 //                 } else {
 //                     if (err) {
@@ -3883,7 +3878,7 @@ async function getnoticeperiods(req,res){
 //     errorLogArray.push(null);
 //     errorLogArray.push(companyName);
 //     errorLogArray.push(dbName);
-//     errorLogs = await errorLogs(errorLogArray)
+//      errorLogs(errorLogArray)
 //     }
 // }
 
@@ -3911,7 +3906,7 @@ async function setprogramspasterstatus(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result[0][0].successstate == 0) {
@@ -3937,7 +3932,7 @@ async function setprogramspasterstatus(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
   }
 }
 
@@ -3992,7 +3987,7 @@ async function getEmailsByEmpid(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -4072,10 +4067,13 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
       },
     });
     //   var url = "http://localhost:4200/Login";
+      
       /**QA */
-      var url = 'http://122.175.62.210:7575/Login';
+    //   var url = 'http://122.175.62.210:7575/Login';
+      
       /**AWS */
-    //   var url = 'http://sreeb.spryple.com/#/Login';
+      var url = 'http://sreeb.spryple.com/#/Login';
+
     var html = `<html>
         <head>
         <title>New login Credentiols</title></head>
@@ -4144,7 +4142,7 @@ async function setOffboardingSettings(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                   
@@ -4171,7 +4169,7 @@ async function setOffboardingSettings(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -4257,7 +4255,7 @@ async function setOnboardingSettings(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
@@ -4283,7 +4281,7 @@ async function setOnboardingSettings(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
 
     }
 }
@@ -4336,7 +4334,7 @@ async function getEmsEmployeeDataForReports(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -4363,7 +4361,7 @@ async function getEmsEmployeeDataForReports(req,res){
                 errorLogArray.push(null);
                 errorLogArray.push(companyName);
                 errorLogArray.push(dbName);
-                errorLogs = await errorLogs(errorLogArray)
+                 errorLogs(errorLogArray)
             }
         }
                 /** send email to employee about checklist update */
@@ -4444,7 +4442,7 @@ try {
                 errorLogArray.push(null);
                 errorLogArray.push(companyName);
                 errorLogArray.push(dbName);
-                errorLogs = await errorLogs(errorLogArray);
+                 errorLogs(errorLogArray);
                 res.send({ status: false })
             } else {
                 if (result && result.length > 0) {
@@ -4470,7 +4468,7 @@ try {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
 }
 
 }
@@ -4498,7 +4496,7 @@ async function getAnnouncements(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -4525,7 +4523,7 @@ async function getAnnouncements(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -4550,7 +4548,7 @@ async function getEmployeesPendingChecklists(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -4576,7 +4574,7 @@ async function getEmployeesPendingChecklists(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 
@@ -4604,7 +4602,7 @@ async function Messages(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -4630,7 +4628,7 @@ async function Messages(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -4656,7 +4654,7 @@ async function getFilesForApproval(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -4682,7 +4680,7 @@ async function getFilesForApproval(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -4708,7 +4706,7 @@ async function documentApproval(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                   
@@ -4743,7 +4741,7 @@ async function documentApproval(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -4781,7 +4779,7 @@ async function setEmployeeChecklists(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result[0][0].successstate == 0) {
@@ -4810,7 +4808,7 @@ async function setEmployeeChecklists(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 
@@ -4836,7 +4834,7 @@ async function getEmpOffboardTerminationChecklists(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -4862,7 +4860,7 @@ async function getEmpOffboardTerminationChecklists(req,res) {
             errorLogArray.push(null);
             errorLogArray.push(companyName);
             errorLogArray.push(dbName);
-            errorLogs = await errorLogs(errorLogArray)   }
+             errorLogs(errorLogArray)   }
 
 }
     
@@ -4941,7 +4939,7 @@ async function getEmpResignationPendingChecklists(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -4967,7 +4965,7 @@ async function getEmpResignationPendingChecklists(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 }
 
 async function getEmployeesResignationForHr(req,res) {
@@ -4991,7 +4989,7 @@ async function getEmployeesResignationForHr(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -5018,7 +5016,7 @@ async function getEmployeesResignationForHr(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+         errorLogs(errorLogArray)  }
 
 }
 /** send email to employee about new role */
@@ -5171,7 +5169,7 @@ async function getCompanyNameByEmail(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
             
@@ -5198,7 +5196,7 @@ async function getCompanyNameByEmail(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)  }
+         errorLogs(errorLogArray)  }
 }
 
 async function getReportingManagerForEmp(req,res){
@@ -5222,7 +5220,7 @@ async function getReportingManagerForEmp(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -5249,7 +5247,7 @@ async function getReportingManagerForEmp(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -5308,7 +5306,7 @@ async function getEmpPersonalInfo(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 /****
@@ -5336,7 +5334,7 @@ async  function getEmpAnnouncements(req, res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs = await errorLogs(errorLogArray);
+                     errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
                     if (result && result.length > 0) {
@@ -5362,7 +5360,7 @@ async  function getEmpAnnouncements(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -5394,7 +5392,7 @@ async function getDocumentsForEMS(req,res){
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -5421,7 +5419,7 @@ async function getDocumentsForEMS(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 
@@ -5449,7 +5447,7 @@ async function getActiveEmployeeProgramSchedules(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -5475,7 +5473,7 @@ async function getActiveEmployeeProgramSchedules(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
   }
 }
 
@@ -6120,7 +6118,7 @@ async function getEmployeeEmailData(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -6207,7 +6205,7 @@ async function getInductionProgramAssignedEmployee(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                         errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                 
@@ -6236,7 +6234,7 @@ async function getInductionProgramAssignedEmployee(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -6265,7 +6263,7 @@ async function getEmployeesListByDeptId(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs = errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -6293,12 +6291,12 @@ async function getEmployeesListByDeptId(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray) }
+         errorLogs(errorLogArray) }
 
 }
 /** set induction conducted by employees*/
 async function setInductionConductedby(req, res) {
-    console.log("data-",req.body)
+
     try {
         let companyName = req.body.companyName;
         let  dbName = await getDatebaseName(companyName)
@@ -6348,7 +6346,7 @@ async function setInductionConductedby(req, res) {
     errorLogArray.push(null);
     errorLogArray.push(companyName);
     errorLogArray.push(dbName);
-    errorLogs = await errorLogs(errorLogArray)
+     errorLogs(errorLogArray)
     }
 }
 
@@ -6376,7 +6374,7 @@ async function getInductionConductedbyEmployees(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs = errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -6404,7 +6402,7 @@ async function getInductionConductedbyEmployees(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -6436,7 +6434,7 @@ async function getCondcutedEmployeesByPrgIdAndDeptId(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs = errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -6464,7 +6462,7 @@ async function getCondcutedEmployeesByPrgIdAndDeptId(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+        errorLogs =  errorLogs(errorLogArray)
     }
 }
 
@@ -6492,7 +6490,7 @@ async function getDepartmentsByProgramId(req,res) {
                             errorLogArray.push(null);
                             errorLogArray.push(companyName);
                             errorLogArray.push(dbName);
-                            errorLogs = await errorLogs(errorLogArray)
+                            errorLogs = errorLogs(errorLogArray)
                         res.send({ status: false });
                     }else if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
@@ -6518,7 +6516,7 @@ async function getDepartmentsByProgramId(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -6547,7 +6545,7 @@ async function updateInductionConductedbyStatus(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs = errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result[0][0].statuscode == 0) {
@@ -6574,7 +6572,7 @@ async function updateInductionConductedbyStatus(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -6607,7 +6605,7 @@ async function getAttendanceCountsForDate(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs = errorLogs(errorLogArray);
                         res.send({ status: false });
                     }else if (result && result.length > 0) {
                         res.send({ data: result[0][0], status: true });
@@ -6633,7 +6631,7 @@ async function getAttendanceCountsForDate(req, res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -6662,7 +6660,7 @@ async function getEmployeeProgramAlerts(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     errorLogs = await errorLogs(errorLogArray);
+                     errorLogs = errorLogs(errorLogArray);
                      res.send({ status: false });
 
                     }else if (result && result.length > 0) {
@@ -6689,7 +6687,7 @@ async function getEmployeeProgramAlerts(req,res) {
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        errorLogs = await errorLogs(errorLogArray)
+         errorLogs(errorLogArray)
     }
 }
 
@@ -6716,7 +6714,7 @@ async function getDocumentsFiles(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = await errorLogs(errorLogArray);
+                        errorLogs = errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -6774,4 +6772,63 @@ function errorLogs(errorLogArray) {
        }
    });
 
+}
+
+/** */
+async function validateReportingManager(req, res) {
+    companyNameData = [];
+    try {
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName) {
+            listOfConnections = connection.checkExistingDBConnection(companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query(
+            "CALL `validate_reporting_manager` (?)",[JSON.parse(req.params.eid)],
+                async function (err, result, fields) {
+                    console.log("er--",err)
+                    console.log("ress--",result[0][0])
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("EMSAPI");
+                        errorLogArray.push("validateReportingManager");
+                        errorLogArray.push("GET");
+                        errorLogArray.push(JSON.stringify(req.params));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs(errorLogArray);
+                        res.send({ status: false });
+                    } else {
+                        if (result && result.length > 0) {
+                            res.send({ data: result[0][0].validity, status: true });
+
+                        } else {
+                            res.send({ status: false });
+                        }
+                    }
+                }
+        );
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }
+    catch (e) {
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("validateReportingManager");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.params));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs = errorLogs(errorLogArray)
+    }
 }
