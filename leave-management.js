@@ -207,82 +207,82 @@ async function getYearsForReport(req,res) {
 
 function setProfileImage(req, res) {
         /**  ------- For AWS Document Upload ---------*/
-    try{
-        file=req.files.file;
-        var localPath = JSON.parse(req.body.info);
-        const folderName = JSON.parse(JSON.stringify(localPath.filepath));
-        const params = {
-            Bucket: folderName, //format:spryple/core
-            Key: localPath.filename, // file will be saved as testBucket/contacts.csv
-            Body: file.data
-        };
-        s3.upload(params, function(error, data) {
-            console.log(error)
-            if(error){
-                console.log(error);
-                res.send({status:false})
-            }else{
-                res.send({status:true,message:'Image Uploaded Succesfully'})
-            }
-        });  
-    }catch (e) {
-        res.send({status:false})
-    }
-
-
-    /**  --------- For Local  ---------*/
-    // try {
-    //    file=req.files.file;
+    // try{
+    //     file=req.files.file;
     //     var localPath = JSON.parse(req.body.info);
-    //     var folderName = localPath.filepath;
-    //     try {
-    //         if (!fs.existsSync(folderName)) {
-    //             fs.mkdirSync(folderName)
-
-    //         }else {
-    //             try {
-    //                 file.mv(path.resolve(__dirname,folderName,localPath.filename),function(error){
-    //                 if(error){
-    //                    res.send({status:false})
-    //                 } else {
-    //                     res.send({status:true,message:'Image Uploaded Succesfully'})
-    //                 }
-    //             })
-    //         }
-    //         catch(err){
+    //     const folderName = JSON.parse(JSON.stringify(localPath.filepath));
+    //     const params = {
+    //         Bucket: folderName, //format:spryple/core
+    //         Key: localPath.filename, // file will be saved as testBucket/contacts.csv
+    //         Body: file.data
+    //     };
+    //     s3.upload(params, function(error, data) {
+    //         console.log(error)
+    //         if(error){
+    //             console.log(error);
     //             res.send({status:false})
+    //         }else{
+    //             res.send({status:true,message:'Image Uploaded Succesfully'})
     //         }
-    //         }
-    //     }
-    //     catch (err) {
-    //         res.send({status:false})
-    //         console.error(err)
-    //     }
+    //     });  
     // }catch (e) {
     //     res.send({status:false})
     // }
+
+
+    /**  --------- For Local  ---------*/
+    try {
+       file=req.files.file;
+        var localPath = JSON.parse(req.body.info);
+        var folderName = localPath.filepath;
+        try {
+            if (!fs.existsSync(folderName)) {
+                fs.mkdirSync(folderName)
+
+            }else {
+                try {
+                    file.mv(path.resolve(__dirname,folderName,localPath.filename),function(error){
+                    if(error){
+                       res.send({status:false})
+                    } else {
+                        res.send({status:true,message:'Image Uploaded Succesfully'})
+                    }
+                })
+            }
+            catch(err){
+                res.send({status:false})
+            }
+            }
+        }
+        catch (err) {
+            res.send({status:false})
+            console.error(err)
+        }
+    }catch (e) {
+        res.send({status:false})
+    }
 }
 
 
 function removeProfileImage(req,res) {
     try {
               /**--------   For AWS Document Upload  -----------*/
-        var params = {  Bucket: 'your bucket', Key: 'your object' };
-        s3.deleteObject(params, function(err, data) {
-            if (err) console.log(err, err.stack);  // error
-            else     console.log();                 // deleted
-          });
+        // var params = {  Bucket: 'your bucket', Key: 'your object' };
+        // s3.deleteObject(params, function(err, data) {
+        //     if (err) console.log(err, err.stack);  // error
+        //     else     console.log();                 // deleted
+        //   });
 
         /**------- For Local ------------*/
-            // let foldername = './Files/google/employee/'
-            // fs.unlink(foldername+req.params.Id+'.png',function(err,result){
-            //     if(err){
-            //         console.log(err)
-            //     }
-            //     else{
-            //         console.log("Image Deleted successfully")
-            //     }
-            // })
+            let foldername = './Files/google/employee/'
+            fs.unlink(foldername+req.params.Id+'.png',function(err,result){
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log("Image Deleted successfully")
+                }
+            })
         }
         catch(e){
             console.log("removeImage",e)
@@ -1697,79 +1697,79 @@ async function setCompOff(req,res) {
 
 async function getProfileImage(req, res) {
     /**  ------- For AWS Document Upload -----*/
-    try{
-        folderName = req.body.filepath;
-        let data = JSON.parse(JSON.stringify(folderName));
-        var imageData = {};
-        var flag = false;
-        const params = {
-          Bucket: data, // pass your bucket name
-          Key: req.body.filename 
-      };
+    // try{
+    //     folderName = req.body.filepath;
+    //     let data = JSON.parse(JSON.stringify(folderName));
+    //     var imageData = {};
+    //     var flag = false;
+    //     const params = {
+    //       Bucket: data, // pass your bucket name
+    //       Key: req.body.filename 
+    //   };
 
-        s3.getObject(params, function (err, data) {
-            if (err) {
-              flag = false;
-            }
-            else {
-              flag = true;
-              imageData.image = data.Body;
-            }
-                imageData.success = flag;
-                res.send(imageData);
-        });
-    }
-    catch(e){
-        console.log('getProfileImage',e)
-    }
+    //     s3.getObject(params, function (err, data) {
+    //         if (err) {
+    //           flag = false;
+    //         }
+    //         else {
+    //           flag = true;
+    //           imageData.image = data.Body;
+    //         }
+    //             imageData.success = flag;
+    //             res.send(imageData);
+    //     });
+    // }
+    // catch(e){
+    //     console.log('getProfileImage',e)
+    // }
 
         /**For Local Document Upload */
   
-    // try{
-    //     folderName = req.body.filepath;
-    //     var imageData={}
-    //     var flag=false;
-    //     fs.readFile(folderName + req.body.filename, async function (err, result) {
-    //         if(err){
-    //             let companyName =req.params.companyName;
-    //             let  dbName = await getDatebaseName(companyName)
-    //             let errorLogArray = [];
-    //             errorLogArray.push("LMSAPI");
-    //             errorLogArray.push("getProfileImage");
-    //             errorLogArray.push("get");
-    //             errorLogArray.push('');
-    //             errorLogArray.push(err );
-    //             errorLogArray.push(null);
-    //             errorLogArray.push(companyName);
-    //             errorLogArray.push(dbName);
-    //             await errorLogs(errorLogArray)
+    try{
+        folderName = req.body.filepath;
+        var imageData={}
+        var flag=false;
+        fs.readFile(folderName + req.body.filename, async function (err, result) {
+            if(err){
+                let companyName =req.params.companyName;
+                let  dbName = await getDatebaseName(companyName)
+                let errorLogArray = [];
+                errorLogArray.push("LMSAPI");
+                errorLogArray.push("getProfileImage");
+                errorLogArray.push("get");
+                errorLogArray.push('');
+                errorLogArray.push(err );
+                errorLogArray.push(null);
+                errorLogArray.push(companyName);
+                errorLogArray.push(dbName);
+                await errorLogs(errorLogArray)
 
-    //             flag=false;
-    //         }else{
-    //             flag=true
-    //             imageData.image=result;
-    //         }
-    //         imageData.success=flag;
-    //         // imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
-    //         res.send(imageData)
-    //     })
+                flag=false;
+            }else{
+                flag=true
+                imageData.image=result;
+            }
+            imageData.success=flag;
+            // imageData.companyShortName=Buffer.from(req.params.companyShortName,'base64').toString('ascii');
+            res.send(imageData)
+        })
     
 
-    // }
-    // catch(e){
-    //     let companyName =req.params.companyName;
-    //             let  dbName = await getDatebaseName(companyName)
-    //             let errorLogArray = [];
-    //             errorLogArray.push("LMSAPI");
-    //             errorLogArray.push("getProfileImage");
-    //             errorLogArray.push("get");
-    //             errorLogArray.push('');
-    //             errorLogArray.push(err );
-    //             errorLogArray.push(null);
-    //             errorLogArray.push(companyName);
-    //             errorLogArray.push(dbName);
-    //             errorLogs(errorLogArray)
-    // }
+    }
+    catch(e){
+        let companyName =req.params.companyName;
+                let  dbName = await getDatebaseName(companyName)
+                let errorLogArray = [];
+                errorLogArray.push("LMSAPI");
+                errorLogArray.push("getProfileImage");
+                errorLogArray.push("get");
+                errorLogArray.push('');
+                errorLogArray.push(err );
+                errorLogArray.push(null);
+                errorLogArray.push(companyName);
+                errorLogArray.push(dbName);
+                errorLogs(errorLogArray)
+    }
 
 }
 
@@ -2774,10 +2774,11 @@ function leaveRequestEmail(mailData) {
           }
       });
     //   var url = 'http://localhost:4200/Login';
-        // var url = 'http://122.175.62.210:7575/#/Login';
+        /**QA */
+        var url = 'http://122.175.62.210:7575/#/Login';
        
          /**AWS */
-      var url = 'http://sreeb.spryple.com/#/Login';
+    //   var url = 'http://sreeb.spryple.com/#/Login';
 
       var html = `<html>
       <head>
@@ -3037,11 +3038,11 @@ function compOffRequestEmail(mailData){
           }
       });
     //  var url = 'http://localhost:4200/Login';
-        
-        // var url = 'http://122.175.62.210:7575/#/Login';
+        /**QA */
+        var url = 'http://122.175.62.210:7575/#/Login';
         
          /**AWS */
-      var url = 'http://sreeb.spryple.com/#/Login';
+    //   var url = 'http://sreeb.spryple.com/#/Login';
       var html = `<html>
       <head>
       <title>Comp-off request</title></head>

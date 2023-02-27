@@ -401,10 +401,10 @@ async function forgetpassword(req, res, next) {
 
                 // var url = 'http://localhost:4200/#/ResetPassword/'+token
                 
-                // var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
+                var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
 
                  /**AWS */
-                  var url = 'http://sreeb.spryple.com/#/ResetPassword/' + token;
+                //   var url = 'http://sreeb.spryple.com/#/ResetPassword/' + token;
 
                 var html = `<html>
                     <head>
