@@ -461,18 +461,41 @@ async function resetpassword(req, res, next) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query('CALL `setemployeelogin`(?,?,?,?,?)', [id, email, password, 'active', 'N'], function (err, result) {
-            console.log("err",err)
-            console.log("ress",result)
-            if (err) {
-                console.log(err)
-            }
-            else {
-                res.send({ status: true, message: 'reset password successfully' })
+        listOfConnections[companyName].query('CALL `validatelastpasswordmatch` (?,?,?,?)',[id,email,null,password],function(err,results,next){
+            var result = Object.values(JSON.parse(JSON.stringify(results[0][0])))
+            if(result[0]==0){
+                listOfConnections[companyName].query('CALL `setemployeelogin`(?,?,?,?,?)',[id, email, password,'Active','N'],function(err,result){
+                    if(err){
+                        console.log(err)
+                    }
+                    else{
+                        let results =[0]
+                        res.send({ status: true, message: 'reset password successfully' })
+                    }
+                })
 
+            }
+            else if(result[0]==-1){
+                res.send(result)
+            }
+            else{
+                res.send(result)
 
             }
+
         });
+        // listOfConnections[companyName].query('CALL `setemployeelogin`(?,?,?,?,?)', [id, email, password, 'active', 'N'], function (err, result) {
+        //     console.log("err",err)
+        //     console.log("ress",result)
+        //     if (err) {
+        //         console.log(err)
+        //     }
+        //     else {
+        //         res.send({ status: true, message: 'reset password successfully' })
+
+
+        //     }
+        // });
 
     }else {
             res.send({status: false,Message:'Database Name is missed'})
