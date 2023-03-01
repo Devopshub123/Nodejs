@@ -1693,8 +1693,19 @@ async function getSideNavigation(req, res) {
 
 /**new  attendance request mail to manager */
 function attendanceRequestEmail(mailData, companyName) {
-    let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
-    let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
+
+    //  let fromdate =new Date(mailData.fromdate).getDate();
+    //  let todate = new Date(mailData.todate).getDate();
+    //  if( new Date(mailData.fromdate).getDate() <10){
+    //     ffdate = "0"+new Date(mailData.fromdate).getDate();
+    //  }
+    //  else{
+    //     ffdate = new Date(mailData.fromdate).getDate();
+    //  }
+
+    //  console.log("ffdate",)
+    let fdate =(new Date(mailData.fromdate).getDate()<10?"0"+new Date(mailData.fromdate).getDate():new Date(mailData.fromdate).getDate())+'-'+((new Date(mailData.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.fromdate).getMonth()+1):(new Date(mailData.fromdate).getMonth()+1) )+'-'+new Date(mailData.fromdate).getFullYear();
+    let tdate =(new Date(mailData.todate).getDate()<10?"0"+new Date(mailData.todate).getDate():new Date(mailData.todate).getDate())+'-'+((new Date(mailData.todate).getMonth()+1)<10?"0"+(new Date(mailData.todate).getMonth()+1):(new Date(mailData.todate).getMonth()+1)) +'-'+new Date(mailData.todate).getFullYear();
      var companyName = companyName;
     try {
          let email = mailData.emails.rm_email
@@ -1800,8 +1811,10 @@ function attendanceRequestEmail(mailData, companyName) {
 function approveAttendanceRequestEmail(mailData,companyName) {
     try {
         var companyName = companyName;
-        let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
-        let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
+        let fdate =(new Date(mailData.empData.fromdate).getDate()<10?"0"+new Date(mailData.empData.fromdate).getDate():new Date(mailData.empData.fromdate).getDate())+'-'+((new Date(mailData.empData.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.empData.fromdate).getMonth()+1):(new Date(mailData.empData.fromdate).getMonth()+1) )+'-'+new Date(mailData.empData.fromdate).getFullYear();
+        let tdate =(new Date(mailData.empData.todate).getDate()<10?"0"+new Date(mailData.empData.todate).getDate():new Date(mailData.empData.todate).getDate())+'-'+((new Date(mailData.empData.todate).getMonth()+1)<10?"0"+(new Date(mailData.empData.todate).getMonth()+1):(new Date(mailData.empData.todate).getMonth()+1)) +'-'+new Date(mailData.empData.todate).getFullYear();
+        // let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
+        // let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
         let approvereason = mailData.approvercomments !=undefined || null ? mailData.approvercomments:''
        let email = mailData.emailData.emp_email
       var transporter = nodemailer.createTransport({
@@ -1898,8 +1911,10 @@ function approveAttendanceRequestEmail(mailData,companyName) {
   function rejectedAttendanceRequestEmail(mailData,companyName){
       try {
         var companyName =companyName;
-        let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
-        let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
+        let fdate =(new Date(mailData.empData.fromdate).getDate()<10?"0"+new Date(mailData.empData.fromdate).getDate():new Date(mailData.empData.fromdate).getDate())+'-'+((new Date(mailData.empData.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.empData.fromdate).getMonth()+1):(new Date(mailData.empData.fromdate).getMonth()+1) )+'-'+new Date(mailData.empData.fromdate).getFullYear();
+        let tdate =(new Date(mailData.empData.todate).getDate()<10?"0"+new Date(mailData.empData.todate).getDate():new Date(mailData.empData.todate).getDate())+'-'+((new Date(mailData.empData.todate).getMonth()+1)<10?"0"+(new Date(mailData.empData.todate).getMonth()+1):(new Date(mailData.empData.todate).getMonth()+1)) +'-'+new Date(mailData.empData.todate).getFullYear();
+        // let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
+        // let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
        
         let email = mailData.emailData.emp_email
       var transporter = nodemailer.createTransport({
@@ -1995,8 +2010,10 @@ function approveAttendanceRequestEmail(mailData,companyName) {
 }
   
 function editedAttendanceRequestEmail(mailData, companyName) {
-    let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
-    let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
+    let fdate =(new Date(mailData.fromdate).getDate()<10?"0"+new Date(mailData.fromdate).getDate():new Date(mailData.fromdate).getDate())+'-'+((new Date(mailData.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.fromdate).getMonth()+1):(new Date(mailData.fromdate).getMonth()+1) )+'-'+new Date(mailData.fromdate).getFullYear();
+    let tdate =(new Date(mailData.todate).getDate()<10?"0"+new Date(mailData.todate).getDate():new Date(mailData.todate).getDate())+'-'+((new Date(mailData.todate).getMonth()+1)<10?"0"+(new Date(mailData.todate).getMonth()+1):(new Date(mailData.todate).getMonth()+1)) +'-'+new Date(mailData.todate).getFullYear();
+    // let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
+    // let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
      var companyName = companyName;
     try {
         let email = mailData.emails.rm_email
@@ -2086,8 +2103,10 @@ function editedAttendanceRequestEmail(mailData, companyName) {
 }
 
 function deleteAttendanceRequestEmail(mailData) {
-    let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
-    let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
+    let fdate =(new Date(mailData.fromdate).getDate()<10?"0"+new Date(mailData.fromdate).getDate():new Date(mailData.fromdate).getDate())+'-'+((new Date(mailData.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.fromdate).getMonth()+1):(new Date(mailData.fromdate).getMonth()+1) )+'-'+new Date(mailData.fromdate).getFullYear();
+    let tdate =(new Date(mailData.todate).getDate()<10?"0"+new Date(mailData.todate).getDate():new Date(mailData.todate).getDate())+'-'+((new Date(mailData.todate).getMonth()+1)<10?"0"+(new Date(mailData.todate).getMonth()+1):(new Date(mailData.todate).getMonth()+1)) +'-'+new Date(mailData.todate).getFullYear();
+    // let fdate =new Date(mailData.fromdate).getDate()+'-'+(new Date(mailData.fromdate).getMonth()+1) +'-'+new Date(mailData.fromdate).getFullYear()
+    // let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
     try {
         let email = mailData.emails.rm_email
         var transporter = nodemailer.createTransport({
