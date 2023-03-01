@@ -199,7 +199,7 @@ async function setNewHire(req, res) {
                             /**Local */
                             // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                               var url = 'http://122.175.62.210:2020/#/pre-onboarding/'+token;
+                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                             /**AWS */
                         //    var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
                            
@@ -4073,7 +4073,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
     //   var url = "http://localhost:4200/Login";
       
       /**QA */
-      var url = 'http://122.175.62.210:2020/Login';
+      var url = 'http://122.175.62.210:7575/Login';
       
       /**AWS */
     //   var url = 'http://sreeb.spryple.com/#/Login';
