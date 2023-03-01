@@ -111,7 +111,7 @@ async function login(req, res) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
-                var result = results ? results[0] ? results[0][0]? Object.values(JSON.parse(JSON.stringify(results[0][0]))):null:null:null;
+                var result = results ? results[0] ? results[0][0] ? Object.values(JSON.parse(JSON.stringify(results[0][0]))) : null : null : null;
                 if (result && result[0] > 0) {
                     var info = {
                         id:result[0],
@@ -156,8 +156,8 @@ async function login(req, res) {
  * @returns {Promise<void>}
  */
 async function getMastertable(req, res) {
-    console.log("req.params",req.params)
-    try {
+
+   try {
         let  dbName = await getDatebaseName(req.params.companyName);
 
         let companyName = req.params.companyName;
@@ -170,7 +170,7 @@ async function getMastertable(req, res) {
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-                if (result && result.length > 0) {
+                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
                         for (let i=0; i<result[0].length;i++){
                             let hDate = (new Date(result[0][i].Date));
@@ -381,7 +381,7 @@ async function forgetpassword(req, res, next) {
                 res.send({ status: false,message:"notvalid" })
             }
             else if (data.status == 1) {
-                console.log("data--", data);
+            
                 let id = data.id;
                 let login = data.login;
                 const message = email;
@@ -401,7 +401,7 @@ async function forgetpassword(req, res, next) {
 
                 // var url = 'http://localhost:4200/#/ResetPassword/'+token
                 
-                var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
+                var url = 'http://122.175.62.210:2020/#/ResetPassword/' + token
 
                  /**AWS */
                 //   var url = 'http://sreeb.spryple.com/#/ResetPassword/' + token;
@@ -533,7 +533,7 @@ async function changePassword(req,res){
 
 /** error logs */
 function errorLogs(errorLogArray) {
-    console.log("dat==",JSON.stringify(errorLogArray[3]))
+  
     return new Promise(async (res,rej)=>{
        try {
            let companyName =errorLogArray[6];

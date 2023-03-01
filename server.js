@@ -1180,14 +1180,14 @@ app.post('/ems/api/setTerminationCategory/', verifyJWTToken,function(req,res) {
    app.post('/ems/api/setFilesMasterForEMS/',verifyJWTToken,function(req,res){
     ems.setFilesMasterForEMS(req,res)
    })
-       /**setFilesMasterForEMS */
+       /**setFilesMasterForEMS preonboarding */
    app.post('/ems/api/setFilesMasterForEMSPreonboarding/',function(req,res){
     ems.setFilesMasterForEMS(req,res)
     })
 
 /**setDocumentOrImageForEMS */
 app.post('/ems/api/setDocumentOrImageForEMS/:companyName', function (req, res) {
-    console.log("data-0",req.body)
+   
     ems.setDocumentOrImageForEMS(req,res)
     })
 /**EMS getUserLoginData */
@@ -1218,7 +1218,7 @@ app.post('/ems/api/getDocumentsForEMS/',verifyJWTToken,function(req,res){
     })
 
     /**getDocumentsForEMS */
-app.post('/ems/api/getDocumentOrImagesForEMS/',verifyJWTToken,function(req,res){
+app.post('/ems/api/getDocumentOrImagesForEMS/', verifyJWTToken, function (req, res) {
     ems.getDocumentOrImagesForEMS(req,res)
     })
 
@@ -2744,21 +2744,22 @@ app.get('/ems/api/validateReportingManager/:eid/:companyName',verifyJWTToken, fu
 
 
 ///** */
-// app.listen(6060,function (err) {
-//     if (err)
-//         console.log('Server Cant Start ...Erorr....');
-//     else
-//         console.log('Server Started at : http://localhost:6060');
-// });
-
-/** uncomment in QA build time */
-
-app.listen(202,'0.0.0.0',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://122.175.62.210:202');
+        console.log('Server Started at : http://localhost:6060');
 });
+
+/** uncomment in QA build time */
+/**2121- demo back - 2020 frontend*//**202 - QA */
+
+// app.listen(202,'0.0.0.0',function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at :  http://122.175.62.210:2121');
+// });
 
 /** uncomment in AWS_Prod build time */
 

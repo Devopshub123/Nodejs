@@ -1784,7 +1784,7 @@ async function updateMonthlySalary(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            console.log("data",req.body)
+           
             listOfConnections[companyName].query("CALL `update_monthly_salary` (?,?,?,?,?)",[JSON.stringify(req.body.employee_list),req.body.year_value, req.body.month_value ,req.body.financial_year_value,req.body.created_by_value] ,async function (err, result, fields) {
                 console.log("err",err);
                 console.log("result",result)
@@ -2794,7 +2794,7 @@ async function otherAllowancePopup(req,res){
 /**assignPayGroup*/
 async function setEsiForState(req,res){
     try {
-        console.log("data",req.body)
+       
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
@@ -2845,7 +2845,7 @@ async function setEsiForState(req,res){
 /**setCompanyEsiValues */
 async function setCompanyEsiValues(req,res){
     try {
-        console.log("data",req.body)
+      
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
@@ -2897,7 +2897,7 @@ async function setCompanyEsiValues(req,res){
 }
 async function getCompanyEsiValues(req,res){
     try {
-        console.log("data",req.params)
+      
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.body.companyName;
 
@@ -2997,7 +2997,7 @@ async function getEsiEmployerContribution(req,res){
 }
 /** error logs */
 async function errorLogs(errorLogArray) {
-    console.log("dat==",JSON.stringify(errorLogArray[3]))
+  
     return new Promise(async (res,rej)=>{
        try {
            let companyName =errorLogArray[6];

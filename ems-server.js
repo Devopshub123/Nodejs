@@ -153,6 +153,7 @@ module.exports = {
 //// set new hire list
 async function setNewHire(req, res) {
     try {
+      
         let emailData = req.body;
         let companyName =req.body.companyName;
         let dbName = await getDatebaseName(companyName);
@@ -181,7 +182,6 @@ async function setNewHire(req, res) {
                 } else {
 
                     if (result[0][0].statuscode == 0) {
-                        console.log("t1--",emailData)
                        if (emailData.personal_email != '' || undefined || null) {
                             var transporter = nodemailer.createTransport({
                                 host: "smtp-mail.outlook.com", // hostname
@@ -199,12 +199,12 @@ async function setNewHire(req, res) {
                             /**Local */
                             // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                               var url = 'http://122.175.62.210:2020/#/pre-onboarding/'+token;
                             /**AWS */
                         //    var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
                            
                            let mname = emailData.middlename !=null ? emailData.middlename: ' ';
-                           var name = emailData.firstname + mname + emailData.lastname;
+                           var name = emailData.firstname+' ' + mname +' '+ emailData.lastname;
                             var html = `<html>
                         <head>
                         <title>Candidate Form</title></head>
@@ -3287,9 +3287,13 @@ async function getDocumentOrImagesForEMS(req, res) {
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
-            folderName = req.body.filepath+'/';
-            var imageData = {};
-            var flag = false;
+            // folderName = req.body.filepath+'/';
+            // var imageData = {};
+            // var flag = false;
+            folderName = req.body.filepath;
+    let data = JSON.parse(JSON.stringify(folderName));
+    var imageData = {};
+    var flag = false;
 /** AWS */
     // const params = {
     //   Bucket: data, // pass your bucket name
@@ -3309,7 +3313,7 @@ async function getDocumentOrImagesForEMS(req, res) {
     // });
 
 /**Local */
-        fs.readFile(folderName + req.body.filename, async function (err, result) {
+            fs.readFile(folderName + req.body.filename, async function (err, result) {
             if (err) {
                     let companyName =req.params.companyName;
                     let  dbName = await getDatebaseName(companyName)
@@ -4069,7 +4073,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
     //   var url = "http://localhost:4200/Login";
       
       /**QA */
-      var url = 'http://122.175.62.210:7575/Login';
+      var url = 'http://122.175.62.210:2020/Login';
       
       /**AWS */
     //   var url = 'http://sreeb.spryple.com/#/Login';
@@ -5267,7 +5271,7 @@ async function getEmpPersonalInfo(req, res) {
                 "CALL `get_emp_personal_info` (?)",
                 [JSON.parse(req.params.id)],
                 async function (err, result, fields) {
-                    if (err) {
+                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
                         errorLogArray.push("getTerminationCategory");
@@ -5277,7 +5281,7 @@ async function getEmpPersonalInfo(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result.length > 0) {
@@ -6789,9 +6793,7 @@ async function validateReportingManager(req, res) {
             listOfConnections[companyName].query(
             "CALL `validate_reporting_manager` (?)",[JSON.parse(req.params.eid)],
                 async function (err, result, fields) {
-                    console.log("er--",err)
-                    console.log("ress--",result[0][0])
-                    if (err) {
+                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
                         errorLogArray.push("validateReportingManager");

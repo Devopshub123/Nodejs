@@ -1875,7 +1875,7 @@ async function getCompoffLeaveStatus(req,res) {
                     res.send({ status: false })
                 } else {
                     if (result && result.length > 0) {
-                        console.log("Da---",result[0][0])
+                      
                         res.send({ data: result[0][0], status: true });
                     }
                     else {
@@ -2018,7 +2018,7 @@ async function getLeavesForApprovals(req,res) {
 
 async function leaveSattus(req, res) {
     let emailData = req.body;
-    console.log("dat---",emailData)
+   
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -2775,7 +2775,7 @@ function leaveRequestEmail(mailData) {
       });
     //   var url = 'http://localhost:4200/Login';
         /**QA */
-        var url = 'http://122.175.62.210:7575/#/Login';
+        var url = 'http://122.175.62.210:2020/#/Login';
        
          /**AWS */
     //   var url = 'http://sreeb.spryple.com/#/Login';
@@ -3039,7 +3039,7 @@ function compOffRequestEmail(mailData){
       });
     //  var url = 'http://localhost:4200/Login';
         /**QA */
-        var url = 'http://122.175.62.210:7575/#/Login';
+        var url = 'http://122.175.62.210:2020/#/Login';
         
          /**AWS */
     //   var url = 'http://sreeb.spryple.com/#/Login';
@@ -3428,7 +3428,7 @@ function approveCancelLeaveRequestEmail(mailData) {
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Approve Cancelled Leave request by '+' '+ mailData.emaildata.rm_name,
+            subject: 'Cancelled Leave request approved by '+' '+ mailData.emaildata.rm_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
