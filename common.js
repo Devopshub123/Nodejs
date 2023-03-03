@@ -619,12 +619,12 @@ async function getCommonSideNavigation(req, res) {
                             result[0][i].children = [];
                             if(result[0][i].menu_items){
                                 result[0][i].menu_items =JSON.parse(result[0][i].menu_items);
-                                result[0][i].parentRoles = result[0][i].menu_items.map(v => v.parentrole).filter((value, index, self) => self.indexOf(value) === index);
+                                result[0][i].parentRoles = result[0][i].menu_items.map(v => v.role_name).filter((value, index, self) => self.indexOf(value) === index);
                                 
                                 for(let pr=0;pr<result[0][i].parentRoles.length;pr++){
                                     result[0][i].children[pr] = {displayName:result[0][i].parentRoles[pr], isOpen:!!(result[0][i].parentRoles[pr]===self) ,subChildren:[]};
                                     for(let j=0;j<result[0][i].menu_items.length;j++){
-                                        if(result[0][i].parentRoles[pr] === result[0][i].menu_items[j].parentrole){
+                                        if(result[0][i].parentRoles[pr] === result[0][i].menu_items[j].role_name){
                                             result[0][i].menu_items[j].functionalities = result[0][i].menu_items[j].functionalities? JSON.parse(result[0][i].menu_items[j].functionalities):{};
                                             result[0][i].children[pr].subChildren.push(result[0][i].menu_items[j]);
                                         }
