@@ -2757,8 +2757,10 @@ async function getLeaveTypesToAdd(req,res){
 }
 /** new leave request */
 function leaveRequestEmail(mailData) {
-    let fdate =new Date(mailData.fromDate).getDate()+'-'+(new Date(mailData.fromDate).getMonth()+1) +'-'+new Date(mailData.fromDate).getFullYear()
-    let tdate =new Date(mailData.toDate).getDate()+'-'+(new Date(mailData.toDate).getMonth()+1) +'-'+new Date(mailData.toDate).getFullYear()
+    let fdate =(new Date(mailData.fromDate).getDate()<10?"0"+new Date(mailData.fromDate).getDate():new Date(mailData.fromDate).getDate())+'-'+((new Date(mailData.fromDate).getMonth()+1)<10?"0"+(new Date(mailData.fromDate).getMonth()+1):(new Date(mailData.fromDate).getMonth()+1) )+'-'+new Date(mailData.fromDate).getFullYear();
+    let tdate =(new Date(mailData.toDate).getDate()<10?"0"+new Date(mailData.toDate).getDate():new Date(mailData.toDate).getDate())+'-'+((new Date(mailData.toDate).getMonth()+1)<10?"0"+(new Date(mailData.toDate).getMonth()+1):(new Date(mailData.toDate).getMonth()+1)) +'-'+new Date(mailData.toDate).getFullYear();
+    // let fdate =new Date(mailData.fromDate).getDate()+'-'+(new Date(mailData.fromDate).getMonth()+1) +'-'+new Date(mailData.fromDate).getFullYear()
+    // let tdate =new Date(mailData.toDate).getDate()+'-'+(new Date(mailData.toDate).getMonth()+1) +'-'+new Date(mailData.toDate).getFullYear()
     try {
         let email = mailData.emailData.rm_email
       var transporter = nodemailer.createTransport({
@@ -2849,8 +2851,10 @@ function leaveRequestEmail(mailData) {
 }
 /** approved leave request mail to employee */
 function approveLeaveRequestEmail(mailData) {
-    let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
-    let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
+    let fdate =(new Date(mailData.leavedata.fromdate).getDate()<10?"0"+new Date(mailData.leavedata.fromdate).getDate():new Date(mailData.leavedata.fromdate).getDate())+'-'+((new Date(mailData.leavedata.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.fromdate).getMonth()+1):(new Date(mailData.leavedata.fromdate).getMonth()+1) )+'-'+new Date(mailData.leavedata.fromdate).getFullYear();
+    let tdate =(new Date(mailData.leavedata.todate).getDate()<10?"0"+new Date(mailData.leavedata.todate).getDate():new Date(mailData.leavedata.todate).getDate())+'-'+((new Date(mailData.leavedata.todate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.todate).getMonth()+1):(new Date(mailData.leavedata.todate).getMonth()+1)) +'-'+new Date(mailData.leavedata.todate).getFullYear();
+    // let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
+    // let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
    
     try {
         let email = mailData.emaildata.emp_email
@@ -2935,8 +2939,10 @@ function approveLeaveRequestEmail(mailData) {
   }
   
 function rejectedLeaveRequestEmail(mailData) {
-    let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
-    let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
+    let fdate =(new Date(mailData.leavedata.fromdate).getDate()<10?"0"+new Date(mailData.leavedata.fromdate).getDate():new Date(mailData.leavedata.fromdate).getDate())+'-'+((new Date(mailData.leavedata.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.fromdate).getMonth()+1):(new Date(mailData.leavedata.fromdate).getMonth()+1) )+'-'+new Date(mailData.leavedata.fromdate).getFullYear();
+    let tdate =(new Date(mailData.leavedata.todate).getDate()<10?"0"+new Date(mailData.leavedata.todate).getDate():new Date(mailData.leavedata.todate).getDate())+'-'+((new Date(mailData.leavedata.todate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.todate).getMonth()+1):(new Date(mailData.leavedata.todate).getMonth()+1)) +'-'+new Date(mailData.leavedata.todate).getFullYear();
+    // let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
+    // let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
    
      try {
         let email = mailData.emaildata.emp_email
@@ -3022,7 +3028,8 @@ function rejectedLeaveRequestEmail(mailData) {
 
 function compOffRequestEmail(mailData){
     try {
-        let wdate =new Date(mailData.workDate).getDate()+'-'+(new Date(mailData.workDate).getMonth()+1) +'-'+new Date(mailData.workDate).getFullYear()
+        let wdate =(new Date(mailData.workDate).getDate()<10?"0"+new Date(mailData.workDate).getDate():new Date(mailData.workDate).getDate())+'-'+((new Date(mailData.workDate).getMonth()+1)<10?"0"+(new Date(mailData.workDate).getMonth()+1):(new Date(mailData.workDate).getMonth()+1)) +'-'+new Date(mailData.workDate).getFullYear()
+        // let wdate =new Date(mailData.workDate).getDate()+'-'+(new Date(mailData.workDate).getMonth()+1) +'-'+new Date(mailData.workDate).getFullYear()
      
         let email = mailData.emaildata.rm_email
       var transporter = nodemailer.createTransport({
@@ -3106,7 +3113,8 @@ function compOffRequestEmail(mailData){
 function compOffApprovalRequestEmail(mailData) {
     try {
         let email = mailData.emaildata.emp_email;
-        let wdate =new Date(mailData.comp_off_date).getDate()+'-'+(new Date(mailData.comp_off_date).getMonth()+1) +'-'+new Date(mailData.comp_off_date).getFullYear()
+        let wdate =(new Date(mailData.comp_off_date).getDate()<10?"0"+new Date(mailData.comp_off_date).getDate():new Date(mailData.comp_off_date).getDate())+'-'+((new Date(mailData.comp_off_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_date).getMonth()+1):(new Date(mailData.comp_off_date).getMonth()+1)) +'-'+new Date(mailData.comp_off_date).getFullYear()
+        // let wdate =new Date(mailData.comp_off_date).getDate()+'-'+(new Date(mailData.comp_off_date).getMonth()+1) +'-'+new Date(mailData.comp_off_date).getFullYear()
      
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
@@ -3180,7 +3188,9 @@ function compOffApprovalRequestEmail(mailData) {
   function compOffRejectRequestEmail(mailData){
     try {
         let email = mailData.emaildata.emp_email;
-        let wdate =new Date(mailData.comp_off_date).getDate()+'-'+(new Date(mailData.comp_off_date).getMonth()+1) +'-'+new Date(mailData.comp_off_date).getFullYear()
+        // let fdate =(new Date(mailData.leavedata.fromdate).getDate()<10?"0"+new Date(mailData.leavedata.fromdate).getDate():new Date(mailData.leavedata.fromdate).getDate())+'-'+((new Date(mailData.leavedata.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.fromdate).getMonth()+1):(new Date(mailData.leavedata.fromdate).getMonth()+1) )+'-'+new Date(mailData.leavedata.fromdate).getFullYear();
+
+        let wdate =(new Date(mailData.comp_off_date).getDate()<10?"0"+new Date(mailData.comp_off_date).getDate():new Date(mailData.comp_off_date).getDate())+'-'+((new Date(mailData.comp_off_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_date).getMonth()+1):(new Date(mailData.comp_off_date).getMonth()+1) )+'-'+new Date(mailData.comp_off_date).getFullYear()
      
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
@@ -3202,7 +3212,7 @@ function compOffApprovalRequestEmail(mailData) {
     
       <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
-      <p style="color:black">A comp-off request by you has been Rejected by ${mailData.emaildata.emp_name}</p>
+      <p style="color:black">A comp-off request by you has been Rejected by ${mailData.emaildata.rm_name}</p>
       
       <table border="1" style='border-collapse:collapse;color:black'>
       <tbody>
@@ -3260,9 +3270,11 @@ function compOffApprovalRequestEmail(mailData) {
 }
 
 function cancelLeaveRequestEmail(mailData, companyName) {
-    let fdate = new Date(mailData.fromdate).getDate() + '-' + (new Date(mailData.fromdate).getMonth() + 1) + '-' + new Date(mailData.fromdate).getFullYear();
-    let tdate = new Date(mailData.todate).getDate() + '-' + (new Date(mailData.todate).getMonth() + 1) + '-' + new Date(mailData.todate).getFullYear();
-    let aprdate = new Date(mailData.approvedon).getDate() + '-' + (new Date(mailData.approvedon).getMonth() + 1) + '-' + new Date(mailData.approvedon).getFullYear();
+    let fdate =(new Date(mailData.fromdate).getDate()<10?"0"+new Date(mailData.fromdate).getDate():new Date(mailData.fromdate).getDate())+'-'+((new Date(mailData.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.fromdate).getMonth()+1):(new Date(mailData.fromdate).getMonth()+1) )+'-'+new Date(mailData.fromdate).getFullYear();
+    let tdate =(new Date(mailData.todate).getDate()<10?"0"+new Date(mailData.todate).getDate():new Date(mailData.todate).getDate())+'-'+((new Date(mailData.todate).getMonth()+1)<10?"0"+(new Date(mailData.todate).getMonth()+1):(new Date(mailData.todate).getMonth()+1)) +'-'+new Date(mailData.todate).getFullYear();
+    // let fdate = new Date(mailData.fromdate).getDate() + '-' + (new Date(mailData.fromdate).getMonth() + 1) + '-' + new Date(mailData.fromdate).getFullYear();
+    // let tdate = new Date(mailData.todate).getDate() + '-' + (new Date(mailData.todate).getMonth() + 1) + '-' + new Date(mailData.todate).getFullYear();
+    let aprdate = (new Date(mailData.approvedon).getDate()<10?"0"+new Date(mailData.approvedon).getDate():new Date(mailData.approvedon).getDate()) + '-' +( (new Date(mailData.approvedon).getMonth() + 1)<10?"0"+(new Date(mailData.approvedon).getMonth() + 1):(new Date(mailData.approvedon).getMonth() + 1) )+ '-' + new Date(mailData.approvedon).getFullYear();
    
     try {
         let email = mailData.emailData.rm_email;
@@ -3360,8 +3372,10 @@ function cancelLeaveRequestEmail(mailData, companyName) {
 }
 
 function approveCancelLeaveRequestEmail(mailData) {
-    let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
-    let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
+    let fdate =(new Date(mailData.leavedata.fromdate).getDate()<10?"0"+new Date(mailData.leavedata.fromdate).getDate():new Date(mailData.leavedata.fromdate).getDate())+'-'+((new Date(mailData.leavedata.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.fromdate).getMonth()+1):(new Date(mailData.leavedata.fromdate).getMonth()+1) )+'-'+new Date(mailData.leavedata.fromdate).getFullYear();
+    let tdate =(new Date(mailData.leavedata.todate).getDate()<10?"0"+new Date(mailData.leavedata.todate).getDate():new Date(mailData.leavedata.todate).getDate())+'-'+((new Date(mailData.leavedata.todate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.todate).getMonth()+1):(new Date(mailData.leavedata.todate).getMonth()+1)) +'-'+new Date(mailData.leavedata.todate).getFullYear();
+    // let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
+    // let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
     try {
         let email = mailData.emaildata.emp_email
         let approvereason = mailData.reason !=undefined || null ? mailData.reason:''
@@ -3445,8 +3459,10 @@ function approveCancelLeaveRequestEmail(mailData) {
 }
 
 function rejectCancelLeaveRequestEmail(mailData){
-    let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
-    let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
+    let fdate =(new Date(mailData.leavedata.fromdate).getDate()<10?"0"+new Date(mailData.leavedata.fromdate).getDate():new Date(mailData.leavedata.fromdate).getDate())+'-'+((new Date(mailData.leavedata.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.fromdate).getMonth()+1):(new Date(mailData.leavedata.fromdate).getMonth()+1) )+'-'+new Date(mailData.leavedata.fromdate).getFullYear();
+    let tdate =(new Date(mailData.leavedata.todate).getDate()<10?"0"+new Date(mailData.leavedata.todate).getDate():new Date(mailData.leavedata.todate).getDate())+'-'+((new Date(mailData.leavedata.todate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.todate).getMonth()+1):(new Date(mailData.leavedata.todate).getMonth()+1)) +'-'+new Date(mailData.leavedata.todate).getFullYear();
+    // let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
+    // let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
      try {
         let email = mailData.emaildata.emp_email
         var transporter = nodemailer.createTransport({
