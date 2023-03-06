@@ -2289,6 +2289,7 @@ async function assignPayGroup(req,res){
     try {
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
+        console.log("req.body",req.body)
 
         var listOfConnections = {};
         if(dbName){
@@ -2296,7 +2297,9 @@ async function assignPayGroup(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `set_pay_group_to_employee` (?,?,?,?)",[Number(req.body.empid), Number(req.body.paygroupid) ,Number(req.body.CTC),JSON.stringify(req.body.data)] ,async function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `set_pay_group_to_employee` (?,?,?,?,?)",[Number(req.body.empid), Number(req.body.paygroupid) ,Number(req.body.CTC),JSON.stringify(req.body.data),req.body.esi_applicable] ,async function (err, result, fields) {
+               console.log("err",err)
+               console.log("result",result)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
