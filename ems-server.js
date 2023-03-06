@@ -199,7 +199,7 @@ async function setNewHire(req, res) {
                             /**Local */
                             // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                               var url = 'http://122.175.62.210:2020/#/pre-onboarding/'+token;
+                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                             /**AWS */
                         //    var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
                            
@@ -2166,7 +2166,7 @@ function setProgramSchedulemail(mailData) {
         <p style="color:black">Dear Employee,</p>
         <p style="color:black">We are very excited to welcome you to our organization!<b></b></p>
         <p style="color:black"> At ${mailData[1]} we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.</p>
-        <p style="color:black">You are required to attend the induction program by the SPRYPLE<b></b></p>
+        <p style="color:black">You are requested to attend the induction program as per schedule mentioned below </p>
         <p style="color:black">Name of the Induction Program: <b>${mailData[2].program_name}</b></p>
         <p style="color:black">Your Meeting Scheduled On <b>${mailData[2].schedule_date}</b></p>
         <p style="color:black">from <b>${mailData[2].schedule_starttime}</b> to <b>${mailData[2].schedule_endtime}</b></p>
@@ -4024,7 +4024,7 @@ function sendEmailToAdminAboutNewHire(mailData) {
       
         <p style="color:black">Hi ${data.admin_name},</p>
         
-        <p style="color:black">I hope you are doing well! I just wanted to let you know to create Login Credentials for new Employee : <b>${data.emp_name}</b></p>
+        <p style="color:black">Please create login credentials for the new employee: <b>${data.emp_name}</b> at the earliest possible time.</p>
         
         <p style="color:black">Thank you,</p>
         <p style="color:black">The Human Resources Team.</p>
@@ -4055,8 +4055,6 @@ function sendEmailToAdminAboutNewHire(mailData) {
 
 /** send email to employee About logins */
 function sendEmailToEmployeeAboutLogins(maileData, result) {
-    console.log("asfsadfa--",maileData)
-    console.log("asf--",maileData[0])
   try {
     let email = maileData[0].email;
     var transporter = nodemailer.createTransport({
@@ -4074,7 +4072,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
     //   var url = "http://localhost:4200/Login";
       
       /**QA */
-      var url = 'http://122.175.62.210:2020/Login';
+      var url = 'http://122.175.62.210:7575/Login';
       
       /**AWS */
     //   var url = 'http://sreeb.spryple.com/#/Login';
@@ -4087,17 +4085,18 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
       
         <p style="color:black">Hello ${maileData[0].empname},</p>
         
-        <p style="color:black">Thank you for joining our organization.</p>
+        <p style="color:black">Welcome to ${maileData[0].companyname}</p>
 
 
-        <p style="color:black">We’d like to confirm that your account is created successfully. To access ${maileData[0].companyname}, click the link below.<b></b></p>
+        <p style="color:black">We’d like to inform you that your login credentials were created successfully. To access your account, click on the link below. </p>
        
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
-        <p style="color:black">Following are your login credentials:</p>
+        <p style="color:black">Your login credentials:</p>
+        <p style="color:black"><b>Company Code:</b>${maileData[0].userid}</p>
         <p style="color:black"><b>Username:</b>${maileData[0].userid}</p>
         <p style="color:black"><b>Password:</b>${maileData[0].password}</p>
-        <p style="color:black">If you experience any issues logging on into your account, reach out to HR Team.</p>
+        <p style="color:black">If you experience any issues while login to your account, reach out to us at </p>
         
         <p style="color:black">Best Regards,</p>
 
@@ -4751,7 +4750,6 @@ async function documentApproval(req, res) {
 }
 
 async function setEmployeeChecklists(req, res) {
-    console.log("re-da--",req.body)
     try {
         let companyName = req.body.companyName;
         let dbName = await getDatebaseName(companyName)
@@ -5150,58 +5148,6 @@ function sendEmailToEmployeeAboutRemoveRole(mailData){
     }
 
 
-}
-
-async function getCompanyNameByEmail(req, res) {
-    try {
-        var  dbName = await getDatebaseName(req.params.companyName)
-        let companyName = req.params.companyName;
-        var listOfConnections = {};
-        if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-            }
-            listOfConnections[companyName].query("CALL `get_emails_by_empid` (?)", [req], async function (err, result, fields) {
-                companyNameData = [];
-                if (err) {
-                    let errorLogArray = [];
-                    errorLogArray.push("EMSAPI");
-                    errorLogArray.push("getCompanyNameByEmail");
-                    errorLogArray.push("GET");
-                    errorLogArray.push(JSON.stringify(req.params));
-                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-                    errorLogArray.push(null);
-                    errorLogArray.push(companyName);
-                    errorLogArray.push(dbName);
-                     errorLogs(errorLogArray);
-                    res.send({ status: false });
-                } else {
-            
-                    if (result && result.length > 0) {
-                        companyNameData = JSON.parse(result[0][0].jsonvalu)[0];
-                    } else {
-                        res.send({ status: false })
-                    }
-                }
-            });
-        } else {
-            res.send({status: false,Message:'Database Name is missed'})
-        }
-        }
-    catch(e){
-        let companyName =req.params.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        let errorLogArray = [];
-        errorLogArray.push("EMSAPI");
-        errorLogArray.push("getCompanyNameByEmail");
-        errorLogArray.push("GET");
-        errorLogArray.push(JSON.stringify(req.params));
-        errorLogArray.push( e.message);
-        errorLogArray.push(null);
-        errorLogArray.push(companyName);
-        errorLogArray.push(dbName);
-         errorLogs(errorLogArray)  }
 }
 
 async function getReportingManagerForEmp(req,res){
