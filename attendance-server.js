@@ -644,65 +644,65 @@ async function setemployeeattendanceregularization(req, res) {
 //**delete_employee_attendance_regularization */
 async function deleteAttendanceRequestById(req, res) {
     let emailData = req.body;
-    try {
-        let  dbName = await getDatebaseName(req.body.companyName)
-        let companyName = req.body.companyName;
+    // try {
+    //     let  dbName = await getDatebaseName(req.body.companyName)
+    //     let companyName = req.body.companyName;
 
-        var listOfConnections = {};
-       if(dbName){
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-            if(!listOfConnections.succes) {
-                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-            }
-            listOfConnections[companyName].query("CALL `delete_employee_attendance_regularization` (?)", [req.body.id],
-                async function (err, result, fields) {
-                    if (err) {
-                        let errorLogArray = [];
-                        errorLogArray.push("ATTENDANCEAPI");
-                        errorLogArray.push("deleteAttendanceRequestById");
-                        errorLogArray.push("DELETE");
-                        errorLogArray.push(req.body.id);
-                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-                        errorLogArray.push(null);
-                        errorLogArray.push(companyName);
-                        errorLogArray.push(dbName);
-                        errorLogs(errorLogArray);  
-                        res.send({ status: false});          
-                    }
-                    else{
-                        if (result[0][0].successState == 0) {
-                            res.send({ status: true, message: 'Attendance request deleted successfully.' })
-                            if (emailData.emails.rm_email != null || '' ) {
-                                deleteAttendanceRequestEmail(emailData);
-                            }
-                        } else {
-                            res.send({ status: true, message: 'Unable to attendance request deleted.' })
-                        }
+    //     var listOfConnections = {};
+    //    if(dbName){
+    //         listOfConnections= connection.checkExistingDBConnection(companyName)
+    //         if(!listOfConnections.succes) {
+    //             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+    //         }
+    //         listOfConnections[companyName].query("CALL `delete_employee_attendance_regularization` (?)", [req.body.id],
+    //             async function (err, result, fields) {
+    //                 if (err) {
+    //                     let errorLogArray = [];
+    //                     errorLogArray.push("ATTENDANCEAPI");
+    //                     errorLogArray.push("deleteAttendanceRequestById");
+    //                     errorLogArray.push("DELETE");
+    //                     errorLogArray.push(req.body.id);
+    //                     errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+    //                     errorLogArray.push(null);
+    //                     errorLogArray.push(companyName);
+    //                     errorLogArray.push(dbName);
+    //                     errorLogs(errorLogArray);  
+    //                     res.send({ status: false});          
+    //                 }
+    //                 else{
+    //                     if (result[0][0].successState == 0) {
+    //                         res.send({ status: true, message: 'Attendance request deleted successfully.' })
+    //                         if (emailData.emails.rm_email != null || '' ) {
+    //                             deleteAttendanceRequestEmail(emailData);
+    //                         }
+    //                     } else {
+    //                         res.send({ status: true, message: 'Unable to attendance request deleted.' })
+    //                     }
 
-                    }
+    //                 }
                     
 
-                })
-        }
-         else {
-           res.send({status: false,Message:'Database Name is missed'})
-        }
-    }
-    catch (e) {
-            // console.log('deleteEmployeeAttendanceRegularization');
-        let companyName =req.params.companyName;
-        let  dbName = await getDatebaseName(companyName)
-        let errorLogArray = [];
-        errorLogArray.push("ATTENDANCEAPI");
-        errorLogArray.push("deleteEmployeeAttendanceRegularization");
-        errorLogArray.push("DELETE");
-        errorLogArray.push(req.body.id);
-        errorLogArray.push( e.message);
-        errorLogArray.push(null);
-        errorLogArray.push(companyName);
-        errorLogArray.push(dbName);
-        errorLogs(errorLogArray);
-     }
+    //             })
+    //     }
+    //      else {
+    //        res.send({status: false,Message:'Database Name is missed'})
+    //     }
+    // }
+    // catch (e) {
+    //         // console.log('deleteEmployeeAttendanceRegularization');
+    //     let companyName =req.params.companyName;
+    //     let  dbName = await getDatebaseName(companyName)
+    //     let errorLogArray = [];
+    //     errorLogArray.push("ATTENDANCEAPI");
+    //     errorLogArray.push("deleteEmployeeAttendanceRegularization");
+    //     errorLogArray.push("DELETE");
+    //     errorLogArray.push(req.body.id);
+    //     errorLogArray.push( e.message);
+    //     errorLogArray.push(null);
+    //     errorLogArray.push(companyName);
+    //     errorLogArray.push(dbName);
+    //     errorLogs(errorLogArray);
+    //  }
 }
 
 
@@ -1723,7 +1723,7 @@ function attendanceRequestEmail(mailData, companyName) {
          });
         //  var url = 'http://localhost:4200/#/Login';
 
-        var url = 'http://122.175.62.210:7575/#/Login';
+        var url = 'http://122.175.62.210:2020/#/Login';
         
          /**AWS */
         // var url = 'http://sreeb.spryple.com/#/Login';
@@ -2029,7 +2029,7 @@ function editedAttendanceRequestEmail(mailData, companyName) {
                 pass: 'Sreeb@#321'
             }
         });
-        var url = 'http://122.175.62.210:7575/#/Login';
+        var url = 'http://122.175.62.210:2020/#/Login';
         var html = `<html>
       <head>
       <title>edited Attendance Request</title></head>

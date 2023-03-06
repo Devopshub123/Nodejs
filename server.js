@@ -2754,11 +2754,11 @@ app.listen(6060,function (err) {
 /** uncomment in QA build time */
 /**2121- demo back - 2020 frontend*//**202 - QA */
 
-// app.listen(202,'0.0.0.0',function (err) {
+// app.listen(2121,'0.0.0.0',function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://122.175.62.210:202');
+//         console.log('Server Started at :  http://122.175.62.210:2121');
 // });
 
 /** uncomment in AWS_Prod build time */
