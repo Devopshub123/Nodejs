@@ -199,7 +199,7 @@ async function setNewHire(req, res) {
                             /**Local */
                             // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                               var url = 'http://122.175.62.210:2020/#/pre-onboarding/'+token;
                             /**AWS */
                         //    var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
                            
@@ -211,9 +211,10 @@ async function setNewHire(req, res) {
                         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
                         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
                         <p style="color:black">Dear ${name},</p>
-                        <p style="color:black">" We are excited to have you aboard and look forward to work with you. Click on the below link, fill your details, and submit the form ASAP."<b></b></p>
+                        <p style="color:black">" We are excited to have you aboard and look forward to working with you. Click on the link below, fill your details, and submit the form ASAP."<b></b></p>
                         <p style="color:black"> Please make it a note that, the below link can be deactivated in 24 Hours.</p>
                         <p style="color:black"> <a href="${url}" >${url} </a></p>   
+                        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>hr@sreebtech.com</b>  </p>  
                         <p style="color:black">Thank you!</p>
                         <p style="color:black">Human Resources Team.</p>
                         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
@@ -4073,7 +4074,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
     //   var url = "http://localhost:4200/Login";
       
       /**QA */
-      var url = 'http://122.175.62.210:7575/Login';
+      var url = 'http://122.175.62.210:2020/Login';
       
       /**AWS */
     //   var url = 'http://sreeb.spryple.com/#/Login';
