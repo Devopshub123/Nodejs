@@ -2223,7 +2223,7 @@ async function getActiveComponentsValuesForPayGroup(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-         await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
     }
 }
@@ -2232,7 +2232,6 @@ async function getStateForEsi(req,res){
     try {
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-       console.log( "getStateForEsi",req.params.companyName,dbName)
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -2240,7 +2239,6 @@ async function getStateForEsi(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_states_for_esi`()", async function (err, result, fields) {
-               console.log("result",result,err)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -2251,7 +2249,7 @@ async function getStateForEsi(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2310,7 +2308,7 @@ async function assignPayGroup(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2333,7 +2331,7 @@ async function assignPayGroup(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-         await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
     }
 }
@@ -2361,7 +2359,7 @@ async function getComponentWiseValuesForPayGroupAssignment(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2390,7 +2388,7 @@ async function getComponentWiseValuesForPayGroupAssignment(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-         await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
     }
 }
@@ -2417,7 +2415,7 @@ async function getEmployeePaySlips(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2446,7 +2444,7 @@ async function getEmployeePaySlips(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-         await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
     }
 }
@@ -2474,7 +2472,7 @@ async function getEmployeePayslipDetails(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2503,7 +2501,7 @@ async function getEmployeePayslipDetails(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-         await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
     }
 }
@@ -2531,7 +2529,7 @@ async function getEmployeeEpfDetails(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2561,7 +2559,7 @@ async function getEmployeeEpfDetails(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-         await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
     }
 }
@@ -2589,7 +2587,7 @@ async function getMonthlyPayrollData(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2618,7 +2616,7 @@ async function getMonthlyPayrollData(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-        await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
     }
 }
@@ -2646,7 +2644,7 @@ async function getMonthlyPayrollDataForGraph(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false})             
                 }
                 else{
@@ -2676,7 +2674,7 @@ async function getMonthlyPayrollDataForGraph(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-         await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
     }
 }
@@ -2703,7 +2701,7 @@ async function getComponentConfiguredValuesForPayGroup(req,res){
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     await errorLogs(errorLogArray);  
+                    errorLogs(errorLogArray);  
                     res.send({status:false});           
                 }
                 else{
@@ -2732,7 +2730,7 @@ async function getComponentConfiguredValuesForPayGroup(req,res){
         errorLogArray.push(null);
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
-         await errorLogs(errorLogArray);
+        errorLogs(errorLogArray);
 
     }
 }
