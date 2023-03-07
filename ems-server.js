@@ -1201,12 +1201,11 @@ async function setChecklistsMaster(req, res) {
                     errorLogs = errorLogs(errorLogArray);
                     res.send({ status: false });
                 } else {
+                 
                     if (result[0][0].successstate == 0 && JSON.parse(result[0][0].failed_descriptions).length == 0) {
-                  
-                        res.send({ status: true });
+                        res.send({ status: true ,data: JSON.parse(result[0][0].failed_descriptions)});
 
                     } else if(result[0][0].successstate == 0 && JSON.parse(result[0][0].failed_descriptions).length > 0){
-                 
                         res.send({ status: true, data: JSON.parse(result[0][0].failed_descriptions) })
                  
                     } else {
@@ -2144,7 +2143,8 @@ async function updateselectEmployeesProgramSchedules(req,res){
 }
 
 function setProgramSchedulemail(mailData) {
-  try {
+    try {
+        let fdate =(new Date(mailData[2].schedule_date).getDate()<10?"0"+new Date(mailData[2].schedule_date).getDate():new Date(mailData[2].schedule_date).getDate())+'-'+((new Date(mailData[2].schedule_date).getMonth()+1)<10?"0"+(new Date(mailData[2].schedule_date).getMonth()+1):(new Date(mailData[2].schedule_date).getMonth()+1) )+'-'+new Date(mailData[2].schedule_date).getFullYear();
     let email = mailData; 
     var transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
@@ -2168,7 +2168,7 @@ function setProgramSchedulemail(mailData) {
         <p style="color:black"> At ${mailData[1]} we care about giving our employees everything they need to perform their best. As you will soon see, we have prepared your workstation with all necessary equipment.</p>
         <p style="color:black">You are requested to attend the induction program as per schedule mentioned below </p>
         <p style="color:black">Name of the Induction Program: <b>${mailData[2].program_name}</b></p>
-        <p style="color:black">Your Meeting Scheduled On <b>${mailData[2].schedule_date}</b></p>
+        <p style="color:black">Your Meeting Scheduled On <b>${fdate}</b></p>
         <p style="color:black">from <b>${mailData[2].schedule_starttime}</b> to <b>${mailData[2].schedule_endtime}</b></p>
         <p style="color:black">We are looking forward to working with you and seeing you achieve great things!<b></b></p>
         
@@ -6076,6 +6076,7 @@ async function getEmployeeEmailData(req, res) {
 
 function rescheduledInductionProgramEmail(mailData) {
     try {
+        let fdate =(new Date(mailData.programDate).getDate()<10?"0"+new Date(mailData.programDate).getDate():new Date(mailData.programDate).getDate())+'-'+((new Date(mailData.programDate).getMonth()+1)<10?"0"+(new Date(mailData.programDate).getMonth()+1):(new Date(mailData.programDate).getMonth()+1) )+'-'+new Date(mailData.programDate).getFullYear();
         let email = mailData.emails;
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
@@ -6102,7 +6103,7 @@ function rescheduledInductionProgramEmail(mailData) {
      <p style="color:black">We regret to inform you that the planned date for our induction program has been rescheduled.New schedule details mentioned here</p>
 
      <p style="color:black">Name of the Induction Program: <b>${mailData.programName}</b></p>
-     <p style="color:black">Your Meeting Scheduled On <b>${mailData.programDate}</b></p>
+     <p style="color:black">Your Meeting Scheduled On <b>${fdate}</b></p>
      <p style="color:black">from <b>${mailData.starttime}</b> to <b>${mailData.endtime}</b></p>           
     
      <p style="color:black">We hope to see you soon at our upcoming induction program! </p>
