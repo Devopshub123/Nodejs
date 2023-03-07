@@ -6260,6 +6260,8 @@ async function setInductionConductedby(req, res) {
             listOfConnections[companyName].query("CALL `set_ems_induction_conductedby` (?)",
                 [JSON.stringify(req.body)],
                 async function (err, result, fields) {
+                    console.log("t1--",err)
+                    console.log("t2--",result[0][0])
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
