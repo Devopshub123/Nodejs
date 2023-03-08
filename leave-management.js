@@ -1326,8 +1326,7 @@ async function removeImage(req,res){
                 errorLogArray.push(companyName);
                 errorLogArray.push(dbName);
                 errorLogs(errorLogArray)
-                console.log(err);
-            }
+             }
             else{
                 res.send({status: true});
                 console.log("Image Deleted successfully")
@@ -2048,7 +2047,7 @@ async function leaveSattus(req, res) {
                     } else {
                         res.send({status: true,leaveStatus:req.body.leaveStatus})
                         if (req.body.emaildata.emp_email != '' || req.body.emaildata.emp_email != null) {
-                            console.log("st--",req.body.leaveStatus)
+                       
                             if (req.body.leaveStatus == 'Approved') {
                                 approveLeaveRequestEmail(emailData);
 
@@ -2169,7 +2168,6 @@ async  function setCompoffForApproveOrReject(req,res){
                         res.send({status: true,compoffStatus:req.body.status})
                         if (req.body.emaildata.emp_email !='' || req.body.emaildata.emp_email !=null) {
                             if (req.body.status == 'Approved') {
-                                console.log("t-1")
                                 compOffApprovalRequestEmail(req.body);
                             } else{
                                 compOffRejectRequestEmail(req.body)

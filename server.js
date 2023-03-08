@@ -2511,12 +2511,10 @@ app.get('/ems/api/getEmployeeProgramAlerts/:empid/:companyName', verifyJWTToken,
 /**Payroll */
 /**employeeprofessionaltax */
 app.get('/api/employeeprofessionaltax/:companyName',verifyJWTToken,function (req, res) {
-    console.log("itsworking")
      payroll.employeeprofessionaltax(req,res);
  });
 /**employerprofessionaltax */
 app.get('/api/employerprofessionaltax/:companyName',verifyJWTToken, function (req, res) {
-    console.log("employerprofessionaltaxitsworking")
     payroll.employerprofessionaltax(req,res);
 });
 /**getesidetails */

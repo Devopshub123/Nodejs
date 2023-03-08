@@ -334,8 +334,6 @@ async function getearningsalarycomponent(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_salary_components` (?)", [req.params.id], async function (err, result, fields) {
-                console.log("getearningsalarycomponenterr",err);
-                console.log("getearningsalarycomponentresult",result);
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -349,8 +347,7 @@ async function getearningsalarycomponent(req,res){
                      await errorLogs(errorLogArray)
                 } 
                 else{
-                    console.log("its Workimg")
-                    if(result && result[0]&& result[0].length>0){
+                     if(result && result[0]&& result[0].length>0){
                         res.send({data: result[0], status: true});
                     }
                     else{
@@ -596,8 +593,6 @@ async function setincomegroup(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_income_group` (?,?,?,?,?,?)", [req.body.group,req.body.from,req.body.to,req.body.status,req.body.description,JSON.stringify(req.body.component)], async function (err, result, fields) {
-                console.log("err",err);
-                console.log("result",result)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -658,7 +653,6 @@ async function setincomegroup(req,res){
 
 
     async function getErrorMessages(req,res){
-        console.log(req.params);
         try {
             var  dbName = await getDatebaseName(req.params.companyName)
             let companyName = req.params.companyName;
@@ -842,8 +836,6 @@ async function getEmployeeCtcDurations(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employee_ctc_durations` (?)", [JSON.parse(req.params.id)], async function (err, result, fields) {
-             console.log("err-",err)
-             console.log("ress-",result)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -972,7 +964,7 @@ async function getEmployeeInvestments(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employee_investments` (?)", [JSON.parse(req.params.empid)], async function (err, result, fields) {
-                console.log(err)
+           
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -1786,8 +1778,6 @@ async function updateMonthlySalary(req,res){
             }
            
             listOfConnections[companyName].query("CALL `update_monthly_salary` (?,?,?,?,?)",[JSON.stringify(req.body.employee_list),req.body.year_value, req.body.month_value ,req.body.financial_year_value,req.body.created_by_value] ,async function (err, result, fields) {
-                console.log("err",err);
-                console.log("result",result)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -2287,8 +2277,6 @@ async function assignPayGroup(req,res){
     try {
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
-        console.log("req.body",req.body)
-
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -2296,8 +2284,6 @@ async function assignPayGroup(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_pay_group_to_employee` (?,?,?,?,?)",[Number(req.body.empid), Number(req.body.paygroupid) ,Number(req.body.CTC),JSON.stringify(req.body.data),req.body.esi_applicable] ,async function (err, result, fields) {
-               console.log("err",err)
-               console.log("result",result)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -2857,8 +2843,7 @@ async function setCompanyEsiValues(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_company_esi_values` (?)",[Number(req.body.include_employer_contribution_in_ctc)] ,async function (err, result, fields) {
-                console.log("err",err);
-                console.log("result",result);
+
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");

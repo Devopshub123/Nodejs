@@ -1732,9 +1732,7 @@ async function setEmployeeResignation(req,res) {
             }
             listOfConnections[companyName].query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)],
                 async function (err, result, fields) {
-                    console.log("er-",err)
-                    console.log("ress-",result[0][0])
-                if (err) {
+                  if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
                     errorLogArray.push("setEmployeeResignation");
@@ -2259,9 +2257,7 @@ async function getEmployeesForProgramSchedule(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_employees_for_program_schedule` (?)", [JSON.parse(req.params.id)], async function (err, result, fields) {
-              console.log("err--",err)
-              console.log("re--",result[0])
-                if (err) {
+                  if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
                     errorLogArray.push("getEmployeesForProgramSchedule");
@@ -3429,7 +3425,6 @@ async function getUserLoginData(req, res) {
 }
 
 async function usersLogin(req, res) {
-    console.log("req.body",req.body)
   try {
     let array=[{
         empname:req.body.empname,
@@ -3457,8 +3452,7 @@ async function usersLogin(req, res) {
         "N",
       ],
                 async function (err, result) {
-                    console.log("eress===",result)
-                    if (err) {
+                              if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
                         errorLogArray.push("usersLogin");
@@ -3472,8 +3466,7 @@ async function usersLogin(req, res) {
                         res.send({ status: false });
                     } else {
                         if (array[0].email != '' && array[0].email != null) {
-                            console.log("array[0]");
-                                sendEmailToEmployeeAboutLogins(array, result);
+                             sendEmailToEmployeeAboutLogins(array, result);
                             }
                             res.send({ status: true });
                     }
@@ -4112,7 +4105,6 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
       html: html,
     };
     transporter.sendMail(mailOptions, function (error, info) {
-        console.log(error);
       if (error) {
           console.log("Failed To Sent  Mail",error)
       } else {
@@ -6261,8 +6253,6 @@ async function setInductionConductedby(req, res) {
             listOfConnections[companyName].query("CALL `set_ems_induction_conductedby` (?)",
                 [JSON.stringify(req.body)],
                 async function (err, result, fields) {
-                    console.log("t1--",err)
-                    console.log("t2--",result[0][0])
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");

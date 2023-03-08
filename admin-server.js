@@ -30,10 +30,8 @@ app.all("*", function (req, res, next) {
 **@paramater department_id */
 app.post('/api/getRolesByDepartment',function(req,res) {
     try {
-        console.log(req.body)
-        con.query("CALL `getrolemaster_by_dept` (?)",[req.body.department_id ], function (err, result, fields) {
-           console.log(result);
-            if (result.length > 0) {
+          con.query("CALL `getrolemaster_by_dept` (?)",[req.body.department_id ], function (err, result, fields) {
+                  if (result.length > 0) {
                 res.send({data: result[0], status: true});
             } else {
                 res.send({status: false,data: []})
@@ -258,8 +256,6 @@ async function putDesignation(req,res) {
             infoDesignationMaster.updated_by = req.body.updated_by;
             listOfConnections[companyName].query("CALL `updatemastertable` (?,?,?,?)", ['designationsmaster', 'id', req.body.id, JSON.stringify(infoDesignationMaster)],
                 async function (err, result, fields) {
-console.log("err--",err)
-console.log("result--",result)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("AdminAPI");
@@ -1377,7 +1373,6 @@ async function getLeaveTypesForAdvancedLeave(req,res) {
 
 async function setLeavePolicies(req,res) {
     let ruleData = req.body.ruleData;
-    console.log("rdata--",ruleData)
     try{
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -2038,8 +2033,7 @@ async function updateShiftStatus(req, res) {
                     res.send({ status: false, message: "unableToUpdate" });
                 }
                 else {
-                    console.log(result[0][0].updateStatus)
-                    if (result[0][0].updateStatus == 0) {
+                            if (result[0][0].updateStatus == 0) {
                         res.send({ status: false, message: "alreadyAssigned" })
                     }
                     else {
