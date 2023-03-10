@@ -926,8 +926,8 @@ async function setProgramSchedules(req,res) {
       try {
         let companyName=req.body.companyName;
         let  dbName = await getDatebaseName(companyName)
-        var listOfConnections = {};
-        if(dbName){
+          var listOfConnections = {};
+         if(dbName){
                 listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
@@ -1732,7 +1732,7 @@ async function setEmployeeResignation(req,res) {
             }
             listOfConnections[companyName].query("CALL `set_employee_resignation` (?)", [JSON.stringify(req.body)],
                 async function (err, result, fields) {
-                  if (err) {
+                    if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
                     errorLogArray.push("setEmployeeResignation");
@@ -1744,10 +1744,20 @@ async function setEmployeeResignation(req,res) {
                     errorLogArray.push(dbName);
                    errorLogs(errorLogArray);
                     res.send({ status: false, statusCode: req.body.resg_status })
-                } else {
-                    if (result) {
+                   } else {
+                    if (result[0][0].statuscode == 0) {
                         res.send({ status: true, data: result[0][0].statuscode, statusCode: req.body.resg_status })
-                     }
+                        if (req.body.resg_status == "Submitted") {
+                                if (req.body.emailData.rm_email != '' || req.body.emailData.rm_email != null) {
+                                separationRequestEmail(req.body)
+                            }  
+                        } else if (req.body.resg_status == "Approved") {
+                               separationRequestApprovedEmail(req.body) 
+                        } else if (req.body.resg_status == "Rejected") {
+                             separationRequestRejectedEmail(req.body) 
+                        }
+                        
+                    }
                     else {
                         res.send({ status: false, statusCode: req.body.resg_status })
                     }
@@ -4020,7 +4030,7 @@ function sendEmailToAdminAboutNewHire(mailData) {
         <p style="color:black">Please create login credentials for the new employee: <b>${data.emp_name}</b> at the earliest possible time.</p>
         
         <p style="color:black">Thank you,</p>
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -4086,7 +4096,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
         <p style="color:black">Your login credentials:</p>
-        <p style="color:black"><b>Company Code:</b>${maileData[0].userid}</p>
+        <p style="color:black"><b>Company Code:</b>${maileData[0].companyCode}</p>
         <p style="color:black"><b>Username:</b>${maileData[0].userid}</p>
         <p style="color:black"><b>Password:</b>${maileData[0].password}</p>
         <p style="color:black">If you experience any issues while login to your account, reach out to us at </p>
@@ -4173,7 +4183,7 @@ async function setOffboardingSettings(req, res) {
 function sendEmailToChecklistManager(mailData){
 try {
         let data = JSON.parse(mailData.jsonvalu)[0];
-        let email = data.admin_email
+        let email = data.rm_email
        var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
@@ -4194,17 +4204,15 @@ try {
       
         <p style="color:black">Hi ${data.rm_name},</p>
         
-        <p style="color:black">I wanted to make sure you're aware of the new employee onboarding checklist
-         so that we can make sure everything is taken care of for our new employee(s).</p>
+        <p style="color:black">Hopefully, you're aware of the onboarding checklist for the new employees 
+        and everything should be taken care of. The checklist should be followed in order and needs to 
+        be completed in one or two days of time.</p>
 
-        <p style="color:black">The checklist should be followed in order, and should take about 1 or 2
-         days to complete. <b></b></p>
-                   
-        <p style="color:black">It's very important that the items on the list are completed as soon as possible and before the new hire starts work. </p>
-        
-        <p style="color:black">Thanks, and have a great day! </p>
-
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">It's very important that all the checklist items should be completed as 
+        soon as possible before the new hire starts working.</p>
+    
+        <p style="color:black">Thanks</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -4392,7 +4400,7 @@ function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
         
         <p style="color:black">Thanks, and have a great day! </p>
 
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -4743,6 +4751,7 @@ async function documentApproval(req, res) {
 
 async function setEmployeeChecklists(req, res) {
     try {
+        let mailData =req.body.emaildata;
         let companyName = req.body.companyName;
         let dbName = await getDatebaseName(companyName)
         var listOfConnections = {};
@@ -4780,6 +4789,9 @@ async function setEmployeeChecklists(req, res) {
                         if (result && result[0][0].successstate == 0) {
                             res.send({ status: true });
                             if (req.body.fstatus == "Completed") {
+                                if (mailData.emp_email !='' || mailData.emp_email !=null) {
+                                    checklistCompleteEmailToEmployee(mailData);
+                                   }     
                             }
                         } else {
                             res.send({ status: false })
@@ -4887,7 +4899,7 @@ function sendEmailToEmployeeAboutDocumentReject(mailData){
         
          <p style="color:black">Thank you,</p>
 
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5043,7 +5055,7 @@ function sendEmailToEmployeeAboutNewRole(mailData){
          <p style="color:black">We're always available to help out with any questions.</p>
          <p style="color:black">Best,</p>
 
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5108,7 +5120,7 @@ function sendEmailToEmployeeAboutRemoveRole(mailData){
          <p style="color:black">However, we are happy to offer you with all your current access privileges on our module. Please do not hesitate to reach out if you have any questions or concerns.</p>
          <p style="color:black">Regards,</p>
 
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5474,9 +5486,9 @@ function checklistFinalUpdateEmailToEmployee(mailData) {
 
         <p style="color:black">If you have any questions, feel free to reach out anytime! <b></b></p>
                    
-        <p style="color:black">Thanks, and have a great day! </p>
+        <p style="color:black">Thanks,</p>
 
-        <p style="color:black">The Human Resources Team.</p>
+        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5501,7 +5513,7 @@ function checklistFinalUpdateEmailToEmployee(mailData) {
 /** send email to employee about checklist complete */
 function checklistCompleteEmailToEmployee(mailData) {
     try {
-        let email = mailData;
+        let email = mailData.emp_mail;
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -5520,18 +5532,20 @@ function checklistCompleteEmailToEmployee(mailData) {
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hi ${mailData[0].emp_name},</p>
+        <p style="color:black">Hi ${mailData.emp_name},</p>
 
-        <p style="color:black">We're delighted to have you Onboard. I'll just quickly go through the onboarding checklist that we've completed for you. </p>
+        <p style="color:black">We're delighted to have you on board. Please go through the following onboarding checklist quickly that we've completed for you. </p>
         
-        <p style="color:black">-You are now set up with a user account and can start working on the tasks assigned to you. </p>
+        <p style="color:black"> - You can set up a user account and can start working on the tasks assigned to you.</p>
 
-        <p style="color:black">-The HR team has welcomed you and given you a rundown of all the benefits that come with your role. <b></b></p>
+        <p style="color:black"> - The HR team has welcomed you and given you all the benefits that come with your role. </p>
                    
-        <p style="color:black">-You have been briefed on our company values and mission, as well as any company specific policies and procedures. </p>
-        <p style="color:black">-We've also sent you an email welcoming you to the team.</p>
-        <p style="color:black">Please let us know if there is anything else we should be doing for your onboarding process! We hope this helps, welcome aboard! </p>
-        <p style="color:black">Sincerely,</p>
+        <p style="color:black">- You have been briefed about our company values and mission followed by company specific policies and procedures.  </p>
+       
+        <p style="color:black">- We've also sent you a welcome email.</p>
+      
+        <p style="color:black"> We hope this helps you onboarding.  Please let us know if anything is required in addition to the above.</p>
+        <p style="color:black">Thanks</p>
         <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
@@ -5594,7 +5608,7 @@ function roleRemoveInformationEmailToEmployee(mailData){
      <p style="color:black">However, we are happy to offer you with all your current access privileges on our module. Please do not hesitate to reach out if you have any questions or concerns.</p>
      <p style="color:black">Regards,</p>
 
-    <p style="color:black">The Human Resources Team.</p>
+    <p style="color:black">Human Resources Team.</p>
     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
     </div></body>
     </html> `;
@@ -5658,7 +5672,7 @@ function newRoleInformationEmailToEmployee(mailData){
       <p style="color:black">We're always available to help out with any questions.</p>
       <p style="color:black">Best,</p>
 
-     <p style="color:black">The Human Resources Team.</p>
+     <p style="color:black">Human Resources Team.</p>
      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
      </div></body>
      </html> `;
@@ -5817,11 +5831,10 @@ function documentApprovalEmailToEmployee(mailData) {
       <p style="color:black">Hi ${mailData.emp_name},</p>
   
   
-      <p style="color:black">Just wanted to let you know that the HR department has approved your uploaded document. Don’t hesitate to contact me if you have any questions. </p>
+      <p style="color:black">HR department has approved documents uploaded by you. Don’t hesitate to contact me if you have any queries.</p>
       
-       <p style="color:black">Best Regards,</p>
-  
-      <p style="color:black">Human Resources Team.</p>
+       <p style="color:black">Best,</p>
+        <p style="color:black">Human Resources Team.</p>
       <p style="color:black">${mailData.companyname}.</p>
       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
@@ -5872,11 +5885,11 @@ function documentRejectEmailtoEmployee(mailData) {
           
             <p style="color:black">Hi ${mailData.emp_name},</p>
     
-            <p style="color:black">Please re-upload the documents that were rejected. We apologize for the inconvenience. </p>
+            <p style="color:black">I regret to inform you that some of the total documents uploaded by you were
+             rejected. Do upload rejected documents again to complete the process. </p>
             
              <p style="color:black">Thank you,</p>
-    
-            <p style="color:black">The Human Resources Team.</p>
+                <p style="color:black">Human Resources Team.</p>
             <p style="color:black">${mailData.companyname}</p>
             <hr style="border: 0; border-top: 3px double #8c8c8c"/>
             </div></body>
@@ -5977,14 +5990,13 @@ function inductionProgramCancelEmailToEmployee(mailData) {
 
      <p style="color:black">I hope that you are doing well. </p>
      
-     <p style="color:black">We regret to inform you that the planned date for our induction program has been cancelled and will be rescheduled soon. I hope that we can all look forward to the next induction program soon. </p>
+     <p style="color:black">We regret to inform you that the Induction program which was scheduled on <b> ${mailData.scheduledate} </b>
+     has been cancelled.  We will reschedule the Induction program and update you soon.</p>
 
-     <p style="color:black">Unfortunately, all confirmed participants will have to wait for the new date of the induction program. We apologize for any inconvenience caused. </p>
+     <p style="color:black">See you soon in the Induction Program on an updated scheduled date. </p>
                 
-     <p style="color:black">We hope to see you soon at our upcoming induction program! </p>
-      <p style="color:black">Sincerely</p>
-
-     <p style="color:black">The Human Resources Team.</p>
+     <p style="color:black">Sincerely</p>
+     <p style="color:black">Human Resources Team.</p>
      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
      </div></body>
      </html> `;
@@ -6101,7 +6113,7 @@ function rescheduledInductionProgramEmail(mailData) {
      <p style="color:black">We hope to see you soon at our upcoming induction program! </p>
      
      <p style="color:black">Sincerely</p>
-       <p style="color:black">The Human Resources Team.</p>
+       <p style="color:black">Human Resources Team.</p>
      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
      </div></body>
      </html> `;
@@ -6267,8 +6279,11 @@ async function setInductionConductedby(req, res) {
                         res.send({ status: false });
                     } else {
                         if (result && result[0][0].statuscode == 0) {
-                            res.send({ status: true });
-                        } else {
+                            res.send({ status: true ,data:result[0][0].statuscode});
+                        } else if(result && result[0][0].statuscode == 1){
+                            res.send({ status: true ,data:result[0][0].statuscode});
+                        }
+                        else {
                             res.send({ status: false })
                         }
                     }
@@ -6774,3 +6789,204 @@ async function validateReportingManager(req, res) {
         errorLogs = errorLogs(errorLogArray)
     }
 }
+
+
+/** separation mail to manager */
+
+function separationRequestEmail(mailData) {
+    
+    let releavedate =(new Date(mailData.original_relieving_date).getDate()<10?"0"+new Date(mailData.original_relieving_date).getDate():new Date(mailData.original_relieving_date).getDate())+'-'+((new Date(mailData.original_relieving_date).getMonth()+1)<10?"0"+(new Date(mailData.original_relieving_date).getMonth()+1):(new Date(mailData.original_relieving_date).getMonth()+1) )+'-'+new Date(mailData.original_relieving_date).getFullYear();
+    let resigndate =(new Date(mailData.applied_date).getDate()<10?"0"+new Date(mailData.applied_date).getDate():new Date(mailData.applied_date).getDate())+'-'+((new Date(mailData.applied_date).getMonth()+1)<10?"0"+(new Date(mailData.applied_date).getMonth()+1):(new Date(mailData.applied_date).getMonth()+1)) +'-'+new Date(mailData.applied_date).getFullYear();
+    let exitdate =(new Date(mailData.requested_relieving_date).getDate()<10?"0"+new Date(mailData.requested_relieving_date).getDate():new Date(mailData.requested_relieving_date).getDate())+'-'+((new Date(mailData.requested_relieving_date).getMonth()+1)<10?"0"+(new Date(mailData.requested_relieving_date).getMonth()+1):(new Date(mailData.requested_relieving_date).getMonth()+1)) +'-'+new Date(mailData.requested_relieving_date).getFullYear();
+    try {
+         let email = mailData.emailData.rm_email
+         var transporter = nodemailer.createTransport({
+           host: "smtp-mail.outlook.com", // hostname
+           secureConnection: false, // TLS requires secureConnection to be false
+           port: 587, // port for secure SMTP
+           tls: {
+               ciphers: 'SSLv3'
+           },
+           auth: {
+             user: 'no-reply@spryple.com',
+             pass: 'Sreeb@#321'
+           }
+         });
+       var html = `<html>
+       <head>
+       <title>Separation Request</title></head>
+       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+     
+       <p style="color:black">Dear ${mailData.emailData.rm_name},</p>
+   
+       <p style="color:black">I am writing to inform you that I have submitted my separation through the HR system. Please find the details corresponding to my resignation below: </p>
+       <p style="color:black">Emp ID:<b>${mailData.emailData.employee_id}</b></p>
+       <p style="color:black">Emp Name:<b>${mailData.emailData.emp_name}</b></p>
+       <p style="color:black">Date of Request Resignation:<b>${resigndate}</b></p>
+       <p style="color:black">Notice Period:<b>${mailData.notice_period}</b></p>
+       <p style="color:black">Relieving Date:<b>${releavedate}</b></p>
+       <p style="color:black">Request Exit Date:<b>${exitdate}</b></p>
+       <p style="color:black">Reason:<b>${mailData.reasonName}</b></p>
+       <p style="color:black">Notes:<b>${mailData.resg_comment}</b></p>
+
+       <p style="color:black">I would like to take this opportunity to express my gratitude for the opportunity and experience that I have had while working with ${mailData.emailData.companyname}. I have learned a lot during my tenure here and I am thankful for the support and guidance provided by my colleagues and management. </p>
+       <p style="color:black">I will ensure that I complete all formalities as per guidelines on or before my last day of work. Please let me know If anything is required in addition to this.</p>
+       <p style="color:black">I solicit your cooperation and thank you for understanding. </p>
+
+        <p style="color:black">Sincerely,</p>
+        <p style="color:black">${mailData.emailData.emp_name}</p>
+       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+       </div>
+       </body>
+       </html> `;
+   
+       var mailOptions = {
+           from: 'no-reply@spryple.com',
+           to: email,
+           subject: 'Separation request raised by'+' '+mailData.emailData.emp_name,
+           html: html
+       };
+       transporter.sendMail(mailOptions, async function (error, info) {
+           if (error) {
+               console.log("Failed To Sent  Mail",error)
+           } else {
+               console.log("Mail Sent Successfully")
+           }
+   
+       });
+   
+   }
+   catch (e) {
+       console.log('attendanceRequestEmail :', e)
+     }
+   
+}
+   
+/** separation request approved mail */
+
+function separationRequestApprovedEmail(value) {
+    
+    let releavedate =(new Date(value.original_relieving_date).getDate()<10?"0"+new Date(value.original_relieving_date).getDate():new Date(value.original_relieving_date).getDate())+'-'+((new Date(value.original_relieving_date).getMonth()+1)<10?"0"+(new Date(value.original_relieving_date).getMonth()+1):(new Date(value.original_relieving_date).getMonth()+1) )+'-'+new Date(value.original_relieving_date).getFullYear();
+    let resigndate =(new Date(value.applied_date).getDate()<10?"0"+new Date(value.applied_date).getDate():new Date(value.applied_date).getDate())+'-'+((new Date(value.applied_date).getMonth()+1)<10?"0"+(new Date(value.applied_date).getMonth()+1):(new Date(value.applied_date).getMonth()+1)) +'-'+new Date(value.applied_date).getFullYear();
+    let exitdate =(new Date(value.requested_relieving_date).getDate()<10?"0"+new Date(value.requested_relieving_date).getDate():new Date(value.requested_relieving_date).getDate())+'-'+((new Date(value.requested_relieving_date).getMonth()+1)<10?"0"+(new Date(value.requested_relieving_date).getMonth()+1):(new Date(value.requested_relieving_date).getMonth()+1)) +'-'+new Date(value.requested_relieving_date).getFullYear();
+    try {
+         let email = value.emailData.emp_email
+         var transporter = nodemailer.createTransport({
+           host: "smtp-mail.outlook.com", // hostname
+           secureConnection: false, // TLS requires secureConnection to be false
+           port: 587, // port for secure SMTP
+           tls: {
+               ciphers: 'SSLv3'
+           },
+           auth: {
+             user: 'no-reply@spryple.com',
+             pass: 'Sreeb@#321'
+           }
+         });
+       var html = `<html>
+       <head>
+       <title>Separation Request Approve</title></head>
+       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+     
+       <p style="color:black">Dear ${value.emailData.emp_name},</p>
+   
+       <p style="color:black">Your resignation request has been approved. Please find the notice period and other details below:</p>
+      
+       <p style="color:black">Emp ID:<b>${value.emailData.employee_id}</b></p>
+       <p style="color:black">Emp Name:<b>${value.emailData.emp_name}</b></p>
+       <p style="color:black">Date of Request Resignation:<b>${resigndate}</b></p>
+       <p style="color:black">Notice Period:<b>${value.notice_period}</b></p>
+       <p style="color:black">Relieving Date:<b>${releavedate}</b></p>
+       <p style="color:black">Request Exit Date:<b>${exitdate}</b></p>
+       <p style="color:black">Notes:<b>${value.approver_comment}</b></p>
+
+       <p style="color:black">Thank you for your contributions to the company during your tenure. Your hard work and dedication have been greatly appreciated.</p>
+       <p style="color:black">We wish you all the best for your future endeavors.</p>
+         <p style="color:black">Sincerely,</p>
+        <p style="color:black">${value.emailData.rm_name}</p>
+       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+       </div>
+       </body>
+       </html> `;
+   
+       var mailOptions = {
+           from: 'no-reply@spryple.com',
+           to: email,
+           subject: 'Separation request approved  by'+' '+value.emailData.rm_name,
+           html: html
+       };
+       transporter.sendMail(mailOptions, async function (error, info) {
+           if (error) {
+               console.log("Failed To Sent  Mail",error)
+           } else {
+               console.log("Mail Sent Successfully")
+           }
+   
+       });
+   
+   }
+   catch (e) {
+       console.log('separationRequestApprovedEmail :', e)
+     }
+   
+}
+   
+/** separation request rejected mail */
+
+function separationRequestRejectedEmail(value) {
+    try {
+         let email = value.emailData.emp_email
+         var transporter = nodemailer.createTransport({
+           host: "smtp-mail.outlook.com", // hostname
+           secureConnection: false, // TLS requires secureConnection to be false
+           port: 587, // port for secure SMTP
+           tls: {
+               ciphers: 'SSLv3'
+           },
+           auth: {
+             user: 'no-reply@spryple.com',
+             pass: 'Sreeb@#321'
+           }
+         });
+       var html = `<html>
+       <head>
+       <title>Separation Request reject</title></head>
+       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+     
+       <p style="color:black">Dear ${value.emailData.emp_name},</p>
+   
+       <p style="color:black">We respect your decision, but I am unable to accept your resignation immediately.  I would like to discuss your concerns about leaving the organization. Based on mutual discussion we can come to the conclusion regarding your resignation. </p>
+
+        <p style="color:black">Thank you for your cooperation.</p>
+
+        <p style="color:black">Sincerely,</p>
+        <p style="color:black">${value.emailData.rm_name}</p>
+       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+       </div>
+       </body>
+       </html> `;
+   
+       var mailOptions = {
+           from: 'no-reply@spryple.com',
+           to: email,
+           subject: 'Separation request rejected by'+' '+value.emailData.rm_name,
+           html: html
+       };
+       transporter.sendMail(mailOptions, async function (error, info) {
+           if (error) {
+               console.log("Failed To Sent  Mail",error)
+           } else {
+               console.log("Mail Sent Successfully")
+           }
+   
+       });
+   
+   }
+   catch (e) {
+       console.log('separationRequestRejectedEmail :', e)
+     }
+   
+   }

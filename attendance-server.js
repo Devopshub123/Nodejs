@@ -1692,16 +1692,6 @@ async function getSideNavigation(req, res) {
 /**new  attendance request mail to manager */
 function attendanceRequestEmail(mailData, companyName) {
 
-    //  let fromdate =new Date(mailData.fromdate).getDate();
-    //  let todate = new Date(mailData.todate).getDate();
-    //  if( new Date(mailData.fromdate).getDate() <10){
-    //     ffdate = "0"+new Date(mailData.fromdate).getDate();
-    //  }
-    //  else{
-    //     ffdate = new Date(mailData.fromdate).getDate();
-    //  }
-
-    //  console.log("ffdate",)
     let fdate =(new Date(mailData.fromdate).getDate()<10?"0"+new Date(mailData.fromdate).getDate():new Date(mailData.fromdate).getDate())+'-'+((new Date(mailData.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.fromdate).getMonth()+1):(new Date(mailData.fromdate).getMonth()+1) )+'-'+new Date(mailData.fromdate).getFullYear();
     let tdate =(new Date(mailData.todate).getDate()<10?"0"+new Date(mailData.todate).getDate():new Date(mailData.todate).getDate())+'-'+((new Date(mailData.todate).getMonth()+1)<10?"0"+(new Date(mailData.todate).getMonth()+1):(new Date(mailData.todate).getMonth()+1)) +'-'+new Date(mailData.todate).getFullYear();
      var companyName = companyName;
