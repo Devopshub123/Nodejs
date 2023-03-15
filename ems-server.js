@@ -3442,7 +3442,9 @@ async function usersLogin(req, res) {
         empid:req.body.empid,
         userid:req.body.userid,
         password: req.body.password,
-        companyname:req.body.companyname}];
+        companyname: req.body.companyname,
+        companycode: req.body.companyCode,
+    }];
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
     
@@ -4096,7 +4098,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
         <p style="color:black">Your login credentials:</p>
-        <p style="color:black"><b>Company Code:</b>${maileData[0].companyCode}</p>
+        <p style="color:black"><b>Company Code:</b>${maileData[0].companycode}</p>
         <p style="color:black"><b>Username:</b>${maileData[0].userid}</p>
         <p style="color:black"><b>Password:</b>${maileData[0].password}</p>
         <p style="color:black">If you experience any issues while login to your account, reach out to us at </p>
@@ -5966,7 +5968,8 @@ function documentApprovalEmailToHR(mailData) {
 }
 /** send email to employee about induction cancel */
 function inductionProgramCancelEmailToEmployee(mailData) {
-    try{
+    try {
+        let date =(new Date(mailData.scheduledate).getDate()<10?"0"+new Date(mailData.scheduledate).getDate():new Date(mailData.scheduledate).getDate())+'-'+((new Date(mailData.scheduledate).getMonth()+1)<10?"0"+(new Date(mailData.scheduledate).getMonth()+1):(new Date(mailData.scheduledate).getMonth()+1) )+'-'+new Date(mailData.scheduledate).getFullYear();
         let email = mailData.emails;
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
@@ -5990,7 +5993,7 @@ function inductionProgramCancelEmailToEmployee(mailData) {
 
      <p style="color:black">I hope that you are doing well. </p>
      
-     <p style="color:black">We regret to inform you that the Induction program which was scheduled on <b> ${mailData.scheduledate} </b>
+     <p style="color:black">We regret to inform you that the Induction program which was scheduled on <b> ${date} </b>
      has been cancelled.  We will reschedule the Induction program and update you soon.</p>
 
      <p style="color:black">See you soon in the Induction Program on an updated scheduled date. </p>
@@ -6252,7 +6255,7 @@ async function getEmployeesListByDeptId(req,res) {
 }
 /** set induction conducted by employees*/
 async function setInductionConductedby(req, res) {
-
+console.log("bod--",req.body)
     try {
         let companyName = req.body.companyName;
         let  dbName = await getDatebaseName(companyName)

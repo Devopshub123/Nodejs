@@ -71,7 +71,8 @@ module.exports = {
     setEsiForState:setEsiForState,
     getCompanyEsiValues:getCompanyEsiValues,
     getEsiEmployerContribution: getEsiEmployerContribution,
-    getEmployeeCtcDurations:getEmployeeCtcDurations
+    getEmployeeCtcDurations: getEmployeeCtcDurations,
+    validateSalaryProcessingDate:validateSalaryProcessingDate
     
 };
 function getDatebaseName(companyName){
@@ -2981,6 +2982,7 @@ async function getEsiEmployerContribution(req,res){
 
     }
 }
+
 /** error logs */
 async function errorLogs(errorLogArray) {
   
@@ -3009,4 +3011,58 @@ async function errorLogs(errorLogArray) {
        }
    });
 
+}
+
+/**validateSalaryProcessingDate */
+async function validateSalaryProcessingDate(req, res) {
+    try {
+        var  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `validate_salary_processing_date` (?,?)",
+                [
+                Number(req.params.year),
+                Number(req.params.month),
+                ], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("validateSalaryProcessingDate");
+                    errorLogArray.push("get");
+                    errorLogArray.push();
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     errorLogs(errorLogArray);  
+                    res.send({status:false})             
+                }
+                else{
+                    res.send({status:true,data:result[0]})
+                }
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("validateSalaryProcessingDate");
+        errorLogArray.push("get");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
 }

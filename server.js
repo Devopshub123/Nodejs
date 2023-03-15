@@ -2733,6 +2733,11 @@ app.get('/ems/api/validateReportingManager/:eid/:companyName',verifyJWTToken, fu
     ems.validateReportingManager(req,res)
 
 })
+/**validateSalaryProcessingDate */
+app.get('/api/validateSalaryProcessingDate/:year/:month/:companyName',function (req, res) {
+    payroll.validateSalaryProcessingDate(req,res);
+});
+
 
 
 
