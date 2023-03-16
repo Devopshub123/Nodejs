@@ -2738,6 +2738,20 @@ app.get('/api/validateSalaryProcessingDate/:year/:month/:companyName',function (
     payroll.validateSalaryProcessingDate(req,res);
 });
 
+// set_spryple_plan
+app.post('/subscription/api/setSpryplePlan', function (req, res) {
+    common.setSpryplePlan(req,res)
+});
+// get_min_user_for_plan
+app.get('/subscription/api/getMinUserForPlan/:planid/:companyName', function (req, res) {
+    common.getMinUserForPlan(req,res)
+});
+app.post('/subscription/api/getAllModules/', function (req, res) {
+    common.getAllModules(req,res)
+});
+app.post('/subscription/api/Validateemail', function (req, res) {
+    common.Validateemail(req,res)
+});
 
 
 
