@@ -2784,6 +2784,18 @@ app.listen(6060,function (err) {
 /** uncomment in QA build time */
 /**2121- demo back - 2020 frontend*//**202 - QA */
 
+
+///** */
+// app.listen(6060,function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at : http://localhost:6060');
+// });
+
+/** uncomment in QA build time */
+/**2121- demo back - 2020 frontend*//**202 - QA */
+
 // app.listen(202,'0.0.0.0',function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
