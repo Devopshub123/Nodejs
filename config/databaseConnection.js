@@ -11,7 +11,7 @@ function switchDatabase() {
             port: 3306,
             password: "Client&*123",
             // database: 'spryple',
-            database: 'spryple_qa',
+            database: 'spryple',
             dateStrings: true,
           multipleStatements: true
 

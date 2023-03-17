@@ -6255,7 +6255,6 @@ async function getEmployeesListByDeptId(req,res) {
 }
 /** set induction conducted by employees*/
 async function setInductionConductedby(req, res) {
-console.log("bod--",req.body)
     try {
         let companyName = req.body.companyName;
         let  dbName = await getDatebaseName(companyName)

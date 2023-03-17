@@ -2743,7 +2743,7 @@ app.post('/subscription/api/setSpryplePlan', function (req, res) {
     common.setSpryplePlan(req,res)
 });
 // get_min_user_for_plan
-app.get('/subscription/api/getMinUserForPlan/:planid/:companyName', function (req, res) {
+app.get('/subscription/api/getMinUserForPlan/:planid', function (req, res) {
     common.getMinUserForPlan(req,res)
 });
 app.post('/subscription/api/getAllModules/', function (req, res) {
@@ -2752,31 +2752,44 @@ app.post('/subscription/api/getAllModules/', function (req, res) {
 app.post('/subscription/api/Validateemail', function (req, res) {
     common.Validateemail(req,res)
 });
+// set_spryple_client 
+app.post('/subscription/api/setSprypleClient', function (req, res) {
+    common.setSprypleClient(req,res)
+});
+/**set_plan_details */
+app.post('/subscription/api/setPlanDetails', function (req, res) {
+    common.setPlanDetails(req,res)
+});
+/**get_spryple_plans */
+app.get('/subscription/api/getSpryplePlans', function (req, res) {
+    common.getSpryplePlans(req,res)
+});
+// get_spryple_plan_cost_details
+app.get('/subscription/api/getSpryplePlanCostDetails', function (req, res) {
+    common.getSpryplePlanCostDetails(req,res)
+});
 
 
 
 
 
-
-
-
-///** */
-// app.listen(6060,function (err) {
-//     if (err)
-//         console.log('Server Cant Start ...Erorr....');
-//     else
-//         console.log('Server Started at : http://localhost:6060');
-// });
+/** */
+app.listen(6060,function (err) {
+    if (err)
+        console.log('Server Cant Start ...Erorr....');
+    else
+        console.log('Server Started at : http://localhost:6060');
+});
 
 /** uncomment in QA build time */
 /**2121- demo back - 2020 frontend*//**202 - QA */
 
-app.listen(202,'0.0.0.0',function (err) {
-    if (err)
-        console.log('Server Cant Start ...Erorr....');
-    else
-        console.log('Server Started at :  http://122.175.62.210:202');
-});
+// app.listen(202,'0.0.0.0',function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at :  http://122.175.62.210:202');
+// });
 
 /** uncomment in AWS_Prod build time */
 
