@@ -51,7 +51,8 @@ module.exports = {
     setSpryplePlan:setSpryplePlan,
     getMinUserForPlan:getMinUserForPlan,
     getAllModules:getAllModules,
-    Validateemail:Validateemail
+    Validateemail: Validateemail,
+    contactUsFormMail:contactUsFormMail
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -160,7 +161,6 @@ async function login(req, res) {
  * @returns {Promise<void>}
  */
 async function getMastertable(req, res) {
-
    try {
         let  dbName = await getDatebaseName(req.params.companyName);
 
@@ -792,9 +792,9 @@ async function Validateemail(req, res) {
             });
             var token = (Buffer.from(JSON.stringify({ companycode:companycode, email: email}))).toString('base64')
             /**Local */
-            var url = 'http://localhost:4500/#/sign-up/' + token;
+            // var url = 'http://localhost:4500/#/sign-up/' + token;
             /**QA */
-            //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
             /**AWS */
         //    var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
             var html = `<html>
@@ -838,5 +838,57 @@ async function Validateemail(req, res) {
      
     catch (e){
         console.log("employee_login",e)
+    }
+}
+
+function contactUsFormMail(mailData) {
+    console.log("val---", mailData.body)
+    let value = mailData.body;
+    try {
+        var transporter = nodemailer.createTransport({
+            host: "smtp-mail.outlook.com", // hostname
+            secureConnection: false, // TLS requires secureConnection to be false
+            port: 587, // port for secure SMTP
+            tls: {
+                ciphers: "SSLv3",
+            },
+            auth: {
+                user: 'no-reply@spryple.com',
+                pass: 'Sreeb@#321'
+            },
+        });
+        var html = `<html>
+        <head>
+        <title>Contact Form</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+      
+        <p style="color:black">${value.name},</p>
+        <p style="color:black">${value.phone},</p>
+        <p style="color:black">${value.email},</p>
+        <p style="color:black">${value.message},</p>
+  
+        <p style="color:black">Thanks,</p>
+        <p style="color:black">Spryple Mailer Team.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div>
+        </body>
+        </html> `;
+
+        var mailOptions = {
+            from: "no-reply@spryple.com",
+            to: "contact@spryple.com",
+            subject: "Contact us form details",
+            html: html,
+        };
+        transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+                console.log("Failed To Sent  Mail",error)
+            } else {
+                console.log("Mail Sent Successfully")
+            }
+        });
+    } catch (e) {
+        console.log("contactUsFormMail :", e);
     }
 }

@@ -144,9 +144,7 @@ module.exports = {
     getAttendanceCountsForDate:getAttendanceCountsForDate,
     getEmployeeProgramAlerts:getEmployeeProgramAlerts,
     getDocumentsFiles: getDocumentsFiles,
-    validateReportingManager:validateReportingManager
-
-
+    validateReportingManager: validateReportingManager,
     
 };
 
@@ -6255,7 +6253,7 @@ async function getEmployeesListByDeptId(req,res) {
 }
 /** set induction conducted by employees*/
 async function setInductionConductedby(req, res) {
-console.log("bod--",req.body)
+console.log("bod--",JSON.stringify(req.body))
     try {
         let companyName = req.body.companyName;
         let  dbName = await getDatebaseName(companyName)
@@ -6268,6 +6266,8 @@ console.log("bod--",req.body)
             listOfConnections[companyName].query("CALL `set_ems_induction_conductedby` (?)",
                 [JSON.stringify(req.body)],
                 async function (err, result, fields) {
+                    console.log("err", err);
+                    console.log("ressss", result);
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
@@ -6992,4 +6992,4 @@ function separationRequestRejectedEmail(value) {
        console.log('separationRequestRejectedEmail :', e)
      }
    
-   }
+}
