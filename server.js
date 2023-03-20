@@ -2743,7 +2743,7 @@ app.post('/subscription/api/setSpryplePlan', function (req, res) {
     common.setSpryplePlan(req,res)
 });
 // get_min_user_for_plan
-app.get('/subscription/api/getMinUserForPlan/:planid/:companyName', function (req, res) {
+app.get('/subscription/api/getMinUserForPlan/:planid', function (req, res) {
     common.getMinUserForPlan(req,res)
 });
 app.post('/subscription/api/getAllModules/', function (req, res) {
@@ -2751,6 +2751,22 @@ app.post('/subscription/api/getAllModules/', function (req, res) {
 });
 app.post('/subscription/api/Validateemail', function (req, res) {
     common.Validateemail(req,res)
+});
+// set_spryple_client 
+app.post('/subscription/api/setSprypleClient', function (req, res) {
+    common.setSprypleClient(req,res)
+});
+/**set_plan_details */
+app.post('/subscription/api/setPlanDetails', function (req, res) {
+    common.setPlanDetails(req,res)
+});
+/**get_spryple_plans */
+app.get('/subscription/api/getSpryplePlans', function (req, res) {
+    common.getSpryplePlans(req,res)
+});
+// get_spryple_plan_cost_details
+app.get('/subscription/api/getSpryplePlanCostDetails', function (req, res) {
+    common.getSpryplePlanCostDetails(req,res)
 });
 
 app.post('/subscription/api/Validateemail', function (req, res) {
@@ -2761,12 +2777,6 @@ app.post('/api/contactUsFormMail', function(req,res) {
     common.contactUsFormMail(req,res);
 
 });
-
-
-
-
-
-
 
 
 ///** */
