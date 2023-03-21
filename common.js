@@ -56,7 +56,12 @@ module.exports = {
     setPlanDetails:setPlanDetails,
     getSpryplePlans:getSpryplePlans,
     getSpryplePlanCostDetails: getSpryplePlanCostDetails,
-    contactUsFormMail:contactUsFormMail
+    contactUsFormMail: contactUsFormMail,
+    getPayments: getPayments,
+    getSprypleClients: getSprypleClients,
+    addUsers: addUsers,
+    getRenewalDetails: getRenewalDetails,
+    getClientPlanDetails:getClientPlanDetails
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -985,6 +990,7 @@ async function setPlanDetails(req,res) {
     }
 
 }
+
 async function getSpryplePlans(req,res) {
     try {
         let  dbName = await getDatebaseName('spryple_hrms');
@@ -1013,6 +1019,7 @@ async function getSpryplePlans(req,res) {
     }
 
 }
+
 async function getSpryplePlanCostDetails(req,res) {
     try {
         let  dbName = await getDatebaseName('spryple_hrms');
@@ -1041,6 +1048,7 @@ async function getSpryplePlanCostDetails(req,res) {
     }
 
 }
+
 // validate_company_code 
 function validateCompanyCode(companycode,email){
 
@@ -1066,6 +1074,7 @@ function validateCompanyCode(companycode,email){
     });
 
 }
+
 function contactUsFormMail(mailData) {
     let value = mailData.body;
     try {
@@ -1115,4 +1124,158 @@ function contactUsFormMail(mailData) {
     } catch (e) {
         console.log("contactUsFormMail :", e);
     }
+}
+
+/** get subscription payment methods */
+async function getPayments(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_payments` ()",function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getPayments :',e)
+
+    }
+
+}
+
+/** get subscriptioned spryple clients */
+async function getSprypleClients(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_spryple_clients` ()",function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getSprypleClients :',e)
+
+    }
+
+}
+
+/** post additional users */
+async function addUsers(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `add_users` (?,?,?,?)",
+                [   req.body.client_renewal_detail_id_value,
+                    req.body.valid_to_value,
+                    req.body.user_count_value,
+                    req.body.created_by_value,
+                  ], function (err, result, fields) {
+            if(err){
+            res.send({status:false,message:"Unable to add "})
+
+           }
+           else{
+            console.log(result)
+            res.send({status:true,message:"inserted"})
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('addUsers',e)
+
+    }
+
+}
+
+/**get renewal details */
+async function getRenewalDetails(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_renewal_details` (?)",[req.params.client_id_value], function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getRenewalDetails :',e)
+
+    }
+
+}
+
+/**get client plan details */
+async function getClientPlanDetails(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_client_plan_details` (?)",[req.params.client_id_value], function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getClientPlanDetails :',e)
+
+    }
+
 }

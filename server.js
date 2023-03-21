@@ -2779,6 +2779,32 @@ app.get('/api/getMastertableSignup/:tableName/:status/:page/:size/:companyName',
     common.getMastertable(req,res)
    });
 
+// get payments
+app.get('/subscription/api/getPayments', function (req, res) {
+    common.getPayments(req,res)
+});
+
+// get Spryple Clients
+app.get('/subscription/api/getSprypleClients', function (req, res) {
+    common.getSprypleClients(req,res)
+});
+
+// post add additional Users
+app.post('/api/addUsers', function(req,res) {
+    common.addUsers(req,res);
+});
+
+// get Renewal Details
+app.get('/subscription/api/getRenewalDetails', function (req, res) {
+    common.getRenewalDetails(req,res)
+});
+
+// get ClientPlan Details
+app.get('/subscription/api/getClientPlanDetails', function (req, res) {
+    common.getClientPlanDetails(req,res)
+});
+
+
 ///** for AWS */
 
 // var options = {}
