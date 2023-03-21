@@ -5,24 +5,24 @@ function switchDatabase() {
   return mysql.createConnection({
     /** Local */
     
-          host: "192.168.1.30",
+          // host: "192.168.1.30",
           // host: "122.175.62.210",
-            user: "spryple_client_user",
-            port: 3306,
-            password: "Client&*123",
-            // database: 'spryple',
-            database: 'spryple_qa',
-            dateStrings: true,
-          multipleStatements: true
+          //   user: "spryple_client_user",
+          //   port: 3306,
+          //   password: "Client&*123",
+          //   // database: 'spryple_hrms',
+          //   database: 'spryple_qa',
+          //   dateStrings: true,
+          // multipleStatements: true
 
      /** AWS */
-    // host: "65.0.224.72",
-    // user: "root",
-    //  port: 3306,
-    //  password: "Sreebaw$1103",
-    //  database: 'spryple_sreeb',
-    //  dateStrings: true,
-    // multipleStatements: true
+     host: "65.0.224.72",
+     user: "root",
+      port: 3306,
+      password: "Sreebaw$1103",
+      database: 'spryple_sreeb',
+      dateStrings: true,
+     multipleStatements: true
      
  });
     
@@ -33,23 +33,23 @@ async function getNewDBConnection(companyName,dbName)
 
   return new Promise((res,rej)=>{
     var connectionParams = {
-      host: "192.168.1.30",
+      // // host: "192.168.1.30",
       // host: "122.175.62.210",
-      user: "spryple_client_user",
-      port: 3306,
-      password: "Client&*123",
-      database: dbName,
-      dateStrings: true,
-      multipleStatements: true
+      // user: "spryple_client_user",
+      // port: 3306,
+      // password: "Client&*123",
+      // database: dbName,
+      // dateStrings: true,
+      // multipleStatements: true
 
       /** AWS */
-    // host: "65.0.224.72",
-    // user: "root",
-    //  port: 3306,
-    //  password: "Sreebaw$1103",
-    //  database: 'spryple_sreeb',
-    //  dateStrings: true,
-    //  multipleStatements: true
+      host: "65.0.224.72",
+      user: "root",
+       port: 3306,
+       password: "Sreebaw$1103",
+       database: dbName,
+       dateStrings: true,
+       multipleStatements: true
   };
     var con;
     con = mysql.createConnection(connectionParams);
