@@ -197,9 +197,9 @@ async function setNewHire(req, res) {
                             /**Local */
                             // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                            //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
                             /**AWS */
-                            var url = 'https://sreeb.spryple.com/#/pre-onboarding/' + token;
+                            // var url = 'https://sreeb.spryple.com/#/pre-onboarding/' + token;
                            
                            let mname = emailData.middlename !=null ? emailData.middlename: ' ';
                            var name = emailData.firstname+' ' + mname +' '+ emailData.lastname;
@@ -3090,139 +3090,139 @@ async function getFilepathsMasterForEMS(req, res) {
 
 async function setDocumentOrImageForEMS(req, res) {
    //** for local deployment */ 
-//   try {
-//         let emailData;
-//         file = req.files.file;
-//         var localPath = JSON.parse(req.body.info);
-//         var folderName = localPath.filepath;
-//         if (req.body.email != undefined) {
-//              emailData = JSON.parse(req.body.email);
-//           }
-//         try {
-//             if (!fs.existsSync(folderName)) {
-//                 fs.mkdirSync(folderName);
-//             } else {
-//                 try {
-//                     file.mv(
-//                         path.resolve(__dirname, folderName, localPath.filename),
-//                         async function (error) {
-//                             if (error) {
-//                                 res.send({ status: false });
-//                                 let errorLogArray = [];
-//                                 let companyName =req.params.companyName;
-//                                 let  dbName = await getDatebaseName(companyName)
-//                                 errorLogArray.push("EMSAPI");
-//                                 errorLogArray.push("setDocumentOrImageForEMS");
-//                                 errorLogArray.push("POST");
-//                                 errorLogArray.push(JSON.stringify(req.body));
-//                                 errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-//                                 errorLogArray.push(null);
-//                                 errorLogArray.push(companyName);
-//                                 errorLogArray.push(dbName);
-//                                 errorLogs(errorLogArray);
+  try {
+        let emailData;
+        file = req.files.file;
+        var localPath = JSON.parse(req.body.info);
+        var folderName = localPath.filepath;
+        if (req.body.email != undefined) {
+             emailData = JSON.parse(req.body.email);
+          }
+        try {
+            if (!fs.existsSync(folderName)) {
+                fs.mkdirSync(folderName);
+            } else {
+                try {
+                    file.mv(
+                        path.resolve(__dirname, folderName, localPath.filename),
+                        async function (error) {
+                            if (error) {
+                                res.send({ status: false });
+                                let errorLogArray = [];
+                                let companyName =req.params.companyName;
+                                let  dbName = await getDatebaseName(companyName)
+                                errorLogArray.push("EMSAPI");
+                                errorLogArray.push("setDocumentOrImageForEMS");
+                                errorLogArray.push("POST");
+                                errorLogArray.push(JSON.stringify(req.body));
+                                errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                                errorLogArray.push(null);
+                                errorLogArray.push(companyName);
+                                errorLogArray.push(dbName);
+                                errorLogs(errorLogArray);
                                 
-//                             } else {
-//                                 res.send({
-//                                     status: true,
-//                                     message: "Image Uploaded Succesfully",
-//                                 });
-//                                 if (req.body.data != "Approved") {
-//                                     if (emailData.rm_email != '' || emailData.rm_name != null) [
-//                                         documentApprovalEmailToHR(emailData)
-//                                     ]
-//                                 }
+                            } else {
+                                res.send({
+                                    status: true,
+                                    message: "Image Uploaded Succesfully",
+                                });
+                                if (req.body.data != "Approved") {
+                                    if (emailData.rm_email != '' || emailData.rm_name != null) [
+                                        documentApprovalEmailToHR(emailData)
+                                    ]
+                                }
                                 
-//                             }
-//                         });
-//                 } catch (err) {
-//                     res.send({ status: false });
-//                     let companyName =req.params.companyName;
-//                     let  dbName = await getDatebaseName(companyName)
-//                     let errorLogArray = [];
-//                     errorLogArray.push("EMSAPI");
-//                     errorLogArray.push("setDocumentOrImageForEMS");
-//                     errorLogArray.push("POST");
-//                     errorLogArray.push(JSON.stringify(req.body));
-//                     errorLogArray.push( e.message);
-//                     errorLogArray.push(null);
-//                     errorLogArray.push(companyName);
-//                     errorLogArray.push(dbName);
-//                     errorLogs(errorLogArray)
+                            }
+                        });
+                } catch (err) {
+                    res.send({ status: false });
+                    let companyName =req.params.companyName;
+                    let  dbName = await getDatebaseName(companyName)
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("setDocumentOrImageForEMS");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push( e.message);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs(errorLogArray)
 
-//                 }
-//             }
-//         }
-//         catch (e) {
-//             res.send({status: false});
-//             let companyName =req.body.companyName;
-//             let  dbName = await getDatebaseName(companyName)
-//             let errorLogArray = [];
-//             errorLogArray.push("EMSAPI");
-//             errorLogArray.push("setDocumentOrImageForEMS");
-//             errorLogArray.push("POST");
-//             errorLogArray.push(JSON.stringify(req.body));
-//             errorLogArray.push( e.message);
-//             errorLogArray.push(null);
-//             errorLogArray.push(companyName);
-//             errorLogArray.push(dbName);
-//              errorLogs(errorLogArray)
-//         }
-//     } catch (e) {
-//          res.send({ status: false });
-//         let companyName =req.body.companyName;
-//         let  dbName = await getDatebaseName(companyName)
-//         let errorLogArray = [];
-//         errorLogArray.push("EMSAPI");
-//         errorLogArray.push("setDocumentOrImageForEMS");
-//         errorLogArray.push("POST");
-//         errorLogArray.push(JSON.stringify(req.body));
-//         errorLogArray.push( e.message);
-//         errorLogArray.push(null);
-//         errorLogArray.push(companyName);
-//         errorLogArray.push(dbName);
-//          errorLogs(errorLogArray)
+                }
+            }
+        }
+        catch (e) {
+            res.send({status: false});
+            let companyName =req.body.companyName;
+            let  dbName = await getDatebaseName(companyName)
+            let errorLogArray = [];
+            errorLogArray.push("EMSAPI");
+            errorLogArray.push("setDocumentOrImageForEMS");
+            errorLogArray.push("POST");
+            errorLogArray.push(JSON.stringify(req.body));
+            errorLogArray.push( e.message);
+            errorLogArray.push(null);
+            errorLogArray.push(companyName);
+            errorLogArray.push(dbName);
+             errorLogs(errorLogArray)
+        }
+    } catch (e) {
+         res.send({ status: false });
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("setDocumentOrImageForEMS");
+        errorLogArray.push("POST");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         errorLogs(errorLogArray)
 
-//     }
+    }
 
 /**For AWS Documents */
 
-try {
-    let emailData;
-    file = req.files.file;
-    var localPath = JSON.parse(req.body.info);
-    var folderName = localPath.filepath;
-    if (req.body.email != undefined) {
-        emailData = JSON.parse(req.body.email);
-    } 
-    try {
-      const params = {
-        Bucket: folderName, //format:spryple/core
-        Key: localPath.filename, // file will be saved as testBucket/contacts.csv
-        Body: file.data
-      };
-      s3.upload(params, function(error, data) {
-        if(error){
-            res.send({status:false})
-        }
-        else{
-            res.send({status:true,message:'Image Uploaded Succesfully'})
-            if (req.body.data != "Approved") {
-              if (emailData.rm_email !='' || emailData.rm_name !=null) [
-                documentApprovalEmailToHR(emailData)
-              ]
-            }
-        }
-      });
-    } 
-    catch (err) {
-      console.error(err);
-      res.send({ status: false });
-    }
-  } 
-  catch (e) {
-      console.log("setDocumentOrImageForEMS:", e);
-      res.send({ status: false });
-    }
+// try {
+//     let emailData;
+//     file = req.files.file;
+//     var localPath = JSON.parse(req.body.info);
+//     var folderName = localPath.filepath;
+//     if (req.body.email != undefined) {
+//         emailData = JSON.parse(req.body.email);
+//     } 
+//     try {
+//       const params = {
+//         Bucket: folderName, //format:spryple/core
+//         Key: localPath.filename, // file will be saved as testBucket/contacts.csv
+//         Body: file.data
+//       };
+//       s3.upload(params, function(error, data) {
+//         if(error){
+//             res.send({status:false})
+//         }
+//         else{
+//             res.send({status:true,message:'Image Uploaded Succesfully'})
+//             if (req.body.data != "Approved") {
+//               if (emailData.rm_email !='' || emailData.rm_name !=null) [
+//                 documentApprovalEmailToHR(emailData)
+//               ]
+//             }
+//         }
+//       });
+//     } 
+//     catch (err) {
+//       console.error(err);
+//       res.send({ status: false });
+//     }
+//   } 
+//   catch (e) {
+//       console.log("setDocumentOrImageForEMS:", e);
+//       res.send({ status: false });
+//     }
   
 
 }
@@ -3302,46 +3302,46 @@ async function getDocumentOrImagesForEMS(req, res) {
             var flag = false;
             
 /** AWS */
-const params = {
-    Bucket: data, // pass your bucket name
-    Key: req.body.filename 
-  };
+// const params = {
+//     Bucket: data, // pass your bucket name
+//     Key: req.body.filename 
+//   };
   
-  s3.getObject(params, function (err, data) {
-    if (err) {
-      flag = false;
-    }
-    else {
-      flag = true;
-      imageData.image = data.Body;
-    }
-        imageData.success = flag;
-        res.send(imageData);
-  });
+//   s3.getObject(params, function (err, data) {
+//     if (err) {
+//       flag = false;
+//     }
+//     else {
+//       flag = true;
+//       imageData.image = data.Body;
+//     }
+//         imageData.success = flag;
+//         res.send(imageData);
+//   });
 
 /**Local */
-        //     fs.readFile(folderName + req.body.filename, async function (err, result) {
-        //     if (err) {
-        //             let companyName =req.params.companyName;
-        //             let  dbName = await getDatebaseName(companyName)
-        //             let errorLogArray = [];
-        //             errorLogArray.push("EMSAPI");
-        //             errorLogArray.push("getDocumentOrImagesForEMS");
-        //             errorLogArray.push("GET");
-        //             errorLogArray.push("");
-        //             errorLogArray.push(err);
-        //             errorLogArray.push(null);
-        //             errorLogArray.push(companyName);
-        //             errorLogArray.push(dbName);
-        //              errorLogs(errorLogArray)
-        //         } else {
-        //             flag = true;
-        //             imageData.image = result;
+            fs.readFile(folderName + req.body.filename, async function (err, result) {
+            if (err) {
+                    let companyName =req.params.companyName;
+                    let  dbName = await getDatebaseName(companyName)
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("getDocumentOrImagesForEMS");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(err);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     errorLogs(errorLogArray)
+                } else {
+                    flag = true;
+                    imageData.image = result;
              
-        //             imageData.success = flag;
-        //             res.send(imageData);
-        //         }
-        // });
+                    imageData.success = flag;
+                    res.send(imageData);
+                }
+        });
             
         } 
         
@@ -4077,10 +4077,10 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
     //   var url = "http://localhost:4200/Login";
       
       /**QA */
-    //   var url = 'http://122.175.62.210:7575/Login';
+      var url = 'http://122.175.62.210:7575/Login';
       
       /**AWS */
-      var url = 'https://sreeb.spryple.com/#/Login';
+    //   var url = 'https://sreeb.spryple.com/#/Login';
 
     var html = `<html>
         <head>

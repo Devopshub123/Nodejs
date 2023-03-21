@@ -410,10 +410,10 @@ async function forgetpassword(req, res, next) {
 
                 // var url = 'http://localhost:4200/#/ResetPassword/'+token
                 
-                // var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
+                var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
 
                  /**AWS */
-                 var url = 'https://sreeb.spryple.com/#/ResetPassword/' + token;
+                //  var url = 'https://sreeb.spryple.com/#/ResetPassword/' + token;
 
                 var html = `<html>
                     <head>
@@ -855,6 +855,7 @@ async function Validateemail(req, res) {
     }
    
 }
+/** client signup  */
 async function setSprypleClient(req,res) {
     try {
         let companyCode = req.body.req.body.company_code_value;
@@ -957,7 +958,6 @@ async function setPlanDetails(req,res) {
     try {
         var companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_hrms');
-        console.log("ffffaahjghx",req.body)
         let listOfConnections = {};
         if(dbName) {
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -965,8 +965,6 @@ async function setPlanDetails(req,res) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
         listOfConnections[companyName].query("CALL `set_plan_details` (?,?,?,?,?,?,?)",[req.body.plan_id_value,req.body.lower_range_value,req.body.upper_range_value,req.body.cost_per_user_monthly,req.body.cost_per_user_yearly,req.body.created_by_value,req.body.id_value], function (err, result, fields) {
-          console.log("result",result);
-          console.log("err",err)
             if(err){
             res.send({status:false,message:"Unable to add "})
 
@@ -1068,11 +1066,6 @@ function validateCompanyCode(companycode,email){
     });
 
 }
-
-
-
-
-
 function contactUsFormMail(mailData) {
     let value = mailData.body;
     try {

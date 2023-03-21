@@ -2779,86 +2779,104 @@ app.get('/api/getMastertableSignup/:tableName/:status/:page/:size/:companyName',
     common.getMastertable(req,res)
    });
 
-///** */
+///** for AWS */
 
-var options = {}
+// var options = {}
 
-function step1() {
-    const certificateParams = {
-        Bucket: 'ssl-bucket12345/ssl-folder', // pass your bucket name
-        //   Key: 'private.key'
-        Key:'cert.pem'
-    };
-    s3.getObject(certificateParams, function (err, data) {
-        if (err) {
-            flag = false;
-            console.log('err',err)
-        }else {
-            options.cert = data.Body;
-            step2();
-        }
-    });
-}
+// function step1() {
+//     const certificateParams = {
+//         Bucket: 'ssl-bucket12345/ssl-folder', // pass your bucket name
+//         //   Key: 'private.key'
+//         Key:'cert.pem'
+//     };
+//     s3.getObject(certificateParams, function (err, data) {
+//         if (err) {
+//             flag = false;
+//             console.log('err',err)
+//         }else {
+//             options.cert = data.Body;
+//             step2();
+//         }
+//     });
+// }
     
-function step2(){
-    const certificateParams = {
-        Bucket: 'ssl-bucket12345/ssl-folder', // pass your bucket name
-        Key: 'privkey.pem'
-       // Key:'cert.pem'
-    };
-    s3.getObject(certificateParams, function (err, data) {
+// function step2(){
+//     const certificateParams = {
+//         Bucket: 'ssl-bucket12345/ssl-folder', // pass your bucket name
+//         Key: 'privkey.pem'
+//        // Key:'cert.pem'
+//     };
+//     s3.getObject(certificateParams, function (err, data) {
 
-        if (err) {
-            console.log('err',err)
-        }else {
-            options.key = data.Body;
-           step3();
-        }
-    });
+//         if (err) {
+//             console.log('err',err)
+//         }else {
+//             options.key = data.Body;
+//            step3();
+//         }
+//     });
 
-}
+// }
     
-function step3(){
-    const certificateParams = {
-        Bucket: 'ssl-bucket12345/ssl-folder', // pass your bucket name
-        Key: 'chain.pem'
-        // Key:'cert.pem'
-    };
-    s3.getObject(certificateParams, function (err, data) {
+// function step3(){
+//     const certificateParams = {
+//         Bucket: 'ssl-bucket12345/ssl-folder', // pass your bucket name
+//         Key: 'chain.pem'
+//         // Key:'cert.pem'
+//     };
+//     s3.getObject(certificateParams, function (err, data) {
 
-        if (err) {
-            console.log('err',err)
-        }else {
-            options.ca =[];
-            options.ca.push(data.Body);
-            step4();
-        }
-    });
+//         if (err) {
+//             console.log('err',err)
+//         }else {
+//             options.ca =[];
+//             options.ca.push(data.Body);
+//             step4();
+//         }
+//     });
 
-}
+// }
 
-function step4(){
-    const certificateParams = {
-        Bucket: 'ssl-bucket12345/ssl-folder', // pass your bucket name
-        Key: 'fullchain.pem'
-        // Key:'cert.pem'
-    };
-    s3.getObject(certificateParams, function (err, data) {
+// function step4(){
+//     const certificateParams = {
+//         Bucket: 'ssl-bucket12345/ssl-folder', // pass your bucket name
+//         Key: 'fullchain.pem'
+//         // Key:'cert.pem'
+//     };
+//     s3.getObject(certificateParams, function (err, data) {
 
-        if (err) {
-            console.log('err',err)
-        }else {
-            options.ca.push(data.Body);
-            https.createServer(options, app).listen(6060,'0.0.0.0',function (error) {
-                if (error)
-                    console.log('Server Cant Start ...Erorr....');
-                else
-                    console.log('Server Started at : https://52.66.89.72:6060');
-            });
+//         if (err) {
+//             console.log('err',err)
+//         }else {
+//             options.ca.push(data.Body);
+//             https.createServer(options, app).listen(6060,'0.0.0.0',function (error) {
+//                 if (error)
+//                     console.log('Server Cant Start ...Erorr....');
+//                 else
+//                     console.log('Server Started at : https://52.66.89.72:6060');
+//             });
 
-        }
-    });
+//         }
+//     });
 
-}
+// }
 
-step1()
+// step1()
+
+/** Local server */
+
+// app.listen(6060,function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at : http://localhost:6060');
+// });
+
+/** uncomment in QA build time */
+
+app.listen(202,'0.0.0.0',function (err) {
+    if (err)
+        console.log('Server Cant Start ...Erorr....');
+    else
+        console.log('Server Started at :  http://122.175.62.210:202');
+});
