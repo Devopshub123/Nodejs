@@ -807,13 +807,13 @@ async function Validateemail(req, res) {
                     pass: 'Sreeb@#321'
                 }
             });
-            var token = (Buffer.from(JSON.stringify({ companycode:companycode, email: email}))).toString('base64')
+            var token = (Buffer.from(JSON.stringify({ companycode:companycode, email: email,Planid:1,Date:new Date()}))).toString('base64')
             /**Local */
             var url = 'http://localhost:4200/#/sign-up/' + token;
             /**QA */
             //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
             /**AWS */
-        //    var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
+        //    var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;  // <p style="color:black">Human Resources Team.</p>
         //         <p style="color:black"> Please make it a note that, the below link can be deactivated in 24 Hours.</p>
 
             var html = `<html>
@@ -822,18 +822,18 @@ async function Validateemail(req, res) {
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Customer,</p>
-        <p style="color:black">"We are excited to have you sign up with Spryple and are looking forward to work with you.Click on the link below,fill your details and submit the form."<b></b></p>
+        <p style="color:black">We are excited to have you sign up with Spryple and are looking forward to work with you. Click on the link below to complete your registration process.Please fill your details and submit the form.<b></b></p>
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
-        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>hr@sreebtech.com</b>  </p>  
+        <p style="color:black"> If you experience any issues when accessing the above link, please reach out to <b>hr@sreebtech.com</b>  </p>  
         <p style="color:black">Thank you!</p>
-        // <p style="color:black">Human Resources Team.</p>
+      
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
             var mailOptions = {
                 from: 'no-reply@spryple.com',
                 to: email,
-                subject: 'Welcome to Sign up with Spryple',
+                subject: 'Welcome to Spryple',
                 html: html
             };
            transporter.sendMail(mailOptions, function (error, info) {
@@ -862,8 +862,9 @@ async function Validateemail(req, res) {
 }
 /** client signup  */
 async function setSprypleClient(req,res) {
+    console.log("data",req.body)
     try {
-        let companyCode = req.body.req.body.company_code_value;
+        let companyCode = req.body.company_code_value;
         let toEmail = req.body.company_email_value;
         var companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_hrms');
@@ -933,7 +934,7 @@ async function setSprypleClient(req,res) {
         </html> `;
             var mailOptions = {
                 from: 'no-reply@spryple.com',
-                to: email,
+                to: toEmail,
                 subject: 'Subscription plan options',
                 html: html
             };
