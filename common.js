@@ -61,7 +61,9 @@ module.exports = {
     getSprypleClients: getSprypleClients,
     addUsers: addUsers,
     getRenewalDetails: getRenewalDetails,
-    getClientPlanDetails:getClientPlanDetails
+    getClientPlanDetails:getClientPlanDetails,
+    getUsers:getUsers,
+    enableRenewButton:enableRenewButton,
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -1263,7 +1265,7 @@ async function getClientPlanDetails(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `get_client_plan_details` (?)",[req.params.client_id_value], function (err, result, fields) {
+        listOfConnections[companyName].query("CALL `get_client_plan_details` (?)",[req.body.client_id_value], function (err, result, fields) {
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -1276,6 +1278,68 @@ async function getClientPlanDetails(req,res) {
     } }
     catch (e) {
         console.log('getClientPlanDetails :',e)
+
+    }
+
+}
+
+async function getUsers(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_users` (?)",[req.params.id], function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getUsers :',e)
+
+    }
+
+}
+
+async function enableRenewButton(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        console.log()
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        console.log("data",req.body)
+        listOfConnections[companyName].query("CALL `enable_renew_button` (?)",[req.body.date], function (err, result, fields) {
+           console.log("err",err);
+           console.log("result",result[0].length)
+            if(err){
+                res.send({status:false,data:[]})
+
+            }else if(result[0].length>0){
+                res.send({status:true,data:result[0]})
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('setPlanDetails',e)
 
     }
 
