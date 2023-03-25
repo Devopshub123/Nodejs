@@ -2821,6 +2821,11 @@ app.post('/subscription/api/addUsersDisplayInfo', function (req, res) {
 app.post('/subscription/api/renewUsersDisplayInformation', function (req, res) {
     common.renewUsersDisplayInformation (req,res)
 });
+/**get_payment_details */
+app.get('/subscription/api/getClientPaymentDetails/:clientid/:companyName', function (req, res) {
+    common.getClientPaymentDetails (req,res)
+});
+
 ///** for AWS */
 
 // var options = {}

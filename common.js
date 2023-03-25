@@ -66,7 +66,8 @@ module.exports = {
     enableRenewButton:enableRenewButton,
     renewUsers:renewUsers,
     addUsersDisplayInfo:addUsersDisplayInfo,
-    renewUsersDisplayInformation:renewUsersDisplayInformation
+    renewUsersDisplayInformation:renewUsersDisplayInformation,
+    getClientPaymentDetails:getClientPaymentDetails
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -1351,7 +1352,7 @@ async function enableRenewButton(req,res) {
 
 }
 
-/** post additional users */
+/**renewUsers for after renewal payment done. */
 async function renewUsers(req,res) {
     try {
         var companyName = 'spryple_hrms';
@@ -1392,7 +1393,7 @@ async function renewUsers(req,res) {
     }
 
 }
-/**addUsersDisplayInfo */
+/**This API integrated for client add employees middile of subscription time amount details*/
 async function addUsersDisplayInfo(req,res) {
     try {
         var companyName = 'spryple_hrms';
@@ -1428,6 +1429,7 @@ async function addUsersDisplayInfo(req,res) {
     }
 
 }
+/**This API integrated for client renewing time amount and validate display*/
 async function renewUsersDisplayInformation(req,res) {
     try {
         var companyName = 'spryple_hrms';
@@ -1460,6 +1462,36 @@ async function renewUsersDisplayInformation(req,res) {
 }
     catch (e) {
         console.log('addUsersDisplayInfo',e)
+
+    }
+
+}
+/**This API integrated for client side payment details */
+async function getClientPaymentDetails(req,res) {
+    try {
+        // let  dbName = await getDatebaseName(req.params.companyName);
+        // let companyName = req.params.companyName;
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_payment_details` (?)",[req.params.clientid], function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getClientPaymentDetails :',e)
 
     }
 
