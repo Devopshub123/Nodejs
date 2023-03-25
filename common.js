@@ -64,6 +64,9 @@ module.exports = {
     getClientPlanDetails:getClientPlanDetails,
     getUsers:getUsers,
     enableRenewButton:enableRenewButton,
+    renewUsers:renewUsers,
+    addUsersDisplayInfo:addUsersDisplayInfo,
+    renewUsersDisplayInformation:renewUsersDisplayInformation
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -1203,6 +1206,9 @@ async function addUsers(req,res) {
                     req.body.valid_to_value,
                     req.body.user_count_value,
                     req.body.created_by_value,
+                    req.body.payment_reference_number_value,
+                    req.body.payment_date_value,
+                    req.body.payment_status_value 
                   ], function (err, result, fields) {
             if(err){
             res.send({status:false,message:"Unable to add "})
@@ -1340,6 +1346,120 @@ async function enableRenewButton(req,res) {
 }
     catch (e) {
         console.log('setPlanDetails',e)
+
+    }
+
+}
+
+/** post additional users */
+async function renewUsers(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `renew_users` (?,?,?,?,?,?,?,?)",
+                [   req.body.client_plan_detail_id_value,
+                    req.body.user_count_value,
+                    req.body.valid_to_value,
+                    req.body.renew_type,
+                    req.body.created_by_value,
+                    req.body.payment_reference_number_value,
+                    req.body.payment_date_value,
+                    req.body.payment_status_value 
+                  ], function (err, result, fields) {
+            if(err){
+            res.send({status:false,message:"Unable to add "})
+
+           }
+           else{
+            console.log(result)
+            res.send({status:true,message:"inserted"})
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('addUsers',e)
+
+    }
+
+}
+/**addUsersDisplayInfo */
+async function addUsersDisplayInfo(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `add_users_display_info` (?,?,?)",
+                [   req.body.client_plan_detail_id_value,
+                    req.body.valid_to_value,
+                    req.body.user_count_value,
+                  ], function (err, result, fields) {
+            if(err){
+            res.send({status:false,data:[]})
+
+           }
+           else{
+            console.log(result)
+            res.send({status:true,data:result[0]})
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('addUsersDisplayInfo',e)
+
+    }
+
+}
+async function renewUsersDisplayInformation(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `renew_users_display_information` (?,?,?)",
+                [   req.body.client_plan_detail_id_value,
+                    req.body.user_count_value,
+                    req.body.valid_to_value,
+                    
+                  ], function (err, result, fields) {
+            if(err){
+            res.send({status:false,data:[]})
+
+           }
+           else{
+            console.log(result)
+            res.send({status:true,data:result[0]})
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('addUsersDisplayInfo',e)
 
     }
 

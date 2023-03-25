@@ -2810,7 +2810,17 @@ app.post('/subscription/api/enableRenewButton', function (req, res) {
 app.post('/subscription/api/addUsers', function (req, res) {
     common.addUsers (req,res)
 });
-
+app.post('/subscription/api/renewUsers', function (req, res) {
+    common.renewUsers (req,res)
+});
+// add_users_display_info 
+app.post('/subscription/api/addUsersDisplayInfo', function (req, res) {
+    common.addUsersDisplayInfo (req,res)
+});
+// renew_users_display_information
+app.post('/subscription/api/renewUsersDisplayInformation', function (req, res) {
+    common.renewUsersDisplayInformation (req,res)
+});
 ///** for AWS */
 
 // var options = {}
