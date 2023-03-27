@@ -221,7 +221,7 @@ async function setNewHire(req, res) {
                             var mailOptions = {
                                 from: 'no-reply@spryple.com',
                                 to: emailData.personal_email,
-                                subject: 'Acknowledgement Form',
+                                subject: 'Welcome to Spryple',
                                 html: html
                             };
                            transporter.sendMail(mailOptions, function (error, info) {
