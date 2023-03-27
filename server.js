@@ -2825,6 +2825,10 @@ app.post('/subscription/api/renewUsersDisplayInformation', function (req, res) {
 app.get('/subscription/api/getClientPaymentDetails/:clientid/:companyName', function (req, res) {
     common.getClientPaymentDetails (req,res)
 });
+/**change_client_plan */
+app.post('/subscription/api/changeClientPlan', function (req, res) {
+    common.changeClientPlan (req,res)
+});
 
 ///** for AWS */
 

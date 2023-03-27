@@ -67,7 +67,8 @@ module.exports = {
     renewUsers:renewUsers,
     addUsersDisplayInfo:addUsersDisplayInfo,
     renewUsersDisplayInformation:renewUsersDisplayInformation,
-    getClientPaymentDetails:getClientPaymentDetails
+    getClientPaymentDetails:getClientPaymentDetails,
+    changeClientPlan:changeClientPlan
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -1202,7 +1203,7 @@ async function addUsers(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-            listOfConnections[companyName].query("CALL `add_users` (?,?,?,?)",
+            listOfConnections[companyName].query("CALL `add_users` (?,?,?,?,?,?,?)",
                 [   req.body.client_renewal_detail_id_value,
                     req.body.valid_to_value,
                     req.body.user_count_value,
@@ -1363,6 +1364,7 @@ async function renewUsers(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
+        console.log("renewUsers",req.body)
             listOfConnections[companyName].query("CALL `renew_users` (?,?,?,?,?,?,?,?)",
                 [   req.body.client_plan_detail_id_value,
                     req.body.user_count_value,
@@ -1373,6 +1375,8 @@ async function renewUsers(req,res) {
                     req.body.payment_date_value,
                     req.body.payment_status_value 
                   ], function (err, result, fields) {
+                    console.log("renewUserserr",err);
+                    console.log("renewUsersresult",result)
             if(err){
             res.send({status:false,message:"Unable to add "})
 
@@ -1492,6 +1496,41 @@ async function getClientPaymentDetails(req,res) {
     } }
     catch (e) {
         console.log('getClientPaymentDetails :',e)
+
+    }
+
+}
+/**This API integrated for client add employees middile of subscription time amount details*/
+async function changeClientPlan(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `change_client_plan` (?,?,?)",
+                [   req.body.client_id_value ,
+                    req.body.plan_id_value ,
+                    req.body.created_by_value ,
+                  ], function (err, result, fields) {
+            if(err){
+            res.send({status:false})
+
+           }
+           else{
+            res.send({status:true})
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('changeClientPlan',e)
 
     }
 
