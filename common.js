@@ -61,7 +61,14 @@ module.exports = {
     getSprypleClients: getSprypleClients,
     addUsers: addUsers,
     getRenewalDetails: getRenewalDetails,
-    getClientPlanDetails:getClientPlanDetails
+    getClientPlanDetails:getClientPlanDetails,
+    getUsers:getUsers,
+    enableRenewButton:enableRenewButton,
+    renewUsers:renewUsers,
+    addUsersDisplayInfo:addUsersDisplayInfo,
+    renewUsersDisplayInformation:renewUsersDisplayInformation,
+    getClientPaymentDetails:getClientPaymentDetails,
+    changeClientPlan:changeClientPlan
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -807,13 +814,13 @@ async function Validateemail(req, res) {
                     pass: 'Sreeb@#321'
                 }
             });
-            var token = (Buffer.from(JSON.stringify({ companycode:companycode, email: email}))).toString('base64')
+            var token = (Buffer.from(JSON.stringify({ companycode:companycode, email: email,Planid:1,Date:new Date()}))).toString('base64')
             /**Local */
             var url = 'http://localhost:4200/#/sign-up/' + token;
             /**QA */
             //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
             /**AWS */
-        //    var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
+        //    var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;  // <p style="color:black">Human Resources Team.</p>
         //         <p style="color:black"> Please make it a note that, the below link can be deactivated in 24 Hours.</p>
 
             var html = `<html>
@@ -822,18 +829,18 @@ async function Validateemail(req, res) {
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Customer,</p>
-        <p style="color:black">"We are excited to have you sign up with Spryple and are looking forward to work with you.Click on the link below,fill your details and submit the form."<b></b></p>
+        <p style="color:black">We are excited to have you sign up with Spryple and are looking forward to work with you. Click on the link below to complete your registration process.Please fill your details and submit the form.<b></b></p>
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
-        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>hr@sreebtech.com</b>  </p>  
+        <p style="color:black"> If you experience any issues when accessing the above link, please reach out to <b>hr@sreebtech.com</b>  </p>  
         <p style="color:black">Thank you!</p>
-        // <p style="color:black">Human Resources Team.</p>
+      
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
             var mailOptions = {
                 from: 'no-reply@spryple.com',
                 to: email,
-                subject: 'Welcome to Sign up with Spryple',
+                subject: 'Welcome to Spryple',
                 html: html
             };
            transporter.sendMail(mailOptions, function (error, info) {
@@ -862,8 +869,9 @@ async function Validateemail(req, res) {
 }
 /** client signup  */
 async function setSprypleClient(req,res) {
+    console.log("data",req.body)
     try {
-        let companyCode = req.body.req.body.company_code_value;
+        let companyCode = req.body.company_code_value;
         let toEmail = req.body.company_email_value;
         var companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_hrms');
@@ -933,7 +941,7 @@ async function setSprypleClient(req,res) {
         </html> `;
             var mailOptions = {
                 from: 'no-reply@spryple.com',
-                to: email,
+                to: toEmail,
                 subject: 'Subscription plan options',
                 html: html
             };
@@ -1195,11 +1203,14 @@ async function addUsers(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-            listOfConnections[companyName].query("CALL `add_users` (?,?,?,?)",
+            listOfConnections[companyName].query("CALL `add_users` (?,?,?,?,?,?,?)",
                 [   req.body.client_renewal_detail_id_value,
                     req.body.valid_to_value,
                     req.body.user_count_value,
                     req.body.created_by_value,
+                    req.body.payment_reference_number_value,
+                    req.body.payment_date_value,
+                    req.body.payment_status_value 
                   ], function (err, result, fields) {
             if(err){
             res.send({status:false,message:"Unable to add "})
@@ -1262,7 +1273,7 @@ async function getClientPlanDetails(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `get_client_plan_details` (?)",[req.params.client_id_value], function (err, result, fields) {
+        listOfConnections[companyName].query("CALL `get_client_plan_details` (?)",[req.body.client_id_value], function (err, result, fields) {
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -1275,6 +1286,251 @@ async function getClientPlanDetails(req,res) {
     } }
     catch (e) {
         console.log('getClientPlanDetails :',e)
+
+    }
+
+}
+
+async function getUsers(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_users` (?)",[req.params.id], function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getUsers :',e)
+
+    }
+
+}
+
+async function enableRenewButton(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        console.log()
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        console.log("data",req.body)
+        listOfConnections[companyName].query("CALL `enable_renew_button` (?)",[req.body.date], function (err, result, fields) {
+           console.log("err",err);
+           console.log("result",result[0].length)
+            if(err){
+                res.send({status:false,data:[]})
+
+            }else if(result[0].length>0){
+                res.send({status:true,data:result[0]})
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('setPlanDetails',e)
+
+    }
+
+}
+
+/**renewUsers for after renewal payment done. */
+async function renewUsers(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        console.log("renewUsers",req.body)
+            listOfConnections[companyName].query("CALL `renew_users` (?,?,?,?,?,?,?,?)",
+                [   req.body.client_plan_detail_id_value,
+                    req.body.user_count_value,
+                    req.body.valid_to_value,
+                    req.body.renew_type,
+                    req.body.created_by_value,
+                    req.body.payment_reference_number_value,
+                    req.body.payment_date_value,
+                    req.body.payment_status_value 
+                  ], function (err, result, fields) {
+                    console.log("renewUserserr",err);
+                    console.log("renewUsersresult",result)
+            if(err){
+            res.send({status:false,message:"Unable to add "})
+
+           }
+           else{
+            console.log(result)
+            res.send({status:true,message:"inserted"})
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('addUsers',e)
+
+    }
+
+}
+/**This API integrated for client add employees middile of subscription time amount details*/
+async function addUsersDisplayInfo(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `add_users_display_info` (?,?,?)",
+                [   req.body.client_plan_detail_id_value,
+                    req.body.valid_to_value,
+                    req.body.user_count_value,
+                  ], function (err, result, fields) {
+            if(err){
+            res.send({status:false,data:[]})
+
+           }
+           else{
+            console.log(result)
+            res.send({status:true,data:result[0]})
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('addUsersDisplayInfo',e)
+
+    }
+
+}
+/**This API integrated for client renewing time amount and validate display*/
+async function renewUsersDisplayInformation(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `renew_users_display_information` (?,?,?)",
+                [   req.body.client_plan_detail_id_value,
+                    req.body.user_count_value,
+                    req.body.valid_to_value,
+                    
+                  ], function (err, result, fields) {
+            if(err){
+            res.send({status:false,data:[]})
+
+           }
+           else{
+            console.log(result)
+            res.send({status:true,data:result[0]})
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('addUsersDisplayInfo',e)
+
+    }
+
+}
+/**This API integrated for client side payment details */
+async function getClientPaymentDetails(req,res) {
+    try {
+        // let  dbName = await getDatebaseName(req.params.companyName);
+        // let companyName = req.params.companyName;
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_payment_details` (?)",[req.params.clientid], function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getClientPaymentDetails :',e)
+
+    }
+
+}
+/**This API integrated for client add employees middile of subscription time amount details*/
+async function changeClientPlan(req,res) {
+    try {
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `change_client_plan` (?,?,?)",
+                [   req.body.client_id_value ,
+                    req.body.plan_id_value ,
+                    req.body.created_by_value ,
+                  ], function (err, result, fields) {
+            if(err){
+            res.send({status:false})
+
+           }
+           else{
+            res.send({status:true})
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('changeClientPlan',e)
 
     }
 

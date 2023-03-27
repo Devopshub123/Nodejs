@@ -2788,22 +2788,47 @@ app.get('/subscription/api/getPayments', function (req, res) {
 app.get('/subscription/api/getSprypleClients', function (req, res) {
     common.getSprypleClients(req,res)
 });
-
-// post add additional Users
-app.post('/api/addUsers', function(req,res) {
-    common.addUsers(req,res);
-});
-
 // get Renewal Details
 app.get('/subscription/api/getRenewalDetails', function (req, res) {
     common.getRenewalDetails(req,res)
 });
 
 // get ClientPlan Details
-app.get('/subscription/api/getClientPlanDetails', function (req, res) {
+app.post('/subscription/api/getClientPlanDetails', function (req, res) {
     common.getClientPlanDetails(req,res)
 });
 
+/**get_users */
+app.get('/subscription/api/getUsers/:id', function (req, res) {
+    common.getUsers(req,res)
+});
+/**enable_renew_button */
+app.post('/subscription/api/enableRenewButton', function (req, res) {
+    common.enableRenewButton(req,res)
+});
+/**addUsers for existing subscription */
+app.post('/subscription/api/addUsers', function (req, res) {
+    common.addUsers (req,res)
+});
+app.post('/subscription/api/renewUsers', function (req, res) {
+    common.renewUsers (req,res)
+});
+// add_users_display_info 
+app.post('/subscription/api/addUsersDisplayInfo', function (req, res) {
+    common.addUsersDisplayInfo (req,res)
+});
+// renew_users_display_information
+app.post('/subscription/api/renewUsersDisplayInformation', function (req, res) {
+    common.renewUsersDisplayInformation (req,res)
+});
+/**get_payment_details */
+app.get('/subscription/api/getClientPaymentDetails/:clientid/:companyName', function (req, res) {
+    common.getClientPaymentDetails (req,res)
+});
+/**change_client_plan */
+app.post('/subscription/api/changeClientPlan', function (req, res) {
+    common.changeClientPlan (req,res)
+});
 
 ///** for AWS */
 
