@@ -1563,7 +1563,7 @@ async function getClientDetails(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
     } }
     catch (e) {
-        console.log('getClientPaymentDetails :',e)
+        console.log('getClientDetails :',e)
 
     }
 
