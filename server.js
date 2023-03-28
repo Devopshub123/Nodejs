@@ -2920,18 +2920,18 @@ app.get('/subscription/api/getClientDetails/:clientid/:companyName', function (r
 
 /** Local server */
 
-app.listen(6060,function (err) {
-    if (err)
-        console.log('Server Cant Start ...Erorr....');
-    else
-        console.log('Server Started at : http://localhost:6060');
-});
-
-/** uncomment in QA build time */
-
-// app.listen(202,'0.0.0.0',function (err) {
+// app.listen(6060,function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://122.175.62.210:202');
+//         console.log('Server Started at : http://localhost:6060');
 // });
+
+/** uncomment in QA build time */
+
+app.listen(202,'0.0.0.0',function (err) {
+    if (err)
+        console.log('Server Cant Start ...Erorr....');
+    else
+        console.log('Server Started at :  http://122.175.62.210:202');
+});
