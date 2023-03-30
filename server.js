@@ -2821,6 +2821,7 @@ app.post('/subscription/api/addUsersDisplayInfo', function (req, res) {
 app.post('/subscription/api/renewUsersDisplayInformation', function (req, res) {
     common.renewUsersDisplayInformation (req,res)
 });
+
 /**get_payment_details */
 app.get('/subscription/api/getClientPaymentDetails/:clientid/:companyName', function (req, res) {
     common.getClientPaymentDetails (req,res)
@@ -2831,9 +2832,11 @@ app.post('/subscription/api/changeClientPlan', function (req, res) {
 });
 /**get_client_details */
 app.get('/subscription/api/getClientDetails/:clientid/:companyName', function (req, res) {
-    common.getClientDetails (req,res)
+   common.getClientDetails (req,res)
 });
-
+app.get('/subscription/agreement', function (req, res) {
+    common.agreement(req,res)
+})
 ///** for AWS */
 
 // var options = {}
@@ -2920,18 +2923,18 @@ app.get('/subscription/api/getClientDetails/:clientid/:companyName', function (r
 
 /** Local server */
 
-// app.listen(6060,function (err) {
-//     if (err)
-//         console.log('Server Cant Start ...Erorr....');
-//     else
-//         console.log('Server Started at : http://localhost:6060');
-// });
-
-/** uncomment in QA build time */
-
-app.listen(202,'0.0.0.0',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://122.175.62.210:202');
+        console.log('Server Started at : http://localhost:6060');
 });
+
+/** uncomment in QA build time */
+
+// app.listen(202,'0.0.0.0',function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at :  http://122.175.62.210:202');
+// });

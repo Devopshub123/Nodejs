@@ -1730,6 +1730,7 @@ async function getProfileImage(req, res) {
   
     try{
         folderName = req.body.filepath;
+        console.log("folder",folderName)
         var imageData={}
         var flag=false;
         fs.readFile(folderName + req.body.filename, async function (err, result) {

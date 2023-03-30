@@ -69,7 +69,8 @@ module.exports = {
     renewUsersDisplayInformation:renewUsersDisplayInformation,
     getClientPaymentDetails:getClientPaymentDetails,
     changeClientPlan:changeClientPlan,
-    getClientDetails:getClientDetails
+    getClientDetails: getClientDetails,
+    agreement:agreement
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -1565,6 +1566,71 @@ async function getClientDetails(req,res) {
     catch (e) {
         console.log('getClientDetails :',e)
 
+    }
+
+}
+async function agreement(req, res) {
+    /**  ------- For AWS Document Upload -----*/
+   
+    // try {
+    //     folderName = req.body.filepath;
+    //     let data = JSON.parse(JSON.stringify(folderName));
+    //     var imageData = {};
+    //     var flag = false;
+    //     const params = {
+    //       Bucket: data, // pass your bucket name
+    //       Key: req.body.filename 
+    //   };
+
+    //     s3.getObject(params, function (err, data) {
+    //         if (err) {
+    //           flag = false;
+    //         }
+    //         else {
+    //           flag = true;
+    //           imageData.image = data.Body;
+    //         }
+    //             imageData.success = flag;
+    //             res.send(imageData);
+    //     });
+    // }
+    // catch(e){
+    //     console.log('getProfileImage',e)
+    // }
+
+        /**For Local Document Upload */
+  
+    try{
+        var folderName = 'D:/Spryple/Spryple/AGREEMENT/SaaS-Agreement.pdf'
+        var fileName = 'SaaS-Agreement.pdf'
+        var imageData={}
+        var flag=false;
+        fs.readFile(folderName , async function (err, result) {
+            if(err){
+                flag=false;
+            }else{
+                flag=true
+                imageData.image=result;
+            }
+            imageData.success=flag;
+            res.send(imageData)
+        })
+    
+
+    }
+    catch(e){
+        let companyName =req.params.companyName;
+                let  dbName = await getDatebaseName(companyName)
+                let errorLogArray = [];
+                errorLogArray.push("LMSAPI");
+                errorLogArray.push("getProfileImage");
+                errorLogArray.push("get");
+                errorLogArray.push('');
+                errorLogArray.push(err );
+                errorLogArray.push(null);
+                errorLogArray.push(companyName);
+                errorLogArray.push(dbName);
+                errorLogs(errorLogArray)
     }
 
 }
