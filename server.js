@@ -2837,6 +2837,10 @@ app.get('/subscription/api/getClientDetails/:clientid/:companyName', function (r
 app.get('/subscription/agreement', function (req, res) {
     common.agreement(req,res)
 })
+   /**get_comp_off_validity_duration */
+   app.get('/api/getCompOffValidityDuration/:companyName',function(req,res) {
+    leaveManagement.getCompOffValidityDuration(req,res)
+});
 ///** for AWS */
 
 // var options = {}

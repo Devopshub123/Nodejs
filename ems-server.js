@@ -6267,6 +6267,8 @@ async function setInductionConductedby(req, res) {
             listOfConnections[companyName].query("CALL `set_ems_induction_conductedby` (?)",
                 [JSON.stringify(req.body)],
                 async function (err, result, fields) {
+                    console.log("err-",err)
+                    console.log("resss-",result[0])
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
@@ -6823,14 +6825,14 @@ function separationRequestEmail(mailData) {
        <p style="color:black">Dear ${mailData.emailData.rm_name},</p>
    
        <p style="color:black">I am writing to inform you that I have submitted my separation through the HR system. Please find the details corresponding to my resignation below: </p>
-       <p style="color:black">Emp ID:<b>${mailData.emailData.employee_id}</b></p>
-       <p style="color:black">Emp Name:<b>${mailData.emailData.emp_name}</b></p>
-       <p style="color:black">Date of Request Resignation:<b>${resigndate}</b></p>
-       <p style="color:black">Notice Period:<b>${mailData.notice_period}</b></p>
-       <p style="color:black">Relieving Date:<b>${releavedate}</b></p>
-       <p style="color:black">Request Exit Date:<b>${exitdate}</b></p>
-       <p style="color:black">Reason:<b>${mailData.reasonName}</b></p>
-       <p style="color:black">Notes:<b>${mailData.resg_comment}</b></p>
+       <p style="color:black"><b>Emp ID: </b>${mailData.emailData.employee_id}</p>
+       <p style="color:black"><b>Emp Name: </b>${mailData.emailData.emp_name}</p>
+       <p style="color:black"><b>Date of Request Resignation: </b>${resigndate}</p>
+       <p style="color:black"><b>Notice Period: </b>${mailData.notice_period}</p>
+       <p style="color:black"><b>Relieving Date: </b>${releavedate}</p>
+       <p style="color:black"><b>Request Exit Date: </b>${exitdate}</p>
+       <p style="color:black"><b>Reason: </b>${mailData.reasonName}</p>
+       <p style="color:black"><b>Notes: </b>${mailData.resg_comment}</p>
 
        <p style="color:black">I would like to take this opportunity to express my gratitude for the opportunity and experience that I have had while working with ${mailData.emailData.companyname}. I have learned a lot during my tenure here and I am thankful for the support and guidance provided by my colleagues and management. </p>
        <p style="color:black">I will ensure that I complete all formalities as per guidelines on or before my last day of work. Please let me know If anything is required in addition to this.</p>
@@ -6896,13 +6898,13 @@ function separationRequestApprovedEmail(value) {
    
        <p style="color:black">Your resignation request has been approved. Please find the notice period and other details below:</p>
       
-       <p style="color:black">Emp ID:<b>${value.emailData.employee_id}</b></p>
-       <p style="color:black">Emp Name:<b>${value.emailData.emp_name}</b></p>
-       <p style="color:black">Date of Request Resignation:<b>${resigndate}</b></p>
-       <p style="color:black">Notice Period:<b>${value.notice_period}</b></p>
-       <p style="color:black">Relieving Date:<b>${releavedate}</b></p>
-       <p style="color:black">Request Exit Date:<b>${exitdate}</b></p>
-       <p style="color:black">Notes:<b>${value.approver_comment}</b></p>
+       <p style="color:black"><b>Emp ID: </b>${value.emailData.employee_id}</p>
+       <p style="color:black"><b>Emp Name: </b>${value.emailData.emp_name}</p>
+       <p style="color:black"><b>Date of Request Resignation: </b>${resigndate}</p>
+       <p style="color:black"><b>Notice Period: </b>${value.notice_period}</p>
+       <p style="color:black"><b>Relieving Date: </b>${releavedate}</p>
+       <p style="color:black"><b>Request Exit Date: </b>${exitdate}</p>
+       <p style="color:black"><b>Notes: </b>${value.approver_comment}</p>
 
        <p style="color:black">Thank you for your contributions to the company during your tenure. Your hard work and dedication have been greatly appreciated.</p>
        <p style="color:black">We wish you all the best for your future endeavors.</p>
