@@ -3296,7 +3296,7 @@ async function getDocumentOrImagesForEMS(req, res) {
             // folderName = req.body.filepath+'/';
             // var imageData = {};
             // var flag = false;
-            folderName = req.body.filepath;
+            folderName = req.body.filepath+'/';
             let data = JSON.parse(JSON.stringify(folderName));
             var imageData = {};
             var flag = false;
