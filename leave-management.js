@@ -100,7 +100,8 @@ module.exports = {
     getDaysToBeDisabledForFromDateCompOff:getDaysToBeDisabledForFromDateCompOff,
     deleteLeaveRequest: deleteLeaveRequest,
     getLeaveTypesToAdd:getLeaveTypesToAdd,
-    errorLogs:errorLogs
+    errorLogs: errorLogs,
+    getCompOffValidityDuration:getCompOffValidityDuration
 
 };
 
@@ -3715,8 +3716,10 @@ async function getDaysToBeDisabledForFromDateCompOff(req,res){
 }
 
 /*Set Delete Leave Request */
-async function deleteLeaveRequest(req,res) {
+async function deleteLeaveRequest(req, res) {
+    console.log("dat--",req.body)
     try {
+        let emailData = req.body;
         let id = req.body.id;
         let empid = req.body.empid;
         let leavetype = req.body.leavetypeid;
@@ -3762,7 +3765,10 @@ async function deleteLeaveRequest(req,res) {
                     errorLogs(errorLogArray);
                     res.send({status:false})
                 } else {
-                    res.send({status: true})
+                    res.send({ status: true })
+                    if (req.body.emailData.rm_email != '' || req.body.emailData.rm_email != null) {
+                        deleteLeaveRequestEmail(emailData,companyName);
+                    }
                 }
             });
 
