@@ -91,7 +91,6 @@ function generateJWTToken(info){
         try {
 
             con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
-                console.log(results)
                 if (results && results[0] && results[0].length != 0) {
                     res(results[0][0].db_name);
 
@@ -771,7 +770,6 @@ async function setSpryplePlan(req,res) {
            }
            
            else{
-            console.log(result[0][0])
             res.send({status:false,message:"Record already existed."});
            }
         });
@@ -871,7 +869,6 @@ async function Validateemail(req, res) {
 }
 /** client signup  */
 async function setSprypleClient(req,res) {
-    console.log("data",req.body)
     try {
         let companyCode = req.body.company_code_value;
         let toEmail = req.body.company_email_value;
@@ -894,12 +891,15 @@ async function setSprypleClient(req,res) {
                     req.body.industry_type_value_pm,
                     req.body.mobile_number_value,
                     req.body.company_email_value,
-                    req.body.company_address_value,
+                    req.body.company_address1_value,
+                    req.body.company_address2_value,
                     req.body.country_id_value,
                     req.body.state_id_value,
                     req.body.city_id_value,
                     req.body.pincode_value,
+                    req.body.gst_number_value,
                     req.body.agree_to_terms_and_conditions_value,
+                    req.body.steps_completed_value,
                     req.body.id_value,
                     req.body.created_by_value
                  ],
@@ -985,8 +985,7 @@ async function setPlanDetails(req,res) {
 
            }
            else{
-            console.log(result)
-            res.send({status:true,message:"inserted"})
+           res.send({status:true,message:"inserted"})
            }
         });
 
@@ -1214,13 +1213,12 @@ async function addUsers(req,res) {
                     req.body.payment_date_value,
                     req.body.payment_status_value 
                   ], function (err, result, fields) {
-                    console.log("err",err)
+    
             if(err){
             res.send({status:false,message:"Unable to add "})
 
            }
            else{
-            console.log(result)
             res.send({status:true,message:"inserted"})
            }
         });
@@ -1277,7 +1275,6 @@ async function getClientPlanDetails(req,res) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
         listOfConnections[companyName].query("CALL `get_client_plan_details` (?)",[req.body.client_id_value], function (err, result, fields) {
-            console.log("getClientPlanDetails",result[0])
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -1327,18 +1324,14 @@ async function enableRenewButton(req,res) {
     try {
         var companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_hrms');
-        console.log()
         let listOfConnections = {};
         if(dbName) {
             listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        console.log("data",req.body)
         listOfConnections[companyName].query("CALL `enable_renew_button` (?)",[req.body.date], function (err, result, fields) {
-           console.log("err",err);
-           console.log("result",result[0].length)
-            if(err){
+           if(err){
                 res.send({status:false,data:[]})
 
             }else if(result[0].length>0){
@@ -1368,7 +1361,6 @@ async function renewUsers(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        console.log("renewUsers",req.body)
             listOfConnections[companyName].query("CALL `renew_users` (?,?,?,?,?,?,?,?)",
                 [   req.body.client_plan_detail_id_value,
                     req.body.user_count_value,
@@ -1386,7 +1378,6 @@ async function renewUsers(req,res) {
 
            }
            else{
-            console.log(result)
             res.send({status:true,message:"inserted"})
            }
         });
@@ -1422,7 +1413,6 @@ async function addUsersDisplayInfo(req,res) {
 
            }
            else{
-            console.log(result)
             res.send({status:true,data:result[0]})
            }
         });
@@ -1459,7 +1449,6 @@ async function renewUsersDisplayInformation(req,res) {
 
            }
            else{
-            console.log(result)
             res.send({status:true,data:result[0]})
            }
         });
