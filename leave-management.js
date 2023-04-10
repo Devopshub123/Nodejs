@@ -3548,9 +3548,13 @@ function rejectCancelLeaveRequestEmail(mailData){
     }
 }
 
-function deleteLeaveRequestEmail(mailData){
+function deleteLeaveRequestEmail(mailData) {
+   let fdate =(new Date(mailData.fromdate).getDate()<10?"0"+new Date(mailData.fromdate).getDate():new Date(mailData.fromdate).getDate())+'-'+((new Date(mailData.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.fromdate).getMonth()+1):(new Date(mailData.fromdate).getMonth()+1) )+'-'+new Date(mailData.fromdate).getFullYear();
+    let tdate =(new Date(mailData.todate).getDate()<10?"0"+new Date(mailData.todate).getDate():new Date(mailData.todate).getDate())+'-'+((new Date(mailData.todate).getMonth()+1)<10?"0"+(new Date(mailData.todate).getMonth()+1):(new Date(mailData.todate).getMonth()+1)) +'-'+new Date(mailData.todate).getFullYear();
+   
     try {
-        let email = mailData
+        let value = mailData
+        let email = value.emailData.rm_email
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -3569,18 +3573,44 @@ function deleteLeaveRequestEmail(mailData){
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
     
-      <p style="color:black">Hi ${mailData[0].emp_name},</p>
+      <p style="color:black">Hi ${value.emailData.rm_name},</p>
   
-      <p style="color:black">A leave request is deleted by ${mailData[0].emp_name}</p>
+      <p style="color:black">A leave request is deleted by ${value.emailData.emp_name}</p>
       
-       <p style="color:black">Leave Type:</p>
-           <p style="color:black">From Date:</p>
-       <p style="color:black">To Date:</p>
-       <p style="color:black">Leave Count:</p>
-       <p style="color:black">Reason:</p>
-       <p style="color:black">Delete Reason:</p>
+
+      <table border="1" style='border-collapse:collapse;color:black'>
+      <tbody>
+      <tr>
+      <td width="30%"><b>Leave Type</b></td>
+      <td>${value.leavetype}</td>
+       </tr>
+        <tr>
+        <td width="30%"><b>From Date</b></td>
+        <td>${fdate}</td>
+         </tr>
+      
+         <tr>
+         <td width="30%"><b>To Date</b></td>
+         <td>${tdate}</td>
+          </tr>
+      
+          <tr>
+         <td width="30%"><b>Leave Count</b></td>
+         <td>${value.leavecount}</td>
+          </tr>
+          <tr>
+          <td width="30%"><b>Reason</b></td>
+          <td>${value.leavereason}</td>
+           </tr>
+           <tr>
+           <td width="30%"><b>Delete Reason</b></td>
+           <td>${value.actionreason}</td>
+            </tr>
+      
+      </tbody>
+      </table>
        <p style="color:black">Best regards,</p>
-       <p style="color:black">${mailData[0].emp_name}</p>
+       <p style="color:black">${value.emailData.emp_name}</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
@@ -3589,7 +3619,7 @@ function deleteLeaveRequestEmail(mailData){
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Delete Leave request by  {Employee Name} ',
+            subject: 'Delete Leave request by'+' '+ value.emailData.emp_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -3717,7 +3747,6 @@ async function getDaysToBeDisabledForFromDateCompOff(req,res){
 
 /*Set Delete Leave Request */
 async function deleteLeaveRequest(req, res) {
-    console.log("dat--",req.body)
     try {
         let emailData = req.body;
         let id = req.body.id;
