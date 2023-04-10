@@ -70,7 +70,8 @@ module.exports = {
     getClientPaymentDetails:getClientPaymentDetails,
     changeClientPlan:changeClientPlan,
     getClientDetails: getClientDetails,
-    agreement:agreement
+    agreement:agreement,
+    getUnverifiedSprypleClient:getUnverifiedSprypleClient
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -91,6 +92,7 @@ function generateJWTToken(info){
         try {
 
             con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
+                console.log(results)
                 if (results && results[0] && results[0].length != 0) {
                     res(results[0][0].db_name);
 
@@ -770,6 +772,7 @@ async function setSpryplePlan(req,res) {
            }
            
            else{
+            console.log(result[0][0])
             res.send({status:false,message:"Record already existed."});
            }
         });
@@ -785,19 +788,68 @@ async function setSpryplePlan(req,res) {
 
 }
 async function Validateemail(req, res) {
-    var companycode = req.body.companycode;
-    var email = req.body.email;
+    console.log("data",req.body)
+    let company_code_value = req.body.companycode;
+    let email = req.body.email;
+    let company_name_value = req.body.company_name_value;
+    let company_size_value = req.body.company_size_value;
+    let number_of_users_value = req.body.number_of_users_value;
+    let plan_id_value = req.body.plan_id_value;
+    let industry_type_pm = req.body.industry_type_pm;
+    let industry_type_value_pm = req.body.industry_type_value_pm;
+    let mobile_number_value = req.body.mobile_number_value
+    let company_address1_value = req.body.company_address1_value;
+    let company_address2_value = req.body.company_address2_value;
+    let country_id_value = req.body.country_id_value;
+    let state_id_value = req.body.state_id_value;
+    let city_id_value = req.body.city_id_value;
+    let pincode_value = req.body.pincode_value;
+    let gst_number_value = req.body.gst_number_value;
+    let agree_to_terms_and_conditions_value = req.body.agree_to_terms_and_conditions_value;
+    let steps_completed_value = req.body.steps_completed_value;
+    let id_value = req.body.id_value;
+    let created_by_value = null;
+    let contact_name_value = req.body.contact_name_value;
+ 
+
+    // company_name_value varchar(255), 
+    // company_code_value varchar(16), 
+    // `company_size_value` int(11), 
+    // `number_of_users_value` int(11), 
+    // `plan_id_value` int(11), 
+    // `industry_type_pm` int(11), 
+    // `industry_type_value_pm` varchar(255), 
+    // `mobile_number_value` varchar(11), 
+    // `company_email_value` varchar(255), 
+    // `company_address1_value` varchar(1000), 
+    // `company_address2_value` varchar(1000), 
+    // `country_id_value` int(11), 
+    // `state_id_value` int(11), 
+    // `city_id_value` int(11), 
+    // `pincode_value` int(6), 
+    // `gst_number_value` varchar(20), 
+    // `agree_to_terms_and_conditions_value` int(1), 
+    // `steps_completed_value` int(2),        
+    // id_value int(11), 
+    // created_by_value int(11)
+
+
     let companyName = 'spryple_hrms';
     let  dbName = await getDatebaseName('spryple_hrms');
-    let validatecompanycode = await validateCompanyCode(companycode,email);
+    let validatecompanycode = await validateCompanyCode(company_code_value,email);
+    console.log("validatecompanycode",validatecompanycode)
     if(validatecompanycode){
+        console.log("datahjkj",req.body)
         try{
         if(dbName) {
             listOfConnections= await connection.checkExistingDBConnection(companyName);
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `set_unverified_spryple_client` (?,?)",[companycode,email], function (err, result, fields) {
+        listOfConnections[companyName].query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[company_name_value,company_code_value,company_size_value,number_of_users_value,plan_id_value,industry_type_pm,industry_type_value_pm,contact_name_value,mobile_number_value,email,company_address1_value,company_address2_value,country_id_value,state_id_value,city_id_value,pincode_value,gst_number_value,agree_to_terms_and_conditions_value,steps_completed_value,id_value,created_by_value]
+        , function (err, result, fields) {
+            console.log("errreeererere",err);
+            console.log("rrtrtyrtyr",result)
             if(err){
             res.send({status:false,message:"Unable to add "})
            }
@@ -814,7 +866,7 @@ async function Validateemail(req, res) {
                     pass: 'Sreeb@#321'
                 }
             });
-            var token = (Buffer.from(JSON.stringify({ companycode:companycode, email: email,Planid:1,Date:new Date()}))).toString('base64')
+            var token = (Buffer.from(JSON.stringify({ companycode:company_code_value, email: email,Planid:'Basic',Date:new Date()}))).toString('base64')
             /**Local */
             var url = 'http://localhost:4200/#/sign-up/' + token;
             /**QA */
@@ -869,6 +921,7 @@ async function Validateemail(req, res) {
 }
 /** client signup  */
 async function setSprypleClient(req,res) {
+    console.log("data",req.body)
     try {
         let companyCode = req.body.company_code_value;
         let toEmail = req.body.company_email_value;
@@ -891,15 +944,12 @@ async function setSprypleClient(req,res) {
                     req.body.industry_type_value_pm,
                     req.body.mobile_number_value,
                     req.body.company_email_value,
-                    req.body.company_address1_value,
-                    req.body.company_address2_value,
+                    req.body.company_address_value,
                     req.body.country_id_value,
                     req.body.state_id_value,
                     req.body.city_id_value,
                     req.body.pincode_value,
-                    req.body.gst_number_value,
                     req.body.agree_to_terms_and_conditions_value,
-                    req.body.steps_completed_value,
                     req.body.id_value,
                     req.body.created_by_value
                  ],
@@ -985,7 +1035,8 @@ async function setPlanDetails(req,res) {
 
            }
            else{
-           res.send({status:true,message:"inserted"})
+            console.log(result)
+            res.send({status:true,message:"inserted"})
            }
         });
 
@@ -1213,12 +1264,13 @@ async function addUsers(req,res) {
                     req.body.payment_date_value,
                     req.body.payment_status_value 
                   ], function (err, result, fields) {
-    
+                    console.log("err",err)
             if(err){
             res.send({status:false,message:"Unable to add "})
 
            }
            else{
+            console.log(result)
             res.send({status:true,message:"inserted"})
            }
         });
@@ -1275,6 +1327,7 @@ async function getClientPlanDetails(req,res) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
         listOfConnections[companyName].query("CALL `get_client_plan_details` (?)",[req.body.client_id_value], function (err, result, fields) {
+            console.log("getClientPlanDetails",result[0])
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -1324,14 +1377,18 @@ async function enableRenewButton(req,res) {
     try {
         var companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_hrms');
+        console.log()
         let listOfConnections = {};
         if(dbName) {
             listOfConnections= connection.checkExistingDBConnection(companyName)
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
+        console.log("data",req.body)
         listOfConnections[companyName].query("CALL `enable_renew_button` (?)",[req.body.date], function (err, result, fields) {
-           if(err){
+           console.log("err",err);
+           console.log("result",result[0].length)
+            if(err){
                 res.send({status:false,data:[]})
 
             }else if(result[0].length>0){
@@ -1361,6 +1418,7 @@ async function renewUsers(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
+        console.log("renewUsers",req.body)
             listOfConnections[companyName].query("CALL `renew_users` (?,?,?,?,?,?,?,?)",
                 [   req.body.client_plan_detail_id_value,
                     req.body.user_count_value,
@@ -1378,6 +1436,7 @@ async function renewUsers(req,res) {
 
            }
            else{
+            console.log(result)
             res.send({status:true,message:"inserted"})
            }
         });
@@ -1413,6 +1472,7 @@ async function addUsersDisplayInfo(req,res) {
 
            }
            else{
+            console.log(result)
             res.send({status:true,data:result[0]})
            }
         });
@@ -1449,6 +1509,7 @@ async function renewUsersDisplayInformation(req,res) {
 
            }
            else{
+            console.log(result)
             res.send({status:true,data:result[0]})
            }
         });
@@ -1620,6 +1681,36 @@ async function agreement(req, res) {
                 errorLogArray.push(companyName);
                 errorLogArray.push(dbName);
                 errorLogs(errorLogArray)
+    }
+
+}
+
+// getUnverifiedSprypleClient
+async function getUnverifiedSprypleClient(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `get_unverified_spryple_client` (?,?)",[req.body.companycode,req.body.email], function (err, result, fields) {
+            console.log("getClientPlanDetails",result[0])
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('get_unverified_spryple_client :',e)
+
     }
 
 }

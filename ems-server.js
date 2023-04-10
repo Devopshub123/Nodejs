@@ -3633,6 +3633,8 @@ async function setAnnouncements(req, res) {
               "CALL `set_announcements` (?)",
               [JSON.stringify(req.body)],
               async function (err, result, fields) {
+                console.log("set_announcementserr",err);
+                console.log("set_announcementsresult",err);
                   if (err) {
                       let errorLogArray = [];
                       errorLogArray.push("EMSAPI");
@@ -4062,6 +4064,7 @@ function sendEmailToAdminAboutNewHire(mailData) {
 function sendEmailToEmployeeAboutLogins(maileData, result) {
   try {
     let email = maileData[0].email;
+    let companycode = maileData[0].companycode;
     var transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
@@ -4088,7 +4091,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hello ${maileData[0].empname},</p>
+        <p style="color:black">Hello ${companycode},</p>
         
         <p style="color:black">Welcome to ${maileData[0].companyname}</p>
 
@@ -4101,7 +4104,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"><b>Company Code:</b>${maileData[0].companycode}</p>
         <p style="color:black"><b>Username:</b>${maileData[0].userid}</p>
         <p style="color:black"><b>Password:</b>${maileData[0].password}</p>
-        <p style="color:black">If you experience any issues while login to your account, reach out to us at </p>
+        <p style="color:black">If you experience any issues while login to your account, reach out to us at <b>contact@spryple.com</b> </p>
         
         <p style="color:black">Best Regards,</p>
 
