@@ -1445,7 +1445,7 @@ app.get('/api/getdurationforbackdatedleave/:companyName',verifyJWTToken,function
     
 });
 /**get leave cycle for last month */
-app.post('/api/getleavecyclelastmonth/:companyName',verifyJWTToken,function(req,res){
+app.post('/api/getleavecyclelastmonth/:companyName',function(req,res){
     leaveManagement.getleavecyclelastmonth(req,res)
 
 })
@@ -2836,6 +2836,10 @@ app.get('/subscription/api/getClientDetails/:clientid/:companyName', function (r
 });
 app.get('/subscription/agreement', function (req, res) {
     common.agreement(req,res)
+})
+/**get_unverified_spryple_client */
+app.post('/subscription/getUnverifiedSprypleClient', function (req, res) {
+    common.getUnverifiedSprypleClient(req,res)
 })
    /**get_comp_off_validity_duration */
    app.get('/api/getCompOffValidityDuration/:companyName',function(req,res) {

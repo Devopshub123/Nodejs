@@ -310,6 +310,7 @@ async function getemployeeleaves(req,res){
         let page = req.params.page;
         let size = req.params.size;
         let companyName = req.params.companyName;
+        console.log("data",id,page,size);
 
         var listOfConnections = {};
          if(dbName){
