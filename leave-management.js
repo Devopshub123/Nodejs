@@ -2052,8 +2052,10 @@ async function leaveSattus(req, res) {
                         res.send({status:false})
                     } else {
                         res.send({status: true,leaveStatus:req.body.leaveStatus})
+                        console.log("emailData",emailData);
+                        console.log("treeemailData",req.body.emaildata)
                         if (req.body.emaildata.emp_email != '' || req.body.emaildata.emp_email != null) {
-                       
+                            
                             if (req.body.leaveStatus == 'Approved') {
                                 approveLeaveRequestEmail(emailData);
 
@@ -2064,6 +2066,7 @@ async function leaveSattus(req, res) {
                                 approveCancelLeaveRequestEmail(emailData)
                                 
                             } else if (req.body.leaveStatus == 'Cancel Rejected') {
+                                console.log(emailData)
                                 rejectCancelLeaveRequestEmail(emailData)
                             } 
                         }
@@ -3469,6 +3472,7 @@ function rejectCancelLeaveRequestEmail(mailData){
     // let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
      try {
         let email = mailData.emaildata.emp_email
+        console.log("rejectCancelLeaveRequestEmailemail",email)
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false

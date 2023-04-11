@@ -3476,7 +3476,11 @@ async function usersLogin(req, res) {
                         errorLogArray.push(dbName);
                        errorLogs(errorLogArray);
                         res.send({ status: false });
-                    } else {
+                    } 
+                    else if(result[0][0].successstate==1){
+                        res.send({ status: false,successstate :result[0][0].successstate});
+                    }else {
+                        console.log(result[0][0].successstate);
                         if (array[0].email != '' && array[0].email != null) {
                              sendEmailToEmployeeAboutLogins(array, result);
                             }
