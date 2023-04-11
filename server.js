@@ -2846,13 +2846,34 @@ app.post('/subscription/getUnverifiedSprypleClient', function (req, res) {
     leaveManagement.getCompOffValidityDuration(req,res)
    });
 
-   /**get plan details by Id */
-   app.get('/subscription/api/getSpryplePlanDetailsById/:planId/:cid', function (req, res) {
+   /**get Plan Details by plan Id and client Id */
+app.post('/subscription/api/getSpryplePlanDetailsById', function (req, res) {
     common.getSpryplePlanDetailsById (req,res)
- });
+})
+
+   /**Get Client Details By ClientId */
+   app.get('/subscription/api/getSprypleClientDetailsByClientId/:clientId/:companyName',function(req,res) {
+    common.getSprypleClientDetailsByClientId(req,res)
+   });
+
+/**get client payments invoice history */
+app.get('/subscription/api/getPaymentsDetailsByClientId/:clientid/:companyName', function (req, res) {
+    common.getPaymentsDetailsByClientId (req,res)
+});
+
+/**get payments invoice history by payment Id */
+app.get('/subscription/api/getPaymentInvoiceDataByPaymentid/:clientid/:companyName', function (req, res) {
+    common.getPaymentInvoiceDataByPaymentid (req,res)
+});
+
+/**get all spryple clients */
+app.get('/subscription/api/getAllSprypleClientDetails/:companyName', function (req, res) {
+    common.getAllSprypleClientDetails (req,res)
+});
 
 
 
+/***------------------------------------------------------------------------------------------ */
 ///** for AWS */
 
 // var options = {}

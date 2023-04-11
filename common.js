@@ -72,7 +72,11 @@ module.exports = {
     getClientDetails: getClientDetails,
     agreement:agreement,
     getUnverifiedSprypleClient: getUnverifiedSprypleClient,
-    getSpryplePlanDetailsById:getSpryplePlanDetailsById
+    getSpryplePlanDetailsById: getSpryplePlanDetailsById,
+    getSprypleClientDetailsByClientId: getSprypleClientDetailsByClientId,
+    getPaymentsDetailsByClientId: getPaymentsDetailsByClientId,
+    getPaymentInvoiceDataByPaymentid: getPaymentInvoiceDataByPaymentid,
+    getAllSprypleClientDetails:getAllSprypleClientDetails
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -1700,9 +1704,8 @@ async function getUnverifiedSprypleClient(req,res) {
 
 }
 
-/**GET Plan Details by Id*/
+/**GET Plan Details by plan Id and client Id*/
 async function getSpryplePlanDetailsById(req, res) {
-    console.log("val-1",req.params)
     try {
         let  dbName = await getDatebaseName('spryple_hrms');
         let companyName = 'spryple_hrms';
@@ -1713,11 +1716,9 @@ async function getSpryplePlanDetailsById(req, res) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
             listOfConnections[companyName].query("CALL `get_spryple_plan_details_byId` (?,?)",
-            [req.params.planId,req.params.cid],
+            [req.body.plan_id_value,req.body.client_id_value],
                 function (err, result, fields) {
-                    console.log("err-",err)
-                    console.log("resfsad-",result[0])
-            if(result && result.length > 0){
+             if(result && result[0].length > 0){
                 res.send({data: result[0], status: true});
             }else{
                 res.send({status: false});
@@ -1733,3 +1734,124 @@ async function getSpryplePlanDetailsById(req, res) {
     }
 
 }   
+
+/**Get Client Details By ClientId*/
+async function getSprypleClientDetailsByClientId(req, res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_spryple_client_details_client_id` (?)",
+            [req.params.clientId],
+             function (err, result, fields) {
+             if(result && result[0].length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getSprypleClientDetailsByClientId :',e)
+
+    }
+
+}   
+
+/**get client payments details by Id */
+async function getPaymentsDetailsByClientId(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_payments_details_client_id` (?)", [req.params.clientid],
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getPaymentsDetailsByClientId :',e)
+
+    }
+
+}
+
+/**get client invoice history by payment Id */
+async function getPaymentInvoiceDataByPaymentid(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_payment_invoice_paymentid` (?)", [req.params.clientid],
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getPaymentInvoiceDataByPaymentid :',e)
+
+    }
+
+}
+
+/**get all clients details */
+async function getAllSprypleClientDetails(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_spryple_client_details` ()",
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getAllSprypleClientDetails :',e)
+
+    }
+
+}
