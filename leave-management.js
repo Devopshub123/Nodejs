@@ -1280,7 +1280,7 @@ async function getFilesMaster(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = errorLogs(errorLogArray)
+                        errorLogs(errorLogArray)
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })

@@ -71,7 +71,8 @@ module.exports = {
     changeClientPlan:changeClientPlan,
     getClientDetails: getClientDetails,
     agreement:agreement,
-    getUnverifiedSprypleClient:getUnverifiedSprypleClient
+    getUnverifiedSprypleClient: getUnverifiedSprypleClient,
+    getSpryplePlanDetailsById:getSpryplePlanDetailsById
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -788,69 +789,44 @@ async function setSpryplePlan(req,res) {
 
 }
 async function Validateemail(req, res) {
-    console.log("data",req.body)
-    let company_code_value = req.body.companycode;
-    let email = req.body.email;
-    let company_name_value = req.body.company_name_value;
-    let company_size_value = req.body.company_size_value;
-    let number_of_users_value = req.body.number_of_users_value;
-    let plan_id_value = req.body.plan_id_value;
-    let industry_type_pm = req.body.industry_type_pm;
-    let industry_type_value_pm = req.body.industry_type_value_pm;
-    let mobile_number_value = req.body.mobile_number_value
-    let company_address1_value = req.body.company_address1_value;
-    let company_address2_value = req.body.company_address2_value;
-    let country_id_value = req.body.country_id_value;
-    let state_id_value = req.body.state_id_value;
-    let city_id_value = req.body.city_id_value;
-    let pincode_value = req.body.pincode_value;
-    let gst_number_value = req.body.gst_number_value;
-    let agree_to_terms_and_conditions_value = req.body.agree_to_terms_and_conditions_value;
-    let steps_completed_value = req.body.steps_completed_value;
-    let id_value = req.body.id_value;
-    let created_by_value = null;
-    let contact_name_value = req.body.contact_name_value;
- 
-
-    // company_name_value varchar(255), 
-    // company_code_value varchar(16), 
-    // `company_size_value` int(11), 
-    // `number_of_users_value` int(11), 
-    // `plan_id_value` int(11), 
-    // `industry_type_pm` int(11), 
-    // `industry_type_value_pm` varchar(255), 
-    // `mobile_number_value` varchar(11), 
-    // `company_email_value` varchar(255), 
-    // `company_address1_value` varchar(1000), 
-    // `company_address2_value` varchar(1000), 
-    // `country_id_value` int(11), 
-    // `state_id_value` int(11), 
-    // `city_id_value` int(11), 
-    // `pincode_value` int(6), 
-    // `gst_number_value` varchar(20), 
-    // `agree_to_terms_and_conditions_value` int(1), 
-    // `steps_completed_value` int(2),        
-    // id_value int(11), 
-    // created_by_value int(11)
-
-
+    let companyCode = req.body.company_code_value;
+    let email = req.body.company_email_value;
     let companyName = 'spryple_hrms';
     let  dbName = await getDatebaseName('spryple_hrms');
-    let validatecompanycode = await validateCompanyCode(company_code_value,email);
-    console.log("validatecompanycode",validatecompanycode)
+    let validatecompanycode = await validateCompanyCode(companyCode,email);
     if(validatecompanycode){
-        console.log("datahjkj",req.body)
         try{
         if(dbName) {
             listOfConnections= await connection.checkExistingDBConnection(companyName);
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",[company_name_value,company_code_value,company_size_value,number_of_users_value,plan_id_value,industry_type_pm,industry_type_value_pm,contact_name_value,mobile_number_value,email,company_address1_value,company_address2_value,country_id_value,state_id_value,city_id_value,pincode_value,gst_number_value,agree_to_terms_and_conditions_value,steps_completed_value,id_value,created_by_value]
+            listOfConnections[companyName].query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                [
+                    req.body.company_name_value,
+                    req.body.company_code_value,
+                    req.body.company_size_value,
+                    req.body.number_of_users_value,
+                    req.body.plan_id_value,
+                    req.body.industry_type_pm,
+                    req.body.industry_type_value_pm,
+                    req.body.mobile_number_value,
+                    req.body.company_email_value,
+                    req.body.contact_name_value,
+                    req.body.company_address1_value,
+                    req.body.company_address2_value,
+                    req.body.country_id_value,
+                    req.body.state_id_value,
+                    req.body.city_id_value,
+                    req.body.pincode_value,
+                    req.body.gst_number_value,
+                    req.body.agree_to_terms_and_conditions_value,
+                    req.body.steps_completed_value,
+                    req.body.id_value,
+                    req.body.created_by_value
+            ]
         , function (err, result, fields) {
-            console.log("errreeererere",err);
-            console.log("rrtrtyrtyr",result)
-            if(err){
+           if(err){
             res.send({status:false,message:"Unable to add "})
            }
            else{
@@ -866,7 +842,7 @@ async function Validateemail(req, res) {
                     pass: 'Sreeb@#321'
                 }
             });
-            var token = (Buffer.from(JSON.stringify({ companycode:company_code_value, email: email,Planid:'Basic',Date:new Date()}))).toString('base64')
+            var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Basic',Date:new Date()}))).toString('base64')
             /**Local */
             var url = 'http://localhost:4200/#/sign-up/' + token;
             /**QA */
@@ -920,8 +896,7 @@ async function Validateemail(req, res) {
    
 }
 /** client signup  */
-async function setSprypleClient(req,res) {
-    console.log("data",req.body)
+async function setSprypleClient(req, res) {
     try {
         let companyCode = req.body.company_code_value;
         let toEmail = req.body.company_email_value;
@@ -933,7 +908,7 @@ async function setSprypleClient(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-            listOfConnections[companyName].query("CALL `set_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            listOfConnections[companyName].query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                     req.body.company_name_value,
                     req.body.company_code_value,
@@ -944,12 +919,16 @@ async function setSprypleClient(req,res) {
                     req.body.industry_type_value_pm,
                     req.body.mobile_number_value,
                     req.body.company_email_value,
-                    req.body.company_address_value,
+                    req.body.contact_name_value,
+                    req.body.company_address1_value,
+                    req.body.company_address2_value,
                     req.body.country_id_value,
                     req.body.state_id_value,
                     req.body.city_id_value,
                     req.body.pincode_value,
+                    req.body.gst_number_value,
                     req.body.agree_to_terms_and_conditions_value,
+                    req.body.steps_completed_value,
                     req.body.id_value,
                     req.body.created_by_value
                  ],
@@ -957,54 +936,59 @@ async function setSprypleClient(req,res) {
            if(err){
             res.send({status:false})
            }
-           else{
-            var transporter = nodemailer.createTransport({
-                host: "smtp-mail.outlook.com", // hostname
-                secureConnection: false, // TLS requires secureConnection to be false
-                port: 587, // port for secure SMTP
-                tls: {
-                    ciphers: 'SSLv3'
-                },
-                auth: {
-                    user: 'no-reply@spryple.com',
-                    pass: 'Sreeb@#321'
-                }
-            });
-            var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: toEmail}))).toString('base64')
-            /**Local */
-            var url = 'http://localhost:4200/#/Admin/upgrade-plan/' + token;
-            /**QA */
-            //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
-            /**AWS */
-            // var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
-              var html = `<html>
-        <head>
-        <title>Candidate Form</title></head>
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-        <p style="color:black">Dear Customer,</p>
-        <p style="color:black">"We are excited to have you sign up with Spryple and are looking forward to work with you.Click on the link below,choose your plan and take subscription."<b></b></p>
-        <p style="color:black"> <a href="${url}" >${url} </a></p>   
-        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>hr@sreebtech.com</b>  </p>  
-        <p style="color:black">Thank you!</p>
-        <p style="color:black">Spryple Team.</p>
-        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-        </div></body>
-        </html> `;
-            var mailOptions = {
-                from: 'no-reply@spryple.com',
-                to: toEmail,
-                subject: 'Subscription plan options',
-                html: html
-            };
-           transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    res.send({ status: false ,message:"Please enter a valid Email."});
-                } 
-                else {
-                    res.send({ status: true,message: "Verified your email.Please check your mail." });
-                }
-            });
+           else {
+               
+               res.send({ status: true }) 
+               
+        //     var transporter = nodemailer.createTransport({
+        //         host: "smtp-mail.outlook.com", // hostname
+        //         secureConnection: false, // TLS requires secureConnection to be false
+        //         port: 587, // port for secure SMTP
+        //         tls: {
+        //             ciphers: 'SSLv3'
+        //         },
+        //         auth: {
+        //             user: 'no-reply@spryple.com',
+        //             pass: 'Sreeb@#321'
+        //         }
+        //     });
+        //     var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: toEmail}))).toString('base64')
+        //     /**Local */
+        //     var url = 'http://localhost:4200/#/Admin/upgrade-plan/' + token;
+        //     /**QA */
+        //     //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+        //     /**AWS */
+        //     // var url = 'http://sreeb.spryple.com/#/pre-onboarding/' + token;
+        //       var html = `<html>
+        // <head>
+        // <title>Candidate Form</title></head>
+        // <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        // <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+        // <p style="color:black">Dear Customer,</p>
+        // <p style="color:black">"We are excited to have you sign up with Spryple and are looking forward to work with you.Click on the link below,choose your plan and take subscription."<b></b></p>
+        // <p style="color:black"> <a href="${url}" >${url} </a></p>   
+        // <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>hr@sreebtech.com</b>  </p>  
+        // <p style="color:black">Thank you!</p>
+        // <p style="color:black">Spryple Team.</p>
+        // <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        // </div></body>
+        // </html> `;
+        //     var mailOptions = {
+        //         from: 'no-reply@spryple.com',
+        //         to: toEmail,
+        //         subject: 'Subscription plan options',
+        //         html: html
+        //     };
+        //    transporter.sendMail(mailOptions, function (error, info) {
+        //         if (error) {
+        //             res.send({ status: false ,message:"Please enter a valid Email."});
+        //         } 
+        //         else {
+        //             res.send({ status: true,message: "Verified your email.Please check your mail." });
+        //         }
+        //    });
+               
+               
            }
         });
 
@@ -1687,6 +1671,7 @@ async function agreement(req, res) {
 
 // getUnverifiedSprypleClient
 async function getUnverifiedSprypleClient(req,res) {
+
     try {
         let  dbName = await getDatebaseName('spryple_hrms');
         let companyName = 'spryple_hrms';
@@ -1696,9 +1681,9 @@ async function getUnverifiedSprypleClient(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `get_unverified_spryple_client` (?,?)",[req.body.companycode,req.body.email], function (err, result, fields) {
-            console.log("getClientPlanDetails",result[0])
-            if(result && result.length > 0){
+            listOfConnections[companyName].query("CALL `get_unverified_spryple_client` (?)", [req.body.companycode],
+            function (err, result, fields) {
+           if(result){
                 res.send({data: result[0], status: true});
             }else{
                 res.send({status: false});
@@ -1714,3 +1699,37 @@ async function getUnverifiedSprypleClient(req,res) {
     }
 
 }
+
+/**GET Plan Details by Id*/
+async function getSpryplePlanDetailsById(req, res) {
+    console.log("val-1",req.params)
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_spryple_plan_details_byId` (?,?)",
+            [req.params.planId,req.params.cid],
+                function (err, result, fields) {
+                    console.log("err-",err)
+                    console.log("resfsad-",result[0])
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getSpryplePlanDetailsById :',e)
+
+    }
+
+}   

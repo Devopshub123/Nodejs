@@ -2844,7 +2844,15 @@ app.post('/subscription/getUnverifiedSprypleClient', function (req, res) {
    /**get_comp_off_validity_duration */
    app.get('/api/getCompOffValidityDuration/:companyName',function(req,res) {
     leaveManagement.getCompOffValidityDuration(req,res)
-});
+   });
+
+   /**get plan details by Id */
+   app.get('/subscription/api/getSpryplePlanDetailsById/:planId/:cid', function (req, res) {
+    common.getSpryplePlanDetailsById (req,res)
+ });
+
+
+
 ///** for AWS */
 
 // var options = {}
