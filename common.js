@@ -76,7 +76,8 @@ module.exports = {
     getSprypleClientDetailsByClientId: getSprypleClientDetailsByClientId,
     getPaymentsDetailsByClientId: getPaymentsDetailsByClientId,
     getPaymentInvoiceDataByPaymentid: getPaymentInvoiceDataByPaymentid,
-    getAllSprypleClientDetails:getAllSprypleClientDetails
+    getAllSprypleClientDetails:getAllSprypleClientDetails,
+    setSprypleClientPlanPayment:setSprypleClientPlanPayment
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -1796,6 +1797,7 @@ async function getPaymentsDetailsByClientId(req,res) {
 
 }
 
+
 /**get client invoice history by payment Id */
 async function getPaymentInvoiceDataByPaymentid(req,res) {
     try {
@@ -1851,6 +1853,94 @@ async function getAllSprypleClientDetails(req,res) {
     } }
     catch (e) {
         console.log('getAllSprypleClientDetails :',e)
+
+    }
+
+}
+// setSprypleClientPlanPayment
+async function setSprypleClientPlanPayment(req, res) {
+    var mailData = req.body;
+    try {
+        let companyCode = req.body.company_code_value;
+        let toEmail = req.body.company_email_value;
+        var companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let listOfConnections = {};
+       if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+        listOfConnections[companyName].query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
+                [
+                    req.body.client_id_value,
+                    req.body.company_code_value,
+                    req.body.valid_from_date,
+                    req.body.valid_to_date,
+                    req.body.plan_id_value,
+                    req.body.plan_id_value,
+                    req.body.number_of_users_value,
+                    req.body.transaction_number
+                 ],
+                function (err, result, fields) {
+                   
+           if(!err){
+            res.send({status:false})
+           }
+           else {
+               
+            //    res.send({ status: true }) 
+               
+            var transporter = nodemailer.createTransport({
+                host: "smtp-mail.outlook.com", // hostname
+                secureConnection: false, // TLS requires secureConnection to be false
+                port: 587, // port for secure SMTP
+                tls: {
+                    ciphers: 'SSLv3'
+                },
+                auth: {
+                    user: 'no-reply@spryple.com',
+                    pass: 'Sreeb@#321'
+                }
+            });
+              var html = `<html>
+        <head>
+        <title>Candidate Form</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+        <p style="color:black">Dear Customer,</p>
+        <p style="color:black">"This is to acknowledge that we have received the payment of <b>${mailData.paid_amount}</b> Rs  against our invoice number <b>${mailData.transaction_number}</b> on |<b>${mailData.valid_from_date}</b>. Thanks for Payment towards Spryple subscription."<b></b></p> 
+        <p style="color:black"> Please find the attached invoice <b>#${mailData.transaction_number}</b>. If you have any questions reach out to<b>hr@sreebtech.com</b>  </p>  
+        <p style="color:black">Thank you!</p>
+        <p style="color:black">Sales Manager .</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+            var mailOptions = {
+                from: 'no-reply@spryple.com',
+                to: toEmail,
+                subject: 'Payment done successfully',
+                html: html
+            };
+           transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    res.send({ status: false ,message:"Please check your mail"});
+                } 
+                else {
+                    res.send({ status: true,message: "Verified your email.Please check your mail." });
+                }
+           });
+               
+               
+           }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } 
+}
+    catch (e) {
+        console.log('setSprypleClient :',e)
 
     }
 
