@@ -76,7 +76,11 @@ module.exports = {
     getSprypleClientDetailsByClientId: getSprypleClientDetailsByClientId,
     getPaymentsDetailsByClientId: getPaymentsDetailsByClientId,
     getPaymentInvoiceDataByPaymentid: getPaymentInvoiceDataByPaymentid,
-    getAllSprypleClientDetails:getAllSprypleClientDetails
+    getAllSprypleClientDetails: getAllSprypleClientDetails,
+    getSprypleActivationsCountByMonth: getSprypleActivationsCountByMonth,
+    getSprypleActivationsCountByYear: getSprypleActivationsCountByYear,
+    getSprypleClientsStatusWiseCount: getSprypleClientsStatusWiseCount,
+    getRevenueByMonth:getRevenueByMonth
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -1851,6 +1855,126 @@ async function getAllSprypleClientDetails(req,res) {
     } }
     catch (e) {
         console.log('getAllSprypleClientDetails :',e)
+
+    }
+
+}
+
+/**get spryple Activations Count By Month */
+async function getSprypleActivationsCountByMonth(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_activations_count_by_month` (?)", [req.params.date],
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getSprypleActivationsCountByMonth :',e)
+
+    }
+
+}
+
+/**get spryple Activations Count By year */
+async function getSprypleActivationsCountByYear(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_activations_count_by_year` (?)", [req.params.date],
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getSprypleActivationsCountByYear :',e)
+
+    }
+
+}
+
+/**get Spryple Clients Status Wise Count */
+async function getSprypleClientsStatusWiseCount(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_clients_status_wise_count` ()",
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getSprypleClientsStatusWiseCount :',e)
+
+    }
+
+}
+
+/**get spryple revenue By month */
+async function getRevenueByMonth(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_revenue_by_month` (?)", [req.params.date],
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getRevenueByMonth :',e)
 
     }
 

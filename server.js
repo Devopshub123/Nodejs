@@ -2871,7 +2871,25 @@ app.get('/subscription/api/getAllSprypleClientDetails/:companyName', function (r
     common.getAllSprypleClientDetails (req,res)
 });
 
+/**get Spryple Activations Count By Month */
+app.get('/subscription/api/getSprypleActivationsCountByMonth/:date/:companyName', function (req, res) {
+    common.getSprypleActivationsCountByMonth (req,res)
+});
 
+/**get Spryple Activations Count By Year */
+app.get('/subscription/api/getSprypleActivationsCountByYear/:date/:companyName', function (req, res) {
+    common.getSprypleActivationsCountByYear (req,res)
+});
+
+/**get all spryple clients */
+app.get('/subscription/api/getSprypleClientsStatusWiseCount/:companyName', function (req, res) {
+    common.getSprypleClientsStatusWiseCount (req,res)
+});
+
+/**get spryple revenue By month */
+app.get('/subscription/api/getRevenueByMonth/:date/:companyName', function (req, res) {
+    common.getRevenueByMonth (req,res)
+});
 
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
