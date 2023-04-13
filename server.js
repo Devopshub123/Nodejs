@@ -2870,6 +2870,10 @@ app.get('/subscription/api/getPaymentInvoiceDataByPaymentid/:clientid/:companyNa
 app.get('/subscription/api/getAllSprypleClientDetails/:companyName', function (req, res) {
     common.getAllSprypleClientDetails (req,res)
 });
+app.post('/subscription/api/setSprypleClientPlanPayment', function (req, res) {
+    common.setSprypleClientPlanPayment(req,res)
+})
+
 
 /**get Spryple Activations Count By Month */
 app.get('/subscription/api/getSprypleActivationsCountByMonth/:date/:companyName', function (req, res) {
