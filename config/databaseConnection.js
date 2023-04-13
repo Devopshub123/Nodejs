@@ -10,7 +10,7 @@ function switchDatabase() {
             user: "spryple_client_user",
             port: 3306,
             password: "Client&*123",
-            database: 'spryple',
+            database: 'spryple_hrms',
             dateStrings: true,
             multipleStatements: true
 
