@@ -1130,7 +1130,7 @@ function validateCompanyCode(companycode,email){
 
 }
 
-function contactUsFormMail(mailData) {
+function contactUsFormMail(mailData,res) {
     let value = mailData.body;
     try {
         var transporter = nodemailer.createTransport({
@@ -1170,14 +1170,15 @@ function contactUsFormMail(mailData) {
             html: html,
         };
         transporter.sendMail(mailOptions, function (error, info) {
+
             if (error) {
-                console.log("Failed To Sent  Mail",error)
+                res.send({status:false,message:"Failed To Sent  Mail"});
             } else {
-                console.log("Mail Sent Successfully")
+                res.send({status:true,message:"Mail Sent Successfully"});
             }
         });
     } catch (e) {
-        console.log("contactUsFormMail :", e);
+        res.send({status:false,message:e.message});
     }
 }
 
