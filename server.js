@@ -2895,6 +2895,16 @@ app.get('/subscription/api/getRevenueByMonth/:date/:companyName', function (req,
     common.getRevenueByMonth (req,res)
 });
 
+/**get Year Wise Clients Count */
+app.get('/subscription/api/getYearWiseClientsCount/:companyName', function (req, res) {
+    common.getYearWiseClientsCount (req,res)
+});
+
+/**get Month Wise Clients Count By Year */
+app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', function (req, res) {
+    common.getMonthWiseClientsCountByYear (req,res)
+});
+
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
 
@@ -2982,18 +2992,18 @@ app.get('/subscription/api/getRevenueByMonth/:date/:companyName', function (req,
 
 /** Local server */
 
-app.listen(6060,function (err) {
-    if (err)
-        console.log('Server Cant Start ...Erorr....');
-    else
-        console.log('Server Started at : http://localhost:6060');
-});
-
-/** uncomment in QA build time */
-
-// app.listen(202,'0.0.0.0',function (err) {
+// app.listen(6060,function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://122.175.62.210:202');
+//         console.log('Server Started at : http://localhost:6060');
 // });
+
+/** uncomment in QA build time */
+
+app.listen(202,'0.0.0.0',function (err) {
+    if (err)
+        console.log('Server Cant Start ...Erorr....');
+    else
+        console.log('Server Started at :  http://122.175.62.210:202');
+});

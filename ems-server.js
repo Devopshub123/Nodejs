@@ -2735,6 +2735,8 @@ async function setEmpEmployement(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_emp_employement` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
+              console.log("err--",err)
+              console.log("resss--",result[0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -3464,7 +3466,9 @@ async function usersLogin(req, res) {
         "N",
       ],
                 async function (err, result) {
-                              if (err) {
+                    console.log("err--1",err);
+                    console.log("ress-1",result);
+                   if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
                         errorLogArray.push("usersLogin");
@@ -3481,7 +3485,8 @@ async function usersLogin(req, res) {
                         res.send({ status: false,successstate :result[0][0].successstate});
                     }else {
                         console.log(result[0][0].successstate);
-                        if (array[0].email != '' && array[0].email != null) {
+                       if (array[0].email != '' && array[0].email != null) {
+                        console.log("v2");
                              sendEmailToEmployeeAboutLogins(array, result);
                             }
                             res.send({ status: true });

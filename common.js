@@ -81,7 +81,9 @@ module.exports = {
     getSprypleActivationsCountByYear: getSprypleActivationsCountByYear,
     getSprypleClientsStatusWiseCount: getSprypleClientsStatusWiseCount,
     getRevenueByMonth: getRevenueByMonth,
-    setSprypleClientPlanPayment:setSprypleClientPlanPayment
+    setSprypleClientPlanPayment: setSprypleClientPlanPayment,
+    getYearWiseClientsCount: getYearWiseClientsCount,
+    getMonthWiseClientsCountByYear:getMonthWiseClientsCountByYear
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -2068,6 +2070,66 @@ async function setSprypleClientPlanPayment(req, res) {
 }
     catch (e) {
         console.log('setSprypleClient :',e)
+
+    }
+
+}
+
+/**getYearWiseClientsCount */
+async function getYearWiseClientsCount(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_year_wise_clients_count` ()",
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getYearWiseClientsCount :',e)
+
+    }
+
+}      
+
+/**getMonthWiseClientsCountByYear */
+async function getMonthWiseClientsCountByYear(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_hrms');
+        let companyName = 'spryple_hrms';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_month_wise_clients_count_by_year` (?)", [req.params.date],
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getMonthWiseClientsCountByYear :',e)
 
     }
 
