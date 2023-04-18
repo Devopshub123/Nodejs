@@ -81,7 +81,9 @@ module.exports = {
     getSprypleActivationsCountByYear: getSprypleActivationsCountByYear,
     getSprypleClientsStatusWiseCount: getSprypleClientsStatusWiseCount,
     getRevenueByMonth: getRevenueByMonth,
-    setSprypleClientPlanPayment:setSprypleClientPlanPayment
+    setSprypleClientPlanPayment: setSprypleClientPlanPayment,
+    getYearWiseClientsCount: getYearWiseClientsCount,
+    getMonthWiseClientsCountByYear:getMonthWiseClientsCountByYear
 };
 /**generate JWT token  */
 function generateJWTToken(info){
