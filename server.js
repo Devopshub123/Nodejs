@@ -2895,6 +2895,17 @@ app.get('/subscription/api/getRevenueByMonth/:date/:companyName', function (req,
     common.getRevenueByMonth (req,res)
 });
 
+/**get Year Wise Clients Count */
+app.get('/subscription/api/getYearWiseClientsCount/:companyName', function (req, res) {
+    common.getYearWiseClientsCount (req,res)
+});
+
+/**get Month Wise Clients Count By Year */
+app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', function (req, res) {
+    common.getMonthWiseClientsCountByYear (req,res)
+});
+
+
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
 
