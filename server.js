@@ -2113,7 +2113,7 @@ app.get('/attendance/api/getAttendanceRegularizationsHistoryForManager/:employee
 
  */
 
-app.post('/api/setEmployeeAttendance',verifyJWTToken, function (req, res) {
+app.post('/attendance/api/setEmployeeAttendance/:companyName',verifyJWTToken, function (req, res) {
   attendance.setEmployeeAttendance(req,res);
 });
 
@@ -2903,6 +2903,10 @@ app.get('/subscription/api/getYearWiseClientsCount/:companyName', function (req,
 /**get Month Wise Clients Count By Year */
 app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', function (req, res) {
     common.getMonthWiseClientsCountByYear (req,res)
+});
+
+app.get('/subscription/api/getClientSubscriptionDetails/:companyName', function (req, res) {
+    common.getClientSubscriptionDetails (req,res)
 });
 
 

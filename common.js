@@ -83,7 +83,8 @@ module.exports = {
     getRevenueByMonth: getRevenueByMonth,
     setSprypleClientPlanPayment: setSprypleClientPlanPayment,
     getYearWiseClientsCount: getYearWiseClientsCount,
-    getMonthWiseClientsCountByYear:getMonthWiseClientsCountByYear
+    getMonthWiseClientsCountByYear:getMonthWiseClientsCountByYear,
+    getClientSubscriptionDetails:getClientSubscriptionDetails
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -712,12 +713,12 @@ async function getAllModules(req, res) {
         let companyName = 'spryple_dev';
         console.log('spryple_qa',req.body)
         var listOfConnections = {};
-        if (dbName && dbName!=null) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-            if (!listOfConnections.succes) {
-                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
-            }
-            listOfConnections[companyName].query('CALL `getmastertable` (?,?,?,?)', ['modulesmaster', null,0,0], async function (err, result, next) {
+        if (true) {
+            // listOfConnections= connection.checkExistingDBConnection(companyName)
+            // if (!listOfConnections.succes) {
+            //     listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            // }
+            con.query('CALL `getmastertable` (?,?,?,?)', ['modulesmaster', null,0,0], async function (err, result, next) {
                 if (result && result.length > 0) {
                     res.send({data: result[0], status: true});
                 } 
@@ -781,16 +782,17 @@ async function setSpryplePlan(req,res) {
         if(true) {
           
         con.query("CALL `set_spryple_plan` (?,?,?,?)",[req.body.plan,JSON.stringify(req.body.modules),req.body.created_by,req.body.id], function (err, result, fields) {
+           
             if(err){
             res.send({status:false,message:"Unable to add "})
 
            }
-           else if (result[0][0] == 1){
-            res.send({status:true,message:"Record already inserted."});
+           else if (result[0][0] == 0){
+            res.send({status:true});
            }
            
            else{
-            console.log(result[0][0])
+            console.log("ggf",result[0][0])
             res.send({status:false,message:"Record already existed."});
            }
         });
@@ -878,6 +880,7 @@ async function Validateemail(req, res) {
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
         <p style="color:black"> If you experience any issues when accessing the above link, please reach out to <b>hr@sreebtech.com</b>  </p>  
         <p style="color:black">Thank you!</p>
+        <p style="color:black">Human Resource Team</p>
       
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
@@ -1799,6 +1802,7 @@ async function getPaymentsDetailsByClientId(req,res) {
         // }
             con.query("CALL `get_payments_details_client_id` (?)", [req.params.clientid],
             function (err, result, fields) {
+                console.log("result",result)
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -1822,14 +1826,8 @@ async function getPaymentInvoiceDataByPaymentid(req,res) {
     try {
         // let  dbName = await getDatebaseName('spryple_hrms');
         // let companyName = 'spryple_hrms';
-        let  dbName = await getDatebaseName('spryple_dev');
-        let companyName = 'spryple_dev';
-        let listOfConnections = {};
-        if(true) {
-        //     listOfConnections= connection.checkExistingDBConnection(companyName)
-        // if(!listOfConnections.succes) {
-        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        // }
+
+       
             con.query("CALL `get_payment_invoice_paymentid` (?)", [req.params.clientid],
             function (err, result, fields) {
             if(result && result.length > 0){
@@ -1839,9 +1837,8 @@ async function getPaymentInvoiceDataByPaymentid(req,res) {
             }
         });
 
-    }else {
-            res.send({status: false,Message:'Database Name is missed'})
-    } }
+    
+}
     catch (e) {
         console.log('getPaymentInvoiceDataByPaymentid :',e)
 
@@ -2020,12 +2017,9 @@ async function setSprypleClientPlanPayment(req, res) {
         let  dbName = await getDatebaseName('spryple_dev');
         let companyName = 'spryple_dev';
         let listOfConnections = {};
-       if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
+       if(true) {
+         
+        con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
                 [
                     req.body.client_id_value,
                     req.body.company_code_value,
@@ -2046,7 +2040,7 @@ async function setSprypleClientPlanPayment(req, res) {
            else {
                
             //    res.send({ status: true }) 
-               
+
             var transporter = nodemailer.createTransport({
                 host: "smtp-mail.outlook.com", // hostname
                 secureConnection: false, // TLS requires secureConnection to be false
@@ -2066,7 +2060,7 @@ async function setSprypleClientPlanPayment(req, res) {
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Customer,</p>
         <p style="color:black">This is to acknowledge that we have received the payment of <b>${mailData.paid_amount}</b> Rs  against our invoice number <b>${mailData.transaction_number}</b> on <b>${mailData.valid_from_date}</b>. Thanks for Payment towards Spryple subscription.<b></b></p> 
-        <p style="color:black"> Please find the attached invoice <b>#${mailData.transaction_number}</b>. If you have any questions reach out to<b>hr@sreebtech.com</b>  </p>  
+        <p style="color:black"> Please find the attached invoice <b>#${mailData.transaction_number}</b>. If you have any questions reach out to <b>hr@sreebtech.com</b>  </p>  
         <p style="color:black">Thank you!</p>
         <p style="color:black">Sales Manager .</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
@@ -2156,6 +2150,36 @@ async function getMonthWiseClientsCountByYear(req,res) {
     } }
     catch (e) {
         console.log('getMonthWiseClientsCountByYear :',e)
+
+    }
+
+}
+
+/**getMonthWiseClientsCountByYear */
+async function getClientSubscriptionDetails(req,res) {
+    let  dbName = await getDatebaseName(req.params.companyName);
+        let companyName = req.params.companyName;
+    try {
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_client_subscription_details` ()", [],
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getClientSubscriptionDetails :',e)
 
     }
 
