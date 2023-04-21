@@ -3466,9 +3466,7 @@ async function usersLogin(req, res) {
         "N",
       ],
                 async function (err, result) {
-                    console.log("err--1",err);
-                    console.log("ress-1",result);
-                   if (err) {
+                              if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
                         errorLogArray.push("usersLogin");
@@ -3484,9 +3482,7 @@ async function usersLogin(req, res) {
                     else if(result[0][0].successstate==1){
                         res.send({ status: false,successstate :result[0][0].successstate});
                     }else {
-                        console.log(result[0][0].successstate);
                        if (array[0].email != '' && array[0].email != null) {
-                        console.log("v2");
                              sendEmailToEmployeeAboutLogins(array, result);
                             }
                             res.send({ status: true });
@@ -4110,9 +4106,9 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
         <p style="color:black">Your login credentials:</p>
-        <p style="color:black"><b>Company Code:</b>${maileData[0].companycode}</p>
-        <p style="color:black"><b>Username:</b>${maileData[0].userid}</p>
-        <p style="color:black"><b>Password:</b>${maileData[0].password}</p>
+        <p style="color:black"><b>Company Code: </b>${maileData[0].companycode}</p>
+        <p style="color:black"><b>Username: </b>${maileData[0].userid}</p>
+        <p style="color:black"><b>Password: </b>${maileData[0].password}</p>
         <p style="color:black">If you experience any issues while login to your account, reach out to us at <b>contact@spryple.com</b> </p>
         
         <p style="color:black">Best Regards,</p>
