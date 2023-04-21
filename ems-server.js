@@ -3977,11 +3977,15 @@ async function getEmailsByEmpid(req, res) {
                 errorLogArray.push(dbName);
                 errorLogs(errorLogArray);
                 res.send({ status: false })
-            } else {
+              } else {
+               
                 if (result && result.length > 0) {
                     emailComponentData = result[0][0];
+                    let data = JSON.parse(emailComponentData.jsonvalu)[0];
+                    if (data.rm_email != null || data.rm_email != '') {
                     sendEmailToAdminAboutNewHire(emailComponentData);
-                    sendEmailToChecklistManager(emailComponentData);
+                    sendEmailToChecklistManager(emailComponentData); 
+                    }
                 } else {
                     res.send({ status: false })
                 }

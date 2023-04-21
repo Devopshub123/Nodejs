@@ -676,24 +676,57 @@ app.get('/api/getemployeeroles/:empId',verifyJWTToken,function(req,res) {
 
 
 
-function checkRecord (req, res, next){
-    try{
-            con.query("CALL `checkrecord` (?,?,?)",[req.body.tableName,req.body.columnName,req.body.id], function (err, result, fields) {
+async function checkRecord (req, res, next){
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+        var listOfConnections = {};
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection(companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+        
+            listOfConnections[companyName].query("CALL `checkrecord` (?,?,?)", [req.body.tableName, req.body.columnName, req.body.id], function (err, result, fields) {
                 if (result && result.length > 0) {
-                    req.body.isexists={result:result[1][0].isexists,status :true}
+                    req.body.isexists = { result: result[1][0].isexists, status: true }
                     next()
                 } else {
-                    req.body.isexists={status:false}
+                    req.body.isexists = { status: false }
                     next()
 
                 }
             });
-
+        }
+        else {
+            console.log("checkRecord in employee ",e)
+        }
 
 
     }catch (e) {
         console.log("checkRecord in employee ",e)
     }
+}
+function getDatebaseName(companyName){
+
+    return new Promise((res,rej)=>{
+        try {
+
+            con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
+                if (results && results[0] && results[0].length != 0) {
+                    res(results[0][0].db_name);
+
+                } else {
+                    res(null)
+
+                }
+            })
+        }
+        catch (e) {
+            rej(e)
+        }
+    });
+
 }
 
 // /**supportingdocument for  setleave*/
@@ -2992,18 +3025,18 @@ app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', f
 
 /** Local server */
 
-app.listen(6060,function (err) {
-    if (err)
-        console.log('Server Cant Start ...Erorr....');
-    else
-        console.log('Server Started at : http://localhost:6060');
-});
-
-/** uncomment in QA build time */
-
-// app.listen(202,'0.0.0.0',function (err) {
+// app.listen(6060,function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://122.175.62.210:202');
+//         console.log('Server Started at : http://localhost:6060');
 // });
+
+/** uncomment in QA build time */
+
+app.listen(202,'0.0.0.0',function (err) {
+    if (err)
+        console.log('Server Cant Start ...Erorr....');
+    else
+        console.log('Server Started at :  http://122.175.62.210:202');
+});
