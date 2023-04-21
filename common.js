@@ -106,7 +106,7 @@ function generateJWTToken(info){
            console.log("companyName",companyName)
             con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
                 console.log("err",err)
-                console.log(results)
+                console.log("results",results[0])
                 if (results && results[0] && results[0].length != 0) {
                     res(results[0][0].db_name);
 
@@ -1246,12 +1246,12 @@ async function addUsers(req,res) {
         var companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_hrms');
         let listOfConnections = {};
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-            listOfConnections[companyName].query("CALL `add_users` (?,?,?,?,?,?,?)",
+        if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
+            con.query("CALL `add_users` (?,?,?,?,?,?,?)",
                 [   req.body.client_renewal_detail_id_value,
                     req.body.valid_to_value,
                     req.body.user_count_value,
@@ -1320,9 +1320,12 @@ async function getClientPlanDetails(req,res) {
         let companyName = 'spryple_dev';
         let listOfConnections = {};
         if(true) {
-            
-        con.query("CALL `get_client_plan_details` (?)",[req.body.client_id_value], function (err, result, fields) {
-            console.log("getClientPlanDetails",result[0])
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_client_plan_details` (?)",[Number(req.body.client_id_value)], function (err, result, fields) {
+            console.log("getClientPlanDetails",result)
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -1345,12 +1348,9 @@ async function getUsers(req,res) {
         let  dbName = await getDatebaseName('spryple_hrms');
         let companyName = 'spryple_hrms';
         let listOfConnections = {};
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_users` (?)",[req.params.id], function (err, result, fields) {
+        if(true) {
+           
+        con.query("CALL `get_users` (?)",[req.params.id], function (err, result, fields) {
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -1374,22 +1374,22 @@ async function enableRenewButton(req,res) {
         let  dbName = await getDatebaseName('spryple_hrms');
         console.log()
         let listOfConnections = {};
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
+        if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
         console.log("data",req.body)
-        listOfConnections[companyName].query("CALL `enable_renew_button` (?)",[req.body.date], function (err, result, fields) {
-           console.log("err",err);
-           console.log("result",result[0].length)
-            if(err){
-                res.send({status:false,data:[]})
+    //    con.query("CALL `enable_renew_button` (?)",[req.body.date], function (err, result, fields) {
+    //        console.log("err",err);
+    //        console.log("result",result[0].length)
+    //         if(err){
+    //             res.send({status:false,data:[]})
 
-            }else if(result[0].length>0){
-                res.send({status:true,data:result[0]})
-            }
-        });
+    //         }else if(result[0].length>0){
+    //             res.send({status:true,data:result[0]})
+    //         }
+    //     });
 
     }else {
             res.send({status: false,Message:'Database Name is missed'})
@@ -1408,13 +1408,13 @@ async function renewUsers(req,res) {
         var companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_hrms');
         let listOfConnections = {};
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
+        if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
         console.log("renewUsers",req.body)
-            listOfConnections[companyName].query("CALL `renew_users` (?,?,?,?,?,?,?,?)",
+            con.query("CALL `renew_users` (?,?,?,?,?,?,?,?)",
                 [   req.body.client_plan_detail_id_value,
                     req.body.user_count_value,
                     req.body.valid_to_value,
@@ -1452,16 +1452,18 @@ async function addUsersDisplayInfo(req,res) {
         var companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_hrms');
         let listOfConnections = {};
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-            listOfConnections[companyName].query("CALL `add_users_display_info` (?,?,?)",
+        if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
+            con.query("CALL `add_users_display_info` (?,?,?)",
                 [   req.body.client_plan_detail_id_value,
                     req.body.valid_to_value,
                     req.body.user_count_value,
                   ], function (err, result, fields) {
+                    console.log("eRR",err);
+                    console.log("resssss",result)
             if(err){
             res.send({status:false,data:[]})
 
@@ -1490,12 +1492,12 @@ async function renewUsersDisplayInformation(req,res) {
         let  dbName = await getDatebaseName('spryple_dev');
         let companyName = 'spryple_dev';
         let listOfConnections = {};
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-            listOfConnections[companyName].query("CALL `renew_users_display_information` (?,?,?)",
+        if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
+            con.query("CALL `renew_users_display_information` (?,?,?)",
                 [   req.body.client_plan_detail_id_value,
                     req.body.user_count_value,
                     req.body.valid_to_value,
@@ -1561,12 +1563,12 @@ async function changeClientPlan(req,res) {
         let  dbName = await getDatebaseName('spryple_dev');
         let companyName = 'spryple_dev';
         let listOfConnections = {};
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-            listOfConnections[companyName].query("CALL `change_client_plan` (?,?,?)",
+        if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
+            con.query("CALL `change_client_plan` (?,?,?)",
                 [   req.body.client_id_value ,
                     req.body.plan_id_value ,
                     req.body.created_by_value ,
@@ -2161,13 +2163,14 @@ async function getClientSubscriptionDetails(req,res) {
         let companyName = req.params.companyName;
     try {
         let listOfConnections = {};
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-            listOfConnections[companyName].query("CALL `get_client_subscription_details` ()", [],
+        if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
+           con.query("CALL `get_client_subscription_details` (?)", [req.params.companyName],
             function (err, result, fields) {
+                console.log("result",result)
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
