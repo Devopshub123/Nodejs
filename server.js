@@ -16,9 +16,11 @@ var Securitykey = crypto.randomBytes(32);
 var admin= require('./admin-server');
 var attendance= require('./attendance-server');
 var leaveManagement = require('./leave-management');
-
 var ems= require('./ems-server');
 var payroll = require('./payroll');
+var common = require('./common');
+var subscription = require('./subscription-server');
+
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -1391,12 +1393,6 @@ app.get('/ems/api/getInductionProgramAssignedEmployee/:sid/:companyName',verifyJ
 // app.use("/payroll",payroll);
 
 
-
-/*****
- * Multitenant
- * 
- * ****/
- var common = require('./common');
 
 
  
@@ -2909,6 +2905,37 @@ app.get('/subscription/api/getClientSubscriptionDetails/:companyName', function 
     common.getClientSubscriptionDetails (req,res)
 });
 
+/**get New Exit Employee Count By Month */
+app.get('/subscription/api/getNewExitEmployeeCountByMonth/:date/:companyName', function (req, res) {
+   console.log("v1")
+    subscription.getNewExitEmployeeCountByMonth(req, res)
+});
+
+/**get Department Wise Employee Count By Location */
+app.get('/subscription/api/getDepartmentWiseEmployeeCountByLocation/:deptId/:companyName', function (req, res) {
+    subscription.getDepartmentWiseEmployeeCountByLocation(req, res)
+ });
+
+/**get Location Wise Employee Count */
+app.get('/subscription/api/getLocationWiseEmployeeCount/:companyName', function (req, res) {
+    console.log("v1--")
+    subscription.getLocationWiseEmployeeCount(req, res)
+ });
+
+/**get Attendance Employees Count By Date */
+app.get('/subscription/api/getAttendanceEmployeesCountByDate/:date/:companyName', function (req, res) {
+     subscription.getAttendanceEmployeesCountByDate(req, res)
+});
+ 
+/**get Leaves Types Count By Month */
+app.get('/subscription/api/getLeavesTypesCountByMonth/:date/:companyName', function (req, res) {
+    subscription.getLeavesTypesCountByMonth(req, res)
+});
+
+/**get Department Wise Employee Count By Location */
+app.get('/subscription/api/getDepartmentWiseEmployeeCountByShift/:shiftId/:companyName', function (req, res) {
+    subscription.getDepartmentWiseEmployeeCountByShift(req, res)
+ });
 
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */

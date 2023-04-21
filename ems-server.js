@@ -5231,6 +5231,8 @@ async function getEmpPersonalInfo(req, res) {
                 "CALL `get_emp_personal_info` (?)",
                 [JSON.parse(req.params.id)],
                 async function (err, result, fields) {
+                    console.log("err",err)
+                    console.log("ress",result[0])
                      if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
