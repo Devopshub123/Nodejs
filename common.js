@@ -161,7 +161,7 @@ async function login(req, res) {
                         
                     }
                     var  token = await generateJWTToken(info)
-                    listOfConnections[companyName].query('CALL `getemployeeinformation`(?,?,?)', [result[0],'spryple_product_dev',companyName], function (err, results, next) {
+                    listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0],'spryple_product_dev',companyName], function (err, results, next) {
                         console.log("getemployeeinformationerrrr",err);
                         console.log("getemployeeinformationerrrrresult",results);
                      try {
