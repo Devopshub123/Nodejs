@@ -84,7 +84,9 @@ module.exports = {
     setSprypleClientPlanPayment: setSprypleClientPlanPayment,
     getYearWiseClientsCount: getYearWiseClientsCount,
     getMonthWiseClientsCountByYear:getMonthWiseClientsCountByYear,
-    getClientSubscriptionDetails:getClientSubscriptionDetails
+    getClientSubscriptionDetails:getClientSubscriptionDetails,
+    getActiveEmployeesCount:getActiveEmployeesCount,
+    getScreensForSuperAdmin:getScreensForSuperAdmin
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -139,7 +141,17 @@ async function login(req, res) {
     try{
 
     var  dbName = await getDatebaseName(req.body.companyName);
-    console.log("dbName",dbName)
+    if(req.body.companyName!='spryple_dev'){
+
+        let subscriptiondata =await getClientSubscriptionDetailsforlogin(req.body.companyName);
+        var expirydate = subscriptiondata.data[0].valid_to
+    }
+    else{
+        
+        var expirydate = '2100-01-01'
+    }
+   
+
 
      var email = req.body.email;
         var password = req.body.password;
@@ -151,10 +163,9 @@ async function login(req, res) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
-                console.log("errr",err);
-                console.log("reee",results)
+               
                 var result = results ? results[0] ? results[0][0] ? Object.values(JSON.parse(JSON.stringify(results[0][0]))) : null : null : null;
-                console.log("jjh",result[0])
+
                 if (result && result[0] > 0) {
                     var info = {
                         id:result[0],
@@ -162,13 +173,14 @@ async function login(req, res) {
                         
                     }
                     var  token = await generateJWTToken(info)
-                    listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0],'spryple_product_dev',companyName], function (err, results, next) {
-                        console.log("getemployeeinformationerrrr",err);
-                        console.log("getemployeeinformationerrrrresult",results);
+                    listOfConnections[companyName].query('CALL `getemployeeinformation`(?)', [result[0]], function (err, results, next) {
+
+                       
                      try {
                             if (results && results.length > 0) {
+
                                 var result = JSON.parse(results[0][0].result)
-                                res.send({status: true, result,token:token})
+                                res.send({status: true, result,token:token,expirydate:expirydate})
                             }
                             else {
                                 res.send({status: false})
@@ -2187,3 +2199,161 @@ async function getClientSubscriptionDetails(req,res) {
     }
 
 }
+async function getActiveEmployeesCount(req,res) {
+    try {
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query(
+                "CALL `get_active_employees_count` ()",[  ],
+                async function (err, result, fields) {
+                 if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("EMSAPI");
+                    errorLogArray.push("getActiveEmployeesCount");
+                    errorLogArray.push("GET");
+                    errorLogArray.push();
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     errorLogs = errorLogs(errorLogArray);
+                     res.send({ status: false });
+
+                    }else if (result && result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false });
+                    }
+                }
+            );
+        }
+        else {
+            res.send({ status: false })
+        }
+
+    } catch (e) {
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("getActiveEmployeesCount");
+        errorLogArray.push("GET");
+        errorLogArray.push();
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         errorLogs(errorLogArray)
+    }
+}
+
+/**getMonthWiseClientsCountByYear */
+function getClientSubscriptionDetailsforlogin(companyName) {
+    return new Promise((res,rej)=>{
+        try {
+            let listOfConnections = {};
+            if(true) {
+            //     listOfConnections= connection.checkExistingDBConnection(companyName)
+            // if(!listOfConnections.succes) {
+            //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            // }
+            console.log("req",companyName);
+               con.query("CALL `get_client_subscription_details` (?)", [companyName],
+                function (err, result, fields) {
+                    console.log("result",result)
+                if(result && result.length > 0){
+                    res({data: result[0]});
+                }else{
+                    res({data:[]});
+                }
+            });
+    
+        } }
+        catch (e) {
+            console.log('getClientSubscriptionDetails :',e)
+    
+        }
+        
+    });
+   
+   
+
+}
+async function getScreensForSuperAdmin(req, res) {
+    let companyName = req.body.companyName||'';
+    try {
+        let dbName = await getDatebaseName(req.body.companyName)
+        let self = 'Employee';
+        // For errorlog
+        let errorLogArray = [];
+            errorLogArray.push("COMMONAPI");
+            errorLogArray.push("getCommonSideNavigation");
+            errorLogArray.push("GET");
+            errorLogArray.push(JSON.stringify(req.body));
+
+       var listOfConnections = {};
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_screens_for_super_admin` (?)", [req.body.empid], async function (err, result, fields) {
+                if (err) {
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs = await errorLogs(errorLogArray);  
+                    res.send({ status: false, message: "unableToGetData" });      
+                }
+                else{
+                    if (result && result.length > 0) {
+                        for(let i=0;i<result[0].length;i++){ 
+                            result[0][i].displayStatus = false;
+                            result[0][i].parentRoles = [];
+                            result[0][i].children = [];
+                            if(result[0][i].menu_items){
+                                result[0][i].menu_items =JSON.parse(result[0][i].menu_items);
+                                result[0][i].parentRoles = result[0][i].menu_items.map(v => v.role_name).filter((value, index, self) => self.indexOf(value) === index);
+                                
+                                for(let pr=0;pr<result[0][i].parentRoles.length;pr++){
+                                    result[0][i].children[pr] = {displayName:result[0][i].parentRoles[pr], isOpen:!!(result[0][i].parentRoles[pr]===self) ,subChildren:[]};
+                                    for(let j=0;j<result[0][i].menu_items.length;j++){
+                                        if(result[0][i].parentRoles[pr] === result[0][i].menu_items[j].role_name){
+                                            result[0][i].menu_items[j].functionalities = result[0][i].menu_items[j].functionalities? JSON.parse(result[0][i].menu_items[j].functionalities):{};
+                                            result[0][i].children[pr].subChildren.push(result[0][i].menu_items[j]);
+                                        }
+                                    }
+                                }
+
+                            } else  result[0][i].menu_items ={};    
+                            
+                        }
+
+                         res.send({ data: result[0], status: true });
+         
+                     } else {
+                         res.send({ status: false })
+                     }
+                }
+            });
+        }
+        else {
+           res.send({status: false,Message:'Database Name is missed'})
+        } 
+    } 
+    catch (e) {
+        let dbName = await getDatebaseName(req.body.companyName)
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName||'');
+        errorLogArray.push(dbName||"");
+        errorLogs = await errorLogs(errorLogArray);
+        }
+};

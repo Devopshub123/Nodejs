@@ -6515,7 +6515,7 @@ async function updateInductionConductedbyStatus(req,res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                         res.send({ status: false });
                     } else {
                         if (result && result[0][0].statuscode == 0) {
@@ -6630,7 +6630,7 @@ async function getEmployeeProgramAlerts(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     errorLogs = errorLogs(errorLogArray);
+                    await errorLogs(errorLogArray);
                      res.send({ status: false });
 
                     }else if (result && result.length > 0) {

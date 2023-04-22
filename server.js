@@ -2936,6 +2936,13 @@ app.get('/subscription/api/getLeavesTypesCountByMonth/:date/:companyName', funct
 app.get('/subscription/api/getDepartmentWiseEmployeeCountByShift/:shiftId/:companyName', function (req, res) {
     subscription.getDepartmentWiseEmployeeCountByShift(req, res)
  });
+/**get_active_employees_count */
+app.get('/api/getActiveEmployeesCount/:companyName', function (req, res) {
+    common.getActiveEmployeesCount(req, res)
+ });
+ app.post('/api/getScreensForSuperAdmin',verifyJWTToken, function (req, res) {
+    common.getScreensForSuperAdmin(req,res)
+});
 
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
