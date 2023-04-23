@@ -41,7 +41,8 @@ module.exports = {
     getLocationWiseEmployeeCount: getLocationWiseEmployeeCount,
     getAttendanceEmployeesCountByDate: getAttendanceEmployeesCountByDate,
     getLeavesTypesCountByMonth: getLeavesTypesCountByMonth,
-    getDepartmentWiseEmployeeCountByShift:getDepartmentWiseEmployeeCountByShift
+    getDepartmentWiseEmployeeCountByShift: getDepartmentWiseEmployeeCountByShift,
+    getDepartmentWiseLeavesCountByMonth:getDepartmentWiseLeavesCountByMonth
 };
 
 function getDatebaseName(companyName){
@@ -242,6 +243,36 @@ async function getDepartmentWiseEmployeeCountByShift(req, res) {
     } }
     catch (e) {
         console.log('getDepartmentWiseEmployeeCountByShift :',e)
+
+    }
+
+}
+
+/**get Department Wise Leaves Count By Month */
+async function getDepartmentWiseLeavesCountByMonth(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName);
+        let companyName = req.params.companyName;
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_department_wise_leaves_count_by_month` (?)", [req.params.date],
+                function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getDepartmentWiseLeavesCountByMonth :',e)
 
     }
 

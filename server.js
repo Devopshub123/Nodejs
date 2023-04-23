@@ -2904,11 +2904,11 @@ app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', f
 app.get('/subscription/api/getClientSubscriptionDetails/:companyName', function (req, res) {
     common.getClientSubscriptionDetails (req,res)
 });
+//** subscription- client super admindashboard api's */
 
-/**get New Exit Employee Count By Month */
+/**get New & Exit Employee Count By Month */
 app.get('/subscription/api/getNewExitEmployeeCountByMonth/:date/:companyName', function (req, res) {
-   console.log("v1")
-    subscription.getNewExitEmployeeCountByMonth(req, res)
+   subscription.getNewExitEmployeeCountByMonth(req, res)
 });
 
 /**get Department Wise Employee Count By Location */
@@ -2918,8 +2918,7 @@ app.get('/subscription/api/getDepartmentWiseEmployeeCountByLocation/:deptId/:com
 
 /**get Location Wise Employee Count */
 app.get('/subscription/api/getLocationWiseEmployeeCount/:companyName', function (req, res) {
-    console.log("v1--")
-    subscription.getLocationWiseEmployeeCount(req, res)
+   subscription.getLocationWiseEmployeeCount(req, res)
  });
 
 /**get Attendance Employees Count By Date */
@@ -2932,10 +2931,15 @@ app.get('/subscription/api/getLeavesTypesCountByMonth/:date/:companyName', funct
     subscription.getLeavesTypesCountByMonth(req, res)
 });
 
-/**get Department Wise Employee Count By Location */
+/**get Department Wise Employee Count By Shift */
 app.get('/subscription/api/getDepartmentWiseEmployeeCountByShift/:shiftId/:companyName', function (req, res) {
     subscription.getDepartmentWiseEmployeeCountByShift(req, res)
- });
+});
+ 
+/**get Department Wise Leaves Count By Month */
+app.get('/subscription/api/getDepartmentWiseLeavesCountByMonth/:date/:companyName', function (req, res) {
+    subscription.getDepartmentWiseLeavesCountByMonth(req, res)
+});
 
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
