@@ -2939,6 +2939,13 @@ app.get('/subscription/api/getDepartmentWiseEmployeeCountByShift/:shiftId/:compa
 /**get Department Wise Leaves Count By Month */
 app.get('/subscription/api/getDepartmentWiseLeavesCountByMonth/:date/:companyName', function (req, res) {
     subscription.getDepartmentWiseLeavesCountByMonth(req, res)
+ });
+/**get_active_employees_count */
+app.get('/api/getActiveEmployeesCount/:companyName', function (req, res) {
+    common.getActiveEmployeesCount(req, res)
+ });
+ app.post('/api/getScreensForSuperAdmin',verifyJWTToken, function (req, res) {
+    common.getScreensForSuperAdmin(req,res)
 });
 
 /***------------------------------------------------------------------------------------------ */
