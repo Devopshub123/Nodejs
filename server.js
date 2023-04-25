@@ -2948,6 +2948,11 @@ app.get('/api/getActiveEmployeesCount/:companyName', function (req, res) {
     common.getScreensForSuperAdmin(req,res)
 });
 
+/**get Department Wise Monthly Salaries */
+app.get('/subscription/api/getDepartmentWiseMonthlySalaries/:date/:companyName', function (req, res) {
+    subscription.getDepartmentWiseMonthlySalaries(req, res)
+});
+ 
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
 
