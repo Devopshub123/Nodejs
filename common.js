@@ -55,6 +55,7 @@ module.exports = {
     setSprypleClient:setSprypleClient,
     setPlanDetails:setPlanDetails,
     getSpryplePlans:getSpryplePlans,
+    getUnmappedPlans:getUnmappedPlans,
     getSpryplePlanCostDetails: getSpryplePlanCostDetails,
     contactUsFormMail: contactUsFormMail,
     getPayments: getPayments,
@@ -1076,6 +1077,33 @@ async function getSpryplePlans(req,res) {
         if(true) {
            
        con.query("CALL `get_spryple_plans` ()",function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getEmployeeInformation :',e)
+
+    }
+
+}
+async function getUnmappedPlans(req,res) {
+    try {
+        // let  dbName = await getDatebaseName('spryple_hrms');
+        // let companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_dev');
+        let companyName = 'spryple_dev';
+
+        let listOfConnections = {};
+        if(true) {
+           
+       con.query("CALL `get_unmapped_plans` ()",function (err, result, fields) {
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{

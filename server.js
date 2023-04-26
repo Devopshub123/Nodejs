@@ -2952,6 +2952,9 @@ app.get('/api/getActiveEmployeesCount/:companyName', function (req, res) {
 app.get('/subscription/api/getDepartmentWiseMonthlySalaries/:date/:companyName', function (req, res) {
     subscription.getDepartmentWiseMonthlySalaries(req, res)
 });
+app.get('/subscription/api/getUnmappedPlans', function (req, res) {
+    common.getUnmappedPlans (req,res)
+});
  
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
