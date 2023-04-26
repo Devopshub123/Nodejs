@@ -2484,7 +2484,8 @@ async function setEmpPersonalInfo(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
-             
+             console.log("er-,",err)
+             console.log("ress-,",result[0][0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -3108,6 +3109,7 @@ async function setDocumentOrImageForEMS(req, res) {
                     file.mv(
                         path.resolve(__dirname, folderName, localPath.filename),
                         async function (error) {
+                            console.log("kkk-",error)
                             if (error) {
                                 res.send({ status: false });
                                 let errorLogArray = [];
