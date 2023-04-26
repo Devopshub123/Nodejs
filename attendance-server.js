@@ -1697,6 +1697,7 @@ function attendanceRequestEmail(mailData, companyName) {
      var companyName = companyName;
     try {
          let email = mailData.emails.rm_email
+         let reportingemail = mailData.emails.rm_reporting_email
          var transporter = nodemailer.createTransport({
            host: "smtp-mail.outlook.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
@@ -1766,6 +1767,7 @@ function attendanceRequestEmail(mailData, companyName) {
        var mailOptions = {
            from: 'no-reply@spryple.com',
            to: email,
+           cc:reportingemail!=null?reportingemail:'',
            subject: 'Attendance Request by'+' '+mailData.emails.emp_name,
            html: html
        };
@@ -1804,7 +1806,10 @@ function approveAttendanceRequestEmail(mailData,companyName) {
         // let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
         // let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
         let approvereason = mailData.approvercomments !=undefined || null ? mailData.approvercomments:''
-       let email = mailData.emailData.emp_email
+       let email = mailData.emailData.emp_email     
+       let reportingemail = mailData.emailData.rm_reporting_email
+
+
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -1866,6 +1871,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
+          cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Approved by'+' '+mailData.emailData.rm_name,
           html: html
       };
@@ -1904,7 +1910,8 @@ function approveAttendanceRequestEmail(mailData,companyName) {
         // let fdate =new Date(mailData.empData.fromdate).getDate()+'-'+(new Date(mailData.empData.fromdate).getMonth()+1) +'-'+new Date(mailData.empData.fromdate).getFullYear()
         // let tdate =new Date(mailData.empData.todate).getDate()+'-'+(new Date(mailData.empData.todate).getMonth()+1) +'-'+new Date(mailData.empData.todate).getFullYear()
        
-        let email = mailData.emailData.emp_email
+        let email = mailData.emailData.emp_email;
+        let reportingemail = mailData.emailData.rm_reporting_email;
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -1965,6 +1972,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
+          cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Rejected  by '+''+ mailData.emailData.rm_name,
           html: html
       };
@@ -2005,6 +2013,7 @@ function editedAttendanceRequestEmail(mailData, companyName) {
      var companyName = companyName;
     try {
         let email = mailData.emails.rm_email
+        let reportingemail = mailData.emails.rm_reporting_email
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -2070,6 +2079,7 @@ function editedAttendanceRequestEmail(mailData, companyName) {
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
+            cc:reportingemail!=null?reportingemail:'',
             subject: 'Edited Attendance request by '+' '+mailData.emails.emp_name,
             html: html
         };
@@ -2097,6 +2107,7 @@ function deleteAttendanceRequestEmail(mailData) {
     // let tdate =new Date(mailData.todate).getDate()+'-'+(new Date(mailData.todate).getMonth()+1) +'-'+new Date(mailData.todate).getFullYear()
     try {
         let email = mailData.emails.rm_email
+        let reportingemail = mailData.emails.rm_reporting_email
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -2153,6 +2164,7 @@ function deleteAttendanceRequestEmail(mailData) {
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
+            cc:reportingemail!=null?reportingemail:'',
             subject: 'Deleted Attendance request by '+' '+mailData.emails.emp_name,
             html: html
         };
