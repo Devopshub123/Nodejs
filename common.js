@@ -7,6 +7,8 @@ var fileUpload = require('express-fileupload');
 var nodemailer = require('nodemailer')
 var crypto = require("crypto");
 var algorithm = "aes-256-cbc";
+var mysql = require('mysql');
+const { spawn } = require('child_process');
 // generate 16 bytes of random data
 var initVector = crypto.randomBytes(16);
 var Securitykey = crypto.randomBytes(32);
@@ -2051,85 +2053,97 @@ async function getRevenueByMonth(req,res) {
 // set Spryple Client Plan Payment
 async function setSprypleClientPlanPayment(req, res) {
     var mailData = req.body;
-    try {
-        let companyCode = req.body.company_code_value;
-        let toEmail = req.body.company_email_value;
-        // var companyName = 'spryple_hrms';
-        // let  dbName = await getDatebaseName('spryple_hrms');
-        let  dbName = await getDatebaseName('spryple_dev');
-        let companyName = 'spryple_dev';
-        let listOfConnections = {};
-       if(true) {
-         
-        con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
-                [
-                    req.body.client_id_value,
-                    req.body.company_code_value,
-                    req.body.valid_from_date,
-                    req.body.valid_to_date,
-                    req.body.plan_id_value,
-                    req.body.number_of_users_value,
-                    req.body.paid_amount,
-                    req.body.transaction_number
-                 ],
-                function (err, result, fields) {
-                    console.log("err",err);
-                    console.log("errresult",result);
+    try { 
+        // con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
+        //         [
+        //             req.body.client_id_value,
+        //             req.body.company_code_value,
+        //             req.body.valid_from_date,
+        //             req.body.valid_to_date,
+        //             req.body.plan_id_value,
+        //             req.body.number_of_users_value,
+        //             req.body.paid_amount,
+        //             req.body.transaction_number
+        //          ],
+        //         function (err, result, fields) {
+        //             console.log("err",err);
+        //             console.log("errresult",result);
                    
-           if(err){
-            res.send({status:false})
-           }
-           else {
-               
-            //    res.send({ status: true }) 
+        //    if(err){
+        //     res.send({status:false})
+        //    }
+        //    else {
+            // let  dbName = await createClientDatabase('CGI');
+            // console.log(dbName.status);
+            // console.log(dbName)
+            // if(true){
+                // let insertClientMasterData=  await InsertClientMasterData(dbName.data)
+                let insertClientMasterData=  await InsertClientMasterData('CGI_CGI')
+                // let datacreateClientCredentials =await createClientDatabase('rakesh_rock_rak');
+                console.log("insertClientMasterDatainsertClientMasterData",insertClientMasterData)
+    //         if(insertClientMasterData){
+    //             let datacreateClientCredentials =await createClientDatabase('test_tes');
+           
+          
+    //         //    res.send({ status: true }) 
+    //        if(datacreateClientCredentials){
+    //     //     var transporter = nodemailer.createTransport({
+    //     //         host: "smtp-mail.outlook.com", // hostname
+    //     //         secureConnection: false, // TLS requires secureConnection to be false
+    //     //         port: 587, // port for secure SMTP
+    //     //         tls: {
+    //     //             ciphers: 'SSLv3'
+    //     //         },
+    //     //         auth: {
+    //     //             user: 'no-reply@spryple.com',
+    //     //             pass: 'Sreeb@#321'
+    //     //         }
+    //     //     });
+    //     //       var html = `<html>
+    //     // <head>
+    //     // <title>Candidate Form</title></head>
+    //     // <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+    //     // <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+    //     // <p style="color:black">Dear Customer,</p>
+    //     // <p style="color:black">This is to acknowledge that we have received the payment of <b>${mailData.paid_amount}</b> Rs  against our invoice number <b>${mailData.transaction_number}</b> on <b>${mailData.valid_from_date}</b>. Thanks for Payment towards Spryple subscription.<b></b></p> 
+    //     // <p style="color:black"> Please find the attached invoice <b>#${mailData.transaction_number}</b>. If you have any questions reach out to <b>hr@sreebtech.com</b>  </p>  
+    //     // <p style="color:black">Thank you!</p>
+    //     // <p style="color:black">Sales Manager .</p>
+    //     // <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+    //     // </div></body>
+    //     // </html> `;
+    //     //     var mailOptions = {
+    //     //         from: 'no-reply@spryple.com',
+    //     //         to: toEmail,
+    //     //         subject: 'Payment done successfully',
+    //     //         html: html
+    //     //     };
+    //     //    transporter.sendMail(mailOptions, function (error, info) {
+    //     //         if (error) {
+    //     //             res.send({ status: false ,message:"Please check your mail"});
+    //     //         } 
+    //     //         else {
+    //     //             res.send({ status: true,message: "Verified your email.Please check your mail." });
+    //     //         }
+    //     //    });
+    //     }
+    //     else{
+    //         res.send({status: false,Message:'jjhj'})
 
-            var transporter = nodemailer.createTransport({
-                host: "smtp-mail.outlook.com", // hostname
-                secureConnection: false, // TLS requires secureConnection to be false
-                port: 587, // port for secure SMTP
-                tls: {
-                    ciphers: 'SSLv3'
-                },
-                auth: {
-                    user: 'no-reply@spryple.com',
-                    pass: 'Sreeb@#321'
-                }
-            });
-              var html = `<html>
-        <head>
-        <title>Candidate Form</title></head>
-        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
-        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
-        <p style="color:black">Dear Customer,</p>
-        <p style="color:black">This is to acknowledge that we have received the payment of <b>${mailData.paid_amount}</b> Rs  against our invoice number <b>${mailData.transaction_number}</b> on <b>${mailData.valid_from_date}</b>. Thanks for Payment towards Spryple subscription.<b></b></p> 
-        <p style="color:black"> Please find the attached invoice <b>#${mailData.transaction_number}</b>. If you have any questions reach out to <b>hr@sreebtech.com</b>  </p>  
-        <p style="color:black">Thank you!</p>
-        <p style="color:black">Sales Manager .</p>
-        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
-        </div></body>
-        </html> `;
-            var mailOptions = {
-                from: 'no-reply@spryple.com',
-                to: toEmail,
-                subject: 'Payment done successfully',
-                html: html
-            };
-           transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    res.send({ status: false ,message:"Please check your mail"});
-                } 
-                else {
-                    res.send({ status: true,message: "Verified your email.Please check your mail." });
-                }
-           });
-               
-               
-           }
-        });
+    //     }
+    // }
+    // else{
+    //     res.send({status: false,Message:'jjhj'})
 
-    }else {
-            res.send({status: false,Message:'Database Name is missed'})
-    } 
+    // }
+    // }
+               
+               
+        //    }
+        // });
+    
+
+    
 }
     catch (e) {
         console.log('setSprypleClient :',e)
@@ -2294,7 +2308,6 @@ function getClientSubscriptionDetailsforlogin(companyName) {
             console.log("req",companyName);
                con.query("CALL `get_client_subscription_details` (?)", [companyName],
                 function (err, result, fields) {
-                    console.log("result",result)
                 if(result && result.length > 0){
                     res({data: result[0]});
                 }else{
@@ -2385,3 +2398,116 @@ async function getScreensForSuperAdmin(req, res) {
         errorLogs = await errorLogs(errorLogArray);
         }
 };
+
+function createClientDatabase(companyName){
+
+    return new Promise((res,rej)=>{
+        try {
+           console.log("companyName",companyName)
+           con.query("CALL `create_client_database` (?)",
+           [
+            companyName 
+            ], function (err, result, next) {
+          
+                if (err ) {
+                    res(false);
+
+                } else {
+                    //result 
+                    // console.log("resultsss",result[0])
+                    // console.log("resultssss",result[0][0])
+                    // console.log("resultssss",result[0][0].database_name) 
+                    console.log("result",result);
+                    console.log("result",result[0]);
+                    res({status:true,data:result})
+
+                }
+            })
+        }
+         
+    catch (e) {
+            rej(e)
+        }
+    });
+
+}
+ function InsertClientMasterData(dbName){
+    return new Promise(async (res,rej)=>{
+     console.log("DB Start",dbName)
+    const file_path = "./DB_Script/database_script.sql";
+    var connection=mysql.createConnection({
+        host:"192.168.1.10",
+        user:"spryple_product_user",
+        password:"Spryple$#123",
+        port: 3306,
+        database: dbName,
+        dateStrings: true,
+        multipleStatements: true
+    });
+    // console.log("connection",connection)
+     connection.connect( function(err) {
+        console.log("hjdsjgshgsjh",err)
+        if (err) throw err;
+                const dbHost = "192.168.1.10";
+                const dbUser = "spryple_product_user";
+                const dbPassword = "Spryple$#123";
+                // Path to the MySQL dump file
+                const dumpFilePath = './DB_Script/database_script.sql';
+               // Read the dump file
+               const dumpFile = fs.readFileSync(dumpFilePath, 'utf8');
+              // Use spawn to execute the MySQL command-line tool
+              const mysqlProcess = spawn('mysql', [
+                `--host=${dbHost}`,
+                 `--user=${dbUser}`,
+                `--password=${dbPassword}`,
+                 `${dbName}`
+              ]);
+  
+            // Pipe the dump file contents to the MySQL process stdin
+            mysqlProcess.stdin.write(dumpFile);
+            console.log("Write Working");
+            mysqlProcess.stdin.end();
+            console.log("Write end Working");
+           // Handle the MySQL process stdout and stderr
+           mysqlProcess.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+          });
+          mysqlProcess.stderr.on('data', (data) => {
+            console.error(`stderr: ${data}`);
+            res(false)
+          });
+          mysqlProcess.on('close', (code) => {
+            res(true)
+            console.log(`child process exited with code ${code}`);
+         });
+    });
+});
+    
+}
+
+    function createClientCredentials(companyName){
+        return new Promise((res,rej)=>{
+            try {
+               console.log("companyName",companyName)
+               con.query("CALL `create_client_credentials` (?)",
+               [
+                companyName 
+                ], function (err, results, next) {
+              
+                    if (err ) {
+                        res(false);
+                    } else {
+                        res(true)
+    
+                    }
+                })
+            }
+             
+        catch (e) {
+                rej(e)
+            }
+        });
+    }
+
+    // create_client_credentials
+    
