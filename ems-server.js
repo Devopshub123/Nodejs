@@ -145,6 +145,7 @@ module.exports = {
     getEmployeeProgramAlerts:getEmployeeProgramAlerts,
     getDocumentsFiles: getDocumentsFiles,
     validateReportingManager: validateReportingManager,
+    setEmployeeExcelData:setEmployeeExcelData
     
 };
 
@@ -7005,4 +7006,56 @@ function separationRequestRejectedEmail(value) {
        console.log('separationRequestRejectedEmail :', e)
      }
    
+}
+async function setEmployeeExcelData(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            console.log("dataaa",JSON.stringify(req.body))
+            listOfConnections[companyName].query("CALL `set_upload_employees` (?)",
+                [JSON.stringify(req.body)], async function (err, result, fields) {
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("setEmployeeAttendance");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs(errorLogArray);  
+                        res.send({ status: false, message: "unableToUpload" });      
+                    }
+                    else {
+                        res.send({ status: true, message: "excelUploadSave" })
+                    }
+                });
+
+        }
+        else {
+           res.send({status: false,Message:'Database Name is missed'})
+        }
+     } 
+     catch (e) {
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("setEmployeeAttendance");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs(errorLogArray);
+    }
 }
