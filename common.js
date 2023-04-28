@@ -825,9 +825,9 @@ async function setSpryplePlan(req,res) {
 async function Validateemail(req, res) {
     let companyCode = req.body.company_code_value;
     let email = req.body.company_email_value;
-    let companyName = 'spryple_hrms';
-    let  dbName = await getDatebaseName('spryple_hrms');
-    // let  dbName = await getDatebaseName('spryple_dev');
+   // let companyName = 'spryple_hrms';
+ //   let  dbName = await getDatebaseName('spryple_hrms');
+     let  dbName = await getDatebaseName('spryple_product_dev');
     // let companyName = 'spryple_dev';
     let validatecompanycode = await validateCompanyCode(companyCode,email);
     if(validatecompanycode){
@@ -1160,7 +1160,7 @@ function validateCompanyCode(companycode,email){
                 if(err){
                     res(false)
                 }
-                else if(results[0][0].validity == 1){
+                else if(results[0][0].validity == 0){
                     res(true)
                 }
                 else{
@@ -1801,6 +1801,7 @@ async function getSpryplePlanDetailsById(req, res) {
 /**Get Client Details By ClientId*/
 async function getSprypleClientDetailsByClientId(req, res) {
     try {
+        console.log("bod--",req.params)
         // let  dbName = await getDatebaseName('spryple_hrms');
         // let companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_dev');

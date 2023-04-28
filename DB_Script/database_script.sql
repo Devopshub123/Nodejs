@@ -3017,9 +3017,7 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 
 	LOCK TABLES `modulesmaster` WRITE;
 	/*!40000 ALTER TABLE `modulesmaster` DISABLE KEYS */;
-	INSERT INTO `modulesmaster` VALUES (1,'Employee Management',null,NULL,1,'assets\\img\\menu-ems.png'),
-    (2,'Leave Management',null,NULL,3,'assets\\img\\menu-leaves.png'),(3,'Timesheet Management',null,NULL,5,'assets\\img\\menu-timesheet.png'),
-    (4,'Attendance Management',null,NULL,2,'assets\\img\\menu-attendance.png'),(5,'Payroll Management',null,NULL,4,'assets\\img\\menu-payroll.png'),(6,'Assets Management',NULL,NULL,6,'assets\\img\\menu-asset.png'),(7,'Recruitment Management',NULL,NULL,7,'assets\\img\\menu-recruitment.png'),(8,'Employee Self Service',NULL,NULL,8,'assets\\img\\menu-ess.png '),(9,'Claims Management',NULL,NULL,9,'assets\\img\\menu-claims.png');
+	INSERT INTO `modulesmaster` VALUES (1,'Employee Management',null,NULL,1,'assets\\img\\menu-ems.png'),(2,'Leave Management',null,NULL,3,'assets\\img\\menu-leaves.png'),(3,'Timesheet Management',null,NULL,5,'assets\\img\\menu-timesheet.png'),(4,'Attendance Management',null,NULL,2,'assets\\img\\menu-attendance.png'),(5,'Payroll Management',null,NULL,4,'assets\\img\\menu-payroll.png'),(6,'Assets Management',NULL,NULL,6,'assets\\img\\menu-asset.png'),(7,'Recruitment Management',NULL,NULL,7,'assets\\img\\menu-recruitment.png'),(8,'Employee Self Service',NULL,NULL,8,'assets\\img\\menu-ess.png '),(9,'Claims Management',NULL,NULL,9,'assets\\img\\menu-claims.png'),(10,'Subscription','2022-06-30 00:00:00',NULL,10,'assets\\img\\subscription.png');
 	/*!40000 ALTER TABLE `modulesmaster` ENABLE KEYS */;
 	UNLOCK TABLES;
 
@@ -4102,10 +4100,9 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 
 	LOCK TABLES `rolescreenaccess` WRITE;
 	/*!40000 ALTER TABLE `rolescreenaccess` DISABLE KEYS */;
-	INSERT INTO `rolescreenaccess` VALUES (109,2,105),(110,2,106),(111,2,107),(112,2,108),(113,2,109),(114,2,110),(115,2,111),(116,2,112),(117,2,113),(118,2,114),(119,2,115),(120,2,116),(121,2,124),(122,2,125),(123,2,126),(124,2,127),(125,2,128),(126,2,129),(127,2,130),(128,2,131),(129,2,132),(130,2,133),(131,2,134),(132,2,135),(133,2,136),(134,2,137),(135,2,138),(136,2,139),(137,2,140),(138,3,9),(139,3,10),(140,3,11),(141,3,12),(142,3,13),(143,3,14),(144,3,15),(145,3,16),(146,3,17),(147,3,18),(148,3,19),(149,3,20),(150,3,21),(151,3,22),(152,3,23),(153,3,24),(154,3,25),(155,3,26),(156,3,27),(157,3,28),(158,3,29),(159,3,30),(160,3,31),(161,3,32),(162,3,33),(163,3,34),(164,3,35),(165,3,36),(166,3,37),(167,3,38),(168,3,39),(169,3,40),(170,3,41),(171,3,42),(172,3,43),(173,3,44),(174,3,45),(175,3,46),(176,3,47),(177,3,48),(178,3,49),(179,3,50),(180,3,51),(181,3,52),(182,3,53),(183,3,54),(184,3,55),(185,3,56),(186,3,57),(187,3,58),(188,3,59),(189,3,60),(190,3,61),(191,3,100),(192,3,101),(193,3,102),(194,3,103),(195,3,104),(196,3,141),(197,3,142),(198,3,144),(199,6,62),(200,6,63),(201,6,64),(202,6,65),(203,6,66),(204,6,67),(205,6,68),(206,6,69),(207,6,70),(208,6,71),(209,6,72),(210,6,73),(211,6,74),(212,6,75),(213,6,76),(214,6,77),(215,6,78),(216,6,79),(217,6,80),(218,6,81),(219,6,82),(220,6,83),(221,6,84),(222,6,85),(223,6,86),(224,6,87),(226,6,145),(227,3,146),(228,3,147),(229,3,148),(230,9,149),(231,10,149),(232,10,150),(233,10,151),(234,9,151),(235,8,151),(236,10,152),(237,10,153),(238,9,153),(239,8,153),(240,10,154),(241,10,155),(242,10,156),(243,9,156),(244,8,156),(245,9,157),(246,10,158),(247,10,159),(248,9,159),(249,8,159),(250,10,160),(251,9,160),(252,8,160),(253,10,161),(254,10,162),(255,9,162),(256,8,162),(257,9,163),(258,9,164),(259,8,164),(264,9,172),(266,8,172),(267,10,174);
+	INSERT INTO `rolescreenaccess` VALUES (109,2,105),(110,2,106),(111,2,107),(112,2,108),(113,2,109),(114,2,110),(115,2,111),(116,2,112),(117,2,113),(118,2,114),(119,2,115),(120,2,116),(121,2,124),(122,2,125),(123,2,126),(124,2,127),(125,2,128),(126,2,129),(127,2,130),(128,2,131),(129,2,132),(130,2,133),(131,2,134),(132,2,135),(133,2,136),(134,2,137),(135,2,138),(136,2,139),(137,2,140),(138,3,9),(139,3,10),(140,3,11),(141,3,12),(142,3,13),(143,3,14),(144,3,15),(145,3,16),(146,3,17),(147,3,18),(148,3,19),(149,3,20),(150,3,21),(151,3,22),(152,3,23),(153,3,24),(154,3,25),(155,3,26),(156,3,27),(157,3,28),(158,3,29),(159,3,30),(160,3,31),(161,3,32),(162,3,33),(163,3,34),(164,3,35),(165,3,36),(166,3,37),(167,3,38),(168,3,39),(169,3,40),(170,3,41),(171,3,42),(172,3,43),(173,3,44),(174,3,45),(175,3,46),(176,3,47),(177,3,48),(178,3,49),(179,3,50),(180,3,51),(181,3,52),(182,3,53),(183,3,54),(184,3,55),(185,3,56),(186,3,57),(187,3,58),(188,3,59),(189,3,60),(190,3,61),(191,3,100),(192,3,101),(193,3,102),(194,3,103),(195,3,104),(196,3,141),(197,3,142),(198,3,144),(199,6,62),(200,6,63),(201,6,64),(202,6,65),(203,6,66),(204,6,67),(205,6,68),(206,6,69),(207,6,70),(208,6,71),(209,6,72),(210,6,73),(211,6,74),(212,6,75),(213,6,76),(214,6,77),(215,6,78),(216,6,79),(217,6,80),(218,6,81),(219,6,82),(220,6,83),(221,6,84),(222,6,85),(223,6,86),(224,6,87),(226,6,145),(227,3,146),(228,3,147),(229,3,148),(230,9,149),(231,10,149),(232,10,150),(233,10,151),(234,9,151),(235,8,151),(236,10,152),(237,10,153),(238,9,153),(239,8,153),(240,10,154),(241,10,155),(242,10,156),(243,9,156),(244,8,156),(245,9,157),(246,10,158),(247,10,159),(248,9,159),(249,8,159),(250,10,160),(251,9,160),(252,8,160),(253,10,161),(254,10,162),(255,9,162),(256,8,162),(257,9,163),(258,9,164),(259,8,164),(264,9,172),(266,8,172),(267,10,174),(268,4,175),(269,4,176),(270,4,177);
 	/*!40000 ALTER TABLE `rolescreenaccess` ENABLE KEYS */;
 	UNLOCK TABLES;
-
 	--
 	-- Table structure for table `rolescreenaccess_backup`
 	--
@@ -4310,7 +4307,7 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 
 	LOCK TABLES `screenfunctionalitiesmaster` WRITE;
 	/*!40000 ALTER TABLE `screenfunctionalitiesmaster` DISABLE KEYS */;
-	INSERT INTO `screenfunctionalitiesmaster` VALUES (1,1,3),(2,2,2),(3,2,3),(4,3,3),(5,4,1),(6,4,2),(7,4,3),(8,4,4),(145,4,6),(9,5,1),(10,5,2),(11,5,3),(12,6,1),(13,6,2),(14,6,3),(15,7,1),(16,7,2),(17,7,3),(18,8,1),(19,8,2),(20,8,3),(21,9,1),(22,9,2),(23,9,3),(24,9,4),(25,10,1),(26,10,2),(27,10,3),(28,11,1),(29,11,2),(30,11,3),(31,11,5),(32,12,1),(33,12,2),(34,12,3),(35,13,1),(36,13,2),(37,13,3),(38,14,1),(39,14,2),(40,14,3),(41,15,1),(42,15,2),(43,15,3),(44,15,4),(45,16,2),(46,16,3),(47,17,2),(48,17,3),(49,18,1),(50,18,2),(51,18,3),(52,19,2),(53,19,3),(54,20,2),(55,20,3),(56,21,1),(57,21,2),(58,21,3),(59,22,1),(60,22,2),(61,22,3),(62,23,1),(63,23,2),(64,23,3),(65,24,1),(66,24,2),(67,24,3),(68,25,1),(69,25,2),(70,25,3),(71,26,3),(72,26,4),(73,26,6),(74,27,1),(75,27,2),(76,27,3),(77,28,2),(78,28,3),(79,29,1),(80,29,3),(81,30,2),(82,30,3),(83,31,3),(85,31,4),(84,31,6),(86,32,2),(87,32,3),(88,33,3),(89,34,1),(90,34,2),(91,34,3),(92,35,2),(93,35,3),(94,35,4),(95,35,5),(96,36,3),(97,37,1),(98,37,2),(99,37,3),(100,38,1),(101,38,2),(102,38,3),(103,39,2),(104,39,3),(105,40,3),(106,40,4),(107,40,6),(108,41,3),(109,41,4),(110,41,6),(111,42,3),(112,42,4),(113,42,6),(114,43,3),(115,44,3),(116,45,3),(117,46,1),(118,46,3),(119,47,1),(120,47,2),(121,47,3),(122,47,5),(123,48,3),(124,49,1),(125,49,3),(126,49,6),(127,50,1),(128,50,3),(129,50,6),(130,51,3),(131,51,4),(132,51,6),(133,52,1),(134,52,3),(135,53,3),(136,54,3),(137,55,1),(138,55,3),(139,56,3),(140,57,3),(141,58,1),(142,58,3),(143,59,2),(144,59,3),(146,60,1),(147,60,2),(148,60,3),(149,61,3),(174,62,1),(150,62,2),(151,62,3),(152,63,2),(153,63,3),(154,64,1),(155,64,2),(156,64,3),(157,65,1),(158,66,2),(159,66,3),(160,67,3),(161,68,2),(162,68,3),(163,69,1),(164,70,6),(165,71,3),(166,72,3),(167,73,3),(168,74,1),(169,74,2),(170,74,3),(171,74,5),(172,74,6),(173,75,3);
+	INSERT INTO `screenfunctionalitiesmaster` VALUES (1,1,3),(2,2,2),(3,2,3),(4,3,3),(5,4,1),(6,4,2),(7,4,3),(8,4,4),(145,4,6),(9,5,1),(10,5,2),(11,5,3),(12,6,1),(13,6,2),(14,6,3),(15,7,1),(16,7,2),(17,7,3),(18,8,1),(19,8,2),(20,8,3),(21,9,1),(22,9,2),(23,9,3),(24,9,4),(25,10,1),(26,10,2),(27,10,3),(28,11,1),(29,11,2),(30,11,3),(31,11,5),(32,12,1),(33,12,2),(34,12,3),(35,13,1),(36,13,2),(37,13,3),(38,14,1),(39,14,2),(40,14,3),(41,15,1),(42,15,2),(43,15,3),(44,15,4),(45,16,2),(46,16,3),(47,17,2),(48,17,3),(49,18,1),(50,18,2),(51,18,3),(52,19,2),(53,19,3),(54,20,2),(55,20,3),(56,21,1),(57,21,2),(58,21,3),(59,22,1),(60,22,2),(61,22,3),(62,23,1),(63,23,2),(64,23,3),(65,24,1),(66,24,2),(67,24,3),(68,25,1),(69,25,2),(70,25,3),(71,26,3),(72,26,4),(73,26,6),(74,27,1),(75,27,2),(76,27,3),(77,28,2),(78,28,3),(79,29,1),(80,29,3),(81,30,2),(82,30,3),(83,31,3),(85,31,4),(84,31,6),(86,32,2),(87,32,3),(88,33,3),(89,34,1),(90,34,2),(91,34,3),(92,35,2),(93,35,3),(94,35,4),(95,35,5),(96,36,3),(97,37,1),(98,37,2),(99,37,3),(100,38,1),(101,38,2),(102,38,3),(103,39,2),(104,39,3),(105,40,3),(106,40,4),(107,40,6),(108,41,3),(109,41,4),(110,41,6),(111,42,3),(112,42,4),(113,42,6),(114,43,3),(115,44,3),(116,45,3),(117,46,1),(118,46,3),(119,47,1),(120,47,2),(121,47,3),(122,47,5),(123,48,3),(124,49,1),(125,49,3),(126,49,6),(127,50,1),(128,50,3),(129,50,6),(130,51,3),(131,51,4),(132,51,6),(133,52,1),(134,52,3),(135,53,3),(136,54,3),(137,55,1),(138,55,3),(139,56,3),(140,57,3),(141,58,1),(142,58,3),(143,59,2),(144,59,3),(146,60,1),(147,60,2),(148,60,3),(149,61,3),(174,62,1),(150,62,2),(151,62,3),(152,63,2),(153,63,3),(154,64,1),(155,64,2),(156,64,3),(157,65,1),(158,66,2),(159,66,3),(160,67,3),(161,68,2),(162,68,3),(163,69,1),(164,70,6),(165,71,3),(166,72,3),(167,73,3),(168,74,1),(169,74,2),(170,74,3),(171,74,5),(172,74,6),(173,75,3),(175,76,3),(176,77,3),(177,78,3);
 	/*!40000 ALTER TABLE `screenfunctionalitiesmaster` ENABLE KEYS */;
 	UNLOCK TABLES;
 
@@ -4369,7 +4366,7 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 
 	LOCK TABLES `screensmaster` WRITE;
 	/*!40000 ALTER TABLE `screensmaster` DISABLE KEYS */;
-	INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDashboard',1,1,1),(2,NULL,'My Profile','/ems/employee-profile',1,1,2),(3,NULL,'Onboarding Checklist','/ems/employee-checklist',1,1,3),(4,NULL,'Separation','/ems/resignation',1,1,4),(5,NULL,'Company Information','/Admin/CompanyInformation',1,3,1),(6,NULL,'Department','/Admin/Department',1,3,2),(7,NULL,'Designation','/Admin/Designation',1,3,3),(8,NULL,'Work Location','/Admin/Worklocation',1,3,4),(9,NULL,'Company Logo','/Admin/CompanyLogo',1,3,5),(10,NULL,'Shift','/Admin/Shift',1,3,6),(11,NULL,'Holidays','/Admin/Holidays',1,3,7),(12,NULL,'Checklist','/Admin/settings-checklist',1,3,8),(13,NULL,'Induction','/Admin/induction',1,3,9),(14,NULL,'Document','/Admin/configure-documents',8,3,10),(15,NULL,'Announcements','/Admin/announcement',1,3,11),(16,NULL,'Messages Master','/Admin/EMS-MessageMaster',1,3,12),(17,NULL,'Users Login','/Admin/users-login',1,3,13),(18,NULL,'Roles & Permissions','/Admin/RolesPermissions',1,3,14),(19,NULL,'Onboarding settings','/Admin/settings-onBoarding',1,3,15),(20,NULL,'Offboarding settings','/Admin/settings-offBoarding',1,3,16),(21,NULL,'Termination Category','/Admin/Termination-Category',1,3,17),(22,NULL,'Reason for Separation','/Admin/Reason',1,3,18),(23,NULL,'Employee Directory','/ems/employeeDirectory',1,2,2),(24,NULL,'Employee Reports','/ems/emloyee-report',1,2,10),(25,NULL,'New Hires','/ems/new-hired-list',1,2,1),(26,NULL,'Document Approvals','/ems/hr-document-approval',1,2,3),(27,NULL,'Induction Program','/ems/induction-program',1,2,4),(28,NULL,'Onboarding Pending Checklist','/ems/hr-onboarding',1,2,5),(29,NULL,'Termination','/ems/terminate',1,2,8),(30,NULL,'Separation Pending Checklist','/ems/hr-resignation',1,2,7),(31,NULL,'Separation Pending Approvals','/ems/hr-pending-approval',1,2,6),(32,NULL,'Termination Pending Checklist','/ems/termination-pendinging-checklist',1,2,9),(33,NULL,'Employee Dashboard','/LeaveManagement/UserDashboard',2,1,1),(34,NULL,'Leave Request','/LeaveManagement/LeaveRequest',2,1,2),(35,NULL,'Leave History','/LeaveManagement/UserLeaveHistory',2,1,3),(36,NULL,'Leave Balance','/LeaveManagement/UserLeaveBalance',2,1,4),(37,NULL,'Comp Off','/LeaveManagement/UserCompOff',2,1,5),(38,NULL,'Leave Policies','/Admin/Leavepolicies',2,3,1),(39,NULL,'Messages Master','/Admin/LM-MessageMaster',2,3,2),(40,NULL,'Dashboard','/LeaveManagement/ManagerDashboard',2,2,1),(41,NULL,'Leave History','/LeaveManagement/LeaveHistory',2,2,2),(42,NULL,'Comp off History','/LeaveManagement/CompOffHistory',2,2,3),(43,NULL,'Detailed Report','/LeaveManagement/DetailedReport',2,2,4),(44,NULL,'Summary Report','/LeaveManagement/SummaryReport',2,2,5),(45,NULL,'Payroll Report','/LeaveManagement/payrollreport',2,2,6),(46,NULL,'Employee Dashboard','/Attendance/EmployeeDashboard',4,1,1),(47,NULL,'Attendance Request','/Attendance/Request',4,1,2),(48,NULL,'Monthly Detail Report','/Reports/MonthlyDetailReport',4,1,3),(49,NULL,'Dashboard','/Attendance/ManagerDashboard',4,2,1),(50,NULL,'Request on Behalf of Employee','/Attendance/RequestofEmployee',4,2,2),(51,NULL,'Pending Approvals','/Attendance/ApprovalList',4,2,3),(52,NULL,'Excel Upload','/Attendance/uploadExcel',4,2,4),(53,NULL,'Summary Report','/Reports/SummaryReport',4,2,7),(54,NULL,'Detailed Report','/Reports/DetailReport',4,2,8),(55,NULL,'Configure Shift','/Attendance/ShiftConfigure',4,2,5),(56,NULL,'Late Attendance Report','/Reports/LateAttendanceReport',4,2,9),(57,NULL,'Approval History','/Attendance/ApprovedHistory',4,2,6),(58,NULL,'Mapping IDs','/Admin/MappingIds',4,3,1),(59,NULL,'Messages Master','/Admin/MessageMaster',4,3,1),(60,NULL,'Induction Conducted By','/Admin/Induction-ConductedBy',1,3,19),(61,NULL,'Dashboard','/Payroll/FinanceDashboard',5,3,1),(62,NULL,'ESI','/Payroll/ESI',5,3,2),(63,NULL,'EPF','/Payroll/EPF',5,3,3),(64,NULL,'Pay Group','/Payroll/PayGroup',5,3,4),(65,NULL,'Assign Pay Group','/Payroll/AssignPayGroup',5,3,5),(66,NULL,'Pay Schedule','/Payroll/PaySchedule',5,3,6),(67,NULL,'Professional Tax','/Payroll/ProfessionalTax',5,3,7),(68,NULL,'Messages Master','/Admin/Payroll_Messages',5,3,8),(69,NULL,'Monthly Payroll','/Payroll/MonthlyPayroll',5,2,1),(70,NULL,'Approve Investments','/Payroll/InvestmentProof',5,2,2),(71,NULL,'Employee Dashboard','/Payroll/EmployeeDashboard',5,1,1),(72,NULL,'CTC History','/Payroll/SalaryMaster',5,1,2),(73,NULL,'Pay Slips','/Payroll/PaySlips',5,1,3),(74,NULL,'IT Declaration','/Payroll/EmployeeITDeclaration',5,1,4),(75,NULL,'Form 16','/Payroll/EmployeeForm16',5,1,5);
+	INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDashboard',1,1,1),(2,NULL,'My Profile','/ems/employee-profile',1,1,2),(3,NULL,'Onboarding Checklist','/ems/employee-checklist',1,1,3),(4,NULL,'Separation','/ems/resignation',1,1,4),(5,NULL,'Company Information','/Admin/CompanyInformation',1,3,1),(6,NULL,'Department','/Admin/Department',1,3,2),(7,NULL,'Designation','/Admin/Designation',1,3,3),(8,NULL,'Work Location','/Admin/Worklocation',1,3,4),(9,NULL,'Company Logo','/Admin/CompanyLogo',1,3,5),(10,NULL,'Shift','/Admin/Shift',1,3,6),(11,NULL,'Holidays','/Admin/Holidays',1,3,7),(12,NULL,'Checklist','/Admin/settings-checklist',1,3,8),(13,NULL,'Induction','/Admin/induction',1,3,9),(14,NULL,'Document','/Admin/configure-documents',8,3,10),(15,NULL,'Announcements','/Admin/announcement',1,3,11),(16,NULL,'Messages Master','/Admin/EMS-MessageMaster',1,3,12),(17,NULL,'Users Login','/Admin/users-login',1,3,13),(18,NULL,'Roles & Permissions','/Admin/RolesPermissions',1,3,14),(19,NULL,'Onboarding settings','/Admin/settings-onBoarding',1,3,15),(20,NULL,'Offboarding settings','/Admin/settings-offBoarding',1,3,16),(21,NULL,'Termination Category','/Admin/Termination-Category',1,3,17),(22,NULL,'Reason for Separation','/Admin/Reason',1,3,18),(23,NULL,'Employee Directory','/ems/employeeDirectory',1,2,2),(24,NULL,'Employee Reports','/ems/emloyee-report',1,2,10),(25,NULL,'New Hires','/ems/new-hired-list',1,2,1),(26,NULL,'Document Approvals','/ems/hr-document-approval',1,2,3),(27,NULL,'Induction Program','/ems/induction-program',1,2,4),(28,NULL,'Onboarding Pending Checklist','/ems/hr-onboarding',1,2,5),(29,NULL,'Termination','/ems/terminate',1,2,8),(30,NULL,'Separation Pending Checklist','/ems/hr-resignation',1,2,7),(31,NULL,'Separation Pending Approvals','/ems/hr-pending-approval',1,2,6),(32,NULL,'Termination Pending Checklist','/ems/termination-pendinging-checklist',1,2,9),(33,NULL,'Employee Dashboard','/LeaveManagement/UserDashboard',2,1,1),(34,NULL,'Leave Request','/LeaveManagement/LeaveRequest',2,1,2),(35,NULL,'Leave History','/LeaveManagement/UserLeaveHistory',2,1,3),(36,NULL,'Leave Balance','/LeaveManagement/UserLeaveBalance',2,1,4),(37,NULL,'Comp Off','/LeaveManagement/UserCompOff',2,1,5),(38,NULL,'Leave Policies','/Admin/Leavepolicies',2,3,1),(39,NULL,'Messages Master','/Admin/LM-MessageMaster',2,3,2),(40,NULL,'Dashboard','/LeaveManagement/ManagerDashboard',2,2,1),(41,NULL,'Leave History','/LeaveManagement/LeaveHistory',2,2,2),(42,NULL,'Comp off History','/LeaveManagement/CompOffHistory',2,2,3),(43,NULL,'Detailed Report','/LeaveManagement/DetailedReport',2,2,4),(44,NULL,'Summary Report','/LeaveManagement/SummaryReport',2,2,5),(45,NULL,'Payroll Report','/LeaveManagement/payrollreport',2,2,6),(46,NULL,'Employee Dashboard','/Attendance/EmployeeDashboard',4,1,1),(47,NULL,'Attendance Request','/Attendance/Request',4,1,2),(48,NULL,'Monthly Detail Report','/Reports/MonthlyDetailReport',4,1,3),(49,NULL,'Dashboard','/Attendance/ManagerDashboard',4,2,1),(50,NULL,'Request on Behalf of Employee','/Attendance/RequestofEmployee',4,2,2),(51,NULL,'Pending Approvals','/Attendance/ApprovalList',4,2,3),(52,NULL,'Excel Upload','/Attendance/uploadExcel',4,2,4),(53,NULL,'Summary Report','/Reports/SummaryReport',4,2,7),(54,NULL,'Detailed Report','/Reports/DetailReport',4,2,8),(55,NULL,'Configure Shift','/Attendance/ShiftConfigure',4,2,5),(56,NULL,'Late Attendance Report','/Reports/LateAttendanceReport',4,2,9),(57,NULL,'Approval History','/Attendance/ApprovedHistory',4,2,6),(58,NULL,'Mapping IDs','/Admin/MappingIds',4,3,1),(59,NULL,'Messages Master','/Admin/MessageMaster',4,3,1),(60,NULL,'Induction Conducted By','/Admin/Induction-ConductedBy',1,3,19),(61,NULL,'Dashboard','/Payroll/FinanceDashboard',5,3,1),(62,NULL,'ESI','/Payroll/ESI',5,3,2),(63,NULL,'EPF','/Payroll/EPF',5,3,3),(64,NULL,'Pay Group','/Payroll/PayGroup',5,3,4),(65,NULL,'Assign Pay Group','/Payroll/AssignPayGroup',5,3,5),(66,NULL,'Pay Schedule','/Payroll/PaySchedule',5,3,6),(67,NULL,'Professional Tax','/Payroll/ProfessionalTax',5,3,7),(68,NULL,'Messages Master','/Admin/Payroll_Messages',5,3,8),(69,NULL,'Monthly Payroll','/Payroll/MonthlyPayroll',5,2,1),(70,NULL,'Approve Investments','/Payroll/InvestmentProof',5,2,2),(71,NULL,'Employee Dashboard','/Payroll/EmployeeDashboard',5,1,1),(72,NULL,'CTC History','/Payroll/SalaryMaster',5,1,2),(73,NULL,'Pay Slips','/Payroll/PaySlips',5,1,3),(74,NULL,'IT Declaration','/Payroll/EmployeeITDeclaration',5,1,4),(75,NULL,'Form 16','/Payroll/EmployeeForm16',5,1,5),(76,NULL,'Subscription','/Admin/Subscription',10,4,2),(77,NULL,'Employee Dashboard','/Admin/client-superadmin-dashboard',10,4,1),(78,NULL,'Invoice History','/Admin/InvoiceHistory',10,4,3);
 	/*!40000 ALTER TABLE `screensmaster` ENABLE KEYS */;
 	UNLOCK TABLES;
 
@@ -4985,15 +4982,19 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 	DELIMITER ;;
 	CREATE DEFINER=`root`@`localhost` PROCEDURE `authenticateuser`(in `login` varchar(255),in `pwd` varchar(1024))
 	begin
+		if (select status from employee where id=(select distinct employee_login.id from employee_login where employee_login.login=`login`))!=1 then
+		select 0 as id, null as firstlogin; -- employee is inactive case
+	else 
 		if exists(select * from employee_login where employee_login.login = `login` order by lastpasswordchangedate desc limit 1)
 		then 
 			set @pw = (select employee_login.password from employee_login where employee_login.login = `login` order by lastpasswordchangedate desc limit 1);
 			if @pw = md5(`pwd`) then 
 				select id,firstlogin from employee_login where employee_login.login = `login` and employee_login.password = md5(`pwd`)   order by lastpasswordchangedate desc limit 1;
-			else select 0;
+			else select 0 as id, null as firstlogin;
 			end if;
-		else select 0;
+		else select 0 as id, null as firstlogin;
 		end if;
+	end if;
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -7436,59 +7437,63 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getemployeeinformation`(in eid int(11))
 	begin
 
-	SET @eid = eid; -- (select id from employee where officeemail=`email`);
+SET @eid = eid; -- (select id from employee where officeemail=`email`);
 
-	set @rmid = (select reportingmanagerid from employee_reportingmanagers where empid=@eid and effectiveenddate is null);
+set @rmid = (select reportingmanagerid from employee_reportingmanagers where empid=@eid and effectiveenddate is null);
+set @is_super_admin=false;
+if exists(select er.employee_id from employee_roles er where er.role_id in (4) and er.employee_id=@eid)then
+set @is_super_admin=true;
+end if;
+SET @roles_json = (select json_arrayagg(json_object(
+'id',				`employee_roles`.`id`,
+'employee_id',		`employee_roles`.`employee_id`,
+'role_id',			`employee_roles`.`role_id`,
+'role_name', 		`rolesmaster`.`name`,
+-- 'rmid',				`employee_roles`.`rmid`,
+'rmid',				@rmid,
+-- `employee_reportingmanagers`.`reportingmanagerid`,
+'rm_name',			(select concat(firstname, ' ',lastname) from employee where id=@rmid)
+))
+FROM employee_roles, employee, rolesmaster
+WHERE -- employee_roles.rmid = employee.id and
+rolesmaster.id = employee_roles.role_id
+and employee_roles.employee_id = @eid);
+/*
+SET @rm = (select concat(s.firstname,' ',s.lastname) as manager_name 
+		  from employee s, employee_reportingmanagers m 
+          where s.id = m.reportingmanagerid
+          and m.effectivestartdate = (select max(effectivestartdate) from employee_reportingmanagers where empid = @eid));
+set @rm_id = (select s.id   
+		     from employee s, employee_reportingmanagers m 
+             where s.id = m.reportingmanagerid
+             and m.effectivestartdate = (select max(effectivestartdate) from employee_reportingmanagers where empid = @eid));     */     
 
-	SET @roles_json = (select json_arrayagg(json_object(
-	'id',				`employee_roles`.`id`,
-	'employee_id',		`employee_roles`.`employee_id`,
-	'role_id',			`employee_roles`.`role_id`,
-	'role_name', 		`rolesmaster`.`name`,
-	-- 'rmid',				`employee_roles`.`rmid`,
-	'rmid',				@rmid,
-	-- `employee_reportingmanagers`.`reportingmanagerid`,
-	'rm_name',			(select concat(firstname, ' ',lastname) from employee where id=@rmid)
-	))
-	FROM employee_roles, employee, rolesmaster
-	WHERE -- employee_roles.rmid = employee.id and
-	rolesmaster.id = employee_roles.role_id
-	and employee_roles.employee_id = @eid);
-	/*
-	SET @rm = (select concat(s.firstname,' ',s.lastname) as manager_name 
-			  from employee s, employee_reportingmanagers m 
-			  where s.id = m.reportingmanagerid
-			  and m.effectivestartdate = (select max(effectivestartdate) from employee_reportingmanagers where empid = @eid));
-	set @rm_id = (select s.id   
-				 from employee s, employee_reportingmanagers m 
-				 where s.id = m.reportingmanagerid
-				 and m.effectivestartdate = (select max(effectivestartdate) from employee_reportingmanagers where empid = @eid));     */     
+set @firstlogin = (select firstlogin from employee_login where id=@eid order by lastpasswordchangedate desc limit 1);
+set @deptid = (select departmentid from employee_departments where empid=@eid and effectiveenddate is null);
+set @deptname = (select deptname from departmentsmaster where id=@deptid);
 
-	set @firstlogin = (select firstlogin from employee_login where id=@eid order by lastpasswordchangedate desc limit 1);
-	set @deptid = (select departmentid from employee_departments where empid=@eid and effectiveenddate is null);
-	set @deptname = (select deptname from departmentsmaster where id=@deptid);
-
-	SELECT convert(replace(replace(replace(replace(json_arrayagg(json_object(
-	'id',				e.id,
-	'empid',			e.empid,
-	'firstname', 		e.firstname, 
-	'middlename', 		e.middlename, 
-	'lastname',			e.lastname,
-	'contactnumber',	e.contactnumber,
-	'personalemail',	e.personalemail,
-	'officeemail', 		e.officeemail, 
-	'userid',           (select l.login from employee_login l  where l.id=@eid order by l.lastpasswordchangedate desc limit 1),
-	'firstlogin',		@firstlogin,
-	'maritalstatus',	(select maritalstatus from maritalstatusmaster where id=e.maritalstatus),
-	'gender',			(select gender from gendermaster where id=e.gender),
-	'deptid',			@deptid,
-	'deptname',			@deptname,
-	'worklocation',		(select city from companyworklocationsmaster where id =(select locationid from employee_worklocations where empid=e.id order by effectivefromdate desc limit 1)),
-	'dateofjoin',		date(e.dateofjoin),
-	'roles',			@roles_json 
-	)),'"[','['),']"',']'),'\\\"','"'),'\"','"') using utf8) as result
-	FROM employee e
-	WHERE e.id = @eid and status=1;
+SELECT convert(replace(replace(replace(replace(json_arrayagg(json_object(
+'id',				e.id,
+'empid',			e.empid,
+'firstname', 		e.firstname, 
+'middlename', 		e.middlename, 
+'lastname',			e.lastname,
+'contactnumber',	e.contactnumber,
+'personalemail',	e.personalemail,
+'officeemail', 		e.officeemail, 
+'userid',           (select l.login from employee_login l  where l.id=@eid order by l.lastpasswordchangedate desc limit 1),
+'firstlogin',		@firstlogin,
+'maritalstatus',	(select maritalstatus from maritalstatusmaster where id=e.maritalstatus),
+'gender',			(select gender from gendermaster where id=e.gender),
+'deptid',			@deptid,
+'deptname',			@deptname,
+'worklocation',		(select city from companyworklocationsmaster where id =(select locationid from employee_worklocations where empid=e.id order by effectivefromdate desc limit 1)),
+'dateofjoin',		date(e.dateofjoin),
+'is_super_admin', @is_super_admin,
+'roles',			@roles_json 
+)),'"[','['),']"',']'),'\\\"','"'),'\"','"') using utf8) as result
+FROM employee e
+WHERE e.id = @eid and status=1;
 
 	end ;;
 	DELIMITER ;
@@ -11199,7 +11204,7 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	delimiter ;;
 
-create procedure create_client_credentials(
+CREATE PROCEDURE `create_client_credentials`(
 `short_code` varchar(255)
 )
 begin
@@ -11210,7 +11215,7 @@ if (short_code is not null) then
                              then (curdate() between client_plan_details.valid_from and client_plan_details.valid_to)
                              else (curdate() >= client_plan_details.valid_from) end
                              order by client_plan_details.id desc limit 1);
--- enable modules purchased by the client					
+
 	UPDATE modulesmaster set effectivestartdate = current_timestamp()
 	where modulesmaster.id in (select spryple_plan_module_details.module_id from spryple_product_dev.spryple_plan_module_details 
 							   where spryple_plan_module_details.plan_id = @plan_id);   
@@ -11257,6 +11262,7 @@ if (short_code is not null) then
     else
     select 1 as result, null as login, null as password_string;
 end if;    
+   
 end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -11526,28 +11532,32 @@ end ;;
 
 	SET @eid = eid; -- (select id from employee where officeemail=`email`);
 
-	set @rmid = (select reportingmanagerid from employee_reportingmanagers where empid=@eid and effectiveenddate is null);
+set @rmid = (select reportingmanagerid from employee_reportingmanagers where empid=@eid and effectiveenddate is null);
+set @rm_reporting_manager_id= (select reportingmanagerid from employee_reportingmanagers where empid=@rmid and reportingmanagerid<>@rmid and effectiveenddate is null);
 
-	set @jsondata=(select distinct json_arrayagg(json_object(
-	'id',				`employee_roles`.`id`,
-	'employee_id',		`employee_roles`.`employee_id`,
-	'role_id',			`employee_roles`.`role_id`,
-	'role_name', 		`rolesmaster`.`name`,
-	'rmid',				@rmid,
-	'rm_name',			(select concat(firstname, ' ',lastname) from employee where id=@rmid),
-	'companyname',     (select companyname from companyinformation where id=1 ),
-	'emp_email',       `employee`.`officeemail`,
-	'emp_name',			(select concat(`employee`.`firstname`, ' ',`employee`.`lastname`)),
-	'rm_email',(select officeemail from employee where id=@rmid),
-	'admin_name',(select concat(firstname, ' ',lastname) from employee where id=1),
-	'admin_email',(select officeemail from  employee where id=1)
-	))
-	FROM employee_roles, employee, rolesmaster
-	WHERE -- employee_roles.rmid = employee.id and
-	rolesmaster.id = employee_roles.role_id and
-	employee.id = employee_roles.employee_id
-	and employee_roles.employee_id = @eid);
-	select @jsondata as jsonvalu;
+set @jsondata=(select distinct json_arrayagg(json_object(
+'id',				`employee_roles`.`id`,
+'employee_id',		`employee_roles`.`employee_id`,
+'role_id',			`employee_roles`.`role_id`,
+'role_name', 		`rolesmaster`.`name`,
+'rmid',				@rmid,
+'rm_name',			(select concat(firstname, ' ',lastname) from employee where id=@rmid),
+'companyname',     (select companyname from companyinformation where id=1 ),
+'emp_email',       `employee`.`officeemail`,
+'emp_name',			(select concat(`employee`.`firstname`, ' ',`employee`.`lastname`)),
+'rm_email',(select officeemail from employee where id=@rmid),
+'admin_name',(select concat(firstname, ' ',lastname) from employee where id=1),
+'admin_email',(select officeemail from  employee where id=1),
+'rm_reporting_name',(select concat(firstname, ' ',lastname) from employee where id=ifnull(@rm_reporting_manager_id,0)),
+'rm_reporting_email',(select officeemail from  employee where id=ifnull(@rm_reporting_manager_id,0))
+
+))
+FROM employee_roles, employee, rolesmaster
+WHERE -- employee_roles.rmid = employee.id and
+rolesmaster.id = employee_roles.role_id and
+employee.id = employee_roles.employee_id
+and employee_roles.employee_id = @eid);
+select @jsondata as jsonvalu;
 
 	end ;;
 	DELIMITER ;
@@ -14673,81 +14683,78 @@ end ;;
 	in `id` int(11)
 	)
 	begin
-		set @dept = (select departmentid from employee_departments where empid= id);
-					  
-		set @worklocation = (select locationid from employee_worklocations where empid = `id` order by effectivefromdate desc limit 1);   
-		
-		SET @role = (select role_id from employee_roles where employee_roles.employee_id = `id` and
-					 role_id in (select rolesmaster.id from rolesmaster where rolesmaster.isEditable=0));
-					 
-		SET @rm = (SELECT reportingmanagerid FROM employee_reportingmanagers WHERE empid = `id` order by employee_reportingmanagers.id desc limit 1);             
-		
-		set @d = (select employee_designations.designationid from employee_designations where employee_designations.empid = `id` order by employee_designations.id desc limit 1);
-		
-		
-		set @relations_json = (select json_arrayagg(json_object(
-		'id',              				`id`,
-		'empid',           				`empid`,
-		'firstname',       				`firstname`,
-		'lastname',        				`lastname`,
-		'gender',          				`gender`,
-		'contactnumber',   				`contactnumber`,
-		'dateofbirth',     				`dateofbirth`,
-		'relationship',    				`relationship`,
-		'status',          				`status`,
-		'bereavement_leave_utilized',	`bereavement_leave_utilized`,
-		'utilized_leave_id',			`utilized_leave_id`
-		))
-		from employee_relations
-		where employee_relations.empid = id
-		);
-		
-		select json_arrayagg(json_object(
-		'id',                           `id`,
-		'empid',                        `empid`,
-		'firstname',					`firstname`,
-		'middlename',                   `middlename`,
-		'lastname',						`lastname`,
-		'personalemail',                `personalemail`,
-		'hired_date',					`hiredon`,
-		'officeemail',					`officeemail`,
-		'dateofbirth',					`dateofbirth`,
-		'gender',						`gender`,
-		'maritalstatus',				`maritalstatus`,
-		'usertype',                     @role,
-		'designation',                  @d,
-		'employmenttype',				`employmenttype`,
-		'dateofjoin',					`dateofjoin`,
-		'reportingmanager',             @rm,
-		'noticeperiod',                 `noticeperiod`,
-		'languages_spoken',             `languages_spoken`,
-		'bloodgroup',                   `bloodgroup`,
-		'contactnumber',                `contactnumber`,
-		'emergencycontactnumber',       `emergencycontactnumber`,
-		'emergencycontactrelation',     `emergencycontactrelation`,
-		'emergencycontactname',         `emergencycontactname`,
-		'address',                      `address`,
-		'city',                         `city`,
-		'state',                        `state`,
-		'pincode',                      `pincode`,
-		'country',                      `country`,
-		'paddress',                     `paddress`,  
-		'pcity',                        `pcity`,
-		'pstate',                       `pstate`,
-		'ppincode',                     `ppincode`,
-		'pcountry',                     `pcountry`,
-		'aadharnumber',					if(`aadharnumber`='null','',`aadharnumber`),
-		'passport',						`passport`,
-		'worklocation',					@worklocation,
-		'status',						`status`,
-		'department',					@dept,
-		'relations',					@relations_json
-		)) as json
-	from `employee`
-	where `employee`.`id` = id;
-
-
-	end ;;
+		set @dept = (select departmentid from employee_departments where empid= `id` and employee_departments.effectiveenddate is null order by employee_departments.effectiveenddate desc limit 1);
+    set @worklocation = (select locationid from employee_worklocations where empid = `id` and employee_worklocations.effectivetodate is null order by employee_worklocations.effectivefromdate desc limit 1);   
+    SET @role = (select (select json_arrayagg(json_object('id',role_id,'name', rm.name)) from employee_roles er
+     inner join rolesmaster rm on rm.id=er.role_id where 
+    er.employee_id =`id` and er.effective_to_date is null and
+   				 role_id in (select rolesmaster.id from rolesmaster where rolesmaster.isEditable=0)));         
+  --    SET @role = (select role_id from employee_roles where employee_roles.employee_id = `id` and
+	-- 			 role_id in (select rolesmaster.id from rolesmaster where rolesmaster.isEditable=0));
+  SET @rm = (SELECT reportingmanagerid FROM employee_reportingmanagers WHERE empid = `id` and employee_reportingmanagers.effectiveenddate is null order by employee_reportingmanagers.id desc limit 1);             
+	set @d = (select employee_designations.designationid from employee_designations where employee_designations.empid = `id` and employee_designations.effectiveenddate is null order by employee_designations.id desc limit 1);
+    
+    set @relations_json = (select json_arrayagg(json_object(
+    'id',              				`id`,
+    'empid',           				`empid`,
+    'firstname',       				`firstname`,
+    'lastname',        				`lastname`,
+    'gender',          				`gender`,
+    'contactnumber',   				`contactnumber`,
+    'dateofbirth',     				`dateofbirth`,
+    'relationship',    				`relationship`,
+    'status',          				`status`,
+    'bereavement_leave_utilized',	`bereavement_leave_utilized`,
+    'utilized_leave_id',			`utilized_leave_id`
+    ))
+	from employee_relations
+    where employee_relations.empid = id
+    );
+    
+    select json_arrayagg(json_object(
+    'id',                           `id`,
+    'empid',                        `empid`,
+    'firstname',					`firstname`,
+    'middlename',                   `middlename`,
+    'lastname',						`lastname`,
+    'personalemail',                `personalemail`,
+    'hired_date',					`hiredon`,
+    'officeemail',					`officeemail`,
+    'dateofbirth',					`dateofbirth`,
+    'gender',						`gender`,
+    'maritalstatus',				`maritalstatus`,
+    'usertype',                     @role,
+    'designation',                  @d,
+    'employmenttype',				`employmenttype`,
+    'dateofjoin',					`dateofjoin`,
+    'reportingmanager',             @rm,
+	'noticeperiod',                 `noticeperiod`,
+    'languages_spoken',             `languages_spoken`,
+    'bloodgroup',                   `bloodgroup`,
+    'contactnumber',                `contactnumber`,
+    'emergencycontactnumber',       `emergencycontactnumber`,
+    'emergencycontactrelation',     `emergencycontactrelation`,
+    'emergencycontactname',         `emergencycontactname`,
+    'address',                      `address`,
+    'city',                         `city`,
+    'state',                        `state`,
+    'pincode',                      `pincode`,
+    'country',                      `country`,
+    'paddress',                     `paddress`,  
+    'pcity',                        `pcity`,
+    'pstate',                       `pstate`,
+    'ppincode',                     `ppincode`,
+    'pcountry',                     `pcountry`,
+    'aadharnumber',					if(`aadharnumber`='null','',`aadharnumber`),
+    'passport',						`passport`,
+    'worklocation',					@worklocation,
+    'status',						`status`,
+    'department',					@dept,
+    'relations',	                @relations_json
+    )) as json
+from `employee`
+where `employee`.`id` = id;
+end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -17503,101 +17510,292 @@ end ;;
 	DELIMITER ;;
 	CREATE DEFINER=`spryple_client_user`@`%` PROCEDURE `get_screens_for_employee`(IN empid int)
 	BEGIN
-		if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id in (select employee_roles.role_id 
-							from employee_roles where employee_roles.employee_id = `empid`)) then
-		set @isEditable = 1; 
-		end if;
-							
-		drop temporary table  if exists ftable;
-		create temporary table ftable(
-			id int(11),
-			modulename varchar(64),
-			dashboard_order int(11),
-			iconpath varchar(255),
-			menu_items varchar(15000),
-			default_url varchar(1000)
-		);
-		insert into ftable (id,modulename,dashboard_order,iconpath) 
-		select m.id ,m.modulename,m.dashboard_order,m.iconpath from modulesmaster as m 
-		where case when m.effectiveenddate is null then (m.effectivestartdate is not null and m.effectiveenddate is null)
-				else (curdate() between m.effectivestartdate and m.effectiveenddate) end;
-		
-		update ftable, screensmaster, modulesmaster
-		set ftable.default_url = screensmaster.routename
-		where ftable.modulename = modulesmaster.modulename
-		and modulesmaster.id = screensmaster.moduleid
-		and screensmaster.name like 'Employee Dashboard';
-		
-		drop temporary table if exists json_table;
-		create temporary table json_table(
-		parentrole int(11),
-		roleid varchar(10),
-		role_name varchar(128),
-		screen_id int(11),
-		menu_order int(11),
-		screen_name varchar(128),
-		routename varchar(64),
-		modulename varchar(64)
-		);
-		
-		if (@isEditable = 1) then
-		insert into json_table(parentrole,roleid,role_name,screen_id,menu_order,screen_name,routename,modulename)       
-		select s.parentrole as parentrole, '' as rid, 'Employee' as rname, s.id as screenid, s.menu_order as menu_order, s.name as sname,
-			s.routename as routename, m.modulename as modulename from
-			screensmaster s, modulesmaster m
-			where s.id in (
-			select sm.screenid from screenfunctionalitiesmaster sm where sm.id in
-			(select screenfunctionalityid from rolescreenaccess_common))
-			and s.moduleid = m.id
-			order by menu_order asc;
-		end if;
-		insert into json_table(parentrole,roleid,role_name,screen_id,menu_order,screen_name,routename,modulename)
-		select distinct s.parentrole as parentrole, cast(r.id as char) as rid, r.name as rname, s.id as screenid, s.menu_order as menu_order, s.name as sname,
-			s.routename as routename, m.modulename as modulename from
-			screensmaster s, screenfunctionalitiesmaster sfm, rolescreenaccess rs, rolesmaster r, modulesmaster m
-			where s.id in (
-			select sm.screenid from screenfunctionalitiesmaster sm where sm.id in
-			(select screenfunctionalityid from rolescreenaccess where rolescreenaccess.roleid in 
-			(select employee_roles.role_id from employee_roles where employee_roles.employee_id = `empid` and 
-			 case when employee_roles.effective_to_date is null
-				  then curdate() >= employee_roles.effective_from_date
-				  else curdate() between employee_roles.effective_from_date and employee_roles.effective_to_date
-				  end)))
-			and s.id = sfm.screenid
-			and sfm.id = rs.screenfunctionalityid
-			and rs.roleid = r.id
-			and s.moduleid = m.id
-			and r.id in (select employee_roles.role_id from employee_roles where employee_roles.employee_id = `empid`)
-			order by rname, modulename asc, menu_order asc;    
-					
-		update ftable set menu_items=(select  json_unquote(json_arrayagg(json_object (
-			"parentrole",	(select rolesmaster.name from rolesmaster where rolesmaster.id = d.parentrole), 
-			"roleid", 		d.roleid, 
-			"role_name",	d.role_name,
-			"screenid",		d.screen_id,
-			"menu_order",	d.menu_order,
-			"screen_name",	d.screen_name,
-			"routename",	d.routename,
-			"functionalities", (select json_unquote(json_arrayagg(json_object(
-								'functionalityid',sf.functionalityid,
-								'functionalityname',f.functionalityname 
-								)))
-								from screenfunctionalitiesmaster sf,functionalitiesmaster f
-								where sf.id in (select rolescreenaccess.screenfunctionalityid from rolescreenaccess where rolescreenaccess.roleid in
-												(select employee_roles.role_id from employee_roles where employee_roles.employee_id = empid and 
-												 case when employee_roles.effective_to_date is null
-													then curdate() >= employee_roles.effective_from_date
-													else curdate() between employee_roles.effective_from_date and employee_roles.effective_to_date
-													end)
-												union
-												select rolescreenaccess_common.screenfunctionalityid from rolescreenaccess_common)
-								and sf.screenid = d.screen_id and sf.functionalityid = f.id )
-			)))
-			from json_table as d
-			where ftable.modulename = d.modulename);
-		
-		select id, modulename, dashboard_order, iconpath, menu_items, default_url from ftable order by dashboard_order;
-		drop temporary table ftable;    
+	if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id in (select employee_roles.role_id 
+						from employee_roles where employee_roles.employee_id = `empid`)) then
+    set @isEditable = 1; 
+    end if;
+						
+	drop temporary table  if exists ftable;
+	create temporary table ftable(
+		id int(11),
+		modulename varchar(64),
+		dashboard_order int(11),
+		iconpath varchar(255),
+		menu_items varchar(15000),
+		default_url varchar(1000)
+	);
+    
+    if exists(select employee_roles.role_id from employee_roles where employee_roles.employee_id = `empid` and employee_roles.role_id in(4))then
+    
+	insert into ftable (id,modulename,dashboard_order,iconpath) 
+	select m.id ,m.modulename,m.dashboard_order,m.iconpath from modulesmaster as m 
+	where case when m.effectiveenddate is null then (m.effectivestartdate is not null and m.effectiveenddate is null)
+			else (curdate() between m.effectivestartdate and m.effectiveenddate) end;
+	
+    update ftable, screensmaster, modulesmaster
+    set ftable.default_url = screensmaster.routename
+    where ftable.modulename = modulesmaster.modulename
+    and modulesmaster.id = screensmaster.moduleid
+    and screensmaster.name like 'Employee Dashboard';
+	
+	drop temporary table if exists json_table;
+	create temporary table json_table(
+	parentrole int(11),
+	roleid varchar(10),
+	role_name varchar(128),
+	screen_id int(11),
+	menu_order int(11),
+	screen_name varchar(128),
+	routename varchar(64),
+	modulename varchar(64)
+	);
+    
+	if (@isEditable = 1) then
+	insert into json_table(parentrole,roleid,role_name,screen_id,menu_order,screen_name,routename,modulename)       
+	select s.parentrole as parentrole, '' as rid, 'Employee' as rname, s.id as screenid, s.menu_order as menu_order, s.name as sname,
+		s.routename as routename, m.modulename as modulename from
+		screensmaster s, modulesmaster m
+		where s.id in (
+		select sm.screenid from screenfunctionalitiesmaster sm where sm.id in
+		(select screenfunctionalityid from rolescreenaccess_common))
+		and s.moduleid = m.id
+		order by menu_order asc;
+    end if;
+    insert into json_table(parentrole,roleid,role_name,screen_id,menu_order,screen_name,routename,modulename)
+	select distinct s.parentrole as parentrole, cast(r.id as char) as rid, r.name as rname, s.id as screenid, s.menu_order as menu_order, s.name as sname,
+		s.routename as routename, m.modulename as modulename from
+		screensmaster s, screenfunctionalitiesmaster sfm, rolescreenaccess rs, rolesmaster r, modulesmaster m
+		where s.id in (
+		select sm.screenid from screenfunctionalitiesmaster sm where sm.id in
+		(select screenfunctionalityid from rolescreenaccess where rolescreenaccess.roleid in 
+        (select employee_roles.role_id from employee_roles where employee_roles.employee_id = `empid` and 
+         case when employee_roles.effective_to_date is null
+              then curdate() >= employee_roles.effective_from_date
+              else curdate() between employee_roles.effective_from_date and employee_roles.effective_to_date
+              end)))
+		and s.id = sfm.screenid
+        and sfm.id = rs.screenfunctionalityid
+        and rs.roleid = r.id
+        and s.moduleid = m.id
+		and r.id in (select employee_roles.role_id from employee_roles where employee_roles.employee_id = `empid`)
+        order by rname, modulename asc, menu_order asc;    
+				
+	update ftable set menu_items=(select  json_unquote(json_arrayagg(json_object (
+		"parentrole",	(select rolesmaster.name from rolesmaster where rolesmaster.id = d.parentrole), 
+		"roleid", 		d.roleid, 
+		"role_name",	d.role_name,
+		"screenid",		d.screen_id,
+		"menu_order",	d.menu_order,
+		"screen_name",	d.screen_name,
+		"routename",	d.routename,
+		"functionalities", (select json_unquote(json_arrayagg(json_object(
+							'functionalityid',sf.functionalityid,
+							'functionalityname',f.functionalityname 
+							)))
+							from screenfunctionalitiesmaster sf,functionalitiesmaster f
+							where sf.id in (select rolescreenaccess.screenfunctionalityid from rolescreenaccess where rolescreenaccess.roleid in
+                                            (select employee_roles.role_id from employee_roles where employee_roles.employee_id = empid and 
+											 case when employee_roles.effective_to_date is null
+												then curdate() >= employee_roles.effective_from_date
+												else curdate() between employee_roles.effective_from_date and employee_roles.effective_to_date
+												end)
+                                            union
+											select rolescreenaccess_common.screenfunctionalityid from rolescreenaccess_common)
+                            and sf.screenid = d.screen_id and sf.functionalityid = f.id )
+		)))
+		from json_table as d
+		where ftable.modulename = d.modulename);
+	
+	select id, modulename, dashboard_order, iconpath, menu_items, default_url from ftable order by dashboard_order;
+	drop temporary table ftable;
+    
+    else
+    
+	insert into ftable (id,modulename,dashboard_order,iconpath) 
+	select m.id ,m.modulename,m.dashboard_order,m.iconpath from modulesmaster as m 
+	where case when m.effectiveenddate is null then (m.effectivestartdate is not null and m.effectiveenddate is null)
+			else (curdate() between m.effectivestartdate and m.effectiveenddate) end and m.id<>10;
+	
+    update ftable, screensmaster, modulesmaster
+    set ftable.default_url = screensmaster.routename
+    where ftable.modulename = modulesmaster.modulename
+    and modulesmaster.id = screensmaster.moduleid
+    and screensmaster.name like 'Employee Dashboard';
+	
+	drop temporary table if exists json_table;
+	create temporary table json_table(
+	parentrole int(11),
+	roleid varchar(10),
+	role_name varchar(128),
+	screen_id int(11),
+	menu_order int(11),
+	screen_name varchar(128),
+	routename varchar(64),
+	modulename varchar(64)
+	);
+    
+	if (@isEditable = 1) then
+	insert into json_table(parentrole,roleid,role_name,screen_id,menu_order,screen_name,routename,modulename)       
+	select s.parentrole as parentrole, '' as rid, 'Employee' as rname, s.id as screenid, s.menu_order as menu_order, s.name as sname,
+		s.routename as routename, m.modulename as modulename from
+		screensmaster s, modulesmaster m
+		where s.id in (
+		select sm.screenid from screenfunctionalitiesmaster sm where sm.id in
+		(select screenfunctionalityid from rolescreenaccess_common))
+		and s.moduleid = m.id
+		order by menu_order asc;
+    end if;
+    insert into json_table(parentrole,roleid,role_name,screen_id,menu_order,screen_name,routename,modulename)
+	select distinct s.parentrole as parentrole, cast(r.id as char) as rid, r.name as rname, s.id as screenid, s.menu_order as menu_order, s.name as sname,
+		s.routename as routename, m.modulename as modulename from
+		screensmaster s, screenfunctionalitiesmaster sfm, rolescreenaccess rs, rolesmaster r, modulesmaster m
+		where s.id in (
+		select sm.screenid from screenfunctionalitiesmaster sm where sm.id in
+		(select screenfunctionalityid from rolescreenaccess where rolescreenaccess.roleid in 
+        (select employee_roles.role_id from employee_roles where employee_roles.employee_id = `empid` and 
+         case when employee_roles.effective_to_date is null
+              then curdate() >= employee_roles.effective_from_date
+              else curdate() between employee_roles.effective_from_date and employee_roles.effective_to_date
+              end)))
+		and s.id = sfm.screenid
+        and sfm.id = rs.screenfunctionalityid
+        and rs.roleid = r.id
+        and s.moduleid = m.id
+		and r.id in (select employee_roles.role_id from employee_roles where employee_roles.employee_id = `empid`)
+        order by rname, modulename asc, menu_order asc;    
+				
+	update ftable set menu_items=(select  json_unquote(json_arrayagg(json_object (
+		"parentrole",	(select rolesmaster.name from rolesmaster where rolesmaster.id = d.parentrole), 
+		"roleid", 		d.roleid, 
+		"role_name",	d.role_name,
+		"screenid",		d.screen_id,
+		"menu_order",	d.menu_order,
+		"screen_name",	d.screen_name,
+		"routename",	d.routename,
+		"functionalities", (select json_unquote(json_arrayagg(json_object(
+							'functionalityid',sf.functionalityid,
+							'functionalityname',f.functionalityname 
+							)))
+							from screenfunctionalitiesmaster sf,functionalitiesmaster f
+							where sf.id in (select rolescreenaccess.screenfunctionalityid from rolescreenaccess where rolescreenaccess.roleid in
+                                            (select employee_roles.role_id from employee_roles where employee_roles.employee_id = empid and 
+											 case when employee_roles.effective_to_date is null
+												then curdate() >= employee_roles.effective_from_date
+												else curdate() between employee_roles.effective_from_date and employee_roles.effective_to_date
+												end)
+                                            union
+											select rolescreenaccess_common.screenfunctionalityid from rolescreenaccess_common)
+                            and sf.screenid = d.screen_id and sf.functionalityid = f.id )
+		)))
+		from json_table as d
+		where ftable.modulename = d.modulename);
+	
+	select id, modulename, dashboard_order, iconpath, menu_items, default_url from ftable order by dashboard_order;
+	drop temporary table ftable;
+    end if;    
+	END ;;
+	DELIMITER ;
+    
+    DELIMITER ;;
+	CREATE DEFINER=`spryple_client_user`@`%` PROCEDURE `get_screens_for_super_admin`(IN empid int)
+	BEGIN
+if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id in (select employee_roles.role_id 
+						from employee_roles where employee_roles.employee_id = `empid`)) then
+    set @isEditable = 1; 
+    end if;
+						
+	drop temporary table  if exists ftable;
+	create temporary table ftable(
+		id int(11),
+		modulename varchar(64),
+		dashboard_order int(11),
+		iconpath varchar(255),
+		menu_items varchar(15000),
+		default_url varchar(1000)
+	);
+    
+	insert into ftable (id,modulename,dashboard_order,iconpath) 
+	select m.id ,m.modulename,m.dashboard_order,m.iconpath from modulesmaster as m 
+	where case when m.effectiveenddate is null then (m.effectivestartdate is not null and m.effectiveenddate is null)
+			else (curdate() between m.effectivestartdate and m.effectiveenddate) end and m.id=10;
+	
+    update ftable, screensmaster, modulesmaster
+    set ftable.default_url = screensmaster.routename
+    where ftable.modulename = modulesmaster.modulename
+    and modulesmaster.id = screensmaster.moduleid
+    and screensmaster.name like 'Employee Dashboard';
+	
+	drop temporary table if exists json_table;
+	create temporary table json_table(
+	parentrole int(11),
+	roleid varchar(10),
+	role_name varchar(128),
+	screen_id int(11),
+	menu_order int(11),
+	screen_name varchar(128),
+	routename varchar(64),
+	modulename varchar(64)
+	);
+    
+	if (@isEditable = 1) then
+	insert into json_table(parentrole,roleid,role_name,screen_id,menu_order,screen_name,routename,modulename)       
+	select s.parentrole as parentrole, '' as rid, 'Employee' as rname, s.id as screenid, s.menu_order as menu_order, s.name as sname,
+		s.routename as routename, m.modulename as modulename from
+		screensmaster s, modulesmaster m
+		where s.id in (
+		select sm.screenid from screenfunctionalitiesmaster sm where sm.id in
+		(select screenfunctionalityid from rolescreenaccess_common))
+		and s.moduleid = m.id
+		order by menu_order asc;
+    end if;
+    insert into json_table(parentrole,roleid,role_name,screen_id,menu_order,screen_name,routename,modulename)
+	select distinct s.parentrole as parentrole, cast(r.id as char) as rid, r.name as rname, s.id as screenid, s.menu_order as menu_order, s.name as sname,
+		s.routename as routename, m.modulename as modulename from
+		screensmaster s, screenfunctionalitiesmaster sfm, rolescreenaccess rs, rolesmaster r, modulesmaster m
+		where s.id in (
+		select sm.screenid from screenfunctionalitiesmaster sm where sm.id in
+		(select screenfunctionalityid from rolescreenaccess where rolescreenaccess.roleid in 
+        (select employee_roles.role_id from employee_roles where employee_roles.employee_id = `empid` and 
+         case when employee_roles.effective_to_date is null
+              then curdate() >= employee_roles.effective_from_date
+              else curdate() between employee_roles.effective_from_date and employee_roles.effective_to_date
+              end)))
+		and s.id = sfm.screenid
+        and sfm.id = rs.screenfunctionalityid
+        and rs.roleid = r.id
+        and s.moduleid = m.id
+		and r.id in (select employee_roles.role_id from employee_roles where employee_roles.employee_id = `empid`)
+        order by rname, modulename asc, menu_order asc;    
+				
+	update ftable set menu_items=(select  json_unquote(json_arrayagg(json_object (
+		"parentrole",	(select rolesmaster.name from rolesmaster where rolesmaster.id = d.parentrole), 
+		"roleid", 		d.roleid, 
+		"role_name",	d.role_name,
+		"screenid",		d.screen_id,
+		"menu_order",	d.menu_order,
+		"screen_name",	d.screen_name,
+		"routename",	d.routename,
+		"functionalities", (select json_unquote(json_arrayagg(json_object(
+							'functionalityid',sf.functionalityid,
+							'functionalityname',f.functionalityname 
+							)))
+							from screenfunctionalitiesmaster sf,functionalitiesmaster f
+							where sf.id in (select rolescreenaccess.screenfunctionalityid from rolescreenaccess where rolescreenaccess.roleid in
+                                            (select employee_roles.role_id from employee_roles where employee_roles.employee_id = empid and 
+											 case when employee_roles.effective_to_date is null
+												then curdate() >= employee_roles.effective_from_date
+												else curdate() between employee_roles.effective_from_date and employee_roles.effective_to_date
+												end)
+                                            union
+											select rolescreenaccess_common.screenfunctionalityid from rolescreenaccess_common)
+                            and sf.screenid = d.screen_id and sf.functionalityid = f.id )
+		)))
+		from json_table as d
+		where ftable.modulename = d.modulename);
+	
+	select id, modulename, dashboard_order, iconpath, menu_items, default_url from ftable order by dashboard_order;
+	drop temporary table ftable;
+   
 	END ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -30942,3 +31140,336 @@ end ;;
 	/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 	/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 	/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+DELIMITER ;;
+CREATE PROCEDURE `get_new_exit_employee_count_by_month`(
+month_value date
+)
+begin
+ set @monthstartdate = DATE_FORMAT(month_value, '%Y-%m-01');
+ set @monthenddate = DATE_FORMAT(LAST_DAY(month_value), '%Y-%m-%d');
+
+set @reg_count=0;
+select count(emp.id) into @reg_count from employee emp
+inner join ems_employee_resignations eer on eer.empid=emp.id
+where DATE_FORMAT(`actual_relieving_date`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`actual_relieving_date`, '%Y-%m-%d')<=@monthenddate
+and emp.status=2;
+
+set @ter_count=0;
+select count(emp.id) into @ter_count from employee emp
+inner join ems_employee_terminations et on et.empid= emp.id
+where DATE_FORMAT(`termination_date`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`termination_date`, '%Y-%m-%d')<=@monthenddate
+and emp.status=2; 
+
+select count(id) as new_emp_count,(@reg_count+@ter_count) as exit_emp_count from employee 
+where DATE_FORMAT(`created_on`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`created_on`, '%Y-%m-%d')<=@monthenddate;
+end;;
+DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE `get_location_wise_employee_count`()
+begin
+select  cwl.location,count(emp.id) as count from employee emp
+inner join employee_worklocations ew on ew.empid=emp.id
+inner join companyworklocationsmaster cwl on cwl.id=ew.locationid
+where emp.status='1';
+end;;
+
+DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE `get_department_wise_employee_count_by_shift`(
+shiftid int(11))
+begin
+select  d.deptname,count(emp.id) as count 
+from employee emp
+inner join employee_departments ed on ed.empid=emp.id
+inner join departmentsmaster d on d.id=ed.departmentid
+inner join employee_shift_details esd on esd.empid=emp.id
+where esd.shiftid=shiftid and  emp.status=1
+and fromdate<=current_timestamp() and current_timestamp()<=todate ;
+end;;
+
+DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE `get_attendance_employees_count_by_date`(req_date date)
+begin
+
+   	    set @empcount = ifnull((select count(e.id) from employee e where status=1 and req_date >= (select dateofjoin from employee where status=1 and id=e.id)),0);
+		set @wfo_count = ifnull((select count(*) from employee_attendance ea where ea.attendancedate = req_date and ea.attendancetype=1 and ea.empid in (select empid from employee_reportingmanagers where effectiveenddate is null and date(effectivestartdate) <= req_date) and req_date >= (select dateofjoin from employee where id=ea.empid)),0);
+        set @wfh_count = ifnull((select count(*) from employee_attendance ea where ea.attendancedate = req_date and ea.attendancetype=2 and ea.empid in (select empid from employee_reportingmanagers where  effectiveenddate is null and date(effectivestartdate) <= req_date) and req_date >= (select dateofjoin from employee where id=ea.empid)),0);
+		set @absents_count = @empcount - (@wfo_count + @wfh_count);
+
+	-- 	set @wfo_details = (select json_arrayagg(json_object('empid',ea.empid,'empname',get_employee_name(ea.empid))) from employee_attendance ea where ea.attendancetype=1 and ea.attendancedate = req_date  and ea.empid in (select empid from employee_reportingmanagers where  effectiveenddate is null and date(effectivestartdate) <= req_date) and req_date >= (select dateofjoin from employee where id=ea.empid));
+    --     set @wfh_details = (select json_arrayagg(json_object('empid',ea.empid,'empname',get_employee_name(ea.empid))) from employee_attendance ea where ea.attendancetype=2 and ea.attendancedate = req_date  and ea.empid in (select empid from employee_reportingmanagers where  effectiveenddate is null and date(effectivestartdate) <= req_date) and req_date >= (select dateofjoin from employee where id=ea.empid));
+    --     set @absents_details = (select json_arrayagg(json_object('empid',e.empid,'empname',get_employee_name(e.empid))) from (select empid from employee_reportingmanagers r where  r.effectiveenddate is null and date(r.effectivestartdate) <= req_date and req_date >= (select dateofjoin from employee where id=r.empid)) e where not exists(select * from employee_attendance where attendancedate = req_date and empid = e.empid and req_date >= (select dateofjoin from employee where id=e.empid)));
+	      
+        -- insert into empids(emp)
+		select @wfo_count as wfo_count,@wfh_count as wfh_count, @absents_count as absents_count
+        -- ,@wfo_details as wfo_details,@wfh_details as wfh_details,@onduty_details as onduty_details,@wfrl_details as wfrl_details, @absents_details as absents_details
+;
+   
+end;;
+
+DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE `get_department_wise_leaves_count_by_month`(
+month_value date
+)
+begin
+ set @monthstartdate = DATE_FORMAT(month_value, '%Y-%m-01');
+ set @monthenddate = DATE_FORMAT(LAST_DAY(month_value), '%Y-%m-%d');
+select  d.deptname,count(emp.id) as count from employee emp
+inner join employee_departments ed on ed.empid=emp.id
+inner join departmentsmaster d on d.id=ed.departmentid
+inner join lm_leaveapprovalstatustracker lla on lla.empid=emp.id
+inner join lm_employeeleaves lel on lel.id=lla.leaveid
+where DATE_FORMAT(lel.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lel.fromdate, '%Y-%m-%d')<=@monthenddate
+and DATE_FORMAT(lel.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lel.todate, '%Y-%m-%d')<=@monthenddate
+and lla.status ='Approved';
+end;;
+
+DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE `get_leaves_types_count_by_month`(
+month_value date
+)
+begin
+ set @monthstartdate = DATE_FORMAT(month_value, '%Y-%m-01');
+ set @monthenddate = DATE_FORMAT(LAST_DAY(month_value), '%Y-%m-%d');   
+   set @approved_count=0;
+   set @rejected_count=0;
+   set @pending_count=0;
+    select count(lm_leaveapprovalstatustracker.id) into @approved_count
+    from lm_leaveapprovalstatustracker, lm_employeeleaves
+	where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
+    and   lm_employeeleaves.fromdate<=current_time() and lm_employeeleaves.todate>=current_time()
+    and lm_leaveapprovalstatustracker.status ='Approved';
+  
+    select count(lm_leaveapprovalstatustracker.id) into @rejected_count 
+    from lm_leaveapprovalstatustracker, lm_employeeleaves
+    where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
+    and   DATE_FORMAT(lm_employeeleaves.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lm_employeeleaves.fromdate, '%Y-%m-%d')<=@monthenddate
+	and DATE_FORMAT(lm_employeeleaves.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lm_employeeleaves.todate, '%Y-%m-%d')<=@monthenddate
+    and lm_leaveapprovalstatustracker.status ='Rejected';
+   
+    select count(leav.id) into @pending_count  
+    from lm_employeeleaves leav
+    where leav.id not in (select leavtrac.leaveid from lm_leaveapprovalstatustracker leavtrac)
+    and   DATE_FORMAT(leav.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(leav.fromdate, '%Y-%m-%d')<=@monthenddate
+	and DATE_FORMAT(leav.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(leav.todate, '%Y-%m-%d')<=@monthenddate;
+
+     select @approved_count as today_leave_count, @rejected_count as rejected_count, @pending_count as pending_count ;
+        
+end;;
+DELIMITER ;
+
+DELIMITER ;;
+CREATE  PROCEDURE `get_department_wise_monthly_salaries`(
+year_value date)
+begin
+set @date = year_value; --  (select cast(concat(year_value,'-',month_id,'-','15') as date));
+select employee_gross_salary_details.year,monthname(str_to_date(employee_gross_salary_details.month,'%m')) as MonthName , departmentsmaster.deptname as deptname,sum(ifnull(total_gross_salary,0)) as sum
+	from employee_gross_salary_details, employee_departments, departmentsmaster 
+    where employee_gross_salary_details.empid in
+	(select employee_ctc_master.empid  from employee_ctc_master, employee_departments
+	where employee_ctc_master.empid = employee_departments.empid
+    and case when employee_departments.effectiveenddate is null then
+  		          (@date >= cast(employee_departments.effectivestartdate as date))
+             when employee_departments.effectiveenddate is not null 
+             then (@date between cast(employee_departments.effectivestartdate as date) 
+             and cast(employee_departments.effectiveenddate as date))
+             end
+    and case when employee_ctc_master.effective_to_date is null then
+  		          (cast(@date as date) >= cast(employee_ctc_master.effective_from_date as date))
+             when employee_ctc_master.effective_to_date is not null 
+             then (cast(@date as date) between cast(employee_ctc_master.effective_from_date as date)
+             and cast(employee_ctc_master.effective_to_date as date))
+             end)
+	and employee_gross_salary_details.year = year(year_value)
+	-- and employee_gross_salary_details.month = month_id
+    and employee_gross_salary_details.empid = employee_departments.empid
+    and employee_departments.departmentid = departmentsmaster.id
+    and case when employee_departments.effectiveenddate is null then
+  		          (@date >= cast(employee_departments.effectivestartdate as date))
+             when employee_departments.effectiveenddate is not null 
+             then (@date between cast(employee_departments.effectivestartdate as date) 
+             and cast(employee_departments.effectiveenddate as date))
+             end
+    group by employee_gross_salary_details.month,departmentsmaster.deptname;
+
+end;;
+DELIMITER ;
+
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_upload_employees`(
+		`employeelist` JSON
+			)
+begin
+	DECLARE vleave_id int(11);
+    declare vid int(1);
+    DECLARE leavetype_cursor cursor for select temp_lm_leavesmaster.leave_id,leavetype from temp_lm_leavesmaster;
+    set @weekoff1 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
+				     (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_1')
+				     and effectivetodate is null);
+    set @weekoff2 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
+				     (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_2')
+				     and effectivetodate is null);
+    set @weekoff3 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
+				     (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_3')
+				     and effectivetodate is null);   
+	set @count = (select JSON_LENGTH(`employeelist`));
+	set @tot=@count;
+	while (@count>0)  do 
+	set @empid = json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].empid')));
+	set @statuscode=0;
+    set @eid = 0;
+    set @rid = 0;
+	set @eid = (select e.id from employee e where e.empid = (select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].empid')))));  
+   	set @officeemail=json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].officeemail')));
+	set @gender =(select gm.id from gendermaster gm where gm.gender=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].gender')))));
+    set @maritalstatus =(select mm.id from maritalstatusmaster mm where mm.maritalstatus=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].maritalstatus')))));
+    set @employmenttype =(select etm.id from employmenttypemaster etm where etm.employmenttype=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].employmenttype')))));
+   	set @employeelocation = (select wl.id from companyworklocationsmaster wl where wl.locatiom=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].companylocation')))));
+    set @designation =(select desm.id from designationsmaster desm where desm.designation=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].designation')))));
+    set @department =(select deptm.id from departmentsmaster deptm where deptm.deptname=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].department')))));
+    set @reportingmanager=(select e.id from employee e where e.firstname);
+    set @usertype =(select rm.id from rolesmaster rm where rm.name=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].usertype')))));
+  	set @city=(select c.id from locationsmaster where location= (select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].city')))));
+	if(@city='null')then
+	    set @city=null;
+	end if;
+	set @state=(select st.id from statesmaster where state=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].state')))));
+	if(@state='null')then
+	    set @state=null;
+	end if;
+	set @country=(select c.id from countrymaster where country=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].country')))));
+	if(@country='null')then
+	    set @country=null;
+	end if;
+	if(@officeemail<>'')then
+    if exists(select * from employee e where e.officeemail=@officeemail)then
+      set @statuscode=1;
+      set @mail='Office email already exists.';
+	end if;
+  end if; 
+ if(@statuscode=0)then
+  	insert into employee(`empid`,`firstname`,`lastname`,`officeemail`,`dateofbirth`,`gender`,`maritalstatus`,`contactnumber`,
+    `emergencycontactnumber`,`employmenttype`,`dateofjoin`,`address`,`city`,`state`,`pincode`,`country`,`status`,
+    `created_on`,`created_by`)
+	values
+	(json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].empid'))),
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].firstname'))),
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].lastname'))),
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].officeemail'))),
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].dateofbirth'))),
+	@gender,
+	@maritalstatus,
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].contactnumber'))),
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].emergencycontactnumber'))),
+	@employmenttype,
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].dateofjoin'))),
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].address'))),
+	@city,
+	@state,
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].pincode'))),
+	@country,
+	'1',
+	current_timestamp(),
+	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].actionby')))
+    );
+
+	set @eid = (select e.id from employee e where e.empid = json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].empid'))));
+   if (json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].reportingmanager'))) <> json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].firstname')))) then
+		INSERT INTO employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
+		(@eid,@reportingmanager,current_timestamp());
+		INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
+		(@eid,@usertype,@reportingmanager,current_timestamp());
+    elseif (json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].reportingmanager'))) = json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].firstname')))) then
+		INSERT INTO employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
+		(@eid,@eid,current_timestamp());
+		INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
+		(@eid,@usertype,@eid,current_timestamp());
+    end if;
+    INSERT INTO employee_designations(empid,designationid,effectivestartdate) values
+    (@eid,@designation,current_timestamp());
+    
+       -- adding leave balance records for the employee
+    if exists(select modulesmaster.id from modulesmaster where modulesmaster.modulename = 'Leave Management') then
+    drop temporary table if exists temp_lm_leavesmaster;
+    create temporary table temp_lm_leavesmaster (
+		leave_id int(11),
+		leavetype int(1)
+	);
+    insert into temp_lm_leavesmaster(leave_id) select lm_leavesmaster.id from lm_leavesmaster;
+	update temp_lm_leavesmaster -- leavetype to add/not add year 
+	set temp_lm_leavesmaster.leavetype = 1
+	where leave_id in (select lm_rulevalues.leavetypeid from lm_rulevalues where lm_rulevalues.ruleid = 3);
+    if exists(select temp_lm_leavesmaster.leave_id from temp_lm_leavesmaster where temp_lm_leavesmaster.leave_id = 9) then
+		update temp_lm_leavesmaster set temp_lm_leavesmaster.leavetype = 1
+		where temp_lm_leavesmaster.leave_id = 9;
+    end if;
+	set @year = (select fn_get_leave_cycle_year());
+	open leavetype_cursor;
+		set @ltype_count = 0;
+		set @ltype_count = found_rows();
+		set @e = 0;
+		WHILE @e < @ltype_count do
+			fetch leavetype_cursor into vleave_id,vid;
+			insert into lm_employeeleavebalance(empid,leavetypeid,balance,lastupdatedat,leave_cycle_year) values
+			(@eid,vleave_id,0,current_timestamp(),case when vid = 1 then @year else null end);
+			set @e = @e + 1;
+		end while;
+	close leavetype_cursor;
+    call credit_employee_event_leave(@eid); -- crediting event-based leaves
+    drop temporary table temp_lm_leavesmaster;
+    end if; 
+ 
+    insert into employee_departments(empid,departmentid,effectivestartdate) values
+    (@eid,@department,current_timestamp());
+    
+    set @weekoff_string = '';
+    set @weekoff_string = concat('insert into employee_weekoffs(empid');
+    if (@weekoff1 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',weekoffday1');
+    end if;
+    if (@weekoff2 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',weekoffday2');
+    end if;
+    if (@weekoff3 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',weekoffday3');
+    end if;
+    set @weekoff_string =concat(@weekoff_string,',effectivefromdate) values(',@eid);
+    if (@weekoff1 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',',@weekoff1);
+    end if;
+    if (@weekoff2 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',',@weekoff2);
+    end if;
+    if (@weekoff3 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',',@weekoff3);
+    end if;
+    set @weekoff_string = concat(@weekoff_string,',''',current_date(),''')');
+    prepare stmt from @weekoff_string;
+	execute stmt;
+	deallocate prepare stmt;
+    
+    set @weekoff_insert_id = (select last_insert_id());
+    if (@weekoff_insert_id is not null) then -- inserting working days of a employee
+        call update_working_days_for_employee(@eid,'n',json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].dateofjoin'))));
+    end if;
+    insert into employee_worklocations(empid,locationid,effectivefromdate) values
+    (@eid,@employeelocation,current_timestamp());
+
+      CALL `set_checklists_to_employee`(null,@eid,null,'','Pending','Pending Checklist','Onboarding',json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].actionby'))),@p);
+   --    select 0 statuscode , @eid as empid;
+	--   else
+	--  select @statuscode statuscode , @eid as empid, @mail email;
+	 end if;	
+	set @count = @count-1;
+	end while;
+    select 0 statuscode ;
+	end;;
+DELIMITER ;
