@@ -1744,6 +1744,13 @@ app.post('/api/getSummaryReportForManager', verifyJWTToken,function(req,res) {
 
 
 });
+app.get('/api/getLeaveCycleYearOptions/:companyName', function (req, res) {
+
+    leaveManagement.getLeaveCycleYearOptions(req,res);
+
+});
+
+// get_leave_cycle_year_options
 /**Get All Employees List
  *
  */
@@ -2876,8 +2883,12 @@ app.post('/subscription/getUnverifiedSprypleClient', function (req, res) {
 })
    /**get_comp_off_validity_duration */
    app.get('/api/getCompOffValidityDuration/:companyName',function(req,res) {
-    leaveManagement.getCompOffValidityDuration(req,res)
+    ems.getCompOffValidityDuration(req,res)
    });
+   
+app.post('/ems/api/setEmployeeExcelData',verifyJWTToken, function (req, res) {
+    ems.setEmployeeExcelData(req,res);
+  });
 
    /**get Plan Details by plan Id and client Id */
 app.post('/subscription/api/getSpryplePlanDetailsById', function (req, res) {
@@ -3025,7 +3036,7 @@ app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', f
 
 /** Local server */
 
-app.listen(6060,function (err) {
+app.listen(6262,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else

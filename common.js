@@ -734,12 +734,12 @@ async function getMinUserForPlan(req,res) {
         let companyName = 'spryple_hrms';
         console.log("planmnmdnbdc",req.params.planid,dbName)
         let listOfConnections = {};
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `get_min_user_for_plan` (?)",[req.params.planid], function (err, result, fields) {
+        if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
+        con.query("CALL `get_min_user_for_plan` (?)",[req.params.planid], function (err, result, fields) {
             console.log("result",result,err)
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
@@ -769,12 +769,12 @@ async function setSpryplePlan(req,res) {
         let listOfConnections = {};
         console.log("datya",req.body)
         console.log("datya",JSON.stringify(req.body.modules))
-        if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-        listOfConnections[companyName].query("CALL `set_spryple_plan` (?,?,?,?)",[req.body.plan,JSON.stringify(req.body.modules),req.body.created_by,req.body.id], function (err, result, fields) {
+        if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
+        con.query("CALL `set_spryple_plan` (?,?,?,?)",[req.body.plan,JSON.stringify(req.body.modules),req.body.created_by,req.body.id], function (err, result, fields) {
             if(err){
             res.send({status:false,message:"Unable to add "})
 
@@ -807,12 +807,12 @@ async function Validateemail(req, res) {
     let validatecompanycode = await validateCompanyCode(companyCode,email);
     if(validatecompanycode){
         try{
-        if(dbName) {
-            listOfConnections= await connection.checkExistingDBConnection(companyName);
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-            listOfConnections[companyName].query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+        if(true) {
+        //     listOfConnections= await connection.checkExistingDBConnection(companyName);
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
+            con.query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                     req.body.company_name_value,
                     req.body.company_code_value,
@@ -914,12 +914,12 @@ async function setSprypleClient(req, res) {
         var companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_hrms');
         let listOfConnections = {};
-       if(dbName) {
-            listOfConnections= connection.checkExistingDBConnection(companyName)
-        if(!listOfConnections.succes) {
-            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        }
-            listOfConnections[companyName].query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+       if(true) {
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
+            con.query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                     req.body.company_name_value,
                     req.body.company_code_value,

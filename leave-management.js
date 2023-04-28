@@ -101,7 +101,8 @@ module.exports = {
     deleteLeaveRequest: deleteLeaveRequest,
     getLeaveTypesToAdd:getLeaveTypesToAdd,
     errorLogs: errorLogs,
-    getCompOffValidityDuration:getCompOffValidityDuration
+    getCompOffValidityDuration:getCompOffValidityDuration,
+    getLeaveCycleYearOptions:getLeaveCycleYearOptions
 
 };
 
@@ -3991,4 +3992,52 @@ async function getCompOffValidityDuration(req,res){
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
         errorLogs(errorLogArray) }
+}
+async function getLeaveCycleYearOptions(req,res){
+    let  dbName = await getDatebaseName(req.params.companyName)
+    let companyName = req.params.companyName;
+    try {
+         var listOfConnections = {};
+         if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            } 
+            listOfConnections[companyName].query("CALL `get_leave_cycle_year_options` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getLeaveCycleYearOptions");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs(errorLogArray)
+                }
+                else if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } 
+                else {
+                    res.send({ status: false });
+                }
+                
+            });
+        }
+        else {
+             res.send({status: false,Message:'Database Name is missed'});
+        }
+    }
+    catch (e) {
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getLeaveCycleYearOptions");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs(errorLogArray)  }
 }
