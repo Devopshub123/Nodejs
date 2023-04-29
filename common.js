@@ -2497,7 +2497,7 @@ function paymentStatusMail(mailData){
            let email = mailData.login;
            let password = mailData.password_string;
            let companycode = companycodde;
-           let url= 'localhost:4500/#/Login'
+           let url= 'http://localhost:4500/#/Login'
            var transporter = nodemailer.createTransport({
            host: "smtp-mail.outlook.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
