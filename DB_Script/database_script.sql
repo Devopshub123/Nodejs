@@ -1,10 +1,3 @@
-
-
-
-
-
-
-
 -- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 	--
 	-- Host: 192.168.1.10    Database: spryple
@@ -1477,13 +1470,13 @@
 	UNLOCK TABLES;
 
 	--
-	-- Table structure for table `ems_annoucements_topics_master`
+	-- Table structure for table `ems_announcements_topics_master`
 	--
 
-	DROP TABLE IF EXISTS `ems_annoucements_topics_master`;
+	DROP TABLE IF EXISTS `ems_announcements_topics_master`;
 	/*!40101 SET @saved_cs_client     = @@character_set_client */;
 	/*!50503 SET character_set_client = utf8mb4 */;
-	CREATE TABLE `ems_annoucements_topics_master` (
+	CREATE TABLE `ems_announcements_topics_master` (
 	  `id` int(11) NOT NULL AUTO_INCREMENT,
 	  `topic` varchar(128) DEFAULT NULL,
 	  `status` int(11) NOT NULL,
@@ -1496,15 +1489,15 @@
 	/*!40101 SET character_set_client = @saved_cs_client */;
 
 	--
-	-- Dumping data for table `ems_annoucements_topics_master`
+	-- Dumping data for table `ems_announcements_topics_master`
 	--
 
-	LOCK TABLES `ems_annoucements_topics_master` WRITE;
-	/*!40000 ALTER TABLE `ems_annoucements_topics_master` DISABLE KEYS */;
-	INSERT INTO `ems_annoucements_topics_master` VALUES (1,'Company News',1,current_timestamp(),1,NULL,NULL),
+	LOCK TABLES `ems_announcements_topics_master` WRITE;
+	/*!40000 ALTER TABLE `ems_announcements_topics_master` DISABLE KEYS */;
+	INSERT INTO `ems_announcements_topics_master` VALUES (1,'Company News',1,current_timestamp(),1,NULL,NULL),
     (2,'New Joiners',1,current_timestamp(),1,NULL,NULL),(3,'Breaking News',1,current_timestamp(),1,NULL,NULL),
     (4,'Events',1,current_timestamp(),1,NULL,NULL);
-	/*!40000 ALTER TABLE `ems_annoucements_topics_master` ENABLE KEYS */;
+	/*!40000 ALTER TABLE `ems_announcements_topics_master` ENABLE KEYS */;
 	UNLOCK TABLES;
 
 	--
@@ -1527,7 +1520,7 @@
 	  `updated_on` datetime DEFAULT NULL,
 	  `updated_by` int(11) DEFAULT NULL,
 	  PRIMARY KEY (`id`),
-	  KEY `annoucements_topic_id_fk_1` (`topicid`),
+	  KEY `announcements_topic_id_fk_1` (`topicid`),
 	  CONSTRAINT `ems_announcements_ibfk_1` FOREIGN KEY (`topicid`) REFERENCES `ems_announcements_topics_master` (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 	/*!40101 SET character_set_client = @saved_cs_client */;
@@ -3017,7 +3010,15 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 
 	LOCK TABLES `modulesmaster` WRITE;
 	/*!40000 ALTER TABLE `modulesmaster` DISABLE KEYS */;
-	INSERT INTO `modulesmaster` VALUES (1,'Employee Management',null,NULL,1,'assets\\img\\menu-ems.png'),(2,'Leave Management',null,NULL,3,'assets\\img\\menu-leaves.png'),(3,'Timesheet Management',null,NULL,5,'assets\\img\\menu-timesheet.png'),(4,'Attendance Management',null,NULL,2,'assets\\img\\menu-attendance.png'),(5,'Payroll Management',null,NULL,4,'assets\\img\\menu-payroll.png'),(6,'Assets Management',NULL,NULL,6,'assets\\img\\menu-asset.png'),(7,'Recruitment Management',NULL,NULL,7,'assets\\img\\menu-recruitment.png'),(8,'Employee Self Service',NULL,NULL,8,'assets\\img\\menu-ess.png '),(9,'Claims Management',NULL,NULL,9,'assets\\img\\menu-claims.png'),(10,'Subscription','2022-06-30 00:00:00',NULL,10,'assets\\img\\subscription.png');
+	INSERT INTO `modulesmaster` VALUES (1,'Employee Management',null,NULL,1,'assets\\img\\menu-ems.png'),
+    (2,'Leave Management',null,NULL,3,'assets\\img\\menu-leaves.png'),(3,'Timesheet Management',null,NULL,5,'assets\\img\\menu-timesheet.png'),
+    (4,'Attendance Management',null,NULL,2,'assets\\img\\menu-attendance.png'),(5,'Payroll Management',null,NULL,4,'assets\\img\\menu-payroll.png'),
+    (6,'Assets Management',NULL,NULL,6,'assets\\img\\menu-asset.png'),
+    (7,'Recruitment Management',NULL,NULL,7,'assets\\img\\menu-recruitment.png'),
+    (8,'Employee Self Service',NULL,NULL,8,'assets\\img\\menu-ess.png '),
+    (9,'Claims Management',NULL,NULL,9,'assets\\img\\menu-claims.png'),
+    (10,'Subscription',null,null,10,	'assets\img\subscription.png'),
+    (11,'Exit Management',null,null,11,'assets\img\exit-management.png');
 	/*!40000 ALTER TABLE `modulesmaster` ENABLE KEYS */;
 	UNLOCK TABLES;
 
@@ -4366,7 +4367,7 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 
 	LOCK TABLES `screensmaster` WRITE;
 	/*!40000 ALTER TABLE `screensmaster` DISABLE KEYS */;
-	INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDashboard',1,1,1),(2,NULL,'My Profile','/ems/employee-profile',1,1,2),(3,NULL,'Onboarding Checklist','/ems/employee-checklist',1,1,3),(4,NULL,'Separation','/ems/resignation',1,1,4),(5,NULL,'Company Information','/Admin/CompanyInformation',1,3,1),(6,NULL,'Department','/Admin/Department',1,3,2),(7,NULL,'Designation','/Admin/Designation',1,3,3),(8,NULL,'Work Location','/Admin/Worklocation',1,3,4),(9,NULL,'Company Logo','/Admin/CompanyLogo',1,3,5),(10,NULL,'Shift','/Admin/Shift',1,3,6),(11,NULL,'Holidays','/Admin/Holidays',1,3,7),(12,NULL,'Checklist','/Admin/settings-checklist',1,3,8),(13,NULL,'Induction','/Admin/induction',1,3,9),(14,NULL,'Document','/Admin/configure-documents',8,3,10),(15,NULL,'Announcements','/Admin/announcement',1,3,11),(16,NULL,'Messages Master','/Admin/EMS-MessageMaster',1,3,12),(17,NULL,'Users Login','/Admin/users-login',1,3,13),(18,NULL,'Roles & Permissions','/Admin/RolesPermissions',1,3,14),(19,NULL,'Onboarding settings','/Admin/settings-onBoarding',1,3,15),(20,NULL,'Offboarding settings','/Admin/settings-offBoarding',1,3,16),(21,NULL,'Termination Category','/Admin/Termination-Category',1,3,17),(22,NULL,'Reason for Separation','/Admin/Reason',1,3,18),(23,NULL,'Employee Directory','/ems/employeeDirectory',1,2,2),(24,NULL,'Employee Reports','/ems/emloyee-report',1,2,10),(25,NULL,'New Hires','/ems/new-hired-list',1,2,1),(26,NULL,'Document Approvals','/ems/hr-document-approval',1,2,3),(27,NULL,'Induction Program','/ems/induction-program',1,2,4),(28,NULL,'Onboarding Pending Checklist','/ems/hr-onboarding',1,2,5),(29,NULL,'Termination','/ems/terminate',1,2,8),(30,NULL,'Separation Pending Checklist','/ems/hr-resignation',1,2,7),(31,NULL,'Separation Pending Approvals','/ems/hr-pending-approval',1,2,6),(32,NULL,'Termination Pending Checklist','/ems/termination-pendinging-checklist',1,2,9),(33,NULL,'Employee Dashboard','/LeaveManagement/UserDashboard',2,1,1),(34,NULL,'Leave Request','/LeaveManagement/LeaveRequest',2,1,2),(35,NULL,'Leave History','/LeaveManagement/UserLeaveHistory',2,1,3),(36,NULL,'Leave Balance','/LeaveManagement/UserLeaveBalance',2,1,4),(37,NULL,'Comp Off','/LeaveManagement/UserCompOff',2,1,5),(38,NULL,'Leave Policies','/Admin/Leavepolicies',2,3,1),(39,NULL,'Messages Master','/Admin/LM-MessageMaster',2,3,2),(40,NULL,'Dashboard','/LeaveManagement/ManagerDashboard',2,2,1),(41,NULL,'Leave History','/LeaveManagement/LeaveHistory',2,2,2),(42,NULL,'Comp off History','/LeaveManagement/CompOffHistory',2,2,3),(43,NULL,'Detailed Report','/LeaveManagement/DetailedReport',2,2,4),(44,NULL,'Summary Report','/LeaveManagement/SummaryReport',2,2,5),(45,NULL,'Payroll Report','/LeaveManagement/payrollreport',2,2,6),(46,NULL,'Employee Dashboard','/Attendance/EmployeeDashboard',4,1,1),(47,NULL,'Attendance Request','/Attendance/Request',4,1,2),(48,NULL,'Monthly Detail Report','/Reports/MonthlyDetailReport',4,1,3),(49,NULL,'Dashboard','/Attendance/ManagerDashboard',4,2,1),(50,NULL,'Request on Behalf of Employee','/Attendance/RequestofEmployee',4,2,2),(51,NULL,'Pending Approvals','/Attendance/ApprovalList',4,2,3),(52,NULL,'Excel Upload','/Attendance/uploadExcel',4,2,4),(53,NULL,'Summary Report','/Reports/SummaryReport',4,2,7),(54,NULL,'Detailed Report','/Reports/DetailReport',4,2,8),(55,NULL,'Configure Shift','/Attendance/ShiftConfigure',4,2,5),(56,NULL,'Late Attendance Report','/Reports/LateAttendanceReport',4,2,9),(57,NULL,'Approval History','/Attendance/ApprovedHistory',4,2,6),(58,NULL,'Mapping IDs','/Admin/MappingIds',4,3,1),(59,NULL,'Messages Master','/Admin/MessageMaster',4,3,1),(60,NULL,'Induction Conducted By','/Admin/Induction-ConductedBy',1,3,19),(61,NULL,'Dashboard','/Payroll/FinanceDashboard',5,3,1),(62,NULL,'ESI','/Payroll/ESI',5,3,2),(63,NULL,'EPF','/Payroll/EPF',5,3,3),(64,NULL,'Pay Group','/Payroll/PayGroup',5,3,4),(65,NULL,'Assign Pay Group','/Payroll/AssignPayGroup',5,3,5),(66,NULL,'Pay Schedule','/Payroll/PaySchedule',5,3,6),(67,NULL,'Professional Tax','/Payroll/ProfessionalTax',5,3,7),(68,NULL,'Messages Master','/Admin/Payroll_Messages',5,3,8),(69,NULL,'Monthly Payroll','/Payroll/MonthlyPayroll',5,2,1),(70,NULL,'Approve Investments','/Payroll/InvestmentProof',5,2,2),(71,NULL,'Employee Dashboard','/Payroll/EmployeeDashboard',5,1,1),(72,NULL,'CTC History','/Payroll/SalaryMaster',5,1,2),(73,NULL,'Pay Slips','/Payroll/PaySlips',5,1,3),(74,NULL,'IT Declaration','/Payroll/EmployeeITDeclaration',5,1,4),(75,NULL,'Form 16','/Payroll/EmployeeForm16',5,1,5),(76,NULL,'Subscription','/Admin/Subscription',10,4,2),(77,NULL,'Employee Dashboard','/Admin/client-superadmin-dashboard',10,4,1),(78,NULL,'Invoice History','/Admin/InvoiceHistory',10,4,3);
+INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDashboard',1,1,1),(2,NULL,'My Profile','/ems/employee-profile',1,1,2),(3,NULL,'Onboarding Checklist','/ems/employee-checklist',1,1,3),(4,NULL,'Separation','/ems/resignation',11,1,1),(5,NULL,'Company Information','/Admin/CompanyInformation',1,3,1),(6,NULL,'Department','/Admin/Department',1,3,2),(7,NULL,'Designation','/Admin/Designation',1,3,3),(8,NULL,'Work Location','/Admin/Worklocation',1,3,4),(9,NULL,'Company Logo','/Admin/CompanyLogo',1,3,5),(10,NULL,'Shift','/Admin/Shift',1,3,6),(11,NULL,'Holidays','/Admin/Holidays',1,3,7),(12,NULL,'Checklist','/Admin/settings-checklist',1,3,8),(13,NULL,'Induction','/Admin/induction',1,3,9),(14,NULL,'Document','/Admin/configure-documents',8,3,9),(15,NULL,'Announcements','/Admin/announcement',1,3,10),(16,NULL,'Messages Master','/Admin/EMS-MessageMaster',1,3,11),(17,NULL,'Users Login','/Admin/users-login',1,3,12),(18,NULL,'Roles & Permissions','/Admin/RolesPermissions',1,3,13),(19,NULL,'Onboarding settings','/Admin/settings-onBoarding',1,3,14),(20,NULL,'Offboarding settings','/Admin/settings-offBoarding',11,3,1),(21,NULL,'Termination Category','/Admin/Termination-Category',11,3,2),(22,NULL,'Reason for Separation','/Admin/Reason',11,3,3),(23,NULL,'Employee Directory','/ems/employeeDirectory',1,2,2),(24,NULL,'Employee Reports','/ems/emloyee-report',1,2,6),(25,NULL,'New Hires','/ems/new-hired-list',1,2,1),(26,NULL,'Document Approvals','/ems/hr-document-approval',1,2,3),(27,NULL,'Induction Program','/ems/induction-program',1,2,4),(28,NULL,'Onboarding Pending Checklist','/ems/hr-onboarding',1,2,5),(29,NULL,'Termination','/ems/terminate',11,2,3),(30,NULL,'Separation Pending Checklist','/ems/hr-resignation',11,2,2),(31,NULL,'Separation Pending Approvals','/ems/hr-pending-approval',11,2,1),(32,NULL,'Termination Pending Checklist','/ems/termination-pendinging-checklist',11,2,4),(33,NULL,'Employee Dashboard','/LeaveManagement/UserDashboard',2,1,1),(34,NULL,'Leave Request','/LeaveManagement/LeaveRequest',2,1,2),(35,NULL,'Leave History','/LeaveManagement/UserLeaveHistory',2,1,3),(36,NULL,'Leave Balance','/LeaveManagement/UserLeaveBalance',2,1,4),(37,NULL,'Comp Off','/LeaveManagement/UserCompOff',2,1,5),(38,NULL,'Leave Policies','/Admin/Leavepolicies',2,3,1),(39,NULL,'Messages Master','/Admin/LM-MessageMaster',2,3,2),(40,NULL,'Dashboard','/LeaveManagement/ManagerDashboard',2,2,1),(41,NULL,'Leave History','/LeaveManagement/LeaveHistory',2,2,2),(42,NULL,'Comp off History','/LeaveManagement/CompOffHistory',2,2,3),(43,NULL,'Detailed Report','/LeaveManagement/DetailedReport',2,2,4),(44,NULL,'Summary Report','/LeaveManagement/SummaryReport',2,2,5),(45,NULL,'Payroll Report','/LeaveManagement/payrollreport',2,2,6),(46,NULL,'Employee Dashboard','/Attendance/EmployeeDashboard',4,1,1),(47,NULL,'Attendance Request','/Attendance/Request',4,1,2),(48,NULL,'Monthly Detail Report','/Reports/MonthlyDetailReport',4,1,3),(49,NULL,'Dashboard','/Attendance/ManagerDashboard',4,2,1),(50,NULL,'Request on Behalf of Employee','/Attendance/RequestofEmployee',4,2,2),(51,NULL,'Pending Approvals','/Attendance/ApprovalList',4,2,3),(52,NULL,'Excel Upload','/Attendance/uploadExcel',4,2,4),(53,NULL,'Summary Report','/Reports/SummaryReport',4,2,7),(54,NULL,'Detailed Report','/Reports/DetailReport',4,2,8),(55,NULL,'Configure Shift','/Attendance/ShiftConfigure',4,2,5),(56,NULL,'Late Attendance Report','/Reports/LateAttendanceReport',4,2,9),(57,NULL,'Approval History','/Attendance/ApprovedHistory',4,2,6),(58,NULL,'Mapping IDs','/Admin/MappingIds',4,3,1),(59,NULL,'Messages Master','/Admin/MessageMaster',4,3,2),(60,NULL,'Induction Conducted By','/Admin/Induction-ConductedBy',1,3,15),(61,NULL,'Dashboard','/Payroll/FinanceDashboard',5,3,1),(62,NULL,'ESI','/Payroll/ESI',5,3,2),(63,NULL,'EPF','/Payroll/EPF',5,3,3),(64,NULL,'Pay Group','/Payroll/PayGroup',5,3,4),(65,NULL,'Assign Pay Group','/Payroll/AssignPayGroup',5,3,5),(66,NULL,'Pay Schedule','/Payroll/PaySchedule',5,3,6),(67,NULL,'Professional Tax','/Payroll/ProfessionalTax',5,3,7),(68,NULL,'Messages Master','/Admin/Payroll_Messages',5,3,8),(69,NULL,'Monthly Payroll','/Payroll/MonthlyPayroll',5,2,1),(70,NULL,'Approve Investments','/Payroll/InvestmentProof',5,2,2),(71,NULL,'Employee Dashboard','/Payroll/EmployeeDashboard',5,1,1),(72,NULL,'CTC History','/Payroll/SalaryMaster',5,1,2),(73,NULL,'Pay Slips','/Payroll/PaySlips',5,1,3),(74,NULL,'IT Declaration','/Payroll/EmployeeITDeclaration',5,1,4),(75,NULL,'Form 16','/Payroll/EmployeeForm16',5,1,5),(76,NULL,'Subscription','/Admin/Subscription',10,4,2),(77,NULL,'Employee Dashboard','/Admin/client-superadmin-dashboard',10,4,1),(78,NULL,'Invoice History','/Admin/InvoiceHistory',10,4,3);
 	/*!40000 ALTER TABLE `screensmaster` ENABLE KEYS */;
 	UNLOCK TABLES;
 
@@ -11204,7 +11205,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	delimiter ;;
 
-CREATE PROCEDURE `create_client_credentials`(
+create procedure create_client_credentials(
 `short_code` varchar(255)
 )
 begin
@@ -11256,13 +11257,12 @@ if (short_code is not null) then
 						char(round(rand()*25)+97), char(round(rand()*25)+65), char(round(rand()*25)+65), char(round(rand()*25)+65)
 						) using utf8));
 		set @mail_id = (select employee.officeemail from employee where employee.id = @lid);                
-		insert into employee_login(id,login,password,status,firstlogin) values (@lid,@mail_id,MD5(@password),'Active','Y');                
-	    select 0 as result, @mail_id as login, @password as password_string;
-    end if;
+		call setemployeelogin(@lid,@mail_id,@password,'Active','Y');     
+        select 0 as result, @mail_id as login, @password as password_string;
+	end if;
     else
     select 1 as result, null as login, null as password_string;
-end if;    
-   
+end if;       
 end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -11441,94 +11441,223 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_documents_files`(`employee_id` int,`candidate_id` int,`moduleid` int,`filecategory` varchar(64),`requestid` int,`status` varchar(32))
-	begin
-		
-		set @filepath=(select concat(root_folder,'\\',module_code)  from filepaths_master where module_id=`moduleid` limit 1);
-		select 	id,
-				document_number,
-				(select description from filecategory_master where id=file_category and module_id=`moduleid`)as description,
-				(select category from filecategory_master where id=file_category and module_id=`moduleid`)as file_category,
-				@filepath as filepath,
-				concat(
-				 (case when `candidate_id` is not null then concat('CAN',`candidate_id`) else 
-				(case when (select id from ems_new_hire where empid=ifnull(`employee_id`,0) and `filecategory` not in ('PROFILE','DISABILITIES','INVESTMENTS')) then concat('CAN',(select id from ems_new_hire where empid=ifnull(`employee_id`,0)))
-				 else ifnull(`employee_id`,0) end) end),
-			   '_',(select category from filecategory_master where id=files_master.file_category and module_id=`moduleid`),
-				'_',ifnull(`request_id`,''),'_',filename) as filename,
-				file_status as status,
-				filename as fname,
-				upload_date  
-		from files_master 
-		where 
-		(
-		files_master.empid= `employee_id` 
-		or files_master.candidate_id=(case when `candidate_id`is not null then `candidate_id` else (select id from ems_new_hire where empid=ifnull(`employee_id`,0)) end)
-		) 
-		and file_category <=>(case when `filecategory` is null then file_category else (select id from filecategory_master where category=`filecategory` and module_id=`moduleid`) end)
-		and file_category not in (select id from filecategory_master where category in ('PROFILE','DISABILITIES','INVESTMENTS'))
-		and request_id <=> ifnull(`requestid`,request_id)
-		and file_status <=> ifnull(`status`,file_status)
-		order by upload_date desc;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_document_category` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_document_category`(in docid int)
-	begin
-		select d.id,d.category,d.status from document_category_master d where d.id <=> ifnull(docid,d.id);
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_duration_for_backdated_compoff_leave` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_duration_for_backdated_compoff_leave`()
-	begin
-	SELECT lm_rulevalues.value
-	FROM lm_rulemaster, lm_rulevalues
-	where lm_rulemaster.id = lm_rulevalues.ruleid
-	and lm_rulemaster.rulename = ('COMPOFF_MAX_BACKDATED_DAYS_PERMITTED_FOR_SUBMISSION') order by lm_rulevalues.id desc limit 1;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_emails_by_empid` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emails_by_empid`(in eid int(11))
-	begin
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_department_wise_employee_count_by_location`(
+location_id int(11))
+begin
+select  d.deptname,count(emp.id) as count from employee emp
+inner join employee_departments ed on ed.empid=emp.id
+inner join departmentsmaster d on d.id=ed.departmentid
+inner join employee_worklocations ew on ew.empid=emp.id
+where ew.locationid=location_id and emp.status=1;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_department_wise_employee_count_by_shift` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_department_wise_employee_count_by_shift`(
+shiftid int(11))
+begin
+select  d.deptname,count(emp.id) as count 
+from employee emp
+inner join employee_departments ed on ed.empid=emp.id
+inner join departmentsmaster d on d.id=ed.departmentid
+inner join employee_shift_details esd on esd.empid=emp.id
+where esd.shiftid=shiftid and  emp.status=1
+and fromdate<=current_timestamp() and current_timestamp()<=todate ;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_department_wise_leaves_count_by_month` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_department_wise_leaves_count_by_month`(
+month_value date
+)
+begin
+ set @monthstartdate = DATE_FORMAT(month_value, '%Y-%m-01');
+ set @monthenddate = DATE_FORMAT(LAST_DAY(month_value), '%Y-%m-%d');
+select  d.deptname,count(emp.id) as count from employee emp
+inner join employee_departments ed on ed.empid=emp.id
+inner join departmentsmaster d on d.id=ed.departmentid
+inner join lm_leaveapprovalstatustracker lla on lla.empid=emp.id
+inner join lm_employeeleaves lel on lel.id=lla.leaveid
+where DATE_FORMAT(lel.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lel.fromdate, '%Y-%m-%d')<=@monthenddate
+and DATE_FORMAT(lel.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lel.todate, '%Y-%m-%d')<=@monthenddate
+and lla.status ='Approved';
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_department_wise_monthly_salaries` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_department_wise_monthly_salaries`(
+year_value date)
+begin
+set @date = year_value; --  (select cast(concat(year_value,'-',month_id,'-','15') as date));
+select employee_gross_salary_details.year,monthname(str_to_date(employee_gross_salary_details.month,'%m')) as MonthName , departmentsmaster.deptname as deptname,sum(ifnull(total_gross_salary,0)) as sum
+	from employee_gross_salary_details, employee_departments, departmentsmaster 
+    where employee_gross_salary_details.empid in
+	(select employee_ctc_master.empid  from employee_ctc_master, employee_departments
+	where employee_ctc_master.empid = employee_departments.empid
+    and case when employee_departments.effectiveenddate is null then
+  		          (@date >= cast(employee_departments.effectivestartdate as date))
+             when employee_departments.effectiveenddate is not null 
+             then (@date between cast(employee_departments.effectivestartdate as date) 
+             and cast(employee_departments.effectiveenddate as date))
+             end
+    and case when employee_ctc_master.effective_to_date is null then
+  		          (cast(@date as date) >= cast(employee_ctc_master.effective_from_date as date))
+             when employee_ctc_master.effective_to_date is not null 
+             then (cast(@date as date) between cast(employee_ctc_master.effective_from_date as date)
+             and cast(employee_ctc_master.effective_to_date as date))
+             end)
+	and employee_gross_salary_details.year = year(year_value)
+	-- and employee_gross_salary_details.month = month_id
+    and employee_gross_salary_details.empid = employee_departments.empid
+    and employee_departments.departmentid = departmentsmaster.id
+    and case when employee_departments.effectiveenddate is null then
+  		          (@date >= cast(employee_departments.effectivestartdate as date))
+             when employee_departments.effectiveenddate is not null 
+             then (@date between cast(employee_departments.effectivestartdate as date) 
+             and cast(employee_departments.effectiveenddate as date))
+             end
+    group by employee_gross_salary_details.month,departmentsmaster.deptname;
+
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_documents_files` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_documents_files`(`employee_id` int,`candidate_id` int,`moduleid` int,`filecategory` varchar(64),`requestid` int,`status` varchar(32))
+begin
+	
+	set @filepath=(select concat(root_folder,'\\',module_code)  from filepaths_master where module_id=`moduleid` limit 1);
+    select 	id,
+			document_number,
+            (select description from filecategory_master where id=file_category and module_id=`moduleid`)as description,
+            (select category from filecategory_master where id=file_category and module_id=`moduleid`)as file_category,
+            @filepath as filepath,
+            concat(
+             (case when `candidate_id` is not null then concat('CAN',`candidate_id`) else 
+            (case when (select id from ems_new_hire where empid=ifnull(`employee_id`,0) and `filecategory` not in ('PROFILE','DISABILITIES','INVESTMENTS')) then concat('CAN',(select id from ems_new_hire where empid=ifnull(`employee_id`,0)))
+             else ifnull(`employee_id`,0) end) end),
+           '_',(select category from filecategory_master where id=files_master.file_category and module_id=`moduleid`),
+            '_',ifnull(`request_id`,''),'_',filename) as filename,
+            file_status as status,
+            filename as fname,
+            upload_date  
+	from files_master 
+	where 
+	(
+	files_master.empid= `employee_id` 
+	or files_master.candidate_id=(case when `candidate_id`is not null then `candidate_id` else (select id from ems_new_hire where empid=ifnull(`employee_id`,0)) end)
+	) 
+	and file_category <=>(case when `filecategory` is null then file_category else (select id from filecategory_master where category=`filecategory` and module_id=`moduleid`) end)
+	and file_category not in (select id from filecategory_master where category in ('PROFILE','DISABILITIES','INVESTMENTS'))
+    and request_id <=> ifnull(`requestid`,request_id)
+	and file_status <=> ifnull(`status`,file_status)
+	order by upload_date desc;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_document_category` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_document_category`(in docid int)
+begin
+	select d.id,d.category,d.status from document_category_master d where d.id <=> ifnull(docid,d.id);
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_duration_for_backdated_compoff_leave` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_duration_for_backdated_compoff_leave`()
+begin
+SELECT lm_rulevalues.value
+FROM lm_rulemaster, lm_rulevalues
+where lm_rulemaster.id = lm_rulevalues.ruleid
+and lm_rulemaster.rulename = ('COMPOFF_MAX_BACKDATED_DAYS_PERMITTED_FOR_SUBMISSION') order by lm_rulevalues.id desc limit 1;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_emails_by_empid` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emails_by_empid`(in eid int(11))
+begin
 
 	SET @eid = eid; -- (select id from employee where officeemail=`email`);
 
@@ -11680,68 +11809,70 @@ select @jsondata as jsonvalu;
 	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_for_recognition_message`(in `empid` int(11))
 	BEGIN
 		select e.id,e.empid, get_employee_name(e.id) as empname,d.designation
-		from employee e,employee_designations ed, designationsmaster d
-		where e.id=ed.empid and ed.empid=d.id and e.id<>`empid`;
-	  END ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_employees_for_reporting_manager` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_for_reporting_manager`(
-	in `employee_id` int(11),
-	in `designation_id` varchar(32)
-	)
-	begin
-		SELECT employee_reportingmanagers.empid,
-		(select employee.empid from employee where employee.id = employee_reportingmanagers.empid) as employee_code,
-		(select concat(employee.firstname,' ',employee.lastname) as empname from employee where employee.id = employee_reportingmanagers.empid and employee.status=1) as empname
-		FROM employee_reportingmanagers
-		inner join employee on employee.id=employee_reportingmanagers.empid
-		where employee_reportingmanagers.reportingmanagerid = `employee_id` and employee.status=1 and 
-		employee_reportingmanagers.id in (select max(id) from employee_reportingmanagers m	group by m.empid)
-		and case when `designation_id` = 'All' then (employee_reportingmanagers.empid = employee_reportingmanagers.empid) 
-				 else (employee_reportingmanagers.empid in (select employee_designations.empid from employee_designations where employee_designations.designationid = cast(`designation_id` as unsigned)
-															and employee_designations.effectiveenddate is null)) end
-		order by employee_reportingmanagers.empid;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_employees_list` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_list`()
-	begin
-	select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,e.officeemail
-	 ,lm.location
-	 ,dm.designation
-	 from employee e
-	 inner join employee_worklocations ewl on ewl.empid = e.id and ewl.effectivetodate is null
-	  inner join companyworklocationsmaster cwl  on cwl.id=ewl.locationid
-	 inner join locationsmaster lm on lm.id = cwl.city
-	 inner join employee_designations ed on ed.empid = e.id
-	 inner join designationsmaster dm on dm.id =ed.designationid
-	 where ed.effectiveenddate is null and e.status=1;
+    from employee e
+    left join employee_designations ed on  e.id=ed.empid
+    left join designationsmaster d on  ed.designationid=d.id
+    where   e.id<>`empid` and e.status=1;
+  END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_employees_for_reporting_manager` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_for_reporting_manager`(
+in `employee_id` int(11),
+in `designation_id` varchar(32)
+)
+begin
+	SELECT employee_reportingmanagers.empid,
+    (select employee.empid from employee where employee.id = employee_reportingmanagers.empid) as employee_code,
+	(select concat(employee.firstname,' ',employee.lastname) as empname from employee where employee.id = employee_reportingmanagers.empid and employee.status=1) as empname
+    FROM employee_reportingmanagers
+    inner join employee on employee.id=employee_reportingmanagers.empid
+	where employee_reportingmanagers.reportingmanagerid = `employee_id` and employee.status=1 and 
+	employee_reportingmanagers.id in (select max(id) from employee_reportingmanagers m	group by m.empid)
+    and case when `designation_id` = 'All' then (employee_reportingmanagers.empid = employee_reportingmanagers.empid) 
+             else (employee_reportingmanagers.empid in (select employee_designations.empid from employee_designations where employee_designations.designationid = cast(`designation_id` as unsigned)
+                                                        and employee_designations.effectiveenddate is null)) end
+	order by employee_reportingmanagers.empid;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_employees_list` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_list`()
+begin
+select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,e.officeemail
+ ,lm.location
+ ,dm.designation
+ from employee e
+ inner join employee_worklocations ewl on ewl.empid = e.id and ewl.effectivetodate is null
+  inner join companyworklocationsmaster cwl  on cwl.id=ewl.locationid
+ inner join locationsmaster lm on lm.id = cwl.city
+ inner join employee_designations ed on ed.empid = e.id
+ inner join designationsmaster dm on dm.id =ed.designationid
+ where ed.effectiveenddate is null and e.status=1;
 
 
 	end ;;
@@ -13758,6 +13889,7 @@ select @jsondata as jsonvalu;
 	)
 	begin
 	set @date = (select cast(concat(year_value,'-',month_value,'-','15') as date));
+set @date = (select date(last_day(@date)));
 	select e.id, e.empid as employee_code, concat(e.firstname,case when e.middlename is not null then concat(' ',e.middlename) end,
 		 case when e.lastname is not null then concat(' ',e.lastname) end) as employee_name,
 		 dm.designation, z.location
@@ -15194,48 +15326,81 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_esi_details`(
-	)
-	begin
-		select m.id,m.description, v.value
-		from payroll_product_component_rulemaster m, payroll_product_component_rulevalues v
-		where m.id = v.rule_id
-		and m.rule_name in 
-		(
-		'MINIMUM_NUMBER_OF_EMPLOYEES_REQUIRED',
-		'MAXIMUM_GROSS_SALARY_PERMITTED_TO_RECEIVE_ESI',
-		'CONTRIBUTION_RATE_OF_EMPLOYEE',
-		'CONTRIBUTION_RATE_OF_EMPLOYER')
-		and m.component_id = 11
-		and v.effectivetodate is null;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_esi_employer_contribution` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_esi_employer_contribution`(
-	)
-	begin
-	set @esi_er_in_ctc = (select payroll_client_component_configuration_details.value
-						  from payroll_client_component_configuration_details where payroll_client_component_configuration_details.rule_id =
-						  (select id from payroll_client_component_configuration_master 
-						  where payroll_client_component_configuration_master.rule_name = 'EMPLOYER_CONTRIBUTION_TO_BE_INCLUDED_IN_CTC'
-						  and payroll_client_component_configuration_master.component_id = 11)
-						  and effective_to_date is null);    
-	if (@esi_er_in_ctc is not null) then
-		select @esi_er_in_ctc as esi_employer_contribution;
-	end if;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_epf_values_for_challan`(
+	year_value int(4),
+	month_value int(2)
+)
+begin
+	SELECT efm.uanumber as UAN, get_employee_name(e.id) as Employee_Name,
+	g.total_gross_salary as "Gross Salary", p.employee_epf_value,
+	p.employer_eps_value, p.employer_epf_value,p.employer_edli_value, p.employer_admin_charges_value 
+	from payroll_epf_details p, employee e, employee_financials_master efm, employee_gross_salary_details g 
+	where p.year = year_value
+	and p.month = month_value
+	and e.id = p.empid
+	and e.id = efm.empid
+	and e.id = g.empid
+	and g.year = year_value
+	and g.month = month_value
+	order by Employee_Name;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_esi_details` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_esi_details`(
+)
+begin
+	select m.id,m.description, v.value
+	from payroll_product_component_rulemaster m, payroll_product_component_rulevalues v
+	where m.id = v.rule_id
+	and m.rule_name in 
+	(
+	'MINIMUM_NUMBER_OF_EMPLOYEES_REQUIRED',
+	'MAXIMUM_GROSS_SALARY_PERMITTED_TO_RECEIVE_ESI',
+	'CONTRIBUTION_RATE_OF_EMPLOYEE',
+	'CONTRIBUTION_RATE_OF_EMPLOYER')
+	and m.component_id = 11
+	and v.effectivetodate is null;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_esi_employer_contribution` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_esi_employer_contribution`(
+)
+begin
+set @esi_er_in_ctc = (select payroll_client_component_configuration_details.value
+					  from payroll_client_component_configuration_details where payroll_client_component_configuration_details.rule_id =
+					  (select id from payroll_client_component_configuration_master 
+					  where payroll_client_component_configuration_master.rule_name = 'EMPLOYER_CONTRIBUTION_TO_BE_INCLUDED_IN_CTC'
+					  and payroll_client_component_configuration_master.component_id = 11)
+					  and effective_to_date is null);    
+if (@esi_er_in_ctc is not null) then
+	select @esi_er_in_ctc as esi_employer_contribution;
+end if;
 
 	end ;;
 	DELIMITER ;
@@ -15276,123 +15441,155 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_filecategory_master`(`fcid` int,`moduleid` int)
-	begin
-		select * from filecategory_master where id = (case when `fcid` is null then id else `fcid` end) and module_id=`moduleid`;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_filepaths_master` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_filepaths_master`(`moduleid` int)
-	begin
-		select * from filepaths_master where module_id=`moduleid`;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_files_for_approval` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_files_for_approval`(`employee_id` int,`candidate_id` int)
-	begin
-		select 	f.empid,
-				(select empid from employee where id=f.empid) as empcode,
-				get_employee_name(f.empid) as empname,
-				f.id as fileid,
-				f.document_number,
-				(select description from filecategory_master where id=f.file_category)as description,
-				(select concat(root_folder,'\\',module_code,'\\')  from filepaths_master where id=f.filepath_id limit 1) as filepath,
-				concat((case when ifnull(`employee_id`,f.empid)=0 and `candidate_id` is not null then concat('CAN',`candidate_id`) else ifnull(`employee_id`,f.empid) end),'_',(select category from filecategory_master where id=f.file_category),'_',ifnull(f.request_id,''),'_',f.filename) as filename,
-				f.upload_date,
-				f.filename as fname
-		from files_master f
-		where f.empid=ifnull(`employee_id`,f.empid) 
-		and f.candidate_id=ifnull(`candidate_id`,f.candidate_id)
-		and f.file_status = 'Submitted'
-		and f.file_category not in (select id from filecategory_master where category='PROFILE')
-		and f.empid<>0
-		order by f.upload_date desc;
-		/*
-		select 	f.empid,
-				(select empid from employee where id=f.empid) as empcode,
-				get_employee_name(f.empid) as empname,
-				f.id as fileid,
-				f.document_number,
-				(select description from filecategory_master where id=f.file_category)as description,
-				(select concat(root_folder,'/',module_code)  from filepaths_master where id=f.filepath_id limit 1) as filepath,
-				concat((case when ifnull(`employee_id`,f.empid)=0 and `candidate_id` is not null then concat('CAN',`candidate_id`) else ifnull(`employee_id`,f.empid) end),'_',(select category from filecategory_master where id=f.file_category),'_',ifnull(f.request_id,''),'_',f.filename) as filename,
-				f.upload_date,
-				f.filename as fname
-		from files_master f
-		where f.empid=ifnull(`employee_id`,f.empid) 
-		and f.candidate_id=ifnull(`candidate_id`,f.candidate_id)
-		and f.file_status = 'Submitted'
-		and f.empid<>0
-		order by f.upload_date desc;
-		*/
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_files_master` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_files_master`(`employee_id` int,`candidate_id` int,`moduleid` int,`filecategory` varchar(64),`requestid` int,`status` varchar(32))
-	begin
-		set @filepath=(select concat(root_folder,'\\',module_code,'\\')  from filepaths_master where module_id=`moduleid` limit 1);
-		select 	id,
-				document_number,
-				(select description from filecategory_master where id=file_category and module_id=`moduleid`)as description,
-				(select category from filecategory_master where id=file_category and module_id=`moduleid`)as file_category,
-				@filepath as filepath,
-				concat(
-				(case when `candidate_id` is not null then concat('CAN',`candidate_id`) else 
-				(case when exists(select id from ems_new_hire where empid=ifnull(`employee_id`,0) and `filecategory`<>'PROFILE' and `candidate_id` is not null) then concat('CAN',(select id from ems_new_hire where empid=ifnull(`employee_id`,0)))
-				 else ifnull(`employee_id`,0) end) end),
-			   '_',(select category from filecategory_master where id=files_master.file_category and module_id=`moduleid`),
-				'_',ifnull(`request_id`,''),'_',filename) as filename,
-				file_status as status,
-				filename as fname,
-				upload_date  
-		from files_master 
-		where 
-		 (files_master.empid= `employee_id` 
-		 or files_master.candidate_id=(case when `candidate_id`is not null then `candidate_id` else (select id from ems_new_hire where empid=ifnull(`employee_id`,0)) end)
-		 )
-		and file_category <=>(case when `filecategory` is null then file_category else (select id from filecategory_master where category=`filecategory` and module_id=`moduleid`) end)
-		and request_id <=> ifnull(`requestid`,request_id)
-		and file_status <=> ifnull(`status`,file_status)
-		order by upload_date desc;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_esi_values_for_challan`(
+	year_value int(4),
+	month_value int(2)
+)
+begin
+	SELECT efm.esi as ESI, get_employee_name(e.id) as Employee_Name,
+    g.total_gross_salary as Gross_Salary, employee_esi_value,employer_esi_value
+    from payroll_esi_details p, employee e, employee_financials_master efm, employee_gross_salary_details g 
+	where p.year = year_value
+	and p.month = month_value
+	and e.id = p.empid
+	and e.id = efm.empid
+	and e.id = g.empid
+	and g.year = year_value
+	and g.month = month_value
+	order by Employee_Name;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_filecategory_master` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_filecategory_master`(`fcid` int,`moduleid` int)
+begin
+	select * from filecategory_master where id = (case when `fcid` is null then id else `fcid` end) and module_id=`moduleid`;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_filepaths_master` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_filepaths_master`(`moduleid` int)
+begin
+	select * from filepaths_master where module_id=`moduleid`;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_files_for_approval` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_files_for_approval`(`employee_id` int,`candidate_id` int)
+begin
+    select 	f.empid,
+			(select empid from employee where id=f.empid) as empcode,
+			get_employee_name(f.empid) as empname,
+            f.id as fileid,
+            f.document_number,
+            (select description from filecategory_master where id=f.file_category)as description,
+            (select concat(root_folder,'\\',module_code,'\\')  from filepaths_master where id=f.filepath_id limit 1) as filepath,
+            concat((case when ifnull(`employee_id`,f.empid)=0 and `candidate_id` is not null then concat('CAN',`candidate_id`) else ifnull(`employee_id`,f.empid) end),'_',(select category from filecategory_master where id=f.file_category),'_',ifnull(f.request_id,''),'_',f.filename) as filename,
+            f.upload_date,
+			f.filename as fname
+    from files_master f
+    where f.empid=ifnull(`employee_id`,f.empid) 
+    and f.candidate_id=ifnull(`candidate_id`,f.candidate_id)
+    and f.file_status = 'Submitted'
+    and f.file_category not in (select id from filecategory_master where category='PROFILE')
+    and f.empid<>0
+    order by f.upload_date desc;
+    /*
+	select 	f.empid,
+			(select empid from employee where id=f.empid) as empcode,
+			get_employee_name(f.empid) as empname,
+			f.id as fileid,
+			f.document_number,
+			(select description from filecategory_master where id=f.file_category)as description,
+			(select concat(root_folder,'/',module_code)  from filepaths_master where id=f.filepath_id limit 1) as filepath,
+			concat((case when ifnull(`employee_id`,f.empid)=0 and `candidate_id` is not null then concat('CAN',`candidate_id`) else ifnull(`employee_id`,f.empid) end),'_',(select category from filecategory_master where id=f.file_category),'_',ifnull(f.request_id,''),'_',f.filename) as filename,
+			f.upload_date,
+			f.filename as fname
+	from files_master f
+	where f.empid=ifnull(`employee_id`,f.empid) 
+	and f.candidate_id=ifnull(`candidate_id`,f.candidate_id)
+	and f.file_status = 'Submitted'
+	and f.empid<>0
+	order by f.upload_date desc;
+    */
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_files_master` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_files_master`(`employee_id` int,`candidate_id` int,`moduleid` int,`filecategory` varchar(64),`requestid` int,`status` varchar(32))
+begin
+	set @filepath=(select concat(root_folder,'\\',module_code,'\\')  from filepaths_master where module_id=`moduleid` limit 1);
+    select 	id,
+			document_number,
+            (select description from filecategory_master where id=file_category and module_id=`moduleid`)as description,
+            (select category from filecategory_master where id=file_category and module_id=`moduleid`)as file_category,
+            @filepath as filepath,
+            concat(
+            (case when `candidate_id` is not null then concat('CAN',`candidate_id`) else 
+            (case when exists(select id from ems_new_hire where empid=ifnull(`employee_id`,0) and `filecategory`<>'PROFILE' and `candidate_id` is not null) then concat('CAN',(select id from ems_new_hire where empid=ifnull(`employee_id`,0)))
+             else ifnull(`employee_id`,0) end) end),
+           '_',(select category from filecategory_master where id=files_master.file_category and module_id=`moduleid`),
+            '_',ifnull(`request_id`,''),'_',filename) as filename,
+            file_status as status,
+            filename as fname,
+            upload_date  
+    from files_master 
+    where 
+     (files_master.empid= `employee_id` 
+     or files_master.candidate_id=(case when `candidate_id`is not null then `candidate_id` else (select id from ems_new_hire where empid=ifnull(`employee_id`,0)) end)
+     )
+    and file_category <=>(case when `filecategory` is null then file_category else (select id from filecategory_master where category=`filecategory` and module_id=`moduleid`) end)
+	and request_id <=> ifnull(`requestid`,request_id)
+    and file_status <=> ifnull(`status`,file_status)
+    order by upload_date desc;
 
 		/*
 		set @filepath=(select concat(root_folder,'/',module_code)  from filepaths_master where module_id=`moduleid` limit 1);
@@ -16098,68 +16295,111 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_leave_types_to_add`(
-	)
-	begin
-		drop temporary table if exists leave_table;
-		CREATE TEMPORARY TABLE leave_table(
-			leave_id int(11),
-			leave_name varchar(64), 
-			display_name varchar(64),
-			is_new int(1)
-		);
-		insert into leave_table(leave_id,leave_name,display_name)
-		select lm_leavesmaster.id,lm_leavesmaster.leavename,lm_leavesmaster.display_name from lm_leavesmaster where lm_leavesmaster.status = 'Inactive';
-		update leave_table
-		set leave_table.is_new = case when exists (select lm_rulevalues.effectivefromdate from lm_rulevalues 
-												where lm_rulevalues.leavetypeid = leave_table.leave_id 
-												and lm_rulevalues.effectivefromdate is not null)
-									then 0
-									else 1
-									end;
-		select leave_id as id, leave_name as leavename, display_name, is_new from leave_table;
-		
-		DROP TEMPORARY TABLE leave_table;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_login_details` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_login_details`(in eid int(11))
-	begin
-	select el.id,el.login,el.password from employee e,employee_login el 
-	where  e.id=el.id and e.id=eid and el.status='Active' order by el.lastpasswordchangedate desc limit 1;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_manager_on_behalf_of_employee_attendance_regularizations` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_manager_on_behalf_of_employee_attendance_regularizations`(
-		manager_employee_id int(11)
-	)
-	begin
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_leave_cycle_year_options`(
+)
+begin
+select leave_cycle_year_master.id as id, leave_cycle_year_master.leave_cycle_year_name as leave_cycle_year_name 
+from leave_cycle_year_master;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_leave_types_to_add` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_leave_types_to_add`(
+)
+begin
+	drop temporary table if exists leave_table;
+	CREATE TEMPORARY TABLE leave_table(
+		leave_id int(11),
+		leave_name varchar(64), 
+        display_name varchar(64),
+		is_new int(1)
+	);
+	insert into leave_table(leave_id,leave_name,display_name)
+	select lm_leavesmaster.id,lm_leavesmaster.leavename,lm_leavesmaster.display_name from lm_leavesmaster where lm_leavesmaster.status = 'Inactive';
+	update leave_table
+	set leave_table.is_new = case when exists (select lm_rulevalues.effectivefromdate from lm_rulevalues 
+											where lm_rulevalues.leavetypeid = leave_table.leave_id 
+											and lm_rulevalues.effectivefromdate is not null)
+								then 0
+								else 1
+								end;
+	select leave_id as id, leave_name as leavename, display_name, is_new from leave_table;
+	
+	DROP TEMPORARY TABLE leave_table;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_location_wise_employee_count` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_location_wise_employee_count`()
+begin
+select  cwl.location,count(emp.id) as count from employee emp
+inner join employee_worklocations ew on ew.empid=emp.id
+inner join companyworklocationsmaster cwl on cwl.id=ew.locationid
+where emp.status=1;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_login_details` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_login_details`(in eid int(11))
+begin
+select el.id,el.login,el.password from employee e,employee_login el 
+where  e.id=el.id and e.id=eid and el.status='Active' order by el.lastpasswordchangedate desc limit 1;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_manager_on_behalf_of_employee_attendance_regularizations` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_manager_on_behalf_of_employee_attendance_regularizations`(
+	manager_employee_id int(11)
+)
+begin
 
 		select a.id,a.empid,(select concat(firstname,' ',lastname) from employee where id=a.empid) as empname,a.applieddate,
 		(select type from attendancetypesmaster where id=a.worktype) as worktype,(select shiftname from shiftsmaster 
@@ -18980,7 +19220,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		 order by e.id desc;*/
 		 select e.id, e.empid, concat(firstname, ' ',middlename,'',lastname) empname,e.officeemail, '' as login , (select name from statusmaster where id=e.status) as status
 		 from employee e 
-		 where e.status=1 and not exists(select * from employee_login where id=e.id)
+     where e.status=1 -- and not exists(select * from employee_login where id=e.id)
 		 order by e.id desc;
 	end ;;
 	DELIMITER ;
@@ -22038,7 +22278,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_employee_attendance_summary_cron`(
+	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_attendance_summary_cron`(
 		-- `rundate` date
 	)
 	begin
@@ -22054,7 +22294,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		-- TO DO ------
 		-- first update main table. here update will happen to day before yesterday records only for a current date
 		update employee_attendance a 
-		set a.lastlogouttime=(select punchtime from  employee_attendance_details where attendanceid =a.id and (select count(*) from employee_attendance_details where attendanceid =a.id) >=2 and coalesce(category,'out') in ('out',null) order by punchtime desc limit 1)
+    set a.lastlogouttime=(select punchtime from  employee_attendance_details where attendanceid =a.id and (select count(*) from employee_attendance_details where attendanceid =a.id) >=2 and coalesce(category,null,'out') in ('out',null) order by punchtime desc limit 1)
 		-- where attendancedate=(case when `rundate` is null then (current_date() + interval -1 day) else `rundate` end)
 		where a.attendancedate between date_add(current_date(), interval -31 day) and current_date()
 		and a.lastlogouttime is null
@@ -23656,6 +23896,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		set @personalemail =json_unquote(json_extract(employeedata,"$.personalemail"));
 		set @mail = @personalemail;
 		set @officeemail=json_unquote(json_extract(employeedata,"$.officeemail"));
+    Set @usertypecount=(select json_length(employeedata, '$.usertype'));
 		set @relationdata=json_unquote(json_extract(employeedata,"$.relations"));
 		if(@relationdata='null')then
 			set @relationscount = 0;
@@ -23785,130 +24026,141 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 
 		set @eid = (select e.id from employee e where e.empid = @employeeid);
 
-		IF @eid is not null then      -- update employee_idgenerator.currentvalue count
-		set @prefix = (select v.prefix from employee_idgenerator v where v.companylocation = @employeelocation);
-		if @prefix is not null then
-			update employee_idgenerator set employee_idgenerator.currentvalue = employee_idgenerator.currentvalue + 1 
-				where employee_idgenerator.prefix = @prefix;
-		elseif @prefix is null then
-			update employee_idgenerator set employee_idgenerator.currentvalue = employee_idgenerator.currentvalue + 1 
-				where employee_idgenerator.prefix is null;
-		end if;
-		if (json_unquote(json_extract(employeedata,"$.reportingmanager")) <> 'Self') then
-			INSERT INTO employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
-			(@eid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
-			INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
-			(@eid,json_unquote(json_extract(employeedata,"$.usertype")),json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
-		elseif (json_unquote(json_extract(employeedata,"$.reportingmanager")) = 'Self') then
-			INSERT INTO employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
-			(@eid,@eid,current_timestamp());
-			INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
-			(@eid,json_unquote(json_extract(employeedata,"$.usertype")),@eid,current_timestamp());
-		end if;
-		INSERT INTO employee_designations(empid,designationid,effectivestartdate) values
-		(@eid,json_unquote(json_extract(employeedata,"$.designation")),current_timestamp());
-		
-		   -- adding leave balance records for the employee
-		if exists(select modulesmaster.id from modulesmaster where modulesmaster.modulename = 'Leave Management') then
-		drop temporary table if exists temp_lm_leavesmaster;
-		create temporary table temp_lm_leavesmaster (
-			leave_id int(11),
-			leavetype int(1)
-		);
-		insert into temp_lm_leavesmaster(leave_id) select lm_leavesmaster.id from lm_leavesmaster;
-		update temp_lm_leavesmaster -- leavetype to add/not add year 
-		set temp_lm_leavesmaster.leavetype = 1
-		where leave_id in (select lm_rulevalues.leavetypeid from lm_rulevalues where lm_rulevalues.ruleid = 3);
-		if exists(select temp_lm_leavesmaster.leave_id from temp_lm_leavesmaster where temp_lm_leavesmaster.leave_id = 9) then
-			update temp_lm_leavesmaster set temp_lm_leavesmaster.leavetype = 1
-			where temp_lm_leavesmaster.leave_id = 9;
-		end if;
-		set @year = (select fn_get_leave_cycle_year());
-		open leavetype_cursor;
-			set @ltype_count = 0;
-			set @ltype_count = found_rows();
-			set @e = 0;
-			WHILE @e < @ltype_count do
-				fetch leavetype_cursor into vleave_id,vid;
-				insert into lm_employeeleavebalance(empid,leavetypeid,balance,lastupdatedat,leave_cycle_year) values
-				(@eid,vleave_id,0,current_timestamp(),case when vid = 1 then @year else null end);
-				set @e = @e + 1;
-			end while;
-		close leavetype_cursor;
-		call credit_employee_event_leave(@eid); -- crediting event-based leaves
-		drop temporary table temp_lm_leavesmaster;
-		end if; 
-	 
-		insert into employee_departments(empid,departmentid,effectivestartdate) values
-		(@eid,json_unquote(json_extract(employeedata,"$.department")),current_timestamp());
-		
-		set @weekoff_string = '';
-		set @weekoff_string = concat('insert into employee_weekoffs(empid');
-		if (@weekoff1 is not null) then
-		set @weekoff_string = concat(@weekoff_string,',weekoffday1');
-		end if;
-		if (@weekoff2 is not null) then
-		set @weekoff_string = concat(@weekoff_string,',weekoffday2');
-		end if;
-		if (@weekoff3 is not null) then
-		set @weekoff_string = concat(@weekoff_string,',weekoffday3');
-		end if;
-		set @weekoff_string =concat(@weekoff_string,',effectivefromdate) values(',@eid);
-		if (@weekoff1 is not null) then
-		set @weekoff_string = concat(@weekoff_string,',',@weekoff1);
-		end if;
-		if (@weekoff2 is not null) then
-		set @weekoff_string = concat(@weekoff_string,',',@weekoff2);
-		end if;
-		if (@weekoff3 is not null) then
-		set @weekoff_string = concat(@weekoff_string,',',@weekoff3);
-		end if;
-		set @weekoff_string = concat(@weekoff_string,',''',current_date(),''')');
-		prepare stmt from @weekoff_string;
-		execute stmt;
-		deallocate prepare stmt;
-		
-		set @weekoff_insert_id = (select last_insert_id());
-		if (@weekoff_insert_id is not null) then -- inserting working days of a employee
-			call update_working_days_for_employee(@eid,'n');
-		end if;
-		end if;
-	 
-		insert into employee_worklocations(empid,locationid,effectivefromdate) values
-		(@eid,@employeelocation,current_timestamp());
-		set @i = 0;
-		set @insertrstring = '';
-		while @i < @relationscount do
-		-- select json_unquote(json_extract(employeedata,concat('$.relations[',@i,'].gender')));
-		set @insertrstring = concat('insert into employee_relations(`empid`,`firstname`,`lastname`,`gender`,`contactnumber`,`dateofbirth`,`relationship`,`status`)
-		values (',@eid,', (case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")) end),
-		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")) end) ,
-		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")) end),
-		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")) end),
-		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")) end),
-		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")) end),
-		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status"))  = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status")) end))');
-		
-		prepare stmt from @insertrstring;
-		execute stmt;
-		deallocate prepare stmt;
-		set @insertrstring = '';
-		set @i = @i + 1;
+	IF @eid is not null then      -- update employee_idgenerator.currentvalue count
+    set @prefix = (select v.prefix from employee_idgenerator v where v.companylocation = @employeelocation);
+    if @prefix is not null then
+		update employee_idgenerator set employee_idgenerator.currentvalue = employee_idgenerator.currentvalue + 1 
+			where employee_idgenerator.prefix = @prefix;
+    elseif @prefix is null then
+		update employee_idgenerator set employee_idgenerator.currentvalue = employee_idgenerator.currentvalue + 1 
+			where employee_idgenerator.prefix is null;
+    end if;
+    if (json_unquote(json_extract(employeedata,"$.reportingmanager")) <> 'Self') then
+		INSERT INTO employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
+		(@eid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
+        
+        set @k = 0;
+	    while @k < @usertypecount do
+         set @roleid=(select json_unquote(json_extract(`employeedata`,concat('$.usertype[',convert((@k),char),'].id'))));
+	    INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
+		(@eid,@roleid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
+    	set @k = @k + 1;
+	    end while;
+    elseif (json_unquote(json_extract(employeedata,"$.reportingmanager")) = 'Self') then
+		INSERT INTO employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
+		(@eid,@eid,current_timestamp());
+        set @k = 0;
+	    while @k < @usertypecount do
+		set @roleid=(select json_unquote(json_extract(`employeedata`,concat('$.usertype[',convert((@k),char),'].id'))));
+	    INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
+		(@eid,@roleid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
+    	set @k = @k + 1;
+	    end while;
+    end if;
+    INSERT INTO employee_designations(empid,designationid,effectivestartdate) values
+    (@eid,json_unquote(json_extract(employeedata,"$.designation")),current_timestamp());
+    
+       -- adding leave balance records for the employee
+    if exists(select modulesmaster.id from modulesmaster where modulesmaster.modulename = 'Leave Management') then
+    drop temporary table if exists temp_lm_leavesmaster;
+    create temporary table temp_lm_leavesmaster (
+		leave_id int(11),
+		leavetype int(1)
+	);
+    insert into temp_lm_leavesmaster(leave_id) select lm_leavesmaster.id from lm_leavesmaster;
+	update temp_lm_leavesmaster -- leavetype to add/not add year 
+	set temp_lm_leavesmaster.leavetype = 1
+	where leave_id in (select lm_rulevalues.leavetypeid from lm_rulevalues where lm_rulevalues.ruleid = 3);
+    if exists(select temp_lm_leavesmaster.leave_id from temp_lm_leavesmaster where temp_lm_leavesmaster.leave_id = 9) then
+		update temp_lm_leavesmaster set temp_lm_leavesmaster.leavetype = 1
+		where temp_lm_leavesmaster.leave_id = 9;
+    end if;
+	set @year = (select fn_get_leave_cycle_year());
+	open leavetype_cursor;
+		set @ltype_count = 0;
+		set @ltype_count = found_rows();
+		set @e = 0;
+		WHILE @e < @ltype_count do
+			fetch leavetype_cursor into vleave_id,vid;
+			insert into lm_employeeleavebalance(empid,leavetypeid,balance,lastupdatedat,leave_cycle_year) values
+			(@eid,vleave_id,0,current_timestamp(),case when vid = 1 then @year else null end);
+			set @e = @e + 1;
 		end while;
-		set @i = 0;
-		set @insertedstring = '';
-		while @i < @educationcount do
-		set @insertedstring = concat('insert into employee_education_details(`empid`,`course`,`institutename`,`fromdate`,`todate`)
-		values (',@eid,',json_unquote(json_extract(''',employeedata,''',"$.education[',@i,'].course")),
-		json_unquote(json_extract(''',employeedata,''',"$.education[',@i,'].institutename")),
-		json_unquote(json_extract(''',employeedata,''',"$.education[',@i,'].fromdate")),
-		json_unquote(json_extract(''',employeedata,''',"$.education[',@i,'].todate")))');
-		prepare stmt from @insertedstring;
-		execute stmt;
-		deallocate prepare stmt;
-		set @insertedstring = '';
-		set @i = @i + 1;
-		end while;
+	close leavetype_cursor;
+    call credit_employee_event_leave(@eid); -- crediting event-based leaves
+    drop temporary table temp_lm_leavesmaster;
+    end if; 
+ 
+    insert into employee_departments(empid,departmentid,effectivestartdate) values
+    (@eid,json_unquote(json_extract(employeedata,"$.department")),current_timestamp());
+    
+    set @weekoff_string = '';
+    set @weekoff_string = concat('insert into employee_weekoffs(empid');
+    if (@weekoff1 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',weekoffday1');
+    end if;
+    if (@weekoff2 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',weekoffday2');
+    end if;
+    if (@weekoff3 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',weekoffday3');
+    end if;
+    set @weekoff_string =concat(@weekoff_string,',effectivefromdate) values(',@eid);
+    if (@weekoff1 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',',@weekoff1);
+    end if;
+    if (@weekoff2 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',',@weekoff2);
+    end if;
+    if (@weekoff3 is not null) then
+    set @weekoff_string = concat(@weekoff_string,',',@weekoff3);
+    end if;
+    set @weekoff_string = concat(@weekoff_string,',''',current_date(),''')');
+    prepare stmt from @weekoff_string;
+	execute stmt;
+	deallocate prepare stmt;
+    
+    set @weekoff_insert_id = (select last_insert_id());
+    if (@weekoff_insert_id is not null) then -- inserting working days of a employee
+        call update_working_days_for_employee(@eid,'n',json_unquote(json_extract(employeedata,"$.dateofjoin")));
+    end if;
+    end if;
+ 
+    insert into employee_worklocations(empid,locationid,effectivefromdate) values
+    (@eid,@employeelocation,current_timestamp());
+	set @i = 0;
+	set @insertrstring = '';
+	while @i < @relationscount do
+	-- select json_unquote(json_extract(employeedata,concat('$.relations[',@i,'].gender')));
+	set @insertrstring = concat('insert into employee_relations(`empid`,`firstname`,`lastname`,`gender`,`contactnumber`,`dateofbirth`,`relationship`,`status`)
+	values (',@eid,', (case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")) end),
+	(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")) end) ,
+	(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")) end),
+	(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")) end),
+	(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")) end),
+	(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")) end),
+	(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status"))  = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status")) end))');
+	
+	prepare stmt from @insertrstring;
+	execute stmt;
+	deallocate prepare stmt;
+	set @insertrstring = '';
+	set @i = @i + 1;
+	end while;
+	set @i = 0;
+    set @insertedstring = '';
+	while @i < @educationcount do
+	set @insertedstring = concat('insert into employee_education_details(`empid`,`course`,`institutename`,`fromdate`,`todate`)
+	values (',@eid,',json_unquote(json_extract(''',employeedata,''',"$.education[',@i,'].course")),
+	json_unquote(json_extract(''',employeedata,''',"$.education[',@i,'].institutename")),
+	json_unquote(json_extract(''',employeedata,''',"$.education[',@i,'].fromdate")),
+	json_unquote(json_extract(''',employeedata,''',"$.education[',@i,'].todate")))');
+	prepare stmt from @insertedstring;
+	execute stmt;
+	deallocate prepare stmt;
+	set @insertedstring = '';
+	set @i = @i + 1;
+	end while;
 
 		set @insertexstring = '';
 		set @k = 0;
@@ -24013,20 +24265,31 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 			(@eid,json_unquote(json_extract(employeedata,"$.designation")),current_timestamp());
 		END IF;
 
-		IF ((SELECT departmentid FROM employee_departments WHERE empid = @eid order by id desc limit 1) <> (select json_unquote(json_extract(employeedata,"$.department")))) THEN
-			update employee_departments SET effectiveenddate = current_timestamp()
-			where empid = @eid and effectiveenddate is null order by employee_departments.id desc limit 1;
-			insert into employee_departments(empid,departmentid,effectivestartdate) VALUES
-			(@eid,json_unquote(json_extract(employeedata,"$.department")),current_timestamp());
-		END IF;
+	IF ((SELECT departmentid FROM employee_departments WHERE empid = @eid order by id desc limit 1) <> (select json_unquote(json_extract(employeedata,"$.department")))) THEN
+		update employee_departments SET effectiveenddate = current_timestamp()
+		where empid = @eid and effectiveenddate is null order by employee_departments.id desc limit 1;
+		insert into employee_departments(empid,departmentid,effectivestartdate) VALUES
+		(@eid,json_unquote(json_extract(employeedata,"$.department")),current_timestamp());
+	END IF;
+        update employee_roles set effective_to_date=current_date()
+        where  employee_id=@eid;
+        set @k = 0;
+	    while @k < @usertypecount do
+      set @roleid=(select json_unquote(json_extract(`employeedata`,concat('$.usertype[',convert((@k),char),'].id'))));
+	 if exists (select e.role_id from employee_roles e where e.employee_id = @eid 
+		and e.role_id =@roleid) then
+        
+        update employee_roles set employee_roles.effective_to_date = null where employee_roles.employee_id = @eid 
+		and employee_roles.role_id =@roleid;
+            	else
+                INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
+		(@eid,@roleid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
 
-		if ((select role_id from employee_roles e,rolesmaster m where e.role_id = m.id 
-			and m.name in (select rolesmaster.name from rolesmaster where rolesmaster.iseditable = 0) 
-			and e.employee_id = @eid) <> (select json_unquote(json_extract(employeedata,"$.usertype")))) then
-			update employee_roles set employee_roles.role_id = (select json_unquote(json_extract(employeedata,"$.usertype")))
-			where employee_roles.employee_id = @eid 
-			and employee_roles.role_id in (select id from rolesmaster where rolesmaster.iseditable = 0);
-		end if;
+	end if;
+    set @k = @k + 1;
+	    end while;
+		
+    -- since in employee edit scenario, we can't edit multiple roles (if any) commenting out here. this will be handled in a separate user-role mapping screen
 
 		if((select locationid from employee_worklocations where `employee_worklocations`.`empid` = @eid and effectivetodate is null) <> @employeelocation) then
 			update employee_worklocations 
@@ -26568,10 +26831,11 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	month_day date
 	);
 
-	set @start_date = '';
-	set @start_date = (SELECT DATE_ADD(@var_date, interval - DAY((@var_date)) + 1 DAY));
-	set @end_date = '';
-	set @end_date = (SELECT DATE(LAST_DAY(@var_date)));
+set @start_date = '';
+set @start_date = (SELECT DATE_ADD(@var_date, interval - DAY((@var_date)) + 1 DAY));
+set @jstart_date = @start_date;
+set @end_date = '';
+set @end_date = (SELECT DATE(LAST_DAY(@var_date)));
 
 	WHILE (@start_date <= @end_date) DO
 		INSERT INTO month_table(month_day) values (@start_date);
@@ -26634,14 +26898,16 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		select employee.id, employee_weekoffs.weekoffday1, employee_weekoffs.weekoffday2, employee_weekoffs.weekoffday3,
 		employee_weekoffs.effectivefromdate,ifnull(employee_weekoffs.effectivetodate,'') 
 		from employee,employee_weekoffs where employee.status = 1
-		and employee.id = employee_weekoffs.empid;
+	and employee.id = employee_weekoffs.empid
+	and cast(employee.dateofjoin as date) <= @jstart_date;
 
 	drop temporary table if exists temp_employee;
 	create temporary table temp_employee(
 		id int(11)
 	);
 
-	INSERT INTO temp_employee(id) select employee.id from employee where employee.status = 1;
+INSERT INTO temp_employee(id) select employee.id from employee where employee.status = 1
+and cast(employee.dateofjoin as date) <= @jstart_date;
 
 	DROP TEMPORARY TABLE IF EXISTS employee_working_days_table;
 	CREATE TEMPORARY TABLE employee_working_days_table(
@@ -26649,8 +26915,9 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		year int(4) 
 	);
 
-	INSERT INTO employee_working_days_table
-	select empid,year from employee_working_days where employee_working_days.year = @summary_year;
+INSERT INTO employee_working_days_table
+select empid,year from employee_working_days where employee_working_days.year = @summary_year
+and empid in (select temp_employee.id from temp_employee where temp_employee.id is not null);
 
 	OPEN emp_cursor;
 			set @empid_count = 0;
@@ -26667,15 +26934,16 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 			end while;
 	CLOSE emp_cursor;
 
-		set @v1 = 0;
-		set @v1 = (select day(last_day(@var_date)));
-		set @tdaystext = '';
-		set @tdaystext = concat('UPDATE employee_working_days
-		SET employee_working_days.',@month_name,' = ',@v1,' where employee_working_days.year = ',@summary_year);
-		-- select @tdaystext;
-		prepare stmt from @tdaystext;
-		execute stmt;
-		deallocate prepare stmt; 
+	set @v1 = 0;
+	set @v1 = (select day(last_day(@var_date)));
+    set @tdaystext = '';
+	set @tdaystext = concat('UPDATE employee_working_days
+	SET employee_working_days.',@month_name,' = ',@v1,' where employee_working_days.year = ',@summary_year,
+    ' and empid in (select temp_employee.id from temp_employee where temp_employee.id is not null)');
+	-- select @tdaystext;
+    prepare stmt from @tdaystext;
+	execute stmt;
+	deallocate prepare stmt; 
 
 	OPEN empid_cursor;
 			set @empid_count = 0;
@@ -26713,15 +26981,16 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 			end while;
 	CLOSE empid_cursor;
 
-	-- updating total column
-	UPDATE employee_working_days 
-	SET employee_working_days.total = 
-		(`employee_working_days`.`january`) + (`employee_working_days`.`february`) +
-		(`employee_working_days`.`march`) + (`employee_working_days`.`april`) +
-		(`employee_working_days`.`may`) + (`employee_working_days`.`june`) +
-		(`employee_working_days`.`july`) + (`employee_working_days`.`august`) +
-		(`employee_working_days`.`september`) + (`employee_working_days`.`october`) +
-		(`employee_working_days`.`november`) + (`employee_working_days`.`december`);
+-- updating total column
+UPDATE employee_working_days 
+SET employee_working_days.total = 
+    (`employee_working_days`.`january`) + (`employee_working_days`.`february`) +
+    (`employee_working_days`.`march`) + (`employee_working_days`.`april`) +
+    (`employee_working_days`.`may`) + (`employee_working_days`.`june`) +
+    (`employee_working_days`.`july`) + (`employee_working_days`.`august`) +
+    (`employee_working_days`.`september`) + (`employee_working_days`.`october`) +
+    (`employee_working_days`.`november`) + (`employee_working_days`.`december`)
+where empid in (select temp_employee.id from temp_employee where temp_employee.id is not null);
 
 	drop temporary table temp_companyworklocationsmaster;
 	drop temporary table temp_employee_worklocations;
@@ -27221,44 +27490,47 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `update_monthly_salary`(
-		empids_json varchar(2000),
-		year_value int(4),
-		month_value int(2),
-		financial_year_value varchar(16),
-		created_by_value int(11)
-	)
-	begin
-	declare vemp_id int(11);
-	DECLARE fdate date;
-	DECLARE tdate date;
-	declare fdatehalf int(1);
-	declare tdatehalf int(1);
-	declare vcm_id int(11);
-	declare vshort_name varchar(64);
-	declare vapplicable_frequency int(2);
-	declare vstate_id int(11);
-	declare vsalary_from_value float;
-	declare vsalary_to_value float;
-	declare vtax_value float;
-	declare vincome_group_id int(3);
-	declare vcomponent_id int(11);
-	declare vesi_enabled int(1);
-	declare vepf_enabled int(1);
-	DECLARE vepf_always int(1);
-	declare vsp int(1);
-	declare income_groups_cursor cursor for select income_groups_master_table.id from income_groups_master_table;
-	DECLARE empid_cursor cursor for select employee_ctc_table.empid from employee_ctc_table where employee_ctc_table.group_id = vincome_group_id;   
-	declare emp_cursor cursor for select employee_ctc_table.empid from employee_ctc_table; 
-	declare components_cursor cursor for select component_id,short_name,applicable_frequency from salary_components_table; 
-	declare component_config_cursor cursor for select ig_components_master.component_id,ig_components_master.esi_contribution_enabled,
-			ig_components_master.epf_contribution_enabled,ig_components_master.epf_always,
-			ig_components_master.epf_owpfw_is_less_than_spfw from ig_components_master where ig_components_master.group_id = vincome_group_id;
-	DECLARE leave_cursor cursor for select fromdate,todate,fromhalfdayleave,tohalfdayleave from employeeleaves_table
-			where employeeleaves_table.empid = vemp_id;
-	DECLARE ptax_cursor cursor for select state_id,salary_from_value,salary_to_value,tax_value from professional_tax_table;   
-		 
-	set @assessment_year = (select fn_get_assessment_year());
+create procedure update_monthly_salary(
+	empids_json varchar(2000),
+    year_value int(4),
+	month_value int(2),
+    financial_year_value varchar(16),
+    created_by_value int(11)
+)
+begin
+declare vemp_id int(11);
+DECLARE fdate date;
+DECLARE tdate date;
+declare fdatehalf int(1);
+declare tdatehalf int(1);
+declare vcm_id int(11);
+declare vshort_name varchar(64);
+declare vapplicable_frequency int(2);
+declare vstate_id int(11);
+declare vsalary_from_value float;
+declare vsalary_to_value float;
+declare vtax_value float;
+declare vincome_group_id int(3);
+declare vcomponent_id int(11);
+declare vesi_enabled int(1);
+declare vepf_enabled int(1);
+DECLARE vepf_always int(1);
+declare vsp int(1);
+declare vdate date;
+declare income_groups_cursor cursor for select income_groups_master_table.id from income_groups_master_table;
+DECLARE empid_cursor cursor for select employee_ctc_table.empid from employee_ctc_table where employee_ctc_table.group_id = vincome_group_id;   
+declare emp_cursor cursor for select employee_ctc_table.empid from employee_ctc_table; 
+DECLARE wdays_cursor cursor for select worked_days_table.empid, worked_days_table.date_of_join from worked_days_table
+        where worked_days_table.date_of_join between cast(@payroll_window_start_date as date) and cast(@payroll_window_end_date as date);
+declare components_cursor cursor for select component_id,short_name,applicable_frequency from salary_components_table; 
+declare component_config_cursor cursor for select ig_components_master.component_id,ig_components_master.esi_contribution_enabled,
+        ig_components_master.epf_contribution_enabled,ig_components_master.epf_always,
+	    ig_components_master.epf_owpfw_is_less_than_spfw from ig_components_master where ig_components_master.group_id = vincome_group_id;
+DECLARE leave_cursor cursor for select fromdate,todate,fromhalfdayleave,tohalfdayleave from employeeleaves_table
+        where employeeleaves_table.empid = vemp_id;
+DECLARE ptax_cursor cursor for select state_id,salary_from_value,salary_to_value,tax_value from professional_tax_table;   
+     
+set @assessment_year = (select fn_get_assessment_year());
 
 	set @day_count_id = (select payroll_client_component_configuration_details.value from payroll_client_component_configuration_details 
 						 where payroll_client_component_configuration_details.rule_id = 
@@ -27490,6 +27762,8 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	  `fromhalfdayleave` varchar(32) DEFAULT NULL,
 	  `tohalfdayleave` varchar(32) DEFAULT NULL
 	);
+set @payroll_window_start_date = (select cast(concat(year_value,'-',month_value,'-01') as date));
+set @payroll_window_end_date = (SELECT DATE(LAST_DAY(@payroll_window_start_date)));
 	-- setting leave window dates based on leave window configuration
 	if (@payroll_wf_date = @leave_wstart_date) then
 		set @leave_start_date = (select cast(concat(year_value,'-',month_value,'-01') as date));
@@ -27681,18 +27955,6 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 			and employee_worklocations.locationid = companyworklocationsmaster.id
 			and employee_worklocations.effectivetodate is null;
 			
-	set @sqltext = '';        
-	if (@day_count_id = 'WORKING') then        
-		set @sqltext = concat('update employee_ctc_table, employee_working_days
-		set employee_ctc_table.paid_days = employee_working_days.',@month_name,
-		' where employee_ctc_table.empid = employee_working_days.empid
-		and employee_working_days.year = ',year_value); 
-	elseif (@day_count_id = 'CALENDAR') then  
-		set @sqltext = concat('update employee_ctc_table set paid_days = ',@month_days);
-	end if;
-	prepare stmt from @sqltext;
-	execute stmt;
-	deallocate prepare stmt;
 
 	drop temporary table if exists professional_tax_table;
 	create temporary table professional_tax_table (
@@ -27706,596 +27968,704 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	select state_id,salary_from_value,salary_to_value,tax_value from payroll_employee_professional_tax_master
 	where payroll_employee_professional_tax_master.state_id in (select state_id from employee_ctc_table);
 
-	-- select * from employee_ctc_table;
-	if (@payroll_wf_date = @leave_wstart_date) then
-		drop temporary table if exists worked_days_table;
-		create temporary table worked_days_table (
-			empid int(11),
-			working_days decimal(5,2),
-			lop decimal(5,2) default 0,
-			worked_days decimal(5,2)
-		);
-		
-		set @sqltext = '';
-		if (@day_count_id = 'WORKING') then
-		set @sqltext = concat('insert into worked_days_table(empid,working_days) select e.empid,',@month_name,' from employee_working_days e, employee_ctc_table m
-							where e.empid = m.empid and e.year = ',year_value);
-		elseif (@day_count_id = 'CALENDAR') then           
-		set @sqltext = concat('insert into worked_days_table(empid,working_days) select empid,',@month_days,' from employee_ctc_table');            
-		end if;
-		prepare stmt from @sqltext;
-		execute stmt;
-		deallocate prepare stmt;
-		-- update LoPs
-		open emp_cursor;
-			set @u1 = 0;
-			set @u1 = found_rows();
-			set @u2 = 0;
-			WHILE @u2 < @u1 do
-			set vemp_id = 0;
-			fetch emp_cursor into vemp_id;
-			open leave_cursor;
-				set @leave_count = 0;
-				set @leave_count = found_rows();
-				set @f = 0;
-				while @f < @leave_count do
-				fetch leave_cursor into fdate,tdate,fdatehalf,tdatehalf;
-				set @vdate = null;
-				set @vdate = fdate;
-					while datediff(tdate,@vdate) >= 0 do
-					set @sqltext = '';
-					if ((month(@vdate) = @month_id) and (year(@vdate) = year_value) and (@vdate >= @leave_start_date and @vdate <= @leave_end_date)) then
-					set @sqltext = concat('update worked_days_table set worked_days_table.lop = worked_days_table.lop + 1 - ',
-										(0.5 * (case when @vdate = fdate then fdatehalf
-													when @vdate = tdate then tdatehalf
-													else 0 end)),' where worked_days_table.empid = ',vemp_id);
-					prepare stmt from @sqltext;
-					execute stmt;
-					deallocate prepare stmt;
-					end if;
-					set @vdate = date_add(@vdate, interval 1 day);
-					end while;
-				set @f = @f + 1;
-				end while;
-			close leave_cursor;
-			set @u2 = @u2 + 1;
-			end while;
-		close emp_cursor;      
-		update worked_days_table set worked_days_table.worked_days = worked_days_table.working_days - lop;
-		update employee_ctc_table,worked_days_table
-		set employee_ctc_table.lop_days = worked_days_table.lop
-		where employee_ctc_table.empid = worked_days_table.empid;
-		-- select * from worked_days_table;
-	elseif (@payroll_wf_date <> @leave_wstart_date) then
-		drop temporary table if exists worked_days_table;
-		create temporary table worked_days_table (
-			empid int(11),
-			working_days_previous_month decimal(5,2),
-			lop_previous_month decimal(5,2) default 0,
-			working_days_present_month decimal(5,2),
-			lop_present_month decimal(5,2) default 0,
-			worked_value decimal(15,14)
-		);
-		
-		set @sqltext = '';
-		if (@day_count_id = 'WORKING') then
-		set @sqltext = concat('insert into worked_days_table(empid,working_days_previous_month,working_days_present_month) select e.empid,',@previous_month_name,',',@month_name,' from employee_working_days e, employee_ctc_table m
-							where e.empid = m.empid and e.year = ',@previous_year);
-		elseif (@day_count_id = 'CALENDAR') then           
-		set @sqltext = concat('insert into worked_days_table(empid,working_days_previous_month,working_days_present_month) select empid,',@previous_month_days,',',@month_days,' from employee_ctc_table');            
-		end if;
-		prepare stmt from @sqltext;
-		execute stmt;
-		deallocate prepare stmt;
-		-- update LoPs
-		open emp_cursor;
-			set @u1 = 0;
-			set @u1 = found_rows();
-			set @u2 = 0;
-			WHILE @u2 < @u1 do
-			set vemp_id = 0;
-			fetch emp_cursor into vemp_id;
-				open leave_cursor;
-				set @leave_count = 0;
-				set @leave_count = found_rows();
-				set @f = 0;
-				while @f < @leave_count do
-				fetch leave_cursor into fdate,tdate,fdatehalf,tdatehalf;
-				set @vdate = null;
-				set @vdate = fdate;
-					while datediff(tdate,@vdate) >= 0 do
-					set @sqltext = '';
-					if ((month(@vdate) = @previous_month_id) and (year(@vdate) = @previous_year) and (@vdate >= @leave_start_date and @vdate <= @leave_end_date)) then
-					set @sqltext = concat('update worked_days_table set worked_days_table.lop_previous_month = worked_days_table.lop_previous_month + 1 - ',
-										(0.5 * (case when @vdate = fdate then fdatehalf
-													when @vdate = tdate then tdatehalf
-													else 0 end)),' where empid = ',vemp_id);
-					prepare stmt from @sqltext;
-					execute stmt;
-					deallocate prepare stmt;                                   
-					elseif ((month(@vdate) = @month_id) and (year(@vdate) = year_value) and (@vdate >= @leave_start_date and @vdate <= @leave_end_date)) then
-					set @sqltext = concat('update worked_days_table set worked_days_table.lop_present_month = worked_days_table.lop_present_month + 1 - ',
-										(0.5 * (case when @vdate = fdate then fdatehalf
-													when @vdate = tdate then tdatehalf
-													else 0 end)),' where empid = ',vemp_id);
-					prepare stmt from @sqltext;
-					execute stmt;
-					deallocate prepare stmt;                                   
-					end if;      
-					set @vdate = date_add(@vdate, interval 1 day);
-					end while;
-				set @f = @f + 1;
-				end while;
-				close leave_cursor;
-			set @u2 = @u2 + 1;
-			end while;
-		close emp_cursor;      
-		update worked_days_table set worked_days_table.worked_value = (1 - (lop_previous_month/(working_days_previous_month * 1.0)) - (lop_present_month/(working_days_present_month * 1.0)));
-		update employee_ctc_table,worked_days_table
-		set employee_ctc_table.lop_days = ifnull(worked_days_table.lop_previous_month,0) + ifnull(worked_days_table.lop_present_month,0)
-		where employee_ctc_table.empid = worked_days_table.empid;
-		-- select * from worked_days_table;
-	end if;      
-	open components_cursor;
-		set @mu1 = 0;
-		set @mu1 = found_rows();
-		set @mu2 = 0;
-		WHILE @mu2 < @mu1 do
-			set vcm_id = 0;
-			set vshort_name = 0;
-			set vapplicable_frequency = 0;
-			fetch components_cursor into vcm_id,vshort_name, vapplicable_frequency;
-			set @short_name_text = '';
-			set @validity = 0;
-			set @validity = mod((@month_id - 3),vapplicable_frequency);
-			if (@validity = 0) then
-				set @short_name_text = concat('update employee_ctc_table set ',vshort_name,' = ',vshort_name,' * ',vapplicable_frequency,' * (1/12.0)');
-			prepare stmt from @short_name_text;
-			execute stmt;
-			deallocate prepare stmt;
-			else
-				set @short_name_text = concat('update employee_ctc_table set ',vshort_name,' = 0');
-			prepare stmt from @short_name_text;
-			execute stmt;
-			deallocate prepare stmt;
-			end if;
-			
-			set @mu2 = @mu2 + 1;
-		end while;
-	close components_cursor;
-		-- insert gross salary details of employees
-		insert into employee_gross_salary_details(empid,year,month,basic_salary,dearness_allowance,house_rent_allowance,conveyance_allowance,
-			travelling_allowance,transport_allowance,commission,bonus,gratuity,leave_encashment,fixed_allowance,
-			children_education_allowance,hostel_expenditure_allowance,helper_allowance,uniform_allowance,daily_allowance,city_compensatory_allowance,
-			overtime_allowance,telephone_allowance,fixed_medical_allowance,project_allowance,food_allowance,holiday_allowance,entertainment_allowance,
-			custom_allowance,food_coupon,gift_coupon,research_allowance,
-			books_and_periodicals_allowance,fuel_allowance,driver_allowance,leave_travel_allowance,vehicle_maintenance_allowance,
-			telephone_and_internet_allowance,other_allowance,financial_year,created_on,created_by)
-		select employee_ctc_table.empid,year_value,month_value,basic_salary,dearness_allowance,house_rent_allowance,conveyance_allowance,travelling_allowance,
-			transport_allowance, commission,bonus,gratuity,leave_encashment,fixed_allowance,
-			children_education_allowance,hostel_expenditure_allowance,helper_allowance,uniform_allowance,daily_allowance,city_compensatory_allowance,
-			overtime_allowance,telephone_allowance,fixed_medical_allowance,project_allowance,food_allowance,holiday_allowance,entertainment_allowance,
-			custom_allowance,food_coupon,gift_coupon,research_allowance,
-			books_and_periodicals_allowance,fuel_allowance,driver_allowance,leave_travel_allowance,vehicle_maintenance_allowance,
-			telephone_and_internet_allowance,other_allowance,financial_year_value,current_timestamp(),created_by_value
-		from employee_ctc_table;
-			
-		-- update total_gross_salary value
-		update employee_gross_salary_details e
-		set e.total_gross_salary = ifnull(basic_salary,0) + ifnull(dearness_allowance,0) + ifnull(house_rent_allowance,0) + 
-			ifnull(conveyance_allowance,0) + ifnull(travelling_allowance,0) + ifnull(transport_allowance,0) +  ifnull(commission,0) + 
-			ifnull(bonus,0) + ifnull(gratuity,0) + ifnull(leave_encashment,0) + ifnull(fixed_allowance,0) + ifnull(children_education_allowance,0) + 
-			ifnull(hostel_expenditure_allowance,0) + ifnull(helper_allowance,0) + ifnull(uniform_allowance,0) + ifnull(daily_allowance,0) + 
-			ifnull(city_compensatory_allowance,0) + ifnull(overtime_allowance,0) + ifnull(telephone_allowance,0) + ifnull(fixed_medical_allowance,0) + 
-			ifnull(project_allowance,0) + ifnull(food_allowance,0) + ifnull(holiday_allowance,0) + ifnull(entertainment_allowance,0) + 
-			ifnull(custom_allowance,0) + ifnull(food_coupon,0) + ifnull(gift_coupon,0) + ifnull(research_allowance,0) + 
-			ifnull(books_and_periodicals_allowance,0) + ifnull(fuel_allowance,0) + ifnull(driver_allowance,0) + ifnull(leave_travel_allowance,0) + 
-			ifnull(vehicle_maintenance_allowance,0) + ifnull(telephone_and_internet_allowance,0) + ifnull(other_allowance,0)
-		where e.empid in (select employee_ctc_table.empid from employee_ctc_table where employee_ctc_table.empid is not null)
-		and e.year = year_value
-		and e.month = month_value;
-			
-		-- calculate esi for different pay groups starts
-		
-		open income_groups_cursor;
-		set @i = 0;
-		set @i = found_rows();
-		set @j = 0;
-		WHILE @j < @i do
-		set vincome_group_id = 0;
-		fetch income_groups_cursor into vincome_group_id;
-			if exists(select ig_components_master.id from ig_components_master where ig_components_master.component_id = 
-						(select payroll_salary_components_master.id from payroll_salary_components_master 
-						where payroll_salary_components_master.component_short_name = 'esi')
-						and ig_components_master.group_id = vincome_group_id) then
-			open component_config_cursor;
-				set @v1 = 0;
-				set @v1 = found_rows();
-				set @v2 = 0;
-				set @esi_components_string = '';
-				WHILE @v2 < @v1 do
-					set vcomponent_id = 0;
-					set vesi_enabled = 0;
-					set vepf_enabled = 0;
-					set vepf_always = 0;
-					set vsp = 0;
-					fetch component_config_cursor into vcomponent_id,vesi_enabled,vepf_enabled,vepf_always,vsp;
-					if (vesi_enabled = 1) then
-						set vshort_name = 0;
-						select salary_components_table.short_name into vshort_name from salary_components_table 
-						where salary_components_table.component_id = vcomponent_id;            
-						set @esi_components_string = concat(@esi_components_string,case when (@esi_components_string = '') 
-																						then vshort_name
-																						else concat(' + ',vshort_name)
-																						end);                                               
-					end if;    
-					set @v2 = @v2 + 1;
-				end while;
-			close component_config_cursor;    
-			-- updating esi_wages 
-			set @esi_wage_string = concat('update employee_ctc_table set esi_wage = (',@esi_components_string,') where
-										   employee_ctc_table.group_id = ',vincome_group_id);
-			-- select @esi_wage_string;
-			prepare stmt from @esi_wage_string;
-			execute stmt;
-			deallocate prepare stmt;                  
-			end if;
-		set @j = @j + 1;
-		end while;
-		close income_groups_cursor; -- calculation of esi wages for different pay groups ends            
-						
-		-- calculation of esi contributions starts
-		open income_groups_cursor;
-		set @i = 0;
-		set @i = found_rows();
-		set @j = 0;
-		WHILE @j < @i do
-		set vincome_group_id = 0;
-		
-		fetch income_groups_cursor into vincome_group_id;
-			if exists(select ig_components_master.id from ig_components_master where ig_components_master.component_id = 
-						(select payroll_salary_components_master.id from payroll_salary_components_master 
-						where payroll_salary_components_master.component_short_name = 'esi')
-						and ig_components_master.group_id = vincome_group_id) then
-			
-				set @esi_value_string = concat('update employee_ctc_table set employee_esi_value = 
-												case when (esi_wage/(1.0 * ',@wage_days_pm,') > ',@max_exempt_wage,') then (esi_wage * ',@esi_pcbe/100.0,
-												') else 0 end where employee_ctc_table.group_id = ',vincome_group_id);
-				prepare stmt from @esi_value_string;
-				execute stmt;
-				deallocate prepare stmt;
-				
-				set @esi_value_string = concat('update employee_ctc_table set employer_esi_value = esi_wage * ',@esi_pcbemployer/100.0,
-												' where employee_ctc_table.group_id = ',vincome_group_id);
-				prepare stmt from @esi_value_string;
-				execute stmt;
-				deallocate prepare stmt;
-				
+-- select * from employee_ctc_table;
+if (@payroll_wf_date = @leave_wstart_date) then
+	drop temporary table if exists worked_days_table;
+	create temporary table worked_days_table (
+		empid int(11),
+		working_days decimal(5,2),
+		lop decimal(5,2) default 0,
+		worked_days decimal(5,2),
+        date_of_join date,
+        reduce_days decimal(5,2) default 0
+	);
+	
+	set @sqltext = '';
+	if (@day_count_id = 'WORKING') then
+	set @sqltext = concat('insert into worked_days_table(empid,working_days,date_of_join) select e.empid,',@month_name,',cast(dateofjoin as date) from employee_working_days e, employee_ctc_table m, employee em
+						  where em.id = e.empid and e.empid = m.empid and e.year = ',year_value);
+	elseif (@day_count_id = 'CALENDAR') then           
+	set @sqltext = concat('insert into worked_days_table(empid,working_days,date_of_join) 
+                           select employee_ctc_table.empid, ',@month_days,
+						   ' ,cast(dateofjoin as date) from employee_ctc_table, employee where employee_ctc_table.empid = employee.id');            
+	end if;
+	prepare stmt from @sqltext;
+	execute stmt;
+	deallocate prepare stmt;
+	-- update LoPs
+	open emp_cursor;
+		set @u1 = 0;
+		set @u1 = found_rows();
+		set @u2 = 0;
+		WHILE @u2 < @u1 do
+		set vemp_id = 0;
+		fetch emp_cursor into vemp_id;
+		open leave_cursor;
+			set @leave_count = 0;
+			set @leave_count = found_rows();
+			set @f = 0;
+			while @f < @leave_count do
+			fetch leave_cursor into fdate,tdate,fdatehalf,tdatehalf;
+			set @vdate = null;
+			set @vdate = fdate;
+				while datediff(tdate,@vdate) >= 0 do
 				set @sqltext = '';
-				set @sqltext = 'update employee_ctc_table set employee_ctc_table.total_esi_value = employee_esi_value ';
-				if (@esi_er_in_ctc = 1) then 
-					set @sqltext = concat(@sqltext,' + employer_esi_value');
-				end if;
-				set @sqltext = concat(@sqltext,' where employee_ctc_table.group_id = ',vincome_group_id);
+				if ((month(@vdate) = @month_id) and (year(@vdate) = year_value) and (@vdate >= @leave_start_date and @vdate <= @leave_end_date)) then
+				set @sqltext = concat('update worked_days_table set worked_days_table.lop = worked_days_table.lop + 1 - ',
+									(0.5 * (case when @vdate = fdate then fdatehalf
+												when @vdate = tdate then tdatehalf
+												else 0 end)),' where worked_days_table.empid = ',vemp_id);
 				prepare stmt from @sqltext;
 				execute stmt;
 				deallocate prepare stmt;
-				
-				open empid_cursor;
-				set @esiu1 = 0;
-				set @esiu1 = found_rows();
-				set @esiu2 = 0;
-				WHILE @esiu2 < @esiu1 do
-				set vemp_id = 0;
-				fetch empid_cursor into vemp_id;
-				if exists (select emp_esi_table.empid from emp_esi_table where emp_esi_table.empid = vemp_id
-						   and emp_esi_table.is_gross_sal_ltoet_esi_cutoff = 1) then
-					
-					set @eesi_value = 0;
-					set @er_esi_value = 0;    
-					set @esi_wage = 0;
-					select employee_ctc_table.employee_esi_value, employer_esi_value
-					into @eesi_value, @er_esi_value
-					from employee_ctc_table where employee_ctc_table.empid = vemp_id;
-					insert into payroll_esi_details(empid,year,month,employee_esi_value,employer_esi_value,financial_year,
-													assessment_year,created_on,created_by) values
-					(vemp_id,year_value,month_value,@eesi_value, @er_esi_value,financial_year_value,@assessment_year,current_timestamp(),created_by_value);                                                 
-					if (@esi_wage <= @max_gross_salary) then
-						update payroll_employee_esi_status_details
-						set payroll_employee_esi_status_details.last_contribution_month = month_value,
-							payroll_employee_esi_status_details.last_contribution_year = year_value,
-							payroll_employee_esi_status_details.updated_on = current_timestamp(),
-							payroll_employee_esi_status_details.updated_by = created_by_value
-						where payroll_employee_esi_status_details.empid = vemp_id;
-					elseif (@esi_wage > @max_gross_salary) then
-						update payroll_employee_esi_status_details
-						set payroll_employee_esi_status_details.is_gross_sal_ltoet_esi_cutoff = 0,
-							payroll_employee_esi_status_details.last_contribution_month = month_value,
-							payroll_employee_esi_status_details.last_contribution_year = year_value,
-							payroll_employee_esi_status_details.updated_on = current_timestamp(),
-							payroll_employee_esi_status_details.updated_by = created_by_value
-						where payroll_employee_esi_status_details.empid = vemp_id;
-					end if;
-				elseif exists (select emp_esi_table.empid from emp_esi_table where emp_esi_table.empid = vemp_id
-						   and emp_esi_table.is_gross_sal_ltoet_esi_cutoff = 0) then    
-					set @lcm = (select emp_esi_table.last_contribution_month from emp_esi_table where emp_esi_table.empid = vemp_id);
-					set @lcy = (select emp_esi_table.last_contribution_year from emp_esi_table where emp_esi_table.empid = vemp_id);
-					set @last_contribution_date = (select cast(concat(@lcy,'-',@lcm,'-01') as date));
-					if (@last_contribution_date < @cp_start_date) then
-						delete from payroll_employee_esi_status_details
-						where empid = vemp_id;
-					elseif ((@last_contribution_date between @cp_start_date and @cp_end_date) and 
-							(month_value = (select month(@cp_end_date)))) then    
-						insert into payroll_esi_details(empid,year,month,employee_esi_value,employer_esi_value,financial_year,
-														assessment_year,created_on,created_by) values
-						(vemp_id,year_value,month_value,@eesi_value, @er_esi_value,financial_year_value,@assessment_year,current_timestamp(),created_by_value);
-						delete from payroll_employee_esi_status_details
-						where empid = vemp_id;
-					end if;
 				end if;
-					set @esiu2 = @esiu2 + 1;
+				set @vdate = date_add(@vdate, interval 1 day);
 				end while;
-				close empid_cursor;  
-			end if;
-		set @j = @j + 1;
-		end while;
-		close income_groups_cursor; -- esi calculation for different pay groups ends
-		
-		update employee_gross_salary_details, employee_ctc_table
-			set employee_gross_salary_details.esi = employee_ctc_table.total_esi_value
-			where employee_gross_salary_details.empid = employee_ctc_table.empid
-			and employee_gross_salary_details.year = year_value
-			and employee_gross_salary_details.month = @month_id;
-			
-			-- calculate epf for different pay groups
-			open income_groups_cursor;
-			set @i = 0;
-			set @i = found_rows();
-			set @j = 0;
-			WHILE @j < @i do
-			set vincome_group_id = 0;
-			
-			fetch income_groups_cursor into vincome_group_id;
-			if exists(select ig_components_master.id from ig_components_master where ig_components_master.component_id = 
-				 (select payroll_salary_components_master.id from payroll_salary_components_master 
-								 where payroll_salary_components_master.component_short_name = 'employee_provident_fund')
-				  and ig_components_master.group_id = vincome_group_id) then
-			-- set @columns_string = '';      
-			-- calculate employee and employer epf wages for this pay group
-			open empid_cursor;
-			set @epfu1 = 0;
-			set @epfu1 = found_rows();
-			set @epfu2 = 0;
-			WHILE @epfu2 < @epfu1 do
-			set vemp_id = 0;
-			fetch empid_cursor into vemp_id;
-				open component_config_cursor;
-				set @v1 = 0;
-				set @v1 = found_rows();
-				set @v2 = 0;
-				set @vepf_always_wage = 0;
-				set @vsp_wage = 0;
-				WHILE @v2 < @v1 do
-					set vcomponent_id = 0;
-					set vesi_enabled = 0;
-					set vepf_enabled = 0;
-					set vepf_always = 0;
-					set vsp = 0;
-					fetch component_config_cursor into vcomponent_id,vesi_enabled,vepf_enabled,vepf_always,vsp;
-					set vshort_name = 0;
-					select salary_components_table.short_name into vshort_name from salary_components_table 
-					where salary_components_table.component_id = vcomponent_id;
-						if ((vshort_name <> 'house_rent_allowance') and (vepf_enabled = 1)) then
-						if (vepf_always = 1) then
-							set @var = 0;
-							set @short_name_text = '';
-							set @short_name_text = concat('select ',vshort_name,' into @var from employee_ctc_table where employee_ctc_table.empid = ',vemp_id);
-							-- select @short_name_text;
-							prepare stmt from @short_name_text;
-							execute stmt;
-							deallocate prepare stmt;
-							set @vepf_always_wage = @vepf_always_wage + @var;
-						elseif (vsp = 1) then
-							set @short_name_text = '';
-							set @short_name_text = concat('select ',vshort_name,' into @var from employee_ctc_table where employee_ctc_table.empid = ',vemp_id);
-							-- select @short_name_text;
-							prepare stmt from @short_name_text;
-							execute stmt;
-							deallocate prepare stmt;
-							set @vsp_wage = @vsp_wage + @var;
-						end if;
-						end if;
-					set @v2 = @v2 + 1;
-				end while;
-				close component_config_cursor;
-				if (@employee_epf_wage = 'ACTUAL') then
-					if (@vepf_always_wage < @spf_wage) then
-						set @epf_wage = 0;
-						set @epf_wage = @epf_wage + @vepf_always_wage + @vsp_wage;
-						if (@epf_wage > @spf_wage) then
-							set @epf_wage = @spf_wage;
-						end if;
-					elseif (@vepf_always_wage >= @spf_wage) then    
-						set @epf_wage = 0;
-						set @epf_wage = @epf_wage + @vepf_always_wage;
-					end if;
-					update employee_ctc_table set employee_ctc_table.epf_wage = @epf_wage where employee_ctc_table.empid = vemp_id; 
-				elseif (@employee_epf_wage = 'RESTRICTED') then	
-					set @epf_wage = 0;
-					set @epf_wage = @epf_wage + @vepf_always_wage + @vsp_wage;
-					if (@epf_wage > @spf_wage) then
-						set @epf_wage = @spf_wage;
-					end if;
-					update employee_ctc_table set employee_ctc_table.epf_wage = @epf_wage where employee_ctc_table.empid = vemp_id;
-				end if;
-				if (@employer_epf_wage = 'ACTUAL') then
-					if (@vepf_always_wage < @spf_wage) then
-						set @epf_wage = 0;
-						set @epf_wage = @epf_wage + @vepf_always_wage + @vsp_wage;
-						if (@epf_wage > @spf_wage) then
-							set @epf_wage = @spf_wage;
-						end if;
-					elseif (@vepf_always_wage >= @spf_wage) then    
-						set @epf_wage = 0;
-						set @epf_wage = @epf_wage + @vepf_always_wage;
-					end if;
-					update employee_ctc_table set employee_ctc_table.employer_epf_wage = @epf_wage where employee_ctc_table.empid = vemp_id; 
-				elseif (@employer_epf_wage = 'RESTRICTED') then	
-					set @epf_wage = 0;
-					set @epf_wage = @epf_wage + @vepf_always_wage + @vsp_wage;
-					if (@epf_wage > @spf_wage) then
-						set @epf_wage = @spf_wage;
-					end if;
-					update employee_ctc_table set employee_ctc_table.employer_epf_wage = @epf_wage where employee_ctc_table.empid = vemp_id;
-				end if;
-			set @epfu2 = @epfu2 + 1;
+			set @f = @f + 1;
 			end while;
-			close empid_cursor;  
-		-- calculate gross epf contribution    
-		update employee_ctc_table   
-			set employee_ctc_table.employee_epf_value = employee_ctc_table.epf_wage * (@tpcbe/100.0),
-				employee_ctc_table.employer_epf       = employee_ctc_table.employer_epf_wage * (@eepf/100.0),
-				employee_ctc_table.employer_eps_amount = (case when (employee_ctc_table.employer_epf_wage >= @spf_wage) then @spf_wage 
-														  else employee_ctc_table.employer_epf_wage
-														  end) * (@eps/100.0),
-				employee_ctc_table.employer_edli      = employee_ctc_table.employer_epf_wage * (@edli/100.0),
-				employee_ctc_table.employer_admin     = employee_ctc_table.employer_epf_wage * (@admin/100.0)
-			where employee_ctc_table.group_id = vincome_group_id;
-			
-		update employee_ctc_table 
-			set employee_ctc_table.employer_edli = case when (employee_ctc_table.employer_edli > @max_edli_wage) then @max_edli_wage
-												   else employee_ctc_table.employer_edli
-												   end
-			where employee_ctc_table.group_id = vincome_group_id;    
-			
-		update employee_ctc_table
-			set employee_ctc_table.employer_epf_amount = ((employee_ctc_table.employer_epf_wage * (@eepf/100.0)) - employee_ctc_table.employer_eps_amount)
-			where employee_ctc_table.group_id = vincome_group_id;
-			
-		set @sqltext = '';
-		set @sqltext = 'update employee_ctc_table set employee_ctc_table.total_epf_value = employee_epf_value ';
-		if (@er_in_ctc = 1) then 
-			set @sqltext = concat(@sqltext,' + employer_epf ');
-		end if;
-		if (@er_edli_in_ctc = 1) then
-			set @sqltext = concat(@sqltext,' + employer_edli ');
-		end if;
-		if (@er_admin_in_ctc = 1) then
-			set @sqltext = concat(@sqltext,' + employer_admin ');
-		end if;
-		set @sqltext = concat(@sqltext,' where employee_ctc_table.group_id = ',vincome_group_id);
-		prepare stmt from @sqltext;
+		close leave_cursor;
+		set @u2 = @u2 + 1;
+		end while;
+	close emp_cursor;  
+    IF (@day_count_id = 'WORKING') THEN
+    drop temporary table if exists month_table;
+	create temporary table month_table(
+	month_day date
+	);
+    open wdays_cursor;
+		set @u1 = 0;
+		set @u1 = found_rows();
+		set @u2 = 0;
+		WHILE @u2 < @u1 do
+		set vemp_id = 0;
+		fetch wdays_cursor into vemp_id,vdate;
+		set @balance = datediff(vdate,@payroll_window_start_date);
+        set @jstart_date = @payroll_window_start_date;
+		set @jend_date = date_sub(vdate, interval 1 day);
+        truncate table month_table; 
+        WHILE (@jstart_date <= @jend_date) DO
+			INSERT INTO month_table(month_day) values (@jstart_date);
+			SET @jstart_date = (select date_add(@jstart_date,interval 1 day));
+		END WHILE;
+        set @jstart_date = @payroll_window_start_date;
+        select employee_weekoffs.weekoffday1, employee_weekoffs.weekoffday2, employee_weekoffs.weekoffday3
+		into @w1,@w2,@w3
+		from employee,employee_weekoffs where employee.status = 1
+		and employee.id = employee_weekoffs.empid
+		and employee.id = employee_id
+		order by employee_weekoffs.id desc limit 1;
+        set @n = 0;
+		set @n = (select count(month_day) from month_table where dayofweek(month_day) in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0))
+				and month_day between @jstart_date and @jend_date);
+		set @n = @n + (select count(m.date)
+					FROM holidaysmaster m, companyworklocationsmaster v  
+				WHERE m.location = v.city 
+				and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1)
+				and m.date between @jstart_date and @jend_date
+				and dayofweek(m.date) not in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0)));
+        SET @balance = @balance - @n;        
+        update worked_days_table set reduce_days = @balance where worked_days_table.empid = vemp_id;
+		set @u2 = @u2 + 1;
+		end while;
+	close wdays_cursor;
+    update worked_days_table set worked_days_table.worked_days = worked_days_table.working_days - lop - reduce_days;
+    ELSEIF (@day_count_id = 'CALENDAR') then
+	update worked_days_table set worked_days_table.worked_days = worked_days_table.working_days - lop - (case when (date_of_join between cast(@payroll_window_start_date as date) and cast(@payroll_window_end_date as date))
+								                                                                              then ((select day(date_of_join)) - 1) else 0 end);
+    end if;
+	update employee_ctc_table,worked_days_table
+	set employee_ctc_table.paid_days = worked_days_table.worked_days,
+    employee_ctc_table.lop_days = worked_days_table.lop
+	where employee_ctc_table.empid = worked_days_table.empid;
+	-- select * from worked_days_table;
+elseif (@payroll_wf_date <> @leave_wstart_date) then
+	drop temporary table if exists worked_days_table;
+	create temporary table worked_days_table (
+		empid int(11),
+		working_days_previous_month decimal(5,2),
+		lop_previous_month decimal(5,2) default 0,
+		working_days_present_month decimal(5,2),
+		lop_present_month decimal(5,2) default 0,
+        date_of_join date,
+		worked_value decimal(15,14),
+        reduce_days decimal(5,2) default 0,
+        worked_days decimal(5,2)
+	);
+	
+	set @sqltext = '';
+	if (@day_count_id = 'WORKING') then
+	set @sqltext = concat('insert into worked_days_table(empid,working_days_previous_month,working_days_present_month,date_of_join) select e.empid,',@previous_month_name,',',@month_name,',cast(dateofjoin as date) from employee_working_days e, employee_ctc_table m,employee em
+						  where em.id = e.empid and e.empid = m.empid and e.year = ',@previous_year);
+	elseif (@day_count_id = 'CALENDAR') then           
+	set @sqltext = concat('insert into worked_days_table(empid,working_days_previous_month,working_days_present_month,date_of_join) 
+						   select employee_ctc_table.empid, ',@previous_month_days,',',@month_days,
+										    ' ,cast(dateofjoin as date) from employee_ctc_table, employee where employee_ctc_table.empid = employee.id');            
+	end if;
+	prepare stmt from @sqltext;
+	execute stmt;
+	deallocate prepare stmt;
+	-- update LoPs
+	open emp_cursor;
+		set @u1 = 0;
+		set @u1 = found_rows();
+		set @u2 = 0;
+		WHILE @u2 < @u1 do
+		set vemp_id = 0;
+		fetch emp_cursor into vemp_id;
+			open leave_cursor;
+			set @leave_count = 0;
+			set @leave_count = found_rows();
+			set @f = 0;
+			while @f < @leave_count do
+			fetch leave_cursor into fdate,tdate,fdatehalf,tdatehalf;
+			set @vdate = null;
+			set @vdate = fdate;
+				while datediff(tdate,@vdate) >= 0 do
+				set @sqltext = '';
+				if ((month(@vdate) = @previous_month_id) and (year(@vdate) = @previous_year) and (@vdate >= @leave_start_date and @vdate <= @leave_end_date)) then
+				set @sqltext = concat('update worked_days_table set worked_days_table.lop_previous_month = worked_days_table.lop_previous_month + 1 - ',
+									(0.5 * (case when @vdate = fdate then fdatehalf
+												when @vdate = tdate then tdatehalf
+												else 0 end)),' where empid = ',vemp_id);
+				prepare stmt from @sqltext;
+				execute stmt;
+				deallocate prepare stmt;                                   
+				elseif ((month(@vdate) = @month_id) and (year(@vdate) = year_value) and (@vdate >= @leave_start_date and @vdate <= @leave_end_date)) then
+				set @sqltext = concat('update worked_days_table set worked_days_table.lop_present_month = worked_days_table.lop_present_month + 1 - ',
+									(0.5 * (case when @vdate = fdate then fdatehalf
+												when @vdate = tdate then tdatehalf
+												else 0 end)),' where empid = ',vemp_id);
+				prepare stmt from @sqltext;
+				execute stmt;
+				deallocate prepare stmt;                                   
+				end if;      
+				set @vdate = date_add(@vdate, interval 1 day);
+				end while;
+			set @f = @f + 1;
+			end while;
+			close leave_cursor;
+		set @u2 = @u2 + 1;
+		end while;
+	close emp_cursor;  
+    if (@day_count_id = 'WORKING') then
+    drop temporary table if exists month_table;
+	create temporary table month_table(
+	month_day date
+	);
+    open wdays_cursor;
+		set @u1 = 0;
+		set @u1 = found_rows();
+		set @u2 = 0;
+		WHILE @u2 < @u1 do
+		set vemp_id = 0;
+		fetch wdays_cursor into vemp_id,vdate;
+		set @balance = datediff(vdate,@payroll_window_start_date);
+        set @jstart_date = @payroll_window_start_date;
+		set @jend_date = date_sub(vdate, interval 1 day);
+        truncate table month_table; 
+        WHILE (@jstart_date <= @jend_date) DO
+			INSERT INTO month_table(month_day) values (@jstart_date);
+			SET @jstart_date = (select date_add(@jstart_date,interval 1 day));
+		END WHILE;
+        set @jstart_date = @payroll_window_start_date;
+        select employee_weekoffs.weekoffday1, employee_weekoffs.weekoffday2, employee_weekoffs.weekoffday3
+		into @w1,@w2,@w3
+		from employee,employee_weekoffs where employee.status = 1
+		and employee.id = employee_weekoffs.empid
+		and employee.id = vemp_id
+		order by employee_weekoffs.id desc limit 1;
+        set @n = 0;
+		set @n = (select count(month_day) from month_table where dayofweek(month_day) in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0))
+				  and month_day between @jstart_date and @jend_date);
+		set @n = @n + (select count(m.date)
+					FROM holidaysmaster m, companyworklocationsmaster v  
+				WHERE m.location = v.city 
+				and v.id =(select s.locationid from employee_worklocations s where s.empid = vemp_id order by s.id desc limit 1)
+				and m.date between @jstart_date and @jend_date
+				and dayofweek(m.date) not in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0)));
+        SET @balance = @balance - @n;        
+        update worked_days_table set reduce_days = @balance where worked_days_table.empid = vemp_id;
+		set @u2 = @u2 + 1;
+		end while;
+	close wdays_cursor;
+    update worked_days_table set worked_days_table.worked_days = working_days_present_month - lop_previous_month - lop_present_month - reduce_days;
+    update worked_days_table set worked_days_table.worked_value = (1 - (case when (working_days_previous_month <> 0)
+                                                                            then (lop_previous_month/(working_days_previous_month * 1.0)) 
+                                                                            else 0 end) - ((reduce_days + lop_present_month)/(working_days_present_month * 1.0)));
+    elseif (@day_count_id = 'CALENDAR') then
+	update worked_days_table set worked_days_table.worked_days = working_days_present_month - lop_previous_month - lop_present_month - reduce_days;
+    update worked_days_table set worked_days_table.worked_value = (1 - (case when (working_days_previous_month <> 0)
+                                                                            then (lop_previous_month/(working_days_previous_month * 1.0)) 
+                                                                            else 0 end) - (((case when (date_of_join between cast(@payroll_window_start_date as date) and cast(@payroll_window_end_date as date)) 
+                                                                                                  then datediff(date_of_join,cast(@payroll_window_start_date as date)) 
+                                                                                                  else 0 end) + lop_present_month)/(working_days_present_month * 1.0)));
+    end if;
+    update employee_ctc_table,worked_days_table
+	set employee_ctc_table.lop_days = ifnull(worked_days_table.lop_previous_month,0) + ifnull(worked_days_table.lop_present_month,0),
+    employee_ctc_table.paid_days = worked_days_table.worked_days
+	where employee_ctc_table.empid = worked_days_table.empid;
+	-- select * from worked_days_table;
+end if;      
+open components_cursor;
+	set @mu1 = 0;
+	set @mu1 = found_rows();
+	set @mu2 = 0;
+	WHILE @mu2 < @mu1 do
+		set vcm_id = 0;
+		set vshort_name = 0;
+		set vapplicable_frequency = 0;
+		fetch components_cursor into vcm_id,vshort_name, vapplicable_frequency;
+		set @short_name_text = '';
+		set @validity = 0;
+		set @validity = mod((@month_id - 3),vapplicable_frequency);
+		if (@validity = 0) then
+			set @short_name_text = concat('update employee_ctc_table set ',vshort_name,' = ',vshort_name,' * ',vapplicable_frequency,' * (1/12.0)');
+		prepare stmt from @short_name_text;
 		execute stmt;
 		deallocate prepare stmt;
+		else
+			set @short_name_text = concat('update employee_ctc_table set ',vshort_name,' = 0');
+		prepare stmt from @short_name_text;
+		execute stmt;
+		deallocate prepare stmt;
+		end if;
+		
+		set @mu2 = @mu2 + 1;
+	end while;
+close components_cursor;
+	-- insert gross salary details of employees
+	insert into employee_gross_salary_details(empid,year,month,basic_salary,dearness_allowance,house_rent_allowance,conveyance_allowance,
+		travelling_allowance,transport_allowance,commission,bonus,gratuity,leave_encashment,fixed_allowance,
+		children_education_allowance,hostel_expenditure_allowance,helper_allowance,uniform_allowance,daily_allowance,city_compensatory_allowance,
+		overtime_allowance,telephone_allowance,fixed_medical_allowance,project_allowance,food_allowance,holiday_allowance,entertainment_allowance,
+		custom_allowance,food_coupon,gift_coupon,research_allowance,
+		books_and_periodicals_allowance,fuel_allowance,driver_allowance,leave_travel_allowance,vehicle_maintenance_allowance,
+		telephone_and_internet_allowance,other_allowance,financial_year,created_on,created_by)
+	select employee_ctc_table.empid,year_value,month_value,basic_salary,dearness_allowance,house_rent_allowance,conveyance_allowance,travelling_allowance,
+		transport_allowance, commission,bonus,gratuity,leave_encashment,fixed_allowance,
+		children_education_allowance,hostel_expenditure_allowance,helper_allowance,uniform_allowance,daily_allowance,city_compensatory_allowance,
+		overtime_allowance,telephone_allowance,fixed_medical_allowance,project_allowance,food_allowance,holiday_allowance,entertainment_allowance,
+		custom_allowance,food_coupon,gift_coupon,research_allowance,
+		books_and_periodicals_allowance,fuel_allowance,driver_allowance,leave_travel_allowance,vehicle_maintenance_allowance,
+		telephone_and_internet_allowance,other_allowance,financial_year_value,current_timestamp(),created_by_value
+	from employee_ctc_table;
+        
+	-- update total_gross_salary value
+	update employee_gross_salary_details e
+	set e.total_gross_salary = ifnull(basic_salary,0) + ifnull(dearness_allowance,0) + ifnull(house_rent_allowance,0) + 
+		ifnull(conveyance_allowance,0) + ifnull(travelling_allowance,0) + ifnull(transport_allowance,0) +  ifnull(commission,0) + 
+		ifnull(bonus,0) + ifnull(gratuity,0) + ifnull(leave_encashment,0) + ifnull(fixed_allowance,0) + ifnull(children_education_allowance,0) + 
+		ifnull(hostel_expenditure_allowance,0) + ifnull(helper_allowance,0) + ifnull(uniform_allowance,0) + ifnull(daily_allowance,0) + 
+		ifnull(city_compensatory_allowance,0) + ifnull(overtime_allowance,0) + ifnull(telephone_allowance,0) + ifnull(fixed_medical_allowance,0) + 
+		ifnull(project_allowance,0) + ifnull(food_allowance,0) + ifnull(holiday_allowance,0) + ifnull(entertainment_allowance,0) + 
+		ifnull(custom_allowance,0) + ifnull(food_coupon,0) + ifnull(gift_coupon,0) + ifnull(research_allowance,0) + 
+		ifnull(books_and_periodicals_allowance,0) + ifnull(fuel_allowance,0) + ifnull(driver_allowance,0) + ifnull(leave_travel_allowance,0) + 
+		ifnull(vehicle_maintenance_allowance,0) + ifnull(telephone_and_internet_allowance,0) + ifnull(other_allowance,0)
+	where e.empid in (select employee_ctc_table.empid from employee_ctc_table where employee_ctc_table.empid is not null)
+	and e.year = year_value
+	and e.month = month_value;
+        
+	-- calculate esi for different pay groups starts
+	
+	open income_groups_cursor;
+	set @i = 0;
+	set @i = found_rows();
+	set @j = 0;
+	WHILE @j < @i do
+	set vincome_group_id = 0;
+	fetch income_groups_cursor into vincome_group_id;
+		if exists(select ig_components_master.id from ig_components_master where ig_components_master.component_id = 
+					(select payroll_salary_components_master.id from payroll_salary_components_master 
+					where payroll_salary_components_master.component_short_name = 'esi')
+					and ig_components_master.group_id = vincome_group_id) then
+        open component_config_cursor;
+			set @v1 = 0;
+			set @v1 = found_rows();
+			set @v2 = 0;
+            set @esi_components_string = '';
+            WHILE @v2 < @v1 do
+				set vcomponent_id = 0;
+				set vesi_enabled = 0;
+				set vepf_enabled = 0;
+				set vepf_always = 0;
+				set vsp = 0;
+				fetch component_config_cursor into vcomponent_id,vesi_enabled,vepf_enabled,vepf_always,vsp;
+                if (vesi_enabled = 1) then
+					set vshort_name = 0;
+					select salary_components_table.short_name into vshort_name from salary_components_table 
+					where salary_components_table.component_id = vcomponent_id;            
+					set @esi_components_string = concat(@esi_components_string,case when (@esi_components_string = '') 
+																					then vshort_name
+																					else concat(' + ',vshort_name)
+																					end);                                               
+                end if;    
+                set @v2 = @v2 + 1;
+			end while;
+		close component_config_cursor;    
+		-- updating esi_wages 
+		set @esi_wage_string = concat('update employee_ctc_table set esi_wage = (',@esi_components_string,') where
+                                       employee_ctc_table.group_id = ',vincome_group_id);
+		-- select @esi_wage_string;
+        prepare stmt from @esi_wage_string;
+		execute stmt;
+		deallocate prepare stmt;                  
+        end if;
+	set @j = @j + 1;
+	end while;
+	close income_groups_cursor; -- calculation of esi wages for different pay groups ends            
+                    
+    -- calculation of esi contributions starts
+	open income_groups_cursor;
+	set @i = 0;
+	set @i = found_rows();
+	set @j = 0;
+	WHILE @j < @i do
+	set vincome_group_id = 0;
+	
+	fetch income_groups_cursor into vincome_group_id;
+		if exists(select ig_components_master.id from ig_components_master where ig_components_master.component_id = 
+					(select payroll_salary_components_master.id from payroll_salary_components_master 
+					where payroll_salary_components_master.component_short_name = 'esi')
+					and ig_components_master.group_id = vincome_group_id) then
+		
+			set @esi_value_string = concat('update employee_ctc_table set employee_esi_value = 
+                                            case when (esi_wage/(1.0 * ',@wage_days_pm,') > ',@max_exempt_wage,') then (esi_wage * ',@esi_pcbe/100.0,
+											') else 0 end where employee_ctc_table.group_id = ',vincome_group_id);
+			prepare stmt from @esi_value_string;
+			execute stmt;
+			deallocate prepare stmt;
 			
-		-- calculate salary proportional to attendance
-	if (@payroll_wf_date = @leave_wstart_date) then    
+			set @esi_value_string = concat('update employee_ctc_table set employer_esi_value = esi_wage * ',@esi_pcbemployer/100.0,
+											' where employee_ctc_table.group_id = ',vincome_group_id);
+			prepare stmt from @esi_value_string;
+			execute stmt;
+			deallocate prepare stmt;
+			
+			set @sqltext = '';
+			set @sqltext = 'update employee_ctc_table set employee_ctc_table.total_esi_value = employee_esi_value ';
+			if (@esi_er_in_ctc = 1) then 
+				set @sqltext = concat(@sqltext,' + employer_esi_value');
+			end if;
+			set @sqltext = concat(@sqltext,' where employee_ctc_table.group_id = ',vincome_group_id);
+			prepare stmt from @sqltext;
+			execute stmt;
+			deallocate prepare stmt;
+			
 			open empid_cursor;
-			set @qu1 = 0;
-			set @qu1 = found_rows();
-			set @qu2 = 0;
-			WHILE @qu2 < @qu1 do
+			set @esiu1 = 0;
+			set @esiu1 = found_rows();
+			set @esiu2 = 0;
+			WHILE @esiu2 < @esiu1 do
 			set vemp_id = 0;
 			fetch empid_cursor into vemp_id;
-				select worked_days,working_days into @n1,@n2
-				from worked_days_table where worked_days_table.empid = vemp_id;
-				set @m = (@n1/(@n2*1.0));
-				update employee_ctc_table 
-				set 
-				basic_salary                     = (@m * basic_salary),                               
-				dearness_allowance               = (@m * dearness_allowance),
-				house_rent_allowance             = (@m * house_rent_allowance),
-				conveyance_allowance             = (@m * conveyance_allowance),
-				travelling_allowance             = (@m * travelling_allowance),
-				transport_allowance              = (@m * transport_allowance),
-				commission                       = (@m * commission),
-				bonus                            = (@m * bonus),
-				gratuity                         = (@m * gratuity),
-				leave_encashment                 = (@m * leave_encashment),
-				fixed_allowance                  = (@m * fixed_allowance),
-				children_education_allowance     = (@m * children_education_allowance),
-				hostel_expenditure_allowance     = (@m * hostel_expenditure_allowance),
-				helper_allowance                 = (@m * helper_allowance),
-				uniform_allowance                = (@m * uniform_allowance),
-				daily_allowance                  = (@m * daily_allowance),
-				city_compensatory_allowance      = (@m * city_compensatory_allowance),
-				overtime_allowance               = (@m * overtime_allowance),
-				telephone_allowance              = (@m * telephone_allowance),
-				fixed_medical_allowance          = (@m * fixed_medical_allowance),
-				project_allowance                = (@m * project_allowance),
-				food_allowance                   = (@m * food_allowance),
-				holiday_allowance                = (@m * holiday_allowance),
-				entertainment_allowance          = (@m * entertainment_allowance),
-				custom_allowance                 = (@m * custom_allowance),
-				food_coupon                      = (@m * food_coupon),
-				gift_coupon                      = (@m * gift_coupon),
-				research_allowance               = (@m * research_allowance),
-				books_and_periodicals_allowance  = (@m * books_and_periodicals_allowance),
-				fuel_allowance                   = (@m * fuel_allowance),
-				driver_allowance                 = (@m * driver_allowance),
-				leave_travel_allowance           = (@m * leave_travel_allowance),
-				vehicle_maintenance_allowance    = (@m * vehicle_maintenance_allowance),
-				telephone_and_internet_allowance = (@m * telephone_and_internet_allowance),
-				other_allowance      			 = (@m * other_allowance)
-				where employee_ctc_table.empid = vemp_id;
-				
-			set @qu2 = @qu2 + 1;
+			if exists (select emp_esi_table.empid from emp_esi_table where emp_esi_table.empid = vemp_id
+                       and emp_esi_table.is_gross_sal_ltoet_esi_cutoff = 1) then
+                
+                set @eesi_value = 0;
+                set @er_esi_value = 0;    
+                set @esi_wage = 0;
+                select employee_ctc_table.employee_esi_value, employer_esi_value
+                into @eesi_value, @er_esi_value
+                from employee_ctc_table where employee_ctc_table.empid = vemp_id;
+                insert into payroll_esi_details(empid,year,month,employee_esi_value,employer_esi_value,financial_year,
+												assessment_year,created_on,created_by) values
+				(vemp_id,year_value,month_value,@eesi_value, @er_esi_value,financial_year_value,@assessment_year,current_timestamp(),created_by_value);                                                 
+                if (@esi_wage <= @max_gross_salary) then
+					update payroll_employee_esi_status_details
+					set payroll_employee_esi_status_details.last_contribution_month = month_value,
+						payroll_employee_esi_status_details.last_contribution_year = year_value,
+						payroll_employee_esi_status_details.updated_on = current_timestamp(),
+						payroll_employee_esi_status_details.updated_by = created_by_value
+					where payroll_employee_esi_status_details.empid = vemp_id;
+                elseif (@esi_wage > @max_gross_salary) then
+					update payroll_employee_esi_status_details
+					set payroll_employee_esi_status_details.is_gross_sal_ltoet_esi_cutoff = 0,
+						payroll_employee_esi_status_details.last_contribution_month = month_value,
+						payroll_employee_esi_status_details.last_contribution_year = year_value,
+						payroll_employee_esi_status_details.updated_on = current_timestamp(),
+						payroll_employee_esi_status_details.updated_by = created_by_value
+					where payroll_employee_esi_status_details.empid = vemp_id;
+                end if;
+            elseif exists (select emp_esi_table.empid from emp_esi_table where emp_esi_table.empid = vemp_id
+                       and emp_esi_table.is_gross_sal_ltoet_esi_cutoff = 0) then    
+                set @lcm = (select emp_esi_table.last_contribution_month from emp_esi_table where emp_esi_table.empid = vemp_id);
+                set @lcy = (select emp_esi_table.last_contribution_year from emp_esi_table where emp_esi_table.empid = vemp_id);
+                set @last_contribution_date = (select cast(concat(@lcy,'-',@lcm,'-01') as date));
+                if (@last_contribution_date < @cp_start_date) then
+					delete from payroll_employee_esi_status_details
+					where empid = vemp_id;
+                elseif ((@last_contribution_date between @cp_start_date and @cp_end_date) and 
+                        (month_value = (select month(@cp_end_date)))) then    
+                    insert into payroll_esi_details(empid,year,month,employee_esi_value,employer_esi_value,financial_year,
+													assessment_year,created_on,created_by) values
+					(vemp_id,year_value,month_value,@eesi_value, @er_esi_value,financial_year_value,@assessment_year,current_timestamp(),created_by_value);
+                    delete from payroll_employee_esi_status_details
+					where empid = vemp_id;
+                end if;
+			end if;
+				set @esiu2 = @esiu2 + 1;
 			end while;
 			close empid_cursor;  
-	elseif (@payroll_wf_date <> @leave_wstart_date) then 
-			open empid_cursor;
-			set @dqu1 = 0;
-			set @dqu1 = found_rows();
-			set @dqu2 = 0;
-			WHILE @dqu2 < @dqu1 do
-			set vemp_id = 0;
-			fetch empid_cursor into vemp_id;
-				select worked_value into @m
-				from worked_days_table where worked_days_table.empid = vemp_id;
-				
-				update employee_ctc_table 
-				set 
-				basic_salary                     = (@m * basic_salary),                               
-				dearness_allowance               = (@m * dearness_allowance),
-				house_rent_allowance             = (@m * house_rent_allowance),
-				conveyance_allowance             = (@m * conveyance_allowance),
-				travelling_allowance             = (@m * travelling_allowance),
-				transport_allowance              = (@m * transport_allowance),
-				commission                       = (@m * commission),
-				bonus                            = (@m * bonus),
-				gratuity                         = (@m * gratuity),
-				leave_encashment                 = (@m * leave_encashment),
-				fixed_allowance                  = (@m * fixed_allowance),
-				children_education_allowance     = (@m * children_education_allowance),
-				hostel_expenditure_allowance     = (@m * hostel_expenditure_allowance),
-				helper_allowance                 = (@m * helper_allowance),
-				uniform_allowance                = (@m * uniform_allowance),
-				daily_allowance                  = (@m * daily_allowance),
-				city_compensatory_allowance      = (@m * city_compensatory_allowance),
-				overtime_allowance               = (@m * overtime_allowance),
-				telephone_allowance              = (@m * telephone_allowance),
-				fixed_medical_allowance          = (@m * fixed_medical_allowance),
-				project_allowance                = (@m * project_allowance),
-				food_allowance                   = (@m * food_allowance),
-				holiday_allowance                = (@m * holiday_allowance),
-				entertainment_allowance          = (@m * entertainment_allowance),
-				custom_allowance                 = (@m * custom_allowance),
-				food_coupon                      = (@m * food_coupon),
-				gift_coupon                      = (@m * gift_coupon),
-				research_allowance               = (@m * research_allowance),
-				books_and_periodicals_allowance  = (@m * books_and_periodicals_allowance),
-				fuel_allowance                   = (@m * fuel_allowance),
-				driver_allowance                 = (@m * driver_allowance),
-				leave_travel_allowance           = (@m * leave_travel_allowance),
-				vehicle_maintenance_allowance    = (@m * vehicle_maintenance_allowance),
-				telephone_and_internet_allowance = (@m * telephone_and_internet_allowance),
-				other_allowance      		     = (@m * other_allowance)
-				where employee_ctc_table.empid = vemp_id;
-				
-			set @dqu2 = @dqu2 + 1;
+		end if;
+	set @j = @j + 1;
+	end while;
+	close income_groups_cursor; -- esi calculation for different pay groups ends
+    
+    update employee_gross_salary_details, employee_ctc_table
+		set employee_gross_salary_details.esi = employee_ctc_table.total_esi_value
+		where employee_gross_salary_details.empid = employee_ctc_table.empid
+		and employee_gross_salary_details.year = year_value
+		and employee_gross_salary_details.month = @month_id;
+        
+        -- calculate epf for different pay groups
+        open income_groups_cursor;
+		set @i = 0;
+		set @i = found_rows();
+		set @j = 0;
+		WHILE @j < @i do
+		set vincome_group_id = 0;
+		
+		fetch income_groups_cursor into vincome_group_id;
+		if exists(select ig_components_master.id from ig_components_master where ig_components_master.component_id = 
+             (select payroll_salary_components_master.id from payroll_salary_components_master 
+                             where payroll_salary_components_master.component_short_name = 'employee_provident_fund')
+              and ig_components_master.group_id = vincome_group_id) then
+        -- set @columns_string = '';      
+        -- calculate employee and employer epf wages for this pay group
+        open empid_cursor;
+		set @epfu1 = 0;
+	    set @epfu1 = found_rows();
+	    set @epfu2 = 0;
+        WHILE @epfu2 < @epfu1 do
+        set vemp_id = 0;
+        fetch empid_cursor into vemp_id;
+			open component_config_cursor;
+			set @v1 = 0;
+			set @v1 = found_rows();
+			set @v2 = 0;
+            set @vepf_always_wage = 0;
+            set @vsp_wage = 0;
+			WHILE @v2 < @v1 do
+				set vcomponent_id = 0;
+				set vesi_enabled = 0;
+				set vepf_enabled = 0;
+				set vepf_always = 0;
+				set vsp = 0;
+				fetch component_config_cursor into vcomponent_id,vesi_enabled,vepf_enabled,vepf_always,vsp;
+				set vshort_name = 0;
+				select salary_components_table.short_name into vshort_name from salary_components_table 
+				where salary_components_table.component_id = vcomponent_id;
+					if ((vshort_name <> 'house_rent_allowance') and (vepf_enabled = 1)) then
+                    if (vepf_always = 1) then
+						set @var = 0;
+						set @short_name_text = '';
+						set @short_name_text = concat('select ',vshort_name,' into @var from employee_ctc_table where employee_ctc_table.empid = ',vemp_id);
+						-- select @short_name_text;
+						prepare stmt from @short_name_text;
+						execute stmt;
+						deallocate prepare stmt;
+						set @vepf_always_wage = @vepf_always_wage + @var;
+                    elseif (vsp = 1) then
+						set @short_name_text = '';
+						set @short_name_text = concat('select ',vshort_name,' into @var from employee_ctc_table where employee_ctc_table.empid = ',vemp_id);
+						-- select @short_name_text;
+						prepare stmt from @short_name_text;
+						execute stmt;
+						deallocate prepare stmt;
+						set @vsp_wage = @vsp_wage + @var;
+                    end if;
+					end if;
+				set @v2 = @v2 + 1;
 			end while;
-			close empid_cursor; 
-	end if;
+			close component_config_cursor;
+            if (@employee_epf_wage = 'ACTUAL') then
+				if (@vepf_always_wage < @spf_wage) then
+					set @epf_wage = 0;
+					set @epf_wage = @epf_wage + @vepf_always_wage + @vsp_wage;
+					if (@epf_wage > @spf_wage) then
+						set @epf_wage = @spf_wage;
+					end if;
+                elseif (@vepf_always_wage >= @spf_wage) then    
+					set @epf_wage = 0;
+					set @epf_wage = @epf_wage + @vepf_always_wage;
+                end if;
+				update employee_ctc_table set employee_ctc_table.epf_wage = @epf_wage where employee_ctc_table.empid = vemp_id; 
+			elseif (@employee_epf_wage = 'RESTRICTED') then	
+				set @epf_wage = 0;
+				set @epf_wage = @epf_wage + @vepf_always_wage + @vsp_wage;
+                if (@epf_wage > @spf_wage) then
+					set @epf_wage = @spf_wage;
+				end if;
+                update employee_ctc_table set employee_ctc_table.epf_wage = @epf_wage where employee_ctc_table.empid = vemp_id;
+            end if;
+            if (@employer_epf_wage = 'ACTUAL') then
+				if (@vepf_always_wage < @spf_wage) then
+					set @epf_wage = 0;
+					set @epf_wage = @epf_wage + @vepf_always_wage + @vsp_wage;
+					if (@epf_wage > @spf_wage) then
+						set @epf_wage = @spf_wage;
+					end if;
+                elseif (@vepf_always_wage >= @spf_wage) then    
+					set @epf_wage = 0;
+					set @epf_wage = @epf_wage + @vepf_always_wage;
+                end if;
+				update employee_ctc_table set employee_ctc_table.employer_epf_wage = @epf_wage where employee_ctc_table.empid = vemp_id; 
+			elseif (@employer_epf_wage = 'RESTRICTED') then	
+				set @epf_wage = 0;
+				set @epf_wage = @epf_wage + @vepf_always_wage + @vsp_wage;
+                if (@epf_wage > @spf_wage) then
+					set @epf_wage = @spf_wage;
+				end if;
+                update employee_ctc_table set employee_ctc_table.employer_epf_wage = @epf_wage where employee_ctc_table.empid = vemp_id;
+            end if;
+        set @epfu2 = @epfu2 + 1;
+		end while;
+        close empid_cursor;  
+    -- calculate gross epf contribution    
+    update employee_ctc_table   
+		set employee_ctc_table.employee_epf_value = employee_ctc_table.epf_wage * (@tpcbe/100.0),
+			employee_ctc_table.employer_epf       = employee_ctc_table.employer_epf_wage * (@eepf/100.0),
+            employee_ctc_table.employer_eps_amount = (case when (employee_ctc_table.employer_epf_wage >= @spf_wage) then @spf_wage 
+													  else employee_ctc_table.employer_epf_wage
+                                                      end) * (@eps/100.0),
+			employee_ctc_table.employer_edli      = employee_ctc_table.employer_epf_wage * (@edli/100.0),
+			employee_ctc_table.employer_admin     = employee_ctc_table.employer_epf_wage * (@admin/100.0)
+        where employee_ctc_table.group_id = vincome_group_id;
+        
+    update employee_ctc_table 
+        set employee_ctc_table.employer_edli = case when (employee_ctc_table.employer_edli > @max_edli_wage) then @max_edli_wage
+				                               else employee_ctc_table.employer_edli
+                                               end
+        where employee_ctc_table.group_id = vincome_group_id;    
+        
+    update employee_ctc_table
+		set employee_ctc_table.employer_epf_amount = ((employee_ctc_table.employer_epf_wage * (@eepf/100.0)) - employee_ctc_table.employer_eps_amount)
+        where employee_ctc_table.group_id = vincome_group_id;
+        
+    set @sqltext = '';
+    set @sqltext = 'update employee_ctc_table set employee_ctc_table.total_epf_value = employee_epf_value ';
+    if (@er_in_ctc = 1) then 
+		set @sqltext = concat(@sqltext,' + employer_epf ');
+    end if;
+    if (@er_edli_in_ctc = 1) then
+		set @sqltext = concat(@sqltext,' + employer_edli ');
+    end if;
+    if (@er_admin_in_ctc = 1) then
+		set @sqltext = concat(@sqltext,' + employer_admin ');
+    end if;
+    set @sqltext = concat(@sqltext,' where employee_ctc_table.group_id = ',vincome_group_id);
+    prepare stmt from @sqltext;
+	execute stmt;
+	deallocate prepare stmt;
+        
+    -- calculate salary proportional to attendance
+if (@payroll_wf_date = @leave_wstart_date) then    
+		open empid_cursor;
+		set @qu1 = 0;
+	    set @qu1 = found_rows();
+	    set @qu2 = 0;
+        WHILE @qu2 < @qu1 do
+        set vemp_id = 0;
+        fetch empid_cursor into vemp_id;
+			select worked_days,working_days into @n1,@n2
+			from worked_days_table where worked_days_table.empid = vemp_id;
+			set @m = (@n1/(@n2*1.0));
+            update employee_ctc_table 
+            set 
+            basic_salary                     = (@m * basic_salary),                               
+			dearness_allowance               = (@m * dearness_allowance),
+			house_rent_allowance             = (@m * house_rent_allowance),
+			conveyance_allowance             = (@m * conveyance_allowance),
+			travelling_allowance             = (@m * travelling_allowance),
+			transport_allowance              = (@m * transport_allowance),
+			commission                       = (@m * commission),
+			bonus                            = (@m * bonus),
+			gratuity                         = (@m * gratuity),
+			leave_encashment                 = (@m * leave_encashment),
+			fixed_allowance                  = (@m * fixed_allowance),
+			children_education_allowance     = (@m * children_education_allowance),
+			hostel_expenditure_allowance     = (@m * hostel_expenditure_allowance),
+			helper_allowance                 = (@m * helper_allowance),
+			uniform_allowance                = (@m * uniform_allowance),
+			daily_allowance                  = (@m * daily_allowance),
+			city_compensatory_allowance      = (@m * city_compensatory_allowance),
+			overtime_allowance               = (@m * overtime_allowance),
+			telephone_allowance              = (@m * telephone_allowance),
+			fixed_medical_allowance          = (@m * fixed_medical_allowance),
+			project_allowance                = (@m * project_allowance),
+			food_allowance                   = (@m * food_allowance),
+			holiday_allowance                = (@m * holiday_allowance),
+			entertainment_allowance          = (@m * entertainment_allowance),
+			custom_allowance                 = (@m * custom_allowance),
+			food_coupon                      = (@m * food_coupon),
+			gift_coupon                      = (@m * gift_coupon),
+			research_allowance               = (@m * research_allowance),
+			books_and_periodicals_allowance  = (@m * books_and_periodicals_allowance),
+			fuel_allowance                   = (@m * fuel_allowance),
+			driver_allowance                 = (@m * driver_allowance),
+			leave_travel_allowance           = (@m * leave_travel_allowance),
+			vehicle_maintenance_allowance    = (@m * vehicle_maintenance_allowance),
+			telephone_and_internet_allowance = (@m * telephone_and_internet_allowance),
+            other_allowance      			 = (@m * other_allowance)
+            where employee_ctc_table.empid = vemp_id;
+            
+        set @qu2 = @qu2 + 1;
+		end while;
+        close empid_cursor;  
+elseif (@payroll_wf_date <> @leave_wstart_date) then 
+		open empid_cursor;
+		set @dqu1 = 0;
+	    set @dqu1 = found_rows();
+	    set @dqu2 = 0;
+        WHILE @dqu2 < @dqu1 do
+        set vemp_id = 0;
+        fetch empid_cursor into vemp_id;
+			select worked_value into @m
+			from worked_days_table where worked_days_table.empid = vemp_id;
+			
+            update employee_ctc_table 
+            set 
+            basic_salary                     = (@m * basic_salary),                               
+			dearness_allowance               = (@m * dearness_allowance),
+			house_rent_allowance             = (@m * house_rent_allowance),
+			conveyance_allowance             = (@m * conveyance_allowance),
+			travelling_allowance             = (@m * travelling_allowance),
+			transport_allowance              = (@m * transport_allowance),
+			commission                       = (@m * commission),
+			bonus                            = (@m * bonus),
+			gratuity                         = (@m * gratuity),
+			leave_encashment                 = (@m * leave_encashment),
+			fixed_allowance                  = (@m * fixed_allowance),
+			children_education_allowance     = (@m * children_education_allowance),
+			hostel_expenditure_allowance     = (@m * hostel_expenditure_allowance),
+			helper_allowance                 = (@m * helper_allowance),
+			uniform_allowance                = (@m * uniform_allowance),
+			daily_allowance                  = (@m * daily_allowance),
+			city_compensatory_allowance      = (@m * city_compensatory_allowance),
+			overtime_allowance               = (@m * overtime_allowance),
+			telephone_allowance              = (@m * telephone_allowance),
+			fixed_medical_allowance          = (@m * fixed_medical_allowance),
+			project_allowance                = (@m * project_allowance),
+			food_allowance                   = (@m * food_allowance),
+			holiday_allowance                = (@m * holiday_allowance),
+			entertainment_allowance          = (@m * entertainment_allowance),
+			custom_allowance                 = (@m * custom_allowance),
+			food_coupon                      = (@m * food_coupon),
+			gift_coupon                      = (@m * gift_coupon),
+			research_allowance               = (@m * research_allowance),
+			books_and_periodicals_allowance  = (@m * books_and_periodicals_allowance),
+			fuel_allowance                   = (@m * fuel_allowance),
+			driver_allowance                 = (@m * driver_allowance),
+			leave_travel_allowance           = (@m * leave_travel_allowance),
+			vehicle_maintenance_allowance    = (@m * vehicle_maintenance_allowance),
+			telephone_and_internet_allowance = (@m * telephone_and_internet_allowance),
+            other_allowance      		     = (@m * other_allowance)
+            where employee_ctc_table.empid = vemp_id;
+            
+        set @dqu2 = @dqu2 + 1;
+		end while;
+        close empid_cursor; 
+end if;
 
 			-- calculate employee and employer epf wages for this pay group after LoP deduction
 			open empid_cursor;
@@ -28542,6 +28912,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	drop temporary table empids_table;
 	drop temporary table employeeleaves_table;
 	drop temporary table worked_days_table;
+        drop temporary table month_table;
 	DROP TEMPORARY TABLE income_groups_master_table;
 	drop temporary table ig_components_master;
 	drop temporary table employee_ctc_table;
