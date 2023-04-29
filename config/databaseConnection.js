@@ -12,6 +12,7 @@ function switchDatabase() {
             password: "Client&*123",
             // database: 'spryple_hrms',
             database: 'spryple_product_dev',
+          //  database: 'spryple_qa',
             dateStrings: true,
             multipleStatements: true
 

@@ -408,7 +408,7 @@ async function setDepartment(req,res) {
          errorLogs(errorLogArray) }
 }
 
-async function updateStatus(req,res) {
+async function updateStatus(req, res) {
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -482,7 +482,7 @@ async function designationStatus(req,res) {
             if(req.body.status === 1 ||(!req.body.isexists.result && req.body.isexists.status)) {
                 listOfConnections[companyName].query("CALL `updatestatus` (?,?,?)", ['designationsmaster', req.body.id, req.body.status],
                     async function (err, result, fields) {
-                    if (err) {
+                   if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("AdminAPI");
                         errorLogArray.push("designationStatus");
@@ -2884,3 +2884,4 @@ function errorLogs(errorLogArray) {
    });
 
 }
+

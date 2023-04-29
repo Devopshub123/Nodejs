@@ -101,7 +101,8 @@ module.exports = {
     deleteLeaveRequest: deleteLeaveRequest,
     getLeaveTypesToAdd:getLeaveTypesToAdd,
     errorLogs: errorLogs,
-    getCompOffValidityDuration:getCompOffValidityDuration
+    getCompOffValidityDuration:getCompOffValidityDuration,
+    getLeaveCycleYearOptions:getLeaveCycleYearOptions
 
 };
 
@@ -1086,8 +1087,9 @@ async function setemployeeleave(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             } 
-
+        
             var id = req.body.id ? req.body.id : null;
+            console.log("setemployeeleavesetemployeeleave",id)
             let empid = req.body.empid;
             let leavetype = req.body.leaveTypeId;
             let fromdate = req.body.fromDate;
@@ -1119,7 +1121,15 @@ async function setemployeeleave(req, res) {
                 else{
                     res.send({status:true,isLeaveUpdated:id?1:0,data:result[0]})
                     if (emailData.emailData.rm_email != '' || emailData.emailData.rm_email != null) {
-                       leaveRequestEmail(emailData);
+                       console.log("sdfugyaugi",id)
+                        if(id == null){
+                            console.log("leaveRequestEmailsdfugyaugi",id)
+                        leaveRequestEmail(emailData);
+                       }
+                       else{
+                        console.log("editLeaveRequestEmailsdfugyaugi",id)
+                        editLeaveRequestEmail(emailData);
+                       }
                     }
                 }
             })
@@ -2770,6 +2780,7 @@ function leaveRequestEmail(mailData) {
     // let tdate =new Date(mailData.toDate).getDate()+'-'+(new Date(mailData.toDate).getMonth()+1) +'-'+new Date(mailData.toDate).getFullYear()
     try {
         let email = mailData.emailData.rm_email
+        let reportingemail = mailData.emailData.rm_reporting_email
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -2837,6 +2848,7 @@ function leaveRequestEmail(mailData) {
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
+          cc:reportingemail!=null?reportingemail:'',
           subject: 'Leave Request by'+' '+mailData.emailData.emp_name,
           html: html
       };
@@ -2863,6 +2875,7 @@ function approveLeaveRequestEmail(mailData) {
   
     try {
         let email = mailData.emaildata.emp_email
+        let reportingemail = mailData.emaildata.rm_reporting_email
        let approvereason = mailData.reason !=undefined || null ? mailData.reason:''
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
@@ -2924,6 +2937,7 @@ function approveLeaveRequestEmail(mailData) {
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
+          cc:reportingemail!=null?reportingemail:'',
           subject: 'Leave Request Approved by'+' '+ mailData.emaildata.rm_name,
           html: html
       };
@@ -2945,6 +2959,7 @@ function rejectedLeaveRequestEmail(mailData) {
     let tdate =(new Date(mailData.leavedata.todate).getDate()<10?"0"+new Date(mailData.leavedata.todate).getDate():new Date(mailData.leavedata.todate).getDate())+'-'+((new Date(mailData.leavedata.todate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.todate).getMonth()+1):(new Date(mailData.leavedata.todate).getMonth()+1)) +'-'+new Date(mailData.leavedata.todate).getFullYear();
      try {
         let email = mailData.emaildata.emp_email
+        let reportingemail = mailData.emaildata.rm_reporting_email
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -3008,6 +3023,7 @@ function rejectedLeaveRequestEmail(mailData) {
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
+          cc:reportingemail!=null?reportingemail:'',
           subject: 'Leave Request Rejected by'+' '+ mailData.emaildata.rm_name,
           html: html
       };
@@ -3031,6 +3047,7 @@ function compOffRequestEmail(mailData){
         // let wdate =new Date(mailData.workDate).getDate()+'-'+(new Date(mailData.workDate).getMonth()+1) +'-'+new Date(mailData.workDate).getFullYear()
      
         let email = mailData.emaildata.rm_email
+        let reportingemail = mailData.emaildata.rm_reporting_email
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
@@ -3093,6 +3110,7 @@ function compOffRequestEmail(mailData){
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
+          cc:reportingemail!=null?reportingemail:'',
           subject: 'Comp-Off Request by' +' '+ mailData.emaildata.emp_name,
           html: html
       };
@@ -3112,6 +3130,7 @@ function compOffRequestEmail(mailData){
 function compOffApprovalRequestEmail(mailData) {
     try {
         let email = mailData.emaildata.emp_email;
+        let reportingemail = mailData.emaildata.rm_reporting_email
         let wdate =(new Date(mailData.comp_off_date).getDate()<10?"0"+new Date(mailData.comp_off_date).getDate():new Date(mailData.comp_off_date).getDate())+'-'+((new Date(mailData.comp_off_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_date).getMonth()+1):(new Date(mailData.comp_off_date).getMonth()+1)) +'-'+new Date(mailData.comp_off_date).getFullYear()
         // let wdate =new Date(mailData.comp_off_date).getDate()+'-'+(new Date(mailData.comp_off_date).getMonth()+1) +'-'+new Date(mailData.comp_off_date).getFullYear()
      
@@ -3167,6 +3186,7 @@ function compOffApprovalRequestEmail(mailData) {
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
+          cc:reportingemail!=null?reportingemail:'',
           subject: 'Comp-Off Request Approved by'+' '+mailData.emaildata.rm_name,
           html: html
       };
@@ -3187,6 +3207,7 @@ function compOffApprovalRequestEmail(mailData) {
   function compOffRejectRequestEmail(mailData){
     try {
         let email = mailData.emaildata.emp_email;
+        let reportingemail = mailData.emaildata.rm_reporting_email;
         // let fdate =(new Date(mailData.leavedata.fromdate).getDate()<10?"0"+new Date(mailData.leavedata.fromdate).getDate():new Date(mailData.leavedata.fromdate).getDate())+'-'+((new Date(mailData.leavedata.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.fromdate).getMonth()+1):(new Date(mailData.leavedata.fromdate).getMonth()+1) )+'-'+new Date(mailData.leavedata.fromdate).getFullYear();
 
         let wdate =(new Date(mailData.comp_off_date).getDate()<10?"0"+new Date(mailData.comp_off_date).getDate():new Date(mailData.comp_off_date).getDate())+'-'+((new Date(mailData.comp_off_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_date).getMonth()+1):(new Date(mailData.comp_off_date).getMonth()+1) )+'-'+new Date(mailData.comp_off_date).getFullYear()
@@ -3252,6 +3273,7 @@ function compOffApprovalRequestEmail(mailData) {
       var mailOptions = {
           from: 'no-reply@spryple.com',
           to: email,
+          cc:reportingemail!=null?reportingemail:'',
           subject: 'Comp-Off Request Rejected by'+' '+ mailData.emaildata.rm_name,
           html: html
       };
@@ -3277,6 +3299,7 @@ function cancelLeaveRequestEmail(mailData, companyName) {
    
     try {
         let email = mailData.emailData.rm_email;
+        let reportingemail = mailData.emailData.rm_reporting_email
         var companyName = companyName;
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
@@ -3343,6 +3366,7 @@ function cancelLeaveRequestEmail(mailData, companyName) {
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
+            cc:reportingemail!=null?reportingemail:'',
             subject: 'Leave request cancelled by '+' '+mailData.emailData.emp_name,
             html: html
         };
@@ -3373,10 +3397,9 @@ function cancelLeaveRequestEmail(mailData, companyName) {
 function approveCancelLeaveRequestEmail(mailData) {
     let fdate =(new Date(mailData.leavedata.fromdate).getDate()<10?"0"+new Date(mailData.leavedata.fromdate).getDate():new Date(mailData.leavedata.fromdate).getDate())+'-'+((new Date(mailData.leavedata.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.fromdate).getMonth()+1):(new Date(mailData.leavedata.fromdate).getMonth()+1) )+'-'+new Date(mailData.leavedata.fromdate).getFullYear();
     let tdate =(new Date(mailData.leavedata.todate).getDate()<10?"0"+new Date(mailData.leavedata.todate).getDate():new Date(mailData.leavedata.todate).getDate())+'-'+((new Date(mailData.leavedata.todate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.todate).getMonth()+1):(new Date(mailData.leavedata.todate).getMonth()+1)) +'-'+new Date(mailData.leavedata.todate).getFullYear();
-    // let fdate =new Date(mailData.leavedata.fromdate).getDate()+'-'+(new Date(mailData.leavedata.fromdate).getMonth()+1) +'-'+new Date(mailData.leavedata.fromdate).getFullYear()
-    // let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
-    try {
+     try {
         let email = mailData.emaildata.emp_email
+        let reportingemail = mailData.emaildata.rm_reporting_email
         let approvereason = mailData.reason !=undefined || null ? mailData.reason:''
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
@@ -3423,11 +3446,6 @@ function approveCancelLeaveRequestEmail(mailData) {
           <td width="30%"><b>Reason</b></td>
           <td>${mailData.leavedata.leavereason}</td>
            </tr>
-           <tr>
-           <td width="30%"><b>Approve Reason</b></td>
-           <td>${approvereason}</td>
-            </tr>
-      
       </tbody>
       </table>
 
@@ -3441,6 +3459,7 @@ function approveCancelLeaveRequestEmail(mailData) {
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
+            cc:reportingemail!=null?reportingemail:'',
             subject: 'Cancelled Leave request approved by '+' '+ mailData.emaildata.rm_name,
             html: html
         };
@@ -3464,7 +3483,7 @@ function rejectCancelLeaveRequestEmail(mailData){
     // let tdate =new Date(mailData.leavedata.todate).getDate()+'-'+(new Date(mailData.leavedata.todate).getMonth()+1) +'-'+new Date(mailData.leavedata.todate).getFullYear()
      try {
         let email = mailData.emaildata.emp_email
-        console.log("rejectCancelLeaveRequestEmailemail",email)
+        let reportingemail = mailData.emaildata.rm_reporting_email
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -3529,6 +3548,7 @@ function rejectCancelLeaveRequestEmail(mailData){
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
+            cc:reportingemail!=null?reportingemail:'',
             subject: 'Cancelled Leave request rejected by '+' '+ mailData.emaildata.rm_name,
             html: html
         };
@@ -3551,7 +3571,8 @@ function deleteLeaveRequestEmail(mailData) {
    
     try {
         let value = mailData
-        let email = value.emailData.rm_email
+        let email = value.emailData.rm_email;
+        let reportingemail = value.emailData.rm_reporting_email
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -3616,6 +3637,7 @@ function deleteLeaveRequestEmail(mailData) {
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
+            cc:reportingemail!=null?reportingemail:'',
             subject: 'Delete Leave request by'+' '+ value.emailData.emp_name,
             html: html
         };
@@ -3634,7 +3656,11 @@ function deleteLeaveRequestEmail(mailData) {
 
 function editLeaveRequestEmail(mailData){
     try {
-        let email = mailData
+        let fdate =(new Date(mailData.fromDate).getDate()<10?"0"+new Date(mailData.fromDate).getDate():new Date(mailData.fromDate).getDate())+'-'+((new Date(mailData.fromDate).getMonth()+1)<10?"0"+(new Date(mailData.fromDate).getMonth()+1):(new Date(mailData.fromDate).getMonth()+1) )+'-'+new Date(mailData.fromDate).getFullYear();
+        let tdate =(new Date(mailData.toDate).getDate()<10?"0"+new Date(mailData.toDate).getDate():new Date(mailData.toDate).getDate())+'-'+((new Date(mailData.toDate).getMonth()+1)<10?"0"+(new Date(mailData.toDate).getMonth()+1):(new Date(mailData.toDate).getMonth()+1)) +'-'+new Date(mailData.toDate).getFullYear();
+        let email = mailData.emailData.rm_email
+     
+        let reportingemail = mailData.emailData.rm_reporting_email
         var transporter = nodemailer.createTransport({
             host: "smtp-mail.outlook.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
@@ -3653,17 +3679,39 @@ function editLeaveRequestEmail(mailData){
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
     
-      <p style="color:black">Hi ${mailData[0].emp_name},</p>
+      <p style="color:black">Hi ${mailData.emailData.rm_name},</p>
   
-      <p style="color:black">A leave request is deleted by ${mailData[0].emp_name}</p>
-      
-       <p style="color:black">Leave Type:</p>
-           <p style="color:black">From Date:</p>
-       <p style="color:black">To Date:</p>
-       <p style="color:black">Leave Count:</p>
-       <p style="color:black">Reason:</p>
+      <p style="color:black">A leave request is edited by ${mailData.emailData.emp_name}</p>
+      <table border="1" style='border-collapse:collapse;color:black'>
+       <tbody>
+       <tr>
+       <td width="30%"><b>Leave Type</b></td>
+       <td>${mailData.leavetypename}</td>
+        </tr>
+         <tr>
+         <td width="30%"><b>From Date</b></td>
+         <td>${fdate}</td>
+          </tr>
+ 
+          <tr>
+          <td width="30%"><b>To Date</b></td>
+          <td>${tdate}</td>
+           </tr>
+ 
+           <tr>
+          <td width="30%"><b>Leave Count</b></td>
+          <td>${mailData.leaveCount}</td>
+           </tr>
+           <tr>
+           <td width="30%"><b>Reason</b></td>
+           <td>${mailData.reason}</td>
+            </tr>
+ 
+       </tbody>
+       </table>
+  
        <p style="color:black">Best regards,</p>
-       <p style="color:black">${mailData[0].emp_name}</p>
+       <p style="color:black">${mailData.emailData.emp_name}</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
@@ -3672,7 +3720,8 @@ function editLeaveRequestEmail(mailData){
         var mailOptions = {
             from: 'no-reply@spryple.com',
             to: email,
-            subject: 'Edited Leave request by {employee}',
+            cc:reportingemail!=null?reportingemail:'',
+            subject: 'Edited Leave request by'+' '+mailData.emailData.emp_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {
@@ -3943,4 +3992,52 @@ async function getCompOffValidityDuration(req,res){
         errorLogArray.push(companyName);
         errorLogArray.push(dbName);
         errorLogs(errorLogArray) }
+}
+async function getLeaveCycleYearOptions(req,res){
+    let  dbName = await getDatebaseName(req.params.companyName)
+    let companyName = req.params.companyName;
+    try {
+         var listOfConnections = {};
+         if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            } 
+            listOfConnections[companyName].query("CALL `get_leave_cycle_year_options` ()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("getLeaveCycleYearOptions");
+                    errorLogArray.push("GET");
+                    errorLogArray.push("");
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs(errorLogArray)
+                }
+                else if (result && result.length > 0) {
+                    res.send({ data: result[0], status: true });
+                } 
+                else {
+                    res.send({ status: false });
+                }
+                
+            });
+        }
+        else {
+             res.send({status: false,Message:'Database Name is missed'});
+        }
+    }
+    catch (e) {
+        let errorLogArray = [];
+        errorLogArray.push("LMSAPI");
+        errorLogArray.push("getLeaveCycleYearOptions");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs(errorLogArray)  }
 }

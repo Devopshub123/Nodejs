@@ -166,7 +166,8 @@ async function login(req, res) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
-               
+                console.log("er-", err);
+                console.log("ress-", results[0]);
                 var result = results ? results[0] ? results[0][0] ? Object.values(JSON.parse(JSON.stringify(results[0][0]))) : null : null : null;
 
                 if (result && result[0] > 0) {
@@ -760,7 +761,10 @@ async function getMinUserForPlan(req,res) {
         console.log("planmnmdnbdc",req.params.planid,dbName)
         let listOfConnections = {};
         if(true) {
-         
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
         con.query("CALL `get_min_user_for_plan` (?)",[req.params.planid], function (err, result, fields) {
             console.log("result",result,err)
             if(result && result.length > 0){
@@ -795,9 +799,11 @@ async function setSpryplePlan(req,res) {
         console.log("datya",req.body)
         console.log("datya",JSON.stringify(req.body.modules))
         if(true) {
-          
+        //     listOfConnections= connection.checkExistingDBConnection(companyName)
+        // if(!listOfConnections.succes) {
+        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        // }
         con.query("CALL `set_spryple_plan` (?,?,?,?)",[req.body.plan,JSON.stringify(req.body.modules),req.body.created_by,req.body.id], function (err, result, fields) {
-           
             if(err){
             res.send({status:false,message:"Unable to add "})
 
@@ -1177,7 +1183,7 @@ function validateCompanyCode(companycode,email){
 
 }
 
-function contactUsFormMail(mailData) {
+function contactUsFormMail(mailData,res) {
     let value = mailData.body;
     try {
         var transporter = nodemailer.createTransport({
@@ -1217,14 +1223,15 @@ function contactUsFormMail(mailData) {
             html: html,
         };
         transporter.sendMail(mailOptions, function (error, info) {
+
             if (error) {
-                console.log("Failed To Sent  Mail",error)
+                res.send({status:false,message:"Failed To Sent  Mail"});
             } else {
-                console.log("Mail Sent Successfully")
+                res.send({status:true,message:"Mail Sent Successfully"});
             }
         });
     } catch (e) {
-        console.log("contactUsFormMail :", e);
+        res.send({status:false,message:e.message});
     }
 }
 

@@ -145,6 +145,7 @@ module.exports = {
     getEmployeeProgramAlerts:getEmployeeProgramAlerts,
     getDocumentsFiles: getDocumentsFiles,
     validateReportingManager: validateReportingManager,
+    setEmployeeExcelData:setEmployeeExcelData
     
 };
 
@@ -2483,8 +2484,11 @@ async function setEmpPersonalInfo(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
+            console.log("original-",req.body)
+            console.log("dat-",JSON.stringify(req.body))
             listOfConnections[companyName].query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
-             
+             console.log("er-,",err)
+             console.log("ress-,",result[0][0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -2735,6 +2739,8 @@ async function setEmpEmployement(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_emp_employement` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
+              console.log("err--",err)
+              console.log("resss--",result[0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -3106,6 +3112,7 @@ async function setDocumentOrImageForEMS(req, res) {
                     file.mv(
                         path.resolve(__dirname, folderName, localPath.filename),
                         async function (error) {
+                            console.log("kkk-",error)
                             if (error) {
                                 res.send({ status: false });
                                 let errorLogArray = [];
@@ -3480,8 +3487,7 @@ async function usersLogin(req, res) {
                     else if(result[0][0].successstate==1){
                         res.send({ status: false,successstate :result[0][0].successstate});
                     }else {
-                        console.log(result[0][0].successstate);
-                        if (array[0].email != '' && array[0].email != null) {
+                       if (array[0].email != '' && array[0].email != null) {
                              sendEmailToEmployeeAboutLogins(array, result);
                             }
                             res.send({ status: true });
@@ -3976,11 +3982,15 @@ async function getEmailsByEmpid(req, res) {
                 errorLogArray.push(dbName);
                 errorLogs(errorLogArray);
                 res.send({ status: false })
-            } else {
+              } else {
+               
                 if (result && result.length > 0) {
                     emailComponentData = result[0][0];
+                    let data = JSON.parse(emailComponentData.jsonvalu)[0];
+                    if (data.rm_email != null || data.rm_email != '') {
                     sendEmailToAdminAboutNewHire(emailComponentData);
-                    sendEmailToChecklistManager(emailComponentData);
+                    sendEmailToChecklistManager(emailComponentData); 
+                    }
                 } else {
                     res.send({ status: false })
                 }
@@ -4105,9 +4115,9 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
                    
         <p style="color:black">Your login credentials:</p>
-        <p style="color:black"><b>Company Code:</b>${maileData[0].companycode}</p>
-        <p style="color:black"><b>Username:</b>${maileData[0].userid}</p>
-        <p style="color:black"><b>Password:</b>${maileData[0].password}</p>
+        <p style="color:black"><b>Company Code: </b>${maileData[0].companycode}</p>
+        <p style="color:black"><b>Username: </b>${maileData[0].userid}</p>
+        <p style="color:black"><b>Password: </b>${maileData[0].password}</p>
         <p style="color:black">If you experience any issues while login to your account, reach out to us at <b>contact@spryple.com</b> </p>
         
         <p style="color:black">Best Regards,</p>
@@ -7000,4 +7010,58 @@ function separationRequestRejectedEmail(value) {
        console.log('separationRequestRejectedEmail :', e)
      }
    
+}
+async function setEmployeeExcelData(req, res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+
+        var listOfConnections = {};
+       if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            console.log("req-data--",JSON.stringify(req.body))
+            listOfConnections[companyName].query("CALL `set_upload_employees` (?)",
+                [JSON.stringify(req.body)], async function (err, result, fields) {
+                    console.log("err-",err)
+                    console.log("resss-",result)
+                    if (err) {
+                        let errorLogArray = [];
+                        errorLogArray.push("ATTENDANCEAPI");
+                        errorLogArray.push("setEmployeeAttendance");
+                        errorLogArray.push("POST");
+                        errorLogArray.push(JSON.stringify(req.body));
+                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        errorLogArray.push(null);
+                        errorLogArray.push(companyName);
+                        errorLogArray.push(dbName);
+                        errorLogs(errorLogArray);  
+                        res.send({ status: false, message: "unableToUpload" });      
+                    }
+                    else {
+                        res.send({ status: true, message: "excelUploadSave" })
+                    }
+                });
+
+        }
+        else {
+           res.send({status: false,Message:'Database Name is missed'})
+        }
+     } 
+     catch (e) {
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("EMSAPI");
+        errorLogArray.push("setEmployeeAttendance");
+        errorLogArray.push("POST");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+        errorLogs(errorLogArray);
+    }
 }

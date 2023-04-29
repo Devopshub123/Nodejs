@@ -678,24 +678,57 @@ app.get('/api/getemployeeroles/:empId',verifyJWTToken,function(req,res) {
 
 
 
-function checkRecord (req, res, next){
-    try{
-            con.query("CALL `checkrecord` (?,?,?)",[req.body.tableName,req.body.columnName,req.body.id], function (err, result, fields) {
+async function checkRecord (req, res, next){
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+        var listOfConnections = {};
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection(companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+        
+            listOfConnections[companyName].query("CALL `checkrecord` (?,?,?)", [req.body.tableName, req.body.columnName, req.body.id], function (err, result, fields) {
                 if (result && result.length > 0) {
-                    req.body.isexists={result:result[1][0].isexists,status :true}
+                    req.body.isexists = { result: result[1][0].isexists, status: true }
                     next()
                 } else {
-                    req.body.isexists={status:false}
+                    req.body.isexists = { status: false }
                     next()
 
                 }
             });
-
+        }
+        else {
+            console.log("checkRecord in employee ",e)
+        }
 
 
     }catch (e) {
         console.log("checkRecord in employee ",e)
     }
+}
+function getDatebaseName(companyName){
+
+    return new Promise((res,rej)=>{
+        try {
+
+            con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
+                if (results && results[0] && results[0].length != 0) {
+                    res(results[0][0].db_name);
+
+                } else {
+                    res(null)
+
+                }
+            })
+        }
+        catch (e) {
+            rej(e)
+        }
+    });
+
 }
 
 // /**supportingdocument for  setleave*/
@@ -1707,6 +1740,13 @@ app.post('/api/getSummaryReportForManager', verifyJWTToken,function(req,res) {
 
 
 });
+app.get('/api/getLeaveCycleYearOptions/:companyName', function (req, res) {
+
+    leaveManagement.getLeaveCycleYearOptions(req,res);
+
+});
+
+// get_leave_cycle_year_options
 /**Get All Employees List
  *
  */
@@ -2839,8 +2879,12 @@ app.post('/subscription/getUnverifiedSprypleClient', function (req, res) {
 })
    /**get_comp_off_validity_duration */
    app.get('/api/getCompOffValidityDuration/:companyName',function(req,res) {
-    leaveManagement.getCompOffValidityDuration(req,res)
+    ems.getCompOffValidityDuration(req,res)
    });
+   
+app.post('/ems/api/setEmployeeExcelData/:companyName', verifyJWTToken, function (req, res) {
+    ems.setEmployeeExcelData(req,res);
+  });
 
    /**get Plan Details by plan Id and client Id */
 app.post('/subscription/api/getSpryplePlanDetailsById', function (req, res) {
