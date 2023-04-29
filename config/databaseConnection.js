@@ -62,7 +62,6 @@ async function getNewDBConnection(companyName,dbName)
     //  con.connect(function(err) {
     //      if (err) throw err;
     //     //  console.log("Con?nect",con);
-         
     //  });   
 }
 

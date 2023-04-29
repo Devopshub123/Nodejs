@@ -33,7 +33,6 @@ app.all("*", function (req, res, next) {
     return next();
 });
 
-
 module.exports = {
     getDatebaseName: getDatebaseName,
     getNewExitEmployeeCountByMonth: getNewExitEmployeeCountByMonth,
@@ -47,7 +46,6 @@ module.exports = {
 };
 
 function getDatebaseName(companyName){
-
     return new Promise((res,rej)=>{
         try {
            console.log("companyName",companyName)
