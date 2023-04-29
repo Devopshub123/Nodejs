@@ -2484,6 +2484,8 @@ async function setEmpPersonalInfo(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
+            console.log("original-",req.body)
+            console.log("dat-",JSON.stringify(req.body))
             listOfConnections[companyName].query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
              console.log("er-,",err)
              console.log("ress-,",result[0][0])
@@ -7009,8 +7011,8 @@ function separationRequestRejectedEmail(value) {
 }
 async function setEmployeeExcelData(req, res) {
     try {
-        let  dbName = await getDatebaseName(req.body.companyName)
-        let companyName = req.body.companyName;
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
 
         var listOfConnections = {};
        if(dbName){
@@ -7018,9 +7020,11 @@ async function setEmployeeExcelData(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            console.log("dataaa",JSON.stringify(req.body))
+            console.log("req-data--",JSON.stringify(req.body))
             listOfConnections[companyName].query("CALL `set_upload_employees` (?)",
                 [JSON.stringify(req.body)], async function (err, result, fields) {
+                    console.log("err-",err)
+                    console.log("resss-",result)
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("ATTENDANCEAPI");
@@ -7045,7 +7049,7 @@ async function setEmployeeExcelData(req, res) {
         }
      } 
      catch (e) {
-        let companyName =req.body.companyName;
+        let companyName =req.params.companyName;
         let  dbName = await getDatebaseName(companyName)
         let errorLogArray = [];
         errorLogArray.push("EMSAPI");

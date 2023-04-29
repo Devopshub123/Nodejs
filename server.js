@@ -2886,7 +2886,7 @@ app.post('/subscription/getUnverifiedSprypleClient', function (req, res) {
     ems.getCompOffValidityDuration(req,res)
    });
    
-app.post('/ems/api/setEmployeeExcelData',verifyJWTToken, function (req, res) {
+app.post('/ems/api/setEmployeeExcelData/:companyName', verifyJWTToken, function (req, res) {
     ems.setEmployeeExcelData(req,res);
   });
 
@@ -3036,7 +3036,7 @@ app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', f
 
 /** Local server */
 
-app.listen(6262,function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
