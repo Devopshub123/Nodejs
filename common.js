@@ -8,7 +8,7 @@ var nodemailer = require('nodemailer')
 var crypto = require("crypto");
 var algorithm = "aes-256-cbc";
 var mysql = require('mysql');
-const { spawn } = require('child_process');
+const  {spawn }= require('child_process');
 // generate 16 bytes of random data
 var initVector = crypto.randomBytes(16);
 var Securitykey = crypto.randomBytes(32);
@@ -2063,34 +2063,45 @@ async function setSprypleClientPlanPayment(req, res) {
     var mailData = req.body;
     var companycodevalue = req.body.company_code_value
     try { 
-        con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
-                [
-                    req.body.client_id_value,
-                    req.body.company_code_value,
-                    req.body.valid_from_date,
-                    req.body.valid_to_date,
-                    req.body.plan_id_value,
-                    req.body.number_of_users_value,
-                    req.body.paid_amount,
-                    req.body.transaction_number
-                 ],
-                async function (err, result, fields) {           
-           if(err){
-            res.send({status:false})
-           }
-           else {
-            let Payment =  paymentStatusMail(mailData);
-            console.log("Payment",Payment);
+    //     con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
+    //             [
+    //                 req.body.client_id_value,
+    //                 req.body.company_code_value,
+    //                 req.body.valid_from_date,
+    //                 req.body.valid_to_date,
+    //                 req.body.plan_id_value,
+    //                 req.body.number_of_users_value,
+    //                 req.body.paid_amount,
+    //                 req.body.transaction_number
+    //              ],
+    //             async function (err, result, fields) {           
+    //        if(err){
+    //         res.send({status:false})
+    //        }
+    //        else {
+    //         let Payment =  paymentStatusMail(mailData);
+    //         res.send(Payment)
+    //         let  dbName = await createClientDatabase(companycodevalue);
+    //         if(dbName.status){
+    //             let insertClientMasterData=  await InsertClientMasterData(dbName.data)
+    //         if(insertClientMasterData){
+    //             let datacreateClientCredentials =await createClientCredentials(companycodevalue);
+    //         }
+    // }
+               
+    //        }
+    //     });
+
+               let Payment = await paymentStatusMail(mailData);
+               console.log("Payment",Payment)
+               res.send(Payment)
             let  dbName = await createClientDatabase(companycodevalue);
             if(dbName.status){
                 let insertClientMasterData=  await InsertClientMasterData(dbName.data)
             if(insertClientMasterData){
                 let datacreateClientCredentials =await createClientCredentials(companycodevalue);
             }
-    }
-               
-           }
-        });
+        }
     
 
     
@@ -2370,8 +2381,8 @@ function createClientDatabase(companyName){
     return new Promise(async (res,rej)=>{
     const file_path = "./DB_Script/database_script.sql";
     var connection=mysql.createConnection({
-        // host:"192.168.1.10",
-        host:"122.175.62.210",
+        host:"192.168.1.10",
+        // host:"122.175.62.210",
         user:"spryple_product_user",
         password:"Spryple$#123",
         port: 3306,
@@ -2381,8 +2392,8 @@ function createClientDatabase(companyName){
     });
      connection.connect( function(err) {
         if (err) throw err;
-                // const dbHost = "192.168.1.10";
-                const dbHost ="122.175.62.210";
+                const dbHost = "192.168.1.10";
+                // const dbHost ="122.175.62.210";
                 const dbUser = "spryple_product_user";
                 const dbPassword = "Spryple$#123";
                 // Path to the MySQL dump file
@@ -2489,11 +2500,12 @@ function paymentStatusMail(mailData){
             html: html
         };
          transporter.sendMail(mailOptions, function (error, info) {
+            console.log("error",error);
             if (error) {
 
                 res(false);
             } else {
-                res(true);
+                res({status:true});
             }
         });
     });
