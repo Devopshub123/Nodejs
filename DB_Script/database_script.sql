@@ -3018,8 +3018,8 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
     (7,'Recruitment Management',NULL,NULL,7,'assets\\img\\menu-recruitment.png'),
     (8,'Employee Self Service',NULL,NULL,8,'assets\\img\\menu-ess.png '),
     (9,'Claims Management',NULL,NULL,9,'assets\\img\\menu-claims.png'),
-    (10,'Subscription',null,null,10,	'assets\img\subscription.png'),
-    (11,'Exit Management',null,null,11,'assets\img\exit-management.png');
+    (10,'Subscription',null,null,10,	'assets\\img\subscription.png'),
+    (11,'Exit Management',null,null,11,'assets\\img\\exit-management.png');
 	/*!40000 ALTER TABLE `modulesmaster` ENABLE KEYS */;
 	UNLOCK TABLES;
 
