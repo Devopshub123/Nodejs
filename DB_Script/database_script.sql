@@ -1,3 +1,4 @@
+
 -- MySQL dump 10.13  Distrib 8.0.30, for Win64 (x86_64)
 	--
 	-- Host: 192.168.1.10    Database: spryple
@@ -31536,31 +31537,6 @@ where DATE_FORMAT(`created_on`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`cr
 end;;
 DELIMITER ;
 
-DELIMITER ;;
-CREATE PROCEDURE `get_location_wise_employee_count`()
-begin
-select  cwl.location,count(emp.id) as count from employee emp
-inner join employee_worklocations ew on ew.empid=emp.id
-inner join companyworklocationsmaster cwl on cwl.id=ew.locationid
-where emp.status='1';
-end;;
-
-DELIMITER ;
-
-DELIMITER ;;
-CREATE PROCEDURE `get_department_wise_employee_count_by_shift`(
-shiftid int(11))
-begin
-select  d.deptname,count(emp.id) as count 
-from employee emp
-inner join employee_departments ed on ed.empid=emp.id
-inner join departmentsmaster d on d.id=ed.departmentid
-inner join employee_shift_details esd on esd.empid=emp.id
-where esd.shiftid=shiftid and  emp.status=1
-and fromdate<=current_timestamp() and current_timestamp()<=todate ;
-end;;
-
-DELIMITER ;
 
 DELIMITER ;;
 CREATE PROCEDURE `get_attendance_employees_count_by_date`(req_date date)
@@ -31580,25 +31556,6 @@ begin
         -- ,@wfo_details as wfo_details,@wfh_details as wfh_details,@onduty_details as onduty_details,@wfrl_details as wfrl_details, @absents_details as absents_details
 ;
    
-end;;
-
-DELIMITER ;
-
-DELIMITER ;;
-CREATE PROCEDURE `get_department_wise_leaves_count_by_month`(
-month_value date
-)
-begin
- set @monthstartdate = DATE_FORMAT(month_value, '%Y-%m-01');
- set @monthenddate = DATE_FORMAT(LAST_DAY(month_value), '%Y-%m-%d');
-select  d.deptname,count(emp.id) as count from employee emp
-inner join employee_departments ed on ed.empid=emp.id
-inner join departmentsmaster d on d.id=ed.departmentid
-inner join lm_leaveapprovalstatustracker lla on lla.empid=emp.id
-inner join lm_employeeleaves lel on lel.id=lla.leaveid
-where DATE_FORMAT(lel.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lel.fromdate, '%Y-%m-%d')<=@monthenddate
-and DATE_FORMAT(lel.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lel.todate, '%Y-%m-%d')<=@monthenddate
-and lla.status ='Approved';
 end;;
 
 DELIMITER ;
@@ -31637,42 +31594,6 @@ begin
 end;;
 DELIMITER ;
 
-DELIMITER ;;
-CREATE  PROCEDURE `get_department_wise_monthly_salaries`(
-year_value date)
-begin
-set @date = year_value; --  (select cast(concat(year_value,'-',month_id,'-','15') as date));
-select employee_gross_salary_details.year,monthname(str_to_date(employee_gross_salary_details.month,'%m')) as MonthName , departmentsmaster.deptname as deptname,sum(ifnull(total_gross_salary,0)) as sum
-	from employee_gross_salary_details, employee_departments, departmentsmaster 
-    where employee_gross_salary_details.empid in
-	(select employee_ctc_master.empid  from employee_ctc_master, employee_departments
-	where employee_ctc_master.empid = employee_departments.empid
-    and case when employee_departments.effectiveenddate is null then
-  		          (@date >= cast(employee_departments.effectivestartdate as date))
-             when employee_departments.effectiveenddate is not null 
-             then (@date between cast(employee_departments.effectivestartdate as date) 
-             and cast(employee_departments.effectiveenddate as date))
-             end
-    and case when employee_ctc_master.effective_to_date is null then
-  		          (cast(@date as date) >= cast(employee_ctc_master.effective_from_date as date))
-             when employee_ctc_master.effective_to_date is not null 
-             then (cast(@date as date) between cast(employee_ctc_master.effective_from_date as date)
-             and cast(employee_ctc_master.effective_to_date as date))
-             end)
-	and employee_gross_salary_details.year = year(year_value)
-	-- and employee_gross_salary_details.month = month_id
-    and employee_gross_salary_details.empid = employee_departments.empid
-    and employee_departments.departmentid = departmentsmaster.id
-    and case when employee_departments.effectiveenddate is null then
-  		          (@date >= cast(employee_departments.effectivestartdate as date))
-             when employee_departments.effectiveenddate is not null 
-             then (@date between cast(employee_departments.effectivestartdate as date) 
-             and cast(employee_departments.effectiveenddate as date))
-             end
-    group by employee_gross_salary_details.month,departmentsmaster.deptname;
-
-end;;
-DELIMITER ;
 
 DELIMITER ;;
 CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_upload_employees`(
