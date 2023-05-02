@@ -1431,6 +1431,7 @@ app.get('/ems/api/getInductionProgramAssignedEmployee/:sid/:companyName',verifyJ
  
 /**employee login */
 app.post('/api/emp_login', function (req, res, next) {
+    console.log("r-1");
     common.login(req,res)
 })
 

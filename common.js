@@ -142,7 +142,7 @@ function generateJWTToken(info){
 
 async function login(req, res) {
     try{
-
+console.log("e-1",req.body)
     var  dbName = await getDatebaseName(req.body.companyName);
     if(req.body.companyName!='spryple_dev'){
 
@@ -2364,7 +2364,9 @@ function createClientDatabase(companyName){
     return new Promise((res,rej)=>{
         try {
            con.query("CALL `create_client_database` (?)",[companyName ], function (err, result, next) {       
-                if (err ) {
+              console.log("c-1",err)
+              console.log("r-1",result[0][0])
+               if (err) {
                     res(false);
                 } else {
                     res({status:true,data:result[0][0].database_name});
@@ -2390,7 +2392,8 @@ function createClientDatabase(companyName){
         dateStrings: true,
         multipleStatements: true
     });
-     connection.connect( function(err) {
+        connection.connect(function (err) {
+            console.log("ins-err",err)
         if (err) throw err;
                 const dbHost = "192.168.1.10";
                 // const dbHost ="122.175.62.210";
@@ -2445,8 +2448,8 @@ function createClientDatabase(companyName){
                [
                 companyName 
                 ], function (err, results, next) {
-                    console.log("err",err)
-                    console.log("resultsresults",results)
+                    console.log("lg-err",err)
+                    console.log("lg-res",results[0][0])
                     if (err ) {
                         res(false);
                     } else {
