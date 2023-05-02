@@ -2063,45 +2063,45 @@ async function setSprypleClientPlanPayment(req, res) {
     var mailData = req.body;
     var companycodevalue = req.body.company_code_value
     try { 
-    //     con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
-    //             [
-    //                 req.body.client_id_value,
-    //                 req.body.company_code_value,
-    //                 req.body.valid_from_date,
-    //                 req.body.valid_to_date,
-    //                 req.body.plan_id_value,
-    //                 req.body.number_of_users_value,
-    //                 req.body.paid_amount,
-    //                 req.body.transaction_number
-    //              ],
-    //             async function (err, result, fields) {           
-    //        if(err){
-    //         res.send({status:false})
-    //        }
-    //        else {
-    //         let Payment =  paymentStatusMail(mailData);
-    //         res.send(Payment)
-    //         let  dbName = await createClientDatabase(companycodevalue);
-    //         if(dbName.status){
-    //             let insertClientMasterData=  await InsertClientMasterData(dbName.data)
-    //         if(insertClientMasterData){
-    //             let datacreateClientCredentials =await createClientCredentials(companycodevalue);
-    //         }
-    // }
-               
-    //        }
-    //     });
-
-               let Payment = await paymentStatusMail(mailData);
-               console.log("Payment",Payment)
-               res.send(Payment)
+        con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
+                [
+                    req.body.client_id_value,
+                    req.body.company_code_value,
+                    req.body.valid_from_date,
+                    req.body.valid_to_date,
+                    req.body.plan_id_value,
+                    req.body.number_of_users_value,
+                    req.body.paid_amount,
+                    req.body.transaction_number
+                 ],
+                async function (err, result, fields) {           
+           if(err){
+            res.send({status:false})
+           }
+           else {
+            let Payment =  await paymentStatusMail(mailData);
+            res.send(Payment)
             let  dbName = await createClientDatabase(companycodevalue);
             if(dbName.status){
                 let insertClientMasterData=  await InsertClientMasterData(dbName.data)
             if(insertClientMasterData){
                 let datacreateClientCredentials =await createClientCredentials(companycodevalue);
             }
-        }
+    }
+               
+           }
+        });
+
+        //        let Payment = await paymentStatusMail(mailData);
+        //        console.log("Payment",Payment)
+        //        res.send(Payment)
+        //     let  dbName = await createClientDatabase(companycodevalue);
+        //     if(dbName.status){
+        //         let insertClientMasterData=  await InsertClientMasterData(dbName.data)
+        //     if(insertClientMasterData){
+        //         let datacreateClientCredentials =await createClientCredentials(companycodevalue);
+        //     }
+        // }
     
 
     
