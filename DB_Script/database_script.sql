@@ -31596,10 +31596,15 @@ DELIMITER ;
 
 
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_upload_employees`(
-		`employeelist` JSON
+CREATE  PROCEDURE `set_upload_employees`(
+		in employeedata varchar(8000)
 			)
 begin
+	/*declare exit handler for sqlexception
+	begin
+	    rollback;
+	    select -1 as statuscode;
+	end; */
 	DECLARE vleave_id int(11);
     declare vid int(1);
     DECLARE leavetype_cursor cursor for select temp_lm_leavesmaster.leave_id,leavetype from temp_lm_leavesmaster;
@@ -31612,32 +31617,32 @@ begin
     set @weekoff3 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
 				     (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_3')
 				     and effectivetodate is null);   
-	set @count = (select JSON_LENGTH(`employeelist`));
-	set @tot=@count;
-	while (@count>0)  do 
-	set @empid = json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].empid')));
-	set @statuscode=0;
+	set @count =(select JSON_LENGTH(employeedata, '$.emplist'));
+	 set @k = 0;
+	while @k < @count do
+	set @empid = json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].empid')));
+    set @statuscode=0;
     set @eid = 0;
     set @rid = 0;
-	set @eid = (select e.id from employee e where e.empid = (select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].empid')))));  
-   	set @officeemail=json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].officeemail')));
-	set @gender =(select gm.id from gendermaster gm where gm.gender=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].gender')))));
-    set @maritalstatus =(select mm.id from maritalstatusmaster mm where mm.maritalstatus=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].maritalstatus')))));
-    set @employmenttype =(select etm.id from employmenttypemaster etm where etm.employmenttype=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].employmenttype')))));
-   	set @employeelocation = (select wl.id from companyworklocationsmaster wl where wl.locatiom=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].companylocation')))));
-    set @designation =(select desm.id from designationsmaster desm where desm.designation=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].designation')))));
-    set @department =(select deptm.id from departmentsmaster deptm where deptm.deptname=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].department')))));
+	set @eid = (select e.id from employee e where e.empid = (select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].empid')))));  
+   	set @officeemail=json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].officeemail')));
+	set @gender =(select gm.id from gendermaster gm where gm.gender=(select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].gender')))));
+    set @maritalstatus =(select mm.id from maritalstatusmaster mm where mm.maritalstatus=(select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].maritalstatus')))));
+    set @employmenttype =(select etm.id from employmenttypemaster etm where etm.employmenttype=(select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].employmenttype')))));
+   	set @employeelocation = (select wl.id from companyworklocationsmaster wl where wl.location=(select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].companylocation')))));
+    set @designation =(select desm.id from designationsmaster desm where desm.designation=(select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].designation')))));
+    set @department =(select deptm.id from departmentsmaster deptm where deptm.deptname=(select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].department')))));
     set @reportingmanager=(select e.id from employee e where e.firstname);
-    set @usertype =(select rm.id from rolesmaster rm where rm.name=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].usertype')))));
-  	set @city=(select c.id from locationsmaster where location= (select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].city')))));
+    set @usertype =(select rm.id from rolesmaster rm where rm.name=(select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].role')))));
+  	set @city=(select c.id from locationsmaster c where c.location= (select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].city')))));
 	if(@city='null')then
 	    set @city=null;
 	end if;
-	set @state=(select st.id from statesmaster where state=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].state')))));
+	set @state=(select st.id from statesmaster st where st.state=(select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].state')))));
 	if(@state='null')then
 	    set @state=null;
 	end if;
-	set @country=(select c.id from countrymaster where country=(select json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].country')))));
+	set @country=(select c.id from countrymaster c where c.country=(select json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].country')))));
 	if(@country='null')then
 	    set @country=null;
 	end if;
@@ -31652,34 +31657,34 @@ begin
     `emergencycontactnumber`,`employmenttype`,`dateofjoin`,`address`,`city`,`state`,`pincode`,`country`,`status`,
     `created_on`,`created_by`)
 	values
-	(json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].empid'))),
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].firstname'))),
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].lastname'))),
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].officeemail'))),
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].dateofbirth'))),
+	(json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].empid'))),
+	json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].firstname'))),
+	json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].lastname'))),
+	json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].officeemail'))),
+	json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].dateofbirth'))),
 	@gender,
 	@maritalstatus,
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].contactnumber'))),
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].emergencycontactnumber'))),
+	json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].contactnumber'))),
+	json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].emergencycontactnumber'))),
 	@employmenttype,
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].dateofjoin'))),
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].address'))),
+	json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].dateofjoin'))),
+	json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].address'))),
 	@city,
 	@state,
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].pincode'))),
+	json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].pincode'))),
 	@country,
 	'1',
 	current_timestamp(),
-	json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].actionby')))
+    json_unquote(json_extract(employeedata,"$.createdby"))
     );
 
-	set @eid = (select e.id from employee e where e.empid = json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].empid'))));
-   if (json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].reportingmanager'))) <> json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].firstname')))) then
+	set @eid = (select e.id from employee e where e.empid = json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].empid'))));
+   if (json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].reportingmanager'))) <> json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].firstname')))) then
 		INSERT INTO employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
 		(@eid,@reportingmanager,current_timestamp());
 		INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
 		(@eid,@usertype,@reportingmanager,current_timestamp());
-    elseif (json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].reportingmanager'))) = json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].firstname')))) then
+    elseif (json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].reportingmanager'))) = json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].firstname')))) then
 		INSERT INTO employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
 		(@eid,@eid,current_timestamp());
 		INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
@@ -31750,18 +31755,18 @@ begin
     
     set @weekoff_insert_id = (select last_insert_id());
     if (@weekoff_insert_id is not null) then -- inserting working days of a employee
-        call update_working_days_for_employee(@eid,'n',json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].dateofjoin'))));
+        call update_working_days_for_employee(@eid,'n',json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].dateofjoin'))));
     end if;
     insert into employee_worklocations(empid,locationid,effectivefromdate) values
     (@eid,@employeelocation,current_timestamp());
 
-      CALL `set_checklists_to_employee`(null,@eid,null,'','Pending','Pending Checklist','Onboarding',json_unquote(json_extract(`employeelist`,concat('$[',convert((@tot-@count),char),'].actionby'))),@p);
+      CALL `set_checklists_to_employee`(null,@eid,null,'','Pending','Pending Checklist','Onboarding',json_unquote(json_extract(employeedata,concat('$.emplist[',convert((@k),char),'].actionby'))),@p);
    --    select 0 statuscode , @eid as empid;
 	--   else
 	--  select @statuscode statuscode , @eid as empid, @mail email;
 	 end if;	
-	set @count = @count-1;
-	end while;
+     set @k = @k + 1;
+	 end while;
     select 0 statuscode ;
 	end;;
 DELIMITER ;
