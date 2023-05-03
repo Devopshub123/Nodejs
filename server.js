@@ -2947,7 +2947,8 @@ app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', f
 });
 
 app.get('/subscription/api/getClientSubscriptionDetails/:companyName', function (req, res) {
-    common.getClientSubscriptionDetails (req,res)
+    console.log("b-1");
+    common.getClientSubscriptionDetails(req, res)
 });
 //** subscription- client super admindashboard api's */
 

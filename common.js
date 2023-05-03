@@ -2170,13 +2170,14 @@ async function getClientSubscriptionDetails(req,res) {
     try {
         let listOfConnections = {};
         if(true) {
-        //     listOfConnections= connection.checkExistingDBConnection(companyName)
-        // if(!listOfConnections.succes) {
-        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        // }
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
            con.query("CALL `get_client_subscription_details` (?)", [req.params.companyName],
-            function (err, result, fields) {
-                console.log("result",result)
+               function (err, result, fields) {
+                console.log("b-r",err);
+                console.log("b-re",result[0])
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
