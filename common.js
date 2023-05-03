@@ -8,7 +8,7 @@ var nodemailer = require('nodemailer')
 var crypto = require("crypto");
 var algorithm = "aes-256-cbc";
 var mysql = require('mysql');
-const  {spawn }= require('child_process');
+const { spawn } = require('child_process');
 // generate 16 bytes of random data
 var initVector = crypto.randomBytes(16);
 var Securitykey = crypto.randomBytes(32);
@@ -2081,8 +2081,8 @@ async function setSprypleClientPlanPayment(req, res) {
             res.send({status:false})
            }
            else {
-            let Payment =  await paymentStatusMail(mailData);
-            res.send(Payment)
+            let Payment =  paymentStatusMail(mailData);
+            console.log("Payment",Payment);
             let  dbName = await createClientDatabase(companycodevalue);
             if(dbName.status){
                 let insertClientMasterData=  await InsertClientMasterData(dbName.data)
@@ -2093,17 +2093,6 @@ async function setSprypleClientPlanPayment(req, res) {
                
            }
         });
-
-        //        let Payment = await paymentStatusMail(mailData);
-        //        console.log("Payment",Payment)
-        //        res.send(Payment)
-        //     let  dbName = await createClientDatabase(companycodevalue);
-        //     if(dbName.status){
-        //         let insertClientMasterData=  await InsertClientMasterData(dbName.data)
-        //     if(insertClientMasterData){
-        //         let datacreateClientCredentials =await createClientCredentials(companycodevalue);
-        //     }
-        // }
     
 
     
@@ -2385,8 +2374,8 @@ function createClientDatabase(companyName){
     return new Promise(async (res,rej)=>{
     const file_path = "./DB_Script/database_script.sql";
     var connection=mysql.createConnection({
-        host:"192.168.1.10",
-        // host:"122.175.62.210",
+        // host:"192.168.1.10",
+        host:"122.175.62.210",
         user:"spryple_product_user",
         password:"Spryple$#123",
         port: 3306,
@@ -2397,8 +2386,8 @@ function createClientDatabase(companyName){
         connection.connect(function (err) {
             console.log("ins-err",err)
         if (err) throw err;
-                const dbHost = "192.168.1.10";
-                // const dbHost ="122.175.62.210";
+                // const dbHost = "192.168.1.10";
+                const dbHost ="122.175.62.210";
                 const dbUser = "spryple_product_user";
                 const dbPassword = "Spryple$#123";
                 // Path to the MySQL dump file
@@ -2455,8 +2444,10 @@ function createClientDatabase(companyName){
                     if (err ) {
                         res(false);
                     } else {
-                        res(results[0][0]);
-                        sendEmailToSuperAdminCredentials(results[0][0],companyName)
+                       // res(results[0][0]);
+                       console.log(results[0][0]);
+                       console.log(results[1][0]);
+                        sendEmailToSuperAdminCredentials(results[1][0],companyName)
                     }
                 })
             }
@@ -2505,23 +2496,23 @@ function paymentStatusMail(mailData){
             html: html
         };
          transporter.sendMail(mailOptions, function (error, info) {
-            console.log("error",error);
             if (error) {
 
                 res(false);
             } else {
-                res({status:true});
+                res(true);
             }
         });
     });
 
 }
     function sendEmailToSuperAdminCredentials(mailData,companycodde) {
+        console.log("mailData",mailData)
         try {
            let email = mailData.login;
            let password = mailData.password_string;
            let companycode = companycodde;
-           let url= 'http://localhost:4500/#/Login'
+           let url= 'http://localhost:4200/#/Login'
            var transporter = nodemailer.createTransport({
            host: "smtp-mail.outlook.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
