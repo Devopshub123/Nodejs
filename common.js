@@ -832,8 +832,8 @@ async function Validateemail(req, res) {
     let companyCode = req.body.company_code_value;
     let email = req.body.company_email_value;
    // let companyName = 'spryple_hrms';
- //   let  dbName = await getDatebaseName('spryple_hrms');
-     let  dbName = await getDatebaseName('spryple_product_dev');
+    let  dbName = await getDatebaseName('spryple_hrms');
+ //    let  dbName = await getDatebaseName('spryple_product_dev');
     // let companyName = 'spryple_dev';
     let validatecompanycode = await validateCompanyCode(companyCode,email);
     if(validatecompanycode){
@@ -884,7 +884,7 @@ async function Validateemail(req, res) {
             });
             var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Basic',Date:new Date()}))).toString('base64')
             /**Local */
-            var url = 'http://localhost:4200/#/sign-up/' + token;
+            var url = 'http://122.175.62.210:6564/#/sign-up/' + token;
             /**QA */
             //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
             /**AWS */
@@ -2063,36 +2063,36 @@ async function getRevenueByMonth(req,res) {
 async function setSprypleClientPlanPayment(req, res) {
     var mailData = req.body;
     var companycodevalue = req.body.company_code_value
-    let Payment =  await paymentStatusMail(mailData);
+    // let Payment =  await paymentStatusMail(mailData);
     try { 
-    //     con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
-    //             [
-    //                 req.body.client_id_value,
-    //                 req.body.company_code_value,
-    //                 req.body.valid_from_date,
-    //                 req.body.valid_to_date,
-    //                 req.body.plan_id_value,
-    //                 req.body.number_of_users_value,
-    //                 req.body.paid_amount,
-    //                 req.body.transaction_number
-    //              ],
-    //             async function (err, result, fields) {           
-    //        if(err){
-    //         res.send({status:false})
-    //        }
-    //        else {
-    //         let Payment =  awiat paymentStatusMail(mailData);
-    //         console.log("Payment",Payment);
-    //         let  dbName = await createClientDatabase(companycodevalue);
-    //         if(dbName.status){
-    //             let insertClientMasterData=  await InsertClientMasterData(dbName.data)
-    //         if(insertClientMasterData){
-    //             let datacreateClientCredentials =await createClientCredentials(companycodevalue);
-    //         }
-    // }
+        con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
+                [
+                    req.body.client_id_value,
+                    req.body.company_code_value,
+                    req.body.valid_from_date,
+                    req.body.valid_to_date,
+                    req.body.plan_id_value,
+                    req.body.number_of_users_value,
+                    req.body.paid_amount,
+                    req.body.transaction_number
+                 ],
+                async function (err, result, fields) {           
+           if(err){
+            res.send({status:false})
+           }
+           else {
+            let Payment =  await paymentStatusMail(mailData);
+            console.log("Payment",Payment);
+            let  dbName = await createClientDatabase(companycodevalue);
+            if(dbName.status){
+                let insertClientMasterData=  await InsertClientMasterData(dbName.data)
+            if(insertClientMasterData){
+                let datacreateClientCredentials =await createClientCredentials(companycodevalue);
+            }
+    }
                
-    //        }
-    //     });
+           }
+        });
     
 
     
@@ -2370,10 +2370,10 @@ function createClientDatabase(companyName){
 }
  function InsertClientMasterData(dbName){
     return new Promise(async (res,rej)=>{
-    const file_path = "./DB_Script/database_script.sql";
+//    const file_path = "D:/DB_Scripts/database_script.sql";
     var connection=mysql.createConnection({
-        // host:"192.168.1.10",
-        host:"122.175.62.210",
+       host:"192.168.1.10",
+        // host:"122.175.62.210",
         user:"spryple_product_user",
         password:"Spryple$#123",
         port: 3306,
@@ -2383,8 +2383,8 @@ function createClientDatabase(companyName){
     });
      connection.connect( function(err) {
         if (err) throw err;
-                // const dbHost = "192.168.1.10";
-                const dbHost ="122.175.62.210";
+               const dbHost = "192.168.1.10";
+                // const dbHost ="122.175.62.210";
                 const dbUser = "spryple_product_user";
                 const dbPassword = "Spryple$#123";
                 // Path to the MySQL dump file
@@ -2498,9 +2498,9 @@ function paymentStatusMail(mailData){
          transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
 
-                res(false);
+                res({status:false});
             } else {
-                res(true);
+                res({status:true});
             }
         });
     });
@@ -2512,7 +2512,9 @@ function paymentStatusMail(mailData){
            let email = mailData.login;
            let password = mailData.password_string;
            let companycode = companycodde;
-           let url= 'http://localhost:4200/#/Login'
+        //    let url= 'http://localhost:4200/#/Login'
+        // let url = 'http://192.168.1.29:6565/#/Login'
+        let url = 'http://122.175.62.210:6564/#/Login'
            var transporter = nodemailer.createTransport({
            host: "smtp-mail.outlook.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
