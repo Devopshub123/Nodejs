@@ -230,7 +230,8 @@ async function getMastertable(req, res) {
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-                 if (result && result.length > 0) {
+               console.log("Master err:" + err, +"Master Result" + result[0]);
+                if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
                         for (let i=0; i<result[0].length;i++){
                             let hDate = (new Date(result[0][i].Date));
@@ -240,6 +241,7 @@ async function getMastertable(req, res) {
 
 
                     }else {
+                        console.log(result[0]);
                         res.send({data: result[0], status: true});
                     }
                 } else {

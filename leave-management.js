@@ -1280,17 +1280,19 @@ async function getFilesMaster(req, res) {
              listOfConnections[companyName].query("CALL `get_files_master` (?,?,?,?,?,?)",
                  [req.body.employeeId, req.body.candidateId, req.body.moduleId, req.body.filecategory, req.body.requestId, req.body.status],
                  async function (err, result, fields) {
+                    console.log("File Master Err: "+ err, + "File Master Result :" +result)
                     if (err) {
-                        let errorLogArray = [];
-                        errorLogArray.push("LMSAPI");
-                        errorLogArray.push("getFilesMaster");
-                        errorLogArray.push("GET");
-                        errorLogArray.push(JSON.stringify(req.body));
-                        errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
-                        errorLogArray.push(null);
-                        errorLogArray.push(companyName);
-                        errorLogArray.push(dbName);
-                        errorLogs(errorLogArray)
+                        res.send({ status: false });
+                        // let errorLogArray = [];
+                        // errorLogArray.push("LMSAPI");
+                        // errorLogArray.push("getFilesMaster");
+                        // errorLogArray.push("GET");
+                        // errorLogArray.push(JSON.stringify(req.body));
+                        // errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                        // errorLogArray.push(null);
+                        // errorLogArray.push(companyName);
+                        // errorLogArray.push(dbName);
+                        // errorLogs(errorLogArray)
                     } else {
                         if (result && result.length > 0) {
                             res.send({ status: true, data: result[0] })
