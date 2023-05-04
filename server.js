@@ -3094,7 +3094,7 @@ app.listen(6363,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at : http://localhost:6060');
+        console.log('Server Started at : http://localhost:6363');
 });
 
 /** uncomment in QA build time */
