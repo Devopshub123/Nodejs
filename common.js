@@ -899,9 +899,10 @@ async function Validateemail(req, res) {
         <p style="color:black">Dear Customer,</p>
         <p style="color:black">We are excited to have you sign up with Spryple and are looking forward to work with you. Click on the link below to complete your registration process.Please fill your details and submit the form.<b></b></p>
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
+        <p style="color:black"> <b>Note : </b>This link is valid only for 24 hours. Company short code is assigned on a first-come-first-serve basis and you may lose your short code once the link is expired. </p>
         <p style="color:black"> If you experience any issues when accessing the above link, please reach out to <b>hr@sreebtech.com</b>  </p>  
         <p style="color:black">Thank you!</p>
-        <p style="color:black">Human Resource Team</p>
+        <p style="color:black">Sales Team</p>
       
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
@@ -917,7 +918,7 @@ async function Validateemail(req, res) {
                     res.send({ status: false ,message:"Please enter a valid Email."});
                 } 
                 else {
-                    res.send({ status: true,message: "Verified your email.Please check your mail." });
+                    res.send({ status: true,message: "A link is sent to your email. Please use this link to proceed with adding your details and purchase of the application." });
                 }
             });
            }
@@ -2062,35 +2063,36 @@ async function getRevenueByMonth(req,res) {
 async function setSprypleClientPlanPayment(req, res) {
     var mailData = req.body;
     var companycodevalue = req.body.company_code_value
+    let Payment =  await paymentStatusMail(mailData);
     try { 
-        con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
-                [
-                    req.body.client_id_value,
-                    req.body.company_code_value,
-                    req.body.valid_from_date,
-                    req.body.valid_to_date,
-                    req.body.plan_id_value,
-                    req.body.number_of_users_value,
-                    req.body.paid_amount,
-                    req.body.transaction_number
-                 ],
-                async function (err, result, fields) {           
-           if(err){
-            res.send({status:false})
-           }
-           else {
-            let Payment =  paymentStatusMail(mailData);
-            console.log("Payment",Payment);
-            let  dbName = await createClientDatabase(companycodevalue);
-            if(dbName.status){
-                let insertClientMasterData=  await InsertClientMasterData(dbName.data)
-            if(insertClientMasterData){
-                let datacreateClientCredentials =await createClientCredentials(companycodevalue);
-            }
-    }
+    //     con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
+    //             [
+    //                 req.body.client_id_value,
+    //                 req.body.company_code_value,
+    //                 req.body.valid_from_date,
+    //                 req.body.valid_to_date,
+    //                 req.body.plan_id_value,
+    //                 req.body.number_of_users_value,
+    //                 req.body.paid_amount,
+    //                 req.body.transaction_number
+    //              ],
+    //             async function (err, result, fields) {           
+    //        if(err){
+    //         res.send({status:false})
+    //        }
+    //        else {
+    //         let Payment =  awiat paymentStatusMail(mailData);
+    //         console.log("Payment",Payment);
+    //         let  dbName = await createClientDatabase(companycodevalue);
+    //         if(dbName.status){
+    //             let insertClientMasterData=  await InsertClientMasterData(dbName.data)
+    //         if(insertClientMasterData){
+    //             let datacreateClientCredentials =await createClientCredentials(companycodevalue);
+    //         }
+    // }
                
-           }
-        });
+    //        }
+    //     });
     
 
     
@@ -2457,6 +2459,8 @@ function createClientDatabase(companyName){
     // create_client_credentials
     
 function paymentStatusMail(mailData){
+    let fdate =(new Date(mailData.valid_from_date).getDate()<10?"0"+new Date(mailData.valid_from_date).getDate():new Date(mailData.valid_from_date).getDate())+'-'+((new Date(mailData.valid_from_date).getMonth()+1)<10?"0"+(new Date(mailData.valid_from_date).getMonth()+1):(new Date(mailData.valid_from_date).getMonth()+1) )+'-'+new Date(mailData.valid_from_date).getFullYear();
+
     return new Promise(async (res,rej)=>{
         console.log("paymentStatusMail",mailData)
     var transporter = nodemailer.createTransport({
@@ -2477,8 +2481,9 @@ function paymentStatusMail(mailData){
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Customer,</p>
-        <p style="color:black">This is to acknowledge that we have received the payment of <b>${mailData.paid_amount}</b> Rs  against our invoice number <b>${mailData.transaction_number}</b> on <b>${mailData.valid_from_date}</b>. Thanks for Payment towards Spryple subscription.<b></b></p> 
+        <p style="color:black">This is to acknowledge that we have received the payment of <b>${mailData.paid_amount}</b> Rs  against our invoice number <b>${mailData.transaction_number}</b> on <b>${fdate}</b>. Thanks for Payment towards Spryple subscription.<b></b></p> 
         <p style="color:black"> Please find the attached invoice <b>#${mailData.transaction_number}</b>. If you have any questions reach out to <b>hr@sreebtech.com</b>  </p>  
+        <p style="color:black"> <b>Note : </b>Please check your email for super admin credentials. If you fail to get reach out to <b>contact@devorks.com</b></p>
         <p style="color:black">Thank you!</p>
         <p style="color:black">Sales Manager .</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
