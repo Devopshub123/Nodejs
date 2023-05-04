@@ -1575,8 +1575,9 @@ app.delete('/api/removeImage/:path',function(req,res){
     leaveManagement.getFilepathsMaster(req,res);
 
 });
-app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',verifyJWTToken,function(req,res) {
- common.getMastertable(req,res)
+app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',function(req,res) {
+    console.log("d-1", req.params);
+    common.getMastertable(req, res)
 });
 /**pre onboardin master table */
 app.get('/api/getMastertablePreonboarding/:tableName/:status/:page/:size/:companyName',function(req,res) {

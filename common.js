@@ -231,7 +231,8 @@ async function getMastertable(req, res) {
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-                console.log("d0=errr",err)
+                console.log("d0=errr", err)
+                console.log("d1=ress",result[0])
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
                         for (let i=0; i<result[0].length;i++){
@@ -241,7 +242,8 @@ async function getMastertable(req, res) {
                         res.send({data: result[0], status: true});
 
 
-                    }else {
+                    } else {
+                        console.log("d2=ress",result[0])
                         res.send({data: result[0], status: true});
                     }
                 } else {
