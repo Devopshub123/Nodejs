@@ -3090,7 +3090,7 @@ app.get('/subscription/api/getUnmappedPlans', function (req, res) {
 
 /** Local server */
 
-app.listen(6363,'0.0.0.0',function (err) {
+app.listen(7676,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else

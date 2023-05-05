@@ -143,7 +143,9 @@ function generateJWTToken(info){
 async function login(req, res) {
     try{
 
+
     var  dbName = await getDatebaseName(req.body.companyName);
+    if (dbName && dbName!=null) {
     if(req.body.companyName!='spryple_dev'){
 
         let subscriptiondata =await getClientSubscriptionDetailsforlogin(req.body.companyName);
@@ -160,7 +162,7 @@ async function login(req, res) {
         var password = req.body.password;
         var companyName = req.body.companyName;
             var listOfConnections = {};
-        if (dbName && dbName!=null) {
+        
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
