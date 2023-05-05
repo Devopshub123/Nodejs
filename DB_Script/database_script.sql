@@ -395,7 +395,7 @@
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
     drop trigger if exists after_punchin_insert;
-	/*!50003 CREATE*/ /*!50017*/ /*!50003 TRIGGER after_punchin_insert
+	/*!50003 CREATE*/ /*!50017 */ /*!50003 TRIGGER after_punchin_insert
 		after insert ON biometric_attendance
 		FOR EACH ROW 
 	begin
@@ -1620,18 +1620,6 @@
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 	/*!40101 SET character_set_client = @saved_cs_client */;
 
-	--
-	-- Dumping data for table `ems_checklist_master`
-	--
-
-	LOCK TABLES `ems_checklist_master` WRITE;
-	/*!40000 ALTER TABLE `ems_checklist_master` DISABLE KEYS */;
-	INSERT INTO `ems_checklist_master` VALUES (1,'null','ID card allocation',1,'Onboarding','Inactive',current_timestamp(),1,null,null),
-    (2,'null','rtttyrrt',1,'Onboarding','Active','2022-11-09 17:51:30',1,'2023-03-08 14:55:19',1),(3,'null','Office mail id creation',1,'Onboarding','Active','2022-11-09 17:51:47',1,NULL,NULL),(4,'null','Deactivation of office mail id',1,'Offboarding','Active','2022-11-09 17:53:03',1,NULL,NULL),(5,'null','Laptop recovery',1,'Offboarding','Active','2022-11-09 17:53:03',1,NULL,NULL),(6,'null','y    y',1,'Onboarding','Active','2022-11-10 12:36:51',1,'2023-03-02 11:50:10',1),(9,'null','asdfasdasd',3,'Onboarding','Active','2022-11-18 14:21:29',1,'2023-02-06 18:47:42',1),(11,'null','Work demo to all employees',1,'Offboarding','Active','2022-11-18 14:43:01',1,NULL,NULL),(12,'null','Mouse, Keyboard submission',3,'Offboarding','Active','2022-11-18 16:02:02',1,NULL,NULL),(14,'null','Knowledge transfer to Junior',1,'Onboarding','Active','2022-11-28 18:04:36',1,NULL,NULL),(15,'null','dfasdf',4,'Onboarding','Active','2023-02-06 18:44:14',1,NULL,NULL),(16,'null','data',1,'Onboarding','Active','2023-02-17 15:37:12',1,NULL,NULL),(18,'null','Cabin allocation',1,'Onboarding','Active','2023-02-17 15:39:49',1,'2023-02-24 15:09:13',1),(19,'null','yy',1,'Onboarding','Active','2023-02-17 15:41:16',1,'2023-02-24 14:54:04',1),(20,'null','zzz',1,'Onboarding','Active','2023-02-24 11:23:05',1,'2023-02-24 15:09:13',1),(21,'null','sammm',1,'Onboarding','Active','2023-02-24 15:55:16',1,NULL,NULL),(22,'null','Sample',1,'Onboarding','Active','2023-02-24 17:34:06',1,NULL,NULL),(23,'null','zzz',1,'Onboarding','Active','2023-02-24 17:34:06',1,'2023-02-24 18:16:00',1),(24,'null','z z  z',1,'Onboarding','Active','2023-03-02 11:51:32',1,'2023-03-02 11:52:17',1),(25,'null','ID    card allowcation',1,'Onboarding','Active','2023-03-02 11:59:29',1,NULL,NULL),(26,'null','	ID      card allowcation',1,'Onboarding','Active','2023-03-02 11:59:58',1,NULL,NULL),(27,'null','	ID     card      allowcation',1,'Onboarding','Active','2023-03-02 12:03:31',1,NULL,NULL),(28,'null','Sample 12',3,'Onboarding','Active','2023-03-07 07:18:08',1,NULL,NULL),(29,'null','Sample 13',4,'Onboarding','Active','2023-03-07 07:20:44',1,NULL,NULL),(30,'null','Sample 14',5,'Onboarding','Active','2023-03-07 07:21:44',1,NULL,NULL),(31,'null','Sample 12',3,'Offboarding','Active','2023-03-07 07:23:00',1,NULL,NULL),(32,'null','Sample 14',3,'Offboarding','Active','2023-03-07 07:27:05',1,NULL,NULL),(33,'null','IDcardallowcation',1,'Onboarding','Active','2023-03-08 14:51:17',1,NULL,NULL),(34,'null','y y',1,'Onboarding','Active','2023-03-11 14:50:32',1,NULL,NULL);
-	/*!40000 ALTER TABLE `ems_checklist_master` ENABLE KEYS */;
-	UNLOCK TABLES;
-
-	--
 	-- Table structure for table `ems_employee_checklist`
 	--
 
@@ -2295,6 +2283,103 @@
 	  PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 	/*!40101 SET character_set_client = @saved_cs_client */;
+    
+    
+--
+-- Table structure for table `esi_configs`
+--
+
+DROP TABLE IF EXISTS `esi_configs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `esi_configs` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `state_id` int(11) NOT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `effective_from_date` datetime DEFAULT NULL,
+  `effective_to_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `esi_configs_state_id_fk` (`state_id`),
+  CONSTRAINT `esi_configs_state_id_fk` FOREIGN KEY (`state_id`) REFERENCES `statesmaster` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `esi_configs`
+--
+--
+-- Table structure for table `filecategory_master`
+--
+
+DROP TABLE IF EXISTS `filecategory_master`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `filecategory_master` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `module_id` int(11) NOT NULL,
+  `category` varchar(64) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `filecategory_master_module_id_fk` (`module_id`),
+  CONSTRAINT `filecategory_master_module_id_fk` FOREIGN KEY (`module_id`) REFERENCES `modulesmaster` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `filecategory_master`
+--
+
+LOCK TABLES `filecategory_master` WRITE;
+/*!40000 ALTER TABLE `filecategory_master` DISABLE KEYS */;
+INSERT INTO `filecategory_master` VALUES (1,1,'PAN','PAN Card'),(2,1,'AADHAR','Aadhar Card'),(3,1,'DRVLICENSE','Driving License'),(4,1,'PASSPORT','Passport'),(5,1,'MARKSSHEET','Marks Sheet'),(6,1,'EXPLETTER','Experience Letter'),(7,1,'OFFERLETTER','Offer Letter'),(8,2,'SL','Sick Leave Document'),(9,2,'ML','Maternity Leave Document'),(10,2,'PL','Paternity Leave Document'),(11,4,'ATTENDANCE','Attendance'),(12,5,'PAYSLIP','Payslip'),(13,5,'FORM16','Form-16'),(14,6,'QUOTATION','Quotation'),(15,6,'BILLS','Bills'),(16,7,'RESUME','Resume'),(17,1,'PROFILE','Profile'),(18,2,'LOGO','Logo'),(19,2,'test','test'),(20,5,'INVESTMENTS','Investment proofs'),(21,5,'DISABILITIES','Disability proofs');
+/*!40000 ALTER TABLE `filecategory_master` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `filepaths_master`
+--
+
+DROP TABLE IF EXISTS `filepaths_master`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `filepaths_master` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `module_id` int(11) NOT NULL,
+  `root_folder` varchar(64) DEFAULT NULL,
+  `module_code` varchar(16) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `module_id_fk` (`module_id`),
+  CONSTRAINT `filepaths_master_ibfk_1` FOREIGN KEY (`module_id`) REFERENCES `modulesmaster` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+
+--
+-- Table structure for table `files_master`
+--
+
+DROP TABLE IF EXISTS `files_master`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `files_master` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `empid` int(11) NOT NULL,
+  `candidate_id` int(11) DEFAULT NULL,
+  `file_category` int(11) DEFAULT NULL,
+  `document_number` varchar(64) DEFAULT NULL,
+  `request_id` int(11) DEFAULT NULL,
+  `filepath_id` int(11) NOT NULL,
+  `filename` varchar(1024) DEFAULT NULL,
+  `upload_date` datetime DEFAULT NULL,
+  `file_status` varchar(32) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `filepath_id_fk` (`filepath_id`),
+  KEY `file_category_id_fk` (`file_category`),
+  CONSTRAINT `file_category_id_fk` FOREIGN KEY (`file_category`) REFERENCES `filecategory_master` (`id`),
+  CONSTRAINT `filepath_id_fk` FOREIGN KEY (`filepath_id`) REFERENCES `filepaths_master` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 	--
 	-- Table structure for table `functionalitiesmaster`
@@ -3018,7 +3103,7 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
     (7,'Recruitment Management',NULL,NULL,7,'assets\\img\\menu-recruitment.png'),
     (8,'Employee Self Service',NULL,NULL,8,'assets\\img\\menu-ess.png '),
     (9,'Claims Management',NULL,NULL,9,'assets\\img\\menu-claims.png'),
-    (10,'Subscription',null,null,10,'assets\\img\\subscription.png'),
+    (10,'Subscription',null,null,10,	'assets\\img\subscription.png'),
     (11,'Exit Management',null,null,11,'assets\\img\\exit-management.png');
 	/*!40000 ALTER TABLE `modulesmaster` ENABLE KEYS */;
 	UNLOCK TABLES;
@@ -4533,7 +4618,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `attendance_summarycronjob` ON SCHEDULE EVERY 4 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `attendance_summarycronjob` ON SCHEDULE EVERY 4 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call set_employee_attendance_summary_cron;
 	insert into cron_job_logs(job_name,createdat) values
 	('attendance_summarycronjob',current_timestamp());
@@ -4555,7 +4640,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `credit_employee_leave_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `credit_employee_leave_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 
 	call credit_employee_leave_cron;
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4618,7 +4703,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	set @pdate = (select curdate());
 	call update_employee_compoff_validity_status_cron(@pdate);
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4641,7 +4726,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	set @pdate = (select curdate());
 	call update_employee_compoff_validity_status_cron(@pdate);
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4664,7 +4749,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_leave_summary_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `update_employee_leave_summary_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call update_employee_leave_summary_cron(null);
 	insert into cron_job_logs(job_name,createdat) values 
 	('update_employee_leave_summary_cron_event',current_timestamp());
@@ -4686,7 +4771,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_leave_summary_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `update_employee_leave_summary_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call update_employee_leave_summary_cron(null);
 	insert into cron_job_logs(job_name,createdat) values 
 	('update_employee_leave_summary_cron_event_temp',current_timestamp());
@@ -4731,7 +4816,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_working_days_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `update_employee_working_days_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 
 	call update_employee_working_days_cron;
 	insert into cron_job_logs(job_name,createdat) values 
@@ -7533,9 +7618,10 @@ WHERE e.id = @eid and status=1;
 					  cast(@p_date as datetime) between employee_shift_details.fromdate and employee_shift_details.todate  );
 					  
 		set @worklocation = (select locationid from employee_worklocations where empid = `id` order by effectivefromdate desc limit 1);   
-		
-		SET @role = (select role_id from employee_roles where employee_roles.employee_id = `id` and
-					 role_id in (select rolesmaster.id from rolesmaster where rolesmaster.name in ('Employee','Manager','Admin')));
+		SET @role = (select (select json_arrayagg(json_object('id',role_id,'name', rm.name)) from employee_roles er
+         inner join rolesmaster rm on rm.id=er.role_id where 
+          er.employee_id =`id` and er.effective_to_date is null and
+   				 role_id in (select rolesmaster.id from rolesmaster where rolesmaster.isEditable=0)));
 					 
 		SET @rm = (SELECT reportingmanagerid FROM employee_reportingmanagers WHERE empid = `id` order by employee_reportingmanagers.id desc limit 1);             
 		
@@ -7634,8 +7720,6 @@ WHERE e.id = @eid and status=1;
 		)) as json
 	from `employee`
 	where `employee`.`id` = id;
-
-
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -7772,7 +7856,8 @@ WHERE e.id = @eid and status=1;
 	CREATE  PROCEDURE `getemployeestatus`(in `email` varchar(128))
 	begin
 
-		select e.id,e.status,(select login from employee_login where id=e.id order by lastpasswordchangedate desc limit 1) as login from employee e where e.officeemail=`email`;
+		select e.id,e.status,(select login from employee_login where id=e.id order by lastpasswordchangedate desc limit 1) as 
+        login from employee e where e.officeemail=`email`;
 		
 	end ;;
 	DELIMITER ;
@@ -10052,7 +10137,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE  PROCEDURE `get_audit_log_details_for_employee`(
+	CREATE PROCEDURE `get_audit_log_details_for_employee`(
 	IN action_id int
 	)
 	BEGIN
@@ -11665,11 +11750,14 @@ begin
 set @rmid = (select reportingmanagerid from employee_reportingmanagers where empid=@eid and effectiveenddate is null);
 set @rm_reporting_manager_id= (select reportingmanagerid from employee_reportingmanagers where empid=@rmid and reportingmanagerid<>@rmid and effectiveenddate is null);
 
+SET @role = (select (select json_arrayagg(json_object('id',role_id,'name', rm.name)) from employee_roles er
+         inner join rolesmaster rm on rm.id=er.role_id where 
+          er.employee_id =`id` and er.effective_to_date is null and
+   				 role_id in (select rolesmaster.id from rolesmaster where rolesmaster.isEditable=0)));
 set @jsondata=(select distinct json_arrayagg(json_object(
 'id',				`employee_roles`.`id`,
 'employee_id',		`employee_roles`.`employee_id`,
-'role_id',			`employee_roles`.`role_id`,
-'role_name', 		`rolesmaster`.`name`,
+'usertype',                     @role,
 'rmid',				@rmid,
 'rm_name',			(select concat(firstname, ' ',lastname) from employee where id=@rmid),
 'companyname',     (select companyname from companyinformation where id=1 ),
@@ -11688,7 +11776,6 @@ rolesmaster.id = employee_roles.role_id and
 employee.id = employee_roles.employee_id
 and employee_roles.employee_id = @eid);
 select @jsondata as jsonvalu;
-
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -17749,7 +17836,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE  PROCEDURE `get_screens_for_employee`(IN empid int)
+	CREATE PROCEDURE `get_screens_for_employee`(IN empid int)
 	BEGIN
 	if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id in (select employee_roles.role_id 
 						from employee_roles where employee_roles.employee_id = `empid`)) then
@@ -17938,7 +18025,7 @@ begin
 	DELIMITER ;
     
     DELIMITER ;;
-	CREATE  PROCEDURE `get_screens_for_super_admin`(IN empid int)
+	CREATE PROCEDURE `get_screens_for_super_admin`(IN empid int)
 	BEGIN
 if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id in (select employee_roles.role_id 
 						from employee_roles where employee_roles.employee_id = `empid`)) then
@@ -19214,15 +19301,17 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	DELIMITER ;;
 	CREATE  PROCEDURE `get_user_login_data`()
 	begin
-		 /*select e.id, e.empid, concat(firstname, ' ',middlename,'',lastname) empname,e.officeemail, elog.login , elog.status
-		 from employee e 
-		 left join (select MAX(el.id) id, el.login login, el.status status from employee_login el group by el.login) as elog on elog.id=e.id
-		 where e.status=1
-		 order by e.id desc;*/
-		 select e.id, e.empid, concat(firstname, ' ',middlename,'',lastname) empname,e.officeemail, '' as login , (select name from statusmaster where id=e.status) as status
-		 from employee e 
-     where e.status=1 -- and not exists(select * from employee_login where id=e.id)
-		 order by e.id desc;
+		     /*select e.id, e.empid, concat(firstname, ' ',middlename,'',lastname) empname,e.officeemail, elog.login , elog.status
+     from employee e 
+     left join (select MAX(el.id) id, el.login login, el.status status from employee_login el group by el.login) as elog on elog.id=e.id
+     where e.status=1
+     order by e.id desc;*/
+	 select e.id, e.empid, concat(ifnull(e.firstname,''), ' ',ifnull(e.middlename,''),'',ifnull(e.lastname,'')) empname,e.officeemail, 
+     (select login from employee_login el where el.id=e.id order by el.lastpasswordchangedate desc limit 1) as login ,
+     (select sm.name from statusmaster sm where sm.id=e.status) as status
+     from employee e 
+     where e.status='1' -- and not exists(select * from employee_login where id=e.id)
+     order by e.id desc;
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -23860,172 +23949,171 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	DELIMITER ;;
 	CREATE  PROCEDURE `set_emp_personal_info`(
 	in employeedata varchar(8000)
-	-- JSON Data: (CALL `set_emp_personal_info`('{"condidateid": 5,"empid": null,"firstname": "Raju","middlename": "","lastname": "Mani","personalemail": "raju@gmail.com",
-	-- 	"officeemail": "raju@gmail.com","dateofbirth": "1993-05-22","gender": 2,"maritalstatus": 2,	"hiredon": "2022-09-13 00:00:00","usertype": 1,	"designation": 3,
-	-- "department": 5,	"employmenttype": "1","dateofjoin": "2021-06-01","companylocation": 1,"reportingmanager": 2,"noticeperiod": 60,"languages_spoken": "English,Telugu",
-	-- "bloodgroup": 1,	"contactnumber": "9032824989",	"emergencycontactnumber": "",	"emergencycontactrelation": "",	"emergencycontactname": "",	"address": "Sangareddy",
-	-- 	"city": 609,"state": 1,	"pincode": "345454","country": 1,"paddress": "sangareddy","pcity": 34,"pstate": 25,	"ppincode": "345454","pcountry": 1,
-	-- 	"aadharnumber": "","passport": "","status": 1,"actionby": 1,"relations": [{"firstname": "Ram Bhoopal","lastname": "U","gender": 1,"contactnumber": "",
-	-- 	"status": "Alive","relationship": 5,"dateofbirth": ""},{"firstname": "Ragini","lastname": "ragam","gender": 2,"contactnumber": "","status": "Alive",
-	-- 	"relationship": 4,"dateofbirth": null}],"education": [{"course": "MCA",	"institutename": "IARE","fromdate": "2010-03-11",
-	-- "todate": "2013-10-08"}],"experience": [{"companyname": "sreeb technologies","designation":"softwere Enginerr","skills": "test","fromdate": "2018-04-18","todate": "2021-05-31"}]} '); 
-	)
+-- JSON Data: (CALL `set_emp_personal_info`('{"condidateid": 5,"empid": null,"firstname": "Raju","middlename": "","lastname": "Mani","personalemail": "raju@gmail.com",
+-- 	"officeemail": "raju@gmail.com","dateofbirth": "1993-05-22","gender": 2,"maritalstatus": 2,	"hiredon": "2022-09-13 00:00:00","usertype": 1,	"designation": 3,
+-- "department": 5,	"employmenttype": "1","dateofjoin": "2021-06-01","companylocation": 1,"reportingmanager": 2,"noticeperiod": 60,"languages_spoken": "English,Telugu",
+-- "bloodgroup": 1,	"contactnumber": "9032824989",	"emergencycontactnumber": "",	"emergencycontactrelation": "",	"emergencycontactname": "",	"address": "Sangareddy",
+-- 	"city": 609,"state": 1,	"pincode": "345454","country": 1,"paddress": "sangareddy","pcity": 34,"pstate": 25,	"ppincode": "345454","pcountry": 1,
+-- 	"aadharnumber": "","passport": "","status": 1,"actionby": 1,"relations": [{"firstname": "Ram Bhoopal","lastname": "U","gender": 1,"contactnumber": "",
+-- 	"status": "Alive","relationship": 5,"dateofbirth": ""},{"firstname": "Ragini","lastname": "ragam","gender": 2,"contactnumber": "","status": "Alive",
+-- 	"relationship": 4,"dateofbirth": null}],"education": [{"course": "MCA",	"institutename": "IARE","fromdate": "2010-03-11",
+-- "todate": "2013-10-08"}],"experience": [{"companyname": "sreeb technologies","designation":"softwere Enginerr","skills": "test","fromdate": "2018-04-18","todate": "2021-05-31"}]} '); 
+)
+begin
+	/*declare exit handler for sqlexception
 	begin
-		/*declare exit handler for sqlexception
-		begin
-			rollback;
-			select -1 as statuscode;
-		end; */
-		DECLARE vleave_id int(11);
-		declare vid int(1);
-		DECLARE leavetype_cursor cursor for select temp_lm_leavesmaster.leave_id,leavetype from temp_lm_leavesmaster;
-		set @weekoff1 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
-						 (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_1')
-						 and effectivetodate is null);
-		set @weekoff2 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
-						 (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_2')
-						 and effectivetodate is null);
-		set @weekoff3 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
-						 (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_3')
-						 and effectivetodate is null);                 
-		
-		set @statuscode=0;
-		set @eid = 0;
-		set @rid = 0;
-		set @eid = (select e.id from employee e where e.empid = (select json_unquote(json_extract(employeedata,"$.empid"))));  
-		
-		set @personalemail =json_unquote(json_extract(employeedata,"$.personalemail"));
-		set @mail = @personalemail;
-		set @officeemail=json_unquote(json_extract(employeedata,"$.officeemail"));
+	    rollback;
+	    select -1 as statuscode;
+	end; */
+	DECLARE vleave_id int(11);
+    declare vid int(1);
+    DECLARE leavetype_cursor cursor for select temp_lm_leavesmaster.leave_id,leavetype from temp_lm_leavesmaster;
+    set @weekoff1 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
+				     (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_1')
+				     and effectivetodate is null);
+    set @weekoff2 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
+				     (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_2')
+				     and effectivetodate is null);
+    set @weekoff3 = (select ems_rulevalues.value from ems_rulevalues where ems_rulevalues.ruleid =
+				     (select ems_rulemaster.id from ems_rulemaster where ems_rulemaster.rulename = 'DEFAULT_WEEKOFF_3')
+				     and effectivetodate is null);                 
+    
+	set @statuscode=0;
+    set @eid = 0;
+    set @rid = 0;
+	set @eid = (select e.id from employee e where e.empid = (select json_unquote(json_extract(employeedata,"$.empid"))));  
+    
+	set @personalemail =json_unquote(json_extract(employeedata,"$.personalemail"));
+    set @mail = @personalemail;
+	set @officeemail=json_unquote(json_extract(employeedata,"$.officeemail"));
     Set @usertypecount=(select json_length(employeedata, '$.usertype'));
-		set @relationdata=json_unquote(json_extract(employeedata,"$.relations"));
-		if(@relationdata='null')then
-			set @relationscount = 0;
-			set @relationdata = null;
-		else 
-			set @relationscount = (select json_length(employeedata, '$.relations'));
-		end if;
-		
-		set @educationdata=json_unquote(json_extract(employeedata,"$.education"));
-		if(@educationdata='null')then
-			set @educationcount = 0;
-			set @educationdata=null;
-		else 
-			set @educationcount = (select json_length(employeedata, '$.education'));
-		end if;
-		
-		set @experiencedata=json_unquote(json_extract(employeedata,"$.experience"));
-		if(@experiencedata='null')then
-			set @experiencecount = 0;
-		else 
-			set @experiencecount = (select json_length(employeedata, '$.experience'));
-		end if;
+	set @relationdata=json_unquote(json_extract(employeedata,"$.relations"));
+    if(@relationdata='null')then
+		set @relationscount = 0;
+        set @relationdata = null;
+    else 
+        set @relationscount = (select json_length(employeedata, '$.relations'));
+    end if;
+	
+    set @educationdata=json_unquote(json_extract(employeedata,"$.education"));
+    if(@educationdata='null')then
+        set @educationcount = 0;
+        set @educationdata=null;
+    else 
+        set @educationcount = (select json_length(employeedata, '$.education'));
+    end if;
+    
+	set @experiencedata=json_unquote(json_extract(employeedata,"$.experience"));
+    if(@experiencedata='null')then
+        set @experiencecount = 0;
+    else 
+        set @experiencecount = (select json_length(employeedata, '$.experience'));
+    end if;
 
-		set @employeelocation = (select json_unquote(json_extract(employeedata,"$.companylocation")));
-		set @cid= (select json_unquote(json_extract(employeedata,"$.condidateid")));
-		set @i = 0;
-		set @insertrstring = '';
-		set @updaterstring = '';
+	set @employeelocation = (select json_unquote(json_extract(employeedata,"$.companylocation")));
+    set @cid= (select json_unquote(json_extract(employeedata,"$.condidateid")));
+    set @i = 0;
+    set @insertrstring = '';
+    set @updaterstring = '';
 
-		set @bloodgroup=(select json_unquote(json_extract(employeedata,"$.bloodgroup")));	
-		if(@bloodgroup='null')then
-		set @bloodgroup=null;
-		end if;
-		set @city=(select json_unquote(json_extract(employeedata,"$.city")));
-		if(@city='null')then
-			set @city=null;
-		end if;
-		set @state=(select json_unquote(json_extract(employeedata,"$.state")));
-		if(@state='null')then
-			set @state=null;
-		end if;
-		set @country=(select json_unquote(json_extract(employeedata,"$.country")));
-		if(@country='null')then
-			set @country=null;
-		end if;
-		set @pcity=(select json_unquote(json_extract(employeedata,"$.pcity")));
-		if(@pcity='null')then
-			set @pcity=null;
-		end if;
-		set @pstate=(select json_unquote(json_extract(employeedata,"$.pstate")));
-		if(@pstate='null')then
-			set @pstate=null;
-		end if;
-		set @pcountry=(select json_unquote(json_extract(employeedata,"$.pcountry")));
-		if(@pcountry='null')then
-			set @pcountry=null;
-		end if; 
-	-- select @eid;
-	if (ifnull(@eid,0)=0) then
-	  begin
+	set @bloodgroup=(select json_unquote(json_extract(employeedata,"$.bloodgroup")));	
+	if(@bloodgroup='null')then
+	set @bloodgroup=null;
+	end if;
+	set @city=(select json_unquote(json_extract(employeedata,"$.city")));
+	if(@city='null')then
+	    set @city=null;
+	end if;
+	set @state=(select json_unquote(json_extract(employeedata,"$.state")));
+	if(@state='null')then
+	    set @state=null;
+	end if;
+	set @country=(select json_unquote(json_extract(employeedata,"$.country")));
+	if(@country='null')then
+	    set @country=null;
+	end if;
+	set @pcity=(select json_unquote(json_extract(employeedata,"$.pcity")));
+	if(@pcity='null')then
+	    set @pcity=null;
+	end if;
+	set @pstate=(select json_unquote(json_extract(employeedata,"$.pstate")));
+	if(@pstate='null')then
+	    set @pstate=null;
+	end if;
+	set @pcountry=(select json_unquote(json_extract(employeedata,"$.pcountry")));
+	if(@pcountry='null')then
+	    set @pcountry=null;
+	end if; 
+-- select @eid;
+if (ifnull(@eid,0)=0) then
+  begin
+  if(@personalemail<>'')then
+    if exists(select * from employee e where e.personalemail=@personalemail)then
+      set @statuscode=1;
+      set @mail='Personal email already exists.';
+	end if;
+  end if; 
+  if(@officeemail<>'')then
+    if exists(select * from employee e where e.officeemail=@officeemail)then
+      set @statuscode=1;
+      set @mail='Office email already exists.';
+	end if;
+  end if; 
+ if(@statuscode=0)then
+   	select employee_idgenerator.prefix,employee_idgenerator.seed,employee_idgenerator.currentvalue 
+	into @ei_prefix,@ei_seed,@ei_currentvalue 
+	from employee_idgenerator where employee_idgenerator.companylocation = @employeelocation;
+	if (@ei_prefix is not null) then
+	set @employeeid = (select concat(@ei_prefix,@ei_currentvalue));
+	else
+	set @employeeid = (select @ei_currentvalue);
+  -- 	select @employeeid;
+	end if;
 
-	  if(@personalemail<>'')then
-		if exists(select * from employee e where e.personalemail=@personalemail)then
-		  set @statuscode=1;
-		  set @mail='Personal email already exists.';
-		end if;
-	  end if; 
-	  if(@officeemail<>'')then
-		if exists(select * from employee e where e.officeemail=@officeemail)then
-		  set @statuscode=1;
-		  set @mail='Office email already exists.';
-		end if;
-	  end if; 
-	 if(@statuscode=0)then
-		select employee_idgenerator.prefix,employee_idgenerator.seed,employee_idgenerator.currentvalue 
-		into @ei_prefix,@ei_seed,@ei_currentvalue 
-		from employee_idgenerator where employee_idgenerator.companylocation = @employeelocation;
-		if (@ei_prefix is not null) then
-		set @employeeid = (select concat(@ei_prefix,@ei_currentvalue));
-		else
-		set @employeeid = (select @ei_currentvalue);
-	  -- 	select @employeeid;
-		end if;
 
+	insert into employee(`empid`,`firstname`,`middlename`,`lastname`,`personalemail`,`officeemail`,`dateofbirth`,`hiredon`,
+	`gender`,`maritalstatus`,`employmenttype`,`dateofjoin`,`noticeperiod`,`languages_spoken`,
+	`bloodgroup`,`contactnumber`,`emergencycontactnumber`,`emergencycontactrelation`,
+	`emergencycontactname`,`address`,`city`,`state`,`pincode`,`country`,`paddress`,`pcity`,
+	`pstate`,`ppincode`,`pcountry`,`aadharnumber`,`passport`,`status`,`created_on`,`created_by`)
+	values
+	(@employeeid,
+	json_unquote(json_extract(employeedata,"$.firstname")),
+	json_unquote(json_extract(employeedata,"$.middlename")),
+	json_unquote(json_extract(employeedata,"$.lastname")),
+	json_unquote(json_extract(employeedata,"$.personalemail")),
+	json_unquote(json_extract(employeedata,"$.officeemail")),
+	json_unquote(json_extract(employeedata,"$.dateofbirth")),
+	json_unquote(json_extract(employeedata,"$.hiredon")),
+	json_unquote(json_extract(employeedata,"$.gender")),
+	json_unquote(json_extract(employeedata,"$.maritalstatus")),
+	json_unquote(json_extract(employeedata,"$.employmenttype")),
+	json_unquote(json_extract(employeedata,"$.dateofjoin")),
+	json_unquote(json_extract(employeedata,"$.noticeperiod")),
+	json_unquote(json_extract(employeedata,"$.languages_spoken")),
+	@bloodgroup,
+	json_unquote(json_extract(employeedata,"$.contactnumber")),
+	json_unquote(json_extract(employeedata,"$.emergencycontactnumber")),
+	json_unquote(json_extract(employeedata,"$.emergencycontactrelation")),
+	json_unquote(json_extract(employeedata,"$.emergencycontactname")),
+	json_unquote(json_extract(employeedata,"$.address")),
+	@city,
+	@state,
+	json_unquote(json_extract(employeedata,"$.pincode")),
+	@country,
+	json_unquote(json_extract(employeedata,"$.paddress")),
+	@pcity,
+	@pstate,
+	json_unquote(json_extract(employeedata,"$.ppincode")),
+	@pcountry,	
+	json_unquote(json_extract(employeedata,"$.aadharnumber")),
+	json_unquote(json_extract(employeedata,"$.passport")),
+	json_unquote(json_extract(employeedata,"$.status")),
+	current_timestamp(),
+	json_unquote(json_extract(employeedata,"$.actionby"))
+	);                        
 
-		insert into employee(`empid`,`firstname`,`middlename`,`lastname`,`personalemail`,`officeemail`,`dateofbirth`,`hiredon`,
-		`gender`,`maritalstatus`,`employmenttype`,`dateofjoin`,`noticeperiod`,`languages_spoken`,
-		`bloodgroup`,`contactnumber`,`emergencycontactnumber`,`emergencycontactrelation`,
-		`emergencycontactname`,`address`,`city`,`state`,`pincode`,`country`,`paddress`,`pcity`,
-		`pstate`,`ppincode`,`pcountry`,`aadharnumber`,`passport`,`status`,`created_on`,`created_by`)
-		values
-		(@employeeid,
-		json_unquote(json_extract(employeedata,"$.firstname")),
-		json_unquote(json_extract(employeedata,"$.middlename")),
-		json_unquote(json_extract(employeedata,"$.lastname")),
-		json_unquote(json_extract(employeedata,"$.personalemail")),
-		json_unquote(json_extract(employeedata,"$.officeemail")),
-		json_unquote(json_extract(employeedata,"$.dateofbirth")),
-		json_unquote(json_extract(employeedata,"$.hiredon")),
-		json_unquote(json_extract(employeedata,"$.gender")),
-		json_unquote(json_extract(employeedata,"$.maritalstatus")),
-		json_unquote(json_extract(employeedata,"$.employmenttype")),
-		json_unquote(json_extract(employeedata,"$.dateofjoin")),
-		json_unquote(json_extract(employeedata,"$.noticeperiod")),
-		json_unquote(json_extract(employeedata,"$.languages_spoken")),
-		@bloodgroup,
-		json_unquote(json_extract(employeedata,"$.contactnumber")),
-		json_unquote(json_extract(employeedata,"$.emergencycontactnumber")),
-		json_unquote(json_extract(employeedata,"$.emergencycontactrelation")),
-		json_unquote(json_extract(employeedata,"$.emergencycontactname")),
-		json_unquote(json_extract(employeedata,"$.address")),
-		@city,
-		@state,
-		json_unquote(json_extract(employeedata,"$.pincode")),
-		@country,
-		json_unquote(json_extract(employeedata,"$.paddress")),
-		@pcity,
-		@pstate,
-		json_unquote(json_extract(employeedata,"$.ppincode")),
-		@pcountry,	
-		json_unquote(json_extract(employeedata,"$.aadharnumber")),
-		json_unquote(json_extract(employeedata,"$.passport")),
-		json_unquote(json_extract(employeedata,"$.status")),
-		current_timestamp(),
-		json_unquote(json_extract(employeedata,"$.actionby"))
-		);                        
-
-		set @eid = (select e.id from employee e where e.empid = @employeeid);
+	set @eid = (select e.id from employee e where e.empid = @employeeid);
 
 	IF @eid is not null then      -- update employee_idgenerator.currentvalue count
     set @prefix = (select v.prefix from employee_idgenerator v where v.companylocation = @employeelocation);
@@ -24054,7 +24142,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	    while @k < @usertypecount do
 		set @roleid=(select json_unquote(json_extract(`employeedata`,concat('$.usertype[',convert((@k),char),'].id'))));
 	    INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
-		(@eid,@roleid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
+		(@eid,@roleid,@eid,current_timestamp());
     	set @k = @k + 1;
 	    end while;
     end if;
@@ -24163,108 +24251,108 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	set @i = @i + 1;
 	end while;
 
-		set @insertexstring = '';
-		set @k = 0;
-		while @k < @experiencecount do
-		set @insertexstring = concat('insert into employee_experience_details(`empid`,`companyname`,`designation`,`skills`,`fromdate`,`todate`)
-		values (',@eid,',json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].companyname")),
-		json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].designation")),
-		json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].skills")),
-		json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].fromdate")),
-		json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].todate")))');
-		prepare stmt from @insertexstring;
-		execute stmt;
-		deallocate prepare stmt;
-		set @insertexstring = '';
-		
-		set @k = @k + 1;
-		end while;
+	set @insertexstring = '';
+	set @k = 0;
+	while @k < @experiencecount do
+	set @insertexstring = concat('insert into employee_experience_details(`empid`,`companyname`,`designation`,`skills`,`fromdate`,`todate`)
+	values (',@eid,',json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].companyname")),
+	json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].designation")),
+    json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].skills")),
+	json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].fromdate")),
+	json_unquote(json_extract(''',employeedata,''',"$.experience[',@k,'].todate")))');
+	prepare stmt from @insertexstring;
+	execute stmt;
+	deallocate prepare stmt;
+	set @insertexstring = '';
+	
+	set @k = @k + 1;
+	end while;
 
-	  CALL `set_checklists_to_employee`(null,@eid,null,'','Pending','Pending Checklist','Onboarding',json_unquote(json_extract(employeedata,"$.actionby")),@p);
-	-- select @p;
+  CALL `set_checklists_to_employee`(null,@eid,null,'','Pending','Pending Checklist','Onboarding',json_unquote(json_extract(employeedata,"$.actionby")),@p);
+-- select @p;
 
-	   update ems_new_hire nh set nh.status=4,
-		   nh.updated_on=current_timestamp(),
-		   nh.empid=@eid
-			where nh.id=@cid; 
-			
-		update files_master set empid=@eid where candidate_id =@cid ;
-	  select 0 statuscode , @eid as empid;
-	  else
-	  select @statuscode statuscode , @eid as empid, @mail email;
-	 end if;
-	end;
-	else
+   update ems_new_hire nh set nh.status=4,
+       nh.updated_on=current_timestamp(),
+       nh.empid=@eid
+        where nh.id=@cid; 
+        
+    update files_master set empid=@eid where candidate_id =@cid ;
+  select 0 statuscode , @eid as empid;
+  else
+  select @statuscode statuscode , @eid as empid, @mail email;
+ end if;
+end;
+else
 
-	begin
-	  if(@personalemail<>'')then
-		if exists(select * from employee e where e.personalemail=@personalemail and e.id <> @eid)then
-		  set @statuscode=1;
-		   set @mail='Personal email already exists.';
+begin
+  if(@personalemail<>'')then
+    if exists(select * from employee e where e.personalemail=@personalemail and e.id <> @eid)then
+      set @statuscode=1;
+       set @mail='Personal email already exists.';
+	end if;
+  end if; 
+  if(@officeemail<>'')then
+    if exists(select * from employee e where e.officeemail=@officeemail and e.id <> @eid)then
+      set @statuscode=1;
+      set @mail='Office Email already exists.';
+	end if;
+  end if; 
+ if(@statuscode=0)then
+	update employee e  set
+	-- `empid` = (select json_unquote(json_extract(employeedata,"$.empid"))),
+	`firstname` 	= (select json_unquote(json_extract(employeedata,"$.firstname"))),
+	`middlename` 	= (select json_unquote(json_extract(employeedata,"$.middlename"))),
+	`lastname` 		= (select json_unquote(json_extract(employeedata,"$.lastname"))),
+	`personalemail` = (select json_unquote(json_extract(employeedata,"$.personalemail"))),
+	`officeemail` 	= (select json_unquote(json_extract(employeedata,"$.officeemail"))),
+	`dateofbirth` 	= (select json_unquote(json_extract(employeedata,"$.dateofbirth"))),
+	`hiredon` 	= (select json_unquote(json_extract(employeedata,"$.hiredon"))),
+	`gender` 		= (select json_unquote(json_extract(employeedata,"$.gender"))),
+	`maritalstatus` = (select json_unquote(json_extract(employeedata,"$.maritalstatus"))),
+	`employmenttype` 			= (select json_unquote(json_extract(employeedata,"$.employmenttype"))),
+	`dateofjoin` 				= (select json_unquote(json_extract(employeedata,"$.dateofjoin"))),
+	`noticeperiod` 			= (select json_unquote(json_extract(employeedata,"$.noticeperiod"))),	
+	`languages_spoken` 			= (select json_unquote(json_extract(employeedata,"$.languages_spoken"))),
+	`bloodgroup` 				= @bloodgroup,
+	`contactnumber` 			= (select json_unquote(json_extract(employeedata,"$.contactnumber"))),
+	`emergencycontactnumber` 	= (select json_unquote(json_extract(employeedata,"$.emergencycontactnumber"))),
+	`emergencycontactrelation` = (select json_unquote(json_extract(employeedata,"$.emergencycontactrelation"))),
+	`emergencycontactname` = (select json_unquote(json_extract(employeedata,"$.emergencycontactname"))),
+	`address` 		= (select json_unquote(json_extract(employeedata,"$.address"))),
+	`city` 			= @city, -- (select json_unquote(json_extract(employeedata,"$.city"))),
+	`state` 		= @state, -- (select json_unquote(json_extract(employeedata,"$.state"))),
+	`pincode` 		= (select json_unquote(json_extract(employeedata,"$.pincode"))),
+	`country` 		= @country, -- (select json_unquote(json_extract(employeedata,"$.country"))),
+	`paddress` 		= (select json_unquote(json_extract(employeedata,"$.paddress"))),
+	`pcity` 		= @pcity, -- (select json_unquote(json_extract(employeedata,"$.pcity"))),
+	`pstate` 		= @pstate, -- (select json_unquote(json_extract(employeedata,"$.pstate"))),
+	`ppincode` 		= (select json_unquote(json_extract(employeedata,"$.ppincode"))),
+	`pcountry` 		= @pcountry,  -- (select json_unquote(json_extract(employeedata,"$.pcountry"))),
+	`aadharnumber` 	= (select json_unquote(json_extract(employeedata,"$.aadharnumber"))),
+	`passport` 		= (select json_unquote(json_extract(employeedata,"$.passport"))),
+	`status` 		= (select json_unquote(json_extract(employeedata,"$.status"))),
+	`updated_on`	= current_timestamp(),
+	`updated_by`	= (select json_unquote(json_extract(employeedata,"$.actionby")))
+	where e.id = @eid;
+
+	IF ((SELECT reportingmanagerid FROM employee_reportingmanagers WHERE empid = @eid order by id desc limit 1) <> (select json_unquote(json_extract(employeedata,"$.reportingmanager")))) THEN
+		update employee_reportingmanagers SET effectiveenddate = current_timestamp()
+		where empid = @eid and effectiveenddate is null order by employee_reportingmanagers.id desc limit 1;
+		if (json_unquote(json_extract(employeedata,"$.reportingmanager")) <> 'Self') then
+			insert into employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
+			(@eid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
+		elseif (json_unquote(json_extract(employeedata,"$.reportingmanager")) = 'Self') then
+			insert into employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
+			(@eid,@eid,current_timestamp());
 		end if;
-	  end if; 
-	  if(@officeemail<>'')then
-		if exists(select * from employee e where e.officeemail=@officeemail and e.id <> @eid)then
-		  set @statuscode=1;
-		  set @mail='Office Email already exists.';
-		end if;
-	  end if; 
-	 if(@statuscode=0)then
-		update employee e  set
-		-- `empid` = (select json_unquote(json_extract(employeedata,"$.empid"))),
-		`firstname` 	= (select json_unquote(json_extract(employeedata,"$.firstname"))),
-		`middlename` 	= (select json_unquote(json_extract(employeedata,"$.middlename"))),
-		`lastname` 		= (select json_unquote(json_extract(employeedata,"$.lastname"))),
-		`personalemail` = (select json_unquote(json_extract(employeedata,"$.personalemail"))),
-		`officeemail` 	= (select json_unquote(json_extract(employeedata,"$.officeemail"))),
-		`dateofbirth` 	= (select json_unquote(json_extract(employeedata,"$.dateofbirth"))),
-		`hiredon` 	= (select json_unquote(json_extract(employeedata,"$.hiredon"))),
-		`gender` 		= (select json_unquote(json_extract(employeedata,"$.gender"))),
-		`maritalstatus` = (select json_unquote(json_extract(employeedata,"$.maritalstatus"))),
-		`employmenttype` 			= (select json_unquote(json_extract(employeedata,"$.employmenttype"))),
-		`dateofjoin` 				= (select json_unquote(json_extract(employeedata,"$.dateofjoin"))),
-		`noticeperiod` 			= (select json_unquote(json_extract(employeedata,"$.noticeperiod"))),	
-		`languages_spoken` 			= (select json_unquote(json_extract(employeedata,"$.languages_spoken"))),
-		`bloodgroup` 				= @bloodgroup,
-		`contactnumber` 			= (select json_unquote(json_extract(employeedata,"$.contactnumber"))),
-		`emergencycontactnumber` 	= (select json_unquote(json_extract(employeedata,"$.emergencycontactnumber"))),
-		`emergencycontactrelation` = (select json_unquote(json_extract(employeedata,"$.emergencycontactrelation"))),
-		`emergencycontactname` = (select json_unquote(json_extract(employeedata,"$.emergencycontactname"))),
-		`address` 		= (select json_unquote(json_extract(employeedata,"$.address"))),
-		`city` 			= @city, -- (select json_unquote(json_extract(employeedata,"$.city"))),
-		`state` 		= @state, -- (select json_unquote(json_extract(employeedata,"$.state"))),
-		`pincode` 		= (select json_unquote(json_extract(employeedata,"$.pincode"))),
-		`country` 		= @country, -- (select json_unquote(json_extract(employeedata,"$.country"))),
-		`paddress` 		= (select json_unquote(json_extract(employeedata,"$.paddress"))),
-		`pcity` 		= @pcity, -- (select json_unquote(json_extract(employeedata,"$.pcity"))),
-		`pstate` 		= @pstate, -- (select json_unquote(json_extract(employeedata,"$.pstate"))),
-		`ppincode` 		= (select json_unquote(json_extract(employeedata,"$.ppincode"))),
-		`pcountry` 		= @pcountry,  -- (select json_unquote(json_extract(employeedata,"$.pcountry"))),
-		`aadharnumber` 	= (select json_unquote(json_extract(employeedata,"$.aadharnumber"))),
-		`passport` 		= (select json_unquote(json_extract(employeedata,"$.passport"))),
-		`status` 		= (select json_unquote(json_extract(employeedata,"$.status"))),
-		`updated_on`	= current_timestamp(),
-		`updated_by`	= (select json_unquote(json_extract(employeedata,"$.actionby")))
-		where e.id = @eid;
+	END IF;
 
-		IF ((SELECT reportingmanagerid FROM employee_reportingmanagers WHERE empid = @eid order by id desc limit 1) <> (select json_unquote(json_extract(employeedata,"$.reportingmanager")))) THEN
-			update employee_reportingmanagers SET effectiveenddate = current_timestamp()
-			where empid = @eid and effectiveenddate is null order by employee_reportingmanagers.id desc limit 1;
-			if (json_unquote(json_extract(employeedata,"$.reportingmanager")) <> 'Self') then
-				insert into employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
-				(@eid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
-			elseif (json_unquote(json_extract(employeedata,"$.reportingmanager")) = 'Self') then
-				insert into employee_reportingmanagers(empid,reportingmanagerid,effectivestartdate) VALUES
-				(@eid,@eid,current_timestamp());
-			end if;
-		END IF;
-
-		IF ((SELECT designationid FROM employee_designations WHERE empid = @eid order by id desc limit 1) <> (select json_unquote(json_extract(employeedata,"$.designation")))) THEN
-			update employee_designations SET effectiveenddate = current_timestamp()
-			where empid = @eid and effectiveenddate is null order by employee_designations.id desc limit 1;
-			insert into employee_designations(empid,designationid,effectivestartdate) VALUES
-			(@eid,json_unquote(json_extract(employeedata,"$.designation")),current_timestamp());
-		END IF;
+	IF ((SELECT designationid FROM employee_designations WHERE empid = @eid order by id desc limit 1) <> (select json_unquote(json_extract(employeedata,"$.designation")))) THEN
+		update employee_designations SET effectiveenddate = current_timestamp()
+		where empid = @eid and effectiveenddate is null order by employee_designations.id desc limit 1;
+		insert into employee_designations(empid,designationid,effectivestartdate) VALUES
+		(@eid,json_unquote(json_extract(employeedata,"$.designation")),current_timestamp());
+	END IF;
 
 	IF ((SELECT departmentid FROM employee_departments WHERE empid = @eid order by id desc limit 1) <> (select json_unquote(json_extract(employeedata,"$.department")))) THEN
 		update employee_departments SET effectiveenddate = current_timestamp()
@@ -24279,12 +24367,17 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
       set @roleid=(select json_unquote(json_extract(`employeedata`,concat('$.usertype[',convert((@k),char),'].id'))));
 	 if exists (select e.role_id from employee_roles e where e.employee_id = @eid 
 		and e.role_id =@roleid) then
-        
         update employee_roles set employee_roles.effective_to_date = null where employee_roles.employee_id = @eid 
 		and employee_roles.role_id =@roleid;
             	else
-                INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
+                if (json_unquote(json_extract(employeedata,"$.reportingmanager")) = 'Self') then
+					INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
+		(@eid,@roleid,@eid,current_timestamp());
+            else
+			INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
 		(@eid,@roleid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
+		end if;
+
 
 	end if;
     set @k = @k + 1;
@@ -24292,48 +24385,49 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		
     -- since in employee edit scenario, we can't edit multiple roles (if any) commenting out here. this will be handled in a separate user-role mapping screen
 
-		if((select locationid from employee_worklocations where `employee_worklocations`.`empid` = @eid and effectivetodate is null) <> @employeelocation) then
-			update employee_worklocations 
-			set effectivetodate = current_timestamp() where `employee_worklocations`.`empid` = @eid
-			and effectivetodate is null;
-			insert into employee_worklocations(empid,locationid,effectivefromdate) values
-			(@eid,@employeelocation,current_timestamp());
-		end if;
-
-		delete from employee_relations where empid = @eid;
-
-		while @i < @relationscount do
-			/*set @insertrstring = concat('insert into employee_relations(`empid`,`firstname`,`lastname`,`gender`,`contactnumber`,`dateofbirth`,`relationship`,`status`)
-			values (',@eid,',json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")),
-			json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")),
-			json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")),
-			json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")),
-			json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")),
-			json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")),
-			json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status")))');*/
-			
-			set @insertrstring = concat('insert into employee_relations(`empid`,`firstname`,`lastname`,`gender`,`contactnumber`,`dateofbirth`,`relationship`,`status`)
-			values (',@eid,', (case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")) end),
-			(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")) end) ,
-			(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")) end),
-			(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")) end),
-			(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")) end),
-			(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")) end),
-			(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status"))  = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status")) end))');
-
-			prepare stmt from @insertrstring;
-			execute stmt;
-			deallocate prepare stmt;
-			set @insertrstring = '';
-			set @i = @i + 1;
-		end while;
-		set @i = 0;
-		select 2 as statuscode , @eid as empid;
-	 else
-	  select @statuscode statuscode , @eid as empid, @mail email;
-	 end if;
-	end;
+	if((select locationid from employee_worklocations where `employee_worklocations`.`empid` = @eid and effectivetodate is null) <> @employeelocation) then
+		update employee_worklocations 
+		set effectivetodate = current_timestamp() where `employee_worklocations`.`empid` = @eid
+		and effectivetodate is null;
+		insert into employee_worklocations(empid,locationid,effectivefromdate) values
+		(@eid,@employeelocation,current_timestamp());
 	end if;
+
+	delete from employee_relations where empid = @eid;
+
+	while @i < @relationscount do
+		/*set @insertrstring = concat('insert into employee_relations(`empid`,`firstname`,`lastname`,`gender`,`contactnumber`,`dateofbirth`,`relationship`,`status`)
+		values (',@eid,',json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")),
+		json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")),
+		json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")),
+		json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")),
+		json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")),
+		json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")),
+		json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status")))');*/
+		
+		set @insertrstring = concat('insert into employee_relations(`empid`,`firstname`,`lastname`,`gender`,`contactnumber`,`dateofbirth`,`relationship`,`status`)
+		values (',@eid,', (case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].firstname")) end),
+		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].lastname")) end) ,
+		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].gender")) end),
+		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].contactnumber")) end),
+		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].dateofbirth")) end),
+		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")) = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].relationship")) end),
+		(case when json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status"))  = ''null'' then null else json_unquote(json_extract(''',employeedata,''',"$.relations[',@i,'].status")) end))');
+
+		prepare stmt from @insertrstring;
+		execute stmt;
+		deallocate prepare stmt;
+		set @insertrstring = '';
+		set @i = @i + 1;
+	end while;
+	set @i = 0;
+	select 2 as statuscode , @eid as empid;
+ else
+  select @statuscode statuscode , @eid as empid, @mail email;
+ end if;
+end;
+end if;
+
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -29867,131 +29961,133 @@ end if;
 	DELIMITER ;;
 	CREATE  PROCEDURE `update_working_days_for_employee`(
 	employee_id int(11),
-	flag char(1)
-	)
-	BEGIN
-	declare vw1 int(1);
-	declare vw2 int(1);
-	declare vw3 int(1);
+flag char(1),
+applicable_date date
+)
+BEGIN
+declare vw1 int(1);
+declare vw2 int(1);
+declare vw3 int(1);
 
-	set @month_name = (select monthname(curdate()));
-	set @month_number = (select month(curdate()));
-	set @summary_year = (select year(curdate()));  
-	set @cycle = (select fn_get_leave_cycle_year());
-	set @v1 = 0;
-	set @v1 = (select day(last_day(curdate()))); -- total number of days in the month
+set @month_name = (select monthname(applicable_date));
+set @month_number = (select month(applicable_date));
+set @summary_year = (select year(applicable_date));  
+set @cycle = (select fn_get_leave_cycle_year());
+set @v1 = 0;
+set @v1 = (select day(last_day(applicable_date))); -- total number of days in the month
 
-	drop temporary table if exists month_table;
-	create temporary table month_table(
-	month_day date,
-	week_number int(2)
-	);
+drop temporary table if exists month_table;
+create temporary table month_table(
+month_day date,
+week_number int(2)
+);
 
-	set @start_date = '';
-	set @start_date = (SELECT DATE_ADD(curdate(), interval - DAY((curdate())) + 1 DAY));
-	set @end_date = '';
-	set @end_date = (SELECT DATE(LAST_DAY(curdate())));
+set @start_date = '';
+set @start_date = (SELECT DATE_ADD(applicable_date, interval - DAY((applicable_date)) + 1 DAY));
+set @end_date = '';
+set @end_date = (SELECT DATE(LAST_DAY(applicable_date)));
 
-	WHILE (@start_date <= @end_date) DO
-		INSERT INTO month_table(month_day,week_number) values (@start_date,week(@start_date));
-		SET @start_date = (select date_add(@start_date,interval 1 day));
-	END WHILE;
-	-- select * from month_table;
+WHILE (@start_date <= @end_date) DO
+	INSERT INTO month_table(month_day,week_number) values (@start_date,week(@start_date));
+	SET @start_date = (select date_add(@start_date,interval 1 day));
+END WHILE;
+-- select * from month_table;
+select employee_weekoffs.weekoffday1, employee_weekoffs.weekoffday2, employee_weekoffs.weekoffday3
+into vw1,vw2,vw3
+from employee,employee_weekoffs where employee.status = 1
+and employee.id = employee_weekoffs.empid
+and employee.id = employee_id
+and employee_weekoffs.effectivetodate is null;
+
+if not exists(select * from employee_working_days where employee_working_days.empid = employee_id 
+					  and employee_working_days.year = @summary_year) then
+			  insert into employee_working_days(empid,year,january,february,march,april,may,june,july,august,september,october,november,december,total) values 
+              (employee_id,@summary_year,0,0,0,0,0,0,0,0,0,0,0,0,0);
+end if;            
+
+if (flag = 'w') then -- when weekoffs are changed
+	-- get previous weekoffs 
+	set @w1 = '';
+	set @w2 = '';
+	set @w3 = '';
 	select employee_weekoffs.weekoffday1, employee_weekoffs.weekoffday2, employee_weekoffs.weekoffday3
-	into vw1,vw2,vw3
+	into @w1,@w2,@w3
 	from employee,employee_weekoffs where employee.status = 1
 	and employee.id = employee_weekoffs.empid
 	and employee.id = employee_id
-	and employee_weekoffs.effectivetodate is null;
-
-	if not exists(select * from employee_working_days where employee_working_days.empid = employee_id 
-						  and employee_working_days.year = @summary_year) then
-				  insert into employee_working_days(empid,year,january,february,march,april,may,june,july,august,september,october,november,december,total) values 
-				  (employee_id,@summary_year,0,0,0,0,0,0,0,0,0,0,0,0,0);
-	end if;            
-
-	if (flag = 'w') then -- when weekoffs are changed
-		-- get previous weekoffs 
-		set @w1 = '';
-		set @w2 = '';
-		set @w3 = '';
-		select employee_weekoffs.weekoffday1, employee_weekoffs.weekoffday2, employee_weekoffs.weekoffday3
-		into @w1,@w2,@w3
-		from employee,employee_weekoffs where employee.status = 1
-		and employee.id = employee_weekoffs.empid
-		and employee.id = employee_id
-		order by employee_weekoffs.id desc limit 1,1;
-		set @n = 0;
-		set @n = (select count(month_day) from month_table where -- weekoffs for previous weekoff duration in the month
-						dayofweek(month_day) in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0))
-				and (month_day >= @start_date)
-				and (month_day < curdate())
-				and (week(month_day) <> (select week(curdate()))));
-		set @n = @n + (select count(m.date) -- company holidays for previous weekoff duration in the month
-				FROM holidaysmaster m, companyworklocationsmaster v  
-				WHERE m.location = v.city 
-				and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1)
-				and m.leave_cycle_year = @summary_year 
-				and month(m.date) = @month_number
-				and dayofweek(m.date) not in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0)));
-		set @n = @n + (select count(month_day) from month_table where -- weekoffs for updated weekoff duration in the month
-					dayofweek(month_day) in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0))
-				and (month_day <= @end_date)
-				and (month_day >= curdate())
-				and (week(month_day) <> (select week(curdate()))));         
-		set @n = @n + (select count(m.date) -- company holidays for updated weekoff duration in the month
-				FROM holidaysmaster m, companyworklocationsmaster v  
-				WHERE m.location = v.city 
-				and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1)
-				and m.leave_cycle_year = @summary_year 
-				and month(m.date) = @month_number
-				and dayofweek(m.date) not in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0)));
-		set @n = @n + (select case when weekoffday1 is not null then 1 else 0 end +
-							case when weekoffday2 is not null then 1 else 0 end +
-							case when weekoffday3 is not null then 1 else 0 end
-					from employee_weekoffs where employee_weekoffs.empid = employee_id order by employee_weekoffs.id desc limit 1);          
-		set @sqltext = '';
-		set @sqltext = concat('UPDATE employee_working_days SET employee_working_days.',@month_name,' = (',@v1,' - ',@n,')',
-			' where employee_working_days.empid = ',employee_id,' and employee_working_days.year = ',@summary_year);
-		prepare stmt from @sqltext;
-		execute stmt;
-		deallocate prepare stmt;     
-	elseif (flag = 'b') then -- when branch is changed   
-		set @w1 = '';
-		set @w2 = '';
-		set @w3 = '';
-		select employee_weekoffs.weekoffday1, employee_weekoffs.weekoffday2, employee_weekoffs.weekoffday3
-		into @w1,@w2,@w3
-		from employee,employee_weekoffs where employee.status = 1
-		and employee.id = employee_weekoffs.empid
-		and employee.id = employee_id
-		order by employee_weekoffs.id desc limit 1;
-		set @n = 0;
-		set @n = (select count(month_day) from month_table where dayofweek(month_day) in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0)));
-		set @n = @n + (select count(m.date)
-					   FROM holidaysmaster m, companyworklocationsmaster v  
-				WHERE m.location = v.city 
-				and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1)
-				and m.leave_cycle_year = @cycle 
-				and (m.date >= @start_date)
-				and (m.date < curdate())
-				and dayofweek(m.date) not in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0)));
-		set @n = @n + (select count(m.date)
-					   FROM holidaysmaster m, companyworklocationsmaster v  
-				WHERE m.location = v.city 
-				and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1,1)
-				and m.leave_cycle_year = @cycle
-				and (m.date <= @end_date)
-				and (m.date >= curdate())
-				and dayofweek(m.date) not in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0)));
-		set @sqltext = '';
-		set @sqltext = concat('UPDATE employee_working_days SET employee_working_days.',@month_name,' = (',@v1,' - ',@n,')',
-			' where employee_working_days.empid = ',employee_id,' and employee_working_days.year = ',@summary_year);
-		prepare stmt from @sqltext;
-		execute stmt;
-		deallocate prepare stmt;  
-	elseif (flag = 'n') then -- for a new employee   
-		set @jdate = (select cast(employee.dateofjoin as date) from employee where employee.id = employee_id);
+	order by employee_weekoffs.id desc limit 1,1;
+	set @n = 0;
+	set @n = (select count(month_day) from month_table where -- weekoffs for previous weekoff duration in the month
+					dayofweek(month_day) in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0))
+			and (month_day >= @start_date)
+			and (month_day < applicable_date)
+			and (week(month_day) <> (select week(applicable_date))));
+	set @n = @n + (select count(m.date) -- company holidays for previous weekoff duration in the month
+			FROM holidaysmaster m, companyworklocationsmaster v  
+			WHERE m.location = v.city 
+			and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1)
+			and m.leave_cycle_year = @summary_year 
+			and month(m.date) = @month_number
+			and dayofweek(m.date) not in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0)));
+	set @n = @n + (select count(month_day) from month_table where -- weekoffs for updated weekoff duration in the month
+				dayofweek(month_day) in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0))
+			and (month_day <= @end_date)
+			and (month_day >= applicable_date)
+			and (week(month_day) <> (select week(applicable_date))));         
+	set @n = @n + (select count(m.date) -- company holidays for updated weekoff duration in the month
+			FROM holidaysmaster m, companyworklocationsmaster v  
+			WHERE m.location = v.city 
+			and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1)
+			and m.leave_cycle_year = @summary_year 
+			and month(m.date) = @month_number
+			and dayofweek(m.date) not in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0)));
+	set @n = @n + (select case when weekoffday1 is not null then 1 else 0 end +
+						case when weekoffday2 is not null then 1 else 0 end +
+						case when weekoffday3 is not null then 1 else 0 end
+				from employee_weekoffs where employee_weekoffs.empid = employee_id order by employee_weekoffs.id desc limit 1);          
+	set @sqltext = '';
+	set @sqltext = concat('UPDATE employee_working_days SET employee_working_days.',@month_name,' = (',@v1,' - ',@n,')',
+		' where employee_working_days.empid = ',employee_id,' and employee_working_days.year = ',@summary_year);
+	prepare stmt from @sqltext;
+	execute stmt;
+	deallocate prepare stmt;     
+elseif (flag = 'b') then -- when branch is changed   
+	set @w1 = '';
+	set @w2 = '';
+	set @w3 = '';
+	select employee_weekoffs.weekoffday1, employee_weekoffs.weekoffday2, employee_weekoffs.weekoffday3
+	into @w1,@w2,@w3
+	from employee,employee_weekoffs where employee.status = 1
+	and employee.id = employee_weekoffs.empid
+	and employee.id = employee_id
+	order by employee_weekoffs.id desc limit 1;
+    set @n = 0;
+	set @n = (select count(month_day) from month_table where dayofweek(month_day) in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0)));
+    set @n = @n + (select count(m.date)
+				   FROM holidaysmaster m, companyworklocationsmaster v  
+			WHERE m.location = v.city 
+			and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1)
+			and m.leave_cycle_year = @cycle 
+            and (m.date >= @start_date)
+			and (m.date < applicable_date)
+			and dayofweek(m.date) not in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0)));
+    set @n = @n + (select count(m.date)
+				   FROM holidaysmaster m, companyworklocationsmaster v  
+			WHERE m.location = v.city 
+			and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1,1)
+			and m.leave_cycle_year = @cycle
+            and (m.date <= @end_date)
+			and (m.date >= applicable_date)
+			and dayofweek(m.date) not in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0)));
+    set @sqltext = '';
+	set @sqltext = concat('UPDATE employee_working_days SET employee_working_days.',@month_name,' = (',@v1,' - ',@n,')',
+		' where employee_working_days.empid = ',employee_id,' and employee_working_days.year = ',@summary_year);
+	prepare stmt from @sqltext;
+	execute stmt;
+	deallocate prepare stmt;  
+elseif (flag = 'n') then -- for a new employee   
+    set @jdate = (select cast(employee.dateofjoin as date) from employee where employee.id = employee_id);
+    if ((select month(@jdate)) = @month_number) then
 		set @v1 = (select datediff(@end_date,@jdate)) + 1;
 		set @w1 = '';
 		set @w2 = '';
@@ -30004,9 +30100,9 @@ end if;
 		order by employee_weekoffs.id desc limit 1;
 		set @n = 0;
 		set @n = (select count(month_day) from month_table where dayofweek(month_day) in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0))
-				  and month_day between (select cast(@jdate as date)) and @end_date);
+				and month_day between (select cast(@jdate as date)) and @end_date);
 		set @n = @n + (select count(m.date)
-					   FROM holidaysmaster m, companyworklocationsmaster v  
+					FROM holidaysmaster m, companyworklocationsmaster v  
 				WHERE m.location = v.city 
 				and v.id =(select s.locationid from employee_worklocations s where s.empid = employee_id order by s.id desc limit 1)
 				and m.leave_cycle_year = @cycle 
@@ -30014,12 +30110,13 @@ end if;
 				and dayofweek(m.date) not in (ifnull(vw1,0),ifnull(vw2,0),ifnull(vw3,0)));
 		set @sqltext = '';
 		set @sqltext = concat('UPDATE employee_working_days SET employee_working_days.',@month_name,' = (',@v1,' - ',@n,')',
-			' where employee_working_days.empid = ',employee_id,' and employee_working_days.year = ',@summary_year);
+			                  ' where employee_working_days.empid = ',employee_id,' and employee_working_days.year = ',@summary_year);
 		prepare stmt from @sqltext;
 		execute stmt;
 		deallocate prepare stmt; 
-	end if; 
-	drop temporary table month_table;
+    end if;
+end if; 
+drop temporary table month_table;
 
 	END ;;
 	DELIMITER ;
@@ -31336,7 +31433,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE  PROCEDURE `validate_epf_payment_for_month`(
+	CREATE PROCEDURE `validate_epf_payment_for_month`(
 	year_value int,
 	month_value int
 	)
@@ -31424,10 +31521,12 @@ end if;
 	if (`emp_id` is not null) then
 	if exists (select empid from employee_reportingmanagers 
 			   where employee_reportingmanagers.reportingmanagerid = `emp_id`
-			   and case when employee_reportingmanagers.effectiveenddate is null
-						then curdate() >= employee_reportingmanagers.effectivestartdate
-						else curdate() between employee_reportingmanagers.effectivestartdate 
-							 and employee_reportingmanagers.effectiveenddate end) then
+			   and employee_reportingmanagers.effectiveenddate is null
+               -- case when employee_reportingmanagers.effectiveenddate is null
+				-- 		then curdate() >= employee_reportingmanagers.effectivestartdate
+				-- 		else curdate() between employee_reportingmanagers.effectivestartdate 
+				 -- 			 and employee_reportingmanagers.effectiveenddate end
+                             ) then
 		select 1 as validity; 
 	else
 		select 0 as validity;    
