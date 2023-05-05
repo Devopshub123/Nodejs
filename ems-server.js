@@ -5358,6 +5358,8 @@ async function getDocumentsForEMS(req,res){
             }
             listOfConnections[companyName].query("CALL `get_files_master` (?,?,?,?,?,?)",
                 [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory?req.body.filecategory:null,req.body.requestId,req.body.status], async function (err, result, fields) {
+                   console.log("errrr--",err)
+                   console.log("ressss--",result[0])
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");

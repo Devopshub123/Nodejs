@@ -1001,7 +1001,7 @@ app.post('/ems/api/setNewHire/', verifyJWTToken,function(req,res) {
  * */
 
 app.get('/ems/api/getNewHireDetails/:id/:companyName',verifyJWTToken, function(req,res) {
-
+    console.log("b-1");
     ems.getNewHireDetails(req,res);
 
 });
@@ -2948,7 +2948,6 @@ app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', f
 });
 
 app.get('/subscription/api/getClientSubscriptionDetails/:companyName', function (req, res) {
-    console.log("b-1");
     common.getClientSubscriptionDetails(req, res)
 });
 //** subscription- client super admindashboard api's */

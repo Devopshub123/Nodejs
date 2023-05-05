@@ -146,7 +146,8 @@ console.log("e-1",req.body)
     var  dbName = await getDatebaseName(req.body.companyName);
     if(req.body.companyName!='spryple_dev'){
 
-        let subscriptiondata =await getClientSubscriptionDetailsforlogin(req.body.companyName);
+        let subscriptiondata = await getClientSubscriptionDetailsforlogin(req.body.companyName);
+        console.log("e-2",subscriptiondata.data[0].valid_to)
         var expirydate = subscriptiondata.data[0].valid_to
     }
     else{
@@ -2178,8 +2179,6 @@ async function getClientSubscriptionDetails(req,res) {
         }
            con.query("CALL `get_client_subscription_details` (?)", [req.params.companyName],
                function (err, result, fields) {
-                console.log("b-r",err);
-                console.log("b-re",result[0])
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -2219,7 +2218,7 @@ async function getActiveEmployeesCount(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                     errorLogs = errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                      res.send({ status: false });
 
                     }else if (result && result.length > 0) {
@@ -2262,7 +2261,9 @@ function getClientSubscriptionDetailsforlogin(companyName) {
             // }
             console.log("req",companyName);
                con.query("CALL `get_client_subscription_details` (?)", [companyName],
-                function (err, result, fields) {
+                   function (err, result, fields) {
+                    console.log("errr",err);
+                    console.log("req",result[0]);
                 if(result && result.length > 0){
                     res({data: result[0]});
                 }else{
@@ -2510,7 +2511,6 @@ function paymentStatusMail(mailData){
 
 }
     function sendEmailToSuperAdminCredentials(mailData,companycodde) {
-        console.log("mailData",mailData)
         try {
            let email = mailData.login;
            let password = mailData.password_string;
