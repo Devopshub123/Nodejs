@@ -45,7 +45,9 @@ const jwt = require('jsonwebtoken');
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(fileUpload())
 app.all("*", function (req, res, next) {
+    
     res.header("Access-Control-Allow-Origin", "*");
+    res.header('Referrer-Policy', 'strict-origin-when-cross-origin');
     res.header("Access-Control-Allow-Headers", "*");
     res.header("Access-Control-Allow-Methods", "*");
     return next();
@@ -1431,7 +1433,6 @@ app.get('/ems/api/getInductionProgramAssignedEmployee/:sid/:companyName',verifyJ
  
 /**employee login */
 app.post('/api/emp_login', function (req, res, next) {
-    console.log("r-1");
     common.login(req,res)
 })
 
@@ -3089,11 +3090,11 @@ app.get('/subscription/api/getUnmappedPlans', function (req, res) {
 
 /** Local server */
 
-app.listen(6060,function (err) {
+app.listen(7676,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at : http://localhost:6060');
+        console.log('Server Started at : http://localhost:6363');
 });
 
 /** uncomment in QA build time */

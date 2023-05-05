@@ -395,7 +395,7 @@
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
     drop trigger if exists after_punchin_insert;
-	/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER after_punchin_insert
+	/*!50003 CREATE*/ /*!50017*/ /*!50003 TRIGGER after_punchin_insert
 		after insert ON biometric_attendance
 		FOR EACH ROW 
 	begin
@@ -4533,7 +4533,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `attendance_summarycronjob` ON SCHEDULE EVERY 4 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `attendance_summarycronjob` ON SCHEDULE EVERY 4 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call set_employee_attendance_summary_cron;
 	insert into cron_job_logs(job_name,createdat) values
 	('attendance_summarycronjob',current_timestamp());
@@ -4555,7 +4555,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `credit_employee_leave_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `credit_employee_leave_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 
 	call credit_employee_leave_cron;
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4578,7 +4578,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `make_mysql_do_not_stop` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO select sleep(240) */ ;;
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `make_mysql_do_not_stop` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO select sleep(240) */ ;;
 	/*!50003 SET time_zone             = @saved_time_zone */ ;;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -4596,7 +4596,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `separation_employee_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `separation_employee_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call separation_employee_cron();
 	insert into cron_job_logs(job_name,createdat) values 
 	('separation_employee_cron_event',current_timestamp());
@@ -4618,7 +4618,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	set @pdate = (select curdate());
 	call update_employee_compoff_validity_status_cron(@pdate);
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4641,7 +4641,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	set @pdate = (select curdate());
 	call update_employee_compoff_validity_status_cron(@pdate);
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4664,7 +4664,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_leave_summary_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_leave_summary_cron_event` ON SCHEDULE EVERY 1 DAY STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call update_employee_leave_summary_cron(null);
 	insert into cron_job_logs(job_name,createdat) values 
 	('update_employee_leave_summary_cron_event',current_timestamp());
@@ -4686,7 +4686,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_leave_summary_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_leave_summary_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call update_employee_leave_summary_cron(null);
 	insert into cron_job_logs(job_name,createdat) values 
 	('update_employee_leave_summary_cron_event_temp',current_timestamp());
@@ -4708,7 +4708,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `update_employee_working_days_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117 */ /*!50106 EVENT `update_employee_working_days_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 
 	call update_employee_working_days_cron(null);
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4731,7 +4731,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 	/*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 	/*!50003 SET time_zone             = 'SYSTEM' */ ;;
-	/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_working_days_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
+	/*!50106 CREATE*/ /*!50117*/ /*!50106 EVENT `update_employee_working_days_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS current_timestamp() ON COMPLETION NOT PRESERVE ENABLE DO begin
 
 	call update_employee_working_days_cron;
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4758,7 +4758,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` FUNCTION `fn_get_assessment_year`() RETURNS varchar(10) CHARSET latin1
+	CREATE  FUNCTION `fn_get_assessment_year`() RETURNS varchar(10) CHARSET latin1
 	begin
 		set @fn_year = '';
 		set @start_month = 4;
@@ -4789,7 +4789,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` FUNCTION `fn_get_financial_year`() RETURNS varchar(10) CHARSET latin1
+	CREATE  FUNCTION `fn_get_financial_year`() RETURNS varchar(10) CHARSET latin1
 	begin
 		set @fn_year = '';
 		set @start_month = 4;
@@ -4820,7 +4820,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` FUNCTION `fn_get_financial_year_value`() RETURNS int(4)
+	CREATE  FUNCTION `fn_get_financial_year_value`() RETURNS int(4)
 	begin
 		set @fn_year = '';
 		set @start_month = 4;
@@ -4851,7 +4851,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` FUNCTION `fn_get_leave_cycle_year`() RETURNS int(11)
+	CREATE FUNCTION `fn_get_leave_cycle_year`() RETURNS int(11)
 	begin
 	set @start_month = (select leave_cycle_year_master.cycle_commencement_month from leave_cycle_year_master where leave_cycle_year_master.id = (
 					   select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster where 
@@ -4882,7 +4882,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` FUNCTION `fn_get_min_days_prior_value_for_leave_type`(
+	CREATE FUNCTION `fn_get_min_days_prior_value_for_leave_type`(
 	leavetype_id int
 	) RETURNS int(2)
 	begin
@@ -4912,7 +4912,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` FUNCTION `fn_get_month_name`( 
+	CREATE  FUNCTION `fn_get_month_name`( 
 	 month_value integer(11)
 	 ) RETURNS varchar(10) CHARSET latin1
 	begin
@@ -4935,7 +4935,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` FUNCTION `get_employee_name`(emp_id int) RETURNS varchar(800) CHARSET latin1
+	CREATE FUNCTION `get_employee_name`(emp_id int) RETURNS varchar(800) CHARSET latin1
 	begin
 		return (select concat(firstname,if(middlename is not null,' ',''),middlename,' ',lastname) as empname from employee where id=emp_id);
 	end ;;
@@ -4954,7 +4954,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` FUNCTION `initcap`(x char(200)) RETURNS char(200) CHARSET utf8
+	CREATE FUNCTION `initcap`(x char(200)) RETURNS char(200) CHARSET utf8
 		READS SQL DATA
 		DETERMINISTIC
 	BEGIN
@@ -4982,7 +4982,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `authenticateuser`(in `login` varchar(255),in `pwd` varchar(1024))
+	CREATE PROCEDURE `authenticateuser`(in `login` varchar(255),in `pwd` varchar(1024))
 	begin
 		if (select status from employee where id=(select distinct employee_login.id from employee_login where employee_login.login=`login`))!=1 then
 		select 0 as id, null as firstlogin; -- employee is inactive case
@@ -5013,7 +5013,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `bkp_26oct2022_get_report_for_payroll_processing`(employeeid int,chosendate date)
+	CREATE  PROCEDURE `bkp_26oct2022_get_report_for_payroll_processing`(employeeid int,chosendate date)
 	begin
 
 		set @monthstartdate = last_day(chosendate) + interval 1 day - interval 1 month;
@@ -5130,7 +5130,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `carryforward_employee_leave_cron`(
+	CREATE  PROCEDURE `carryforward_employee_leave_cron`(
 	)
 	BEGIN
 	DECLARE vempid int(11);
@@ -5188,7 +5188,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `checkrecord`(in `tablename` varchar(255),in `columnname` varchar(64),in `columnvalue` varchar(2048))
+	CREATE  PROCEDURE `checkrecord`(in `tablename` varchar(255),in `columnname` varchar(64),in `columnvalue` varchar(2048))
 	begin
 		set @val='';
 		set @sql1 = concat('select @val=count(*) from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''status''');
@@ -5216,7 +5216,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `checkrecord_V2`(in `tablename` varchar(255),in `columnname` varchar(64),in `columnvalue` varchar(2048))
+	CREATE  PROCEDURE `checkrecord_V2`(in `tablename` varchar(255),in `columnname` varchar(64),in `columnvalue` varchar(2048))
 	begin
 		set @val='';
 		set @sql1 = concat('select @val=count(*) from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''status''');
@@ -5244,7 +5244,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `configure_pay_group_component`(
+	CREATE  PROCEDURE `configure_pay_group_component`(
 		pigcm_id_value int,
 		is_percentage_or_flat_amount_value int,
 		input_value float,
@@ -5369,7 +5369,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `credit_employee_event_leave`(
+	CREATE PROCEDURE `credit_employee_event_leave`(
 		in employee_id int(11)
 	)
 	BEGIN
@@ -5441,7 +5441,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `credit_employee_leave_cron`(
+	CREATE  PROCEDURE `credit_employee_leave_cron`(
 	)
 	BEGIN
 
@@ -5608,7 +5608,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `credit_employee_leave_cronV2`(
+	CREATE  PROCEDURE `credit_employee_leave_cronV2`(
 	)
 	BEGIN
 
@@ -5801,7 +5801,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteholidays`(
+	CREATE PROCEDURE `deleteholidays`(
 		in locationid int(11)
 	)
 	begin
@@ -5823,7 +5823,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_employee_attendance_regularization`(
+	CREATE PROCEDURE `delete_employee_attendance_regularization`(
 	  `id` int(11)
 	)
 	begin
@@ -5852,7 +5852,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `delete_employee_investments`(
+	CREATE  PROCEDURE `delete_employee_investments`(
 		`iid` int(11)
 	)
 	BEGIN
@@ -5880,7 +5880,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `delete_files_master`(
+	CREATE PROCEDURE `delete_files_master`(
 	`fid` int
 	)
 	begin
@@ -5911,7 +5911,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `edit_pay_group_component`(
+	CREATE  PROCEDURE `edit_pay_group_component`(
 		pigcm_id_value int,
 		is_percentage_or_flat_amount_value int,
 		input_value decimal(15,2),
@@ -6003,7 +6003,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `edit_profile`(
+	CREATE PROCEDURE `edit_profile`(
 	employee_id int(11),
 	firstname varchar(255),
 	middlename varchar(255),
@@ -6045,7 +6045,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `forgotpasswordcheck`(in `phonenumber` varchar(20),in `email` varchar(1024))
+	CREATE PROCEDURE `forgotpasswordcheck`(in `phonenumber` varchar(20),in `email` varchar(1024))
 	begin
 		if exists(select * from employee where contactnumber=`phonenumber` and officeemail=`email`) then select 1;
 		else select 0;
@@ -6067,7 +6067,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getcitiesforstate`(in `stateid` varchar(255))
+	CREATE PROCEDURE `getcitiesforstate`(in `stateid` varchar(255))
 	begin
 		select l.id,l.location from locationsmaster l where l.stateid=`stateid` order by l.location;
 	end ;;
@@ -6086,7 +6086,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getcompanyworklocation`(
+	CREATE PROCEDURE `getcompanyworklocation`(
 	in `locationid` int(11)
 	)
 	begin
@@ -6163,7 +6163,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getcompoff_calendar`(
+	CREATE PROCEDURE `getcompoff_calendar`(
 	IN `employee_id` INT(11)
 	)
 	BEGIN
@@ -6265,7 +6265,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getdays_to_be_disabled_for_from_date`(
+	CREATE PROCEDURE `getdays_to_be_disabled_for_from_date`(
 	IN `employee_id` INT(11),
 	in `leave_id` int(11)
 	)
@@ -6546,7 +6546,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getdays_to_be_disabled_for_from_date_comp_off`(
+	CREATE  PROCEDURE `getdays_to_be_disabled_for_from_date_comp_off`(
 	IN `employee_id` INT(11),
 	in `leave_id` int(11),
 	in `worked_date_value` date
@@ -6826,7 +6826,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getdays_to_be_disabled_for_to_date`(
+	CREATE PROCEDURE `getdays_to_be_disabled_for_to_date`(
 	IN `employee_id` INT(11),
 	in `leave_id` int(11)
 	)
@@ -7107,7 +7107,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getdays_to_be_disabled_for_to_date_comp_off`(
+	CREATE  PROCEDURE `getdays_to_be_disabled_for_to_date_comp_off`(
 	IN `employee_id` INT(11),
 	in `leave_id` int(11),
 	in `worked_date_value` date
@@ -7387,7 +7387,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getdurationforbackdatedleave`()
+	CREATE PROCEDURE `getdurationforbackdatedleave`()
 	begin
 	SELECT lm_rulevalues.value
 	FROM lm_rulemaster, lm_rulevalues
@@ -7409,7 +7409,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getemployeeholidays`(
+	CREATE PROCEDURE `getemployeeholidays`(
 	in `employee_id` int(11)
 	)
 	BEGIN
@@ -7436,7 +7436,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getemployeeinformation`(in eid int(11))
+	CREATE  PROCEDURE `getemployeeinformation`(in eid int(11))
 	begin
 
 SET @eid = eid; -- (select id from employee where officeemail=`email`);
@@ -7513,7 +7513,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getemployeemaster`(
+	CREATE PROCEDURE `getemployeemaster`(
 	in `id` int(11)
 	)
 	begin
@@ -7652,7 +7652,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getemployeemasterforsearch`(
+	CREATE PROCEDURE `getemployeemasterforsearch`(
 	in `employee_id` varchar(20),
 	in `empname` varchar(255),
 	in `pagenumber` int,
@@ -7744,7 +7744,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getemployeeroles`(
+	CREATE PROCEDURE `getemployeeroles`(
 	in `employee_id` varchar(20)
 	)
 	begin
@@ -7769,7 +7769,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getemployeestatus`(in `email` varchar(128))
+	CREATE  PROCEDURE `getemployeestatus`(in `email` varchar(128))
 	begin
 
 		select e.id,e.status,(select login from employee_login where id=e.id order by lastpasswordchangedate desc limit 1) as login from employee e where e.officeemail=`email`;
@@ -7790,7 +7790,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `geterrormessages`(in `errorcode` varchar(255),in `pagenumber` int,in `pagesize` int)
+	CREATE PROCEDURE `geterrormessages`(in `errorcode` varchar(255),in `pagenumber` int,in `pagesize` int)
 	begin
 		if `errorcode` is not null and `errorcode`!='' then
 			set @sql = concat('select *,(select count(*) from lm_errormessages where errorcode = ''',`errorcode`,''') as total from lm_errormessages where errorcode = ''',`errorcode`,'''');
@@ -7821,7 +7821,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getfunctionalitiesmaster`()
+	CREATE PROCEDURE `getfunctionalitiesmaster`()
 	begin
 
 		select id,functionalityname from functionalitiesmaster;
@@ -7842,7 +7842,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getholidaysbyfilter`(in `year_value` int(4),in `location_value` int(11),in `pagenumber` int,in `pagesize` int)
+	CREATE  PROCEDURE `getholidaysbyfilter`(in `year_value` int(4),in `location_value` int(11),in `pagenumber` int,in `pagesize` int)
 	begin
 		set @pgsize = pagesize;
 		if (pagesize!=0 and pagenumber!=0) then
@@ -7910,7 +7910,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getholidaysbyfilter_V2`(in `year_value` int(4),in `location_value` int(11),in `pagenumber` int,in `pagesize` int)
+	CREATE  PROCEDURE `getholidaysbyfilter_V2`(in `year_value` int(4),in `location_value` int(11),in `pagenumber` int,in `pagesize` int)
 	begin
 		set @pgsize = pagesize;
 		if (pagesize!=0 and pagenumber!=0) then
@@ -7978,7 +7978,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getleavecalendar`(
+	CREATE  PROCEDURE `getleavecalendar`(
 	IN `employee_id` INT(11)
 	)
 	begin
@@ -8113,7 +8113,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getleavepolicies`(in `leaveid` int,in `iscommonrule` bit)
+	CREATE PROCEDURE `getleavepolicies`(in `leaveid` int,in `iscommonrule` bit)
 	begin
 	   IF(`leaveid` IS NOT NULL and `iscommonrule` is null) THEN
 	   select distinct json_arrayagg(json_object(
@@ -8174,7 +8174,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getleavetypesforadvancedleave`()
+	CREATE PROCEDURE `getleavetypesforadvancedleave`()
 	begin
 	 select distinct lm_leavesmaster.id,lm_leavesmaster.leavename from lm_rulevalues, lm_leavesmaster 
 	 where lm_rulevalues.leavetypeid = lm_leavesmaster.id
@@ -8204,7 +8204,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getmastertable`(in `tablename` varchar(255),in `status_value` varchar(32),in `pagenumber` int,in `pagesize` int)
+	CREATE  PROCEDURE `getmastertable`(in `tablename` varchar(255),in `status_value` varchar(32),in `pagenumber` int,in `pagesize` int)
 	begin	
 		set @pgsize = pagesize;	
 		if (pagesize!=0 and pagenumber!=0) then	
@@ -8288,7 +8288,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getmastertable_V2`(in `tablename` varchar(255),in `status_value` varchar(32),in `pagenumber` int,in `pagesize` int)
+	CREATE  PROCEDURE `getmastertable_V2`(in `tablename` varchar(255),in `status_value` varchar(32),in `pagenumber` int,in `pagesize` int)
 	begin
 		set @pgsize = pagesize;
 		if (pagesize!=0 and pagenumber!=0) then
@@ -8365,7 +8365,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getoffdayscount`(
+	CREATE PROCEDURE `getoffdayscount`(
 	IN `employee_id` INT(11),
 	IN `leavetype_id` INT(11),
 	IN `fromdate` date,
@@ -8538,7 +8538,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getreportingmanagers`(
+	CREATE  PROCEDURE `getreportingmanagers`(
 	in `dept_id` int(11)
 	)
 	BEGIN
@@ -8568,7 +8568,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getrolemaster`(
+	CREATE PROCEDURE `getrolemaster`(
 	)
 	begin
 
@@ -8592,7 +8592,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getrolemaster_by_dept`(
+	CREATE PROCEDURE `getrolemaster_by_dept`(
 	department_id int(11)
 	)
 	begin
@@ -8617,7 +8617,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getrolescreenfunctionalities`(IN empid int,IN moduleid int)
+	CREATE  PROCEDURE `getrolescreenfunctionalities`(IN empid int,IN moduleid int)
 	begin
 		set @isEditable = (select rolesmaster.isEditable from rolesmaster where rolesmaster.id = (select employee_roles.role_id 
 						from employee_roles where employee_roles.employee_id = `empid`));
@@ -8700,7 +8700,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getrolescreenfunctionalities_for_role`(IN roleid int,IN moduleid int)
+	CREATE PROCEDURE `getrolescreenfunctionalities_for_role`(IN roleid int,IN moduleid int)
 	begin
 
 	create temporary table ftable(
@@ -8755,7 +8755,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getscreenfunctionalitiesmaster`()
+	CREATE PROCEDURE `getscreenfunctionalitiesmaster`()
 	begin
 
 		select sf.id,sf.screenid,s.name as screenname,sf.functionalityid,f.functionalityname from screenfunctionalitiesmaster sf,screensmaster s,functionalitiesmaster f
@@ -8777,7 +8777,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getscreensmaster`(IN modid int)
+	CREATE PROCEDURE `getscreensmaster`(IN modid int)
 	begin
 
 		select id,name,routename from screensmaster where moduleid=`modid` order by name;
@@ -8798,7 +8798,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `getstatesforcountry`(in `countryid` varchar(255))
+	CREATE PROCEDURE `getstatesforcountry`(in `countryid` varchar(255))
 	begin
 		select s.id,s.state from statesmaster s where s.countryid=`countryid` order by s.id;
 	end ;;
@@ -8817,7 +8817,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_active_announcements_topics`()
+	CREATE  PROCEDURE `get_active_announcements_topics`()
 	begin
 		select r.id,r.topic from ems_announcements_topics_master r where r.status=1;
 	end ;;
@@ -8836,7 +8836,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_active_components_values_for_pay_group`(
+	CREATE  PROCEDURE `get_active_components_values_for_pay_group`(
 	paygroup_id integer(11)
 	)
 	begin
@@ -8878,7 +8878,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_active_document_categorys`()
+	CREATE  PROCEDURE `get_active_document_categorys`()
 	begin
 		select d.id,d.category from document_category_master d where d.status=1;
 	end ;;
@@ -8897,7 +8897,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_active_emps_list`()
+	CREATE  PROCEDURE `get_active_emps_list`()
 	begin
 	 select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename
 	 from employee e
@@ -8919,7 +8919,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_active_reasons`()
+	CREATE  PROCEDURE `get_active_reasons`()
 	begin
 		select r.id,reason from ems_reason_master r where r.status=1;
 	end ;;
@@ -8938,7 +8938,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_active_shift_ids`(
+	CREATE  PROCEDURE `get_active_shift_ids`(
 	)
 	begin
 		select id as shiftid,shiftname
@@ -8960,7 +8960,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_active_termination_categories`()
+	CREATE  PROCEDURE `get_active_termination_categories`()
 	begin
 		select t.id,t.category from ems_termination_category_master t where t.status = 1 ;
 	end ;;
@@ -8979,7 +8979,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_allemployees_program_schedules`(in scheduleid int)
+	CREATE  PROCEDURE `get_allemployees_program_schedules`(in scheduleid int)
 	begin
 		select 	e.id,
 				e.schedule_id,
@@ -9010,7 +9010,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_all_employees_list`()
+	CREATE  PROCEDURE `get_all_employees_list`()
 	begin
 		select e.id,e.empid,concat(e.firstname,case when e.middlename is not null then concat(' ',e.middlename) end,
 		 case when e.lastname is not null then concat(' ',e.lastname) end) as emp_name
@@ -9032,7 +9032,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_all_shifts`(
+	CREATE PROCEDURE `get_all_shifts`(
 	)
 	begin
 		select id as shiftid,shiftname,fromtime,totime,totalhours,status 
@@ -9054,7 +9054,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_announcements`(in announceid int)
+	CREATE  PROCEDURE `get_announcements`(in announceid int)
 	begin
 		select a.id,a.topicid,am.topic, a.title,a.fromdate,a.todate,a.description,
 		if(date(a.todate)< date(current_date()) and a.status = 'Published','Completed',a.status) status
@@ -9079,7 +9079,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_announcements_topics_master`(in topicid int)
+	CREATE  PROCEDURE `get_announcements_topics_master`(in topicid int)
 	begin
 		select r.id,topic,r.status from ems_announcements_topics_master r where r.id <=> ifnull(topicid,id);
 	end ;;
@@ -9098,7 +9098,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_approved_compoffs`(
+	CREATE PROCEDURE `get_approved_compoffs`(
 	in `employee_id` int(11),
 	in `leave_id` int(11)
 	)
@@ -9134,7 +9134,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_approved_leaves_above_currentdate`(
+	CREATE  PROCEDURE `get_approved_leaves_above_currentdate`(
 	in `rm_id` int(11)
 	)
 	begin
@@ -9166,7 +9166,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_attendance_counts_for_date`(manager_id int,emp_id int,req_date date)
+	CREATE  PROCEDURE `get_attendance_counts_for_date`(manager_id int,emp_id int,req_date date)
 	begin
 
 		if manager_id is null then -- i.e. employee self
@@ -9292,7 +9292,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attendance_details_report`(
+	CREATE PROCEDURE `get_attendance_details_report`(
 		`attendanceid` int(11)
 	)
 	begin    
@@ -9322,7 +9322,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attendance_messages`(in `code` varchar(255),in `pagenumber` int,in `pagesize` int)
+	CREATE PROCEDURE `get_attendance_messages`(in `code` varchar(255),in `pagenumber` int,in `pagesize` int)
 	begin
 		if `code` is not null and `code`!='' then
 			set @sql = concat('select *,(select count(*) from attendance_messages where code = ''',`code`,''') as total from attendance_messages where code = ''',`code`,'''');
@@ -9353,7 +9353,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attendance_monthly_report`(
+	CREATE PROCEDURE `get_attendance_monthly_report`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` datetime
@@ -9529,7 +9529,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attendance_monthly_report1`(
+	CREATE PROCEDURE `get_attendance_monthly_report1`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` datetime
@@ -9636,7 +9636,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attendance_monthly_report2`(
+	CREATE PROCEDURE `get_attendance_monthly_report2`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` datetime
@@ -9802,7 +9802,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attendance_monthly_report3`(
+	CREATE PROCEDURE `get_attendance_monthly_report3`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` datetime
@@ -9976,7 +9976,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attendance_regularizations_history_for_manager`(
+	CREATE PROCEDURE `get_attendance_regularizations_history_for_manager`(
 		manager_employee_id int(11)
 	)
 	begin
@@ -10002,7 +10002,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attendance_summary_report`(
+	CREATE PROCEDURE `get_attendance_summary_report`(
 		`manager_empid` int(11),
 		`employee` int(11),
 		`fromdate` datetime,
@@ -10052,7 +10052,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_client_user`@`%` PROCEDURE `get_audit_log_details_for_employee`(
+	CREATE  PROCEDURE `get_audit_log_details_for_employee`(
 	IN action_id int
 	)
 	BEGIN
@@ -10078,7 +10078,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_candidate_details`(in candidate_id varchar(25))
+	CREATE  PROCEDURE `get_candidate_details`(in candidate_id varchar(25))
 	BEGIN
 	set @cid = (select ems_new_hire.id  from ems_new_hire where ems_new_hire.candidate_id = candidate_id); 
 	-- select @cid;    
@@ -10221,7 +10221,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_carryforwarded_leave_max_count`(
+	CREATE PROCEDURE `get_carryforwarded_leave_max_count`(
 	)
 	begin
 		SET @ltype = 0;
@@ -10255,7 +10255,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_checklists_master`(cid int,deptid int,c_category varchar(25),c_status varchar(16))
+	CREATE  PROCEDURE `get_checklists_master`(cid int,deptid int,c_category varchar(25),c_status varchar(16))
 	begin
 		select ecm.id,
 			ecm.name,
@@ -10285,7 +10285,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_company_db_name`(shortcode varchar(32))
+	CREATE  PROCEDURE `get_company_db_name`(shortcode varchar(32))
 	begin
 		select db_name from company_db_mapping where company_short_code=`shortcode` and enabled=1;
 	end ;;
@@ -10304,7 +10304,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_company_pay_schedule`()
+	CREATE  PROCEDURE `get_company_pay_schedule`()
 	begin	
 		select m.id as rule_id,m.rule_name,m.description,m.additional_information,d.value as rule_value
 		-- (case when d.value='LAST_DAY' then last_day(current_date()) when d.value='LAST_BUT_1_DAY' then date_add(last_day(current_date()), interval -1 day) when d.value='LAST_BUT_2_DAYS' then date_add(last_day(current_date()), interval -2 day) else d.value end) as rule_value
@@ -10327,7 +10327,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_compoffs`(
+	CREATE PROCEDURE `get_compoffs`(
 	in `employee_id` int(11),
 	in `rm_id` int(11)
 	)
@@ -10391,7 +10391,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_compoffs_for_approval`(
+	CREATE PROCEDURE `get_compoffs_for_approval`(
 	in `rm_id` int(11)
 	)
 	begin
@@ -10432,7 +10432,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_compoff_leave_status`(
+	CREATE PROCEDURE `get_compoff_leave_status`(
 	)
 	begin
 	select lm_leavesmaster.status into @leavestatus from lm_leavesmaster where leavename = 'Comp Off Leave';
@@ -10457,7 +10457,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_compoff_min_working_hours`(
+	CREATE PROCEDURE `get_compoff_min_working_hours`(
 	)
 	BEGIN
 		select value from lm_rulevalues
@@ -10479,7 +10479,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_component_configured_values_for_pay_group`(
+	CREATE  PROCEDURE `get_component_configured_values_for_pay_group`(
 	pigcm_id_value int(11),
 	percentage_or_flat_amount_value int(1)
 	)
@@ -10567,7 +10567,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_component_editable_configurations`(
+	CREATE  PROCEDURE `get_component_editable_configurations`(
 	component_id int
 	)
 	begin
@@ -10597,7 +10597,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_component_wise_values_for_pay_group_assignment`(
+	CREATE  PROCEDURE `get_component_wise_values_for_pay_group_assignment`(
 	ctc_value float,
 	pay_group_id_value int
 	)
@@ -11183,7 +11183,7 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_comp_off_validity_duration`()
+	CREATE  PROCEDURE `get_comp_off_validity_duration`()
 	begin
 		SELECT lm_rulevalues.value
 		FROM lm_rulemaster, lm_rulevalues
@@ -11280,7 +11280,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_conducted_employees_for_department`(
+	CREATE  PROCEDURE `get_conducted_employees_for_department`(
 	in `program_id` int(11),
 	in `department_id` int(11)
 	)
@@ -11310,7 +11310,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_ctc_details`(
+	CREATE  PROCEDURE `get_ctc_details`(
 	employee_id integer(11),
 	ctc_id integer(11)
 	)
@@ -11393,7 +11393,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_departmentss_for_program`(
+	CREATE  PROCEDURE `get_departmentss_for_program`(
 	in `program_id` int(11)
 	)
 	begin
@@ -11417,7 +11417,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_department_employees_by_designation`(department_id int,designation_id int)
+	CREATE  PROCEDURE `get_department_employees_by_designation`(department_id int,designation_id int)
 	begin
 		select e.id,concat(e.firstname,if(e.middlename is not null,' ',''),e.middlename,' ',e.lastname) as empname from employee e
 		inner join employee_departments dept on dept.empid = e.id and dept.effectiveenddate is null
@@ -11442,7 +11442,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_department_wise_employee_count_by_location`(
+CREATE  PROCEDURE `get_department_wise_employee_count_by_location`(
 location_id int(11))
 begin
 select  d.deptname,count(emp.id) as count from employee emp
@@ -11466,7 +11466,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_department_wise_employee_count_by_shift`(
+CREATE  PROCEDURE `get_department_wise_employee_count_by_shift`(
 shiftid int(11))
 begin
 select  d.deptname,count(emp.id) as count 
@@ -11492,7 +11492,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_department_wise_leaves_count_by_month`(
+CREATE  PROCEDURE `get_department_wise_leaves_count_by_month`(
 month_value date
 )
 begin
@@ -11522,7 +11522,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_department_wise_monthly_salaries`(
+CREATE  PROCEDURE `get_department_wise_monthly_salaries`(
 year_value date)
 begin
 set @date = year_value; --  (select cast(concat(year_value,'-',month_id,'-','15') as date));
@@ -11571,7 +11571,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_documents_files`(`employee_id` int,`candidate_id` int,`moduleid` int,`filecategory` varchar(64),`requestid` int,`status` varchar(32))
+CREATE  PROCEDURE `get_documents_files`(`employee_id` int,`candidate_id` int,`moduleid` int,`filecategory` varchar(64),`requestid` int,`status` varchar(32))
 begin
 	
 	set @filepath=(select concat(root_folder,'\\',module_code)  from filepaths_master where module_id=`moduleid` limit 1);
@@ -11616,7 +11616,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_document_category`(in docid int)
+CREATE  PROCEDURE `get_document_category`(in docid int)
 begin
 	select d.id,d.category,d.status from document_category_master d where d.id <=> ifnull(docid,d.id);
 end ;;
@@ -11635,7 +11635,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_duration_for_backdated_compoff_leave`()
+CREATE PROCEDURE `get_duration_for_backdated_compoff_leave`()
 begin
 SELECT lm_rulevalues.value
 FROM lm_rulemaster, lm_rulevalues
@@ -11657,7 +11657,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emails_by_empid`(in eid int(11))
+CREATE  PROCEDURE `get_emails_by_empid`(in eid int(11))
 begin
 
 	SET @eid = eid; -- (select id from employee where officeemail=`email`);
@@ -11705,7 +11705,7 @@ select @jsondata as jsonvalu;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_emails_for_program_schedule`(sid int)
+	CREATE  PROCEDURE `get_employees_emails_for_program_schedule`(sid int)
 	BEGIN
 
 		select e.id,get_employee_name(e.id) as empname,e.dateofjoin,e.officeemail
@@ -11728,7 +11728,7 @@ select @jsondata as jsonvalu;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_for_assign_pay_group`()
+	CREATE  PROCEDURE `get_employees_for_assign_pay_group`()
 	BEGIN
 		select e.id,get_employee_name(e.id) as empname,e.dateofjoin,e.officeemail,d.deptname
 		from employee e,employee_departments ed, departmentsmaster d
@@ -11753,7 +11753,7 @@ select @jsondata as jsonvalu;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_for_department`(
+	CREATE  PROCEDURE `get_employees_for_department`(
 	in `department_id` int(11)
 	)
 	begin
@@ -11781,7 +11781,7 @@ select @jsondata as jsonvalu;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_for_program_schedule`(sid int)
+	CREATE  PROCEDURE `get_employees_for_program_schedule`(sid int)
 	BEGIN
 		-- set @programid = (select program_id from ems_program_schedules where id = sid);
 		
@@ -11807,7 +11807,7 @@ select @jsondata as jsonvalu;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_for_recognition_message`(in `empid` int(11))
+	CREATE  PROCEDURE `get_employees_for_recognition_message`(in `empid` int(11))
 	BEGIN
 		select e.id,e.empid, get_employee_name(e.id) as empname,d.designation
     from employee e
@@ -11830,7 +11830,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_for_reporting_manager`(
+CREATE  PROCEDURE `get_employees_for_reporting_manager`(
 in `employee_id` int(11),
 in `designation_id` varchar(32)
 )
@@ -11862,7 +11862,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_list`()
+CREATE  PROCEDURE `get_employees_list`()
 begin
 select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,e.officeemail
  ,lm.location
@@ -11892,7 +11892,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_list_for_investments_approval`()
+	CREATE  PROCEDURE `get_employees_list_for_investments_approval`()
 	begin
 		/*select distinct 
 		if((select distinct f.status FROM payroll_employee_investments f where f.empid  = i.empid and f.status != 9) not in (9,0,1) as flag, -- 1 for approve and 0 for except approve 
@@ -11928,7 +11928,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employees_of_manager`(
+	CREATE PROCEDURE `get_employees_of_manager`(
 	in `rm_id` int(11)
 	)
 	begin
@@ -11958,7 +11958,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_pending_checklists`(search_str varchar(255),search_date date,employee_id int,dept_id int)
+	CREATE  PROCEDURE `get_employees_pending_checklists`(search_str varchar(255),search_date date,employee_id int,dept_id int)
 	begin
 		select distinct eec.empid,
 			get_employee_name(ifnull(employee_id,eec.empid)) as empname,e.empid employee_id,
@@ -11995,7 +11995,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employees_terminations`(in termid int, in manager_employee_id int(11))
+	CREATE  PROCEDURE `get_employees_terminations`(in termid int, in manager_employee_id int(11))
 	begin
 	if (manager_employee_id is not null) then
 
@@ -12052,7 +12052,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_attendance_dashboard`(
+	CREATE  PROCEDURE `get_employee_attendance_dashboard`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` datetime
@@ -12206,7 +12206,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_attendance_dashboard1`(
+	CREATE PROCEDURE `get_employee_attendance_dashboard1`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` datetime
@@ -12333,7 +12333,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_attendance_dashboard2`(
+	CREATE PROCEDURE `get_employee_attendance_dashboard2`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` datetime
@@ -12476,7 +12476,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_attendance_notifications`(
+	CREATE  PROCEDURE `get_employee_attendance_notifications`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` date
@@ -12657,7 +12657,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_attendance_regularization`(
+	CREATE PROCEDURE `get_employee_attendance_regularization`(
 	  `employee_id` int(11)
 	)
 	begin
@@ -12683,7 +12683,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_checklists`(cid int,employeeid int,c_category varchar(255),dept_id int)
+	CREATE  PROCEDURE `get_employee_checklists`(cid int,employeeid int,c_category varchar(255),dept_id int)
 	begin
 		select eec.id,
 			eec.checklist_id,
@@ -12718,7 +12718,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_ctc_durations`(
+	CREATE  PROCEDURE `get_employee_ctc_durations`(
 	employee_id integer(11)
 	)
 	begin
@@ -12747,7 +12747,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_current_shifts`(
+	CREATE PROCEDURE `get_employee_current_shifts`(
 	in `employee_id` int(11)
 	)
 	begin
@@ -12784,7 +12784,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_durations_for_salary_display`(
+	CREATE  PROCEDURE `get_employee_durations_for_salary_display`(
 	employee_id integer(11)
 	)
 	begin
@@ -12812,7 +12812,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_epf_contribution_options`(
+	CREATE  PROCEDURE `get_employee_epf_contribution_options`(
 	)
 	begin
 	DECLARE v_percentage decimal(5,2);
@@ -12848,7 +12848,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_epf_details`(
+	CREATE  PROCEDURE `get_employee_epf_details`(
 	employee_id int(11)
 	)
 	begin
@@ -12873,7 +12873,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_investments`(emp_id int)
+	CREATE  PROCEDURE `get_employee_investments`(emp_id int)
 	begin	
 		set @filepath=(select concat(root_folder,'\\',module_code,'\\')  from filepaths_master where module_id=5 limit 1); -- module id 5 is for payroll
 		-- set @filepath=(select concat(root_folder,'/',module_code,'/')  from filepaths_master where module_id=5 limit 1); -- module id 5 is for payroll
@@ -13101,7 +13101,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_investments_bkp`(emp_id int)
+	CREATE  PROCEDURE `get_employee_investments_bkp`(emp_id int)
 	begin	
 		if exists(select * from payroll_employee_investments where empid=emp_id and financial_year=fn_get_financial_year()) then
 			select json_arrayagg(json_object(	
@@ -13194,7 +13194,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_investments_test`(emp_id int)
+	CREATE  PROCEDURE `get_employee_investments_test`(emp_id int)
 	begin	
 		if exists(select * from payroll_employee_investments where empid=emp_id and financial_year=fn_get_financial_year()) then
 	SELECT JSON_ARRAYAGG(JSON_OBJECT('id', t.id, 'incometaxsection', t.investment_section,'investmentdescription',t.investment_description,
@@ -13244,7 +13244,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_late_attendance_report`(
+	CREATE PROCEDURE `get_employee_late_attendance_report`(
 		`manager_empid` int(11),
 		`employee_id` int(11),
 		`shift_id` int(11),
@@ -13357,7 +13357,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_late_attendance_report1`(
+	CREATE PROCEDURE `get_employee_late_attendance_report1`(
 		`manager_empid` int(11),
 		`employee_id` int(11),
 		`shift_id` int(11),
@@ -13435,7 +13435,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_late_attendance_report2`(
+	CREATE PROCEDURE `get_employee_late_attendance_report2`(
 		`manager_empid` int(11),
 		`employee_id` int(11),
 		`shift_id` int(11),
@@ -13541,7 +13541,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_leaves`(
+	CREATE PROCEDURE `get_employee_leaves`(
 	in `employee_id` int(11),
 	in `pagenumber` int(2),
 	in `pagesize` int(4)
@@ -13658,7 +13658,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_leave_balance`(
+	CREATE PROCEDURE `get_employee_leave_balance`(
 	in `employee_id` int(11)
 	)
 	BEGIN
@@ -13719,7 +13719,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_leave_balance_for_payroll`(
+	CREATE  PROCEDURE `get_employee_leave_balance_for_payroll`(
 	in `employee_id` int(11),
 	out total_balance decimal(5,2)
 	)
@@ -13783,7 +13783,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_leave_detailed_report_for_manager`(
+	CREATE  PROCEDURE `get_employee_leave_detailed_report_for_manager`(
 	employee_id varchar(64),
 	manager_id int(11),
 	leavetype_id varchar(32),
@@ -13884,7 +13884,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_list_for_salary_processing`(
+	CREATE  PROCEDURE `get_employee_list_for_salary_processing`(
 		year_value int(4),
 		month_value int(2)
 	)
@@ -13927,7 +13927,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_payslips`(
+	CREATE  PROCEDURE `get_employee_payslips`(
 	in `emp_id_value` int(11),
 	in `financial_year_value` varchar(16)
 	)
@@ -13973,7 +13973,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_payslip_details`(
+	CREATE  PROCEDURE `get_employee_payslip_details`(
 	in `id_value` int(11),
 	in `emp_id_value` int(11)
 	)
@@ -14101,7 +14101,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_professional_tax_details`(
+	CREATE PROCEDURE `get_employee_professional_tax_details`(
 	)
 	begin
 		select z.country,s.state,
@@ -14146,7 +14146,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_program_alerts`(employeeid int)
+	CREATE  PROCEDURE `get_employee_program_alerts`(employeeid int)
 	begin
 		select 	e.id,
 				e.schedule_id,
@@ -14179,7 +14179,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_program_schedules`(employeeid int,scheduleid int)
+	CREATE  PROCEDURE `get_employee_program_schedules`(employeeid int,scheduleid int)
 	begin
 		select 	e.id,
 				e.schedule_id,
@@ -14216,7 +14216,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_recognition_messages`(in `empid` int)
+	CREATE  PROCEDURE `get_employee_recognition_messages`(in `empid` int)
 	begin
 	   declare exit handler for sqlexception
 		begin
@@ -14263,7 +14263,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_relations_for_bereavement_leave`(
+	CREATE  PROCEDURE `get_employee_relations_for_bereavement_leave`(
 	IN `employee_id` INT(11),
 	in `leave_id` int(11)
 	)
@@ -14306,7 +14306,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_shift`(
+	CREATE PROCEDURE `get_employee_shift`(
 	in `employee_id` int(11)
 	)
 	begin
@@ -14333,7 +14333,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_shifts_for_manager_or_department`(
+	CREATE  PROCEDURE `get_employee_shifts_for_manager_or_department`(
 		`manager_empid` int(11),
 		`department_id` int(11)
 	)
@@ -14408,7 +14408,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_shift_by_dates`(
+	CREATE PROCEDURE `get_employee_shift_by_dates`(
 	in `employee_id` int(11),
 	in `fromd_date` date,
 	in `to_date` date
@@ -14441,7 +14441,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employee_weekoffs_holidays_for_attendance`(
+	CREATE  PROCEDURE `get_employee_weekoffs_holidays_for_attendance`(
 		`employee_id` int(11)
 	)
 	begin
@@ -14506,7 +14506,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_employer_epf_contribution_options`(
+	CREATE  PROCEDURE `get_employer_epf_contribution_options`(
 	)
 	begin
 	DECLARE v_percentage decimal(5,2);
@@ -14538,7 +14538,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employer_professional_tax_details`(
+	CREATE PROCEDURE `get_employer_professional_tax_details`(
 	)
 	begin
 		select z.country,
@@ -14567,7 +14567,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emp_announcements`()
+	CREATE  PROCEDURE `get_emp_announcements`()
 	begin
 	select annt.topic,ann.title,ann.description from ems_announcements ann
 	inner join ems_announcements_topics_master annt on annt.id=ann.topicid
@@ -14589,7 +14589,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emp_education_details`(
+	CREATE  PROCEDURE `get_emp_education_details`(
 	in `id` int(11)
 	)
 	begin
@@ -14629,7 +14629,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emp_employement`(
+	CREATE  PROCEDURE `get_emp_employement`(
 	in `id` int(11)
 	)
 	begin
@@ -14688,7 +14688,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emp_job_details`(
+	CREATE  PROCEDURE `get_emp_job_details`(
 	in `id` int(11)
 	)
 	begin
@@ -14738,7 +14738,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emp_offboard_resignation_checklists`(search_str varchar(255),search_date date,employee_id int,dept_id int)
+	CREATE  PROCEDURE `get_emp_offboard_resignation_checklists`(search_str varchar(255),search_date date,employee_id int,dept_id int)
 	begin
 		select distinct eec.empid,get_employee_name(ifnull(employee_id,eec.empid)) as empname,
 		date(er.created_on) as requestdate,date(er.actual_relieving_date) as exitdate,
@@ -14775,7 +14775,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emp_offboard_termination_checklists`(search_str varchar(255),search_date date,employee_id int,dept_id int)
+	CREATE  PROCEDURE `get_emp_offboard_termination_checklists`(search_str varchar(255),search_date date,employee_id int,dept_id int)
 	begin
 		select distinct eec.empid,get_employee_name(ifnull(employee_id,eec.empid)) as empname,
 		date(et.created_on) as terminationdate,date(e.dateofjoin) as dateofjoin,
@@ -14812,7 +14812,7 @@ set @date = (select date(last_day(@date)));
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_emp_personal_info`(
+	CREATE  PROCEDURE `get_emp_personal_info`(
 	in `id` int(11)
 	)
 	begin
@@ -14903,7 +14903,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_ems_employee_column_configuration_values`(
+	CREATE  PROCEDURE `get_ems_employee_column_configuration_values`(
 	in employee_id int(11)
 	)
 	begin
@@ -14928,7 +14928,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_ems_employee_column_filter_data`(
+	CREATE  PROCEDURE `get_ems_employee_column_filter_data`(
 	)
 	begin
 		select 'Employee Status' as column_name,statusmaster.id,statusmaster.name from statusmaster where statusmaster.moduleid is null
@@ -14969,7 +14969,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_ems_employee_column_filter_dataV2`(
+	CREATE  PROCEDURE `get_ems_employee_column_filter_dataV2`(
 	)
 	begin
 		select 'Employee Status' as column_name,statusmaster.id,statusmaster.name from statusmaster where statusmaster.moduleid is null
@@ -15008,7 +15008,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_ems_employee_data_for_reports`(
+	CREATE  PROCEDURE `get_ems_employee_data_for_reports`(
 	in employee_id integer(11),
 	in employee_status_value varchar(255),
 	in employee_type_value varchar(255),
@@ -15203,7 +15203,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_ems_induction_conductedby`()
+	CREATE  PROCEDURE `get_ems_induction_conductedby`()
 	begin
 		/*SELECT  eeic.id,
 		eeic.program_id,
@@ -15260,7 +15260,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_ems_messages`(in `code` varchar(255),
+	CREATE  PROCEDURE `get_ems_messages`(in `code` varchar(255),
 	in `pagenumber` int,in `pagesize` int)
 	begin
 		if `code` is not null and `code`!='' then
@@ -15292,7 +15292,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_epf_details`(
+	CREATE PROCEDURE `get_epf_details`(
 	)
 	begin
 	select configs.value,configs.effective_from_date into @epf_number,@effective_from_date from configs 
@@ -15327,7 +15327,7 @@ end ;;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_epf_values_for_challan`(
+CREATE  PROCEDURE `get_epf_values_for_challan`(
 	year_value int(4),
 	month_value int(2)
 )
@@ -15360,7 +15360,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_esi_details`(
+CREATE PROCEDURE `get_esi_details`(
 )
 begin
 	select m.id,m.description, v.value
@@ -15390,7 +15390,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_esi_employer_contribution`(
+CREATE  PROCEDURE `get_esi_employer_contribution`(
 )
 begin
 set @esi_er_in_ctc = (select payroll_client_component_configuration_details.value
@@ -15419,7 +15419,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_esi_for_states`(
+	CREATE  PROCEDURE `get_esi_for_states`(
 	)
 	begin
 		select v.state ,s.value, s.state_id
@@ -15442,7 +15442,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_esi_values_for_challan`(
+CREATE  PROCEDURE `get_esi_values_for_challan`(
 	year_value int(4),
 	month_value int(2)
 )
@@ -15474,7 +15474,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_filecategory_master`(`fcid` int,`moduleid` int)
+CREATE  PROCEDURE `get_filecategory_master`(`fcid` int,`moduleid` int)
 begin
 	select * from filecategory_master where id = (case when `fcid` is null then id else `fcid` end) and module_id=`moduleid`;
 end ;;
@@ -15493,7 +15493,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_filepaths_master`(`moduleid` int)
+CREATE  PROCEDURE `get_filepaths_master`(`moduleid` int)
 begin
 	select * from filepaths_master where module_id=`moduleid`;
 end ;;
@@ -15512,7 +15512,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_files_for_approval`(`employee_id` int,`candidate_id` int)
+CREATE  PROCEDURE `get_files_for_approval`(`employee_id` int,`candidate_id` int)
 begin
     select 	f.empid,
 			(select empid from employee where id=f.empid) as empcode,
@@ -15565,7 +15565,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_files_master`(`employee_id` int,`candidate_id` int,`moduleid` int,`filecategory` varchar(64),`requestid` int,`status` varchar(32))
+CREATE  PROCEDURE `get_files_master`(`employee_id` int,`candidate_id` int,`moduleid` int,`filecategory` varchar(64),`requestid` int,`status` varchar(32))
 begin
 	set @filepath=(select concat(root_folder,'\\',module_code,'\\')  from filepaths_master where module_id=`moduleid` limit 1);
     select 	id,
@@ -15634,7 +15634,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_financial_years`()
+	CREATE  PROCEDURE `get_financial_years`()
 	begin
 		set @present_year = '';
 		set @previous_year = '';
@@ -15669,7 +15669,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_handled_leaves`(
+	CREATE PROCEDURE `get_handled_leaves`(
 	in `rm_id` int(11)
 	)
 	begin
@@ -15784,7 +15784,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_holiday_years_or_locations`(in `columnname` varchar(64))
+	CREATE PROCEDURE `get_holiday_years_or_locations`(in `columnname` varchar(64))
 	begin
 		set @sqltext = concat('select distinct ', `columnname`,(case when `columnname`='location' then ', (select location from locationsmaster where id=h.location) as locationname' else '' end),' from holidaysmaster h
 		where h.leave_cycle_year = (select fn_get_leave_cycle_year())');
@@ -15808,7 +15808,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_hr_details`()
+	CREATE  PROCEDURE `get_hr_details`()
 	begin
 
 			select e.id,CONCAT(e.firstname, " ", e.middlename, " ", e.lastname) as managername 
@@ -15833,7 +15833,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_integration_empids_lookup`(
+	CREATE PROCEDURE `get_integration_empids_lookup`(
 		`boon_emp_id` int(11),
 		`biometric_emp_id` int(11)
 	)
@@ -15858,7 +15858,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_leaves_for_approval`(
+	CREATE  PROCEDURE `get_leaves_for_approval`(
 	in `rm_id` int(11)
 	)
 	begin
@@ -15930,7 +15930,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_leaves_for_cancellation`(
+	CREATE PROCEDURE `get_leaves_for_cancellation`(
 	in `rm_id` int(11)
 	)
 	begin
@@ -16017,7 +16017,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_leaves_for_cancellation_approval`(
+	CREATE PROCEDURE `get_leaves_for_cancellation_approval`(
 	in `rm_id` int(11)
 	)
 	begin
@@ -16074,7 +16074,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_leavetypes_data`()
+	CREATE PROCEDURE `get_leavetypes_data`()
 	BEGIN
 		select m.id,m.leavename,m.display_name,
 		(select r.value from lm_rulevalues r where r.leavetypeid = m.id and
@@ -16100,7 +16100,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_leave_calendar_for_manager`(
+	CREATE PROCEDURE `get_leave_calendar_for_manager`(
 	IN `rm_id` INT(11)
 	)
 	begin
@@ -16232,7 +16232,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_leave_cycle_last_month`()
+	CREATE PROCEDURE `get_leave_cycle_last_month`()
 	begin
 		set @id = (select leave_cycle_year_master.cycle_commencement_month from leave_cycle_year_master where leave_cycle_year_master.id = (
 		select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster where 
@@ -16265,7 +16265,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_leave_cycle_year`()
+	CREATE PROCEDURE `get_leave_cycle_year`()
 	begin
 	set @start_month = (select leave_cycle_year_master.cycle_commencement_month from leave_cycle_year_master where leave_cycle_year_master.id = (
 					   select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster where 
@@ -16296,7 +16296,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_leave_cycle_year_options`(
+CREATE  PROCEDURE `get_leave_cycle_year_options`(
 )
 begin
 select leave_cycle_year_master.id as id, leave_cycle_year_master.leave_cycle_year_name as leave_cycle_year_name 
@@ -16317,7 +16317,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_leave_types_to_add`(
+CREATE  PROCEDURE `get_leave_types_to_add`(
 )
 begin
 	drop temporary table if exists leave_table;
@@ -16355,7 +16355,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_location_wise_employee_count`()
+CREATE  PROCEDURE `get_location_wise_employee_count`()
 begin
 select  cwl.location,count(emp.id) as count from employee emp
 inner join employee_worklocations ew on ew.empid=emp.id
@@ -16377,7 +16377,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_login_details`(in eid int(11))
+CREATE  PROCEDURE `get_login_details`(in eid int(11))
 begin
 select el.id,el.login,el.password from employee e,employee_login el 
 where  e.id=el.id and e.id=eid and el.status='Active' order by el.lastpasswordchangedate desc limit 1;
@@ -16397,7 +16397,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `get_manager_on_behalf_of_employee_attendance_regularizations`(
+CREATE PROCEDURE `get_manager_on_behalf_of_employee_attendance_regularizations`(
 	manager_employee_id int(11)
 )
 begin
@@ -16428,7 +16428,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_max_count_per_term_value`(
+	CREATE PROCEDURE `get_max_count_per_term_value`(
 	in leavetype_id int(11)
 	)
 	BEGIN
@@ -16452,7 +16452,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_modulescreenfunctionalities`()
+	CREATE  PROCEDURE `get_modulescreenfunctionalities`()
 	begin
 	select JSON_ARRAYAGG(JSON_OBJECT(
 		'module_id', mm.id  , 
@@ -16482,7 +16482,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_modules_screens`()
+	CREATE  PROCEDURE `get_modules_screens`()
 	begin
 	SELECT JSON_ARRAYAGG(JSON_OBJECT('moduleid', t.moduleid, 'modulename', t.modulename, 'screens', t.screens)) AS json_value
 	FROM (
@@ -16510,7 +16510,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_monthly_payroll_data`(
+	CREATE  PROCEDURE `get_monthly_payroll_data`(
 	month_id int(11),
 	year_value char(4),
 	department_id int(11)
@@ -16631,7 +16631,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_monthly_payroll_data_for_graph`(
+	CREATE  PROCEDURE `get_monthly_payroll_data_for_graph`(
 	month_id int(11),
 	year_value char(4)
 	)
@@ -16680,7 +16680,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_months_for_financial_year`(
+	CREATE  PROCEDURE `get_months_for_financial_year`(
 	financial_year_value varchar(16)
 	)
 	begin
@@ -16764,7 +16764,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_new_hire_details`(in cid int)
+	CREATE  PROCEDURE `get_new_hire_details`(in cid int)
 	BEGIN
 	select c.id,c.candidate_id ,c.firstname,c.middlename,c.lastname,c.personal_email,c.dateofjoin,c.hired_date,
 		   c.designation,c.contact_number,c.alternatecontact_number, s.name status,c.comment
@@ -16788,7 +16788,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_next_leave_date`(
+	CREATE PROCEDURE `get_next_leave_date`(
 		IN `employee_id` INT(11),
 		in `from_date` date
 	)
@@ -16814,7 +16814,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_notice_period`()
+	CREATE  PROCEDURE `get_notice_period`()
 	begin
 		  select  rv.id, rm.id ruleid,rm.rulename,rm.description
 		 , (select val.value from ems_rulevalues as val where val.id=rv.id ) as value
@@ -16840,7 +16840,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_offboard_settings`()
+	CREATE  PROCEDURE `get_offboard_settings`()
 	begin
 		  select  rv.id, rm.id ruleid,rm.rulename,rm.description
 		 , (select val.value from ems_rulevalues as val where val.id=rv.id ) as value
@@ -16867,7 +16867,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_onboard_settings`()
+	CREATE  PROCEDURE `get_onboard_settings`()
 	begin
 		  select  rv.id, rm.id ruleid,rm.rulename,rm.description
 		 , (select val.value from ems_rulevalues as val where val.id=rv.id ) as value
@@ -16894,7 +16894,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_payroll_income_groups`(
+	CREATE  PROCEDURE `get_payroll_income_groups`(
 	)
 	begin
 		select 
@@ -16945,7 +16945,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_payroll_messages`(in `code` varchar(255),
+	CREATE  PROCEDURE `get_payroll_messages`(in `code` varchar(255),
 	in `pagenumber` int,in `pagesize` int)
 	begin
 		if `code` is not null and `code`!='' then
@@ -16978,7 +16978,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_payroll_sections`(
+	CREATE PROCEDURE `get_payroll_sections`(
 	)
 	begin
 	select id,section
@@ -17000,7 +17000,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_pay_groups_for_ctc`(ctc float)
+	CREATE  PROCEDURE `get_pay_groups_for_ctc`(ctc float)
 	begin
 		select 
 		id,
@@ -17042,7 +17042,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_pay_group_component_values`(
+	CREATE  PROCEDURE `get_pay_group_component_values`(
 	pigcm_id_value int
 	)
 	begin
@@ -17111,7 +17111,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_pending_attendance`(
+	CREATE PROCEDURE `get_pending_attendance`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` datetime
@@ -17172,7 +17172,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_pending_attendance_regularizations`(
+	CREATE PROCEDURE `get_pending_attendance_regularizations`(
 		manager_employee_id int(11)
 	)
 	begin
@@ -17198,7 +17198,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_pending_attendance_regularizations_v2`(
+	CREATE PROCEDURE `get_pending_attendance_regularizations_v2`(
 		manager_employee_id int(11)
 	)
 	begin
@@ -17224,7 +17224,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_programs_master`(in pid int)
+	CREATE  PROCEDURE `get_programs_master`(in pid int)
 	begin
 		select p.id,
 			p.name,
@@ -17251,7 +17251,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_program_schedules`(scheduleid int,programid int)
+	CREATE  PROCEDURE `get_program_schedules`(scheduleid int,programid int)
 	begin
 			 update ems_program_schedules set status='Finished'
 			 where CONCAT(schedule_date,' ',schedule_endtime)<=current_timestamp() and status in ('Scheduled','Rescheduled') ;
@@ -17291,7 +17291,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_program_tasks`(tid int,programid int)
+	CREATE  PROCEDURE `get_program_tasks`(tid int,programid int)
 	begin
 		select * from ems_program_tasks where id <=> ifnull(tid,id) and program_id <=> ifnull(programid,program_id);
 	end ;;
@@ -17310,7 +17310,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_reason_master`(in reasonid int)
+	CREATE  PROCEDURE `get_reason_master`(in reasonid int)
 	begin
 		select r.id,reason,r.status from ems_reason_master r where id <=> ifnull(reasonid,id);
 	end ;;
@@ -17329,7 +17329,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_recognition_messages`(in recognition_type_id int)
+	CREATE  PROCEDURE `get_recognition_messages`(in recognition_type_id int)
 	BEGIN
 		select rm.id,rm.message
 		from recognition_message_master rm
@@ -17350,7 +17350,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_recognition_messages_for_employee_type`(in `empid` int, `typeid` int)
+	CREATE  PROCEDURE `get_recognition_messages_for_employee_type`(in `empid` int, `typeid` int)
 	begin
 	   declare exit handler for sqlexception
 		begin
@@ -17382,7 +17382,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_recognition_types`()
+	CREATE  PROCEDURE `get_recognition_types`()
 	BEGIN
 		select rtm.id,rtm.recognition_type
 		from recognition_type_master rtm
@@ -17403,7 +17403,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_reporting_manager_for_emp`(IN `empid` int)
+	CREATE  PROCEDURE `get_reporting_manager_for_emp`(IN `empid` int)
 	begin
 
 			select e.id,CONCAT(e.firstname, " ", e.middlename, " ", e.lastname) as managername 
@@ -17428,7 +17428,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_report_for_payroll_processing`(employeeid int,chosendate date)
+	CREATE  PROCEDURE `get_report_for_payroll_processing`(employeeid int,chosendate date)
 	begin
 
 		set @monthstartdate = last_day(chosendate) + interval 1 day - interval 1 month;
@@ -17622,7 +17622,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_resignation_data`(in resgid int, in employee_id int(11), in manager_employee_id int(11))
+	CREATE  PROCEDURE `get_resignation_data`(in resgid int, in employee_id int(11), in manager_employee_id int(11))
 	begin
 		 if(employee_id is not null) then
 			
@@ -17682,7 +17682,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_salary_components`(
+	CREATE PROCEDURE `get_salary_components`(
 	vsection_id integer(11)
 	)
 	begin
@@ -17708,7 +17708,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_salary_components_for_pay_group`(
+	CREATE  PROCEDURE `get_salary_components_for_pay_group`(
 	paygroup_id integer(11)
 	)
 	begin
@@ -17749,7 +17749,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_client_user`@`%` PROCEDURE `get_screens_for_employee`(IN empid int)
+	CREATE  PROCEDURE `get_screens_for_employee`(IN empid int)
 	BEGIN
 	if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id in (select employee_roles.role_id 
 						from employee_roles where employee_roles.employee_id = `empid`)) then
@@ -17938,7 +17938,7 @@ begin
 	DELIMITER ;
     
     DELIMITER ;;
-	CREATE DEFINER=`spryple_client_user`@`%` PROCEDURE `get_screens_for_super_admin`(IN empid int)
+	CREATE  PROCEDURE `get_screens_for_super_admin`(IN empid int)
 	BEGIN
 if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id in (select employee_roles.role_id 
 						from employee_roles where employee_roles.employee_id = `empid`)) then
@@ -18053,7 +18053,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_screens_functionalities`(in moduleid int)
+	CREATE  PROCEDURE `get_screens_functionalities`(in moduleid int)
 	begin
 	SELECT JSON_ARRAYAGG(JSON_OBJECT('screenid', t.screenid, 'screenname', t.screenname, 'functionalities', t.functionalities)) AS json_value
 	FROM (
@@ -18082,7 +18082,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_screens_functionalities_for_role`(IN roleid int)
+	CREATE  PROCEDURE `get_screens_functionalities_for_role`(IN roleid int)
 	begin
 
 	create temporary table ftable(
@@ -18139,7 +18139,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_shifts_details_by_id`(
+	CREATE PROCEDURE `get_shifts_details_by_id`(
 		`shift_id` int(11)
 	)
 	begin
@@ -18162,7 +18162,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_states_for_esi`(
+	CREATE  PROCEDURE `get_states_for_esi`(
 	)
 	begin
 		select distinct v.id,v.state from companyworklocationsmaster s, statesmaster v
@@ -18186,7 +18186,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_status_list`(in `moduleid` int)
+	CREATE  PROCEDURE `get_status_list`(in `moduleid` int)
 	begin
 	  if `moduleid` is not null and `moduleid` !='' then
 		   select s.id ,s.name from statusmaster s where s.moduleid=`moduleid`;
@@ -18209,7 +18209,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_statutory_max_pf_wage_for_employer_contribution`(
+	CREATE  PROCEDURE `get_statutory_max_pf_wage_for_employer_contribution`(
 	)
 	begin
 		select payroll_product_component_rulevalues.value 
@@ -18233,7 +18233,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_summary_report_for_manager`(
+	CREATE PROCEDURE `get_summary_report_for_manager`(
 	`manager_id` int,
 	`employee_id` varchar(32),
 	`designation_id` varchar(32),
@@ -18712,7 +18712,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_summary_report_for_manager_V2`(
+	CREATE PROCEDURE `get_summary_report_for_manager_V2`(
 	`manager_id` int,
 	`employee_id` varchar(32),
 	`designation_id` varchar(32),
@@ -19172,7 +19172,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_termination_category`(in terminationid int)
+	CREATE  PROCEDURE `get_termination_category`(in terminationid int)
 	begin
 		select t.id,t.category,t.status from ems_termination_category_master t where t.id <=> ifnull(terminationid,t.id);
 	end ;;
@@ -19191,7 +19191,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_unread_messages_count`(in empid int)
+	CREATE  PROCEDURE `get_unread_messages_count`(in empid int)
 	BEGIN
 		   select COUNT(erm.id) as unreadcount
 		   from  employee_recognition_message erm
@@ -19212,7 +19212,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_user_login_data`()
+	CREATE  PROCEDURE `get_user_login_data`()
 	begin
 		 /*select e.id, e.empid, concat(firstname, ' ',middlename,'',lastname) empname,e.officeemail, elog.login , elog.status
 		 from employee e 
@@ -19239,7 +19239,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_years_for_report`()
+	CREATE  PROCEDURE `get_years_for_report`()
 	begin
 		create temporary table year_table(
 			year_value year not null
@@ -19276,7 +19276,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `other_allowance_popup`(
+	CREATE  PROCEDURE `other_allowance_popup`(
 	pigcm_id_value int
 	)
 	begin
@@ -19308,7 +19308,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `separation_employee_cron`()
+	CREATE  PROCEDURE `separation_employee_cron`()
 	BEGIN
 		   update employee e join employee_login el on e.id = el.id
 		   set e.status=2, el.status='Inactive'
@@ -19331,7 +19331,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `setcompanyworklocation`(
+	CREATE  PROCEDURE `setcompanyworklocation`(
 	in locationdata varchar(8000)
 	)
 	begin
@@ -19456,7 +19456,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `setcompanyworklocation_v2`(
+	CREATE  PROCEDURE `setcompanyworklocation_v2`(
 	in locationdata varchar(8000)
 	)
 	begin
@@ -19574,7 +19574,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `setempid`(
+	CREATE PROCEDURE `setempid`(
 		in prefix varchar(16), 
 		in seed int(11), 
 		in companylocation varchar(64)
@@ -19612,7 +19612,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `setemployeelogin`(
+	CREATE  PROCEDURE `setemployeelogin`(
 		IN `id` INT,
 		IN `login` VARCHAR(255), 
 		IN `password` VARCHAR(1024),  
@@ -19685,7 +19685,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `setemployeemaster`(
+	CREATE PROCEDURE `setemployeemaster`(
 	in employeedata varchar(8000)
 	)
 	begin
@@ -20075,7 +20075,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `setemployeemaster_V2`(
+	CREATE  PROCEDURE `setemployeemaster_V2`(
 	in employeedata varchar(8000)
 	)
 	begin
@@ -20461,7 +20461,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `seterrormessages`(
+	CREATE PROCEDURE `seterrormessages`(
 		-- IN `errorcode` VARCHAR(20),
 		-- IN `screenname` VARCHAR(20), 
 		-- IN `errormessage` VARCHAR(1024)
@@ -20523,7 +20523,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `setleavepolicies`(
+	CREATE PROCEDURE `setleavepolicies`(
 		in `ruledata` text /* json format:
 		[{"ruleid":1,
 		  "rulename":"advanced_leaves_eligibility",
@@ -20691,7 +20691,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `setleavepoliciesv2`(
+	CREATE  PROCEDURE `setleavepoliciesv2`(
 		in `ruledata` varchar(20000) /* json format:[{"ruleid":1,"rulename":"advanced_leaves_eligibility","description":"max leaves eligibility","value":12,"categoryid":2},
 			{"ruleid": 6,"rulename": "LEAVES_MIN_SERVICE_ELIGIBILITY","description": "Minimum service (in months) for employees to get these leaves (for the first time joinee)","value": 12,"leavetypeid": 2}
 			{
@@ -20843,7 +20843,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `setmastertable`(
+	CREATE  PROCEDURE `setmastertable`(
 		in tablename varchar(255), 
 		in schemaname varchar(255), 
 		in tabledata varchar(8000)
@@ -20927,7 +20927,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `setnewleavetype`(
+	CREATE PROCEDURE `setnewleavetype`(
 		in `leavetype` varchar(255), 
 		in `leavedisplayname` varchar(255), 
 		in `leavecolor` varchar(255)
@@ -20970,7 +20970,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `setrolemaster`(
+	CREATE PROCEDURE `setrolemaster`(
 		in `rolename` varchar(128)
 	)
 	begin
@@ -20997,7 +20997,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_advanced_leave_rule_values`(
+	CREATE PROCEDURE `set_advanced_leave_rule_values`(
 		IN `ltypeid` INT(11)
 		)
 	BEGIN
@@ -21032,7 +21032,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_announcements`(announcementdata varchar(8000))
+	CREATE  PROCEDURE `set_announcements`(announcementdata varchar(8000))
 	begin
 		 declare exit handler for sqlexception
 		begin
@@ -21083,7 +21083,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_announcements_topics_master`(
+	CREATE  PROCEDURE `set_announcements_topics_master`(
 		in topic_id int(11),
 		in topic varchar(64),
 		in topic_status int(11), -- values: 1(Active) , 2(Inactive)
@@ -21126,7 +21126,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_approve_leave`(
+	CREATE PROCEDURE `set_approve_leave`(
 	id int(11),
 	leave_id int(11),
 	emp_id int(11),
@@ -21337,7 +21337,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_attendance_approval_status`(
+	CREATE PROCEDURE `set_attendance_approval_status`(
 	  `id` int(11),
 	  `approver_comments` varchar(255),
 	  `action_by`  int(11),
@@ -21420,7 +21420,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_attendance_messages`(
+	CREATE PROCEDURE `set_attendance_messages`(
 		IN `messagedata` VARCHAR(8000) -- JSON array format: [{"code":"ATT1","screenname":"","message":"This screen is required"},{"code":"ATT2","screenname":"","message":"Fromdate should be lessthan Todate"}]
 	)
 	BEGIN
@@ -21467,7 +21467,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_checklists_master`(
+	CREATE  PROCEDURE `set_checklists_master`(
 		checklist_items varchar(10000), -- json array
 		actionby int(11)
 		/*format: {"department":1,"category":"Onboarding","checklists":[{"id":1,"name":"","description":"Setup a desktop","status":"Active"},{"id":2,"name":"","description":"Generate email-id","status":"Active"}]}
@@ -21544,7 +21544,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_checklists_master2`(
+	CREATE  PROCEDURE `set_checklists_master2`(
 		in cid int(11),
 		in department int(11),
 		in checklist_name varchar(64), 
@@ -21590,7 +21590,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_checklists_to_employee`(
+	CREATE  PROCEDURE `set_checklists_to_employee`(
 		in cid varchar(10000), -- JSON array format: [23,36,42]
 		in employeeid int(11),
 		in deptid int(11),
@@ -21653,7 +21653,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_company_epf_values`(
+	CREATE  PROCEDURE `set_company_epf_values`(
 		pf_number varchar(18),
 		actual_pf_wage_or_restricted_pf_wage_for_employer_contribution varchar(64),
 		actual_pf_wage_or_restricted_pf_wage_for_employee_contribution varchar(64),
@@ -21709,7 +21709,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_company_esi_values`(
+	CREATE  PROCEDURE `set_company_esi_values`(
 		include_employer_contribution_in_ctc int(1)
 	)
 	begin
@@ -21745,7 +21745,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_company_pay_schedule`(
+	CREATE  PROCEDURE `set_company_pay_schedule`(
 		monthly_salary_calculation_basis varchar(32), -- valid values: WORKING, CALENDAR
 		pay_day_of_month varchar(32), -- valid values : LAST_WORKING_DAY, 1 to 20, LAST_DAY,LAST_BUT_1_DAY,LAST_BUT_2_DAYS
 		payroll_window_from_date varchar(64),
@@ -21875,7 +21875,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_compoff`(
+	CREATE PROCEDURE `set_compoff`(
 		in `id` int(11),
 		in `empid` int(11),
 		in `comp_off_date` date,
@@ -21925,7 +21925,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_document_category`(
+	CREATE  PROCEDURE `set_document_category`(
 		in document_id int(11),
 		in document_category varchar(100),
 		in document_status int(11), -- values: 1(Active) , 2(Inactive)
@@ -21968,7 +21968,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_employee_attendance`(
+	CREATE PROCEDURE `set_employee_attendance`(
 		`attendancejson` JSON
 		/* format:
 		[{"empid":101,"attendancetype":"Work from office","attendancedate":"2022-06-01","punchtime":"14:20:03","punchcategory":"in","shift":"general"},
@@ -22062,7 +22062,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_attendance_regularization`(
+	CREATE  PROCEDURE `set_employee_attendance_regularization`(
 	  `id` int(11),
 	  `emp_id` int(11),
 	  `shiftid` int(11),
@@ -22207,7 +22207,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_employee_attendance_summary_by_days`(
+	CREATE PROCEDURE `set_employee_attendance_summary_by_days`(
 		-- `rundate` date
 		day_count integer(3)
 	)
@@ -22279,7 +22279,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_attendance_summary_cron`(
+	CREATE  PROCEDURE `set_employee_attendance_summary_cron`(
 		-- `rundate` date
 	)
 	begin
@@ -22350,7 +22350,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_checklists`(
+	CREATE  PROCEDURE `set_employee_checklists`(
 		in cid varchar(10000), -- JSON array format: [23,36,42]
 		in employeeid int(11),
 		in deptid int(11),
@@ -22414,7 +22414,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_investments`(
+	CREATE  PROCEDURE `set_employee_investments`(
 		`iid` int(11),
 		`emp_id` int(11),
 		`investmentid` int(11),
@@ -22522,7 +22522,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_employee_leave`(
+	CREATE PROCEDURE `set_employee_leave`(
 	  `id` int(11),
 	  `empid` int(11),
 	  `leavetype` int(11),
@@ -22979,7 +22979,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_program_schedules`(
+	CREATE  PROCEDURE `set_employee_program_schedules`(
 		esid varchar(10000), -- JSON array format:[1,2,3,4]
 		scheduleid int(11),
 		employeeids varchar(10000), -- JSON array format:[11,12,18,5]
@@ -23057,7 +23057,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_program_schedules2`(
+	CREATE  PROCEDURE `set_employee_program_schedules2`(
 		esid int(11),
 		scheduleid int(11),
 		employeeid int(11),
@@ -23101,7 +23101,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_recognition_message`(in recognitiondata varchar(8000))
+	CREATE  PROCEDURE `set_employee_recognition_message`(in recognitiondata varchar(8000))
 	begin
 	   declare exit handler for sqlexception
 		begin
@@ -23153,7 +23153,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_recognition_message_read_status`(in recogid int,empid int ,isread int)
+	CREATE  PROCEDURE `set_employee_recognition_message_read_status`(in recogid int,empid int ,isread int)
 	BEGIN
 	   declare exit handler for sqlexception
 		begin
@@ -23183,7 +23183,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_resignation`(in resignationdata varchar(8000))
+	CREATE  PROCEDURE `set_employee_resignation`(in resignationdata varchar(8000))
 	begin
 	/*	declare exit handler for sqlexception
 		begin
@@ -23256,7 +23256,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_shifts`(
+	CREATE  PROCEDURE `set_employee_shifts`(
 		`shift_id` int(11),
 		`from_date` date,
 		`to_date` date,
@@ -23411,7 +23411,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_shifts_v2`(
+	CREATE  PROCEDURE `set_employee_shifts_v2`(
 		`shift_id` int(11),
 		`from_date` datetime,
 		`to_date` datetime,
@@ -23523,7 +23523,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_employee_termination`(in terminationdata varchar(8000))
+	CREATE  PROCEDURE `set_employee_termination`(in terminationdata varchar(8000))
 	begin
 	   declare exit handler for sqlexception
 		begin
@@ -23585,7 +23585,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_emp_education_details`(
+	CREATE  PROCEDURE `set_emp_education_details`(
 	in empeducationsdata varchar(8000)
 	-- json ('{ "empid": 18, "education": [{ "course": "MCA", "institutename": "IARE", "fromdate": "2010-03-11", "todate": "2013-10-08" }] }'); 
 	 )
@@ -23657,7 +23657,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_emp_employement`(
+	CREATE  PROCEDURE `set_emp_employement`(
 	in employementdata varchar(8000)
 	)
 	begin
@@ -23762,7 +23762,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_emp_job_details`(
+	CREATE  PROCEDURE `set_emp_job_details`(
 	in empjobdata varchar(8000)
 	)
 	begin
@@ -23858,7 +23858,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_emp_personal_info`(
+	CREATE  PROCEDURE `set_emp_personal_info`(
 	in employeedata varchar(8000)
 	-- JSON Data: (CALL `set_emp_personal_info`('{"condidateid": 5,"empid": null,"firstname": "Raju","middlename": "","lastname": "Mani","personalemail": "raju@gmail.com",
 	-- 	"officeemail": "raju@gmail.com","dateofbirth": "1993-05-22","gender": 2,"maritalstatus": 2,	"hiredon": "2022-09-13 00:00:00","usertype": 1,	"designation": 3,
@@ -24350,7 +24350,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_ems_employee_column_configuration_values`(
+	CREATE PROCEDURE `set_ems_employee_column_configuration_values`(
 		in employee_id int(11),
 		in employee_status_value int(1),
 		in employee_type_value int(1),
@@ -24400,7 +24400,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_ems_induction_conductedby`(in conducteddata varchar(8000))
+	CREATE  PROCEDURE `set_ems_induction_conductedby`(in conducteddata varchar(8000))
 	begin
 		declare exit handler for sqlexception
 		begin
@@ -24485,7 +24485,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_ems_messages`(
+	CREATE  PROCEDURE `set_ems_messages`(
 		IN `messagedata` VARCHAR(8000) -- JSON array format: [{"code":"EMS1","screenname":"","message":"This screen is required","userid":1},  {"code":"EMS2","screenname":"","message":"Fromdate should be lessthan Todate","userid":1}]
 	)
 	BEGIN
@@ -24533,7 +24533,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_error_logs`(
+	CREATE  PROCEDURE `set_error_logs`(
 		`service` varchar(255),
 		`function` varchar(255),
 		`method` varchar(512),
@@ -24569,7 +24569,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_error_message`(
+	CREATE PROCEDURE `set_error_message`(
 	in error_message varchar(1024)
 	)
 	begin
@@ -24593,7 +24593,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_esi_for_state`(
+	CREATE  PROCEDURE `set_esi_for_state`(
 	esi_number varchar(18),
 	state_id int(11)
 	)
@@ -24629,7 +24629,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_filecategory`(
+	CREATE  PROCEDURE `set_filecategory`(
 	`moduleid` int,
 	`filecategory` varchar(64)
 	)
@@ -24665,7 +24665,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_filepaths_master`(
+	CREATE  PROCEDURE `set_filepaths_master`(
 	`moduleid` int,
 	`rootfolder` varchar(64),
 	`modulecode` varchar(16)
@@ -24702,7 +24702,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_files_master`(
+	CREATE  PROCEDURE `set_files_master`(
 	`fid` int,
 	`employee_id` int,
 	`candidateid` int,
@@ -24843,7 +24843,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_files_master_status`(
+	CREATE  PROCEDURE `set_files_master_status`(
 	`fid` int,
 	`status` varchar(32)
 	)
@@ -24878,7 +24878,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_holidays_master`(
+	CREATE  PROCEDURE `set_holidays_master`(
 		hid int(11),
 		holiday_year int(4), 
 		holiday_description varchar(255),
@@ -24935,7 +24935,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_income_group`(
+	CREATE  PROCEDURE `set_income_group`(
 	`income_group_name` varchar(255),
 	`income_from_value` decimal(15,2),
 	`income_to_value` decimal(15,2),
@@ -25013,7 +25013,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_integration_empids_lookup`(
+	CREATE PROCEDURE `set_integration_empids_lookup`(
 	  `boon_emp_id` int(11),
 	  `biometric_id`  int(11)
 	)
@@ -25052,7 +25052,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_leavepolicies`(
+	CREATE PROCEDURE `set_leavepolicies`(
 		in `ruledata` varchar(20000) /* json format:[{"ruleid":1,"rulename":"advanced_leaves_eligibility","description":"max leaves eligibility","value":12,"categoryid":2},
 			{"ruleid": 6,"rulename": "LEAVES_MIN_SERVICE_ELIGIBILITY","description": "Minimum service (in months) for employees to get these leaves (for the first time joinee)","value": 12,"leavetypeid": 2}
 			{
@@ -25201,7 +25201,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_new_hire`(in newhiredata varchar(8000))
+	CREATE  PROCEDURE `set_new_hire`(in newhiredata varchar(8000))
 	BEGIN
 		/* DECLARE EXIT HANDLER FOR SQLEXCEPTION
 		BEGIN
@@ -25292,7 +25292,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_offboard_settings`(
+	CREATE  PROCEDURE `set_offboard_settings`(
 		in onboarddata varchar(8000)
 		)
 	begin
@@ -25348,7 +25348,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_onboard_settings`(
+	CREATE  PROCEDURE `set_onboard_settings`(
 		in onboarddata varchar(8000)
 		)
 	begin
@@ -25403,7 +25403,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_payroll_messages`(
+	CREATE  PROCEDURE `set_payroll_messages`(
 		IN `messagedata` VARCHAR(8000) -- JSON array format: [{"code":"EMS1","screenname":"","message":"This screen is required","userid":1},  {"code":"EMS2","screenname":"","message":"Fromdate should be lessthan Todate","userid":1}]
 	)
 	BEGIN
@@ -25453,7 +25453,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_pay_group_to_employee`(
+	CREATE  PROCEDURE `set_pay_group_to_employee`(
 		emp_id_value int(11),
 		pay_group_id_value int(11),
 		ctc_value decimal(15,2),
@@ -25509,7 +25509,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_preonboard_candidate_educations`(in educationdata varchar(8000))
+	CREATE  PROCEDURE `set_preonboard_candidate_educations`(in educationdata varchar(8000))
 	BEGIN
 		/*declare exit handler for sqlexception
 		begin
@@ -25562,7 +25562,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_preonboard_candidate_experience`(in experiencedata varchar(8000))
+	CREATE  PROCEDURE `set_preonboard_candidate_experience`(in experiencedata varchar(8000))
 	BEGIN
 		 /* declare exit handler for sqlexception
 		begin
@@ -25611,7 +25611,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_preonboard_candidate_information`(in candidatedata varchar(8000))
+	CREATE  PROCEDURE `set_preonboard_candidate_information`(in candidatedata varchar(8000))
 	BEGIN
 		/*declare exit handler for sqlexception
 		begin
@@ -25786,7 +25786,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_programs_master`(
+	CREATE  PROCEDURE `set_programs_master`(
 		pid int(11),
 		program_type varchar(64),
 		p_description varchar(255),
@@ -25837,7 +25837,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_programs_status`(
+	CREATE  PROCEDURE `set_programs_status`(
 		pid int(11),
 		p_status int(11), -- values: Active, Inactive
 		in actionby int(11)
@@ -25881,7 +25881,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_program_schedules`(
+	CREATE  PROCEDURE `set_program_schedules`(
 		scheduleid int(11),
 		programid int(11),
 		department_id int(11),
@@ -25945,7 +25945,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_program_tasks`(
+	CREATE  PROCEDURE `set_program_tasks`(
 		taskid int(11),
 		programid int(11),
 		task_name varchar(64),
@@ -25987,7 +25987,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_reason_master`(
+	CREATE  PROCEDURE `set_reason_master`(
 		in reason_id int(11),
 		in reason varchar(100),
 		in reason_status int(11), -- values: 1(Active) , 2(Inactive)
@@ -26030,7 +26030,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `set_role_access`(
+	CREATE PROCEDURE `set_role_access`(
 	  in `rolejson` nvarchar(2000)
 	  )
 	BEGIN
@@ -26138,7 +26138,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_shift_master`(
+	CREATE  PROCEDURE `set_shift_master`(
 		`shift_name` VARCHAR(255),
 		`shiftdescription` VARCHAR(128), 
 		`from_time` time,
@@ -26184,7 +26184,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_shift_master_V2`(
+	CREATE  PROCEDURE `set_shift_master_V2`(
 		`shift_name` VARCHAR(255),
 		`shiftdescription` VARCHAR(128), 
 		`from_time` time,
@@ -26227,7 +26227,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `set_termination_category`(
+	CREATE  PROCEDURE `set_termination_category`(
 		in termination_id int(11),
 		in termination_category varchar(100),
 		in termination_status int(11), -- values: 1(Active) , 2(Inactive)
@@ -26270,7 +26270,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `testprocedure`(
+	CREATE PROCEDURE `testprocedure`(
 		in tablename varchar(255), 
 		in wherecolumn varchar(255), 
 		in wherecolumnvalue varchar(255), 
@@ -26335,7 +26335,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `toggle_leavetype`(
+	CREATE PROCEDURE `toggle_leavetype`(
 	in id int(11),
 	in leavetype_status varchar(8)
 	)
@@ -26381,7 +26381,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `updatemastertable`(
+	CREATE PROCEDURE `updatemastertable`(
 		in tablename varchar(255), 
 		in wherecolumn varchar(255), 
 		in wherecolumnvalue varchar(255), 
@@ -26446,7 +26446,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `updatestatus`(
+	CREATE  PROCEDURE `updatestatus`(
 		in tablename varchar(255), 
 		in id int(11),
 		in statusvalue int(11)
@@ -26478,7 +26478,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `updatestatus_V2`(
+	CREATE  PROCEDURE `updatestatus_V2`(
 		in tablename varchar(255), 
 		in id int(11),
 		in statusvalue char(8)
@@ -26510,7 +26510,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `update_employee_compoff_validity_status_cron`(
+	CREATE PROCEDURE `update_employee_compoff_validity_status_cron`(
 		comp_off_date date
 	)
 	begin
@@ -26593,7 +26593,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `update_employee_leave_summary_cron`(
+	CREATE  PROCEDURE `update_employee_leave_summary_cron`(
 	in input_date date
 	)
 	begin
@@ -26792,7 +26792,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `update_employee_working_days_cron`(
+	CREATE PROCEDURE `update_employee_working_days_cron`(
 	in `date_value` date
 	)
 	BEGIN
@@ -27017,7 +27017,7 @@ where empid in (select temp_employee.id from temp_employee where temp_employee.i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `update_employee_working_days_cronv2`(
+	CREATE PROCEDURE `update_employee_working_days_cronv2`(
 	)
 	BEGIN
 	DECLARE vempid int(11);
@@ -27198,7 +27198,7 @@ where empid in (select temp_employee.id from temp_employee where temp_employee.i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `update_ems_induction_conductedby_status`(
+	CREATE  PROCEDURE `update_ems_induction_conductedby_status`(
 	in `id` int(11),
 	in `status` int(11)
 	)
@@ -27222,7 +27222,7 @@ where empid in (select temp_employee.id from temp_employee where temp_employee.i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `update_monthly_epf_wages`(
+	CREATE  PROCEDURE `update_monthly_epf_wages`(
 		year_value int(4),
 		month_value int(2),
 		financial_year_value varchar(16)
@@ -28936,7 +28936,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `update_monthly_salaryv2`(
+	CREATE  PROCEDURE `update_monthly_salaryv2`(
 		empids_json varchar(2000),
 		year_value int(4),
 		month_value int(2),
@@ -29801,7 +29801,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `update_shift_status`(
+	CREATE PROCEDURE `update_shift_status`(
 			`shift_id` int(11),
 			`status_value` varchar(32)
 	)
@@ -29833,7 +29833,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `update_shift_status_V2`(
+	CREATE  PROCEDURE `update_shift_status_V2`(
 			`shift_id` int(11),
 			`status_value` varchar(32)
 	)
@@ -29865,7 +29865,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `update_working_days_for_employee`(
+	CREATE  PROCEDURE `update_working_days_for_employee`(
 	employee_id int(11),
 	flag char(1)
 	)
@@ -30037,7 +30037,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `upload_employee_ctc_details`(
+	CREATE  PROCEDURE `upload_employee_ctc_details`(
 		file_path varchar(1000)
 	)
 	begin
@@ -30153,7 +30153,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `validatelastpasswordmatch`(IN `id` INT, IN `login` VARCHAR(255),IN `currentpwd` varchar(1024),IN `newpwd` varchar(1024))
+	CREATE  PROCEDURE `validatelastpasswordmatch`(IN `id` INT, IN `login` VARCHAR(255),IN `currentpwd` varchar(1024),IN `newpwd` varchar(1024))
 	BEGIN
 		if (`currentpwd` is null) then -- forgot password case
 			if exists(select * from employee_login where employee_login.id=`id` and employee_login.login=`login`) then 
@@ -30188,7 +30188,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `validateleave`(
+	CREATE  PROCEDURE `validateleave`(
 	IN `employee_id` INT(11),
 	IN `leavetype_id` INT(11),
 	IN `fromdate` date,
@@ -31336,7 +31336,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_client_user`@`%` PROCEDURE `validate_epf_payment_for_month`(
+	CREATE  PROCEDURE `validate_epf_payment_for_month`(
 	year_value int,
 	month_value int
 	)
@@ -31385,7 +31385,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`root`@`localhost` PROCEDURE `validate_prefix_assignment`(
+	CREATE PROCEDURE `validate_prefix_assignment`(
 		in prefix varchar(16)
 		)
 	BEGIN
@@ -31417,7 +31417,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `validate_reporting_manager`(
+	CREATE  PROCEDURE `validate_reporting_manager`(
 	`emp_id` int(11)
 	)
 	begin
@@ -31449,7 +31449,7 @@ end if;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `validate_salary_processing_date`(
+	CREATE  PROCEDURE `validate_salary_processing_date`(
 		year_value int(4),
 		month_value int(2)
 	)

@@ -142,8 +142,8 @@ function generateJWTToken(info){
 
 async function login(req, res) {
     try{
-console.log("e-1",req.body)
     var  dbName = await getDatebaseName(req.body.companyName);
+    if (dbName && dbName!=null) {
     if(req.body.companyName!='spryple_dev'){
 
         let subscriptiondata = await getClientSubscriptionDetailsforlogin(req.body.companyName);
@@ -161,7 +161,7 @@ console.log("e-1",req.body)
         var password = req.body.password;
         var companyName = req.body.companyName;
             var listOfConnections = {};
-        if (dbName && dbName!=null) {
+        
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
@@ -232,8 +232,7 @@ async function getMastertable(req, res) {
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-                console.log("d0=errr", err)
-                console.log("d1=ress",result[0])
+               console.log("Master err:" + err, +"Master Result" + result[0]);
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
                         for (let i=0; i<result[0].length;i++){
@@ -241,11 +240,8 @@ async function getMastertable(req, res) {
                             result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
                         }
                         res.send({data: result[0], status: true});
-
-
-                    } else {
-                        console.log("d2=ress",result[0])
-                        res.send({data: result[0], status: true});
+                    }else {
+                       res.send({data: result[0], status: true});
                     }
                 } else {
                     res.send({status: false})
@@ -837,8 +833,8 @@ async function Validateemail(req, res) {
     let companyCode = req.body.company_code_value;
     let email = req.body.company_email_value;
    // let companyName = 'spryple_hrms';
- //   let  dbName = await getDatebaseName('spryple_hrms');
-     let  dbName = await getDatebaseName('spryple_product_dev');
+    let  dbName = await getDatebaseName('spryple_hrms');
+ //    let  dbName = await getDatebaseName('spryple_product_dev');
     // let companyName = 'spryple_dev';
     let validatecompanycode = await validateCompanyCode(companyCode,email);
     if(validatecompanycode){
@@ -889,7 +885,7 @@ async function Validateemail(req, res) {
             });
             var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Basic',Date:new Date()}))).toString('base64')
             /**Local */
-            var url = 'http://localhost:4200/#/sign-up/' + token;
+            var url = 'http://122.175.62.210:6564/#/sign-up/' + token;
             /**QA */
             //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
             /**AWS */
@@ -904,9 +900,10 @@ async function Validateemail(req, res) {
         <p style="color:black">Dear Customer,</p>
         <p style="color:black">We are excited to have you sign up with Spryple and are looking forward to work with you. Click on the link below to complete your registration process.Please fill your details and submit the form.<b></b></p>
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
+        <p style="color:black"> <b>Note : </b>This link is valid only for 24 hours. Company short code is assigned on a first-come-first-serve basis and you may lose your short code once the link is expired. </p>
         <p style="color:black"> If you experience any issues when accessing the above link, please reach out to <b>hr@sreebtech.com</b>  </p>  
         <p style="color:black">Thank you!</p>
-        <p style="color:black">Human Resource Team</p>
+        <p style="color:black">Sales Team</p>
       
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
@@ -922,7 +919,7 @@ async function Validateemail(req, res) {
                     res.send({ status: false ,message:"Please enter a valid Email."});
                 } 
                 else {
-                    res.send({ status: true,message: "Verified your email.Please check your mail." });
+                    res.send({ status: true,message: "A link is sent to your email. Please use this link to proceed with adding your details and purchase of the application." });
                 }
             });
            }
@@ -2067,6 +2064,7 @@ async function getRevenueByMonth(req,res) {
 async function setSprypleClientPlanPayment(req, res) {
     var mailData = req.body;
     var companycodevalue = req.body.company_code_value
+    // let Payment =  await paymentStatusMail(mailData);
     try { 
         con.query("CALL `set_spryple_client_plan_payment` (?,?,?,?,?,?,?,?)",
                 [
@@ -2084,7 +2082,7 @@ async function setSprypleClientPlanPayment(req, res) {
             res.send({status:false})
            }
            else {
-            let Payment =  paymentStatusMail(mailData);
+            let Payment =  await paymentStatusMail(mailData);
             console.log("Payment",Payment);
             let  dbName = await createClientDatabase(companycodevalue);
             if(dbName.status){
@@ -2376,10 +2374,10 @@ function createClientDatabase(companyName){
 }
  function InsertClientMasterData(dbName){
     return new Promise(async (res,rej)=>{
-    const file_path = "./DB_Script/database_script.sql";
+//    const file_path = "D:/DB_Scripts/database_script.sql";
     var connection=mysql.createConnection({
-        // host:"192.168.1.10",
-        host:"122.175.62.210",
+       host:"192.168.1.10",
+        // host:"122.175.62.210",
         user:"spryple_product_user",
         password:"Spryple$#123",
         port: 3306,
@@ -2390,8 +2388,8 @@ function createClientDatabase(companyName){
         connection.connect(function (err) {
             console.log("ins-err",err)
         if (err) throw err;
-                // const dbHost = "192.168.1.10";
-                const dbHost ="122.175.62.210";
+               const dbHost = "192.168.1.10";
+                // const dbHost ="122.175.62.210";
                 const dbUser = "spryple_product_user";
                 const dbPassword = "Spryple$#123";
                 // Path to the MySQL dump file
@@ -2466,6 +2464,8 @@ function createClientDatabase(companyName){
     // create_client_credentials
     
 function paymentStatusMail(mailData){
+    let fdate =(new Date(mailData.valid_from_date).getDate()<10?"0"+new Date(mailData.valid_from_date).getDate():new Date(mailData.valid_from_date).getDate())+'-'+((new Date(mailData.valid_from_date).getMonth()+1)<10?"0"+(new Date(mailData.valid_from_date).getMonth()+1):(new Date(mailData.valid_from_date).getMonth()+1) )+'-'+new Date(mailData.valid_from_date).getFullYear();
+
     return new Promise(async (res,rej)=>{
         console.log("paymentStatusMail",mailData)
     var transporter = nodemailer.createTransport({
@@ -2486,8 +2486,9 @@ function paymentStatusMail(mailData){
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Customer,</p>
-        <p style="color:black">This is to acknowledge that we have received the payment of <b>${mailData.paid_amount}</b> Rs  against our invoice number <b>${mailData.transaction_number}</b> on <b>${mailData.valid_from_date}</b>. Thanks for Payment towards Spryple subscription.<b></b></p> 
+        <p style="color:black">This is to acknowledge that we have received the payment of <b>${mailData.paid_amount}</b> Rs  against our invoice number <b>${mailData.transaction_number}</b> on <b>${fdate}</b>. Thanks for Payment towards Spryple subscription.<b></b></p> 
         <p style="color:black"> Please find the attached invoice <b>#${mailData.transaction_number}</b>. If you have any questions reach out to <b>hr@sreebtech.com</b>  </p>  
+        <p style="color:black"> <b>Note : </b>Please check your email for super admin credentials. If you fail to get reach out to <b>contact@devorks.com</b></p>
         <p style="color:black">Thank you!</p>
         <p style="color:black">Sales Manager .</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
@@ -2502,9 +2503,9 @@ function paymentStatusMail(mailData){
          transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
 
-                res(false);
+                res({status:false});
             } else {
-                res(true);
+                res({status:true});
             }
         });
     });
@@ -2515,7 +2516,9 @@ function paymentStatusMail(mailData){
            let email = mailData.login;
            let password = mailData.password_string;
            let companycode = companycodde;
-           let url= 'http://localhost:4200/#/Login'
+        //    let url= 'http://localhost:4200/#/Login'
+        // let url = 'http://192.168.1.29:6565/#/Login'
+        let url = 'http://122.175.62.210:6564/#/Login'
            var transporter = nodemailer.createTransport({
            host: "smtp-mail.outlook.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
