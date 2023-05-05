@@ -523,6 +523,7 @@ async function getActiveReasonList(req,res) {
                             errorLogArray.push(null);
                             errorLogArray.push(companyName);
                             errorLogArray.push(dbName);
+                            console.log("errorLogArray",errorLogArray)
                              errorLogs(errorLogArray);
                             res.send({ status: false });
                         } else {
@@ -4244,7 +4245,7 @@ try {
     };
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.log("Failed To Sent  Mail",err)
+            console.log("Failed To Sent  Mail",error)
         } else {
             console.log("Mail Sent Successfully")
         }
