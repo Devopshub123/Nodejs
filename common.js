@@ -2205,6 +2205,7 @@ async function getActiveEmployeesCount(req,res) {
                 "CALL `get_active_employees_count` ()",[  ],
                 async function (err, result, fields) {
                  if (err) {
+                    res.send({ status: false });
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
                     errorLogArray.push("getActiveEmployeesCount");
@@ -2214,9 +2215,7 @@ async function getActiveEmployeesCount(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    errorLogs(errorLogArray);
-                     res.send({ status: false });
-
+                     errorLogs(errorLogArray);
                     }else if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
                     } else {
