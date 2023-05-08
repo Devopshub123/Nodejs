@@ -3002,6 +3002,9 @@ app.get('/subscription/api/getDepartmentWiseMonthlySalaries/:date/:companyName',
 app.get('/subscription/api/getUnmappedPlans', function (req, res) {
     common.getUnmappedPlans (req,res)
 });
+app.post('/subscription/api/paymentFailedMail', function (req, res) {
+    common.paymentFailedMail(req,res)
+});
  
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
@@ -3090,7 +3093,7 @@ app.get('/subscription/api/getUnmappedPlans', function (req, res) {
 
 /** Local server */
 
-app.listen(7676,'0.0.0.0',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else

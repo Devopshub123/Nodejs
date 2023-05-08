@@ -89,7 +89,8 @@ module.exports = {
     getMonthWiseClientsCountByYear:getMonthWiseClientsCountByYear,
     getClientSubscriptionDetails:getClientSubscriptionDetails,
     getActiveEmployeesCount:getActiveEmployeesCount,
-    getScreensForSuperAdmin:getScreensForSuperAdmin
+    getScreensForSuperAdmin:getScreensForSuperAdmin,
+    paymentFailedMail:paymentFailedMail
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -901,12 +902,12 @@ async function Validateemail(req, res) {
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Customer,</p>
-        <p style="color:black">We are excited to have you sign up with Spryple and are looking forward to work with you. Click on the link below to complete your registration process.Please fill your details and submit the form.<b></b></p>
+        <p style="color:black">We are excited to have you sign up with Spryple and are looking forward to work with you. Click on the link below to complete your registration process. Please fill your details and submit the form.<b></b></p>
         <p style="color:black"> <a href="${url}" >${url} </a></p>   
         <p style="color:black"> <b>Note : </b>This link is valid only for 24 hours. Company short code is assigned on a first-come-first-serve basis and you may lose your short code once the link is expired. </p>
-        <p style="color:black"> If you experience any issues when accessing the above link, please reach out to <b>hr@sreebtech.com</b>  </p>  
-        <p style="color:black">Thank you!</p>
-        <p style="color:black">Sales Team</p>
+        <p style="color:black"> If you experience any issues when accessing the above link, please reach out to <b>contact@devorks.com</b>  </p>  
+        <p style="color:black">Thank you!<br>Sales Team</p>
+      
       
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
@@ -2393,7 +2394,7 @@ function createClientDatabase(companyName){
                 const dbUser = "spryple_product_user";
                 const dbPassword = "Spryple$#123";
                 // Path to the MySQL dump file
-                const dumpFilePath = './DB_Script/database_script.sql';
+                const dumpFilePath = "D:/DB_Scripts/database_script.sql";
                // Read the dump file
                const dumpFile = fs.readFileSync(dumpFilePath, 'utf8');
               // Use spawn to execute the MySQL command-line tool
@@ -2486,11 +2487,10 @@ function paymentStatusMail(mailData){
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
         <p style="color:black">Dear Customer,</p>
-        <p style="color:black">This is to acknowledge that we have received the payment of <b>${mailData.paid_amount}</b> Rs  against our invoice number <b>${mailData.transaction_number}</b> on <b>${fdate}</b>. Thanks for Payment towards Spryple subscription.<b></b></p> 
-        <p style="color:black"> Please find the attached invoice <b>#${mailData.transaction_number}</b>. If you have any questions reach out to <b>hr@sreebtech.com</b>  </p>  
-        <p style="color:black"> <b>Note : </b>Please check your email for super admin credentials. If you fail to get reach out to <b>contact@devorks.com</b></p>
-        <p style="color:black">Thank you!</p>
-        <p style="color:black">Sales Manager .</p>
+        <p style="color:black">This is to acknowledge that we have received the payment of INR <b>${mailData.paid_amount}</b>   against our invoice number <b>${mailData.transaction_number}</b> on <b>${fdate}</b>. Thanks for the payment towards Spryple subscription.<b></b></p> 
+        <p style="color:black"> Please find the attached invoice <b>#${mailData.transaction_number}</b>. If you have any questions reach out to <b>contact@devorks.com</b>  </p>  
+        <p style="color:black"> <b>Note : </b>Please check your email for super admin credentials. If you fail to get reach out to <b>contact@spryple.com</b></p>
+        <p style="color:black">Thank you, <br>Sales Manager.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -2541,9 +2541,7 @@ function paymentStatusMail(mailData){
            
            
    
-   
-           <p style="color:black">Spryple can be set up quickly and easily. Our proactive customer support team will ensure a hassle-free onboarding process.  </p>
-          <p style="color:black">You can login to the Spryple application with following information </p>
+          <p style="color:black">Welcome to Spryple, Please login to Spryple by using login credentials as given below.</p>
            <p style="color:black"> <a href="${url}" >${url} </a></p>   
                       
            <p style="color:black">Your login credentials:</p>
@@ -2552,9 +2550,7 @@ function paymentStatusMail(mailData){
            <p style="color:black"><b>Password:</b>${password}</p>
            <p style="color:black">If you experience any issues while login to your account, reach out to us at <b>contact@spryple.com</b> </p>
            
-           <p style="color:black">Thanks,</p>
-   
-           <p style="color:black">Sales Team.</p>
+           <p style="color:black">Thanks,<br>Sales Team.</p>
            <hr style="border: 0; border-top: 3px double #8c8c8c"/>
            </div></body>
            </html> `;
@@ -2579,3 +2575,46 @@ function paymentStatusMail(mailData){
    
        }
    }
+//    paymentFiledMail
+function paymentFailedMail(req,res){
+    let mailData = req.body;
+    var transporter = nodemailer.createTransport({
+        host: "smtp-mail.outlook.com", // hostname
+        secureConnection: false, // TLS requires secureConnection to be false
+        port: 587, // port for secure SMTP
+        tls: {
+            ciphers: 'SSLv3'
+        },
+        auth: {
+            user: 'no-reply@spryple.com',
+            pass: 'Sreeb@#321'
+        }
+     });
+    var html = `<html>
+        <head>
+        <title>Candidate Form</title></head>
+        <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
+        <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
+        <p style="color:black">Dear Customer,</p>
+        <p style="color:black">Your payment towards Spryple subscription failed. Please access the link below and complete payment transaction in 24 hours of time.</p> 
+        <p style="color:black">Thank you, <br>Sales Manager.</p>
+        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
+        </div></body>
+        </html> `;
+        var mailOptions = {
+            from: 'no-reply@spryple.com',
+            to: mailData.company_email_value,
+            subject: 'Payment Fail',
+            html: html
+        };
+         transporter.sendMail(mailOptions, function (error, info) {
+            if (error) {
+
+                res({status:false});
+            } else {
+                res({status:true});
+            }
+        });
+
+
+}
