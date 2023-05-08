@@ -2484,7 +2484,6 @@ async function setEmpPersonalInfo(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            console.log("original-",req.body)
             console.log("dat-",JSON.stringify(req.body))
             listOfConnections[companyName].query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
              console.log("er-,",err)
@@ -2739,8 +2738,6 @@ async function setEmpEmployement(req, res) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `set_emp_employement` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
-              console.log("err--",err)
-              console.log("resss--",result[0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");

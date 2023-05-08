@@ -218,7 +218,6 @@ async function login(req, res) {
  * @returns {Promise<void>}
  */
 async function getMastertable(req, res) {
-    console.log("d0=-0",req.params)
    try {
         let  dbName = await getDatebaseName(req.params.companyName);
 
@@ -373,7 +372,7 @@ async function getEmployeeInformation(req,res) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
         listOfConnections[companyName].query("CALL `getemployeemaster` (?)",[req.params.Id], function (err, result, fields) {
-            if(result && result.length > 0){
+            if (result && result.length > 0) {
                 res.send({data: result[0], status: true});
             }else{
                 res.send({status: false});
@@ -1810,7 +1809,6 @@ async function getSpryplePlanDetailsById(req, res) {
 /**Get Client Details By ClientId*/
 async function getSprypleClientDetailsByClientId(req, res) {
     try {
-        console.log("bod--",req.params)
         // let  dbName = await getDatebaseName('spryple_hrms');
         // let companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_dev');

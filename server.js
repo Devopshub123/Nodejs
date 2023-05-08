@@ -1577,7 +1577,6 @@ app.delete('/api/removeImage/:path',function(req,res){
 
 });
 app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',function(req,res) {
-    console.log("d-1", req.params);
     common.getMastertable(req, res)
 });
 /**pre onboardin master table */
@@ -3090,11 +3089,11 @@ app.get('/subscription/api/getUnmappedPlans', function (req, res) {
 
 /** Local server */
 
-app.listen(7676,'0.0.0.0',function (err) {
+app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at : http://localhost:6363');
+        console.log('Server Started at : http://localhost:6060');
 });
 
 /** uncomment in QA build time */
