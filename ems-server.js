@@ -3102,12 +3102,25 @@ async function setDocumentOrImageForEMS(req, res) {
         file = req.files.file;
         var localPath = JSON.parse(req.body.info);
         var folderName = localPath.filepath;
+        let dataa = JSON.parse(JSON.stringify(folderName));
         if (req.body.email != undefined) {
              emailData = JSON.parse(req.body.email);
           }
         try {
             if (!fs.existsSync(folderName)) {
-                fs.mkdirSync(folderName);
+                fs.mkdirSync(dataa, { recursive: true })
+                file.mv(path.resolve(__dirname,dataa,localPath.filename),function(error){
+                    if(error){
+                       res.send({status:false})
+                    } else {
+                        res.send({status:true,message:'Image Uploaded Succesfully'})
+                        if (req.body.data != "Approved") {
+                            if (emailData.rm_email != '' || emailData.rm_name != null) [
+                                documentApprovalEmailToHR(emailData)
+                            ]
+                        }
+                    }
+                })
             } else {
                 try {
                     file.mv(

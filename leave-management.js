@@ -237,9 +237,19 @@ function setProfileImage(req, res) {
        file=req.files.file;
         var localPath = JSON.parse(req.body.info);
         var folderName = localPath.filepath;
+        let dataa = JSON.parse(JSON.stringify(folderName));
         try {
-            if (!fs.existsSync(folderName)) {
-                fs.mkdirSync(folderName)
+            if (!fs.existsSync(dataa)) {
+                fs.mkdirSync(dataa, { recursive: true })
+                file.mv(path.resolve(__dirname,dataa,localPath.filename),function(error){
+                    if(error){
+                       res.send({status:false})
+                    } else {
+                        res.send({status:true,message:'Image Uploaded Succesfully'})
+                    }
+                })
+               
+                
 
             }else {
                 try {
