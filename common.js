@@ -2393,7 +2393,7 @@ function createClientDatabase(companyName){
                 const dbUser = "spryple_product_user";
                 const dbPassword = "Spryple$#123";
                 // Path to the MySQL dump file
-                const dumpFilePath = './DB_Script/database_script.sql';
+                const dumpFilePath = 'D:/DB_Scripts/database_script.sql';
                // Read the dump file
                const dumpFile = fs.readFileSync(dumpFilePath, 'utf8');
               // Use spawn to execute the MySQL command-line tool

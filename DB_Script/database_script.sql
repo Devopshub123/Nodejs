@@ -11316,7 +11316,7 @@ if (short_code is not null) then
 		where `spryple_product_dev`.`spryple_clients`.`company_code` = `short_code`;
 	INSERT INTO `employee`
 	(`empid`,`firstname`,`officeemail`,`contactnumber`,`address`,`city`,`state`,`pincode`,`country`,`status`,`created_on`,`created_by`)
-	SELECT 'Admin',`spryple_clients`.`contact_name`, `spryple_clients`.`company_email`, `spryple_clients`.`mobile_number`,
+	SELECT '1',`spryple_clients`.`contact_name`, `spryple_clients`.`company_email`, `spryple_clients`.`mobile_number`,
 		concat(`spryple_clients`.`company_address`, case when `spryple_clients`.`company_address2` is not null 
 														then (concat(', ',`spryple_clients`.`company_address2`))
 														else ''
@@ -11344,6 +11344,12 @@ if (short_code is not null) then
 						) using utf8));
 		set @mail_id = (select employee.officeemail from employee where employee.id = @lid);                
 		call setemployeelogin(@lid,@mail_id,@password,'Active','Y');     
+        
+        INSERT INTO `filepaths_master` VALUES (1,1,concat('D:\\Spryple\\',short_code),'CORE'),
+        (4,2,concat('D:\\Spryple\\',short_code),'LEAVES'),(5,4,concat('D:\\Spryple\\',short_code),'ATTENDANCE'),
+        (6,5,concat('D:\\Spryple\\',short_code),'PAYROLL'),(7,6,concat('D:\\Spryple\\',short_code),'ASSET'),
+        (8,7,concat('D:\\Spryple\\',short_code),'RECRUITMENT');
+
         select 0 as result, @mail_id as login, @password as password_string;
 	end if;
     else
@@ -11752,7 +11758,7 @@ set @rm_reporting_manager_id= (select reportingmanagerid from employee_reporting
 
 SET @role = (select (select json_arrayagg(json_object('id',role_id,'name', rm.name)) from employee_roles er
          inner join rolesmaster rm on rm.id=er.role_id where 
-          er.employee_id =`id` and er.effective_to_date is null and
+          er.employee_id =@eid and er.effective_to_date is null and
    				 role_id in (select rolesmaster.id from rolesmaster where rolesmaster.isEditable=0)));
 set @jsondata=(select distinct json_arrayagg(json_object(
 'id',				`employee_roles`.`id`,
@@ -11775,7 +11781,7 @@ WHERE -- employee_roles.rmid = employee.id and
 rolesmaster.id = employee_roles.role_id and
 employee.id = employee_roles.employee_id
 and employee_roles.employee_id = @eid);
-select @jsondata as jsonvalu;
+SELECT @jsondata AS jsonvalu;
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
