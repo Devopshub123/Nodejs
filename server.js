@@ -3001,6 +3001,9 @@ app.get('/subscription/api/getDepartmentWiseMonthlySalaries/:date/:companyName',
 app.get('/subscription/api/getUnmappedPlans', function (req, res) {
     common.getUnmappedPlans (req,res)
 });
+app.post('/subscription/api/paymentFailedMail', function (req, res) {
+    common.paymentFailedMail(req,res)
+});
  
 /**get Active Programs Master */
 app.get('/api/getActiveProgramsMaster/:companyName',verifyJWTToken,function(req,res) {
@@ -3102,7 +3105,7 @@ app.get('/api/getActiveProgramTypes/:companyName',verifyJWTToken,function(req,re
 
 /** Local server */
 
-app.listen(6060,'0.0.0.0',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
