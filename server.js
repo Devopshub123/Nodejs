@@ -2881,7 +2881,7 @@ app.post('/subscription/getUnverifiedSprypleClient', function (req, res) {
 })
    /**get_comp_off_validity_duration */
    app.get('/api/getCompOffValidityDuration/:companyName',function(req,res) {
-    ems.getCompOffValidityDuration(req,res)
+    leaveManagement.getCompOffValidityDuration(req,res)
    });
    
 app.post('/ems/api/setEmployeeExcelData/:companyName', verifyJWTToken, function (req, res) {
