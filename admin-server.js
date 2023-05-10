@@ -101,7 +101,9 @@ app.post('/api/getRolesByDepartment',function(req,res) {
      getReportingManager:getReportingManager,
      getrolescreenfunctionalities:getrolescreenfunctionalities,
      setHolidaysMaster: setHolidaysMaster,
-     errorLogs:errorLogs
+     errorLogs: errorLogs,
+     getActiveProgramsMaster: getActiveProgramsMaster,
+     getActiveProgramTypes:getActiveProgramTypes
 
  }
 
@@ -2887,3 +2889,112 @@ function errorLogs(errorLogArray) {
 
 }
 
+/**get Active Programs Master */
+async function getActiveProgramsMaster(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+        var listOfConnections = {};
+        if(dbName) {
+            listOfConnections = connection.checkExistingDBConnection( companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_active_programs_master`()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getActiveProgramsMaster");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     errorLogs(errorLogArray);
+                    res.send({ status: false })
+                }
+                else {
+                    if (result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+                }
+
+            });
+        }else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+
+    }
+    catch(e){
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getActiveProgramsMaster");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         errorLogs(errorLogArray)
+    }
+}
+
+/**get Active Programs types */
+async function getActiveProgramTypes(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+        var listOfConnections = {};
+        if(dbName) {
+            listOfConnections = connection.checkExistingDBConnection( companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_active_program_types`()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getActiveProgramTypes");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     errorLogs(errorLogArray);
+                    res.send({ status: false })
+                }
+                else {
+                    if (result.length > 0) {
+                        res.send({ data: result[0], status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+                }
+
+            });
+        }else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+
+    }
+    catch(e){
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getActiveProgramTypes");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         errorLogs(errorLogArray)
+    }
+}

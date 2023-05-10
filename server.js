@@ -3002,6 +3002,19 @@ app.get('/subscription/api/getUnmappedPlans', function (req, res) {
     common.getUnmappedPlans (req,res)
 });
  
+/**get Active Programs Master */
+app.get('/api/getActiveProgramsMaster/:companyName',verifyJWTToken,function(req,res) {
+    admin.getActiveProgramsMaster(req,res);
+});
+  
+/**get Active Programs types */
+app.get('/api/getActiveProgramTypes/:companyName',verifyJWTToken,function(req,res) {
+    admin.getActiveProgramTypes(req,res);
+  });
+
+
+
+
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
 

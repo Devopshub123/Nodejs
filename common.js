@@ -882,7 +882,7 @@ async function Validateemail(req, res) {
                     pass: 'Sreeb@#321'
                 }
             });
-            var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Basic',Date:new Date()}))).toString('base64')
+            var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Standard Plan',Date:new Date()}))).toString('base64')
             /**Local */
             var url = 'http://122.175.62.210:6564/#/sign-up/' + token;
             /**QA */

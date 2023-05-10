@@ -3642,7 +3642,6 @@ async function setAnnouncements(req, res) {
               [JSON.stringify(req.body)],
               async function (err, result, fields) {
                 console.log("set_announcementserr",err);
-                console.log("set_announcementsresult",err);
                   if (err) {
                       let errorLogArray = [];
                       errorLogArray.push("EMSAPI");
