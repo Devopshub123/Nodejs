@@ -16,6 +16,7 @@
 	/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 	/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+	set global event_scheduler = ON;
 	--
 	-- Table structure for table `approval_level_attribute_master`
 	--
@@ -2954,7 +2955,7 @@ CREATE TABLE `files_master` (
 (8,10,'1','Active');
 
 insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
-(20,'15',curdate(),'Active'),
+(20,'0',curdate(),'Active'),
 (21,'1',curdate(),'Active'),
 (22,'2',curdate(),'Active');
 
@@ -3043,7 +3044,7 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 
 	LOCK TABLES `locationsmaster` WRITE;
 	/*!40000 ALTER TABLE `locationsmaster` DISABLE KEYS */;
-	INSERT INTO `locationsmaster` VALUES (30,1,15,'Mumbai                 '),(31,1,30,'Delhi                  '),(32,1,12,'Bengaluru              '),(33,1,7,'Ahmedabad              '),(34,1,25,'Hyderabad              '),(35,1,24,'Chennai                '),(36,1,29,'Kolkata                '),(37,1,15,'Pune                   '),(38,1,22,'Jaipur                 '),(39,1,7,'Surat                  '),(40,1,27,'Lucknow                '),(41,1,27,'Kanpur                 '),(42,1,15,'Nagpur                 '),(43,1,4,'Patna                  '),(44,1,14,'Indore                 '),(45,1,15,'Thane                  '),(46,1,14,'Bhopal                 '),(47,1,1,'Visakhapatnam          '),(48,1,7,'Vadodara               '),(49,1,27,'Firozabad              '),(50,1,21,'Ludhiana               '),(51,1,7,'Rajkot                 '),(52,1,27,'Agra                   '),(53,1,29,'Siliguri               '),(54,1,15,'Nashik                 '),(55,1,8,'Faridabad              '),(56,1,21,'Patiala                '),(57,1,27,'Meerut                 '),(58,1,15,'Kalyan-Dombivali       '),(59,1,15,'Vasai-Virar            '),(60,1,27,'Varanasi               '),(61,1,31,'Srinagar               '),(62,1,10,'Dhanbad                '),(63,1,22,'Jodhpur                '),(64,1,21,'Amritsar               '),(65,1,5,'Raipur                 '),(66,1,27,'Allahabad              '),(67,1,24,'Coimbatore             '),(68,1,14,'Jabalpur               '),(69,1,14,'Gwalior                '),(70,1,1,'Vijayawada             '),(71,1,24,'Madurai                '),(72,1,3,'Guwahati               '),(73,1,32,'Chandigarh             '),(74,1,12,'Hubli-Dharwad          '),(75,1,27,'Amroha                 '),(76,1,27,'Moradabad              '),(77,1,8,'Gurgaon                '),(78,1,27,'Aligarh                '),(79,1,15,'Solapur                '),(80,1,10,'Ranchi                 '),(81,1,21,'Jalandhar              '),(82,1,24,'Tiruchirappalli        '),(83,1,20,'Bhubaneswar            '),(84,1,24,'Salem                  '),(85,1,25,'Warangal               '),(86,1,15,'Mira-Bhayandar         '),(87,1,13,'Thiruvananthapuram     '),(88,1,15,'Bhiwandi               '),(89,1,27,'Saharanpur             '),(90,1,1,'Guntur                 '),(91,1,15,'Amravati               '),(92,1,22,'Bikaner                '),(93,1,27,'Noida                  '),(94,1,10,'Jamshedpur             '),(95,1,5,'Bhilai Nagar           '),(96,1,20,'Cuttack                '),(97,1,13,'Kochi                  '),(98,1,22,'Udaipur                '),(99,1,7,'Bhavnagar              '),(100,1,28,'Dehradun               '),(101,1,29,'Asansol                '),(102,1,15,'Nanded-Waghala         '),(103,1,22,'Ajmer                  '),(104,1,7,'Jamnagar               '),(105,1,14,'Ujjain                 '),(106,1,15,'Sangli                 '),(107,1,27,'Loni                   '),(108,1,27,'Jhansi                 '),(109,1,33,'Pondicherry            '),(110,1,1,'Nellore                '),(111,1,31,'Jammu                  '),(112,1,12,'Belagavi               '),(113,1,20,'Raurkela               '),(114,1,12,'Mangaluru              '),(115,1,24,'Tirunelveli            '),(116,1,15,'Malegaon               '),(117,1,4,'Gaya                   '),(118,1,24,'Tiruppur               '),(119,1,12,'Davanagere             '),(120,1,13,'Kozhikode              '),(121,1,15,'Akola                  '),(122,1,1,'Kurnool                '),(123,1,10,'Bokaro Steel City      '),(124,1,1,'Rajahmundry            '),(125,1,12,'Ballari                '),(126,1,26,'Agartala               '),(127,1,4,'Bhagalpur              '),(128,1,15,'Latur                  '),(129,1,15,'Dhule                  '),(130,1,5,'Korba                  '),(131,1,22,'Bhilwara               '),(132,1,20,'Brahmapur              '),(133,1,12,'Mysore                 '),(134,1,4,'Muzaffarpur            '),(135,1,15,'Ahmednagar             '),(136,1,13,'Kollam                 '),(137,1,29,'Raghunathganj          '),(138,1,5,'Bilaspur               '),(139,1,27,'Shahjahanpur           '),(140,1,13,'Thrissur               '),(141,1,22,'Alwar                  '),(142,1,1,'Kakinada               '),(143,1,25,'Nizamabad              '),(144,1,14,'Sagar                  '),(145,1,12,'Tumkur                 '),(146,1,8,'Hisar                  '),(147,1,8,'Rohtak                 '),(148,1,8,'Panipat                '),(149,1,4,'Darbhanga              '),(150,1,29,'Kharagpur              '),(151,1,18,'Aizawl                 '),(152,1,15,'Ichalkaranji           '),(153,1,1,'Tirupati               '),(154,1,8,'Karnal                 '),(155,1,21,'Bathinda               '),(156,1,27,'Rampur                 '),(157,1,12,'Shivamogga             '),(158,1,14,'Ratlam                 '),(159,1,27,'Modinagar              '),(160,1,5,'Durg                   '),(161,1,17,'Shillong               '),(162,1,16,'Imphal                 '),(163,1,27,'Hapur                  '),(164,1,24,'Ranipet                '),(165,1,1,'Anantapur              '),(166,1,4,'Arrah                  '),(167,1,25,'Karimnagar             '),(168,1,15,'Parbhani               '),(169,1,27,'Etawah                 '),(170,1,22,'Bharatpur              '),(171,1,4,'Begusarai              '),(172,1,30,'New Delhi              '),(173,1,4,'Chhapra                '),(174,1,1,'Kadapa                 '),(175,1,25,'Ramagundam             '),(176,1,22,'Pali                   '),(177,1,14,'Satna                  '),(178,1,1,'Vizianagaram           '),(179,1,4,'Katihar                '),(180,1,28,'Hardwar                '),(181,1,8,'Sonipat                '),(182,1,24,'Nagercoil              '),(183,1,24,'Thanjavur              '),(184,1,14,'Murwara (Katni)        '),(185,1,29,'Naihati                '),(186,1,27,'Sambhal                '),(187,1,7,'Nadiad                 '),(188,1,8,'Yamunanagar            '),(189,1,29,'English Bazar          '),(190,1,1,'Eluru                  '),(191,1,4,'Munger                 '),(192,1,8,'Panchkula              '),(193,1,12,'Raayachuru             '),(194,1,15,'Panvel                 '),(195,1,10,'Deoghar                '),(196,1,1,'Ongole                 '),(197,1,1,'Nandyal                '),(198,1,14,'Morena                 '),(199,1,8,'Bhiwani                '),(200,1,7,'Porbandar              '),(201,1,13,'Palakkad               '),(202,1,7,'Anand                  '),(203,1,4,'Purnia                 '),(204,1,29,'Baharampur             '),(205,1,22,'Barmer                 '),(206,1,7,'Morvi                  '),(207,1,27,'Orai                   '),(208,1,27,'Bahraich               '),(209,1,22,'Sikar                  '),(210,1,24,'Vellore                '),(211,1,14,'Singrauli              '),(212,1,25,'Khammam                '),(213,1,7,'Mahesana               '),(214,1,3,'Silchar                '),(215,1,20,'Sambalpur              '),(216,1,14,'Rewa                   '),(217,1,27,'Unnao                  '),(218,1,29,'Hugli-Chinsurah        '),(219,1,29,'Raiganj                '),(220,1,10,'Phusro                 '),(221,1,10,'Adityapur              '),(222,1,13,'Alappuzha              '),(223,1,8,'Bahadurgarh            '),(224,1,1,'Machilipatnam          '),(225,1,27,'Rae Bareli             '),(226,1,29,'Jalpaiguri             '),(227,1,7,'Bharuch                '),(228,1,21,'Pathankot              '),(229,1,21,'Hoshiarpur             '),(230,1,31,'Baramula               '),(231,1,1,'Adoni                  '),(232,1,8,'Jind                   '),(233,1,22,'Tonk                   '),(234,1,1,'Tenali                 '),(235,1,24,'Kancheepuram           '),(236,1,7,'Vapi                   '),(237,1,8,'Sirsa                  '),(238,1,7,'Navsari                '),(239,1,25,'Mahbubnagar            '),(240,1,20,'Puri                   '),(241,1,12,'Robertson Pet          '),(242,1,24,'Erode                  '),(243,1,21,'Batala                 '),(244,1,28,'Haldwani-cum-Kathgodam '),(245,1,14,'Vidisha                '),(246,1,4,'Saharsa                '),(247,1,8,'Thanesar               '),(248,1,1,'Chittoor               '),(249,1,7,'Veraval                '),(250,1,27,'Lakhimpur              '),(251,1,27,'Sitapur                '),(252,1,1,'Hindupur               '),(253,1,29,'Santipur               '),(254,1,29,'Balurghat              '),(255,1,14,'Ganjbasoda             '),(256,1,21,'Moga                   '),(257,1,1,'Proddatur              '),(258,1,28,'Srinagar               '),(259,1,29,'Medinipur              '),(260,1,29,'Habra                  '),(261,1,4,'Sasaram                '),(262,1,4,'Hajipur                '),(263,1,7,'Bhuj                   '),(264,1,14,'Shivpuri               '),(265,1,29,'Ranaghat               '),(266,1,9,'Shimla                 '),(267,1,24,'Tiruvannamalai         '),(268,1,8,'Kaithal                '),(269,1,5,'Rajnandgaon            '),(270,1,7,'Godhra                 '),(271,1,10,'Hazaribag              '),(272,1,1,'Bhimavaram             '),(273,1,14,'Mandsaur               '),(274,1,3,'Dibrugarh              '),(275,1,12,'Kolar                  '),(276,1,29,'Bankura                '),(277,1,12,'Mandya                 '),(278,1,4,'Dehri-on-Sone          '),(279,1,1,'Madanapalle            '),(280,1,21,'Malerkotla             '),(281,1,27,'Lalitpur               '),(282,1,4,'Bettiah                '),(283,1,24,'Pollachi               '),(284,1,21,'Khanna                 '),(285,1,14,'Neemuch                '),(286,1,8,'Palwal                 '),(287,1,7,'Palanpur               '),(288,1,1,'Guntakal               '),(289,1,29,'Nabadwip               '),(290,1,12,'Udupi                  '),(291,1,5,'Jagdalpur              '),(292,1,4,'Motihari               '),(293,1,27,'Pilibhit               '),(294,1,19,'Dimapur                '),(295,1,21,'Mohali                 '),(296,1,22,'Sadulpur               '),(297,1,24,'Rajapalayam            '),(298,1,1,'Dharmavaram            '),(299,1,28,'Kashipur               '),(300,1,24,'Sivakasi               '),(301,1,29,'Darjiling              '),(302,1,12,'Chikkamagaluru         '),(303,1,1,'Gudivada               '),(304,1,20,'Baleshwar Town         '),(305,1,25,'Mancherial             '),(306,1,1,'Srikakulam             '),(307,1,25,'Adilabad               '),(308,1,15,'Yavatmal               '),(309,1,21,'Barnala                '),(310,1,3,'Nagaon                 '),(311,1,1,'Narasaraopet           '),(312,1,5,'Raigarh                '),(313,1,28,'Roorkee                '),(314,1,7,'Valsad                 '),(315,1,5,'Ambikapur              '),(316,1,10,'Giridih                '),(317,1,27,'Chandausi              '),(318,1,29,'Purulia                '),(319,1,7,'Patan                  '),(320,1,4,'Bagaha                 '),(321,1,27,'Hardoi                 '),(322,1,15,'Achalpur               '),(323,1,15,'Osmanabad              '),(324,1,7,'Deesa                  '),(325,1,15,'Nandurbar              '),(326,1,27,'Azamgarh               '),(327,1,10,'Ramgarh                '),(328,1,21,'Firozpur               '),(329,1,20,'Baripada Town          '),(330,1,12,'Karwar                 '),(331,1,4,'Siwan                  '),(332,1,1,'Rajampet               '),(333,1,24,'Pudukkottai            '),(334,1,31,'Anantnag               '),(335,1,1,'Tadpatri               '),(336,1,15,'Satara                 '),(337,1,20,'Bhadrak                '),(338,1,4,'Kishanganj             '),(339,1,25,'Suryapet               '),(340,1,15,'Wardha                 '),(341,1,12,'Ranebennuru            '),(342,1,7,'Amreli                 '),(343,1,24,'Neyveli (TS)           '),(344,1,4,'Jamalpur               '),(345,1,6,'Marmagao               '),(346,1,15,'Udgir                  '),(347,1,1,'Tadepalligudem         '),(348,1,24,'Nagapattinam           '),(349,1,4,'Buxar                  '),(350,1,15,'Aurangabad             '),(351,1,4,'Jehanabad              '),(352,1,21,'Phagwara               '),(353,1,27,'Khair                  '),(354,1,22,'Sawai Madhopur         '),(355,1,21,'Kapurthala             '),(356,1,1,'Chilakaluripet         '),(357,1,4,'Aurangabad             '),(358,1,13,'Malappuram             '),(359,1,8,'Rewari                 '),(360,1,22,'Nagaur                 '),(361,1,27,'Sultanpur              '),(362,1,14,'Nagda                  '),(363,1,34,'Port Blair   '),(364,1,4,'Lakhisarai             '),(365,1,6,'Panaji                 '),(366,1,3,'Tinsukia               '),(367,1,14,'Itarsi                 '),(368,1,19,'Kohima                 '),(369,1,20,'Balangir               '),(370,1,4,'Nawada                 '),(371,1,20,'Jharsuguda             '),(372,1,25,'Jagtial                '),(373,1,24,'Viluppuram             '),(374,1,15,'Amalner                '),(375,1,21,'Zirakpur               '),(376,1,27,'Tanda                  '),(377,1,24,'Tiruchengode           '),(378,1,27,'Nagina                 '),(379,1,1,'Yemmiganur             '),(380,1,24,'Vaniyambadi            '),(381,1,14,'Sarni                  '),(382,1,24,'Theni Allinagaram      '),(383,1,6,'Margao                 '),(384,1,15,'Akot                   '),(385,1,14,'Sehore                 '),(386,1,14,'Mhow Cantonment        '),(387,1,21,'Kot Kapura             '),(388,1,22,'Makrana                '),(389,1,15,'Pandharpur             '),(390,1,25,'Miryalaguda            '),(391,1,27,'Shamli                 '),(392,1,14,'Seoni                  '),(393,1,12,'Ranibennur             '),(394,1,1,'Kadiri                 '),(395,1,15,'Shrirampur             '),(396,1,28,'Rudrapur               '),(397,1,15,'Parli                  '),(398,1,27,'Najibabad              '),(399,1,25,'Nirmal                 '),(400,1,24,'Udhagamandalam         '),(401,1,27,'Shikohabad             '),(402,1,10,'Jhumri Tilaiya         '),(403,1,24,'Aruppukkottai          '),(404,1,13,'Ponnani                '),(405,1,4,'Jamui                  '),(406,1,4,'Sitamarhi              '),(407,1,1,'Chirala                '),(408,1,7,'Anjar                  '),(409,1,33,'Karaikal               '),(410,1,8,'Hansi                  '),(411,1,1,'Anakapalle             '),(412,1,5,'Mahasamund             '),(413,1,21,'Faridkot               '),(414,1,10,'Saunda                 '),(415,1,7,'Dhoraji                '),(416,1,24,'Paramakudi             '),(417,1,14,'Balaghat               '),(418,1,22,'Sujangarh              '),(419,1,7,'Khambhat               '),(420,1,21,'Muktsar                '),(421,1,21,'Rajpura                '),(422,1,1,'Kavali                 '),(423,1,5,'Dhamtari               '),(424,1,14,'Ashok Nagar            '),(425,1,22,'Sardarshahar           '),(426,1,7,'Mahuva                 '),(427,1,20,'Bargarh                '),(428,1,25,'Kamareddy              '),(429,1,10,'Sahibganj              '),(430,1,25,'Kothagudem             '),(431,1,12,'Ramanagaram            '),(432,1,12,'Gokak                  '),(433,1,14,'Tikamgarh              '),(434,1,4,'Araria                 '),(435,1,28,'Rishikesh              '),(436,1,14,'Shahdol                '),(437,1,10,'Medininagar (Daltonganj)'),(438,1,24,'Arakkonam              '),(439,1,15,'Washim                 '),(440,1,21,'Sangrur                '),(441,1,25,'Bodhan                 '),(442,1,21,'Fazilka                '),(443,1,1,'Palacole               '),(444,1,7,'Keshod                 '),(445,1,1,'Sullurpeta             '),(446,1,7,'Wadhwan                '),(447,1,21,'Gurdaspur              '),(448,1,13,'Vatakara               '),(449,1,17,'Tura                   '),(450,1,8,'Narnaul                '),(451,1,21,'Kharar                 '),(452,1,12,'Yadgir                 '),(453,1,15,'Ambejogai              '),(454,1,7,'Ankleshwar             '),(455,1,7,'Savarkundla            '),(456,1,20,'Paradip                '),(457,1,24,'Virudhachalam          '),(458,1,13,'Kanhangad              '),(459,1,7,'Kadi                   '),(460,1,24,'Srivilliputhur         '),(461,1,21,'Gobindgarh             '),(462,1,24,'Tindivanam             '),(463,1,21,'Mansa                  '),(464,1,13,'Taliparamba            '),(465,1,15,'Manmad                 '),(466,1,1,'Tanuku                 '),(467,1,1,'Rayachoti              '),(468,1,24,'Virudhunagar           '),(469,1,13,'Koyilandy              '),(470,1,3,'Jorhat                 '),(471,1,24,'Karur                  '),(472,1,24,'Valparai               '),(473,1,1,'Srikalahasti           '),(474,1,13,'Neyyattinkara          '),(475,1,1,'Bapatla                '),(476,1,8,'Fatehabad              '),(477,1,21,'Malout                 '),(478,1,24,'Sankarankovil          '),(479,1,24,'Tenkasi                '),(480,1,15,'Ratnagiri              '),(481,1,12,'Rabkavi Banhatti       '),(482,1,27,'Sikandrabad            '),(483,1,10,'Chaibasa               '),(484,1,5,'Chirmiri               '),(485,1,25,'Palwancha              '),(486,1,20,'Bhawanipatna           '),(487,1,13,'Kayamkulam             '),(488,1,14,'Pithampur              '),(489,1,21,'Nabha                  '),(490,1,27,'Shahabad, Hardoi       '),(491,1,20,'Dhenkanal              '),(492,1,15,'Uran Islampur          '),(493,1,4,'Gopalganj              '),(494,1,3,'Bongaigaon City        '),(495,1,24,'Palani                 '),(496,1,15,'Pusad                  '),(497,1,31,'Sopore                 '),(498,1,27,'Pilkhuwa               '),(499,1,21,'Tarn Taran             '),(500,1,27,'Renukoot               '),(501,1,25,'Mandamarri             '),(502,1,12,'Shahabad               '),(503,1,20,'Barbil                 '),(504,1,25,'Koratla                '),(505,1,4,'Madhubani              '),(506,1,29,'Arambagh               '),(507,1,8,'Gohana                 '),(508,1,22,'Ladnu                  '),(509,1,24,'Pattukkottai           '),(510,1,12,'Sirsi                  '),(511,1,25,'Sircilla               '),(512,1,29,'Tamluk                 '),(513,1,21,'Jagraon                '),(514,1,29,'AlipurdUrban Agglomerationr'),(515,1,14,'Alirajpur              '),(516,1,25,'Tandur                 '),(517,1,1,'Naidupet               '),(518,1,24,'Tirupathur             '),(519,1,8,'Tohana                 '),(520,1,22,'Ratangarh              '),(521,1,3,'Dhubri                 '),(522,1,4,'Masaurhi               '),(523,1,7,'Visnagar               '),(524,1,27,'Vrindavan              '),(525,1,22,'Nokha                  '),(526,1,1,'Nagari                 '),(527,1,8,'Narwana                '),(528,1,24,'Ramanathapuram         '),(529,1,27,'Ujhani                 '),(530,1,4,'Samastipur             '),(531,1,27,'Laharpur               '),(532,1,15,'Sangamner              '),(533,1,22,'Nimbahera              '),(534,1,25,'Siddipet               '),(535,1,29,'Suri                   '),(536,1,3,'Diphu                  '),(537,1,29,'Jhargram               '),(538,1,15,'Shirpur-Warwade        '),(539,1,27,'Tilhar                 '),(540,1,12,'Sindhnur               '),(541,1,24,'Udumalaipettai         '),(542,1,15,'Malkapur               '),(543,1,25,'Wanaparthy             '),(544,1,1,'Gudur                  '),(545,1,20,'Kendujhar              '),(546,1,14,'Mandla                 '),(547,1,9,'Mandi                  '),(548,1,13,'Nedumangad             '),(549,1,3,'North Lakhimpur        '),(550,1,1,'Vinukonda              '),(551,1,12,'Tiptur                 '),(552,1,24,'Gobichettipalayam      '),(553,1,20,'Sunabeda               '),(554,1,15,'Wani                   '),(555,1,7,'Upleta                 '),(556,1,1,'Narasapuram            '),(557,1,1,'Nuzvid                 '),(558,1,3,'Tezpur                 '),(559,1,7,'Una                    '),(560,1,1,'Markapur               '),(561,1,14,'Sheopur                '),(562,1,24,'Thiruvarur             '),(563,1,7,'Sidhpur                '),(564,1,27,'Sahaswan               '),(565,1,22,'Suratgarh              '),(566,1,14,'Shajapur               '),(567,1,20,'Rayagada               '),(568,1,15,'Lonavla                '),(569,1,1,'Ponnur                 '),(570,1,25,'Kagaznagar             '),(571,1,25,'Gadwal                 '),(572,1,5,'Bhatapara              '),(573,1,1,'Kandukur               '),(574,1,25,'Sangareddy             '),(575,1,7,'Unjha                  '),(576,1,18,'Lunglei                '),(577,1,3,'Karimganj              '),(578,1,13,'Kannur                 '),(579,1,1,'Bobbili                '),(580,1,4,'Mokameh                '),(581,1,15,'Talegaon Dabhade       '),(582,1,15,'Anjangaon              '),(583,1,7,'Mangrol                '),(584,1,21,'Sunam                  '),(585,1,29,'Gangarampur            '),(586,1,24,'Thiruvallur            '),(587,1,13,'Tirur                  '),(588,1,27,'Rath                   '),(589,1,20,'Jatani                 '),(590,1,7,'Viramgam               '),(591,1,22,'Rajsamand              '),(592,1,33,'Yanam                  '),(593,1,13,'Kottayam               '),(594,1,24,'Panruti                '),(595,1,21,'Dhuri                  '),(596,1,24,'Namakkal               '),(597,1,13,'Kasaragod              '),(598,1,7,'Modasa                 '),(599,1,1,'Rayadurg               '),(600,1,4,'Supaul                 '),(601,1,13,'Kunnamkulam            '),(602,1,15,'Umred                  '),(603,1,25,'Bellampalle            '),(604,1,3,'Sibsagar               '),(605,1,8,'Mandi Dabwali          '),(606,1,13,'Ottappalam             '),(607,1,4,'Dumraon                '),(608,1,1,'Samalkot               '),(609,1,1,'Jaggaiahpet            '),(610,1,3,'Goalpara               '),(611,1,1,'Tuni                   '),(612,1,22,'Lachhmangarh           '),(613,1,25,'Bhongir                '),(614,1,1,'Amalapuram             '),(615,1,21,'Firozpur Cantt.        '),(616,1,25,'Vikarabad              '),(617,1,13,'Thiruvalla             '),(618,1,27,'Sherkot                '),(619,1,15,'Palghar                '),(620,1,15,'Shegaon                '),(621,1,25,'Jangaon                '),(622,1,1,'Bheemunipatnam         '),(623,1,14,'Panna                  '),(624,1,13,'Thodupuzha             '),(625,1,31,'KathUrban Agglomeration'),(626,1,7,'Palitana               '),(627,1,4,'Arwal                  '),(628,1,1,'Venkatagiri            '),(629,1,27,'Kalpi                  '),(630,1,22,'Rajgarh (Churu)        '),(631,1,1,'Sattenapalle           '),(632,1,12,'Arsikere               '),(633,1,15,'Ozar                   '),(634,1,24,'Thirumangalam          '),(635,1,7,'Petlad                 '),(636,1,22,'Nasirabad              '),(637,1,15,'Phaltan                '),(638,1,29,'Rampurhat              '),(639,1,12,'Nanjangud              '),(640,1,4,'Forbesganj             '),(641,1,27,'Tundla                 '),(642,1,4,'BhabUrban Agglomeration'),(643,1,12,'Sagara                 '),(644,1,1,'Pithapuram             '),(645,1,12,'Sira                   '),(646,1,25,'Bhadrachalam           '),(647,1,8,'Charkhi Dadri          '),(648,1,10,'Chatra                 '),(649,1,1,'Palasa Kasibugga       '),(650,1,22,'Nohar                  '),(651,1,15,'Yevla                  '),(652,1,21,'Sirhind Fatehgarh Sahib'),(653,1,25,'Bhainsa                '),(654,1,1,'Parvathipuram          '),(655,1,15,'Shahade                '),(656,1,13,'Chalakudy              '),(657,1,4,'Narkatiaganj           '),(658,1,7,'Kapadvanj              '),(659,1,1,'Macherla               '),(660,1,14,'Raghogarh-Vijaypur     '),(661,1,21,'Rupnagar               '),(662,1,4,'Naugachhia             '),(663,1,14,'Sendhwa                '),(664,1,20,'Byasanagar             '),(665,1,27,'Sandila                '),(666,1,1,'Gooty                  '),(667,1,1,'Salur                  '),(668,1,27,'Nanpara                '),(669,1,27,'Sardhana               '),(670,1,15,'Vita                   '),(671,1,10,'Gumia                  '),(672,1,12,'Puttur                 '),(673,1,21,'Jalandhar Cantt.       '),(674,1,27,'Nehtaur                '),(675,1,13,'Changanassery          '),(676,1,1,'Mandapeta              '),(677,1,10,'Dumka                  '),(678,1,27,'Seohara                '),(679,1,15,'Umarkhed               '),(680,1,10,'Madhupur               '),(681,1,24,'Vikramasingapuram      '),(682,1,13,'Punalur                '),(683,1,20,'Kendrapara             '),(684,1,7,'Sihor                  '),(685,1,24,'Nellikuppam            '),(686,1,21,'Samana                 '),(687,1,15,'Warora                 '),(688,1,13,'Nilambur               '),(689,1,24,'Rasipuram              '),(690,1,28,'Ramnagar               '),(691,1,1,'Jammalamadugu          '),(692,1,21,'Nawanshahr             '),(693,1,16,'Thoubal                '),(694,1,12,'Athni                  '),(695,1,13,'Cherthala              '),(696,1,14,'Sidhi                  '),(697,1,25,'Farooqnagar            '),(698,1,1,'Peddapuram             '),(699,1,10,'Chirkunda              '),(700,1,15,'Pachora                '),(701,1,4,'Madhepura              '),(702,1,28,'Pithoragarh            '),(703,1,15,'Tumsar                 '),(704,1,22,'Phalodi                '),(705,1,24,'Tiruttani              '),(706,1,21,'Rampura Phul           '),(707,1,13,'Perinthalmanna         '),(708,1,27,'Padrauna               '),(709,1,14,'Pipariya               '),(710,1,5,'Dalli-Rajhara          '),(711,1,1,'Punganur               '),(712,1,13,'Mattannur              '),(713,1,27,'Mathura                '),(714,1,27,'Thakurdwara            '),(715,1,24,'Nandivaram-Guduvancheri'),(716,1,12,'Mulbagal               '),(717,1,15,'Manjlegaon             '),(718,1,7,'Wankaner               '),(719,1,15,'Sillod                 '),(720,1,1,'Nidadavole             '),(721,1,12,'Surapura               '),(722,1,20,'Rajagangapur           '),(723,1,4,'Sheikhpura             '),(724,1,20,'Parlakhemundi          '),(725,1,29,'Kalimpong              '),(726,1,12,'Siruguppa              '),(727,1,15,'Arvi                   '),(728,1,7,'Limbdi                 '),(729,1,3,'Barpeta                '),(730,1,28,'Manglaur               '),(731,1,1,'Repalle                '),(732,1,12,'Mudhol                 '),(733,1,14,'Shujalpur              '),(734,1,7,'Mandvi                 '),(735,1,7,'Thangadh               '),(736,1,14,'Sironj                 '),(737,1,15,'Nandura                '),(738,1,13,'Shoranur               '),(739,1,22,'Nathdwara              '),(740,1,24,'Periyakulam            '),(741,1,4,'Sultanganj             '),(742,1,25,'Medak                  '),(743,1,25,'Narayanpet             '),(744,1,4,'Raxaul Bazar           '),(745,1,31,'Rajauri                '),(746,1,24,'Pernampattu            '),(747,1,28,'Nainital               '),(748,1,1,'Ramachandrapuram       '),(749,1,15,'Vaijapur               '),(750,1,21,'Nangal                 '),(751,1,12,'Sidlaghatta            '),(752,1,31,'Punch                  '),(753,1,14,'Pandhurna              '),(754,1,15,'Wadgaon Road           '),(755,1,20,'Talcher                '),(756,1,13,'Varkala                '),(757,1,22,'Pilani                 '),(758,1,14,'Nowgong                '),(759,1,5,'Naila Janjgir          '),(760,1,6,'Mapusa                 '),(761,1,24,'Vellakoil              '),(762,1,22,'Merta City             '),(763,1,24,'Sivaganga              '),(764,1,14,'Mandideep              '),(765,1,15,'Sailu                  '),(766,1,7,'Vyara                  '),(767,1,1,'Kovvur                 '),(768,1,24,'Vadalur                '),(769,1,27,'Nawabganj              '),(770,1,7,'Padra                  '),(771,1,29,'Sainthia               '),(772,1,27,'Siana                  '),(773,1,12,'Shahpur                '),(774,1,22,'Sojat                  '),(775,1,27,'Noorpur                '),(776,1,13,'Paravoor               '),(777,1,15,'Murtijapur             '),(778,1,4,'Ramnagar               '),(779,1,20,'Sundargarh             '),(780,1,29,'Taki                   '),(781,1,12,'Saundatti-Yellamma     '),(782,1,13,'Pathanamthitta         '),(783,1,12,'Wadi                   '),(784,1,24,'Rameshwaram            '),(785,1,15,'Tasgaon                '),(786,1,27,'Sikandra Rao           '),(787,1,14,'Sihora                 '),(788,1,24,'Tiruvethipuram         '),(789,1,1,'Tiruvuru               '),(790,1,15,'Mehkar                 '),(791,1,13,'Peringathur            '),(792,1,24,'Perambalur             '),(793,1,12,'Manvi                  '),(794,1,19,'Zunheboto              '),(795,1,4,'Mahnar Bazar           '),(796,1,13,'Attingal               '),(797,1,8,'Shahbad                '),(798,1,27,'Puranpur               '),(799,1,12,'Nelamangala            '),(800,1,21,'Nakodar                '),(801,1,7,'Lunawada               '),(802,1,29,'Murshidabad            '),(803,1,33,'Mahe                   '),(804,1,3,'Lanka                  '),(805,1,27,'Rudauli                '),(806,1,19,'Tuensang               '),(807,1,12,'Lakshmeshwar           '),(808,1,21,'Zira                   '),(809,1,15,'Yawal                  '),(810,1,27,'Thana Bhawan           '),(811,1,12,'Ramdurg                '),(812,1,15,'Pulgaon                '),(813,1,25,'Sadasivpet             '),(814,1,12,'Nargund                '),(815,1,22,'Neem-Ka-Thana          '),(816,1,29,'Memari                 '),(817,1,15,'Nilanga                '),(818,1,2,'Naharlagun             '),(819,1,10,'Pakaur                 '),(820,1,15,'Wai                    '),(821,1,12,'Tarikere               '),(822,1,12,'Malavalli              '),(823,1,14,'Raisen                 '),(824,1,14,'Lahar                  '),(825,1,1,'Uravakonda             '),(826,1,12,'Savanur                '),(827,1,22,'Sirohi                 '),(828,1,31,'Udhampur               '),(829,1,15,'Umarga                 '),(830,1,22,'Pratapgarh             '),(831,1,12,'Lingsugur              '),(832,1,24,'Usilampatti            '),(833,1,27,'Palia Kalan            '),(834,1,19,'Wokha                  '),(835,1,7,'Rajpipla               '),(836,1,12,'Vijayapura             '),(837,1,22,'Rawatbhata             '),(838,1,22,'Sangaria               '),(839,1,15,'Paithan                '),(840,1,15,'Rahuri                 '),(841,1,21,'Patti                  '),(842,1,27,'Zaidpur                '),(843,1,22,'Lalsot                 '),(844,1,14,'Maihar                 '),(845,1,24,'Vedaranyam             '),(846,1,15,'Nawapur                '),(847,1,9,'Solan                  '),(848,1,7,'Vapi                   '),(849,1,14,'Sanawad                '),(850,1,4,'Warisaliganj           '),(851,1,4,'Revelganj              '),(852,1,14,'Sabalgarh              '),(853,1,15,'Tuljapur               '),(854,1,10,'Simdega                '),(855,1,10,'Musabani               '),(856,1,13,'Kodungallur            '),(857,1,20,'Phulabani              '),(858,1,7,'Umreth                 '),(859,1,1,'Narsipatnam            '),(860,1,27,'Nautanwa               '),(861,1,4,'Rajgir                 '),(862,1,25,'Yellandu               '),(863,1,24,'Sathyamangalam         '),(864,1,22,'Pilibanga              '),(865,1,15,'Morshi                 '),(866,1,8,'Pehowa                 '),(867,1,4,'Sonepur                '),(868,1,13,'Pappinisseri           '),(869,1,27,'Zamania                '),(870,1,10,'Mihijam                '),(871,1,15,'Purna                  '),(872,1,24,'Puliyankudi            '),(873,1,27,'Shikarpur, Bulandshahr '),(874,1,14,'Umaria                 '),(875,1,14,'Porsa                  '),(876,1,27,'Naugawan Sadat         '),(877,1,27,'Fatehpur Sikri         '),(878,1,25,'Manuguru               '),(879,1,26,'Udaipur                '),(880,1,22,'Pipar City             '),(881,1,20,'Pattamundai            '),(882,1,24,'Nanjikottai            '),(883,1,22,'Taranagar              '),(884,1,1,'Yerraguntla            '),(885,1,15,'Satana                 '),(886,1,4,'Sherghati              '),(887,1,12,'Sankeshwara            '),(888,1,12,'Madikeri               '),(889,1,24,'Thuraiyur              '),(890,1,7,'Sanand                 '),(891,1,7,'Rajula                 '),(892,1,25,'Kyathampalle           '),(893,1,27,'Shahabad, Rampur       '),(894,1,5,'Tilda Newra            '),(895,1,14,'Narsinghgarh           '),(896,1,13,'Chittur-Thathamangalam '),(897,1,14,'Malaj Khand            '),(898,1,14,'Sarangpur              '),(899,1,27,'Robertsganj            '),(900,1,24,'Sirkali                '),(901,1,7,'Radhanpur              '),(902,1,24,'Tiruchendur            '),(903,1,27,'Utraula                '),(904,1,10,'Patratu                '),(905,1,22,'Vijainagar, Ajmer      '),(906,1,24,'Periyasemur            '),(907,1,15,'Pathri                 '),(908,1,27,'Sadabad                '),(909,1,12,'Talikota               '),(910,1,15,'Sinnar                 '),(911,1,5,'Mungeli                '),(912,1,12,'Sedam                  '),(913,1,12,'Shikaripur             '),(914,1,22,'Sumerpur               '),(915,1,24,'Sattur                 '),(916,1,4,'Sugauli                '),(917,1,3,'Lumding                '),(918,1,24,'Vandavasi              '),(919,1,20,'Titlagarh              '),(920,1,15,'Uchgaon                '),(921,1,19,'Mokokchung             '),(922,1,29,'Paschim Punropara      '),(923,1,22,'Sagwara                '),(924,1,22,'Ramganj Mandi          '),(925,1,29,'Tarakeswar             '),(926,1,12,'Mahalingapura          '),(927,1,26,'Dharmanagar            '),(928,1,7,'Mahemdabad             '),(929,1,5,'Manendragarh           '),(930,1,15,'Uran                   '),(931,1,24,'Tharamangalam          '),(932,1,24,'Tirukkoyilur           '),(933,1,15,'Pen                    '),(934,1,4,'Makhdumpur             '),(935,1,4,'Maner                  '),(936,1,24,'Oddanchatram           '),(937,1,24,'Palladam               '),(938,1,14,'Mundi                  '),(939,1,20,'Nabarangapur           '),(940,1,12,'Mudalagi               '),(941,1,8,'Samalkha               '),(942,1,14,'Nepanagar              '),(943,1,15,'Karjat                 '),(944,1,7,'Ranavav                '),(945,1,1,'Pedana                 '),(946,1,8,'Pinjore                '),(947,1,22,'Lakheri                '),(948,1,14,'Pasan                  '),(949,1,1,'Puttur                 '),(950,1,24,'Vadakkuvalliyur        '),(951,1,24,'Tirukalukundram        '),(952,1,14,'Mahidpur               '),(953,1,28,'Mussoorie              '),(954,1,13,'Muvattupuzha           '),(955,1,27,'Rasra                  '),(956,1,22,'Udaipurwati            '),(957,1,15,'Manwath                '),(958,1,13,'Adoor                  '),(959,1,24,'Uthamapalayam          '),(960,1,15,'Partur                 '),(961,1,9,'Nahan                  '),(962,1,8,'Ladwa                  '),(963,1,3,'Mankachar              '),(964,1,17,'Nongstoin              '),(965,1,22,'Losal                  '),(966,1,22,'Sri Madhopur           '),(967,1,22,'Ramngarh               '),(968,1,13,'Mavelikkara            '),(969,1,22,'Rawatsar               '),(970,1,22,'Rajakhera              '),(971,1,27,'Lar                    '),(972,1,27,'Lal Gopalganj Nindaura '),(973,1,12,'Muddebihal             '),(974,1,27,'Sirsaganj              '),(975,1,22,'Shahpura               '),(976,1,24,'Surandai               '),(977,1,15,'Sangole                '),(978,1,12,'Pavagada               '),(979,1,7,'Tharad                 '),(980,1,7,'Mansa                  '),(981,1,7,'Umbergaon              '),(982,1,13,'Mavoor                 '),(983,1,3,'Nalbari                '),(984,1,7,'Talaja                 '),(985,1,12,'Malur                  '),(986,1,15,'Mangrulpir             '),(987,1,20,'Soro                   '),(988,1,22,'Shahpura               '),(989,1,7,'Vadnagar               '),(990,1,22,'Raisinghnagar          '),(991,1,12,'Sindhagi               '),(992,1,12,'Sanduru                '),(993,1,8,'Sohna                  '),(994,1,7,'Manavadar              '),(995,1,27,'Pihani                 '),(996,1,8,'Safidon                '),(997,1,15,'Risod                  '),(998,1,4,'Rosera                 '),(999,1,24,'Sankari                '),(1000,1,22,'Malpura                '),(1001,1,29,'Sonamukhi              '),(1002,1,27,'Shamsabad, Agra        '),(1003,1,4,'Nokha                  '),(1004,1,29,'PandUrban Agglomeration'),(1005,1,29,'Mainaguri              '),(1006,1,12,'Afzalpur               '),(1007,1,15,'Shirur                 '),(1008,1,7,'Salaya                 '),(1009,1,24,'Shenkottai             '),(1010,1,26,'Pratapgarh             '),(1011,1,24,'Vadipatti              '),(1012,1,25,'Nagarkurnool           '),(1013,1,15,'Savner                 '),(1014,1,15,'Sasvad                 '),(1015,1,27,'Rudrapur               '),(1016,1,27,'Soron                  '),(1017,1,24,'Sholingur              '),(1018,1,15,'Pandharkaoda           '),(1019,1,13,'Perumbavoor            '),(1020,1,12,'Maddur                 '),(1021,1,22,'Nadbai                 '),(1022,1,15,'Talode                 '),(1023,1,15,'Shrigonda              '),(1024,1,12,'Madhugiri              '),(1025,1,12,'Tekkalakote            '),(1026,1,14,'Seoni-Malwa            '),(1027,1,15,'Shirdi                 '),(1028,1,27,'SUrban Agglomerationr  '),(1029,1,12,'Terdal                 '),(1030,1,15,'Raver                  '),(1031,1,24,'Tirupathur             '),(1032,1,8,'Taraori                '),(1033,1,15,'Mukhed                 '),(1034,1,24,'Manachanallur          '),(1035,1,14,'Rehli                  '),(1036,1,22,'Sanchore               '),(1037,1,15,'Rajura                 '),(1038,1,4,'Piro                   '),(1039,1,12,'Mudabidri              '),(1040,1,15,'Vadgaon Kasba          '),(1041,1,22,'Nagar                  '),(1042,1,7,'Vijapur                '),(1043,1,24,'Viswanatham            '),(1044,1,24,'Polur                  '),(1045,1,24,'Panagudi               '),(1046,1,14,'Manawar                '),(1047,1,28,'Tehri                  '),(1048,1,27,'Samdhan                '),(1049,1,7,'Pardi                  '),(1050,1,14,'Rahatgarh              '),(1051,1,14,'Panagar                '),(1052,1,24,'Uthiramerur            '),(1053,1,15,'Tirora                 '),(1054,1,3,'Rangia                 '),(1055,1,27,'Sahjanwa               '),(1056,1,14,'Wara Seoni             '),(1057,1,12,'Magadi                 '),(1058,1,22,'Rajgarh (Alwar)        '),(1059,1,4,'Rafiganj               '),(1060,1,14,'Tarana                 '),(1061,1,27,'Rampur Maniharan       '),(1062,1,22,'Sheoganj               '),(1063,1,21,'Raikot                 '),(1064,1,28,'Pauri                  '),(1065,1,27,'Sumerpur               '),(1066,1,12,'Navalgund              '),(1067,1,27,'Shahganj               '),(1068,1,4,'Marhaura               '),(1069,1,27,'Tulsipur               '),(1070,1,22,'Sadri                  '),(1071,1,24,'Thiruthuraipoondi      '),(1072,1,12,'Shiggaon               '),(1073,1,24,'Pallapatti             '),(1074,1,8,'Mahendragarh           '),(1075,1,14,'Sausar                 '),(1076,1,24,'Ponneri                '),(1077,1,15,'Mahad                  '),(1078,1,10,'Lohardaga              '),(1079,1,27,'Tirwaganj              '),(1080,1,3,'Margherita             '),(1081,1,9,'Sundarnagar            '),(1082,1,14,'Rajgarh                '),(1083,1,3,'Mangaldoi              '),(1084,1,1,'Renigunta              '),(1085,1,21,'Longowal               '),(1086,1,8,'Ratia                  '),(1087,1,24,'Lalgudi                '),(1088,1,12,'Shrirangapattana       '),(1089,1,14,'Niwari                 '),(1090,1,24,'Natham                 '),(1091,1,24,'Unnamalaikadai         '),(1092,1,27,'PurqUrban Agglomerationzi'),(1093,1,27,'Shamsabad, Farrukhabad '),(1094,1,4,'Mirganj                '),(1095,1,22,'Todaraisingh           '),(1096,1,27,'Warhapur               '),(1097,1,1,'Rajam                  '),(1098,1,21,'Urmar Tanda            '),(1099,1,15,'Lonar                  '),(1100,1,27,'Powayan                '),(1101,1,24,'P.N.Patti              '),(1102,1,9,'Palampur               '),(1103,1,1,'Srisailam Project (Right Flank Colony) Township'),(1104,1,12,'Sindagi                '),(1105,1,27,'Sandi                  '),(1106,1,13,'Vaikom                 '),(1107,1,29,'Malda                  '),(1108,1,24,'Tharangambadi          '),(1109,1,12,'Sakaleshapura          '),(1110,1,4,'Lalganj                '),(1111,1,20,'Malkangiri             '),(1112,1,7,'Rapar                  '),(1113,1,14,'Mauganj                '),(1114,1,22,'Todabhim               '),(1115,1,12,'Srinivaspur            '),(1116,1,4,'Murliganj              '),(1117,1,22,'Reengus                '),(1118,1,15,'Sawantwadi             '),(1119,1,24,'Tittakudi              '),(1120,1,16,'Lilong                 '),(1121,1,22,'Rajaldesar             '),(1122,1,15,'Pathardi               '),(1123,1,27,'Achhnera               '),(1124,1,24,'Pacode                 '),(1125,1,27,'Naraura                '),(1126,1,27,'Nakur                  '),(1127,1,13,'Palai                  '),(1128,1,21,'Morinda, India         '),(1129,1,14,'Manasa                 '),(1130,1,14,'Nainpur                '),(1131,1,27,'Sahaspur               '),(1132,1,15,'Pauni                  '),(1133,1,14,'Prithvipur             '),(1134,1,15,'Ramtek                 '),(1135,1,3,'Silapathar             '),(1136,1,7,'Songadh                '),(1137,1,27,'Safipur                '),(1138,1,14,'Sohagpur               '),(1139,1,15,'Mul                    '),(1140,1,22,'Sadulshahar            '),(1141,1,21,'Phillaur               '),(1142,1,22,'Sambhar                '),(1143,1,22,'Prantij                '),(1144,1,28,'Nagla                  '),(1145,1,21,'Pattran                '),(1146,1,22,'Mount Abu              '),(1147,1,27,'Reoti                  '),(1148,1,10,'Tenu dam-cum-Kathhara  '),(1149,1,29,'Panchla                '),(1150,1,28,'Sitarganj              '),(1151,1,2,'Pasighat               '),(1152,1,4,'Motipur                '),(1153,1,24,'O\' Valley              '),(1154,1,29,'Raghunathpur           '),(1155,1,24,'Suriyampalayam         '),(1156,1,21,'Qadian                 '),(1157,1,20,'Rairangpur             '),(1158,1,35,'Silvassa          '),(1159,1,14,'Nowrozabad (Khodargama)'),(1160,1,22,'Mangrol                '),(1161,1,15,'Soyagaon               '),(1162,1,21,'Sujanpur               '),(1163,1,4,'Manihari               '),(1164,1,27,'Sikanderpur            '),(1165,1,15,'Mangalvedhe            '),(1166,1,22,'Phulera                '),(1167,1,12,'Ron                    '),(1168,1,24,'Sholavandan            '),(1169,1,27,'Saidpur                '),(1170,1,14,'Shamgarh               '),(1171,1,24,'Thammampatti           '),(1172,1,14,'Maharajpur             '),(1173,1,14,'Multai                 '),(1174,1,21,'Mukerian               '),(1175,1,27,'Sirsi                  '),(1176,1,27,'Purwa                  '),(1177,1,4,'Sheohar                '),(1178,1,24,'Namagiripettai         '),(1179,1,27,'Parasi                 '),(1180,1,7,'Lathi                  '),(1181,1,27,'Lalganj                '),(1182,1,15,'Narkhed                '),(1183,1,29,'Mathabhanga            '),(1184,1,15,'Shendurjana            '),(1185,1,24,'Peravurani             '),(1186,1,3,'Mariani                '),(1187,1,27,'Phulpur                '),(1188,1,8,'Rania                  '),(1189,1,14,'Pali                   '),(1190,1,14,'Pachore                '),(1191,1,24,'Parangipettai          '),(1192,1,24,'Pudupattinam           '),(1193,1,13,'Panniyannur            '),(1194,1,4,'Maharajganj            '),(1195,1,14,'Rau                    '),(1196,1,29,'Monoharpur             '),(1197,1,22,'Mandawa                '),(1198,1,3,'Marigaon               '),(1199,1,24,'Pallikonda             '),(1200,1,22,'Pindwara               '),(1201,1,27,'Shishgarh              '),(1202,1,15,'Patur                  '),(1203,1,16,'Mayang Imphal          '),(1204,1,14,'Mhowgaon               '),(1205,1,13,'Guruvayoor             '),(1206,1,15,'Mhaswad                '),(1207,1,27,'Sahawar                '),(1208,1,24,'Sivagiri               '),(1209,1,12,'Mundargi               '),(1210,1,24,'Punjaipugalur          '),(1211,1,26,'Kailasahar             '),(1212,1,27,'Samthar                '),(1213,1,5,'Sakti                  '),(1214,1,12,'Sadalagi               '),(1215,1,4,'Silao                  '),(1216,1,22,'Mandalgarh             '),(1217,1,15,'Loha                   '),(1218,1,27,'Pukhrayan              '),(1219,1,24,'Padmanabhapuram        '),(1220,1,26,'Belonia                '),(1221,1,18,'Saiha                  '),(1222,1,29,'Srirampore             '),(1223,1,21,'Talwara                '),(1224,1,13,'Puthuppally            '),(1225,1,26,'Khowai                 '),(1226,1,14,'Vijaypur               '),(1227,1,22,'Takhatgarh             '),(1228,1,24,'Thirupuvanam           '),(1229,1,29,'Adra                   '),(1230,1,12,'Piriyapatna            '),(1231,1,27,'Obra                   '),(1232,1,7,'Adalaj                 '),(1233,1,15,'Nandgaon               '),(1234,1,4,'Barh                   '),(1235,1,7,'Chhapra                '),(1236,1,13,'Panamattom             '),(1237,1,27,'Niwai                  '),(1238,1,28,'Bageshwar              '),(1239,1,20,'Tarbha                 '),(1240,1,12,'Adyar                  '),(1241,1,14,'Narsinghgarh           '),(1242,1,15,'Warud                  '),(1243,1,4,'Asarganj               '),(1244,1,8,'Sarsod                 '),(1245,1,23,'Gangtok'),(1246,1,23,'Gyalshing'),(1247,1,23,'Jorethang'),(1248,1,23,'Mangan'),(1249,1,36,'Kavaratti'),(1250,1,36,'Andrott'),(1251,1,36,'Minicoy'),(1252,1,37,'Leh'),(1253,1,37,'Kargil');
+	INSERT INTO `locationsmaster` VALUES (30,1,15,'Mumbai'),(31,1,30,'Delhi'),(32,1,12,'Bengaluru'),(33,1,7,'Ahmedabad'),(34,1,25,'Hyderabad'),(35,1,24,'Chennai'),(36,1,29,'Kolkata'),(37,1,15,'Pune'),(38,1,22,'Jaipur'),(39,1,7,'Surat'),(40,1,27,'Lucknow'),(41,1,27,'Kanpur'),(42,1,15,'Nagpur'),(43,1,4,'Patna'),(44,1,14,'Indore'),(45,1,15,'Thane'),(46,1,14,'Bhopal'),(47,1,1,'Visakhapatnam'),(48,1,7,'Vadodara'),(49,1,27,'Firozabad'),(50,1,21,'Ludhiana'),(51,1,7,'Rajkot'),(52,1,27,'Agra'),(53,1,29,'Siliguri'),(54,1,15,'Nashik'),(55,1,8,'Faridabad'),(56,1,21,'Patiala'),(57,1,27,'Meerut'),(58,1,15,'Kalyan-Dombivali'),(59,1,15,'Vasai-Virar'),(60,1,27,'Varanasi'),(61,1,31,'Srinagar'),(62,1,10,'Dhanbad'),(63,1,22,'Jodhpur'),(64,1,21,'Amritsar'),(65,1,5,'Raipur'),(66,1,27,'Allahabad'),(67,1,24,'Coimbatore'),(68,1,14,'Jabalpur'),(69,1,14,'Gwalior'),(70,1,1,'Vijayawada'),(71,1,24,'Madurai'),(72,1,3,'Guwahati'),(73,1,32,'Chandigarh'),(74,1,12,'Hubli-Dharwad'),(75,1,27,'Amroha'),(76,1,27,'Moradabad'),(77,1,8,'Gurgaon'),(78,1,27,'Aligarh'),(79,1,15,'Solapur'),(80,1,10,'Ranchi'),(81,1,21,'Jalandhar'),(82,1,24,'Tiruchirappalli'),(83,1,20,'Bhubaneswar'),(84,1,24,'Salem'),(85,1,25,'Warangal'),(86,1,15,'Mira-Bhayandar'),(87,1,13,'Thiruvananthapuram'),(88,1,15,'Bhiwandi'),(89,1,27,'Saharanpur'),(90,1,1,'Guntur'),(91,1,15,'Amravati'),(92,1,22,'Bikaner'),(93,1,27,'Noida'),(94,1,10,'Jamshedpur'),(95,1,5,'Bhilai Nagar'),(96,1,20,'Cuttack'),(97,1,13,'Kochi'),(98,1,22,'Udaipur'),(99,1,7,'Bhavnagar'),(100,1,28,'Dehradun'),(101,1,29,'Asansol'),(102,1,15,'Nanded-Waghala'),(103,1,22,'Ajmer'),(104,1,7,'Jamnagar'),(105,1,14,'Ujjain'),(106,1,15,'Sangli'),(107,1,27,'Loni'),(108,1,27,'Jhansi'),(109,1,33,'Pondicherry'),(110,1,1,'Nellore'),(111,1,31,'Jammu'),(112,1,12,'Belagavi'),(113,1,20,'Raurkela'),(114,1,12,'Mangaluru'),(115,1,24,'Tirunelveli'),(116,1,15,'Malegaon'),(117,1,4,'Gaya'),(118,1,24,'Tiruppur'),(119,1,12,'Davanagere'),(120,1,13,'Kozhikode'),(121,1,15,'Akola'),(122,1,1,'Kurnool'),(123,1,10,'Bokaro Steel City'),(124,1,1,'Rajahmundry'),(125,1,12,'Ballari'),(126,1,26,'Agartala'),(127,1,4,'Bhagalpur'),(128,1,15,'Latur'),(129,1,15,'Dhule'),(130,1,5,'Korba'),(131,1,22,'Bhilwara'),(132,1,20,'Brahmapur'),(133,1,12,'Mysore'),(134,1,4,'Muzaffarpur'),(135,1,15,'Ahmednagar'),(136,1,13,'Kollam'),(137,1,29,'Raghunathganj'),(138,1,5,'Bilaspur'),(139,1,27,'Shahjahanpur'),(140,1,13,'Thrissur'),(141,1,22,'Alwar'),(142,1,1,'Kakinada'),(143,1,25,'Nizamabad'),(144,1,14,'Sagar'),(145,1,12,'Tumkur'),(146,1,8,'Hisar'),(147,1,8,'Rohtak'),(148,1,8,'Panipat'),(149,1,4,'Darbhanga'),(150,1,29,'Kharagpur'),(151,1,18,'Aizawl'),(152,1,15,'Ichalkaranji'),(153,1,1,'Tirupati'),(154,1,8,'Karnal'),(155,1,21,'Bathinda'),(156,1,27,'Rampur'),(157,1,12,'Shivamogga'),(158,1,14,'Ratlam'),(159,1,27,'Modinagar'),(160,1,5,'Durg'),(161,1,17,'Shillong'),(162,1,16,'Imphal'),(163,1,27,'Hapur'),(164,1,24,'Ranipet'),(165,1,1,'Anantapur'),(166,1,4,'Arrah'),(167,1,25,'Karimnagar'),(168,1,15,'Parbhani'),(169,1,27,'Etawah'),(170,1,22,'Bharatpur'),(171,1,4,'Begusarai'),(172,1,30,'New Delhi'),(173,1,4,'Chhapra'),(174,1,1,'Kadapa'),(175,1,25,'Ramagundam'),(176,1,22,'Pali'),(177,1,14,'Satna'),(178,1,1,'Vizianagaram'),(179,1,4,'Katihar'),(180,1,28,'Hardwar'),(181,1,8,'Sonipat'),(182,1,24,'Nagercoil'),(183,1,24,'Thanjavur'),(184,1,14,'Murwara (Katni)'),(185,1,29,'Naihati'),(186,1,27,'Sambhal'),(187,1,7,'Nadiad'),(188,1,8,'Yamunanagar'),(189,1,29,'English Bazar'),(190,1,1,'Eluru'),(191,1,4,'Munger'),(192,1,8,'Panchkula'),(193,1,12,'Raayachuru'),(194,1,15,'Panvel'),(195,1,10,'Deoghar'),(196,1,1,'Ongole'),(197,1,1,'Nandyal'),(198,1,14,'Morena'),(199,1,8,'Bhiwani'),(200,1,7,'Porbandar'),(201,1,13,'Palakkad'),(202,1,7,'Anand'),(203,1,4,'Purnia'),(204,1,29,'Baharampur'),(205,1,22,'Barmer'),(206,1,7,'Morvi'),(207,1,27,'Orai'),(208,1,27,'Bahraich'),(209,1,22,'Sikar'),(210,1,24,'Vellore'),(211,1,14,'Singrauli'),(212,1,25,'Khammam'),(213,1,7,'Mahesana'),(214,1,3,'Silchar'),(215,1,20,'Sambalpur'),(216,1,14,'Rewa'),(217,1,27,'Unnao'),(218,1,29,'Hugli-Chinsurah'),(219,1,29,'Raiganj'),(220,1,10,'Phusro'),(221,1,10,'Adityapur'),(222,1,13,'Alappuzha'),(223,1,8,'Bahadurgarh'),(224,1,1,'Machilipatnam'),(225,1,27,'Rae Bareli'),(226,1,29,'Jalpaiguri'),(227,1,7,'Bharuch'),(228,1,21,'Pathankot'),(229,1,21,'Hoshiarpur'),(230,1,31,'Baramula'),(231,1,1,'Adoni'),(232,1,8,'Jind'),(233,1,22,'Tonk'),(234,1,1,'Tenali'),(235,1,24,'Kancheepuram'),(236,1,7,'Vapi'),(237,1,8,'Sirsa'),(238,1,7,'Navsari'),(239,1,25,'Mahbubnagar'),(240,1,20,'Puri'),(241,1,12,'Robertson Pet'),(242,1,24,'Erode'),(243,1,21,'Batala'),(244,1,28,'Haldwani-cum-Kathgodam'),(245,1,14,'Vidisha'),(246,1,4,'Saharsa'),(247,1,8,'Thanesar'),(248,1,1,'Chittoor'),(249,1,7,'Veraval'),(250,1,27,'Lakhimpur'),(251,1,27,'Sitapur'),(252,1,1,'Hindupur'),(253,1,29,'Santipur'),(254,1,29,'Balurghat'),(255,1,14,'Ganjbasoda'),(256,1,21,'Moga'),(257,1,1,'Proddatur'),(258,1,28,'Srinagar'),(259,1,29,'Medinipur'),(260,1,29,'Habra'),(261,1,4,'Sasaram'),(262,1,4,'Hajipur'),(263,1,7,'Bhuj'),(264,1,14,'Shivpuri'),(265,1,29,'Ranaghat'),(266,1,9,'Shimla'),(267,1,24,'Tiruvannamalai'),(268,1,8,'Kaithal'),(269,1,5,'Rajnandgaon'),(270,1,7,'Godhra'),(271,1,10,'Hazaribag'),(272,1,1,'Bhimavaram'),(273,1,14,'Mandsaur'),(274,1,3,'Dibrugarh'),(275,1,12,'Kolar'),(276,1,29,'Bankura'),(277,1,12,'Mandya'),(278,1,4,'Dehri-on-Sone'),(279,1,1,'Madanapalle'),(280,1,21,'Malerkotla'),(281,1,27,'Lalitpur'),(282,1,4,'Bettiah'),(283,1,24,'Pollachi'),(284,1,21,'Khanna'),(285,1,14,'Neemuch'),(286,1,8,'Palwal'),(287,1,7,'Palanpur'),(288,1,1,'Guntakal'),(289,1,29,'Nabadwip'),(290,1,12,'Udupi'),(291,1,5,'Jagdalpur'),(292,1,4,'Motihari'),(293,1,27,'Pilibhit'),(294,1,19,'Dimapur'),(295,1,21,'Mohali'),(296,1,22,'Sadulpur'),(297,1,24,'Rajapalayam'),(298,1,1,'Dharmavaram'),(299,1,28,'Kashipur'),(300,1,24,'Sivakasi'),(301,1,29,'Darjiling'),(302,1,12,'Chikkamagaluru'),(303,1,1,'Gudivada'),(304,1,20,'Baleshwar Town'),(305,1,25,'Mancherial'),(306,1,1,'Srikakulam'),(307,1,25,'Adilabad'),(308,1,15,'Yavatmal'),(309,1,21,'Barnala'),(310,1,3,'Nagaon'),(311,1,1,'Narasaraopet'),(312,1,5,'Raigarh'),(313,1,28,'Roorkee'),(314,1,7,'Valsad'),(315,1,5,'Ambikapur'),(316,1,10,'Giridih'),(317,1,27,'Chandausi'),(318,1,29,'Purulia'),(319,1,7,'Patan'),(320,1,4,'Bagaha'),(321,1,27,'Hardoi'),(322,1,15,'Achalpur'),(323,1,15,'Osmanabad'),(324,1,7,'Deesa'),(325,1,15,'Nandurbar'),(326,1,27,'Azamgarh'),(327,1,10,'Ramgarh'),(328,1,21,'Firozpur'),(329,1,20,'Baripada Town'),(330,1,12,'Karwar'),(331,1,4,'Siwan'),(332,1,1,'Rajampet'),(333,1,24,'Pudukkottai'),(334,1,31,'Anantnag'),(335,1,1,'Tadpatri'),(336,1,15,'Satara'),(337,1,20,'Bhadrak'),(338,1,4,'Kishanganj'),(339,1,25,'Suryapet'),(340,1,15,'Wardha'),(341,1,12,'Ranebennuru'),(342,1,7,'Amreli'),(343,1,24,'Neyveli (TS)'),(344,1,4,'Jamalpur'),(345,1,6,'Marmagao'),(346,1,15,'Udgir'),(347,1,1,'Tadepalligudem'),(348,1,24,'Nagapattinam'),(349,1,4,'Buxar'),(350,1,15,'Aurangabad'),(351,1,4,'Jehanabad'),(352,1,21,'Phagwara'),(353,1,27,'Khair'),(354,1,22,'Sawai Madhopur'),(355,1,21,'Kapurthala'),(356,1,1,'Chilakaluripet'),(357,1,4,'Aurangabad'),(358,1,13,'Malappuram'),(359,1,8,'Rewari'),(360,1,22,'Nagaur'),(361,1,27,'Sultanpur'),(362,1,14,'Nagda'),(363,1,34,'Port Blair'),(364,1,4,'Lakhisarai'),(365,1,6,'Panaji'),(366,1,3,'Tinsukia'),(367,1,14,'Itarsi'),(368,1,19,'Kohima'),(369,1,20,'Balangir'),(370,1,4,'Nawada'),(371,1,20,'Jharsuguda'),(372,1,25,'Jagtial'),(373,1,24,'Viluppuram'),(374,1,15,'Amalner'),(375,1,21,'Zirakpur'),(376,1,27,'Tanda'),(377,1,24,'Tiruchengode'),(378,1,27,'Nagina'),(379,1,1,'Yemmiganur'),(380,1,24,'Vaniyambadi'),(381,1,14,'Sarni'),(382,1,24,'Theni Allinagaram'),(383,1,6,'Margao'),(384,1,15,'Akot'),(385,1,14,'Sehore'),(386,1,14,'Mhow Cantonment'),(387,1,21,'Kot Kapura'),(388,1,22,'Makrana'),(389,1,15,'Pandharpur'),(390,1,25,'Miryalaguda'),(391,1,27,'Shamli'),(392,1,14,'Seoni'),(393,1,12,'Ranibennur'),(394,1,1,'Kadiri'),(395,1,15,'Shrirampur'),(396,1,28,'Rudrapur'),(397,1,15,'Parli'),(398,1,27,'Najibabad'),(399,1,25,'Nirmal'),(400,1,24,'Udhagamandalam'),(401,1,27,'Shikohabad'),(402,1,10,'Jhumri Tilaiya'),(403,1,24,'Aruppukkottai'),(404,1,13,'Ponnani'),(405,1,4,'Jamui'),(406,1,4,'Sitamarhi'),(407,1,1,'Chirala'),(408,1,7,'Anjar'),(409,1,33,'Karaikal'),(410,1,8,'Hansi'),(411,1,1,'Anakapalle'),(412,1,5,'Mahasamund'),(413,1,21,'Faridkot'),(414,1,10,'Saunda'),(415,1,7,'Dhoraji'),(416,1,24,'Paramakudi'),(417,1,14,'Balaghat'),(418,1,22,'Sujangarh'),(419,1,7,'Khambhat'),(420,1,21,'Muktsar'),(421,1,21,'Rajpura'),(422,1,1,'Kavali'),(423,1,5,'Dhamtari'),(424,1,14,'Ashok Nagar'),(425,1,22,'Sardarshahar'),(426,1,7,'Mahuva'),(427,1,20,'Bargarh'),(428,1,25,'Kamareddy'),(429,1,10,'Sahibganj'),(430,1,25,'Kothagudem'),(431,1,12,'Ramanagaram'),(432,1,12,'Gokak'),(433,1,14,'Tikamgarh'),(434,1,4,'Araria'),(435,1,28,'Rishikesh'),(436,1,14,'Shahdol'),(437,1,10,'Medininagar (Daltonganj)'),(438,1,24,'Arakkonam'),(439,1,15,'Washim'),(440,1,21,'Sangrur'),(441,1,25,'Bodhan'),(442,1,21,'Fazilka'),(443,1,1,'Palacole'),(444,1,7,'Keshod'),(445,1,1,'Sullurpeta'),(446,1,7,'Wadhwan'),(447,1,21,'Gurdaspur'),(448,1,13,'Vatakara'),(449,1,17,'Tura'),(450,1,8,'Narnaul'),(451,1,21,'Kharar'),(452,1,12,'Yadgir'),(453,1,15,'Ambejogai'),(454,1,7,'Ankleshwar'),(455,1,7,'Savarkundla'),(456,1,20,'Paradip'),(457,1,24,'Virudhachalam'),(458,1,13,'Kanhangad'),(459,1,7,'Kadi'),(460,1,24,'Srivilliputhur'),(461,1,21,'Gobindgarh'),(462,1,24,'Tindivanam'),(463,1,21,'Mansa'),(464,1,13,'Taliparamba'),(465,1,15,'Manmad'),(466,1,1,'Tanuku'),(467,1,1,'Rayachoti'),(468,1,24,'Virudhunagar'),(469,1,13,'Koyilandy'),(470,1,3,'Jorhat'),(471,1,24,'Karur'),(472,1,24,'Valparai'),(473,1,1,'Srikalahasti'),(474,1,13,'Neyyattinkara'),(475,1,1,'Bapatla'),(476,1,8,'Fatehabad'),(477,1,21,'Malout'),(478,1,24,'Sankarankovil'),(479,1,24,'Tenkasi'),(480,1,15,'Ratnagiri'),(481,1,12,'Rabkavi Banhatti'),(482,1,27,'Sikandrabad'),(483,1,10,'Chaibasa'),(484,1,5,'Chirmiri'),(485,1,25,'Palwancha'),(486,1,20,'Bhawanipatna'),(487,1,13,'Kayamkulam'),(488,1,14,'Pithampur'),(489,1,21,'Nabha'),(490,1,27,'Shahabad, Hardoi'),(491,1,20,'Dhenkanal'),(492,1,15,'Uran Islampur'),(493,1,4,'Gopalganj'),(494,1,3,'Bongaigaon City'),(495,1,24,'Palani'),(496,1,15,'Pusad'),(497,1,31,'Sopore'),(498,1,27,'Pilkhuwa'),(499,1,21,'Tarn Taran'),(500,1,27,'Renukoot'),(501,1,25,'Mandamarri'),(502,1,12,'Shahabad'),(503,1,20,'Barbil'),(504,1,25,'Koratla'),(505,1,4,'Madhubani'),(506,1,29,'Arambagh'),(507,1,8,'Gohana'),(508,1,22,'Ladnu'),(509,1,24,'Pattukkottai'),(510,1,12,'Sirsi'),(511,1,25,'Sircilla'),(512,1,29,'Tamluk'),(513,1,21,'Jagraon'),(514,1,29,'AlipurdUrban Agglomerationr'),(515,1,14,'Alirajpur'),(516,1,25,'Tandur'),(517,1,1,'Naidupet'),(518,1,24,'Tirupathur'),(519,1,8,'Tohana'),(520,1,22,'Ratangarh'),(521,1,3,'Dhubri'),(522,1,4,'Masaurhi'),(523,1,7,'Visnagar'),(524,1,27,'Vrindavan'),(525,1,22,'Nokha'),(526,1,1,'Nagari'),(527,1,8,'Narwana'),(528,1,24,'Ramanathapuram'),(529,1,27,'Ujhani'),(530,1,4,'Samastipur'),(531,1,27,'Laharpur'),(532,1,15,'Sangamner'),(533,1,22,'Nimbahera'),(534,1,25,'Siddipet'),(535,1,29,'Suri'),(536,1,3,'Diphu'),(537,1,29,'Jhargram'),(538,1,15,'Shirpur-Warwade'),(539,1,27,'Tilhar'),(540,1,12,'Sindhnur'),(541,1,24,'Udumalaipettai'),(542,1,15,'Malkapur'),(543,1,25,'Wanaparthy'),(544,1,1,'Gudur'),(545,1,20,'Kendujhar'),(546,1,14,'Mandla'),(547,1,9,'Mandi'),(548,1,13,'Nedumangad'),(549,1,3,'North Lakhimpur'),(550,1,1,'Vinukonda'),(551,1,12,'Tiptur'),(552,1,24,'Gobichettipalayam'),(553,1,20,'Sunabeda'),(554,1,15,'Wani'),(555,1,7,'Upleta'),(556,1,1,'Narasapuram'),(557,1,1,'Nuzvid'),(558,1,3,'Tezpur'),(559,1,7,'Una'),(560,1,1,'Markapur'),(561,1,14,'Sheopur'),(562,1,24,'Thiruvarur'),(563,1,7,'Sidhpur'),(564,1,27,'Sahaswan'),(565,1,22,'Suratgarh'),(566,1,14,'Shajapur'),(567,1,20,'Rayagada'),(568,1,15,'Lonavla'),(569,1,1,'Ponnur'),(570,1,25,'Kagaznagar'),(571,1,25,'Gadwal'),(572,1,5,'Bhatapara'),(573,1,1,'Kandukur'),(574,1,25,'Sangareddy'),(575,1,7,'Unjha'),(576,1,18,'Lunglei'),(577,1,3,'Karimganj'),(578,1,13,'Kannur'),(579,1,1,'Bobbili'),(580,1,4,'Mokameh'),(581,1,15,'Talegaon Dabhade'),(582,1,15,'Anjangaon'),(583,1,7,'Mangrol'),(584,1,21,'Sunam'),(585,1,29,'Gangarampur'),(586,1,24,'Thiruvallur'),(587,1,13,'Tirur'),(588,1,27,'Rath'),(589,1,20,'Jatani'),(590,1,7,'Viramgam'),(591,1,22,'Rajsamand'),(592,1,33,'Yanam'),(593,1,13,'Kottayam'),(594,1,24,'Panruti'),(595,1,21,'Dhuri'),(596,1,24,'Namakkal'),(597,1,13,'Kasaragod'),(598,1,7,'Modasa'),(599,1,1,'Rayadurg'),(600,1,4,'Supaul'),(601,1,13,'Kunnamkulam'),(602,1,15,'Umred'),(603,1,25,'Bellampalle'),(604,1,3,'Sibsagar'),(605,1,8,'Mandi Dabwali'),(606,1,13,'Ottappalam'),(607,1,4,'Dumraon'),(608,1,1,'Samalkot'),(609,1,1,'Jaggaiahpet'),(610,1,3,'Goalpara'),(611,1,1,'Tuni'),(612,1,22,'Lachhmangarh'),(613,1,25,'Bhongir'),(614,1,1,'Amalapuram'),(615,1,21,'Firozpur Cantt.'),(616,1,25,'Vikarabad'),(617,1,13,'Thiruvalla'),(618,1,27,'Sherkot'),(619,1,15,'Palghar'),(620,1,15,'Shegaon'),(621,1,25,'Jangaon'),(622,1,1,'Bheemunipatnam'),(623,1,14,'Panna'),(624,1,13,'Thodupuzha'),(625,1,31,'KathUrban Agglomeration'),(626,1,7,'Palitana'),(627,1,4,'Arwal'),(628,1,1,'Venkatagiri'),(629,1,27,'Kalpi'),(630,1,22,'Rajgarh (Churu)'),(631,1,1,'Sattenapalle'),(632,1,12,'Arsikere'),(633,1,15,'Ozar'),(634,1,24,'Thirumangalam'),(635,1,7,'Petlad'),(636,1,22,'Nasirabad'),(637,1,15,'Phaltan'),(638,1,29,'Rampurhat'),(639,1,12,'Nanjangud'),(640,1,4,'Forbesganj'),(641,1,27,'Tundla'),(642,1,4,'BhabUrban Agglomeration'),(643,1,12,'Sagara'),(644,1,1,'Pithapuram'),(645,1,12,'Sira'),(646,1,25,'Bhadrachalam'),(647,1,8,'Charkhi Dadri'),(648,1,10,'Chatra'),(649,1,1,'Palasa Kasibugga'),(650,1,22,'Nohar'),(651,1,15,'Yevla'),(652,1,21,'Sirhind Fatehgarh Sahib'),(653,1,25,'Bhainsa'),(654,1,1,'Parvathipuram'),(655,1,15,'Shahade'),(656,1,13,'Chalakudy'),(657,1,4,'Narkatiaganj'),(658,1,7,'Kapadvanj'),(659,1,1,'Macherla'),(660,1,14,'Raghogarh-Vijaypur'),(661,1,21,'Rupnagar'),(662,1,4,'Naugachhia'),(663,1,14,'Sendhwa'),(664,1,20,'Byasanagar'),(665,1,27,'Sandila'),(666,1,1,'Gooty'),(667,1,1,'Salur'),(668,1,27,'Nanpara'),(669,1,27,'Sardhana'),(670,1,15,'Vita'),(671,1,10,'Gumia'),(672,1,12,'Puttur'),(673,1,21,'Jalandhar Cantt.'),(674,1,27,'Nehtaur'),(675,1,13,'Changanassery'),(676,1,1,'Mandapeta'),(677,1,10,'Dumka'),(678,1,27,'Seohara'),(679,1,15,'Umarkhed'),(680,1,10,'Madhupur'),(681,1,24,'Vikramasingapuram'),(682,1,13,'Punalur'),(683,1,20,'Kendrapara'),(684,1,7,'Sihor'),(685,1,24,'Nellikuppam'),(686,1,21,'Samana'),(687,1,15,'Warora'),(688,1,13,'Nilambur'),(689,1,24,'Rasipuram'),(690,1,28,'Ramnagar'),(691,1,1,'Jammalamadugu'),(692,1,21,'Nawanshahr'),(693,1,16,'Thoubal'),(694,1,12,'Athni'),(695,1,13,'Cherthala'),(696,1,14,'Sidhi'),(697,1,25,'Farooqnagar'),(698,1,1,'Peddapuram'),(699,1,10,'Chirkunda'),(700,1,15,'Pachora'),(701,1,4,'Madhepura'),(702,1,28,'Pithoragarh'),(703,1,15,'Tumsar'),(704,1,22,'Phalodi'),(705,1,24,'Tiruttani'),(706,1,21,'Rampura Phul'),(707,1,13,'Perinthalmanna'),(708,1,27,'Padrauna'),(709,1,14,'Pipariya'),(710,1,5,'Dalli-Rajhara'),(711,1,1,'Punganur'),(712,1,13,'Mattannur'),(713,1,27,'Mathura'),(714,1,27,'Thakurdwara'),(715,1,24,'Nandivaram-Guduvancheri'),(716,1,12,'Mulbagal'),(717,1,15,'Manjlegaon'),(718,1,7,'Wankaner'),(719,1,15,'Sillod'),(720,1,1,'Nidadavole'),(721,1,12,'Surapura'),(722,1,20,'Rajagangapur'),(723,1,4,'Sheikhpura'),(724,1,20,'Parlakhemundi'),(725,1,29,'Kalimpong'),(726,1,12,'Siruguppa'),(727,1,15,'Arvi'),(728,1,7,'Limbdi'),(729,1,3,'Barpeta'),(730,1,28,'Manglaur'),(731,1,1,'Repalle'),(732,1,12,'Mudhol'),(733,1,14,'Shujalpur'),(734,1,7,'Mandvi'),(735,1,7,'Thangadh'),(736,1,14,'Sironj'),(737,1,15,'Nandura'),(738,1,13,'Shoranur'),(739,1,22,'Nathdwara'),(740,1,24,'Periyakulam'),(741,1,4,'Sultanganj'),(742,1,25,'Medak'),(743,1,25,'Narayanpet'),(744,1,4,'Raxaul Bazar'),(745,1,31,'Rajauri'),(746,1,24,'Pernampattu'),(747,1,28,'Nainital'),(748,1,1,'Ramachandrapuram'),(749,1,15,'Vaijapur'),(750,1,21,'Nangal'),(751,1,12,'Sidlaghatta'),(752,1,31,'Punch'),(753,1,14,'Pandhurna'),(754,1,15,'Wadgaon Road'),(755,1,20,'Talcher'),(756,1,13,'Varkala'),(757,1,22,'Pilani'),(758,1,14,'Nowgong'),(759,1,5,'Naila Janjgir'),(760,1,6,'Mapusa'),(761,1,24,'Vellakoil'),(762,1,22,'Merta City'),(763,1,24,'Sivaganga'),(764,1,14,'Mandideep'),(765,1,15,'Sailu'),(766,1,7,'Vyara'),(767,1,1,'Kovvur'),(768,1,24,'Vadalur'),(769,1,27,'Nawabganj'),(770,1,7,'Padra'),(771,1,29,'Sainthia'),(772,1,27,'Siana'),(773,1,12,'Shahpur'),(774,1,22,'Sojat'),(775,1,27,'Noorpur'),(776,1,13,'Paravoor'),(777,1,15,'Murtijapur'),(778,1,4,'Ramnagar'),(779,1,20,'Sundargarh'),(780,1,29,'Taki'),(781,1,12,'Saundatti-Yellamma'),(782,1,13,'Pathanamthitta'),(783,1,12,'Wadi'),(784,1,24,'Rameshwaram'),(785,1,15,'Tasgaon'),(786,1,27,'Sikandra Rao'),(787,1,14,'Sihora'),(788,1,24,'Tiruvethipuram'),(789,1,1,'Tiruvuru'),(790,1,15,'Mehkar'),(791,1,13,'Peringathur'),(792,1,24,'Perambalur'),(793,1,12,'Manvi'),(794,1,19,'Zunheboto'),(795,1,4,'Mahnar Bazar'),(796,1,13,'Attingal'),(797,1,8,'Shahbad'),(798,1,27,'Puranpur'),(799,1,12,'Nelamangala'),(800,1,21,'Nakodar'),(801,1,7,'Lunawada'),(802,1,29,'Murshidabad'),(803,1,33,'Mahe'),(804,1,3,'Lanka'),(805,1,27,'Rudauli'),(806,1,19,'Tuensang'),(807,1,12,'Lakshmeshwar'),(808,1,21,'Zira'),(809,1,15,'Yawal'),(810,1,27,'Thana Bhawan'),(811,1,12,'Ramdurg'),(812,1,15,'Pulgaon'),(813,1,25,'Sadasivpet'),(814,1,12,'Nargund'),(815,1,22,'Neem-Ka-Thana'),(816,1,29,'Memari'),(817,1,15,'Nilanga'),(818,1,2,'Naharlagun'),(819,1,10,'Pakaur'),(820,1,15,'Wai'),(821,1,12,'Tarikere'),(822,1,12,'Malavalli'),(823,1,14,'Raisen'),(824,1,14,'Lahar'),(825,1,1,'Uravakonda'),(826,1,12,'Savanur'),(827,1,22,'Sirohi'),(828,1,31,'Udhampur'),(829,1,15,'Umarga'),(830,1,22,'Pratapgarh'),(831,1,12,'Lingsugur'),(832,1,24,'Usilampatti'),(833,1,27,'Palia Kalan'),(834,1,19,'Wokha'),(835,1,7,'Rajpipla'),(836,1,12,'Vijayapura'),(837,1,22,'Rawatbhata'),(838,1,22,'Sangaria'),(839,1,15,'Paithan'),(840,1,15,'Rahuri'),(841,1,21,'Patti'),(842,1,27,'Zaidpur'),(843,1,22,'Lalsot'),(844,1,14,'Maihar'),(845,1,24,'Vedaranyam'),(846,1,15,'Nawapur'),(847,1,9,'Solan'),(848,1,7,'Vapi'),(849,1,14,'Sanawad'),(850,1,4,'Warisaliganj'),(851,1,4,'Revelganj'),(852,1,14,'Sabalgarh'),(853,1,15,'Tuljapur'),(854,1,10,'Simdega'),(855,1,10,'Musabani'),(856,1,13,'Kodungallur'),(857,1,20,'Phulabani'),(858,1,7,'Umreth'),(859,1,1,'Narsipatnam'),(860,1,27,'Nautanwa'),(861,1,4,'Rajgir'),(862,1,25,'Yellandu'),(863,1,24,'Sathyamangalam'),(864,1,22,'Pilibanga'),(865,1,15,'Morshi'),(866,1,8,'Pehowa'),(867,1,4,'Sonepur'),(868,1,13,'Pappinisseri'),(869,1,27,'Zamania'),(870,1,10,'Mihijam'),(871,1,15,'Purna'),(872,1,24,'Puliyankudi'),(873,1,27,'Shikarpur, Bulandshahr'),(874,1,14,'Umaria'),(875,1,14,'Porsa'),(876,1,27,'Naugawan Sadat'),(877,1,27,'Fatehpur Sikri'),(878,1,25,'Manuguru'),(879,1,26,'Udaipur'),(880,1,22,'Pipar City'),(881,1,20,'Pattamundai'),(882,1,24,'Nanjikottai'),(883,1,22,'Taranagar'),(884,1,1,'Yerraguntla'),(885,1,15,'Satana'),(886,1,4,'Sherghati'),(887,1,12,'Sankeshwara'),(888,1,12,'Madikeri'),(889,1,24,'Thuraiyur'),(890,1,7,'Sanand'),(891,1,7,'Rajula'),(892,1,25,'Kyathampalle'),(893,1,27,'Shahabad, Rampur'),(894,1,5,'Tilda Newra'),(895,1,14,'Narsinghgarh'),(896,1,13,'Chittur-Thathamangalam'),(897,1,14,'Malaj Khand'),(898,1,14,'Sarangpur'),(899,1,27,'Robertsganj'),(900,1,24,'Sirkali'),(901,1,7,'Radhanpur'),(902,1,24,'Tiruchendur'),(903,1,27,'Utraula'),(904,1,10,'Patratu'),(905,1,22,'Vijainagar, Ajmer'),(906,1,24,'Periyasemur'),(907,1,15,'Pathri'),(908,1,27,'Sadabad'),(909,1,12,'Talikota'),(910,1,15,'Sinnar'),(911,1,5,'Mungeli'),(912,1,12,'Sedam'),(913,1,12,'Shikaripur'),(914,1,22,'Sumerpur'),(915,1,24,'Sattur'),(916,1,4,'Sugauli'),(917,1,3,'Lumding'),(918,1,24,'Vandavasi'),(919,1,20,'Titlagarh'),(920,1,15,'Uchgaon'),(921,1,19,'Mokokchung'),(922,1,29,'Paschim Punropara'),(923,1,22,'Sagwara'),(924,1,22,'Ramganj Mandi'),(925,1,29,'Tarakeswar'),(926,1,12,'Mahalingapura'),(927,1,26,'Dharmanagar'),(928,1,7,'Mahemdabad'),(929,1,5,'Manendragarh'),(930,1,15,'Uran'),(931,1,24,'Tharamangalam'),(932,1,24,'Tirukkoyilur'),(933,1,15,'Pen'),(934,1,4,'Makhdumpur'),(935,1,4,'Maner'),(936,1,24,'Oddanchatram'),(937,1,24,'Palladam'),(938,1,14,'Mundi'),(939,1,20,'Nabarangapur'),(940,1,12,'Mudalagi'),(941,1,8,'Samalkha'),(942,1,14,'Nepanagar'),(943,1,15,'Karjat'),(944,1,7,'Ranavav'),(945,1,1,'Pedana'),(946,1,8,'Pinjore'),(947,1,22,'Lakheri'),(948,1,14,'Pasan'),(949,1,1,'Puttur'),(950,1,24,'Vadakkuvalliyur'),(951,1,24,'Tirukalukundram'),(952,1,14,'Mahidpur'),(953,1,28,'Mussoorie'),(954,1,13,'Muvattupuzha'),(955,1,27,'Rasra'),(956,1,22,'Udaipurwati'),(957,1,15,'Manwath'),(958,1,13,'Adoor'),(959,1,24,'Uthamapalayam'),(960,1,15,'Partur'),(961,1,9,'Nahan'),(962,1,8,'Ladwa'),(963,1,3,'Mankachar'),(964,1,17,'Nongstoin'),(965,1,22,'Losal'),(966,1,22,'Sri Madhopur'),(967,1,22,'Ramngarh'),(968,1,13,'Mavelikkara'),(969,1,22,'Rawatsar'),(970,1,22,'Rajakhera'),(971,1,27,'Lar'),(972,1,27,'Lal Gopalganj Nindaura'),(973,1,12,'Muddebihal'),(974,1,27,'Sirsaganj'),(975,1,22,'Shahpura'),(976,1,24,'Surandai'),(977,1,15,'Sangole'),(978,1,12,'Pavagada'),(979,1,7,'Tharad'),(980,1,7,'Mansa'),(981,1,7,'Umbergaon'),(982,1,13,'Mavoor'),(983,1,3,'Nalbari'),(984,1,7,'Talaja'),(985,1,12,'Malur'),(986,1,15,'Mangrulpir'),(987,1,20,'Soro'),(988,1,22,'Shahpura'),(989,1,7,'Vadnagar'),(990,1,22,'Raisinghnagar'),(991,1,12,'Sindhagi'),(992,1,12,'Sanduru'),(993,1,8,'Sohna'),(994,1,7,'Manavadar'),(995,1,27,'Pihani'),(996,1,8,'Safidon'),(997,1,15,'Risod'),(998,1,4,'Rosera'),(999,1,24,'Sankari'),(1000,1,22,'Malpura'),(1001,1,29,'Sonamukhi'),(1002,1,27,'Shamsabad, Agra'),(1003,1,4,'Nokha'),(1004,1,29,'PandUrban Agglomeration'),(1005,1,29,'Mainaguri'),(1006,1,12,'Afzalpur'),(1007,1,15,'Shirur'),(1008,1,7,'Salaya'),(1009,1,24,'Shenkottai'),(1010,1,26,'Pratapgarh'),(1011,1,24,'Vadipatti'),(1012,1,25,'Nagarkurnool'),(1013,1,15,'Savner'),(1014,1,15,'Sasvad'),(1015,1,27,'Rudrapur'),(1016,1,27,'Soron'),(1017,1,24,'Sholingur'),(1018,1,15,'Pandharkaoda'),(1019,1,13,'Perumbavoor'),(1020,1,12,'Maddur'),(1021,1,22,'Nadbai'),(1022,1,15,'Talode'),(1023,1,15,'Shrigonda'),(1024,1,12,'Madhugiri'),(1025,1,12,'Tekkalakote'),(1026,1,14,'Seoni-Malwa'),(1027,1,15,'Shirdi'),(1028,1,27,'SUrban Agglomerationr'),(1029,1,12,'Terdal'),(1030,1,15,'Raver'),(1031,1,24,'Tirupathur'),(1032,1,8,'Taraori'),(1033,1,15,'Mukhed'),(1034,1,24,'Manachanallur'),(1035,1,14,'Rehli'),(1036,1,22,'Sanchore'),(1037,1,15,'Rajura'),(1038,1,4,'Piro'),(1039,1,12,'Mudabidri'),(1040,1,15,'Vadgaon Kasba'),(1041,1,22,'Nagar'),(1042,1,7,'Vijapur'),(1043,1,24,'Viswanatham'),(1044,1,24,'Polur'),(1045,1,24,'Panagudi'),(1046,1,14,'Manawar'),(1047,1,28,'Tehri'),(1048,1,27,'Samdhan'),(1049,1,7,'Pardi'),(1050,1,14,'Rahatgarh'),(1051,1,14,'Panagar'),(1052,1,24,'Uthiramerur'),(1053,1,15,'Tirora'),(1054,1,3,'Rangia'),(1055,1,27,'Sahjanwa'),(1056,1,14,'Wara Seoni'),(1057,1,12,'Magadi'),(1058,1,22,'Rajgarh (Alwar)'),(1059,1,4,'Rafiganj'),(1060,1,14,'Tarana'),(1061,1,27,'Rampur Maniharan'),(1062,1,22,'Sheoganj'),(1063,1,21,'Raikot'),(1064,1,28,'Pauri'),(1065,1,27,'Sumerpur'),(1066,1,12,'Navalgund'),(1067,1,27,'Shahganj'),(1068,1,4,'Marhaura'),(1069,1,27,'Tulsipur'),(1070,1,22,'Sadri'),(1071,1,24,'Thiruthuraipoondi'),(1072,1,12,'Shiggaon'),(1073,1,24,'Pallapatti'),(1074,1,8,'Mahendragarh'),(1075,1,14,'Sausar'),(1076,1,24,'Ponneri'),(1077,1,15,'Mahad'),(1078,1,10,'Lohardaga'),(1079,1,27,'Tirwaganj'),(1080,1,3,'Margherita'),(1081,1,9,'Sundarnagar'),(1082,1,14,'Rajgarh'),(1083,1,3,'Mangaldoi'),(1084,1,1,'Renigunta'),(1085,1,21,'Longowal'),(1086,1,8,'Ratia'),(1087,1,24,'Lalgudi'),(1088,1,12,'Shrirangapattana'),(1089,1,14,'Niwari'),(1090,1,24,'Natham'),(1091,1,24,'Unnamalaikadai'),(1092,1,27,'PurqUrban Agglomerationzi'),(1093,1,27,'Shamsabad, Farrukhabad'),(1094,1,4,'Mirganj'),(1095,1,22,'Todaraisingh'),(1096,1,27,'Warhapur'),(1097,1,1,'Rajam'),(1098,1,21,'Urmar Tanda'),(1099,1,15,'Lonar'),(1100,1,27,'Powayan'),(1101,1,24,'P.N.Patti'),(1102,1,9,'Palampur'),(1103,1,1,'Srisailam Project (Right Flank Colony) Township'),(1104,1,12,'Sindagi'),(1105,1,27,'Sandi'),(1106,1,13,'Vaikom'),(1107,1,29,'Malda'),(1108,1,24,'Tharangambadi'),(1109,1,12,'Sakaleshapura'),(1110,1,4,'Lalganj'),(1111,1,20,'Malkangiri'),(1112,1,7,'Rapar'),(1113,1,14,'Mauganj'),(1114,1,22,'Todabhim'),(1115,1,12,'Srinivaspur'),(1116,1,4,'Murliganj'),(1117,1,22,'Reengus'),(1118,1,15,'Sawantwadi'),(1119,1,24,'Tittakudi'),(1120,1,16,'Lilong'),(1121,1,22,'Rajaldesar'),(1122,1,15,'Pathardi'),(1123,1,27,'Achhnera'),(1124,1,24,'Pacode'),(1125,1,27,'Naraura'),(1126,1,27,'Nakur'),(1127,1,13,'Palai'),(1128,1,21,'Morinda, India'),(1129,1,14,'Manasa'),(1130,1,14,'Nainpur'),(1131,1,27,'Sahaspur'),(1132,1,15,'Pauni'),(1133,1,14,'Prithvipur'),(1134,1,15,'Ramtek'),(1135,1,3,'Silapathar'),(1136,1,7,'Songadh'),(1137,1,27,'Safipur'),(1138,1,14,'Sohagpur'),(1139,1,15,'Mul'),(1140,1,22,'Sadulshahar'),(1141,1,21,'Phillaur'),(1142,1,22,'Sambhar'),(1143,1,22,'Prantij'),(1144,1,28,'Nagla'),(1145,1,21,'Pattran'),(1146,1,22,'Mount Abu'),(1147,1,27,'Reoti'),(1148,1,10,'Tenu dam-cum-Kathhara'),(1149,1,29,'Panchla'),(1150,1,28,'Sitarganj'),(1151,1,2,'Pasighat'),(1152,1,4,'Motipur'),(1153,1,24,'O\' Valley'),(1154,1,29,'Raghunathpur'),(1155,1,24,'Suriyampalayam'),(1156,1,21,'Qadian'),(1157,1,20,'Rairangpur'),(1158,1,35,'Silvassa'),(1159,1,14,'Nowrozabad (Khodargama)'),(1160,1,22,'Mangrol'),(1161,1,15,'Soyagaon'),(1162,1,21,'Sujanpur'),(1163,1,4,'Manihari'),(1164,1,27,'Sikanderpur'),(1165,1,15,'Mangalvedhe'),(1166,1,22,'Phulera'),(1167,1,12,'Ron'),(1168,1,24,'Sholavandan'),(1169,1,27,'Saidpur'),(1170,1,14,'Shamgarh'),(1171,1,24,'Thammampatti'),(1172,1,14,'Maharajpur'),(1173,1,14,'Multai'),(1174,1,21,'Mukerian'),(1175,1,27,'Sirsi'),(1176,1,27,'Purwa'),(1177,1,4,'Sheohar'),(1178,1,24,'Namagiripettai'),(1179,1,27,'Parasi'),(1180,1,7,'Lathi'),(1181,1,27,'Lalganj'),(1182,1,15,'Narkhed'),(1183,1,29,'Mathabhanga'),(1184,1,15,'Shendurjana'),(1185,1,24,'Peravurani'),(1186,1,3,'Mariani'),(1187,1,27,'Phulpur'),(1188,1,8,'Rania'),(1189,1,14,'Pali'),(1190,1,14,'Pachore'),(1191,1,24,'Parangipettai'),(1192,1,24,'Pudupattinam'),(1193,1,13,'Panniyannur'),(1194,1,4,'Maharajganj'),(1195,1,14,'Rau'),(1196,1,29,'Monoharpur'),(1197,1,22,'Mandawa'),(1198,1,3,'Marigaon'),(1199,1,24,'Pallikonda'),(1200,1,22,'Pindwara'),(1201,1,27,'Shishgarh'),(1202,1,15,'Patur'),(1203,1,16,'Mayang Imphal'),(1204,1,14,'Mhowgaon'),(1205,1,13,'Guruvayoor'),(1206,1,15,'Mhaswad'),(1207,1,27,'Sahawar'),(1208,1,24,'Sivagiri'),(1209,1,12,'Mundargi'),(1210,1,24,'Punjaipugalur'),(1211,1,26,'Kailasahar'),(1212,1,27,'Samthar'),(1213,1,5,'Sakti'),(1214,1,12,'Sadalagi'),(1215,1,4,'Silao'),(1216,1,22,'Mandalgarh'),(1217,1,15,'Loha'),(1218,1,27,'Pukhrayan'),(1219,1,24,'Padmanabhapuram'),(1220,1,26,'Belonia'),(1221,1,18,'Saiha'),(1222,1,29,'Srirampore'),(1223,1,21,'Talwara'),(1224,1,13,'Puthuppally'),(1225,1,26,'Khowai'),(1226,1,14,'Vijaypur'),(1227,1,22,'Takhatgarh'),(1228,1,24,'Thirupuvanam'),(1229,1,29,'Adra'),(1230,1,12,'Piriyapatna'),(1231,1,27,'Obra'),(1232,1,7,'Adalaj'),(1233,1,15,'Nandgaon'),(1234,1,4,'Barh'),(1235,1,7,'Chhapra'),(1236,1,13,'Panamattom'),(1237,1,27,'Niwai'),(1238,1,28,'Bageshwar'),(1239,1,20,'Tarbha'),(1240,1,12,'Adyar'),(1241,1,14,'Narsinghgarh'),(1242,1,15,'Warud'),(1243,1,4,'Asarganj'),(1244,1,8,'Sarsod'),(1245,1,23,'Gangtok'),(1246,1,23,'Gyalshing'),(1247,1,23,'Jorethang'),(1248,1,23,'Mangan'),(1249,1,36,'Kavaratti'),(1250,1,36,'Andrott'),(1251,1,36,'Minicoy'),(1252,1,37,'Leh'),(1253,1,37,'Kargil');
 	/*!40000 ALTER TABLE `locationsmaster` ENABLE KEYS */;
 	UNLOCK TABLES;
 
@@ -3103,7 +3104,7 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
     (7,'Recruitment Management',NULL,NULL,7,'assets\\img\\menu-recruitment.png'),
     (8,'Employee Self Service',NULL,NULL,8,'assets\\img\\menu-ess.png '),
     (9,'Claims Management',NULL,NULL,9,'assets\\img\\menu-claims.png'),
-    (10,'Subscription',null,null,10,	'assets\\img\subscription.png'),
+    (10,'Subscription',null,null,10,	'assets\\img\\subscription.png'),
     (11,'Exit Management',null,null,11,'assets\\img\\exit-management.png');
 	/*!40000 ALTER TABLE `modulesmaster` ENABLE KEYS */;
 	UNLOCK TABLES;
@@ -3165,7 +3166,22 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 
 	LOCK TABLES `payroll_client_component_configuration_details` WRITE;
 	/*!40000 ALTER TABLE `payroll_client_component_configuration_details` DISABLE KEYS */;
-	INSERT INTO `payroll_client_component_configuration_details` VALUES (1,1,'1',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(2,2,'0',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(3,3,'0',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(4,4,'ACTUAL',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(5,5,'ACTUAL',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(6,6,'1',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(7,7,'0',NULL,NULL,NULL,current_timestamp(),1,NULL,NULL),(8,8,'WORKING',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(9,9,'LAST_WORKING_DAY',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(10,10,'1',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(12,12,'1',current_timestamp(),null,NULL,current_timestamp(),1,NULL,NULL),(13,13,'LAST_DAY_OF_PRESENT_MONTH',current_timestamp(),null,NULL,current_timestamp(),1,NULL,NULL),(14,14,'April-March',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(15,15,'PREVIOUS_DAY',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(16,16,'0',current_timestamp(),null,NULL,current_timestamp(),1,NULL,NULL),(215,11,'LAST_DAY_OF_PRESENT_MONTH',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),(222,16,'1',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL);
+	INSERT INTO `payroll_client_component_configuration_details` VALUES (1,1,'1',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (2,2,'0',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (3,3,'0',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (4,4,'ACTUAL',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (5,5,'ACTUAL',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (6,6,'1',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (7,7,'0',NULL,NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (8,8,'WORKING',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (9,9,'LAST_WORKING_DAY',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (10,10,'1',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (11,11,'LAST_DAY_OF_PRESENT_MONTH',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (12,12,'1',current_timestamp(),null,NULL,current_timestamp(),1,NULL,NULL),
+    (13,13,'LAST_DAY_OF_PRESENT_MONTH',current_timestamp(),null,NULL,current_timestamp(),1,NULL,NULL),
+    (14,14,'April-March',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (15,15,'PREVIOUS_DAY',current_timestamp(),NULL,NULL,current_timestamp(),1,NULL,NULL),
+    (16,16,'0',current_timestamp(),null,NULL,current_timestamp(),1,NULL,NULL);
 	/*!40000 ALTER TABLE `payroll_client_component_configuration_details` ENABLE KEYS */;
 	UNLOCK TABLES;
 
@@ -4187,7 +4203,7 @@ insert into lm_rulevalues(ruleid,value,effectivefromdate,status) values
 
 	LOCK TABLES `rolescreenaccess` WRITE;
 	/*!40000 ALTER TABLE `rolescreenaccess` DISABLE KEYS */;
-	INSERT INTO `rolescreenaccess` VALUES (109,2,105),(110,2,106),(111,2,107),(112,2,108),(113,2,109),(114,2,110),(115,2,111),(116,2,112),(117,2,113),(118,2,114),(119,2,115),(120,2,116),(121,2,124),(122,2,125),(123,2,126),(124,2,127),(125,2,128),(126,2,129),(127,2,130),(128,2,131),(129,2,132),(130,2,133),(131,2,134),(132,2,135),(133,2,136),(134,2,137),(135,2,138),(136,2,139),(137,2,140),(138,3,9),(139,3,10),(140,3,11),(141,3,12),(142,3,13),(143,3,14),(144,3,15),(145,3,16),(146,3,17),(147,3,18),(148,3,19),(149,3,20),(150,3,21),(151,3,22),(152,3,23),(153,3,24),(154,3,25),(155,3,26),(156,3,27),(157,3,28),(158,3,29),(159,3,30),(160,3,31),(161,3,32),(162,3,33),(163,3,34),(164,3,35),(165,3,36),(166,3,37),(167,3,38),(168,3,39),(169,3,40),(170,3,41),(171,3,42),(172,3,43),(173,3,44),(174,3,45),(175,3,46),(176,3,47),(177,3,48),(178,3,49),(179,3,50),(180,3,51),(181,3,52),(182,3,53),(183,3,54),(184,3,55),(185,3,56),(186,3,57),(187,3,58),(188,3,59),(189,3,60),(190,3,61),(191,3,100),(192,3,101),(193,3,102),(194,3,103),(195,3,104),(196,3,141),(197,3,142),(198,3,144),(199,6,62),(200,6,63),(201,6,64),(202,6,65),(203,6,66),(204,6,67),(205,6,68),(206,6,69),(207,6,70),(208,6,71),(209,6,72),(210,6,73),(211,6,74),(212,6,75),(213,6,76),(214,6,77),(215,6,78),(216,6,79),(217,6,80),(218,6,81),(219,6,82),(220,6,83),(221,6,84),(222,6,85),(223,6,86),(224,6,87),(226,6,145),(227,3,146),(228,3,147),(229,3,148),(230,9,149),(231,10,149),(232,10,150),(233,10,151),(234,9,151),(235,8,151),(236,10,152),(237,10,153),(238,9,153),(239,8,153),(240,10,154),(241,10,155),(242,10,156),(243,9,156),(244,8,156),(245,9,157),(246,10,158),(247,10,159),(248,9,159),(249,8,159),(250,10,160),(251,9,160),(252,8,160),(253,10,161),(254,10,162),(255,9,162),(256,8,162),(257,9,163),(258,9,164),(259,8,164),(264,9,172),(266,8,172),(267,10,174),(268,4,175),(269,4,176),(270,4,177);
+	INSERT INTO `rolescreenaccess` VALUES (109,2,105),(110,2,106),(111,2,107),(112,2,108),(113,2,109),(114,2,110),(115,2,111),(116,2,112),(117,2,113),(118,2,114),(119,2,115),(120,2,116),(121,2,124),(122,2,125),(123,2,126),(124,2,127),(125,2,128),(126,2,129),(127,2,130),(128,2,131),(129,2,132),(130,2,133),(131,2,134),(132,2,135),(133,2,136),(134,2,137),(135,2,138),(136,2,139),(137,2,140),(138,3,9),(139,3,10),(140,3,11),(141,3,12),(142,3,13),(143,3,14),(144,3,15),(145,3,16),(146,3,17),(147,3,18),(148,3,19),(149,3,20),(150,3,21),(151,3,22),(152,3,23),(153,3,24),(154,3,25),(155,3,26),(156,3,27),(157,3,28),(158,3,29),(159,3,30),(160,3,31),(161,3,32),(162,3,33),(163,3,34),(164,3,35),(165,3,36),(166,3,37),(167,3,38),(168,3,39),(169,3,40),(170,3,41),(171,3,42),(172,3,43),(173,3,44),(174,3,45),(175,3,46),(176,3,47),(177,3,48),(178,3,49),(179,3,50),(180,3,51),(181,3,52),(182,3,53),(183,3,54),(184,3,55),(185,3,56),(186,3,57),(187,3,58),(188,3,59),(189,3,60),(190,3,61),(191,3,100),(192,3,101),(193,3,102),(194,3,103),(195,3,104),(196,3,141),(197,3,142),(198,3,144),(199,6,62),(200,6,63),(201,6,64),(202,6,65),(203,6,66),(204,6,67),(205,6,68),(206,6,69),(207,6,70),(208,6,71),(209,6,72),(210,6,73),(211,6,74),(212,6,75),(213,6,76),(214,6,77),(215,6,78),(216,6,79),(217,6,80),(218,6,81),(219,6,82),(220,6,83),(221,6,84),(222,6,85),(223,6,86),(224,6,87),(227,3,146),(228,3,147),(229,3,148),(230,9,149),(231,10,149),(232,10,150),(233,10,151),(234,9,151),(235,8,151),(236,10,152),(237,10,153),(238,9,153),(239,8,153),(240,10,154),(241,10,155),(242,10,156),(243,9,156),(244,8,156),(245,9,157),(246,10,158),(247,10,159),(248,9,159),(249,8,159),(250,10,160),(251,9,160),(252,8,160),(253,10,161),(254,10,162),(255,9,162),(256,8,162),(257,9,163),(258,9,164),(259,8,164),(264,9,172),(266,8,172),(267,10,174),(268,4,175),(269,4,176),(270,4,177);
 	/*!40000 ALTER TABLE `rolescreenaccess` ENABLE KEYS */;
 	UNLOCK TABLES;
 	--
@@ -5275,16 +5291,16 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	DELIMITER ;;
 	CREATE  PROCEDURE `checkrecord`(in `tablename` varchar(255),in `columnname` varchar(64),in `columnvalue` varchar(2048))
 	begin
-		set @val='';
-		set @sql1 = concat('select @val=count(*) from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''status''');
-		prepare stmt from @sql1;
-		execute stmt;
-		
-		set @sqltext = concat('select (case when (select count(*) from ',`tablename`,' where ',`columnname`,' = ''',`columnvalue`,'''');
-		set @sqltext = concat(@sqltext,(case when @val>0 then ', and status=1 ' else '' end),' )>0 then 1 else 0 end)  as isexists');
-		prepare stmt1 from @sqltext;
-		execute stmt1;
-		deallocate prepare stmt1;
+			set @val='';
+	set @sql1 = concat('select @val=count(*) from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''status''');
+    prepare stmt from @sql1;
+	execute stmt;
+    
+	set @sqltext = concat('select (case when (select count(*) from ',`tablename`,' where ',`columnname`,' = ''',`columnvalue`,' ''and effectiveenddate is null ');
+    set @sqltext = concat(@sqltext,(case when @val>0 then ', and status=1 ' else '' end),' )>0 then 1 else 0 end)  as isexists');
+	prepare stmt1 from @sqltext;
+	execute stmt1;
+	deallocate prepare stmt1;
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -5528,155 +5544,169 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	DELIMITER ;;
 	CREATE  PROCEDURE `credit_employee_leave_cron`(
 	)
-	BEGIN
+	BEGIN DECLARE vid int(11); DECLARE vcredit_frequency int(11); DECLARE vempid int(11); declare vdoj date; declare min_service int(11); declare vtotal_count decimal; declare vvalue decimal(5, 2); declare vvalue2 decimal(5, 2);
+-- get all leavetypes which are credited on regular basis 
+DECLARE temp_cursor cursor for
+SELECT  id
+       ,credit_frequency
+FROM leavesmaster
+WHERE credit_frequency is not null; DECLARE empid_cursor cursor for
 
-	DECLARE vid int(11);
-	DECLARE vcredit_frequency int(11);
-	DECLARE vempid int(11);
-	declare vdoj date;
-	declare min_service int(11);
-	declare vtotal_count decimal;
-	declare vvalue decimal(5,2);
-	declare vvalue2 decimal(5,2);
-	-- get all leavetypes which are credited on regular basis
-	DECLARE temp_cursor cursor for select id,credit_frequency from leavesmaster
-								   where credit_frequency is not null; 
-	DECLARE empid_cursor cursor for select employee.id, employee.dateofjoin from employee where employee.status = 1;              
+SELECT  employee.id
+       ,employee.dateofjoin
+FROM employee
+WHERE employee.status = 1;
 
-	DROP TEMPORARY TABLE if exists leavesmaster;
-	CREATE TEMPORARY TABLE leavesmaster(
-		id int(11),
-		credit_frequency int(11)
-	);
+DROP TEMPORARY TABLE IF EXISTS leavesmaster;
+CREATE TEMPORARY TABLE leavesmaster( id int(11), credit_frequency int(11) );
+INSERT INTO leavesmaster(id)
+SELECT  lm_leavesmaster.id
+FROM lm_leavesmaster
+WHERE lm_leavesmaster.status = 'Active'; update leavesmaster
+INNER JOIN
+(
+	SELECT  lm_rulevalues.leavetypeid AS leavetypeid
+	       ,lm_rulevalues.value       AS value
+	FROM lm_rulevalues,
+	(
+		SELECT  lm_rulevalues.leavetypeid AS leavetypeid
+		       ,MAX(lm_rulevalues.id)     AS id
+		FROM lm_rulevalues
+		WHERE lm_rulevalues.ruleid = (
+		SELECT  lm_rulemaster.id
+		FROM lm_rulemaster
+		WHERE lm_rulemaster.rulename = 'LEAVES_CREDIT_FREQUENCY')
+		GROUP BY  lm_rulevalues.leavetypeid
+	) ids
+	WHERE lm_rulevalues.ruleid = (
+	SELECT  lm_rulemaster.id
+	FROM lm_rulemaster
+	WHERE lm_rulemaster.rulename = 'LEAVES_CREDIT_FREQUENCY') AND lm_rulevalues.leavetypeid = ids.leavetypeid AND lm_rulevalues.id = ids.id 
+) AS table2
+ON leavesmaster.id = table2.leavetypeid
 
-	INSERT INTO leavesmaster(id) 
-	select lm_leavesmaster.id from lm_leavesmaster where lm_leavesmaster.status = 'Active';
+SET leavesmaster.credit_frequency = table2.value;
+-- SELECT * FROM leavesmaster;
 
-	update leavesmaster
-	inner join
-	(select lm_rulevalues.leavetypeid as leavetypeid,lm_rulevalues.value as value from lm_rulevalues,
-	 (select lm_rulevalues.leavetypeid as leavetypeid,max(lm_rulevalues.id) as id from lm_rulevalues 
-	  where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster where lm_rulemaster.rulename = 'LEAVES_CREDIT_FREQUENCY')
-	  group by lm_rulevalues.leavetypeid) ids
-	where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster where lm_rulemaster.rulename = 'LEAVES_CREDIT_FREQUENCY')
-	and lm_rulevalues.leavetypeid = ids.leavetypeid
-	and lm_rulevalues.id = ids.id) as table2
-	on leavesmaster.id = table2.leavetypeid
-	SET leavesmaster.credit_frequency = table2.value;
-	-- select * from leavesmaster;
+SET @leave_cycle_year = (
+SELECT  fn_get_leave_cycle_year());
 
-	set @leave_cycle_year = (select fn_get_leave_cycle_year());
+DROP temporary TABLE IF EXISTS leavecreditsmaster;
+CREATE temporary TABLE `leavecreditsmaster` ( `id` int(11) NOT NULL, `empid` int(11) NOT NULL, `leavetypeid` int(11) NOT NULL, `leavecount` decimal(5, 2) NOT NULL, `crediteddate` date NOT NULL, `leave_cycle_year` int(4) DEFAULT NULL );
+INSERT INTO leavecreditsmaster
+SELECT  *
+FROM lm_leavecreditsmaster
+WHERE lm_leavecreditsmaster.leave_cycle_year = cast(@leave_cycle_year AS unsigned);
 
-	drop temporary table if exists leavecreditsmaster;
-	CREATE temporary TABLE `leavecreditsmaster` (
-	  `id` int(11) NOT NULL,
-	  `empid` int(11) NOT NULL,
-	  `leavetypeid` int(11) NOT NULL,
-	  `leavecount` decimal(5,2) NOT NULL,
-	  `crediteddate` date NOT NULL,
-	  `leave_cycle_year` int(4) DEFAULT NULL
-	  );
-	insert into leavecreditsmaster 
-	select * from lm_leavecreditsmaster where lm_leavecreditsmaster.leave_cycle_year = cast(@leave_cycle_year as unsigned);  
+SET @cm = (
+SELECT  leave_cycle_year_master.cycle_commencement_month
+FROM leave_cycle_year_master
+WHERE leave_cycle_year_master.id = (
+SELECT  lm_rulevalues.value
+FROM lm_rulevalues
+WHERE lm_rulevalues.ruleid = (
+SELECT  lm_rulemaster.id
+FROM lm_rulemaster
+WHERE lm_rulemaster.rulename = 'LEAVE_CYCLE_YEAR')
+ORDER BY lm_rulevalues.id desc
+LIMIT 1)); OPEN temp_cursor;
 
-	set @cm = (select leave_cycle_year_master.cycle_commencement_month from leave_cycle_year_master where leave_cycle_year_master.id =
-			   (select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster 
-				where lm_rulemaster.rulename = 'LEAVE_CYCLE_YEAR') order by lm_rulevalues.id desc limit 1));
+SET @i = 0;
+SET @i = found_rows();
+SET @j = 0;
+SET @v = 0;
+SET @pm = (
+SELECT  month(current_date())); WHILE @j < @i do
 
+SET vid = 0;
+SET vcredit_frequency = 0; fetch temp_cursor into vid, vcredit_frequency;
+SET vtotal_count = (
+SELECT  lm_rulevalues.value
+FROM lm_rulevalues
+WHERE lm_rulevalues.ruleid = (
+SELECT  lm_rulemaster.id
+FROM lm_rulemaster
+WHERE lm_rulemaster.rulename = 'LEAVES_MAX_COUNT_PER_YEAR') AND lm_rulevalues.leavetypeid = vid
+ORDER BY lm_rulevalues.id desc
+LIMIT 1);
 
-	OPEN temp_cursor;
-	set @i = 0;
-		set @i = found_rows();
-		set @j = 0;
-		set @v = 0;
-		set @pm = (select month(current_date()));
-		WHILE @j < @i do
-		set vid = 0;
-		set vcredit_frequency = 0;
-		fetch temp_cursor into vid,vcredit_frequency;
-		set vtotal_count = (select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.ruleid = (select lm_rulemaster.id 
-							from lm_rulemaster where lm_rulemaster.rulename = 'LEAVES_MAX_COUNT_PER_YEAR') 
-							and lm_rulevalues.leavetypeid = vid
-							order by lm_rulevalues.id desc limit 1);
-		set vvalue = ((select cast((vtotal_count/12) as decimal(5,2)))*vcredit_frequency);
-		-- select vvalue; 
-		set @v = mod((@pm - @cm),vcredit_frequency);
-		if (@v = 0) then
-		OPEN empid_cursor;
-			set @empid_count = 0;
-			set @empid_count = found_rows();
-			set @e = 0;
-			while @e < @empid_count do
-				fetch empid_cursor into vempid,vdoj;
-				if not exists (select leavecreditsmaster.id from leavecreditsmaster where leavecreditsmaster.empid = vempid  
-							   and leavecreditsmaster.leave_cycle_year = cast(@leave_cycle_year as unsigned)
-							   and leavecreditsmaster.leavetypeid = vid and cast(month(leavecreditsmaster.crediteddate) as unsigned) = cast(@pm as unsigned)) then
-					insert into lm_leavecreditsmaster(empid,leavetypeid,leavecount,crediteddate,leave_cycle_year) values
-					(vempid,vid,vvalue,current_date(),@leave_cycle_year);
-					if not exists(select * from lm_employeeleavebalance where lm_employeeleavebalance.empid = vempid 
-								and lm_employeeleavebalance.leavetypeid = vid
-								and lm_employeeleavebalance.leave_cycle_year = @leave_cycle_year) then
-						insert into lm_employeeleavebalance(empid,leavetypeid,balance,lastupdatedat,leave_cycle_year) values
-						(vempid,vid,vvalue,current_timestamp(),@leave_cycle_year);
-					else
-						update lm_employeeleavebalance
-						set lm_employeeleavebalance.balance = lm_employeeleavebalance.balance + vvalue,
-						lm_employeeleavebalance.lastupdatedat = current_timestamp()
-						where lm_employeeleavebalance.empid = vempid
-						and lm_employeeleavebalance.leavetypeid = vid
-						and lm_employeeleavebalance.leave_cycle_year = @leave_cycle_year; 
-					end if;
-				end if;   
-				set @e = @e + 1;
-			end while;
-		CLOSE empid_cursor;
-		elseif (@v <> 0) then
-		OPEN empid_cursor;
-			set @empid_count = 0;
-			set @empid_count = found_rows();
-			set @e = 0;
-			while @e < @empid_count do
-				fetch empid_cursor into vempid,vdoj;
-				if ((@leave_cycle_year = (select year(vdoj))) or 
-					((@pm < @cm) and (@leave_cycle_year + 1 = (select year(vdoj))))) then
-					set @month_count = (select timestampdiff(month,vdoj,curdate()));
-					set @credit_count = (select @month_count div vcredit_frequency) + 1;
-					if ((select count(id) from leavecreditsmaster where leavecreditsmaster.empid = vempid and leavecreditsmaster.leavetypeid = vid
-						and leavecreditsmaster.crediteddate > vdoj and leavecreditsmaster.leave_cycle_year = @leave_cycle_year) < @credit_count) then 
-						if ((@leave_cycle_year = (select year(vdoj)))) then
-							set @diff = mod((@pm - @cm),vcredit_frequency);
-						elseif ((@pm < @cm) and (@leave_cycle_year + 1 = (select year(vdoj)))) then
-							set @diff = mod((12 + @pm - @cm),vcredit_frequency);
-						end if;
-						set vvalue2 = vvalue * ((vcredit_frequency - @diff)/(vcredit_frequency * 1.0));
-						insert into lm_leavecreditsmaster(empid,leavetypeid,leavecount,crediteddate,leave_cycle_year) values
-						(vempid,vid,vvalue2,current_date(),@leave_cycle_year); 
-						if not exists(select * from lm_employeeleavebalance where lm_employeeleavebalance.empid = vempid 
-							and lm_employeeleavebalance.leavetypeid = vid
-							and lm_employeeleavebalance.leave_cycle_year = @leave_cycle_year) then
-							insert into lm_employeeleavebalance(empid,leavetypeid,balance,lastupdatedat,leave_cycle_year) values
-							(vempid,vid,vvalue2,current_timestamp(),@leave_cycle_year);
-						else
-							update lm_employeeleavebalance
-							set lm_employeeleavebalance.balance = lm_employeeleavebalance.balance + vvalue2,
-							lm_employeeleavebalance.lastupdatedat = current_timestamp()
-							where lm_employeeleavebalance.empid = vempid
-							and lm_employeeleavebalance.leavetypeid = vid
-							and lm_employeeleavebalance.leave_cycle_year = @leave_cycle_year; 
-						end if;   
-					end if;
-				end if;
-				set @e = @e + 1;
-			end while; 
-		CLOSE empid_cursor;
-		end if; 
-	set @j = @j + 1;
-		end while;
+SET vvalue = ((
+SELECT  cast((vtotal_count/12) AS decimal(5,2)))*vcredit_frequency);
+-- SELECT vvalue;
 
-	CLOSE temp_cursor;
+SET @v = mod((@pm - @cm), vcredit_frequency); if (@v = 0) THEN OPEN empid_cursor;
+SET @empid_count = 0;
+SET @empid_count = found_rows();
+SET @e = 0; while @e < @empid_count do fetch empid_cursor into vempid, vdoj; if not exists (
 
-	drop temporary table leavesmaster;
-	drop temporary table leavecreditsmaster;
+SELECT  leavecreditsmaster.id
+FROM leavecreditsmaster
+WHERE leavecreditsmaster.empid = vempid
+AND leavecreditsmaster.leave_cycle_year = cast(@leave_cycle_year AS unsigned)
+AND leavecreditsmaster.leavetypeid = vid
+AND cast(month(leavecreditsmaster.crediteddate) AS unsigned) = cast(@pm AS unsigned)) THEN
+INSERT INTO lm_leavecreditsmaster(empid, leavetypeid, leavecount, crediteddate, leave_cycle_year) values (vempid, vid, vvalue, current_date(), @leave_cycle_year); if not exists(
+
+SELECT  *
+FROM lm_employeeleavebalance
+WHERE lm_employeeleavebalance.empid = vempid
+AND lm_employeeleavebalance.leavetypeid = vid
+AND lm_employeeleavebalance.leave_cycle_year = cast(@leave_cycle_year AS unsigned)) THEN
+INSERT INTO lm_employeeleavebalance(empid, leavetypeid, balance, lastupdatedat, leave_cycle_year) values (vempid, vid, vvalue, current_timestamp(), cast(@leave_cycle_year AS unsigned)); else update lm_employeeleavebalance
+
+SET lm_employeeleavebalance.balance = lm_employeeleavebalance.balance + vvalue, lm_employeeleavebalance.lastupdatedat = current_timestamp()
+WHERE lm_employeeleavebalance.empid = vempid
+AND lm_employeeleavebalance.leavetypeid = vid
+AND lm_employeeleavebalance.leave_cycle_year = cast(@leave_cycle_year AS unsigned); end if; end if;
+
+SET @e = @e + 1; end while; CLOSE empid_cursor; elseif (@v <> 0) THEN OPEN empid_cursor;
+SET @empid_count = 0;
+SET @empid_count = found_rows();
+SET @e = 0; while @e < @empid_count do fetch empid_cursor into vempid, vdoj; if ((cast(@leave_cycle_year AS unsigned) = (
+
+SELECT  year(vdoj))) or ((@pm < @cm) AND (cast(@leave_cycle_year AS unsigned) + 1 = (
+SELECT  year(vdoj))))) THEN
+
+SET @month_count = (
+SELECT  timestampdiff(month,vdoj,curdate()));
+
+SET @credit_count = (
+SELECT  @month_count div vcredit_frequency) + 1; if ((
+
+SELECT  COUNT(id)
+FROM leavecreditsmaster
+WHERE leavecreditsmaster.empid = vempid
+AND leavecreditsmaster.leavetypeid = vid
+AND leavecreditsmaster.crediteddate > vdoj
+AND leavecreditsmaster.leave_cycle_year = cast(@leave_cycle_year AS unsigned)) < @credit_count) THEN IF((cast(@leave_cycle_year AS unsigned) = (
+SELECT  year(vdoj)))) THEN
+
+SET @diff = mod((@pm - @cm), vcredit_frequency); elseif ((@pm < @cm) AND (cast(@leave_cycle_year AS unsigned) + 1 = (
+
+SELECT  year(vdoj)))) THEN
+
+SET @diff = mod((12 + @pm - @cm), vcredit_frequency); end if;
+SET vvalue2 = vvalue * ((vcredit_frequency - @diff)/(vcredit_frequency * 1.0));
+INSERT INTO lm_leavecreditsmaster(empid, leavetypeid, leavecount, crediteddate, leave_cycle_year) values (vempid, vid, vvalue2, current_date(), cast(@leave_cycle_year AS unsigned)); if not exists(
+
+SELECT  *
+FROM lm_employeeleavebalance
+WHERE lm_employeeleavebalance.empid = vempid
+AND lm_employeeleavebalance.leavetypeid = vid
+AND lm_employeeleavebalance.leave_cycle_year = cast(@leave_cycle_year AS unsigned)) THEN
+INSERT INTO lm_employeeleavebalance(empid, leavetypeid, balance, lastupdatedat, leave_cycle_year) values (vempid, vid, vvalue2, current_timestamp(), cast(@leave_cycle_year AS unsigned)); else update lm_employeeleavebalance
+
+SET lm_employeeleavebalance.balance = lm_employeeleavebalance.balance + vvalue2, lm_employeeleavebalance.lastupdatedat = current_timestamp()
+WHERE lm_employeeleavebalance.empid = vempid
+AND lm_employeeleavebalance.leavetypeid = vid
+AND lm_employeeleavebalance.leave_cycle_year = cast(@leave_cycle_year AS unsigned); end if; end if; end if;
+
+SET @e = @e + 1; end while; CLOSE empid_cursor; end if;
+SET @j = @j + 1; end while; CLOSE temp_cursor;
+
+DROP temporary TABLE leavesmaster;
+
+DROP temporary TABLE leavecreditsmaster;
 	END ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -8984,7 +9014,7 @@ WHERE e.id = @eid and status=1;
 	DELIMITER ;;
 	CREATE  PROCEDURE `get_active_emps_list`()
 	begin
-	 select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename
+	 select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(lastname,'')) as ename
 	 from employee e
 	 -- join ems_employee_terminations et on et.empid <> e.id
 	 where e.status=1;
@@ -9141,13 +9171,17 @@ WHERE e.id = @eid and status=1;
 	DELIMITER ;;
 	CREATE  PROCEDURE `get_announcements`(in announceid int)
 	begin
-		select a.id,a.topicid,am.topic, a.title,a.fromdate,a.todate,a.description,
-		if(date(a.todate)< date(current_date()) and a.status = 'Published','Completed',a.status) status
-		from ems_announcements a 
-		inner join ems_announcements_topics_master am on am.id=a.topicid
-		 where  a.status<>'Deleted' 
-		 and  a.id <=> ifnull(announceid,a.id) 
-		 order by  a.id desc;
+	select a.id,a.topicid,am.topic, a.title,a.fromdate,a.todate,a.description,
+    -- if(date(a.todate)< date(current_date()) and a.status = 'Published','Completed',a.status) status
+    (case when date(a.todate) < date(current_date()) then 'Completed'
+		  when date(a.todate) > date(current_date()) then 'Pending'
+          when date(a.fromdate) = date(current_date()) then 'Published'
+	 end) as status
+    from ems_announcements a 
+    inner join ems_announcements_topics_master am on am.id=a.topicid
+     where  a.status<>'Deleted' 
+     and  a.id <=> ifnull(announceid,a.id) 
+     order by a.fromdate desc; -- a.id desc;
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -11751,6 +11785,7 @@ DELIMITER ;;
 CREATE  PROCEDURE `get_emails_by_empid`(in eid int(11))
 begin
 
+	
 	SET @eid = eid; -- (select id from employee where officeemail=`email`);
 
 set @rmid = (select reportingmanagerid from employee_reportingmanagers where empid=@eid and effectiveenddate is null);
@@ -11770,7 +11805,7 @@ set @jsondata=(select distinct json_arrayagg(json_object(
 'emp_email',       `employee`.`officeemail`,
 'emp_name',			(select concat(`employee`.`firstname`, ' ',`employee`.`lastname`)),
 'rm_email',(select officeemail from employee where id=@rmid),
-'admin_name',(select concat(firstname, ' ',lastname) from employee where id=1),
+'admin_name',(select concat(ifnull(firstname,''), ' ',ifnull(lastname,'')) from employee where id=1),
 'admin_email',(select officeemail from  employee where id=1),
 'rm_reporting_name',(select concat(firstname, ' ',lastname) from employee where id=ifnull(@rm_reporting_manager_id,0)),
 'rm_reporting_email',(select officeemail from  employee where id=ifnull(@rm_reporting_manager_id,0))
@@ -11781,7 +11816,8 @@ WHERE -- employee_roles.rmid = employee.id and
 rolesmaster.id = employee_roles.role_id and
 employee.id = employee_roles.employee_id
 and employee_roles.employee_id = @eid);
-SELECT @jsondata AS jsonvalu;
+select @jsondata as jsonvalu;
+
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -11957,19 +11993,17 @@ DELIMITER ;
 DELIMITER ;;
 CREATE  PROCEDURE `get_employees_list`()
 begin
-select  e.id,e.empid,CONCAT(firstname, " ", middlename, " ", lastname) as ename,e.officeemail
+select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(lastname,'')) as ename,e.officeemail
  ,lm.location
  ,dm.designation
  from employee e
- inner join employee_worklocations ewl on ewl.empid = e.id and ewl.effectivetodate is null
-  inner join companyworklocationsmaster cwl  on cwl.id=ewl.locationid
- inner join locationsmaster lm on lm.id = cwl.city
- inner join employee_designations ed on ed.empid = e.id
- inner join designationsmaster dm on dm.id =ed.designationid
+ left join employee_worklocations ewl on ewl.empid = e.id and ewl.effectivetodate is null
+ left join companyworklocationsmaster cwl  on cwl.id=ewl.locationid
+ left join locationsmaster lm on lm.id = cwl.city
+ left join employee_designations ed on ed.empid = e.id
+ left join designationsmaster dm on dm.id =ed.designationid
  where ed.effectiveenddate is null and e.status=1;
-
-
-	end ;;
+ end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -14539,50 +14573,54 @@ set @date = (select date(last_day(@date)));
 	)
 	begin
 		set @currstartdate = (current_date() - interval 1 month);
-		set @currenddate = current_date();
-		set @weekoffs = '[';
-		set @holidays = '[';
-		set @leaves = '[';
-		set @workeddays = '[';
-		set @regularizationdays = '[';
-		while (@currstartdate <= @currenddate) do
-			set @weekoffday1 = (select weekoffday1 from employee_weekoffs where empid=`employee_id` and @currstartdate between effectivefromdate and effectivetodate);
-			set @weekoffday2 = (select weekoffday2 from employee_weekoffs where empid=`employee_id` and @currstartdate between effectivefromdate and effectivetodate);
-			set @weekoffday3 = (select weekoffday3 from employee_weekoffs where empid=`employee_id` and @currstartdate between effectivefromdate and effectivetodate);
-			-- weekoffs
-			if (dayofweek(@currstartdate)=@weekoffday1 or dayofweek(@currstartdate)=@weekoffday2 or dayofweek(@currstartdate)=@weekoffday3) then
-				set @weekoffs = concat(@weekoffs,(case when @weekoffs='[' then '' else ',' end),'"',@currstartdate,'"');
-			end if;
-			-- holidays
-			-- if @currstartdate in (select date from holidaysmaster where leave_cycle_year=(select fn_get_leave_cycle_year()) and location=(select city from companyworklocationsmaster where id = (select locationid from employee_worklocations where effectivetodate is null and empid=`employee_id`))) then
-			if @currstartdate in (select date from holidaysmaster where holidaysmaster.year = year(@currstartdate)  and location=(select city from companyworklocationsmaster where id = (select locationid from employee_worklocations where effectivetodate is null and empid=`employee_id`))) then
-				set @holidays = concat(@holidays,(case when @holidays='[' then '' else ',' end),'"',@currstartdate,'"');
-			end if;
-			-- leaves
-			if exists(select * from information_schema.columns where  table_schema=(select database()) and table_name='lm_employeeleaves') then
-				if exists(select * from lm_employeeleaves where @currstartdate between fromdate and todate and empid=`employee_id` and leavestatus in ('Submitted','Approved')) then
-					set @leaves = concat(@leaves,(case when @leaves='[' then '' else ',' end),'"',@currstartdate,'"');
-				end if;
-			end if;
-			-- regularization requested dates
-			if exists(select * from employee_attendance_regularization where (@currstartdate between fromdate and todate) and empid = `employee_id` and Status in ('Submitted','Approved')) then
-				set @regularizationdays = concat(@regularizationdays,(case when @regularizationdays='[' then '' else ',' end),'"',@currstartdate,'"');
-			end if;
-			-- already worked dates
-			if exists(select * from employee_attendance where attendancedate=@currstartdate and empid = `employee_id`) then
-				set @workeddays = concat(@workeddays,(case when @workeddays='[' then '' else ',' end),'"',@currstartdate,'"');
-			end if;
-			
-			set @currstartdate = @currstartdate + interval 1 day;
-			
-		end while;
-		set @weekoffs = concat(@weekoffs,']');
-		set @holidays = concat(@holidays,']');
-		set @leaves = concat(@leaves,']');
-		set @workeddays = concat(@workeddays,']');
-		set @regularizationdays = concat(@regularizationdays,']');
-		
-		select @weekoffs as weekoffs,@holidays as holidays,@leaves as leaves,@workeddays as workeddays, @regularizationdays as regularizationdays;
+    set @doj = (select date(dateofjoin) from employee where id = `employee_id`);
+    if (@currstartdate < @doj) then
+		set @currstartdate = @doj;
+	end if;
+	set @currenddate = current_date();
+    set @weekoffs = '[';
+    set @holidays = '[';
+    set @leaves = '[';
+    set @workeddays = '[';
+    set @regularizationdays = '[';
+    while (@currstartdate <= @currenddate) do
+		set @weekoffday1 = (select weekoffday1 from employee_weekoffs where empid=`employee_id` and @currstartdate between effectivefromdate and effectivetodate);
+        set @weekoffday2 = (select weekoffday2 from employee_weekoffs where empid=`employee_id` and @currstartdate between effectivefromdate and effectivetodate);
+        set @weekoffday3 = (select weekoffday3 from employee_weekoffs where empid=`employee_id` and @currstartdate between effectivefromdate and effectivetodate);
+        -- weekoffs
+		if (dayofweek(@currstartdate)=@weekoffday1 or dayofweek(@currstartdate)=@weekoffday2 or dayofweek(@currstartdate)=@weekoffday3) then
+			set @weekoffs = concat(@weekoffs,(case when @weekoffs='[' then '' else ',' end),'"',@currstartdate,'"');
+		end if;
+        -- holidays
+        -- if @currstartdate in (select date from holidaysmaster where leave_cycle_year=(select fn_get_leave_cycle_year()) and location=(select city from companyworklocationsmaster where id = (select locationid from employee_worklocations where effectivetodate is null and empid=`employee_id`))) then
+        if @currstartdate in (select date from holidaysmaster where holidaysmaster.year = year(@currstartdate)  and location=(select city from companyworklocationsmaster where id = (select locationid from employee_worklocations where effectivetodate is null and empid=`employee_id`))) then
+			set @holidays = concat(@holidays,(case when @holidays='[' then '' else ',' end),'"',@currstartdate,'"');
+		end if;
+        -- leaves
+        if exists(select * from information_schema.columns where  table_schema=(select database()) and table_name='lm_employeeleaves') then
+			if exists(select * from lm_employeeleaves where @currstartdate between fromdate and todate and empid=`employee_id` and leavestatus in ('Submitted','Approved')) then
+				set @leaves = concat(@leaves,(case when @leaves='[' then '' else ',' end),'"',@currstartdate,'"');
+            end if;
+		end if;
+        -- regularization requested dates
+        if exists(select * from employee_attendance_regularization where (@currstartdate between fromdate and todate) and empid = `employee_id` and Status in ('Submitted','Approved')) then
+			set @regularizationdays = concat(@regularizationdays,(case when @regularizationdays='[' then '' else ',' end),'"',@currstartdate,'"');
+        end if;
+        -- already worked dates
+        if exists(select * from employee_attendance where attendancedate=@currstartdate and empid = `employee_id`) then
+			set @workeddays = concat(@workeddays,(case when @workeddays='[' then '' else ',' end),'"',@currstartdate,'"');
+        end if;
+        
+        set @currstartdate = @currstartdate + interval 1 day;
+        
+	end while;
+    set @weekoffs = concat(@weekoffs,']');
+    set @holidays = concat(@holidays,']');
+    set @leaves = concat(@leaves,']');
+    set @workeddays = concat(@workeddays,']');
+    set @regularizationdays = concat(@regularizationdays,']');
+    
+    select @weekoffs as weekoffs,@holidays as holidays,@leaves as leaves,@workeddays as workeddays, @regularizationdays as regularizationdays;
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -21162,6 +21200,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 			select 0 as statuscode;
 		end if;
 
+
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -25894,7 +25933,6 @@ end if;
 		in actionby int(11)
 	)
 	begin
-
 		declare exit handler for sqlexception
 		begin
 			rollback;
@@ -29013,7 +29051,7 @@ end if;
 	drop temporary table empids_table;
 	drop temporary table employeeleaves_table;
 	drop temporary table worked_days_table;
-        drop temporary table month_table;
+    drop temporary table if exists month_table;
 	DROP TEMPORARY TABLE income_groups_master_table;
 	drop temporary table ig_components_master;
 	drop temporary table employee_ctc_table;
@@ -31874,4 +31912,39 @@ begin
 	 end while;
     select 0 statuscode ;
 	end;;
+DELIMITER ;
+
+
+DELIMITER ;;
+	CREATE  PROCEDURE `get_active_programs_master`()
+	begin
+		select p.id,
+			p.name,
+			p.description
+		from ems_programs_master p
+		where p.status=1;
+	end ;;
+	DELIMITER ;
+
+	DELIMITER ;;
+	CREATE  PROCEDURE `get_active_program_types`()
+	begin
+		select p.id,
+			p.program_id,
+			p.department_id,
+            ep.description
+		from ems_induction_conductedby p,ems_programs_master ep
+		where p.program_id=ep.id and p.status=1;
+	end ;;
+	DELIMITER ;
+    
+DELIMITER ;;
+CREATE PROCEDURE `get_active_branch_cities`()
+begin
+select json_arrayagg(json_object('city', t.city,'cityname',t.cityname)) as data 
+   from (select distinct m.city as city,l.location as cityname	from companyworklocationsmaster m
+	inner join employee_idgenerator e on m.id = e.companylocation
+	inner join locationsmaster l on m.city = l.id
+    where m.status=1) t;
+    end;;
 DELIMITER ;
