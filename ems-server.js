@@ -2489,7 +2489,6 @@ async function setEmpPersonalInfo(req, res) {
             console.log("dat-",JSON.stringify(req.body))
             listOfConnections[companyName].query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
              console.log("er-,",err)
-             console.log("ress-,",result[0][0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
