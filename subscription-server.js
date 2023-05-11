@@ -151,7 +151,7 @@ async function getLocationWiseEmployeeCount(req,res) {
             res.send({status: false,Message:'Database Name is missed'})
     } }
     catch (e) {
-        console.log('getClientSubscriptionDetails :',e)
+        console.log('getLocationWiseEmployeeCount :',e)
 
     }
 

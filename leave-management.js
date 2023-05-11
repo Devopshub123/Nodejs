@@ -237,9 +237,19 @@ function setProfileImage(req, res) {
        file=req.files.file;
         var localPath = JSON.parse(req.body.info);
         var folderName = localPath.filepath;
+        let dataa = JSON.parse(JSON.stringify(folderName));
         try {
-            if (!fs.existsSync(folderName)) {
-                fs.mkdirSync(folderName)
+            if (!fs.existsSync(dataa)) {
+                fs.mkdirSync(dataa, { recursive: true })
+                file.mv(path.resolve(__dirname,dataa,localPath.filename),function(error){
+                    if(error){
+                       res.send({status:false})
+                    } else {
+                        res.send({status:true,message:'Image Uploaded Succesfully'})
+                    }
+                })
+               
+                
 
             }else {
                 try {
@@ -2796,7 +2806,7 @@ function leaveRequestEmail(mailData) {
       });
     //   var url = 'http://localhost:4200/Login';
         /**QA */
-        var url = 'http://122.175.62.210:7575/#/Login';
+        var url = 'http://122.175.62.210:6564/#/Login';
        
          /**AWS */
         //  var url = 'https://sreeb.spryple.com/#/Login';
@@ -3063,7 +3073,7 @@ function compOffRequestEmail(mailData){
       });
     //  var url = 'http://localhost:4200/Login';
         /**QA */
-        var url = 'http://122.175.62.210:7575/#/Login';
+        var url = 'http://122.175.62.210:6564/#/Login';
         
          /**AWS */
         //  var url = 'https://sreeb.spryple.com/#/Login';

@@ -143,13 +143,12 @@ function generateJWTToken(info){
 
 async function login(req, res) {
     try{
-
-
     var  dbName = await getDatebaseName(req.body.companyName);
     if (dbName && dbName!=null) {
     if(req.body.companyName!='spryple_dev'){
 
-        let subscriptiondata =await getClientSubscriptionDetailsforlogin(req.body.companyName);
+        let subscriptiondata = await getClientSubscriptionDetailsforlogin(req.body.companyName);
+        console.log("e-2",subscriptiondata.data[0].valid_to)
         var expirydate = subscriptiondata.data[0].valid_to
     }
     else{
@@ -169,9 +168,7 @@ async function login(req, res) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
-                console.log("er-", err);
                 var result = results ? results[0] ? results[0][0] ? Object.values(JSON.parse(JSON.stringify(results[0][0]))) : null : null : null;
-
                 if (result && result[0] > 0) {
                     var info = {
                         id:result[0],
@@ -232,7 +229,6 @@ async function getMastertable(req, res) {
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-               console.log("Master err:" + err, +"Master Result" + result[0]);
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
                         for (let i=0; i<result[0].length;i++){
@@ -240,11 +236,8 @@ async function getMastertable(req, res) {
                             result[0][i].Date = hDate.getFullYear() + "-" + ('0'+(hDate.getMonth() + 1)).slice(-2) + "-" + ('0'+(hDate.getDate())).slice(-2);
                         }
                         res.send({data: result[0], status: true});
-
-
                     }else {
-                        console.log(result[0]);
-                        res.send({data: result[0], status: true});
+                       res.send({data: result[0], status: true});
                     }
                 } else {
                     res.send({status: false})
@@ -375,9 +368,9 @@ async function getEmployeeInformation(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `getemployeemaster` (?)",[req.params.Id], function (err, result, fields) {
-            if(result && result.length > 0){
-                res.send({data: result[0], status: true});
+        listOfConnections[companyName].query("CALL `getemployeeinformation` (?)",[req.params.Id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                res.send({data: JSON.parse(result[0][0].result), status: true});
             }else{
                 res.send({status: false});
             }
@@ -465,7 +458,7 @@ async function forgetpassword(req, res, next) {
 
                 // var url = 'http://localhost:4200/#/ResetPassword/'+token
                 
-                var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
+                var url = 'http://122.175.62.210:6564/#/ResetPassword/' + token
 
                  /**AWS */
                 //  var url = 'https://sreeb.spryple.com/#/ResetPassword/' + token;
@@ -800,24 +793,19 @@ async function setSpryplePlan(req,res) {
         
         // let companyName = req.body.companyName;
         let listOfConnections = {};
-        console.log("datya",req.body)
-        console.log("datya",JSON.stringify(req.body.modules))
         if(true) {
         //     listOfConnections= connection.checkExistingDBConnection(companyName)
         // if(!listOfConnections.succes) {
         //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         // }
         con.query("CALL `set_spryple_plan` (?,?,?,?)",[req.body.plan,JSON.stringify(req.body.modules),req.body.created_by,req.body.id], function (err, result, fields) {
-            if(err){
+            if (err) {
             res.send({status:false,message:"Unable to add "})
-
-           }
+             }
            else if (result[0][0] == 0){
             res.send({status:true});
            }
-           
            else{
-            console.log("ggf",result[0][0])
             res.send({status:false,message:"Record already existed."});
            }
         });
@@ -886,7 +874,7 @@ async function Validateemail(req, res) {
                     pass: 'Sreeb@#321'
                 }
             });
-            var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Basic',Date:new Date()}))).toString('base64')
+            var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Standard Plan',Date:new Date()}))).toString('base64')
             /**Local */
             var url = 'http://122.175.62.210:6564/#/sign-up/' + token;
             /**QA */
@@ -1813,7 +1801,6 @@ async function getSpryplePlanDetailsById(req, res) {
 /**Get Client Details By ClientId*/
 async function getSprypleClientDetailsByClientId(req, res) {
     try {
-        console.log("bod--",req.params)
         // let  dbName = await getDatebaseName('spryple_hrms');
         // let companyName = 'spryple_hrms';
         let  dbName = await getDatebaseName('spryple_dev');
@@ -2174,13 +2161,12 @@ async function getClientSubscriptionDetails(req,res) {
     try {
         let listOfConnections = {};
         if(true) {
-        //     listOfConnections= connection.checkExistingDBConnection(companyName)
-        // if(!listOfConnections.succes) {
-        //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
-        // }
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
            con.query("CALL `get_client_subscription_details` (?)", [req.params.companyName],
-            function (err, result, fields) {
-                console.log("result",result)
+               function (err, result, fields) {
             if(result && result.length > 0){
                 res.send({data: result[0], status: true});
             }else{
@@ -2222,8 +2208,6 @@ async function getActiveEmployeesCount(req,res) {
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
                      errorLogs(errorLogArray);
-                     
-
                     }else if (result && result.length > 0) {
                         res.send({ data: result[0], status: true });
                     } else {
@@ -2264,7 +2248,9 @@ function getClientSubscriptionDetailsforlogin(companyName) {
             // }
             console.log("req",companyName);
                con.query("CALL `get_client_subscription_details` (?)", [companyName],
-                function (err, result, fields) {
+                   function (err, result, fields) {
+                    console.log("errr",err);
+                    console.log("req",result[0]);
                 if(result && result.length > 0){
                     res({data: result[0]});
                 }else{
@@ -2360,7 +2346,9 @@ function createClientDatabase(companyName){
     return new Promise((res,rej)=>{
         try {
            con.query("CALL `create_client_database` (?)",[companyName ], function (err, result, next) {       
-                if (err ) {
+              console.log("c-1",err)
+              console.log("r-1",result[0][0])
+               if (err) {
                     res(false);
                 } else {
                     res({status:true,data:result[0][0].database_name});
@@ -2386,7 +2374,8 @@ function createClientDatabase(companyName){
         dateStrings: true,
         multipleStatements: true
     });
-     connection.connect( function(err) {
+        connection.connect(function (err) {
+            console.log("ins-err",err)
         if (err) throw err;
                //const dbHost = "192.168.1.10";
                  const dbHost ="122.175.62.210";
@@ -2441,8 +2430,8 @@ function createClientDatabase(companyName){
                [
                 companyName 
                 ], function (err, results, next) {
-                    console.log("err",err)
-                    console.log("resultsresults",results)
+                    console.log("lg-err",err)
+                    console.log("lg-res",results[0][0])
                     if (err ) {
                         res(false);
                     } else {
@@ -2511,7 +2500,6 @@ function paymentStatusMail(mailData){
 
 }
     function sendEmailToSuperAdminCredentials(mailData,companycodde) {
-        console.log("mailData",mailData)
         try {
            let email = mailData.login;
            let password = mailData.password_string;

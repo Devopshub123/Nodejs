@@ -1003,7 +1003,7 @@ app.post('/ems/api/setNewHire/', verifyJWTToken,function(req,res) {
  * */
 
 app.get('/ems/api/getNewHireDetails/:id/:companyName',verifyJWTToken, function(req,res) {
-
+    console.log("b-1");
     ems.getNewHireDetails(req,res);
 
 });
@@ -1433,7 +1433,6 @@ app.get('/ems/api/getInductionProgramAssignedEmployee/:sid/:companyName',verifyJ
  
 /**employee login */
 app.post('/api/emp_login', function (req, res, next) {
-    console.log("Step-1 test");
     common.login(req,res)
 })
 
@@ -1577,8 +1576,8 @@ app.delete('/api/removeImage/:path',function(req,res){
     leaveManagement.getFilepathsMaster(req,res);
 
 });
-app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',verifyJWTToken,function(req,res) {
- common.getMastertable(req,res)
+app.get('/api/getMastertable/:tableName/:status/:page/:size/:companyName',function(req,res) {
+    common.getMastertable(req, res)
 });
 /**pre onboardin master table */
 app.get('/api/getMastertablePreonboarding/:tableName/:status/:page/:size/:companyName',function(req,res) {
@@ -2882,7 +2881,7 @@ app.post('/subscription/getUnverifiedSprypleClient', function (req, res) {
 })
    /**get_comp_off_validity_duration */
    app.get('/api/getCompOffValidityDuration/:companyName',function(req,res) {
-    ems.getCompOffValidityDuration(req,res)
+    leaveManagement.getCompOffValidityDuration(req,res)
    });
    
 app.post('/ems/api/setEmployeeExcelData/:companyName', verifyJWTToken, function (req, res) {
@@ -2949,7 +2948,7 @@ app.get('/subscription/api/getMonthWiseClientsCountByYear/:date/:companyName', f
 });
 
 app.get('/subscription/api/getClientSubscriptionDetails/:companyName', function (req, res) {
-    common.getClientSubscriptionDetails (req,res)
+    common.getClientSubscriptionDetails(req, res)
 });
 //** subscription- client super admindashboard api's */
 
@@ -3006,6 +3005,22 @@ app.post('/subscription/api/paymentFailedMail', function (req, res) {
     common.paymentFailedMail(req,res)
 });
  
+/**get Active Programs Master */
+app.get('/api/getActiveProgramsMaster/:companyName',verifyJWTToken,function(req,res) {
+    admin.getActiveProgramsMaster(req,res);
+});
+  
+/**get Active Programs types */
+app.get('/api/getActiveProgramTypes/:companyName',verifyJWTToken,function(req,res) {
+    admin.getActiveProgramTypes(req,res);
+  });
+
+/**get Active branch cities */
+app.get('/api/getActiveBranchCities/:companyName',verifyJWTToken,function(req,res) {
+    admin.getActiveBranchCities(req,res);
+  });
+
+
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
 
