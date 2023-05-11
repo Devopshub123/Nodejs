@@ -232,7 +232,6 @@ async function getMastertable(req, res) {
         var tName = req.params.tableName;
         if(req.params.status=="null"){
             listOfConnections[companyName].query("CALL `getmastertable` (?,?,?,?)",[tName,null,req.params.page,req.params.size], function (err, result, fields) {
-               console.log("Master err:" + err, +"Master Result" + result[0]);
                 if (result && result.length > 0) {
                     if(tName == 'holidaysmaster'){
                         for (let i=0; i<result[0].length;i++){
@@ -462,7 +461,7 @@ async function forgetpassword(req, res, next) {
 
                 // var url = 'http://localhost:4200/#/ResetPassword/'+token
                 
-                var url = 'http://122.175.62.210:7575/#/ResetPassword/' + token
+                var url = 'http://122.175.62.210:6564/#/ResetPassword/' + token
 
                  /**AWS */
                 //  var url = 'https://sreeb.spryple.com/#/ResetPassword/' + token;

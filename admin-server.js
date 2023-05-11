@@ -103,7 +103,8 @@ app.post('/api/getRolesByDepartment',function(req,res) {
      setHolidaysMaster: setHolidaysMaster,
      errorLogs: errorLogs,
      getActiveProgramsMaster: getActiveProgramsMaster,
-     getActiveProgramTypes:getActiveProgramTypes
+     getActiveProgramTypes: getActiveProgramTypes,
+     getActiveBranchCities:getActiveBranchCities
 
  }
 
@@ -2989,6 +2990,61 @@ async function getActiveProgramTypes(req,res){
         let errorLogArray = [];
         errorLogArray.push("AdminAPI");
         errorLogArray.push("getActiveProgramTypes");
+        errorLogArray.push("GET");
+        errorLogArray.push(JSON.stringify(req.body));
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         errorLogs(errorLogArray)
+    }
+}
+
+/**get Active branch cities */
+async function getActiveBranchCities(req,res){
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+        var listOfConnections = {};
+        if(dbName) {
+            listOfConnections = connection.checkExistingDBConnection( companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_active_branch_cities`()", async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("AdminAPI");
+                    errorLogArray.push("getActiveBranchCities");
+                    errorLogArray.push("GET");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     errorLogs(errorLogArray);
+                    res.send({ status: false })
+                }
+                else {
+                    if (result.length > 0) {
+                        res.send({ data: result[0][0].data, status: true });
+                    } else {
+                        res.send({ status: false })
+                    }
+                }
+
+            });
+        }else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+
+    }
+    catch(e){
+        let companyName =req.body.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("AdminAPI");
+        errorLogArray.push("getActiveBranchCities");
         errorLogArray.push("GET");
         errorLogArray.push(JSON.stringify(req.body));
         errorLogArray.push( e.message);

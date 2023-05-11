@@ -198,7 +198,7 @@ async function setNewHire(req, res) {
                             /**Local */
                             // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
                             /**QA */
-                               var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
+                               var url = 'http://122.175.62.210:6564/#/pre-onboarding/'+token;
                             /**AWS */
                             // var url = 'https://sreeb.spryple.com/#/pre-onboarding/' + token;
                            
@@ -3654,8 +3654,7 @@ async function setAnnouncements(req, res) {
               "CALL `set_announcements` (?)",
               [JSON.stringify(req.body)],
               async function (err, result, fields) {
-                console.log("set_announcementserr",err);
-                  if (err) {
+                 if (err) {
                       let errorLogArray = [];
                       errorLogArray.push("EMSAPI");
                       errorLogArray.push("setAnnouncements");
@@ -4104,7 +4103,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
     //   var url = "http://localhost:4200/Login";
       
       /**QA */
-      var url = 'http://122.175.62.210:7575/Login';
+      var url = 'http://122.175.62.210:6564/Login';
       
       /**AWS */
     //   var url = 'https://sreeb.spryple.com/#/Login';
@@ -6652,7 +6651,7 @@ async function getEmployeeProgramAlerts(req,res) {
                     errorLogArray.push(null);
                     errorLogArray.push(companyName);
                     errorLogArray.push(dbName);
-                    await errorLogs(errorLogArray);
+                    errorLogs(errorLogArray);
                      res.send({ status: false });
 
                     }else if (result && result.length > 0) {

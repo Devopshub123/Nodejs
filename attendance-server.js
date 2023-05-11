@@ -1715,7 +1715,7 @@ function attendanceRequestEmail(mailData, companyName) {
          });
         //  var url = 'http://localhost:4200/#/Login';
 
-        var url = 'http://122.175.62.210:7575/#/Login';
+        var url = 'http://122.175.62.210:6564/#/Login';
         
          /**AWS */
         //  var url = 'https://sreeb.spryple.com/#/Login';

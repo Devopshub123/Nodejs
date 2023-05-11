@@ -3015,7 +3015,10 @@ app.get('/api/getActiveProgramTypes/:companyName',verifyJWTToken,function(req,re
     admin.getActiveProgramTypes(req,res);
   });
 
-
+/**get Active branch cities */
+app.get('/api/getActiveBranchCities/:companyName',verifyJWTToken,function(req,res) {
+    admin.getActiveBranchCities(req,res);
+  });
 
 
 /***------------------------------------------------------------------------------------------ */
