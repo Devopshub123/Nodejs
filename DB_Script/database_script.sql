@@ -5038,7 +5038,7 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	DELIMITER ;;
 	CREATE FUNCTION `get_employee_name`(emp_id int) RETURNS varchar(800) CHARSET latin1
 	begin
-		return (select concat(firstname,if(middlename is not null,' ',''),middlename,' ',lastname) as empname from employee where id=emp_id);
+		return (select concat(firstname,if(middlename is not null,' ',''),ifnull(middlename,''),' ',ifnull(lastname,'')) as empname from employee where id=emp_id);
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -9168,7 +9168,8 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
+	
+    DELIMITER ;;
 	CREATE  PROCEDURE `get_announcements`(in announceid int)
 	begin
 	select a.id,a.topicid,am.topic, a.title,a.fromdate,a.todate,a.description,
@@ -11349,7 +11350,7 @@ if (short_code is not null) then
 		current_timestamp(),1,null,null FROM `spryple_product_dev`.`spryple_clients`
 		where `spryple_product_dev`.`spryple_clients`.`company_code` = `short_code`;
 	INSERT INTO `employee`
-	(`empid`,`firstname`,`officeemail`,`contactnumber`,`address`,`city`,`state`,`pincode`,`country`,`status`,`created_on`,`created_by`)
+	(`empid`,`firstname`,`officeemail`,`contactnumber`,`address`,`city`,`state`,`pincode`,`country`,`status`,`created_on`,`created_by`,`dateofjoin`)
 	SELECT '1',`spryple_clients`.`contact_name`, `spryple_clients`.`company_email`, `spryple_clients`.`mobile_number`,
 		concat(`spryple_clients`.`company_address`, case when `spryple_clients`.`company_address2` is not null 
 														then (concat(', ',`spryple_clients`.`company_address2`))
@@ -11361,7 +11362,8 @@ if (short_code is not null) then
 		`spryple_clients`.`country_id`,
 		(select statusmaster.id from statusmaster where statusmaster.name = 'Active'),
 		`spryple_clients`.`created_on`,
-		1
+		1,
+        current_date()
 	FROM `spryple_product_dev`.`spryple_clients`
 	where spryple_clients.company_code = `short_code`;
 	set @lid = (select last_insert_id()); 
@@ -11574,7 +11576,7 @@ select  d.deptname,count(emp.id) as count from employee emp
 inner join employee_departments ed on ed.empid=emp.id
 inner join departmentsmaster d on d.id=ed.departmentid
 inner join employee_worklocations ew on ew.empid=emp.id
-where ew.locationid=location_id and emp.status=1;
+where ew.locationid=location_id and emp.status=1 group by d.deptname;
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -11600,7 +11602,8 @@ inner join employee_departments ed on ed.empid=emp.id
 inner join departmentsmaster d on d.id=ed.departmentid
 inner join employee_shift_details esd on esd.empid=emp.id
 where esd.shiftid=shiftid and  emp.status=1
-and fromdate<=current_timestamp() and current_timestamp()<=todate ;
+and fromdate<=current_timestamp() and current_timestamp()<=todate 
+group by d.deptname;
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -16491,7 +16494,7 @@ begin
 select  cwl.location,count(emp.id) as count from employee emp
 inner join employee_worklocations ew on ew.empid=emp.id
 inner join companyworklocationsmaster cwl on cwl.id=ew.locationid
-where emp.status=1;
+where emp.status=1 group by cwl.location;
 end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -21165,7 +21168,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE  PROCEDURE `set_announcements`(announcementdata varchar(8000))
+	CREATE  PROCEDURE `set_announcements`(announcementdata mediumtext)
 	begin
 		 declare exit handler for sqlexception
 		begin
@@ -21199,8 +21202,6 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 			where r.id = @announceid;
 			select 0 as statuscode;
 		end if;
-
-
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
