@@ -371,9 +371,9 @@ async function getEmployeeInformation(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
-        listOfConnections[companyName].query("CALL `getemployeemaster` (?)",[req.params.Id], function (err, result, fields) {
+        listOfConnections[companyName].query("CALL `getemployeeinformation` (?)",[req.params.Id], function (err, result, fields) {
             if (result && result.length > 0) {
-                res.send({data: result[0], status: true});
+                res.send({data: JSON.parse(result[0][0].result), status: true});
             }else{
                 res.send({status: false});
             }
