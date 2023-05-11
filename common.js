@@ -168,8 +168,6 @@ async function login(req, res) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
-                console.log("er-", err);
-                console.log("ress-", results[0]);
                 var result = results ? results[0] ? results[0][0] ? Object.values(JSON.parse(JSON.stringify(results[0][0]))) : null : null : null;
 
                 if (result && result[0] > 0) {
@@ -796,24 +794,19 @@ async function setSpryplePlan(req,res) {
         
         // let companyName = req.body.companyName;
         let listOfConnections = {};
-        console.log("datya",req.body)
-        console.log("datya",JSON.stringify(req.body.modules))
         if(true) {
         //     listOfConnections= connection.checkExistingDBConnection(companyName)
         // if(!listOfConnections.succes) {
         //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         // }
         con.query("CALL `set_spryple_plan` (?,?,?,?)",[req.body.plan,JSON.stringify(req.body.modules),req.body.created_by,req.body.id], function (err, result, fields) {
-            if(err){
+            if (err) {
             res.send({status:false,message:"Unable to add "})
-
-           }
+             }
            else if (result[0][0] == 0){
             res.send({status:true});
            }
-           
            else{
-            console.log("ggf",result[0][0])
             res.send({status:false,message:"Record already existed."});
            }
         });
