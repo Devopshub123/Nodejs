@@ -112,7 +112,6 @@ function generateJWTToken(info){
            console.log("companyName",companyName)
             con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
                 console.log("err",err)
-                console.log("results",results[0])
                 if (results && results[0] && results[0].length != 0) {
                     res(results[0][0].db_name);
 
@@ -720,18 +719,9 @@ async function getCommonSideNavigation(req, res) {
 /*setSpryplePlan for master screen*/
 async function getAllModules(req, res) {
     try{
-        // var  dbName = 'spryple_hrms';
-        // var companyName = 'spryple_hrms';
-        let  dbName = await getDatebaseName('spryple_dev');
-        let companyName = 'spryple_dev';
-        console.log('spryple_qa',req.body)
-        var listOfConnections = {};
+       
         if (true) {
-            // listOfConnections= connection.checkExistingDBConnection(companyName)
-            // if (!listOfConnections.succes) {
-            //     listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
-            // }
-            con.query('CALL `getmastertable` (?,?,?,?)', ['modulesmaster', null,0,0], async function (err, result, next) {
+             con.query('CALL `getmastertable` (?,?,?,?)', ['modulesmaster', null,0,0], async function (err, result, next) {
                 if (result && result.length > 0) {
                     res.send({data: result[0], status: true});
                 } 
@@ -783,10 +773,7 @@ async function getMinUserForPlan(req,res) {
 // getAllModules
 async function setSpryplePlan(req,res) {
     try {
-        // let  dbName = await getDatebaseName(req.body.companyName);
-        // let companyName = req.body.companyName;
-        // var  dbName = 'spryple_hrms';
-        // var companyName = 'spryple_hrms';
+
         // let  dbName = await getDatebaseName('spryple_hrms');
         let  dbName = await getDatebaseName('spryple_dev');
         let companyName = 'spryple_dev';
@@ -799,10 +786,11 @@ async function setSpryplePlan(req,res) {
         //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         // }
         con.query("CALL `set_spryple_plan` (?,?,?,?)",[req.body.plan,JSON.stringify(req.body.modules),req.body.created_by,req.body.id], function (err, result, fields) {
+            console.log("Subscription Plans : "+result ,result[0][0].output);
             if (err) {
             res.send({status:false,message:"Unable to add "})
              }
-           else if (result[0][0] == 0){
+           else if (result[0][0].output == 0){
             res.send({status:true});
            }
            else{
@@ -824,16 +812,12 @@ async function Validateemail(req, res) {
     let companyCode = req.body.company_code_value;
     let email = req.body.company_email_value;
    // let companyName = 'spryple_hrms';
-    let  dbName = await getDatebaseName('spryple_hrms');
- //    let  dbName = await getDatebaseName('spryple_product_dev');
-    // let companyName = 'spryple_dev';
+    // let  dbName = await getDatebaseName('spryple_hrms');
     let validatecompanycode = await validateCompanyCode(companyCode,email);
     if(validatecompanycode){
         try{
         if(true) {
-           
-        
-           con.query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            con.query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                     req.body.company_name_value,
                     req.body.company_code_value,
@@ -932,13 +916,8 @@ async function Validateemail(req, res) {
 /** client signup  */
 async function setSprypleClient(req, res) {
     try {
-        let companyCode = req.body.company_code_value;
-        let toEmail = req.body.company_email_value;
         // var companyName = 'spryple_hrms';
         // let  dbName = await getDatebaseName('spryple_hrms');
-        let  dbName = await getDatebaseName('spryple_dev');
-        let companyName = 'spryple_dev';
-        let listOfConnections = {};
        if(true) {
           
             con.query("CALL `set_unverified_spryple_client` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
@@ -1038,11 +1017,7 @@ async function setSprypleClient(req, res) {
 /**setPlanDetails */
 async function setPlanDetails(req,res) {
     try {
-        // var companyName = 'spryple_hrms';
-        // let  dbName = await getDatebaseName('spryple_hrms');
-        let  dbName = await getDatebaseName('spryple_dev');
-        let companyName = 'spryple_dev';
-        let listOfConnections = {};
+
         if(true) {
           
         con.query("CALL `set_plan_details` (?,?,?,?,?,?,?)",[req.body.plan_id_value,req.body.lower_range_value,req.body.upper_range_value,req.body.cost_per_user_monthly,req.body.cost_per_user_yearly,req.body.created_by_value,req.body.id_value], function (err, result, fields) {
@@ -1069,12 +1044,6 @@ async function setPlanDetails(req,res) {
 
 async function getSpryplePlans(req,res) {
     try {
-        // let  dbName = await getDatebaseName('spryple_hrms');
-        // let companyName = 'spryple_hrms';
-        let  dbName = await getDatebaseName('spryple_dev');
-        let companyName = 'spryple_dev';
-
-        let listOfConnections = {};
         if(true) {
            
        con.query("CALL `get_spryple_plans` ()",function (err, result, fields) {
@@ -1285,8 +1254,10 @@ async function getSprypleClients(req,res) {
 /** post additional users */
 async function addUsers(req,res) {
     try {
-        var companyName = 'spryple_hrms';
-        let  dbName = await getDatebaseName('spryple_hrms');
+        // var companyName = 'spryple_hrms';
+        // let  dbName = await getDatebaseName('spryple_hrms');
+        var companyName = 'spryple_dev';
+        let  dbName = await getDatebaseName('spryple_dev');
         let listOfConnections = {};
         if(true) {
         //     listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -1327,8 +1298,10 @@ async function addUsers(req,res) {
 /**get renewal details */
 async function getRenewalDetails(req,res) {
     try {
-        let  dbName = await getDatebaseName('spryple_hrms');
-        let companyName = 'spryple_hrms';
+        // let  dbName = await getDatebaseName('spryple_hrms');
+        // let companyName = 'spryple_hrms';
+        let  dbName = await getDatebaseName('spryple_dev');
+        let companyName = 'spryple_dev';
         let listOfConnections = {};
         if(dbName) {
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -1387,9 +1360,6 @@ async function getClientPlanDetails(req,res) {
 
 async function getUsers(req,res) {
     try {
-        let  dbName = await getDatebaseName('spryple_hrms');
-        let companyName = 'spryple_hrms';
-        let listOfConnections = {};
         if(true) {
            
         con.query("CALL `get_users` (?)",[req.params.id], function (err, result, fields) {
@@ -1412,8 +1382,10 @@ async function getUsers(req,res) {
 
 async function enableRenewButton(req,res) {
     try {
-        var companyName = 'spryple_hrms';
-        let  dbName = await getDatebaseName('spryple_hrms');
+        // var companyName = 'spryple_hrms';
+        // let  dbName = await getDatebaseName('spryple_hrms');
+        var companyName = 'spryple_dev';
+        let  dbName = await getDatebaseName('spryple_dev');
         console.log()
         let listOfConnections = {};
         if(true) {
@@ -1447,8 +1419,10 @@ async function enableRenewButton(req,res) {
 /**renewUsers for after renewal payment done. */
 async function renewUsers(req,res) {
     try {
-        var companyName = 'spryple_hrms';
-        let  dbName = await getDatebaseName('spryple_hrms');
+        // var companyName = 'spryple_hrms';
+        // let  dbName = await getDatebaseName('spryple_hrms');
+        var companyName = 'spryple_dev';
+        let  dbName = await getDatebaseName('spryple_dev');
         let listOfConnections = {};
         if(true) {
         //     listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -1491,8 +1465,10 @@ async function renewUsers(req,res) {
 /**This API integrated for client add employees middile of subscription time amount details*/
 async function addUsersDisplayInfo(req,res) {
     try {
-        var companyName = 'spryple_hrms';
-        let  dbName = await getDatebaseName('spryple_hrms');
+        // var companyName = 'spryple_hrms';
+        // let  dbName = await getDatebaseName('spryple_hrms');
+        var companyName = 'spryple_dev';
+        let  dbName = await getDatebaseName('spryple_dev');
         let listOfConnections = {};
         if(true) {
         //     listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -2073,6 +2049,7 @@ async function setSprypleClientPlanPayment(req, res) {
            }
            else {
             let Payment =  await paymentStatusMail(mailData);
+            console.log("Payment",Payment);
             let  dbName = await createClientDatabase(companycodevalue);
             if(dbName.status){
                 let insertClientMasterData=  await InsertClientMasterData(dbName.data)
@@ -2346,6 +2323,7 @@ function createClientDatabase(companyName){
         try {
            con.query("CALL `create_client_database` (?)",[companyName ], function (err, result, next) {       
               console.log("c-1",err)
+              console.log("r-1",result[0][0])
                if (err) {
                     res(false);
                 } else {
@@ -2363,8 +2341,8 @@ function createClientDatabase(companyName){
     return new Promise(async (res,rej)=>{
 //    const file_path = "D:/DB_Scripts/database_script.sql";
     var connection=mysql.createConnection({
-      // host:"192.168.1.10",
-         host:"122.175.62.210",
+        // host:"192.168.1.10",
+        host:"122.175.62.210",
         user:"spryple_product_user",
         password:"Spryple$#123",
         port: 3306,
@@ -2375,8 +2353,8 @@ function createClientDatabase(companyName){
         connection.connect(function (err) {
             console.log("ins-err",err)
         if (err) throw err;
-               //const dbHost = "192.168.1.10";
-                 const dbHost ="122.175.62.210";
+              // const dbHost = "192.168.1.10";
+                const dbHost ="122.175.62.210";
                 const dbUser = "spryple_product_user";
                 const dbPassword = "Spryple$#123";
                 // Path to the MySQL dump file
@@ -2415,7 +2393,8 @@ function createClientDatabase(companyName){
         return new Promise(async (res,rej)=>{
             try {
                 let  dbName = await getDatebaseName(companyName)
-       
+        
+
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -2428,9 +2407,13 @@ function createClientDatabase(companyName){
                 companyName 
                 ], function (err, results, next) {
                     console.log("lg-err",err)
+                    console.log("lg-res",results[0][0])
                     if (err ) {
                         res(false);
                     } else {
+                       // res(results[0][0]);
+                       console.log(results[0][0]);
+                       console.log(results[1][0]);
                         sendEmailToSuperAdminCredentials(results[1][0],companyName)
                     }
                 })
