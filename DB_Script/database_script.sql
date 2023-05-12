@@ -31714,12 +31714,13 @@ begin
    set @approved_count=0;
    set @rejected_count=0;
    set @pending_count=0;
-    select count(lm_leaveapprovalstatustracker.id) into @approved_count
-    from lm_leaveapprovalstatustracker, lm_employeeleaves
-	where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
-    and   lm_employeeleaves.fromdate<=current_time() and lm_employeeleaves.todate>=current_time()
-    and lm_leaveapprovalstatustracker.status ='Approved';
-  
+    
+     select count(lm_leaveapprovalstatustracker.id)  as count into @approved_count
+     from lm_leaveapprovalstatustracker, lm_employeeleaves
+	 where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
+	 and DATE_FORMAT(lm_employeeleaves.fromdate, '%Y-%m-%d')<=DATE_FORMAT(month_value, '%Y-%m-%d')
+   	 and DATE_FORMAT(lm_employeeleaves.todate, '%Y-%m-%d')>=DATE_FORMAT(month_value, '%Y-%m-%d')
+     and lm_leaveapprovalstatustracker.status ='Approved'; 
     select count(lm_leaveapprovalstatustracker.id) into @rejected_count 
     from lm_leaveapprovalstatustracker, lm_employeeleaves
     where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
@@ -31727,14 +31728,11 @@ begin
 	and DATE_FORMAT(lm_employeeleaves.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lm_employeeleaves.todate, '%Y-%m-%d')<=@monthenddate
     and lm_leaveapprovalstatustracker.status ='Rejected';
    
-    select count(leav.id) into @pending_count  
-    from lm_employeeleaves leav
-    where leav.id not in (select leavtrac.leaveid from lm_leaveapprovalstatustracker leavtrac)
-    and   DATE_FORMAT(leav.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(leav.fromdate, '%Y-%m-%d')<=@monthenddate
-	and DATE_FORMAT(leav.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(leav.todate, '%Y-%m-%d')<=@monthenddate;
-
-     select @approved_count as today_leave_count, @rejected_count as rejected_count, @pending_count as pending_count ;
-        
+   select count(lm_employeeleaves.id) into @pending_count  
+    from lm_leaveapprovalstatustracker, lm_employeeleaves
+    where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
+    and lm_leaveapprovalstatustracker.status is null;
+	select @approved_count as today_leave_count, @rejected_count as rejected_count, @pending_count as pending_count ;
 end;;
 DELIMITER ;
 
@@ -31949,3 +31947,10 @@ select json_arrayagg(json_object('city', t.city,'cityname',t.cityname)) as data
     where m.status=1) t;
     end;;
 DELIMITER ;
+
+DELIMITER ;;
+CREATE PROCEDURE `get_active_employees_count`()
+begin
+select count(id) as active_employees_count from employee where status=1;
+end;;
+DELIMITER;
