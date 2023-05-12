@@ -9479,161 +9479,161 @@ WHERE e.id = @eid and status=1;
 		`calendar_date` datetime
 	)
 	begin
-		set @monthstartdate = `calendar_date`;
-		set @monthstartdate = last_day(@monthstartdate) + interval 1 day - interval 1 month;
-		
-		set @totalmonthdays = (case when @monthstartdate=(last_day(current_date()) + interval 1 day - interval 1 month) then datediff(current_date(),@monthstartdate)+1 else day(last_day(`calendar_date`)) end);
-		
-		set @monthenddate = (case when @monthstartdate=(last_day(current_date()) + interval 1 day - interval 1 month) then current_date() else last_day(@monthstartdate) end);
-		if (employee_id is not null) then
-			set @doj = (select date(employee.dateofjoin) from employee where employee.id = employee_id);
-			if (@monthstartdate <= @doj) then
-				set @monthstartdate = @doj; 
-			end if;
+	set @monthstartdate = `calendar_date`;
+    set @monthstartdate = last_day(@monthstartdate) + interval 1 day - interval 1 month;
+    
+    set @totalmonthdays = (case when @monthstartdate=(last_day(current_date()) + interval 1 day - interval 1 month) then datediff(current_date(),@monthstartdate)+1 else day(last_day(`calendar_date`)) end);
+    
+    set @monthenddate = (case when @monthstartdate=(last_day(current_date()) + interval 1 day - interval 1 month) then current_date() else last_day(@monthstartdate) end);
+	/*if (employee_id is not null) then
+		set @doj = (select date(employee.dateofjoin) from employee where employee.id = employee_id);
+		if (@monthstartdate <= @doj) then
+			set @monthstartdate = @doj; 
 		end if;
-		set @datestr = '[';
-		set @datenamestr = '[';
-		-- create temp table to hold empids under a manager if any
-		drop temporary table if exists manageremployees;
-		create temporary table manageremployees (
-			sid int(11) auto_increment not null,
-			mempid int(11),
-			primary key (sid)
-		);
-		create temporary table weekoffs_table (
-			empid int(11),
-			weekoff1 int(11),
-			weekoff2 int(11),
-			weekoff3 int(11),
-			effective_fromdate date,
-			effective_todate date
-		);
-		
-		drop temporary table if exists monthlyreport;
-		create temporary table monthlyreport (
-			attdate date,
-			empid int(11),
-			empname varchar(255),
-			present_or_absent varchar(4000)
-		);
-		set @monthstarttemp = @monthstartdate;
-		
-		if (`manager_employee_id` is not null) then
-			insert into manageremployees(mempid)
-			SELECT e.id as id
-			FROM employee e,employee_reportingmanagers rm
-			WHERE e.id = rm.empid
-			and rm.effectiveenddate  is null
-			and rm.reportingmanagerid=`manager_employee_id`
-			order by e.firstname, e.lastname; 
-		else 
-			insert into manageremployees(mempid) values(`employee_id`);
+    end if;*/
+    set @datestr = '[';
+    set @datenamestr = '[';
+    -- create temp table to hold empids under a manager if any
+    drop temporary table if exists manageremployees;
+    create temporary table manageremployees (
+		sid int(11) auto_increment not null,
+		mempid int(11),
+        primary key (sid)
+    );
+    create temporary table weekoffs_table (
+		empid int(11),
+		weekoff1 int(11),
+		weekoff2 int(11),
+		weekoff3 int(11),
+		effective_fromdate date,
+		effective_todate date
+	);
+    
+	drop temporary table if exists monthlyreport;
+    create temporary table monthlyreport (
+		attdate date,
+		empid int(11),
+        empname varchar(255),
+        present_or_absent varchar(4000)
+    );
+    set @monthstarttemp = @monthstartdate;
+    
+    if (`manager_employee_id` is not null) then
+		insert into manageremployees(mempid)
+        SELECT e.id as id
+		FROM employee e,employee_reportingmanagers rm
+		WHERE e.id = rm.empid
+		and rm.effectiveenddate  is null
+		and rm.reportingmanagerid=`manager_employee_id`
+		order by e.firstname, e.lastname; 
+	else 
+		insert into manageremployees(mempid) values(`employee_id`);
+        
+    end if;
+    
+	insert into weekoffs_table(empid,weekoff1,weekoff2,weekoff3,effective_fromdate,effective_todate) 
+	select empid,weekoffday1,weekoffday2,weekoffday3,effectivefromdate,effectivetodate 
+	from employee_weekoffs
+	where employee_weekoffs.empid in (select mempid from manageremployees);
+    
+    set  @isweekoff='';
+    set  @holiday ='';
+    set @leave = '';
+    set @absentcnt = 0;
+    set @monthdayscnt = (SELECT DAYOFMONTH(LAST_DAY(@monthstartdate)));
+    set @cnt = (select count(*) from manageremployees);
+     
+    while (@monthstarttemp <= @monthenddate) do
+        set @tot = @cnt;
+        while (@tot>=0) do
+			-- weekoffs 
+			set @isweekoff = (case when exists (select * from weekoffs_table v
+			where ( @monthstarttemp between v.effective_fromdate and v.effective_todate)
+			and dayofweek(@monthstarttemp) in (ifnull(v.weekoff1,0),ifnull(v.weekoff2,0),ifnull(v.weekoff3,0))
+            and empid = (select mempid from manageremployees where sid=(@cnt-@tot)+1) order by empid desc) then '"W"' else '' end) ;    
 			
-		end if;
-		
-		insert into weekoffs_table(empid,weekoff1,weekoff2,weekoff3,effective_fromdate,effective_todate) 
-		select empid,weekoffday1,weekoffday2,weekoffday3,effectivefromdate,effectivetodate 
-		from employee_weekoffs
-		where employee_weekoffs.empid in (select mempid from manageremployees);
-		
-		set  @isweekoff='';
-		set  @holiday ='';
-		set @leave = '';
-		set @absentcnt = 0;
-		set @monthdayscnt = (SELECT DAYOFMONTH(LAST_DAY(@monthstartdate)));
-		set @cnt = (select count(*) from manageremployees);
-		 
-		while (@monthstarttemp <= @monthenddate) do
-			set @tot = @cnt;
-			while (@tot>=0) do
-				-- weekoffs 
-				set @isweekoff = (case when exists (select * from weekoffs_table v
-				where ( @monthstarttemp between v.effective_fromdate and v.effective_todate)
-				and dayofweek(@monthstarttemp) in (ifnull(v.weekoff1,0),ifnull(v.weekoff2,0),ifnull(v.weekoff3,0))
-				and empid = (select mempid from manageremployees where sid=(@cnt-@tot)+1) order by empid desc) then '"W"' else '' end) ;    
-				
-				-- holidays
-				select concat('"H"') into @holiday -- ',v.description,'
-				from (select m.date as date_value,m.description as description
-				FROM holidaysmaster m, companyworklocationsmaster v  
-				WHERE m.location = v.city 
-				and v.id =(select s.locationid from employee_worklocations s where empid = (select mempid from manageremployees where sid=(@cnt-@tot)+1) order by id desc limit 1)
-				and m.leave_cycle_year = (select fn_get_leave_cycle_year())) v
-				where @monthstarttemp = v.date_value;
-				
-				 -- leaves
-				if exists(select * from information_schema.columns where  table_schema=(select database()) and table_name='lm_employeeleaves') then
-					if exists(select * from lm_employeeleaves where @monthstarttemp between fromdate and todate and empid= (select mempid from manageremployees where sid=(@cnt-@tot)+1) and leavestatus in ('Submitted','Approved')) then
-						set @leave = '"A"';
-					end if;
-				end if;	
-					
-					
-				if exists (select * from employee_attendance where attendancedate = @monthstarttemp and empid=(select mempid from manageremployees where sid=(@cnt-@tot)+1)) then
-					insert into monthlyreport
-					select distinct a.attendancedate,a.empid,(select concat(employee.firstname,' ',employee.lastname) from employee where employee.id=a.empid) as empname,
-						 (case when (a.attendancedate >= date(e.dateofjoin)) then (case when a.attendancedate is not null then '"P"' 
-																					   when @isweekoff <> '' then @isweekoff
-																					   when @holiday <> '' then @holiday	
-																					   when @leave <> '' then @leave	
-																					   else '"A"' end) 
-									   else '" "' end) as present_or_absent
-						   
-					from employee_attendance a , employee e
-					where a.attendancedate = @monthstarttemp
-					and a.empid = e.id
-					and a.empid=(select mempid from manageremployees where sid=(@cnt-@tot)+1);
-				else 
-					insert into monthlyreport
-					select distinct @monthstarttemp,m.mempid,(select concat(employee.firstname,' ',employee.lastname) from employee 
-					where employee.id=m.mempid) as empname,(case when @monthstarttemp >= date(t.dateofjoin) then 
-																							(case when @isweekoff <> '' then @isweekoff
-																								  when @holiday <> '' then @holiday	
-																								  when @leave <> '' then @leave	
-																								  else '"A"' end)
-					else '" "' end) as present_or_absent
-					from manageremployees m, employee t
-					where m.mempid = t.id
-					and m.sid=(@cnt-@tot)+1;
+			-- holidays
+			select concat('"H"') into @holiday -- ',v.description,'
+			from (select m.date as date_value,m.description as description
+			FROM holidaysmaster m, companyworklocationsmaster v  
+			WHERE m.location = v.city 
+			and v.id =(select s.locationid from employee_worklocations s where empid = (select mempid from manageremployees where sid=(@cnt-@tot)+1) order by id desc limit 1)
+			and m.leave_cycle_year = (select fn_get_leave_cycle_year())) v
+			where @monthstarttemp = v.date_value;
+			
+			 -- leaves
+			if exists(select * from information_schema.columns where  table_schema=(select database()) and table_name='lm_employeeleaves') then
+				if exists(select * from lm_employeeleaves where @monthstarttemp between fromdate and todate and empid= (select mempid from manageremployees where sid=(@cnt-@tot)+1) and leavestatus in ('Submitted','Approved')) then
+					set @leave = '"A"';
 				end if;
-				set @tot = @tot -1;
-				set  @isweekoff='';
-				set  @holiday ='';
-				set @leave = '';
-			end while;
-			set @datestr = concat(@datestr,'"',convert(date(@monthstarttemp),char(8000)), '"');
-			set @datenamestr = concat(@datenamestr,'"',dayname(@monthstarttemp), '"');
-			if (@monthstarttemp < @monthenddate) then set @datestr = concat(@datestr,','); set @datenamestr = concat(@datenamestr,','); end if;
-
-			set  @isweekoff='';
+			end if;	
+                
+                
+			if exists (select * from employee_attendance where attendancedate = @monthstarttemp and empid=(select mempid from manageremployees where sid=(@cnt-@tot)+1)) then
+				insert into monthlyreport
+                select distinct a.attendancedate,a.empid,(select concat(employee.firstname,' ',employee.lastname) from employee where employee.id=a.empid) as empname,
+					 (case when (a.attendancedate >= date(e.dateofjoin)) then (case when a.attendancedate is not null then '"P"' 
+																				   when @isweekoff <> '' then @isweekoff
+																				   when @holiday <> '' then @holiday	
+																				   when @leave <> '' then @leave	
+																				   else '"A"' end) 
+                                   else '" "' end) as present_or_absent
+                       
+				from employee_attendance a , employee e
+				where a.attendancedate = @monthstarttemp
+                and a.empid = e.id
+                and a.empid=(select mempid from manageremployees where sid=(@cnt-@tot)+1);
+			else 
+				insert into monthlyreport
+				select distinct @monthstarttemp,m.mempid,(select concat(employee.firstname,' ',employee.lastname) from employee 
+                where employee.id=m.mempid) as empname,(case when @monthstarttemp >= date(t.dateofjoin) then 
+																						(case when @isweekoff <> '' then @isweekoff
+																							  when @holiday <> '' then @holiday	
+																							  when @leave <> '' then @leave	
+                                                                                              else '"A"' end)
+                else '" "' end) as present_or_absent
+				from manageremployees m, employee t
+				where m.mempid = t.id
+                and m.sid=(@cnt-@tot)+1;
+			end if;
+            set @tot = @tot -1;
+            set  @isweekoff='';
 			set  @holiday ='';
 			set @leave = '';
-			set @monthstarttemp = @monthstarttemp + interval 1 day;
 		end while;
-		set @absentcnt = (select count(*) from monthlyreport where present_or_absent ='"A"');
-		set @datestr = concat(@datestr,']');
-		set @datenamestr = concat(@datenamestr,']');
-		
-		select @datestr as result
-		union
-		select @datenamestr as result
-		union
-		select concat('["',grp.empname,'",',group_concat(grp.present_or_absent separator ','),',"',
-		 concat(convert(
-		  -- (select count(*) from monthlyreport where present_or_absent ='"A"' and empid=grp.empid),char(10)),' of ',@totalmonthdays),
-		  (select (CHAR_LENGTH(grp.present_or_absent) - CHAR_LENGTH(REPLACE(grp.present_or_absent, '"A"', ''))) / CHAR_LENGTH('"A"')),unsigned),' of ',@totalmonthdays),
-		-- (select count(distinct attendancedate) from employee_attendance where employee_attendance.empid=grp.empid and employee_attendance.lastlogouttime is not null and employee_attendance.attendancedate between @monthstartdate and @monthenddate),char(10)),
-		'"]') as result 
-		from (
-				select empid,empname,group_concat(present_or_absent separator ',') as present_or_absent 
-				from monthlyreport group by empid,empname
-			) grp
-		group by grp.empid,grp.empname;
-		
-		drop temporary table manageremployees;
-		drop temporary table weekoffs_table;
-		drop temporary table monthlyreport;
-	end ;;
+		set @datestr = concat(@datestr,'"',convert(date(@monthstarttemp),char(8000)), '"');
+        set @datenamestr = concat(@datenamestr,'"',dayname(@monthstarttemp), '"');
+        if (@monthstarttemp < @monthenddate) then set @datestr = concat(@datestr,','); set @datenamestr = concat(@datenamestr,','); end if;
+
+		set  @isweekoff='';
+        set  @holiday ='';
+        set @leave = '';
+		set @monthstarttemp = @monthstarttemp + interval 1 day;
+ 	end while;
+    set @absentcnt = (select count(*) from monthlyreport where present_or_absent ='"A"');
+    set @datestr = concat(@datestr,']');
+    set @datenamestr = concat(@datenamestr,']');
+    
+    select @datestr as result
+	union
+	select @datenamestr as result
+	union
+    select concat('["',grp.empname,'",',group_concat(grp.present_or_absent separator ','),',"',
+     concat(convert(
+      -- (select count(*) from monthlyreport where present_or_absent ='"A"' and empid=grp.empid),char(10)),' of ',@totalmonthdays),
+      (select (CHAR_LENGTH(grp.present_or_absent) - CHAR_LENGTH(REPLACE(grp.present_or_absent, '"A"', ''))) / CHAR_LENGTH('"A"')),unsigned),' of ',@totalmonthdays),
+    -- (select count(distinct attendancedate) from employee_attendance where employee_attendance.empid=grp.empid and employee_attendance.lastlogouttime is not null and employee_attendance.attendancedate between @monthstartdate and @monthenddate),char(10)),
+    '"]') as result 
+    from (
+			select empid,empname,group_concat(present_or_absent separator ',') as present_or_absent 
+            from monthlyreport group by empid,empname
+		) grp
+	group by grp.empid,grp.empname;
+	
+    drop temporary table manageremployees;
+    drop temporary table weekoffs_table;
+    drop temporary table monthlyreport;
+end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
