@@ -1679,7 +1679,7 @@
 
 	LOCK TABLES `ems_employee_column_configuration_master` WRITE;
 	/*!40000 ALTER TABLE `ems_employee_column_configuration_master` DISABLE KEYS */;
-	INSERT INTO `ems_employee_column_configuration_master` VALUES (1,11,1,1,1,1,1,0,0,0,0,0);
+	INSERT INTO `ems_employee_column_configuration_master` VALUES (1,1,1,1,1,1,1,0,0,0,0,0);
 	/*!40000 ALTER TABLE `ems_employee_column_configuration_master` ENABLE KEYS */;
 	UNLOCK TABLES;
 
@@ -15804,104 +15804,104 @@ begin
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
 	CREATE PROCEDURE `get_handled_leaves`(
-	in `rm_id` int(11)
-	)
-	begin
-	drop temporary table if exists manager_status; 
-	create temporary table manager_status (
-	leaveid int(11),
-	reason varchar(512)
-	);
+in `rm_id` int(11)
+)
+begin
+drop temporary table if exists manager_status; 
+create temporary table manager_status (
+leaveid int(11),
+reason varchar(512)
+);
 
-	set @present_year = (select fn_get_leave_cycle_year());
-	set @previous_year = (select fn_get_leave_cycle_year() - 1);
+set @present_year = (select fn_get_leave_cycle_year());
+set @previous_year = (select fn_get_leave_cycle_year() - 1);
 
-	insert into manager_status(reason,leaveid)
-	select lm_leaveapprovalstatustracker.action_reason, lm_leaveapprovalstatustracker.leaveid
-	from lm_leaveapprovalstatustracker, employee, lm_employeeleaves,
-	(select leaveid,max(id) as id
-	from lm_leaveapprovalstatustracker group by leaveid) max_ids
-	where lm_leaveapprovalstatustracker.empid = employee.id
+insert into manager_status(reason,leaveid)
+select lm_leaveapprovalstatustracker.action_reason, lm_leaveapprovalstatustracker.leaveid
+from lm_leaveapprovalstatustracker, employee, lm_employeeleaves,
+(select leaveid,max(id) as id
+from lm_leaveapprovalstatustracker group by leaveid) max_ids
+where lm_leaveapprovalstatustracker.empid = employee.id
+and lm_leaveapprovalstatustracker.leaveid = lm_employeeleaves.id
+and lm_employeeleaves.empid = lm_leaveapprovalstatustracker.empid 
+and lm_leaveapprovalstatustracker.approverid = rm_id
+and employee.id = lm_employeeleaves.empid
+and lm_leaveapprovalstatustracker.leaveid = max_ids.leaveid
+and lm_leaveapprovalstatustracker.id = max_ids.id
+and case when ifnull(lm_employeeleaves.leave_cycle_year,0) <> 0 
+         then lm_employeeleaves.leave_cycle_year in ((select @present_year),(select @previous_year))
+         else ifnull(lm_employeeleaves.leave_cycle_year,0) = 0
+         end
+and lm_employeeleaves.leavestatus <> 'Submitted';
+
+SELECT distinct
+	`lm_employeeleaves`.`id`,
+    `lm_employeeleaves`.`empid`,
+     concat(employee.firstname,case when employee.middlename is not null then concat(' ',employee.middlename) end,
+     case when employee.lastname is not null then concat(' ',employee.lastname) end) as emp_name,
+     employee.empid as employee_id,
+    `lm_employeeleaves`.`leavetype`,
+    (select lm_leavesmaster.display_name from lm_leavesmaster where lm_leavesmaster.id = lm_employeeleaves.leavetype) as display_name,
+    `lm_employeeleaves`.`fromdate`,
+    `lm_employeeleaves`.`todate`,
+    `lm_employeeleaves`.`fromhalfdayleave`,
+    `lm_employeeleaves`.`tohalfdayleave`,
+    `lm_employeeleaves`.`leavecount`,
+    `lm_employeeleaves`.`appliedon`,
+    `lm_employeeleaves`.`approvedby`,
+    `lm_employeeleaves`.`leavereason`,
+    `lm_employeeleaves`.`leavestatus`,
+    `lm_employeeleaves`.`contactnumber`,
+    `lm_employeeleaves`.`contactemail`,
+    `lm_employeeleaves`.`contactaddress`,
+    `lm_employeeleaves`.`leave_cycle_year`,
+    `lm_employeeleaves`.`action_reason`,
+     manager_status.reason as manager_reason,
+    `lm_employeeleaves`.`approvedon`,
+    `lm_employeeleaves`.`updatedon`,
+    case when lm_employeeleaves.leavetype = 8 then
+		(select concat(relationshipmaster.relationship,' - ',concat(employee_relations.firstname,case when employee_relations.lastname is not null then concat(' ',employee_relations.lastname) end)) 
+		from employee_relations, relationshipmaster 
+		where employee_relations.empid = lm_employeeleaves.empid and 
+		employee_relations.utilized_leave_id = lm_employeeleaves.id
+		and employee_relations.relationship = relationshipmaster.id)
+		else null end
+    as bereavement_relation,
+    case when lm_employeeleaves.leavetype = 8 then
+		(select employee_relations.id
+		from employee_relations, relationshipmaster 
+		where employee_relations.empid = lm_employeeleaves.empid and 
+		employee_relations.utilized_leave_id = lm_employeeleaves.id
+		and employee_relations.relationship = relationshipmaster.id)
+		else null end
+    as bereavement_id,
+    case when lm_employeeleaves.leavetype = 9 and lm_employeeleaves.leavecount = 1 then
+		 (select lm_register_comp_off.comp_off_date from lm_register_comp_off 
+         where lm_employeeleaves.empid = lm_register_comp_off.empid 
+         and lm_register_comp_off.utilized_leave_id = lm_employeeleaves.id)
+         when lm_employeeleaves.leavetype = 9 and lm_employeeleaves.leavecount < 1 then
+         (select lm_register_comp_off.comp_off_date
+         from lm_register_comp_off
+         where lm_register_comp_off.empid = lm_employeeleaves.empid
+         and (substring_index(lm_register_comp_off.utilized_leave_id,',',1) = lm_employeeleaves.id or
+         substring_index(lm_register_comp_off.utilized_leave_id,',',-1) = lm_employeeleaves.id))
+         else null end
+    as worked_date
+FROM employee, lm_employeeleaves, lm_leaveapprovalstatustracker, manager_status
+where lm_employeeleaves.empid = lm_leaveapprovalstatustracker.empid 
 	and lm_leaveapprovalstatustracker.leaveid = lm_employeeleaves.id
-	and lm_employeeleaves.empid = lm_leaveapprovalstatustracker.empid 
-	and lm_leaveapprovalstatustracker.approverid = rm_id
-	and employee.id = lm_employeeleaves.empid
-	and lm_leaveapprovalstatustracker.leaveid = max_ids.leaveid
-	and lm_leaveapprovalstatustracker.id = max_ids.id
-	and case when ifnull(lm_employeeleaves.leave_cycle_year,0) <> 0 
-			 then lm_employeeleaves.leave_cycle_year in ((select @present_year),(select @previous_year))
-			 else ifnull(lm_employeeleaves.leave_cycle_year,0) = 0
-			 end
-	and lm_employeeleaves.leavestatus <> 'Submitted';
+    and lm_leaveapprovalstatustracker.approverid = rm_id
+    and employee.id = lm_employeeleaves.empid
+    and lm_employeeleaves.id = manager_status.leaveid
+    and case when ifnull(lm_employeeleaves.leave_cycle_year,0) <> 0 
+             then lm_employeeleaves.leave_cycle_year in ((select @present_year),(select @previous_year))
+             else ifnull(lm_employeeleaves.leave_cycle_year,0) = 0
+             end
+    and lm_employeeleaves.leavestatus <> 'Submitted'
+    order by lm_employeeleaves.id desc;
+	
+    drop temporary table manager_status;
 
-	SELECT distinct
-		`lm_employeeleaves`.`id`,
-		`lm_employeeleaves`.`empid`,
-		 concat(employee.firstname,case when employee.middlename is not null then concat(' ',employee.middlename) end,
-		 case when employee.lastname is not null then concat(' ',employee.lastname) end) as emp_name,
-		 employee.empid as employee_id,
-		`lm_employeeleaves`.`leavetype`,
-		(select lm_leavesmaster.display_name from lm_leavesmaster where lm_leavesmaster.id = lm_employeeleaves.leavetype) as display_name,
-		`lm_employeeleaves`.`fromdate`,
-		`lm_employeeleaves`.`todate`,
-		`lm_employeeleaves`.`fromhalfdayleave`,
-		`lm_employeeleaves`.`tohalfdayleave`,
-		`lm_employeeleaves`.`leavecount`,
-		`lm_employeeleaves`.`appliedon`,
-		`lm_employeeleaves`.`approvedby`,
-		`lm_employeeleaves`.`leavereason`,
-		`lm_employeeleaves`.`leavestatus`,
-		`lm_employeeleaves`.`contactnumber`,
-		`lm_employeeleaves`.`contactemail`,
-		`lm_employeeleaves`.`contactaddress`,
-		`lm_employeeleaves`.`leave_cycle_year`,
-		`lm_employeeleaves`.`action_reason`,
-		 manager_status.reason as manager_reason,
-		`lm_employeeleaves`.`approvedon`,
-		`lm_employeeleaves`.`updatedon`,
-		case when lm_employeeleaves.leavetype = 8 then
-			(select concat(relationshipmaster.relationship,' - ',concat(employee_relations.firstname,case when employee_relations.lastname is not null then concat(' ',employee_relations.lastname) end)) 
-			from employee_relations, relationshipmaster 
-			where employee_relations.empid = lm_employeeleaves.empid and 
-			employee_relations.utilized_leave_id = lm_employeeleaves.id
-			and employee_relations.relationship = relationshipmaster.id)
-			else null end
-		as bereavement_relation,
-		case when lm_employeeleaves.leavetype = 8 then
-			(select employee_relations.id
-			from employee_relations, relationshipmaster 
-			where employee_relations.empid = lm_employeeleaves.empid and 
-			employee_relations.utilized_leave_id = lm_employeeleaves.id
-			and employee_relations.relationship = relationshipmaster.id)
-			else null end
-		as bereavement_id,
-		case when lm_employeeleaves.leavetype = 9 and lm_employeeleaves.leavecount = 1 then
-			 (select lm_register_comp_off.comp_off_date from lm_register_comp_off 
-			 where lm_employeeleaves.empid = lm_register_comp_off.empid 
-			 and lm_register_comp_off.utilized_leave_id = lm_employeeleaves.id)
-			 when lm_employeeleaves.leavetype = 9 and lm_employeeleaves.leavecount < 1 then
-			 (select lm_register_comp_off.comp_off_date
-			 from lm_register_comp_off
-			 where lm_register_comp_off.empid = lm_employeeleaves.empid
-			 and (substring_index(lm_register_comp_off.utilized_leave_id,',',1) = lm_employeeleaves.id or
-			 substring_index(lm_register_comp_off.utilized_leave_id,',',-1) = lm_employeeleaves.id))
-			 else null end
-		as worked_date
-	FROM employee, lm_employeeleaves, lm_leaveapprovalstatustracker, manager_status
-	where lm_employeeleaves.empid = lm_leaveapprovalstatustracker.empid 
-		and lm_leaveapprovalstatustracker.leaveid = lm_employeeleaves.id
-		and lm_leaveapprovalstatustracker.approverid = rm_id
-		and employee.id = lm_employeeleaves.empid
-		and lm_employeeleaves.id = manager_status.leaveid
-		and case when ifnull(lm_employeeleaves.leave_cycle_year,0) <> 0 
-				 then lm_employeeleaves.leave_cycle_year in ((select @present_year),(select @previous_year))
-				 else ifnull(lm_employeeleaves.leave_cycle_year,0) = 0
-				 end
-		and lm_employeeleaves.leavestatus <> 'Submitted'
-		order by lm_employeeleaves.id desc;
-		
-		drop temporary table manager_status;
-		
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;

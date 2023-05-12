@@ -112,7 +112,6 @@ function generateJWTToken(info){
            console.log("companyName",companyName)
             con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
                 console.log("err",err)
-                console.log("results",results[0])
                 if (results && results[0] && results[0].length != 0) {
                     res(results[0][0].db_name);
 
@@ -787,10 +786,11 @@ async function setSpryplePlan(req,res) {
         //     listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         // }
         con.query("CALL `set_spryple_plan` (?,?,?,?)",[req.body.plan,JSON.stringify(req.body.modules),req.body.created_by,req.body.id], function (err, result, fields) {
+            console.log("Subscription Plans : "+result ,result[0][0].output);
             if (err) {
             res.send({status:false,message:"Unable to add "})
              }
-           else if (result[0][0] == 0){
+           else if (result[0][0].output == 0){
             res.send({status:true});
            }
            else{
@@ -2049,6 +2049,7 @@ async function setSprypleClientPlanPayment(req, res) {
            }
            else {
             let Payment =  await paymentStatusMail(mailData);
+            console.log("Payment",Payment);
             let  dbName = await createClientDatabase(companycodevalue);
             if(dbName.status){
                 let insertClientMasterData=  await InsertClientMasterData(dbName.data)
@@ -2322,6 +2323,7 @@ function createClientDatabase(companyName){
         try {
            con.query("CALL `create_client_database` (?)",[companyName ], function (err, result, next) {       
               console.log("c-1",err)
+              console.log("r-1",result[0][0])
                if (err) {
                     res(false);
                 } else {
@@ -2339,8 +2341,8 @@ function createClientDatabase(companyName){
     return new Promise(async (res,rej)=>{
 //    const file_path = "D:/DB_Scripts/database_script.sql";
     var connection=mysql.createConnection({
-      // host:"192.168.1.10",
-         host:"122.175.62.210",
+        // host:"192.168.1.10",
+        host:"122.175.62.210",
         user:"spryple_product_user",
         password:"Spryple$#123",
         port: 3306,
@@ -2351,10 +2353,9 @@ function createClientDatabase(companyName){
         connection.connect(function (err) {
             console.log("ins-err",err)
         if (err) throw err;
-               //const dbHost = "192.168.1.10";
-                 const dbHost ="122.175.62.210";
+              // const dbHost = "192.168.1.10";
+                const dbHost ="122.175.62.210";
                 const dbUser = "spryple_product_user";
-                
                 const dbPassword = "Spryple$#123";
                 // Path to the MySQL dump file
                 const dumpFilePath = "D:/DB_Scripts/database_script.sql";
@@ -2392,7 +2393,8 @@ function createClientDatabase(companyName){
         return new Promise(async (res,rej)=>{
             try {
                 let  dbName = await getDatebaseName(companyName)
-       
+        
+
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -2405,9 +2407,13 @@ function createClientDatabase(companyName){
                 companyName 
                 ], function (err, results, next) {
                     console.log("lg-err",err)
+                    console.log("lg-res",results[0][0])
                     if (err ) {
                         res(false);
                     } else {
+                       // res(results[0][0]);
+                       console.log(results[0][0]);
+                       console.log(results[1][0]);
                         sendEmailToSuperAdminCredentials(results[1][0],companyName)
                     }
                 })
