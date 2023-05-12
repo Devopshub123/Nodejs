@@ -5,14 +5,13 @@ function switchDatabase() {
   return mysql.createConnection({
     /** Local */
     
-          // host: "192.168.1.10",
-          host: "122.175.62.210",
+          host: "192.168.1.10",
+          // host: "122.175.62.210",
             user: "spryple_client_user",
             port: 3306,
             password: "Client&*123",
            //  database: 'spryple_hrms',
             database: 'spryple_product_dev',
-          //  database: 'spryple_qa',
             dateStrings: true,
             multipleStatements: true
 
@@ -34,8 +33,8 @@ async function getNewDBConnection(companyName,dbName)
 
   return new Promise((res,rej)=>{
     var connectionParams = {
-      // host: "192.168.1.10",
-      host: "122.175.62.210",
+      host: "192.168.1.10",
+      // host: "122.175.62.210",
       user: "spryple_client_user",
       port: 3306,
       password: "Client&*123",
