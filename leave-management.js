@@ -3912,33 +3912,42 @@ async function errorLogs(errorLogArray) {
 
 // setNewLeaveType
 
-async function setNewLeaveType(req,res){
-    try {
-        let companyName =req.params.companyName;
-        let  dbName = await getDatebaseName(companyName)
+async function setNewLeaveType(req, res) {
+    try{
+        var dbName = await getDatebaseName(req.params.companyName)
+        let companyName = req.params.companyName;
+        var listOfConnections = {};
         let leaveType = req.body.leaveTypeName;
         let leaveColor = req.body.leaveColor;
         let leaveDisplayName = req.body.displayName;
-        con.query("CALL `setnewleavetype` (?,?,?)",[leaveType,leaveDisplayName,leaveColor], async function (err, result, fields) {
-            if (err) {
-                res.send({status: false, message: 'Unable to add leave type'});
-                let errorLogArray = [];
-        errorLogArray.push("LMSAPI");
-        errorLogArray.push("setnewleavetype");
-        errorLogArray.push("POST");
-        errorLogArray.push(JSON.stringify(req.body));
-        errorLogArray.push( e.message);
-        errorLogArray.push(null);
-        errorLogArray.push(companyName);
-        errorLogArray.push(dbName);
-        errorLogs(errorLogArray)
-                
-            } else {
-                res.send({status: true, message: 'Leave Type added successfully'})
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-        });
-
-    }catch (e) {
+            listOfConnections[companyName].query("CALL `setnewleavetype` (?,?,?)",[leaveType,leaveDisplayName,leaveColor],
+            async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("LMSAPI");
+                    errorLogArray.push("setnewleavetype");
+                    errorLogArray.push("POST");
+                    errorLogArray.push(JSON.stringify(req.body));
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                    errorLogs(errorLogArray);
+                    res.send({ status: false })
+                } else {
+                    res.send({status: true, message: 'Leave Type added successfully'})
+                }
+            })
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }
+    catch (e) {
         let companyName =req.params.companyName;
         let  dbName = await getDatebaseName(companyName)
         let errorLogArray = [];

@@ -54,7 +54,7 @@ module.exports={
 }
 
 
-async function getEmployeeAttendanceNotifications(req,res){
+async function getEmployeeAttendanceNotifications(req, res) {
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;

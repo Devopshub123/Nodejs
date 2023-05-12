@@ -796,7 +796,6 @@ app.get('/api/getYearsForReport/:companyName', verifyJWTToken,function(req,res) 
 });
 
 app.post('/api/setNewLeaveType/:companyName',function(req,res) {
-    console.log("hghghgh",req.body)
     leaveManagement.setNewLeaveType(req,res)
 });
 /**
