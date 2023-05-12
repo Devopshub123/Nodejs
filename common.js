@@ -2073,7 +2073,6 @@ async function setSprypleClientPlanPayment(req, res) {
            }
            else {
             let Payment =  await paymentStatusMail(mailData);
-            console.log("Payment",Payment);
             let  dbName = await createClientDatabase(companycodevalue);
             if(dbName.status){
                 let insertClientMasterData=  await InsertClientMasterData(dbName.data)
@@ -2347,7 +2346,6 @@ function createClientDatabase(companyName){
         try {
            con.query("CALL `create_client_database` (?)",[companyName ], function (err, result, next) {       
               console.log("c-1",err)
-              console.log("r-1",result[0][0])
                if (err) {
                     res(false);
                 } else {
@@ -2417,8 +2415,7 @@ function createClientDatabase(companyName){
         return new Promise(async (res,rej)=>{
             try {
                 let  dbName = await getDatebaseName(companyName)
-        
-
+       
         var listOfConnections = {};
          if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
@@ -2431,13 +2428,9 @@ function createClientDatabase(companyName){
                 companyName 
                 ], function (err, results, next) {
                     console.log("lg-err",err)
-                    console.log("lg-res",results[0][0])
                     if (err ) {
                         res(false);
                     } else {
-                       // res(results[0][0]);
-                       console.log(results[0][0]);
-                       console.log(results[1][0]);
                         sendEmailToSuperAdminCredentials(results[1][0],companyName)
                     }
                 })
