@@ -44,6 +44,7 @@ module.exports = {
     getErrorMessages:getErrorMessages,
     setErrorMessages:setErrorMessages,
     getEmployeeInformation:getEmployeeInformation,
+    getEmployeeInformationforlogindate:getEmployeeInformationforlogindate,
     editProfile:editProfile,
     forgetpassword:forgetpassword,
     resetpassword:resetpassword,
@@ -367,9 +368,39 @@ async function getEmployeeInformation(req,res) {
         if(!listOfConnections.succes) {
             listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         }
+        listOfConnections[companyName].query("CALL `getemployeemaster` (?)",[req.params.Id], function (err, result, fields) {
+            if (result && result.length > 0) {
+                // res.send({data: JSON.parse(result[0][0].result), status: true});
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getEmployeeInformation :',e)
+
+    }
+
+}
+async function getEmployeeInformationforlogindate(req,res) {
+    try {
+        let  dbName = await getDatebaseName(req.params.companyName);
+
+        let companyName = req.params.companyName;
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
         listOfConnections[companyName].query("CALL `getemployeeinformation` (?)",[req.params.Id], function (err, result, fields) {
             if (result && result.length > 0) {
                 res.send({data: JSON.parse(result[0][0].result), status: true});
+                // res.send({data: result[0], status: true});
             }else{
                 res.send({status: false});
             }

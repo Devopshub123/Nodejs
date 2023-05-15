@@ -2055,6 +2055,7 @@ async function setselectEmployeesProgramSchedules(req,res){
             if (!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
+            console.log("JSON.stringify(req.body.empid)JSON.stringify(req.body.empid)",JSON.stringify(req.body.empid))
             listOfConnections[companyName].query("CALL `set_employee_program_schedules` (?,?,?,?,?)", [req.body.esid, req.body.scheduleid, JSON.stringify(req.body.empid), req.body.status, req.body.actionby], async function (err, result, fields) {
                 if (err) {
                     let errorLogArray = [];

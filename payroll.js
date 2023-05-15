@@ -1189,7 +1189,8 @@ async function configurePayGroupComponent(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `configure_pay_group_component` (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",  [req.body.pigcm_id_value,req.body.is_percentage_or_flat_amount_value,Number(req.body.input_value),req.body.parent_component_id_value,req.body.display_name_value,req.body.is_this_component_a_part_of_employee_salary_structure_value,req.body.calculate_on_pro_rata_basis_value,req.body.is_this_component_taxable_value,req.body.consider_for_esi_contribution_value,req.body.consider_for_epf_contribution_value,req.body.epf_always_value,req.body.epf_only_when_pf_wage_is_less_than_standard_pf_wage_value,req.body.show_this_component_in_payslip_value,req.body.status], async function (err, result, fields) {
+            // console.log("data",req.body)
+            listOfConnections[companyName].query("CALL `validate_pay_group_configuration` (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",  [req.body.pigcm_id_value,req.body.is_percentage_or_flat_amount_value,Number(req.body.input_value),req.body.parent_component_id_value,req.body.display_name_value,req.body.is_this_component_a_part_of_employee_salary_structure_value,req.body.calculate_on_pro_rata_basis_value,req.body.is_this_component_taxable_value,req.body.consider_for_esi_contribution_value,req.body.consider_for_epf_contribution_value,req.body.epf_always_value,req.body.epf_only_when_pf_wage_is_less_than_standard_pf_wage_value,req.body.show_this_component_in_payslip_value,req.body.status,req.body.flatorpercent], async function (err, result, fields) {
                 
                 if (err) {
                     let errorLogArray = [];
@@ -1205,7 +1206,9 @@ async function configurePayGroupComponent(req,res){
                     res.send({status:false})             
                 }
                 else{
-                    res.send({status:true,data:result})
+                    console.log("result[0]",result)
+                 
+                    res.send({status:true,data:result[0][0]})
                 }
             });
         } else {
