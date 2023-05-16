@@ -1273,6 +1273,9 @@ app.post('/ems/api/getDocumentOrImagesForEMSPreonboarding/',function(req,res){
     app.delete('/ems/api/removeDocumentOrImagesForEMS/:companyName/:path',verifyJWTToken,function(req,res){
         ems.removeDocumentOrImagesForEMS(req,res)
         })
+    app.delete('/ems/api/removeDocumentOrImagesForEMSpreonboarding/:companyName/:path',function(req,res){
+            ems.removeDocumentOrImagesForEMS(req,res)
+    })
 
 /**removeDocumentOrImagesForEMS for AWS */
 
@@ -1283,12 +1286,14 @@ app.post('/ems/api/getDocumentOrImagesForEMSPreonboarding/',function(req,res){
  * 
  * Delete Files Master
  * */
- app.get('/ems/api/deleteFilesMaster/:id/:companyName', verifyJWTToken,function(req,res) {
+ app.get('/ems/api/deleteFilesMaster/:id/:companyName',verifyJWTToken,function(req,res) {
 
     ems.deleteFilesMaster(req,res);
 
 });
-
+app.get('/ems/api/deleteFilesMasterpreonboarding/:id/:companyName',function(req,res) {
+    ems.deleteFilesMaster(req,res);
+});
 /**
  * */
  app.post('/ems/api/Messages',verifyJWTToken, function(req,res) {
