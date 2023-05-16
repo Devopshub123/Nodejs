@@ -23129,6 +23129,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 			rollback;
 			select -1 as successstate;
 		end; */
+
 		create temporary table emptemp (tid int(11) auto_increment,empid int(11), key(tid) );
 		set @jsl = json_length(employeeids);
 		set @cnt = @jsl;
@@ -23137,7 +23138,6 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 				select json_unquote(json_extract(employeeids,concat('$[',(@cnt-@jsl),']')));
 				set @jsl = @jsl - 1;
 		end while;
-
 		 create temporary table esidtemp (etid int(11) auto_increment,esid int(11), key(etid) );
 		 if esid is not null then
 			 set @jsl = json_length(esid);
@@ -23148,11 +23148,11 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 					set @jsl = @jsl - 1;
 			 end while;
 		end if;
-		-- set employeeids = replace(replace(employeeids,'[',''),']','');
-		if esid is null and not exists(select * from ems_employee_program_schedule eps, emptemp t where eps.empid = t.empid and eps.schedule_id=scheduleid) then
+
+		if esid is null then
 			insert into ems_employee_program_schedule(empid,schedule_id,status,created_on,created_by) 
-			-- (scheduleid,(select empid from emptemp ),s_status,current_timestamp(),actionby);
-			select empid,`scheduleid`,`s_status`,current_timestamp(),`actionby` from emptemp;
+			select et.empid,`scheduleid`,`s_status`,current_timestamp(),`actionby` from emptemp et, ems_employee_program_schedule eps
+            where et.empid <> eps.empid and eps.schedule_id<>`scheduleid`;
 		else
 			update ems_employee_program_schedule eeps
 			inner join esidtemp temp on temp.esid=eeps.id
