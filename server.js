@@ -834,6 +834,11 @@ app.get('/api/getEmployeeInformation/:Id/:companyName',verifyJWTToken, function(
     common.getEmployeeInformation(req,res);
 
 });
+app.get('/api/getEmployeeInformationforlogindate/:Id/:companyName',verifyJWTToken, function(req,res) {
+
+    common.getEmployeeInformationforlogindate(req,res);
+
+});
 
 /**
  * setProfileImage
