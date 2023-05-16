@@ -24189,6 +24189,14 @@ if (ifnull(@eid,0)=0) then
 		set @roleid=(select json_unquote(json_extract(`employeedata`,concat('$.usertype[',convert((@k),char),'].id'))));
 	    INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
 		(@eid,@roleid,@eid,current_timestamp());
+        if(@roleid=6)then
+        if not exists(select id from `ems_employee_column_configuration_master` where `empid`=@eid)then
+        INSERT INTO `ems_employee_column_configuration_master`
+		(`empid`,`employee_status`,`employee_type`,`department`,`designation`,`location`,`gender`,`blood_group`,`marital_status`,
+		 `shift`,`reporting_manager`) VALUES
+		(@eid,1,1,1,1,1,1,1,1,1,1);
+        end if;
+        end if;
     	set @k = @k + 1;
 	    end while;
     end if;
@@ -24411,6 +24419,14 @@ begin
         set @k = 0;
 	    while @k < @usertypecount do
       set @roleid=(select json_unquote(json_extract(`employeedata`,concat('$.usertype[',convert((@k),char),'].id'))));
+      if(@roleid=6)then
+        if not exists(select id from `ems_employee_column_configuration_master` where `empid`=@eid)then
+        INSERT INTO `ems_employee_column_configuration_master`
+		(`empid`,`employee_status`,`employee_type`,`department`,`designation`,`location`,`gender`,`blood_group`,`marital_status`,
+		 `shift`,`reporting_manager`) VALUES
+		(@eid,1,1,1,1,1,1,1,1,1,1);
+        end if;
+        end if;
 	 if exists (select e.role_id from employee_roles e where e.employee_id = @eid 
 		and e.role_id =@roleid) then
         update employee_roles set employee_roles.effective_to_date = null where employee_roles.employee_id = @eid 
@@ -24423,8 +24439,6 @@ begin
 			INSERT INTO employee_roles(employee_id,role_id,rmid,effective_from_date) VALUES
 		(@eid,@roleid,json_unquote(json_extract(employeedata,"$.reportingmanager")),current_timestamp());
 		end if;
-
-
 	end if;
     set @k = @k + 1;
 	    end while;
@@ -31937,16 +31951,16 @@ DELIMITER ;;
 	end ;;
 	DELIMITER ;
     
-	DELIMITER ;;
-	CREATE PROCEDURE `get_active_branch_cities`()
-	begin
-	select json_arrayagg(json_object('city', t.city,'cityname',t.cityname)) as data 
-   	from (select distinct m.city as city,l.location as cityname	from companyworklocationsmaster m
+DELIMITER ;;
+CREATE PROCEDURE `get_active_branch_cities`()
+begin
+select json_arrayagg(json_object('city', t.city,'cityname',t.cityname)) as data 
+   from (select distinct m.city as city,l.location as cityname	from companyworklocationsmaster m
 	inner join employee_idgenerator e on m.id = e.companylocation
 	inner join locationsmaster l on m.city = l.id
     where m.status=1) t;
     end;;
-	DELIMITER ;
+DELIMITER ;
 
 DELIMITER ;;
 CREATE PROCEDURE `get_active_employees_count`()
