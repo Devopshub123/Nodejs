@@ -31937,16 +31937,16 @@ DELIMITER ;;
 	end ;;
 	DELIMITER ;
     
-DELIMITER ;;
-CREATE PROCEDURE `get_active_branch_cities`()
-begin
-select json_arrayagg(json_object('city', t.city,'cityname',t.cityname)) as data 
-   from (select distinct m.city as city,l.location as cityname	from companyworklocationsmaster m
+	DELIMITER ;;
+	CREATE PROCEDURE `get_active_branch_cities`()
+	begin
+	select json_arrayagg(json_object('city', t.city,'cityname',t.cityname)) as data 
+   	from (select distinct m.city as city,l.location as cityname	from companyworklocationsmaster m
 	inner join employee_idgenerator e on m.id = e.companylocation
 	inner join locationsmaster l on m.city = l.id
     where m.status=1) t;
     end;;
-DELIMITER ;
+	DELIMITER ;
 
 DELIMITER ;;
 CREATE PROCEDURE `get_active_employees_count`()
