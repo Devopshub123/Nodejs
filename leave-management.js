@@ -1043,7 +1043,7 @@ async function getNextLeaveDate(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-             listOfConnections[companyName].query("CALL `get_next_leave_date` (?,?)", [input.id, input.date],
+             listOfConnections[companyName].query("CALL `get_next_leave_date` (?,?,?)", [input.id, input.date,input.leaveid],
                  async function (err, result, fields) {
                   if (err) {
                      let errorLogArray = [];
