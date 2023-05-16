@@ -15886,7 +15886,7 @@ SELECT distinct
          and (substring_index(lm_register_comp_off.utilized_leave_id,',',1) = lm_employeeleaves.id or
          substring_index(lm_register_comp_off.utilized_leave_id,',',-1) = lm_employeeleaves.id))
          else null end
-    as worked_date
+    as comp_off_worked_date
 FROM employee, lm_employeeleaves, lm_leaveapprovalstatustracker, manager_status
 where lm_employeeleaves.empid = lm_leaveapprovalstatustracker.empid 
 	and lm_leaveapprovalstatustracker.leaveid = lm_employeeleaves.id
@@ -23113,7 +23113,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
+DELIMITER ;;
 	CREATE  PROCEDURE `set_employee_program_schedules`(
 		esid varchar(10000), -- JSON array format:[1,2,3,4]
 		scheduleid int(11),
@@ -23150,9 +23150,18 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		end if;
 
 		if esid is null then
-			insert into ems_employee_program_schedule(empid,schedule_id,status,created_on,created_by) 
-			select et.empid,`scheduleid`,`s_status`,current_timestamp(),`actionby` from emptemp et, ems_employee_program_schedule eps
-            where et.empid <> eps.empid and eps.schedule_id<>`scheduleid`;
+        set @jsl1 = json_length(employeeids);
+		set @cnt1 = @jsl1;
+		while (@jsl1>0) do
+        if not exists(select * from ems_employee_program_schedule eps where 
+         eps.empid = (select json_unquote(json_extract(employeeids,concat('$[',(@cnt1-@jsl1),']')))) and eps.schedule_id=scheduleid) then
+         			insert into ems_employee_program_schedule(empid,schedule_id,status,created_on,created_by) 
+			values((select json_unquote(json_extract(employeeids,concat('$[',(@cnt1-@jsl1),']')))),`scheduleid`,`s_status`,
+            current_timestamp(),`actionby` );
+			end if;
+				set @jsl1 = @jsl1 - 1;
+		end while;
+
 		else
 			update ems_employee_program_schedule eeps
 			inner join esidtemp temp on temp.esid=eeps.id
@@ -23178,6 +23187,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		select 0 as successstate,@program_name program_name,@sch_date as schedule_date,@sch_start as schedule_starttime,@sch_end as schedule_endtime,@description as description;
 	end ;;
 	DELIMITER ;
+
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
 	/*!50003 SET character_set_results = @saved_cs_results */ ;
@@ -31967,4 +31977,73 @@ CREATE PROCEDURE `get_active_employees_count`()
 begin
 select count(id) as active_employees_count from employee where status=1;
 end;;
-DELIMITER;
+DELIMITER ;
+
+DELIMITER ;;
+CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `validate_pay_group_configuration`(
+	pigcm_id_value int,
+	is_percentage_or_flat_amount_value int,
+	input_value float,
+	parent_component_id_value varchar(32),
+	display_name_value varchar(255),
+	is_this_component_a_part_of_employee_salary_structure_value int(1),
+	calculate_on_pro_rata_basis_value int(1),
+	is_this_component_taxable_value int(1),
+	consider_for_esi_contribution_value int(1),
+	consider_for_epf_contribution_value int(1),
+    epf_always_value int(1),
+    epf_only_when_pf_wage_is_less_than_standard_pf_wage_value int(1),
+	show_this_component_in_payslip_value int(1),
+    `status` varchar(64),
+    percentage float
+)
+begin
+set @group_id = (select payroll_income_group_components_master.group_id from payroll_income_group_components_master 
+				 where payroll_income_group_components_master.id = pigcm_id_value);
+set @total_components = (select count(payroll_income_group_components_master.id) from payroll_income_group_components_master where
+                         payroll_income_group_components_master.group_id = @group_id and 
+                         payroll_income_group_components_master.effective_to_date is null
+                         and payroll_income_group_components_master.component_id in 
+                         (select u.id from payroll_salary_components_master u where u.section_id = 
+                         (select m.id from payroll_sections_master m where m.section = 'Earnings')));     
+set @incomplete_comp = (select count(payroll_income_group_components_master.id) from payroll_income_group_components_master where
+                       payroll_income_group_components_master.group_id = @group_id and 
+                       payroll_income_group_components_master.status = 'To Be Configured' and 
+                       payroll_income_group_components_master.effective_to_date is null
+                       and payroll_income_group_components_master.component_id in 
+                       (select u.id from payroll_salary_components_master u where u.section_id = 
+                       (select m.id from payroll_sections_master m where m.section = 'Earnings')));                         
+if (@total_components = 1) then
+	if (parent_component_id_value = 15) then
+		if (cast(input_value as unsigned) <> 100) then
+			select 'As this pay group contains only 1 component, its value should be assigned as 100%.' as error_message, 1 as state;
+        elseif (cast(input_value as unsigned) = 100) then
+			CALL `configure_pay_group_component`(pigcm_id_value, is_percentage_or_flat_amount_value,input_value,parent_component_id_value,display_name_value,is_this_component_a_part_of_employee_salary_structure_value,calculate_on_pro_rata_basis_value,
+			is_this_component_taxable_value,consider_for_esi_contribution_value,consider_for_epf_contribution_value,epf_always_value,epf_only_when_pf_wage_is_less_than_standard_pf_wage_value,show_this_component_in_payslip_value,status);
+			select 'The component is configured successfully.' as error_message, 0 as state;
+        end if;
+    end if;
+elseif (@total_components >= 2) then
+	if (@incomplete_comp = 1) then
+		set @pcount = (select count(id) from payroll_earning_components_formula_details where
+					   payroll_earning_components_formula_details.pigcm_id in
+					   (select v.id from payroll_income_group_components_master v where v.group_id = @group_id and v.effective_to_date is null
+						and v.component_id in (select u.id from payroll_salary_components_master u where u.section_id = 
+						(select m.id from payroll_sections_master m where m.section = 'Earnings')))
+						and payroll_earning_components_formula_details.effective_to_date is null
+						and payroll_earning_components_formula_details.is_percentage_or_flat_amount = 1);
+		if (((@total_components - 1) = @pcount) and (input_value <> percentage)) then
+			select concat('As all the components are configured as percentages, the configuration percentage should be ',percentage,'% for the total percentage to be equal to 100.') as error_message, 1 as state;
+		elseif (((@total_components - 1) = @pcount) and (input_value = percentage)) then
+		    CALL `configure_pay_group_component`(pigcm_id_value, is_percentage_or_flat_amount_value,input_value,parent_component_id_value,display_name_value,is_this_component_a_part_of_employee_salary_structure_value,calculate_on_pro_rata_basis_value,
+		          is_this_component_taxable_value,consider_for_esi_contribution_value,consider_for_epf_contribution_value,epf_always_value,epf_only_when_pf_wage_is_less_than_standard_pf_wage_value,show_this_component_in_payslip_value,`status`); 
+			select 'The component is configured successfully.' as error_message, 0 as state;
+		end if;
+    elseif (@incomplete_comp > 1) then
+		CALL `configure_pay_group_component`(pigcm_id_value, is_percentage_or_flat_amount_value,input_value,parent_component_id_value,display_name_value,is_this_component_a_part_of_employee_salary_structure_value,calculate_on_pro_rata_basis_value,
+		          is_this_component_taxable_value,consider_for_esi_contribution_value,consider_for_epf_contribution_value,epf_always_value,epf_only_when_pf_wage_is_less_than_standard_pf_wage_value,show_this_component_in_payslip_value,`status`); 
+		select 'The component is configured successfully.' as error_message, 0 as state;
+    end if;
+end if;
+end;;
+DELIMITER ;

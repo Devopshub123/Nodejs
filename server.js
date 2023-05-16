@@ -2530,6 +2530,32 @@ worksheet.eachRow(function (row, rowNumber) {
 return await workbook.xlsx.writeBuffer()
 }
 
+
+/** Event Scheduler Cron */
+cron.schedule('0 50 3/4 * *', async function getActiveEmployeesCount(req,res) {
+    try {
+        console.log("Event Schedule Cron start");
+           con.query(
+                "CALL `set_event_scheduler_cron` ()",[  ],
+                async function (err, result, fields) {
+                if (err) {
+                    console.log("Event Schedule Cron error : " + err);
+                  //  result.send({ status: false });
+                     } else {
+                        console.log("Event Schedule Cron success");
+                    //   result.send({ status: true });
+                    }
+                }
+            );
+        
+    } catch (e) {
+        errorLogArray.push( e.message);
+         errorLogs(errorLogArray)
+    }
+});
+
+
+
 /** get maindashborad employee count data   */
 app.get('/ems/api/getAttendanceCountsForDate/:mid/:empid/:date/:companyName', verifyJWTToken,function (req, res) {
     ems.getAttendanceCountsForDate(req,res)
