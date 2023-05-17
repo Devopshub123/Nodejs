@@ -149,7 +149,7 @@ async function login(req, res) {
 
         let subscriptiondata = await getClientSubscriptionDetailsforlogin(req.body.companyName);
         console.log("e-2",subscriptiondata.data[0].valid_to)
-        var expirydate = subscriptiondata.data[0].valid_to
+        var expirydate = subscriptiondata.data[0].valid_to;
     }
     else{
         
@@ -168,7 +168,9 @@ async function login(req, res) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
             }
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
+               
                 var result = results ? results[0] ? results[0][0] ? Object.values(JSON.parse(JSON.stringify(results[0][0]))) : null : null : null;
+               console.log("authenticate :" +results);
                 if (result && result[0] > 0) {
                     var info = {
                         id:result[0],
@@ -2372,7 +2374,7 @@ function createClientDatabase(companyName){
     return new Promise(async (res,rej)=>{
 //    const file_path = "D:/DB_Scripts/database_script.sql";
     var connection=mysql.createConnection({
-        // host:"192.168.1.10",
+        //host:"192.168.1.10",
         host:"122.175.62.210",
         user:"spryple_product_user",
         password:"Spryple$#123",
@@ -2384,7 +2386,7 @@ function createClientDatabase(companyName){
         connection.connect(function (err) {
             console.log("ins-err",err)
         if (err) throw err;
-              // const dbHost = "192.168.1.10";
+               // const dbHost = "192.168.1.10";
                 const dbHost ="122.175.62.210";
                 const dbUser = "spryple_product_user";
                 const dbPassword = "Spryple$#123";
