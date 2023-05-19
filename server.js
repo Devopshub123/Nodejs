@@ -2537,7 +2537,8 @@ return await workbook.xlsx.writeBuffer()
 
 
 /** Event Scheduler Cron */
-cron.schedule('0 50 3/4 * *', async function getActiveEmployeesCount(req,res) {
+// 0 50 3/4 * *
+cron.schedule('* 0/3 * * *', async function getActiveEmployeesCount(req,res) {
     try {
         console.log("Event Schedule Cron start");
            con.query(
