@@ -2537,8 +2537,7 @@ return await workbook.xlsx.writeBuffer()
 
 
 /** Event Scheduler Cron */
-// 0 50 3/4 * *
-cron.schedule('* 0/3 * * *', async function getActiveEmployeesCount(req,res) {
+cron.schedule('0 */3 * * *', async function getActiveEmployeesCount(req,res) {
     try {
         console.log("Event Schedule Cron start");
            con.query(
@@ -3056,6 +3055,10 @@ app.get('/api/getActiveBranchCities/:companyName',verifyJWTToken,function(req,re
     admin.getActiveBranchCities(req,res);
   });
 
+/** preonboarding setDocumentOrImageForEMS */
+app.post('/ems/api/preonboardingSetDocumentOrImageForEMS/:companyName', function (req, res) {
+    ems.preonboardingSetDocumentOrImageForEMS(req,res)
+    })
 
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */

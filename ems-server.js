@@ -145,7 +145,8 @@ module.exports = {
     getEmployeeProgramAlerts:getEmployeeProgramAlerts,
     getDocumentsFiles: getDocumentsFiles,
     validateReportingManager: validateReportingManager,
-    setEmployeeExcelData:setEmployeeExcelData
+    setEmployeeExcelData: setEmployeeExcelData,
+    preonboardingSetDocumentOrImageForEMS:preonboardingSetDocumentOrImageForEMS
     
 };
 
@@ -7076,3 +7077,145 @@ async function setEmployeeExcelData(req, res) {
         errorLogs(errorLogArray);
     }
 }
+
+// 
+async function preonboardingSetDocumentOrImageForEMS(req, res) {
+    //** for local deployment */ 
+   try {
+         let emailData;
+         file = req.files.file;
+         var localPath = JSON.parse(req.body.info);
+         var folderName = localPath.filepath;
+         let dataa = JSON.parse(JSON.stringify(folderName));
+         if (req.body.email != undefined) {
+              emailData = JSON.parse(req.body.email);
+           }
+         try {
+             if (!fs.existsSync(folderName)) {
+                 fs.mkdirSync(dataa, { recursive: true })
+                 file.mv(path.resolve(__dirname,dataa,localPath.filename),function(error){
+                     if(error){
+                        res.send({status:false})
+                     } else {
+                         res.send({status:true,message:'Image Uploaded Succesfully'})
+                    }
+                 })
+             } else {
+                 try {
+                     file.mv(
+                         path.resolve(__dirname, folderName, localPath.filename),
+                         async function (error) {
+                             if (error) {
+                                 res.send({ status: false });
+                                 let errorLogArray = [];
+                                 let companyName =req.params.companyName;
+                                 let  dbName = await getDatebaseName(companyName)
+                                 errorLogArray.push("EMSAPI");
+                                 errorLogArray.push("setDocumentOrImageForEMS");
+                                 errorLogArray.push("POST");
+                                 errorLogArray.push(JSON.stringify(req.body));
+                                 errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                                 errorLogArray.push(null);
+                                 errorLogArray.push(companyName);
+                                 errorLogArray.push(dbName);
+                                 errorLogs(errorLogArray);
+                                 
+                             } else {
+                                 res.send({
+                                     status: true,
+                                     message: "Image Uploaded Succesfully",
+                                 });
+                              }
+                         });
+                 } catch (err) {
+                     res.send({ status: false });
+                     let companyName =req.params.companyName;
+                     let  dbName = await getDatebaseName(companyName)
+                     let errorLogArray = [];
+                     errorLogArray.push("EMSAPI");
+                     errorLogArray.push("preonboardingSetDocumentOrImageForEMS");
+                     errorLogArray.push("POST");
+                     errorLogArray.push(JSON.stringify(req.body));
+                     errorLogArray.push( e.message);
+                     errorLogArray.push(null);
+                     errorLogArray.push(companyName);
+                     errorLogArray.push(dbName);
+                     errorLogs(errorLogArray)
+ 
+                 }
+             }
+         }
+         catch (e) {
+             res.send({status: false});
+             let companyName =req.body.companyName;
+             let  dbName = await getDatebaseName(companyName)
+             let errorLogArray = [];
+             errorLogArray.push("EMSAPI");
+             errorLogArray.push("preonboardingSetDocumentOrImageForEMS");
+             errorLogArray.push("POST");
+             errorLogArray.push(JSON.stringify(req.body));
+             errorLogArray.push( e.message);
+             errorLogArray.push(null);
+             errorLogArray.push(companyName);
+             errorLogArray.push(dbName);
+              errorLogs(errorLogArray)
+         }
+     } catch (e) {
+          res.send({ status: false });
+         let companyName =req.body.companyName;
+         let  dbName = await getDatebaseName(companyName)
+         let errorLogArray = [];
+         errorLogArray.push("EMSAPI");
+         errorLogArray.push("preonboardingSetDocumentOrImageForEMS");
+         errorLogArray.push("POST");
+         errorLogArray.push(JSON.stringify(req.body));
+         errorLogArray.push( e.message);
+         errorLogArray.push(null);
+         errorLogArray.push(companyName);
+         errorLogArray.push(dbName);
+          errorLogs(errorLogArray)
+ 
+     }
+ 
+ /**For AWS Documents */
+ 
+ // try {
+ //     let emailData;
+ //     file = req.files.file;
+ //     var localPath = JSON.parse(req.body.info);
+ //     var folderName = localPath.filepath;
+ //     if (req.body.email != undefined) {
+ //         emailData = JSON.parse(req.body.email);
+ //     } 
+ //     try {
+ //       const params = {
+ //         Bucket: folderName, //format:spryple/core
+ //         Key: localPath.filename, // file will be saved as testBucket/contacts.csv
+ //         Body: file.data
+ //       };
+ //       s3.upload(params, function(error, data) {
+ //         if(error){
+ //             res.send({status:false})
+ //         }
+ //         else{
+ //             res.send({status:true,message:'Image Uploaded Succesfully'})
+ //             if (req.body.data != "Approved") {
+ //               if (emailData.rm_email !='' || emailData.rm_name !=null) [
+ //                 documentApprovalEmailToHR(emailData)
+ //               ]
+ //             }
+ //         }
+ //       });
+ //     } 
+ //     catch (err) {
+ //       console.error(err);
+ //       res.send({ status: false });
+ //     }
+ //   } 
+ //   catch (e) {
+ //       console.log("setDocumentOrImageForEMS:", e);
+ //       res.send({ status: false });
+ //     }
+   
+ 
+ }

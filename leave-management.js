@@ -2073,8 +2073,6 @@ async function leaveSattus(req, res) {
                         res.send({status:false})
                     } else {
                         res.send({status: true,leaveStatus:req.body.leaveStatus})
-                        console.log("emailData",emailData);
-                        console.log("treeemailData",req.body.emaildata)
                         if (req.body.emaildata.emp_email != '' || req.body.emaildata.emp_email != null) {
                             
                             if (req.body.leaveStatus == 'Approved') {
