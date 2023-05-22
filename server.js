@@ -1007,9 +1007,7 @@ app.post('/ems/api/setNewHire/', verifyJWTToken,function(req,res) {
  * */
 
 app.get('/ems/api/getNewHireDetails/:id/:companyName',verifyJWTToken, function(req,res) {
-    console.log("b-1");
     ems.getNewHireDetails(req,res);
-
 });
 
 /**
@@ -2537,7 +2535,7 @@ return await workbook.xlsx.writeBuffer()
 
 
 /** Event Scheduler Cron */
-cron.schedule('0 */4 * * *', async function getActiveEmployeesCount(req,res) {
+cron.schedule('0 */3 * * *', async function getActiveEmployeesCount(req,res) {
     try {
         console.log("Event Schedule Cron start");
            con.query(
@@ -3156,9 +3154,9 @@ app.listen(6060,function (err) {
 
 /** uncomment in QA build time */
 
-// app.listen(7676,'0.0.0.0',function (err) {
+// app.listen(6060,'192.168.1.86',function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://122.175.62.210:7676');
+//         console.log('Server Started at :  http://192.168.1.86:6060');
 // });

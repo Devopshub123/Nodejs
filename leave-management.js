@@ -37,7 +37,8 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
-
+// var prod_url = 'https://sreeb.spryple.com/#/';
+var global_url = 'http://192.168.1.86:60/#/';
 
 module.exports = {
     getYearsForReport:getYearsForReport,
@@ -2802,13 +2803,9 @@ function leaveRequestEmail(mailData) {
             pass: 'Sreeb@#321'
           }
       });
-    //   var url = 'http://localhost:4200/Login';
-        /**QA */
-        var url = 'http://122.175.62.210:6564/#/Login';
-       
-         /**AWS */
-        //  var url = 'https://sreeb.spryple.com/#/Login';
 
+        var url = global_url + 'Login';
+        console.log("latest--", url);
       var html = `<html>
       <head>
       <title>Leave Request</title></head>
@@ -2937,7 +2934,7 @@ function approveLeaveRequestEmail(mailData) {
       </tbody>
       </table>
        <p style="color:black">Best regards,</p>
-       <p style="color:black">Spryple Mailer Team</p>
+       <p style="color:black">${mailData.emaildata.rm_name}</p>
   
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
@@ -3069,12 +3066,9 @@ function compOffRequestEmail(mailData){
               pass: 'Sreeb@#321'
           }
       });
-    //  var url = 'http://localhost:4200/Login';
-        /**QA */
-        var url = 'http://122.175.62.210:6564/#/Login';
-        
-         /**AWS */
-        //  var url = 'https://sreeb.spryple.com/#/Login';
+
+        var url = global_url + 'Login';
+
       var html = `<html>
       <head>
       <title>Comp-off request</title></head>

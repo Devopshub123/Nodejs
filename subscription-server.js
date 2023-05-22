@@ -48,7 +48,6 @@ module.exports = {
 function getDatebaseName(companyName){
     return new Promise((res,rej)=>{
         try {
-           console.log("companyName",companyName)
             con.query('CALL `get_company_db_name` (?)', [companyName], function (err, results, next) {
                 if (results && results[0] && results[0].length != 0) {
                     res(results[0][0].db_name);

@@ -5,6 +5,10 @@ var path = require("path");
 var fileUpload = require("express-fileupload");
 var nodemailer = require("nodemailer");
 var app = new express();
+// var url = 'http://localhost:4200/#/';
+// var prod_url = 'https://sreeb.spryple.com/#/';
+var global_url = 'http://192.168.1.86:60/#/';
+
 /**AWS */
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3({
@@ -27,7 +31,6 @@ app.all("*", function (req, res, next) {
   res.header("Access-Control-Allow-Methods", "*");
   return next();
 });
-
 var emailComponentData = [];
 var companyNameData = [];
 module.exports = {
@@ -196,12 +199,8 @@ async function setNewHire(req, res) {
                                 }
                             });
                             var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date(),loginToken:loginToken }))).toString('base64')
-                            /**Local */
-                            // var url = 'http://localhost:4200/#/pre-onboarding/' + token;
-                            /**QA */
-                               var url = 'http://122.175.62.210:6564/#/pre-onboarding/'+token;
-                            /**AWS */
-                            // var url = 'https://sreeb.spryple.com/#/pre-onboarding/' + token;
+                         
+                           var url = global_url + 'pre-onboarding/' + token;
                            
                            let mname = emailData.middlename !=null ? emailData.middlename: ' ';
                            var name = emailData.firstname+' ' + mname +' '+ emailData.lastname;
@@ -2487,9 +2486,7 @@ async function setEmpPersonalInfo(req, res) {
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            console.log("dat-",JSON.stringify(req.body))
             listOfConnections[companyName].query("CALL `set_emp_personal_info` (?)", [JSON.stringify(req.body)], async function (err, result, fields) {
-             console.log("er-,",err)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("EMSAPI");
@@ -3463,7 +3460,7 @@ async function usersLogin(req, res) {
         password: req.body.password,
         companyname: req.body.companyname,
         companycode: req.body.companyCode,
-    }];
+      }];
         var  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
     
@@ -4101,21 +4098,14 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
           pass: 'Sreeb@#321'
       },
     });
-    //   var url = "http://localhost:4200/Login";
-      
-      /**QA */
-      var url = 'http://122.175.62.210:6564/Login';
-      
-      /**AWS */
-    //   var url = 'https://sreeb.spryple.com/#/Login';
-
+      var url =  global_url + 'Login';
     var html = `<html>
         <head>
         <title>New login Credentiols</title></head>
         <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
         <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
       
-        <p style="color:black">Hello ${companycode},</p>
+        <p style="color:black">Hello ${maileData[0].empname},</p>
         
         <p style="color:black">Welcome to ${maileData[0].companyname}</p>
 
@@ -5251,8 +5241,6 @@ async function getEmpPersonalInfo(req, res) {
                 "CALL `get_emp_personal_info` (?)",
                 [JSON.parse(req.params.id)],
                 async function (err, result, fields) {
-                    console.log("err",err)
-                    console.log("ress",result[0])
                      if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");
@@ -5368,8 +5356,6 @@ async function getDocumentsForEMS(req,res){
             }
             listOfConnections[companyName].query("CALL `get_files_master` (?,?,?,?,?,?)",
                 [req.body.employeeId,req.body.candidateId,req.body.moduleId,req.body.filecategory?req.body.filecategory:null,req.body.requestId,req.body.status], async function (err, result, fields) {
-                   console.log("errrr--",err)
-                   console.log("ressss--",result[0])
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("EMSAPI");

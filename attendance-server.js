@@ -11,9 +11,6 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 var connection = require('./config/databaseConnection');
-var common = require('./common');
-
-
 var con = connection.switchDatabase();
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(fileUpload())
@@ -23,7 +20,9 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
-
+// var prod_url = 'https://sreeb.spryple.com/#/';
+// var global_url = 'http://122.175.62.210:6564/#/';
+var global_url = 'http://192.168.1.86:60/#/';
 module.exports={
     getEmployeeAttendanceNotifications:getEmployeeAttendanceNotifications,
     getrolescreenfunctionalities:getrolescreenfunctionalities,
@@ -572,6 +571,7 @@ async function getemployeeattendanceregularization(req, res) {
  *  */
 async function setemployeeattendanceregularization(req, res) {
     let emailData = req.body;
+    console.log("da--",emailData)
      try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -609,10 +609,15 @@ async function setemployeeattendanceregularization(req, res) {
                             }
                          }
                         else {
-                            res.send({ status: true, message: "save" })
-                            if (emailData.emails.rm_email != null || '' ) {
-                                attendanceRequestEmail(emailData,companyName);
+                            if (emailData.isBehalf == true) {
+                                res.send({ status: true, message: "save" })   
+                            } else {
+                                res.send({ status: true, message: "save" })
+                                if (emailData.emails.rm_email != null || '') {
+                                   attendanceRequestEmail(emailData,companyName);
+                                }  
                             }
+                           
                          }
                     }
                 });
@@ -1694,7 +1699,6 @@ async function getSideNavigation(req, res) {
 
 /**new  attendance request mail to manager */
 function attendanceRequestEmail(mailData, companyName) {
-
     let fdate =(new Date(mailData.fromdate).getDate()<10?"0"+new Date(mailData.fromdate).getDate():new Date(mailData.fromdate).getDate())+'-'+((new Date(mailData.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.fromdate).getMonth()+1):(new Date(mailData.fromdate).getMonth()+1) )+'-'+new Date(mailData.fromdate).getFullYear();
     let tdate =(new Date(mailData.todate).getDate()<10?"0"+new Date(mailData.todate).getDate():new Date(mailData.todate).getDate())+'-'+((new Date(mailData.todate).getMonth()+1)<10?"0"+(new Date(mailData.todate).getMonth()+1):(new Date(mailData.todate).getMonth()+1)) +'-'+new Date(mailData.todate).getFullYear();
      var companyName = companyName;
@@ -1713,12 +1717,8 @@ function attendanceRequestEmail(mailData, companyName) {
              pass: 'Sreeb@#321'
            }
          });
-        //  var url = 'http://localhost:4200/#/Login';
 
-        var url = 'http://122.175.62.210:6564/#/Login';
-        
-         /**AWS */
-        //  var url = 'https://sreeb.spryple.com/#/Login';
+        var url = global_url + 'Login';
         
        var html = `<html>
        <head>
@@ -1866,7 +1866,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </table>
   <p style="color:black">Best regards,</p>
   
-      <p style="color:black"><b>Spryple Mailer Team</b></p>
+      <p style="color:black"><b>${mailData.emailData.rm_name}</b></p>
       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
       </html> `;
@@ -1966,7 +1966,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
 
       </tbody>
       </table>
-
+      <p style="color:black">Best regards,</p>
       <p style="color:black">${mailData.emailData.rm_name}</p>
       <hr style="border: 0; border-top: 3px double #8c8c8c"/>
       </div></body>
@@ -2029,7 +2029,7 @@ function editedAttendanceRequestEmail(mailData, companyName) {
                 pass: 'Sreeb@#321'
             }
         });
-        var url = 'http://122.175.62.210:6564/#/Login';
+        var url =global_url + 'Login';
         var html = `<html>
       <head>
       <title>edited Attendance Request</title></head>
