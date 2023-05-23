@@ -680,7 +680,8 @@ app.get('/api/getemployeeroles/:empId',verifyJWTToken,function(req,res) {
 
 
 
-async function checkRecord (req, res, next){
+async function checkRecord(req, res, next) {
+    console.log("dat-",req.body)
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -692,8 +693,45 @@ async function checkRecord (req, res, next){
             }
         
             listOfConnections[companyName].query("CALL `checkrecord` (?,?,?)", [req.body.tableName, req.body.columnName, req.body.id], function (err, result, fields) {
+                console.log("errrr-",err)
+                console.log("resss-",result[1])
                 if (result && result.length > 0) {
                     req.body.isexists = { result: result[1][0].isexists, status: true }
+                    next()
+                } else {
+                    req.body.isexists = { status: false }
+                    next()
+
+                }
+            });
+        }
+        else {
+            console.log("checkRecord in employee ",e)
+        }
+
+
+    }catch (e) {
+        console.log("checkRecord in employee ",e)
+    }
+}
+async function checkRecordforexistence(req, res, next) {
+    console.log("dat-",req.body)
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+        var listOfConnections = {};
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection(companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+           console.log("tableName",req.body.tableName,req.body.columnName,req.body.id)
+            listOfConnections[companyName].query("CALL `checkRecordforexistence` (?,?,?)", [req.body.tableName, req.body.columnName, req.body.id], function (err, result, fields) {
+                console.log("errrr-",err)
+                console.log("resss-", result[0])
+                console.log("resss-",result[0][0])
+                if (result && result.length > 0) {
+                    req.body.isexists = { result: result[0][0].isexists, status: true }
                     next()
                 } else {
                     req.body.isexists = { status: false }
@@ -1949,6 +1987,11 @@ app.post('/api/getWorkLocation',verifyJWTToken,function(req,res) {
 app.post('/api/updateStatusall',checkRecord,verifyJWTToken, function(req,res) {
     admin.updateStatusall(req,res)
 });
+/**updateStatusworklocation*/
+
+app.post('/api/updateStatusworklocation',checkRecordforexistence,verifyJWTToken, function(req,res) {
+    admin.updateStatusall(req,res)
+});
 
 /** Insert or update Work Location for company*/
 app.post('/api/setWorkLocation',verifyJWTToken,function(req,res) {
@@ -3154,9 +3197,9 @@ app.listen(6060,function (err) {
 
 /** uncomment in QA build time */
 
-// app.listen(6060,'192.168.1.86',function (err) {
+// app.listen(7676,'0.0.0.0',function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://192.168.1.86:6060');
+//         console.log('Server Started at :  http://122.175.62.210:7676');
 // });

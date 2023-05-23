@@ -1522,8 +1522,6 @@ async function getAttendanceRegularizationsHistoryForManager(req, res) {
  */
 
 async function setEmployeeAttendance(req, res) {
-    console.log("reqqq",req.body);
-    console.log("reqqq",req.params.companyName)
     try {
         let  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
@@ -1536,7 +1534,6 @@ async function setEmployeeAttendance(req, res) {
             }
             listOfConnections[companyName].query("CALL `set_employee_attendance` (?)",
                 [JSON.stringify(req.body)], async function (err, result, fields) {
-                    console.log(err)
                     if (err) {
                         let errorLogArray = [];
                         errorLogArray.push("ATTENDANCEAPI");

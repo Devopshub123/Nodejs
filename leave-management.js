@@ -2168,8 +2168,8 @@ async function getCompoffsForApproval(req,res){
 }
 
 /**completed */
-async  function setCompoffForApproveOrReject(req,res){
-    try {
+async function setCompoffForApproveOrReject(req, res) {
+     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
 
@@ -3207,13 +3207,13 @@ function compOffApprovalRequestEmail(mailData) {
   }
   
   
-  function compOffRejectRequestEmail(mailData){
+function compOffRejectRequestEmail(mailData) {
     try {
         let email = mailData.emaildata.emp_email;
         let reportingemail = mailData.emaildata.rm_reporting_email;
         // let fdate =(new Date(mailData.leavedata.fromdate).getDate()<10?"0"+new Date(mailData.leavedata.fromdate).getDate():new Date(mailData.leavedata.fromdate).getDate())+'-'+((new Date(mailData.leavedata.fromdate).getMonth()+1)<10?"0"+(new Date(mailData.leavedata.fromdate).getMonth()+1):(new Date(mailData.leavedata.fromdate).getMonth()+1) )+'-'+new Date(mailData.leavedata.fromdate).getFullYear();
 
-        let wdate =(new Date(mailData.comp_off_date).getDate()<10?"0"+new Date(mailData.comp_off_date).getDate():new Date(mailData.comp_off_date).getDate())+'-'+((new Date(mailData.comp_off_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_date).getMonth()+1):(new Date(mailData.comp_off_date).getMonth()+1) )+'-'+new Date(mailData.comp_off_date).getFullYear()
+        let wdate =(new Date(mailData.comp_off_worked_date).getDate()<10?"0"+new Date(mailData.comp_off_worked_date).getDate():new Date(mailData.comp_off_worked_date).getDate())+'-'+((new Date(mailData.comp_off_worked_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_worked_date).getMonth()+1):(new Date(mailData.comp_off_worked_date).getMonth()+1) )+'-'+new Date(mailData.comp_off_worked_date).getFullYear()
      
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname
