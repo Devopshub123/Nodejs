@@ -2803,6 +2803,26 @@ app.get('/api/getMonthlyPayrollDataForGraph/:month/:year/:companyName',verifyJWT
 app.get('/api/getComponentConfiguredValuesForPayGroup/:pgmid/:flat/:companyName',verifyJWTToken,function(req,res){
     payroll.getComponentConfiguredValuesForPayGroup(req,res);
 });
+/**get_epf_values_for_challan */
+app.post('/api/getEpfValuesForChallan',verifyJWTToken, function (req, res) {
+    payroll.getEpfValuesForChallan(req,res)
+});
+/**get_esi_values_for_challan */
+app.post('/api/getESIValuesForChallan',verifyJWTToken, function (req, res) {
+    payroll.getESIValuesForChallan(req,res)
+});
+/**getProfessionalTaxValuesForChallan */
+app.post('/api/getProfessionalTaxValuesForChallan',verifyJWTToken, function (req, res) {
+    payroll.getProfessionalTaxValuesForChallan(req,res)
+});
+/**monthlyPayrollReportChallan */
+app.post('/api/monthlyPayrollReportChallan',verifyJWTToken, function (req, res) {
+    payroll.monthlyPayrollReportChallan(req,res)
+});
+/**get_states_for_professional_tax */
+app.post('/api/getStatesForProfessionalTax',verifyJWTToken, function (req, res) {
+    payroll.getStatesForProfessionalTax(req,res)
+});
 
 /**getDocumentsFiles */
 app.post('/ems/api/getDocumentsFiles/',verifyJWTToken,function(req,res){
