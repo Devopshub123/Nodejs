@@ -72,7 +72,12 @@ module.exports = {
     getCompanyEsiValues:getCompanyEsiValues,
     getEsiEmployerContribution: getEsiEmployerContribution,
     getEmployeeCtcDurations: getEmployeeCtcDurations,
-    validateSalaryProcessingDate:validateSalaryProcessingDate
+    validateSalaryProcessingDate:validateSalaryProcessingDate,
+    getEpfValuesForChallan:getEpfValuesForChallan,
+    getESIValuesForChallan:getESIValuesForChallan,
+    getProfessionalTaxValuesForChallan:getProfessionalTaxValuesForChallan,
+    monthlyPayrollReportChallan:monthlyPayrollReportChallan,
+    getStatesForProfessionalTax:getStatesForProfessionalTax,
     
 };
 function getDatebaseName(companyName){
@@ -2566,7 +2571,7 @@ async function getMonthlyPayrollData(req,res){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_monthly_payroll_data`(?,?,?)",[Number(req.params.month),Number(req.params.year),null], async function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `get_monthly_payroll_data`(?,?,?)",[Number(req.params.month),Number(req.params.year),Number(deptid)], async function (err, result, fields) {
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -3060,6 +3065,278 @@ async function validateSalaryProcessingDate(req, res) {
         errorLogArray.push("PAYROLLAPI");
         errorLogArray.push("validateSalaryProcessingDate");
         errorLogArray.push("get");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+async function getEpfValuesForChallan(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_epf_values_for_challan` (?,?)", [req.body.year,req.body.month], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getEpfValuesForChallan");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray)
+                }
+                else{
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+                }
+                
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getEpfValuesForChallan");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+async function getESIValuesForChallan(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_esi_values_for_challan` (?,?)", [req.body.year,req.body.month], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getESIValuesForChallan");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray)
+                }
+                else{
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+                }
+                
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getESIValuesForChallan");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+
+async function getProfessionalTaxValuesForChallan(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_professional_tax_values_for_challan` (?,?,?)", [req.body.year,req.body.month,req.body.state], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getProfessionalTaxValuesForChallan");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray)
+                }
+                else{
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+                }
+                
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getProfessionalTaxValuesForChallan");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+
+async function getStatesForProfessionalTax(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `get_states_for_professional_tax` (?,?)", [req.body.year,req.body.month], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("getProfessionalTaxValuesForChallan");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray)
+                }
+                else{
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+                }
+                
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getProfessionalTaxValuesForChallan");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+async function monthlyPayrollReportChallan(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            // listOfConnections[companyName].query("CALL `get_professional_tax_values_for_challan` (?,?)", [req.body.year,req.body.month], async function (err, result, fields) {
+            //     if (err) {
+            //         let errorLogArray = [];
+            //         errorLogArray.push("PAYROLLAPI");
+            //         errorLogArray.push("getProfessionalTaxValuesForChallan");
+            //         errorLogArray.push("GET");
+            //         errorLogArray.push('');
+            //         errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+            //         errorLogArray.push(null);
+            //         errorLogArray.push(companyName);
+            //         errorLogArray.push(dbName);
+            //          await errorLogs(errorLogArray)
+            //     }
+            //     else{
+            //         if(result &&result[0] && result[0].length>0){
+            //             res.send({data: result[0], status: true});
+            //         }
+            //         else{
+            //             res.send({status: false});
+            //         }
+            //     }
+                
+            // });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getProfessionalTaxValuesForChallan");
+        errorLogArray.push("GET");
         errorLogArray.push("");
         errorLogArray.push( e.message);
         errorLogArray.push(null);

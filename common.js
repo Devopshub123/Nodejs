@@ -33,9 +33,8 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
-
-
-
+// var prod_url = 'https://sreeb.spryple.com/#/';
+var global_url = 'http://192.168.1.86:60/#/';
 
 module.exports = {
     login:login,
@@ -144,17 +143,17 @@ function generateJWTToken(info){
 async function login(req, res) {
     try{
     var  dbName = await getDatebaseName(req.body.companyName);
-    if (dbName && dbName!=null) {
-    if(req.body.companyName!='spryple_dev'){
+        if (dbName && dbName != null) {
+    var expirydate = '2100-01-01'
+    // if(req.body.companyName!='spryple_dev'){
 
-        let subscriptiondata = await getClientSubscriptionDetailsforlogin(req.body.companyName);
-        console.log("e-2",subscriptiondata.data[0].valid_to)
-        var expirydate = subscriptiondata.data[0].valid_to;
-    }
-    else{
+    //     let subscriptiondata = await getClientSubscriptionDetailsforlogin(req.body.companyName);
+    //     var expirydate = subscriptiondata.data[0].valid_to;
+    // }
+    // else{
         
-        var expirydate = '2100-01-01'
-    }
+    //     var expirydate = '2100-01-01'
+    // }
    
 
 
@@ -170,7 +169,6 @@ async function login(req, res) {
             listOfConnections[companyName].query('CALL `authenticateuser` (?,?)', [email, password], async function (err, results, next) {
                
                 var result = results ? results[0] ? results[0][0] ? Object.values(JSON.parse(JSON.stringify(results[0][0]))) : null : null : null;
-               console.log("authenticate :" +results);
                 if (result && result[0] > 0) {
                     var info = {
                         id:result[0],
@@ -440,7 +438,6 @@ async function editProfile(req,res){
                 }
             });
 
-
     }else {
             res.send({status: false,Message:'Database Name is missed'})
     } }
@@ -488,12 +485,7 @@ async function forgetpassword(req, res, next) {
                 });
                 var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:login,date:new Date()}))).toString('base64')
 
-                // var url = 'http://localhost:4200/#/ResetPassword/'+token
-                
-                var url = 'http://122.175.62.210:6564/#/ResetPassword/' + token
-
-                 /**AWS */
-                //  var url = 'https://sreeb.spryple.com/#/ResetPassword/' + token;
+                var url =global_url + 'ResetPassword/' + token
 
                 var html = `<html>
                     <head>
@@ -893,7 +885,7 @@ async function Validateemail(req, res) {
             });
             var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Standard Plan',Date:new Date()}))).toString('base64')
             /**Local */
-            var url = 'http://122.175.62.210:6564/#/sign-up/' + token;
+            var url = global_url + 'sign-up/' + token;
             /**QA */
             //    var url = 'http://122.175.62.210:7575/#/pre-onboarding/'+token;
             /**AWS */
@@ -2434,7 +2426,6 @@ function createClientDatabase(companyName){
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] = await connection.getNewDBConnection(companyName,dbName);
             }
-               console.log("companyName",companyName)
                listOfConnections[companyName].query("CALL `create_client_credentials` (?)",
                [
                 companyName 
@@ -2513,10 +2504,10 @@ function paymentStatusMail(mailData){
            let email = mailData.login;
            let password = mailData.password_string;
            let companycode = companycodde;
-        //    let url= 'http://localhost:4200/#/Login'
-        // let url = 'http://192.168.1.29:6565/#/Login'
-        let url = 'http://122.175.62.210:6564/#/Login'
-           var transporter = nodemailer.createTransport({
+
+            let url =global_url + 'Login'
+          
+            var transporter = nodemailer.createTransport({
            host: "smtp-mail.outlook.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
            port: 587, // port for secure SMTP

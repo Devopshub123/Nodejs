@@ -6,11 +6,14 @@ function switchDatabase() {
     /** Local */
     
           // host: "192.168.1.10",
-           host: "122.175.62.210",
-            user: "spryple_client_user",
+          host: "122.175.62.210",
+          //  host: "localhost",
+          //  user: "client_user",
+          user: "spryple_client_user",
             port: 3306,
+            // password: "fN3VlQ@pjQj}*P0o*Z|{",
             password: "Client&*123",
-           //  database: 'spryple_hrms',
+            // database: 'spryple_hrms',
             database: 'spryple_product_dev',
             dateStrings: true,
             multipleStatements: true
@@ -34,9 +37,12 @@ async function getNewDBConnection(companyName,dbName)
   return new Promise((res,rej)=>{
     var connectionParams = {
       // host: "192.168.1.10",
-     host: "122.175.62.210",
+    //  host: "localhost",
+      host: "122.175.62.210",
+      // user: "client_user",
       user: "spryple_client_user",
       port: 3306,
+      // password: "fN3VlQ@pjQj}*P0o*Z|{",
       password: "Client&*123",
       database: dbName,
       dateStrings: true,

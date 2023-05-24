@@ -680,7 +680,8 @@ app.get('/api/getemployeeroles/:empId',verifyJWTToken,function(req,res) {
 
 
 
-async function checkRecord (req, res, next){
+async function checkRecord(req, res, next) {
+    console.log("dat-",req.body)
     try {
         let  dbName = await getDatebaseName(req.body.companyName)
         let companyName = req.body.companyName;
@@ -692,8 +693,45 @@ async function checkRecord (req, res, next){
             }
         
             listOfConnections[companyName].query("CALL `checkrecord` (?,?,?)", [req.body.tableName, req.body.columnName, req.body.id], function (err, result, fields) {
+                console.log("errrr-",err)
+                console.log("resss-",result[1])
                 if (result && result.length > 0) {
                     req.body.isexists = { result: result[1][0].isexists, status: true }
+                    next()
+                } else {
+                    req.body.isexists = { status: false }
+                    next()
+
+                }
+            });
+        }
+        else {
+            console.log("checkRecord in employee ",e)
+        }
+
+
+    }catch (e) {
+        console.log("checkRecord in employee ",e)
+    }
+}
+async function checkRecordforexistence(req, res, next) {
+    console.log("dat-",req.body)
+    try {
+        let  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+        var listOfConnections = {};
+        if (dbName) {
+            listOfConnections = connection.checkExistingDBConnection(companyName)
+            if (!listOfConnections.succes) {
+                listOfConnections[companyName] = await connection.getNewDBConnection(companyName, dbName);
+            }
+           console.log("tableName",req.body.tableName,req.body.columnName,req.body.id)
+            listOfConnections[companyName].query("CALL `checkRecordforexistence` (?,?,?)", [req.body.tableName, req.body.columnName, req.body.id], function (err, result, fields) {
+                console.log("errrr-",err)
+                console.log("resss-", result[0])
+                console.log("resss-",result[0][0])
+                if (result && result.length > 0) {
+                    req.body.isexists = { result: result[0][0].isexists, status: true }
                     next()
                 } else {
                     req.body.isexists = { status: false }
@@ -1007,9 +1045,7 @@ app.post('/ems/api/setNewHire/', verifyJWTToken,function(req,res) {
  * */
 
 app.get('/ems/api/getNewHireDetails/:id/:companyName',verifyJWTToken, function(req,res) {
-    console.log("b-1");
     ems.getNewHireDetails(req,res);
-
 });
 
 /**
@@ -1951,6 +1987,11 @@ app.post('/api/getWorkLocation',verifyJWTToken,function(req,res) {
 app.post('/api/updateStatusall',checkRecord,verifyJWTToken, function(req,res) {
     admin.updateStatusall(req,res)
 });
+/**updateStatusworklocation*/
+
+app.post('/api/updateStatusworklocation',checkRecordforexistence,verifyJWTToken, function(req,res) {
+    admin.updateStatusall(req,res)
+});
 
 /** Insert or update Work Location for company*/
 app.post('/api/setWorkLocation',verifyJWTToken,function(req,res) {
@@ -2761,6 +2802,26 @@ app.get('/api/getMonthlyPayrollDataForGraph/:month/:year/:companyName',verifyJWT
 /**getComponentConfiguredValuesForPayGroup */
 app.get('/api/getComponentConfiguredValuesForPayGroup/:pgmid/:flat/:companyName',verifyJWTToken,function(req,res){
     payroll.getComponentConfiguredValuesForPayGroup(req,res);
+});
+/**get_epf_values_for_challan */
+app.post('/api/getEpfValuesForChallan',verifyJWTToken, function (req, res) {
+    payroll.getEpfValuesForChallan(req,res)
+});
+/**get_esi_values_for_challan */
+app.post('/api/getESIValuesForChallan',verifyJWTToken, function (req, res) {
+    payroll.getESIValuesForChallan(req,res)
+});
+/**getProfessionalTaxValuesForChallan */
+app.post('/api/getProfessionalTaxValuesForChallan',verifyJWTToken, function (req, res) {
+    payroll.getProfessionalTaxValuesForChallan(req,res)
+});
+/**monthlyPayrollReportChallan */
+app.post('/api/monthlyPayrollReportChallan',verifyJWTToken, function (req, res) {
+    payroll.monthlyPayrollReportChallan(req,res)
+});
+/**get_states_for_professional_tax */
+app.post('/api/getStatesForProfessionalTax',verifyJWTToken, function (req, res) {
+    payroll.getStatesForProfessionalTax(req,res)
 });
 
 /**getDocumentsFiles */
