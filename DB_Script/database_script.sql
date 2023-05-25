@@ -5068,33 +5068,8 @@ INSERT INTO `screensmaster` VALUES (1,NULL,'Employee Dashboard','/ems/employeeDa
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-CREATE PROCEDURE `add_users_display_info`(
-client_plan_detail_id_value int(11),
-valid_to_value date,
-user_count_value int(11)
-)
-begin
-if (user_count_value is not null) then
-    set @plan_id = (select client_plan_details.plan_id from client_plan_details where client_plan_details.id = client_plan_detail_id_value
-				    and client_plan_details.valid_to is null
-                    );
-    set @cost = (select spryple_plan_cost_details.cost_per_user_monthly_bill from spryple_plan_cost_details 
-                 where user_count_value between spryple_plan_cost_details.user_count_lower_range
-                 and spryple_plan_cost_details.user_count_upper_range
-                 and spryple_plan_cost_details.effective_to_date is null
-                 and spryple_plan_cost_details.plan_id = @plan_id);
-    set @value = @cost * user_count_value;   
-    select concat('Count of users to be added is ',user_count_value,'.') as user_count,
-    concat('Validity is from ''',DATE_FORMAT(curdate(),'%d/%m/%Y'),''' to ''',DATE_FORMAT(valid_to_value,'%d/%m/%Y'),'''.') as validity,
-    concat('Total amount to be paid is ',round(@value,2),'.') as amount;
- 
-end if;
-end ;;
-DELIMITER ;
-
-DELIMITER ;;
-CREATE PROCEDURE `authenticateuser`(in `login` varchar(255),in `pwd` varchar(1024))
-begin
+	CREATE PROCEDURE `authenticateuser`(in `login` varchar(255),in `pwd` varchar(1024))
+	begin
 		if (select status from employee where id=(select distinct employee_login.id from employee_login where employee_login.login=`login`))!=1 then
 		select 0 as id, null as firstlogin; -- employee is inactive case
 	else 
@@ -5286,22 +5261,43 @@ begin
 	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
-	CREATE  PROCEDURE `checkrecord`(in `tablename` varchar(255),in `columnname` varchar(64),in `columnvalue` varchar(2048))
-	begin
-			set @val='';
+	
+  DELIMITER ;;
+CREATE  PROCEDURE `checkrecord`(in `tablename` varchar(255),in `columnname` varchar(64),in `columnvalue` varchar(2048))
+begin
+/*	set @val='';
 	set @sql1 = concat('select @val=count(*) from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''status''');
     prepare stmt from @sql1;
 	execute stmt;
     
-	set @sqltext = concat('select (case when (select count(*) from ',`tablename`,' where ',`columnname`,' = ''',`columnvalue`,' ''and effectiveenddate is null ');
+	set @sqltext = concat('select (case when (select count(*) from ',`tablename`,' where ',`columnname`,' = ''',`columnvalue`,'''');
     set @sqltext = concat(@sqltext,(case when @val>0 then ', and status=1 ' else '' end),' )>0 then 1 else 0 end)  as isexists');
 	prepare stmt1 from @sqltext;
 	execute stmt1;
-	deallocate prepare stmt1;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+	deallocate prepare stmt1; */
+    
+    	set @cnt_fromdate=0; 
+    set @cnt_startdate=0; 
+	set @sql1 = concat('select count(*) into @cnt_fromdate from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''effectivefromdate''');
+    prepare stmt1 from @sql1;
+	execute stmt1;
+    deallocate prepare stmt1;
+    
+    set @sql2 = concat('select count(*) into @cnt_startdate from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''effectivestartdate''');
+    prepare stmt2 from @sql2;
+	execute stmt2;
+    deallocate prepare stmt2;
+    select @cnt_fromdate, @cnt_startdate;
+	set @sqltext = concat('select (case when (select count(*) from ',`tablename`,' where ',`columnname`,' = ''',`columnvalue`,'''');
+    set @sqltext = concat(@sqltext,(case when @cnt_fromdate>0 then ' and current_date() between effectivefromdate and ifnull(effectivetodate,current_date()) ' when @cnt_startdate>0 then ' and current_date() between effectivestartdate and ifnull(effectiveenddate,current_date()) '  else '' end),' )>0 then 1 else 0 end)  as isexists');
+	prepare stmt from @sqltext;
+	execute stmt;
+	deallocate prepare stmt;
+end;;
+DELIMITER ;
+	
+    
+    /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
 	/*!50003 SET character_set_results = @saved_cs_results */ ;
 	/*!50003 SET collation_connection  = @saved_col_connection */ ;
@@ -5342,6 +5338,29 @@ begin
 	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+    DELIMITER ;;
+CREATE PROCEDURE `checkrecordforexistence`(in `tablename` varchar(255),in `columnname` varchar(64),in `columnvalue` varchar(2048))
+begin
+	set @cnt_fromdate=''; 
+    set @cnt_startdate=''; 
+	set @sql1 = concat('select count(*) into @cnt_fromdate from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''effectivefromdate''');
+    prepare stmt from @sql1;
+	execute stmt;
+    deallocate prepare stmt;
+    
+    set @sql1 = concat('select count(*) into @cnt_startdate from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''effectivestartdate''');
+    prepare stmt from @sql1;
+	execute stmt;
+    deallocate prepare stmt;
+    
+	set @sqltext = concat('select (case when (select count(*) from ',`tablename`,' where ',`columnname`,' = ''',`columnvalue`,'''');
+    set @sqltext = concat(@sqltext,(case when @cnt_fromdate>0 then ' and current_date() between effectivefromdate and effectivetodate ' when @cnt_startdate>0 then ' and current_date() between effectivestartdate and effectiveenddate '  else '' end),' )>0 then 1 else 0 end)  as isexists');
+	prepare stmt1 from @sqltext;
+	execute stmt1;
+	deallocate prepare stmt1;
+end;;
+DELIMITER ;
+
 	DELIMITER ;;
 	CREATE  PROCEDURE `configure_pay_group_component`(
 		pigcm_id_value int,
@@ -9010,6 +9029,25 @@ WHERE e.id = @eid and status=1;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
+CREATE  PROCEDURE `get_active_employees_count`()
+begin
+select count(id) as active_employees_count from employee where status=1;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_active_emps_list` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
+DELIMITER ;;
 	CREATE  PROCEDURE `get_active_emps_list`()
 	begin
 	 select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(lastname,'')) as ename
@@ -9371,7 +9409,6 @@ DELIMITER ;
 			insert into empstats(emp,wfh_count,wfo_count,onduty_count,wfrl_count,absents_count,wfh_details,wfo_details,onduty_details,wfrl_details,absents_details)
 			select emp_id,@wfh_count,@wfo_count,@onduty_count ,@wfrl_count, @absents_count,@wfh_details,@wfo_details,@onduty_details,@wfrl_details, @absents_details;
 			
-			select * from empstats;
 			
 			drop temporary table empstats;
 			drop temporary table weekoffdays;
@@ -9426,8 +9463,43 @@ DELIMITER ;
 		 (select shiftsmaster.shiftname from shiftsmaster where shiftsmaster.id=ea.shiftid) as shift
 		 from employee_attendance ea, employee_attendance_details ead
 		 where ea.id=`attendanceid`;
-	end ;;
-	DELIMITER ;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_attendance_employees_count_by_date` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `get_attendance_employees_count_by_date`(req_date date)
+begin
+
+   	    set @empcount = ifnull((select count(e.id) from employee e where status=1 and req_date >= (select dateofjoin from employee where status=1 and id=e.id)),0);
+		set @wfo_count = ifnull((select count(*) from employee_attendance ea where ea.attendancedate = req_date and ea.attendancetype=1 and ea.empid in (select e.id from employee e where status=1 and req_date >= (select dateofjoin from employee where status=1 and id=e.id))),0);
+        set @wfh_count = ifnull((select count(*) from employee_attendance ea where ea.attendancedate = req_date and ea.attendancetype=2 and ea.empid in (select e.id from employee e where status=1 and req_date >= (select dateofjoin from employee where status=1 and id=e.id))),0);
+		set @absents_count = @empcount - (@wfo_count + @wfh_count);
+
+	-- 	set @wfo_details = (select json_arrayagg(json_object('empid',ea.empid,'empname',get_employee_name(ea.empid))) from employee_attendance ea where ea.attendancetype=1 and ea.attendancedate = req_date  and ea.empid in (select empid from employee_reportingmanagers where  effectiveenddate is null and date(effectivestartdate) <= req_date) and req_date >= (select dateofjoin from employee where id=ea.empid));
+    --     set @wfh_details = (select json_arrayagg(json_object('empid',ea.empid,'empname',get_employee_name(ea.empid))) from employee_attendance ea where ea.attendancetype=2 and ea.attendancedate = req_date  and ea.empid in (select empid from employee_reportingmanagers where  effectiveenddate is null and date(effectivestartdate) <= req_date) and req_date >= (select dateofjoin from employee where id=ea.empid));
+    --     set @absents_details = (select json_arrayagg(json_object('empid',e.empid,'empname',get_employee_name(e.empid))) from (select empid from employee_reportingmanagers r where  r.effectiveenddate is null and date(r.effectivestartdate) <= req_date and req_date >= (select dateofjoin from employee where id=r.empid)) e where not exists(select * from employee_attendance where attendancedate = req_date and empid = e.empid and req_date >= (select dateofjoin from employee where id=e.empid)));
+	      
+        -- insert into empids(emp)
+       --  select @empcount;
+		select @wfo_count as wfo_count,@wfh_count as wfh_count, @absents_count as absents_count
+        -- ,@wfo_details as wfo_details,@wfh_details as wfh_details,@onduty_details as onduty_details,@wfrl_details as wfrl_details, @absents_details as absents_details
+;
+   
+end;;
+DELIMITER ;
+
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
 	/*!50003 SET character_set_results = @saved_cs_results */ ;
@@ -9442,7 +9514,7 @@ DELIMITER ;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE PROCEDURE `get_attendance_messages`(in `code` varchar(255),in `pagenumber` int,in `pagesize` int)
+	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_attendance_messages`(in `code` varchar(255),in `pagenumber` int,in `pagesize` int)
 	begin
 		if `code` is not null and `code`!='' then
 			set @sql = concat('select *,(select count(*) from attendance_messages where code = ''',`code`,''') as total from attendance_messages where code = ''',`code`,'''');
@@ -10497,7 +10569,7 @@ end ;;
 	end if;
 	end ;;
 	DELIMITER ;
-    Drop PROCEDURE `get_compoffs_for_approval`;
+
     DELIMITER ;;
 	CREATE PROCEDURE `get_compoffs_for_approval`(
 	in `rm_id` int(11)
@@ -10527,47 +10599,6 @@ end ;;
 	end ;;
 	DELIMITER ;
 
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-	/*!50003 SET character_set_client  = @saved_cs_client */ ;
-	/*!50003 SET character_set_results = @saved_cs_results */ ;
-	/*!50003 SET collation_connection  = @saved_col_connection */ ;
-	/*!50003 DROP PROCEDURE IF EXISTS `get_compoffs_for_approval` */;
-	/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-	/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-	/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-	/*!50003 SET character_set_client  = utf8mb4 */ ;
-	/*!50003 SET character_set_results = utf8mb4 */ ;
-	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
-	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
-	DELIMITER ;;
-	CREATE PROCEDURE `get_compoffs_for_approval`(
-	in `rm_id` int(11)
-	)
-	begin
-	select `lm_register_comp_off`.`id`,
-		`lm_register_comp_off`.`empid`,
-		lm_register_comp_off.rmid,
-		 concat(employee.firstname,case when employee.middlename is not null then concat(' ',employee.middlename) end,
-		 case when employee.lastname is not null then concat(' ',employee.lastname) end) as employeename,
-		 employee.empid as employee_id,
-		`lm_register_comp_off`.`comp_off_date` as comp_off_worked_date,
-		`lm_register_comp_off`.`applied_date`,
-		`lm_register_comp_off`.`worked_hours`,
-		`lm_register_comp_off`.`worked_minutes`,
-		`lm_register_comp_off`.`reason`,
-		`lm_register_comp_off`.`status`,
-		`lm_register_comp_off`.`remarks`,
-		`lm_register_comp_off`.`createddate`,
-		`lm_register_comp_off`.`updateddate`,
-		DATEDIFF(CURDATE(), date(`lm_register_comp_off`.`applied_date`)) as pendingSince
-	from lm_register_comp_off, employee 
-	where lm_register_comp_off.rmid = `rm_id` 
-	and lm_register_comp_off.empid = employee.id
-	and lm_register_comp_off.status = 'Submitted'
-	order by id;
-	end ;;
-	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
 	/*!50003 SET character_set_results = @saved_cs_results */ ;
@@ -12211,13 +12242,13 @@ select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(l
 	/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
-	 DELIMITER ;;
-	CREATE  PROCEDURE `get_employee_attendance_dashboard`(
+DELIMITER ;;
+CREATE PROCEDURE `get_employee_attendance_dashboard`(
 		`manager_employee_id` int(11),
 		`employee_id` int(11),
 		`calendar_date` datetime
 	)
-	begin
+begin
 		set @monthstartdate = `calendar_date`;
 		set @monthstartdate = last_day(@monthstartdate) + interval 1 day - interval 1 month;
 		set @monthenddate = (case when @monthstartdate=(last_day(current_date()) + interval 1 day - interval 1 month) then current_date() else last_day(@monthstartdate) end);
@@ -12227,7 +12258,9 @@ select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(l
 				set @monthstartdate = @doj; 
 			end if;
 		end if;
-		-- create temp table to hold all dates in the given month
+        drop table if exists manageremployees;
+		drop table if exists dashboard;
+        drop table if exists weekoffs_table;
 		create temporary table dashboard (
 			attendanceid varchar(11),
 			empid int(11),
@@ -12250,7 +12283,7 @@ select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(l
 			effective_todate date
 		);
 		
-		-- create temp table to hold empids under a manager if any
+		
 		create temporary table manageremployees (
 			sid int(11) auto_increment not null,
 			mempid int(11),
@@ -12268,14 +12301,12 @@ select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(l
 			order by e.firstname, e.lastname; 
 		else 
 			insert into manageremployees(mempid) values(`employee_id`);
-			
 		end if;
 		
 		insert into weekoffs_table(empid,weekoff1,weekoff2,weekoff3,effective_fromdate,effective_todate) 
 		select empid,weekoffday1,weekoffday2,weekoffday3,effectivefromdate,effectivetodate 
 		from employee_weekoffs
 		where employee_weekoffs.empid in (select mempid from manageremployees);
-		
 		set  @isweekoff='';
 		set  @holiday ='';
 		set @leave = '';
@@ -12286,31 +12317,27 @@ select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(l
 		while (@monthstarttemp <= @monthenddate) do
 			set @tot = @cnt;
 			while (@tot>=0) do
-				-- weekoffs
+				
 				set @isweekoff = (case when exists (select * from weekoffs_table v
 				where ( @monthstarttemp between v.effective_fromdate and v.effective_todate)
 				and dayofweek(@monthstarttemp) in (ifnull(v.weekoff1,0),ifnull(v.weekoff2,0),ifnull(v.weekoff3,0))
 				and empid = (select mempid from manageremployees where sid=(@cnt-@tot)+1) order by empid desc) then 'W' else '' end) ;
-				
-				-- holidays
-				select 'H' into @holiday -- v.description
+				select 'H' into @holiday 
 				from (select m.date as date_value,m.description as description
 				FROM holidaysmaster m, companyworklocationsmaster v  
 				WHERE m.location = v.city 
 				and v.id =(select s.locationid from employee_worklocations s where empid = (select mempid from manageremployees where sid=(@cnt-@tot)+1)  order by id desc limit 1)
-				-- and m.leave_cycle_year = (select fn_get_leave_cycle_year())  ) s
+				
 				and m.year = year(`calendar_date`)  ) s
 				where @monthstarttemp = s.date_value;
 				
-				 -- leaves
+				 
 				if exists(select * from information_schema.columns where  table_schema=(select database()) and table_name='lm_employeeleaves') then
 					if exists(select * from lm_employeeleaves where @monthstarttemp between fromdate and todate and empid=(select mempid from manageremployees where sid=(@cnt-@tot)+1) and leavestatus in ('Submitted','Approved')) then
 						set @leave = 'L';
 					end if;
 				end if;
 				
-				-- now read the temp table data to iterate
-
 				insert into dashboard
 				select distinct (select b.id from employee_attendance b where b.empid=a.empid and b.attendancedate=a.attendancedate order by b.id desc limit 1) as attendanceid,a.empid,(select concat(firstname,' ',ifnull(lastname,'')) from employee where id=a.empid) as empname,a.attendancedate,
 				(case when exists(select * from employee_attendance where attendancedate=a.attendancedate) then 'P' 
@@ -12347,12 +12374,11 @@ select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(l
 		end while;
 		select * from dashboard order by attendancedate,attendanceid;
 		
-		drop temporary table manageremployees;
-		drop temporary table weekoffs_table;
-		drop temporary table dashboard;
-	end ;;
-	DELIMITER ;
-	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+        drop table if exists manageremployees;
+		drop table if exists dashboard;
+        drop table if exists weekoffs_table;
+	end;;
+DELIMITER ;	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
 	/*!50003 SET character_set_results = @saved_cs_results */ ;
 	/*!50003 SET collation_connection  = @saved_col_connection */ ;
@@ -12654,6 +12680,10 @@ select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(l
 													   and employee_reportingmanagers.effectiveenddate is null
 													   and employee_reportingmanagers.reportingmanagerid = manager_employee_id;
 	declare month_cursor cursor for select month_day from month_table;
+	drop temporary table if exists month_table;
+	drop temporary table if exists result_table;
+	drop temporary table if exists emp_attendance;
+	drop temporary table if exists emp_regularization;
 
 	create temporary table month_table(
 	month_day date
@@ -12795,13 +12825,12 @@ select  e.id,e.empid,CONCAT(firstname, " ", ifnull(middlename,''), " ", ifnull(l
 	end if;
 	select emp_id,employee_name,absent_date from result_table order by absent_date,emp_id;
 
-	drop temporary table month_table;
-	drop temporary table result_table;
-	drop temporary table emp_attendance;
-	drop temporary table emp_regularization;
+	drop temporary table if exists month_table;
+	drop temporary table if exists result_table;
+	drop temporary table if exists emp_attendance;
+	drop temporary table if exists emp_regularization;
 	end ;;
 	DELIMITER ;
-
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
 	/*!50003 SET character_set_results = @saved_cs_results */ ;
@@ -15496,16 +15525,23 @@ CREATE  PROCEDURE `get_epf_values_for_challan`(
 )
 begin
 	SELECT efm.uanumber as UAN, get_employee_name(e.id) as Employee_Name,
-	g.total_gross_salary as "Gross Salary", p.employee_epf_value,
-	p.employer_eps_value, p.employer_epf_value,p.employer_edli_value, p.employer_admin_charges_value 
-	from payroll_epf_details p, employee e, employee_financials_master efm, employee_gross_salary_details g 
+	g.total_gross_salary as gross_salary, p.employee_epf_wage as epf_wage, p.employer_epf_wage as eps_wage, p.employer_epf_wage as edli_wage,  
+    p.employee_epf_value, 
+	p.employer_eps_value, p.employer_epf_value as epf_eps_difference,
+    n.lop_days as ncp_days
+    -- p.employer_edli_value, p.employer_admin_charges_value 
+	from payroll_epf_details p, employee e, employee_financials_master efm, employee_gross_salary_details g , employee_net_salary_details n
 	where p.year = year_value
 	and p.month = month_value
 	and e.id = p.empid
 	and e.id = efm.empid
 	and e.id = g.empid
-	and g.year = year_value
+    and e.id = n.empid
+    and g.year = year_value
 	and g.month = month_value
+    and n.year = year_value
+    and n.month = month_value
+    and e.status = 1
 	order by Employee_Name;
 end ;;
 DELIMITER ;
@@ -15620,6 +15656,7 @@ begin
 	and e.id = g.empid
 	and g.year = year_value
 	and g.month = month_value
+    and e.status = 1
 	order by Employee_Name;
 end ;;
 DELIMITER ;
@@ -16148,7 +16185,7 @@ where lm_employeeleaves.empid = lm_leaveapprovalstatustracker.empid
 			 and (substring_index(lm_register_comp_off.utilized_leave_id,',',1) = lm_employeeleaves.id or
 			 substring_index(lm_register_comp_off.utilized_leave_id,',',-1) = lm_employeeleaves.id))
 			 else null end
-		as worked_date,
+		as comp_off_worked_date,
 			DATEDIFF(CURDATE(), date(`lm_employeeleaves`.`updatedon`)) as pendingSince
 	FROM employee, lm_employeeleaves, lm_leaveapprovalstatustracker
 	where lm_employeeleaves.empid = lm_leaveapprovalstatustracker.empid 
@@ -16219,8 +16256,54 @@ where lm_employeeleaves.empid = lm_leaveapprovalstatustracker.empid
 				 end
 		and lm_employeeleaves.leavestatus = 'Cancel Submitted';
 		
-	end ;;
-	DELIMITER ;
+end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_leaves_types_count_by_month` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `get_leaves_types_count_by_month`(
+month_value date
+)
+begin
+ set @monthstartdate = DATE_FORMAT(month_value, '%Y-%m-01');
+ set @monthenddate = DATE_FORMAT(LAST_DAY(month_value), '%Y-%m-%d');   
+   set @approved_count=0;
+   set @rejected_count=0;
+   set @pending_count=0;
+    select count(lm_leaveapprovalstatustracker.id) into @approved_count
+    from lm_leaveapprovalstatustracker, lm_employeeleaves
+	where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
+    and   lm_employeeleaves.fromdate<=current_time() and lm_employeeleaves.todate>=current_time()
+    and lm_leaveapprovalstatustracker.status ='Approved';
+  
+    select count(lm_leaveapprovalstatustracker.id) into @rejected_count 
+    from lm_leaveapprovalstatustracker, lm_employeeleaves
+    where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
+    and   DATE_FORMAT(lm_employeeleaves.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lm_employeeleaves.fromdate, '%Y-%m-%d')<=@monthenddate
+	and DATE_FORMAT(lm_employeeleaves.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lm_employeeleaves.todate, '%Y-%m-%d')<=@monthenddate
+    and lm_leaveapprovalstatustracker.status ='Rejected';
+   
+    select count(leav.id) into @pending_count  
+    from lm_employeeleaves leav
+    where leav.id not in (select leavtrac.leaveid from lm_leaveapprovalstatustracker leavtrac)
+    and   DATE_FORMAT(leav.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(leav.fromdate, '%Y-%m-%d')<=@monthenddate
+	and DATE_FORMAT(leav.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(leav.todate, '%Y-%m-%d')<=@monthenddate;
+
+     select @approved_count as today_leave_count, @rejected_count as rejected_count, @pending_count as pending_count ;
+        
+end;;
+DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
 	/*!50003 SET character_set_results = @saved_cs_results */ ;
@@ -16235,7 +16318,7 @@ where lm_employeeleaves.empid = lm_leaveapprovalstatustracker.empid
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
-	CREATE PROCEDURE `get_leavetypes_data`()
+	CREATE DEFINER=`root`@`localhost` PROCEDURE `get_leavetypes_data`()
 	BEGIN
 		select m.id,m.leavename,m.display_name,
 		(select r.value from lm_rulevalues r where r.leavetypeid = m.id and
@@ -16910,7 +16993,44 @@ begin
 	end if;
 	drop temporary table display_table;
 	end ;;
-	DELIMITER ;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_new_exit_employee_count_by_month` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `get_new_exit_employee_count_by_month`(
+month_value date
+)
+begin
+ set @monthstartdate = DATE_FORMAT(month_value, '%Y-%m-01');
+ set @monthenddate = DATE_FORMAT(LAST_DAY(month_value), '%Y-%m-%d');
+
+set @reg_count=0;
+select count(emp.id) into @reg_count from employee emp
+inner join ems_employee_resignations eer on eer.empid=emp.id
+where DATE_FORMAT(`actual_relieving_date`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`actual_relieving_date`, '%Y-%m-%d')<=@monthenddate
+and emp.status=2;
+
+set @ter_count=0;
+select count(emp.id) into @ter_count from employee emp
+inner join ems_employee_terminations et on et.empid= emp.id
+where DATE_FORMAT(`termination_date`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`termination_date`, '%Y-%m-%d')<=@monthenddate
+and emp.status=2; 
+
+select count(id) as new_emp_count,(@reg_count+@ter_count) as exit_emp_count from employee 
+where DATE_FORMAT(`created_on`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`created_on`, '%Y-%m-%d')<=@monthenddate;
+end;;
+DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
 	/*!50003 SET character_set_results = @saved_cs_results */ ;
@@ -16925,7 +17045,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE  PROCEDURE `get_new_hire_details`(in cid int)
+	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_new_hire_details`(in cid int)
 	BEGIN
 	select c.id,c.candidate_id ,c.firstname,c.middlename,c.lastname,c.personal_email,c.dateofjoin,c.hired_date,
 		   c.designation,c.contact_number,c.alternatecontact_number, s.name status,c.comment
@@ -16950,15 +17070,26 @@ begin
 	/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 	DELIMITER ;;
 	CREATE PROCEDURE `get_next_leave_date`(
-		IN `employee_id` INT(11),
-		in `from_date` date
-	)
-	begin
-		select fromdate,tohalfdayleave as first_half,fromhalfdayleave as second_half from lm_employeeleaves
-		where lm_employeeleaves.empid = `employee_id` 
-		and date(lm_employeeleaves.fromdate) > `from_date`
-		and lm_employeeleaves.leavestatus in ('Approved','Submitted')
-		order by lm_employeeleaves.fromdate limit 1; 
+	IN `employee_id` INT(11),
+	in `from_date` date,
+    in `leave_id` int
+)
+begin
+if (leave_id is null) then
+	select fromdate,tohalfdayleave as first_half,fromhalfdayleave as second_half from lm_employeeleaves
+	where lm_employeeleaves.empid = `employee_id` 
+	and date(lm_employeeleaves.fromdate) > `from_date`
+    and lm_employeeleaves.leavestatus in ('Approved','Submitted')
+	order by lm_employeeleaves.fromdate limit 1; 
+elseif (leave_id is not null) then
+    select fromdate,tohalfdayleave as first_half,fromhalfdayleave as second_half from lm_employeeleaves
+	where lm_employeeleaves.empid = `employee_id` 
+	and date(lm_employeeleaves.fromdate) > `from_date`
+    and lm_employeeleaves.id <> leave_id
+    and lm_employeeleaves.leavestatus in ('Approved','Submitted')
+	order by lm_employeeleaves.fromdate limit 1; 
+end if;    
+ 
 	end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -17370,6 +17501,39 @@ begin
 		a.empid in (select empid from employee_reportingmanagers where reportingmanagerid=`manager_employee_id` and effectiveenddate is null);
 
 	end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_professional_tax_values_for_challan` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE PROCEDURE `get_professional_tax_values_for_challan`(
+	year_value int(4),
+	month_value int(2)
+)
+begin
+	SELECT s.state as state_name, count(professional_tax_value) as pt_count, sum(professional_tax_value) as state_professional_tax_value
+    from payroll_employee_professional_tax_details p, employee e, employee_worklocations v, companyworklocationsmaster m, statesmaster s
+	where p.year = year_value
+	and p.month = month_value
+	and e.id = p.empid
+    and e.id = v.empid
+    and v.effectivetodate is null
+    and v.locationid = m.id
+    and m.state = s.id
+    and e.status = 1
+    group by s.state
+    order by s.state;
+end ;;
 	DELIMITER ;
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -17385,7 +17549,7 @@ begin
 	/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 	/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;
 	DELIMITER ;;
-	CREATE  PROCEDURE `get_programs_master`(in pid int)
+	CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_programs_master`(in pid int)
 	begin
 		select p.id,
 			p.name,
@@ -21543,7 +21707,11 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 			while (@fromdate<=@todate) do
 			
 				set @diff = 0;
+                if(@logintime>@logouttime)then
 				set @diff = (select timediff(@logintime,@logouttime));
+                else
+				set @diff = (select timediff(@logouttime,@logintime));                
+                end if;
 				-- get weekoffs
 				select weekoffday1,weekoffday2,weekoffday3 into @weekoffday1, @weekoffday2, @weekoffday3 from employee_weekoffs where empid=@empid and @fromdate between effectivefromdate and effectivetodate;
 				-- exclude weekoffs & holidays from adding records into attendance table
@@ -22135,8 +22303,7 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		/* format:
 		[{"empid":101,"attendancetype":"Work from office","attendancedate":"2022-06-01","punchtime":"14:20:03","punchcategory":"in","shift":"general"},
 		{"empid":102,"attendancetype":"Work from home","attendancedate":"2022-06-01","punchtime":"18:00:00","punchcategory":"in","shift":"night"}]
-		
-		
+	
 	  `empid` int(11),
 	  `attendancetype` int(11),
 	  `attendancedate` datetime,
@@ -22184,6 +22351,14 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 			if (@attid is not null) then
 			insert into employee_attendance_details(attendanceid,punchtime,category) values
 			(@attid,@punchtime,@punchcategory);
+            if(lower(@punchcategory)='in')then
+            update employee_attendance set firstlogintime=@punchtime
+            where id=@attid;
+            else if(lower(@punchcategory)='out')then
+            update employee_attendance set lastlogouttime=@punchtime
+            where id=@attid;
+            end if;
+            end if;
 			end if;
 		end if;
 		
@@ -22203,13 +22378,11 @@ if exists (select rolesmaster.isEditable from rolesmaster where rolesmaster.id i
 		set @shift = null;
 		
 	end while;
-
-
-
-	drop temporary table tempatt;
+	-- drop temporary table tempatt;
 
 	end ;;
 	DELIMITER ;
+
 	/*!50003 SET sql_mode              = @saved_sql_mode */ ;
 	/*!50003 SET character_set_client  = @saved_cs_client */ ;
 	/*!50003 SET character_set_results = @saved_cs_results */ ;
@@ -24887,20 +25060,35 @@ DELIMITER ;
 			select -1 as successstate;
 		end; 
 		if (hid is null) then -- new record insert case
-			if exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and description=holiday_description and json_contains(holiday_location,concat('[',location,']'),'$')=1) 
+			set @jsn_len = (select json_length(holiday_location));
+			set @cnt = 0;
+			while (@cnt < @jsn_len) do 
+			if exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and description=holiday_description 
+            and location=(select json_unquote(json_extract(holiday_location,concat('$[',@cnt,']'))))) 
+				-- or exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and json_contains(holiday_location,concat('[',location,']'),'$')=1)
+			then
+				select 1 as successstate; -- duplicate record
+			else if exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and description<>holiday_description 
+            and location=(select json_unquote(json_extract(holiday_location,concat('$[',@cnt,']'))))) 
+				-- or exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and json_contains(holiday_location,concat('[',location,']'),'$')=1)
+			then
+				select 1 as successstate; -- duplicate record
+			else if exists(select * from holidaysmaster where year=holiday_year and date<>holiday_date and description=holiday_description 
+            and location=(select json_unquote(json_extract(holiday_location,concat('$[',@cnt,']'))))) 
 				-- or exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and json_contains(holiday_location,concat('[',location,']'),'$')=1)
 			then
 				select 1 as successstate; -- duplicate record
 			else
-				set @jsn_len = (select json_length(holiday_location));
-				set @cnt = 0;
-				while (@cnt < @jsn_len) do 
-					insert into holidaysmaster(year,description,date,day,location,leave_cycle_year,created_on,created_by)
-					values(holiday_year,holiday_description,holiday_date,dayname(holiday_date),(select json_unquote(json_extract(holiday_location,concat('$[',@cnt,']')))),(select fn_get_leave_cycle_year()),current_timestamp(),createdby);
-					set @cnt = @cnt + 1;
-				end while;
+			 	insert into holidaysmaster(year,description,date,day,location,leave_cycle_year,created_on,created_by)
+				values(holiday_year,holiday_description,holiday_date,dayname(holiday_date),(select json_unquote(json_extract(holiday_location,concat('$[',@cnt,']')))),(select fn_get_leave_cycle_year()),current_timestamp(),createdby);
 				select 0 as successstate;
 			end if;
+		end if;
+	end if;	
+                
+	set @cnt = @cnt + 1;
+	end while;
+			
 		else -- existing record update case
 			if exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and description=holiday_description and json_contains(holiday_location,concat('[',location,']'),'$')=1) 
 				-- or exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and json_contains(holiday_location,concat('[',location,']'),'$')=1)
@@ -24914,7 +25102,7 @@ DELIMITER ;
 			select 0 as successstate;
 		end if;
 	end ;;
-	DELIMITER ;
+	DELIMITER 
     
     DELIMITER ;;
 	CREATE  PROCEDURE `set_income_group`(
@@ -28703,61 +28891,28 @@ select json_arrayagg(json_object('city', t.city,'cityname',t.cityname)) as data
     end;;
 DELIMITER ;
 
+	DELIMITER ;;
+	CREATE PROCEDURE `update_shift_status`(
+			`shift_id` int(11),
+			`status_value` varchar(32)
+	)
+	begin
+		/* DECLARE EXIT HANDLER FOR SQLEXCEPTION
+		BEGIN
+			ROLLBACK;
+			SELECT 'An error has occurred, operation rollbacked and the stored procedure was terminated' AS Message;
+		END; */
+		if exists(select * from employee_shift_details where shiftid=`shift_id` and current_date() between fromdate and todate) then
+			select 0 as updateStatus;
+		else
+			update shiftsmaster set status=`status_value` where id=`shift_id` ;
+			select 1 as updateStatus;
+		end if;
+	end ;;
+	DELIMITER ;
 DELIMITER ;;
-CREATE PROCEDURE `get_active_employees_count`()
-begin
-select count(id) as active_employees_count from employee where status=1;
-end;;
-DELIMITER ;
 
-DELIMITER ;;
 
-DELIMITER ;;
-CREATE PROCEDURE `get_attendance_employees_count_by_date`(req_date date)
-begin
-
-   	    set @empcount = ifnull((select count(e.id) from employee e where status=1 and req_date >= (select dateofjoin from employee where status=1 and id=e.id)),0);
-		set @wfo_count = ifnull((select count(*) from employee_attendance ea where ea.attendancedate = req_date and ea.attendancetype=1 and ea.empid in (select e.id from employee e where status=1 and req_date >= (select dateofjoin from employee where status=1 and id=e.id))),0);
-        set @wfh_count = ifnull((select count(*) from employee_attendance ea where ea.attendancedate = req_date and ea.attendancetype=2 and ea.empid in (select e.id from employee e where status=1 and req_date >= (select dateofjoin from employee where status=1 and id=e.id))),0);
-		set @absents_count = @empcount - (@wfo_count + @wfh_count);
-
-	-- 	set @wfo_details = (select json_arrayagg(json_object('empid',ea.empid,'empname',get_employee_name(ea.empid))) from employee_attendance ea where ea.attendancetype=1 and ea.attendancedate = req_date  and ea.empid in (select empid from employee_reportingmanagers where  effectiveenddate is null and date(effectivestartdate) <= req_date) and req_date >= (select dateofjoin from employee where id=ea.empid));
-    --     set @wfh_details = (select json_arrayagg(json_object('empid',ea.empid,'empname',get_employee_name(ea.empid))) from employee_attendance ea where ea.attendancetype=2 and ea.attendancedate = req_date  and ea.empid in (select empid from employee_reportingmanagers where  effectiveenddate is null and date(effectivestartdate) <= req_date) and req_date >= (select dateofjoin from employee where id=ea.empid));
-    --     set @absents_details = (select json_arrayagg(json_object('empid',e.empid,'empname',get_employee_name(e.empid))) from (select empid from employee_reportingmanagers r where  r.effectiveenddate is null and date(r.effectivestartdate) <= req_date and req_date >= (select dateofjoin from employee where id=r.empid)) e where not exists(select * from employee_attendance where attendancedate = req_date and empid = e.empid and req_date >= (select dateofjoin from employee where id=e.empid)));
-	      
-        -- insert into empids(emp)
-       --  select @empcount;
-		select @wfo_count as wfo_count,@wfh_count as wfh_count, @absents_count as absents_count
-        -- ,@wfo_details as wfo_details,@wfh_details as wfh_details,@onduty_details as onduty_details,@wfrl_details as wfrl_details, @absents_details as absents_details
-;
-   
-end;;
-DELIMITER ;
-
-DELIMITER ;;
-CREATE PROCEDURE `get_new_exit_employee_count_by_month`(
-month_value date
-)
-begin
- set @monthstartdate = DATE_FORMAT(month_value, '%Y-%m-01');
- set @monthenddate = DATE_FORMAT(LAST_DAY(month_value), '%Y-%m-%d');
-
-set @reg_count=0;
-select count(emp.id) into @reg_count from employee emp
-inner join ems_employee_resignations eer on eer.empid=emp.id
-where DATE_FORMAT(`actual_relieving_date`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`actual_relieving_date`, '%Y-%m-%d')<=@monthenddate
-and emp.status=2;
-
-set @ter_count=0;
-select count(emp.id) into @ter_count from employee emp
-inner join ems_employee_terminations et on et.empid= emp.id
-where DATE_FORMAT(`termination_date`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`termination_date`, '%Y-%m-%d')<=@monthenddate
-and emp.status=2; 
-
-select count(id) as new_emp_count,(@reg_count+@ter_count) as exit_emp_count from employee 
-where DATE_FORMAT(`created_on`, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(`created_on`, '%Y-%m-%d')<=@monthenddate;
-end;;
-DELIMITER ;
 
 DELIMITER ;;
 CREATE  PROCEDURE `update_working_days_for_employee`(
@@ -30392,36 +30547,3 @@ begin
 	end ;;
 DELIMITER ;
 
-DELIMITER ;;
-CREATE PROCEDURE `get_leaves_types_count_by_month`(
-month_value date
-)
-begin
- set @monthstartdate = DATE_FORMAT(month_value, '%Y-%m-01');
- set @monthenddate = DATE_FORMAT(LAST_DAY(month_value), '%Y-%m-%d');   
-   set @approved_count=0;
-   set @rejected_count=0;
-   set @pending_count=0;
-    select count(lm_leaveapprovalstatustracker.id) into @approved_count
-    from lm_leaveapprovalstatustracker, lm_employeeleaves
-	where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
-    and   lm_employeeleaves.fromdate<=current_time() and lm_employeeleaves.todate>=current_time()
-    and lm_leaveapprovalstatustracker.status ='Approved';
-  
-    select count(lm_leaveapprovalstatustracker.id) into @rejected_count 
-    from lm_leaveapprovalstatustracker, lm_employeeleaves
-    where lm_leaveapprovalstatustracker.leaveid=lm_employeeleaves.id
-    and   DATE_FORMAT(lm_employeeleaves.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lm_employeeleaves.fromdate, '%Y-%m-%d')<=@monthenddate
-	and DATE_FORMAT(lm_employeeleaves.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(lm_employeeleaves.todate, '%Y-%m-%d')<=@monthenddate
-    and lm_leaveapprovalstatustracker.status ='Rejected';
-   
-    select count(leav.id) into @pending_count  
-    from lm_employeeleaves leav
-    where leav.id not in (select leavtrac.leaveid from lm_leaveapprovalstatustracker leavtrac)
-    and   DATE_FORMAT(leav.fromdate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(leav.fromdate, '%Y-%m-%d')<=@monthenddate
-	and DATE_FORMAT(leav.todate, '%Y-%m-%d')>=@monthstartdate and DATE_FORMAT(leav.todate, '%Y-%m-%d')<=@monthenddate;
-
-     select @approved_count as today_leave_count, @rejected_count as rejected_count, @pending_count as pending_count ;
-        
-end;;
-DELIMITER ;
