@@ -3220,18 +3220,18 @@ app.post('/ems/api/preonboardingSetDocumentOrImageForEMS/:companyName', function
 
 /** Local server */
 
-// app.listen(6060,function (err) {
-//     if (err)
-//         console.log('Server Cant Start ...Erorr....');
-//     else
-//         console.log('Server Started at : http://localhost:6060');
-// });
-
-/** uncomment in QA build time */
-
-app.listen(6060,'192.168.1.86',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://192.168.1.86:6060');
+        console.log('Server Started at : http://localhost:6060');
 });
+
+/** uncomment in QA build time */
+
+// app.listen(6060,'192.168.1.86',function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at :  http://192.168.1.86:6060');
+// });
