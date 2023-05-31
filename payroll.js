@@ -78,6 +78,8 @@ module.exports = {
     getProfessionalTaxValuesForChallan:getProfessionalTaxValuesForChallan,
     monthlyPayrollReportChallan:monthlyPayrollReportChallan,
     getStatesForProfessionalTax:getStatesForProfessionalTax,
+    validateSalaryChallanDownload:validateSalaryChallanDownload,
+    validateEpfChallanDownload:validateEpfChallanDownload
     
 };
 function getDatebaseName(companyName){
@@ -2560,18 +2562,22 @@ async function getEmployeeEpfDetails(req,res){
 }
 
 // get_monthly_payroll_data
+// get_monthly_payroll_data
 async function getMonthlyPayrollData(req,res){
     try {
+        
         var  dbName = await getDatebaseName(req.params.companyName)
         let companyName = req.params.companyName;
-
+        let month = parseInt(req.params.month);
+        let year = parseInt(req.params.year)
+        let deptid = req.params.deptid=='null'?null:parseInt(req.params.deptid)
         var listOfConnections = {};
         if(dbName){
             listOfConnections= connection.checkExistingDBConnection(companyName)
             if(!listOfConnections.succes) {
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
-            listOfConnections[companyName].query("CALL `get_monthly_payroll_data`(?,?,?)",[Number(req.params.month),Number(req.params.year),Number(deptid)], async function (err, result, fields) {
+            listOfConnections[companyName].query("CALL `get_monthly_payroll_data`(?,?,?)",[month,year,deptid], async function (err, result, fields) {
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
@@ -3326,6 +3332,114 @@ async function monthlyPayrollReportChallan(req,res){
             //     }
                 
             // });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getProfessionalTaxValuesForChallan");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+async function validateEpfChallanDownload(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `validate_epf_challan_download` (?,?)", [req.body.year,req.body.month], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("validateEpfChallanDownload");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray)
+                }
+                else{
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+                }
+                
+            });
+        } else {
+            res.send({status: false,Message:'Database Name is missed'})
+        }
+    }catch (e) {
+        // console.log('getdeductigetpayrollincomegroupsonsalarycomponent :',e);
+        let companyName =req.params.companyName;
+        let  dbName = await getDatebaseName(companyName)
+        let errorLogArray = [];
+        errorLogArray.push("PAYROLLAPI");
+        errorLogArray.push("getProfessionalTaxValuesForChallan");
+        errorLogArray.push("GET");
+        errorLogArray.push("");
+        errorLogArray.push( e.message);
+        errorLogArray.push(null);
+        errorLogArray.push(companyName);
+        errorLogArray.push(dbName);
+         await errorLogs(errorLogArray);
+
+    }
+}
+async function validateSalaryChallanDownload(req,res){
+    try {
+        var  dbName = await getDatebaseName(req.body.companyName)
+        let companyName = req.body.companyName;
+
+        var listOfConnections = {};
+        if(dbName){
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+            if(!listOfConnections.succes) {
+                listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+            }
+            listOfConnections[companyName].query("CALL `validate_salary_challan_download` (?,?)", [req.body.year,req.body.month], async function (err, result, fields) {
+                if (err) {
+                    let errorLogArray = [];
+                    errorLogArray.push("PAYROLLAPI");
+                    errorLogArray.push("validateSalaryChallanDownload");
+                    errorLogArray.push("GET");
+                    errorLogArray.push('');
+                    errorLogArray.push(" (" + err.errno + ") " + err.sqlMessage);
+                    errorLogArray.push(null);
+                    errorLogArray.push(companyName);
+                    errorLogArray.push(dbName);
+                     await errorLogs(errorLogArray)
+                }
+                else{
+                    if(result &&result[0] && result[0].length>0){
+                        res.send({data: result[0], status: true});
+                    }
+                    else{
+                        res.send({status: false});
+                    }
+                }
+                
+            });
         } else {
             res.send({status: false,Message:'Database Name is missed'})
         }

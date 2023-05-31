@@ -34,6 +34,7 @@ app.all("*", function (req, res, next) {
     return next();
 });
 // var prod_url = 'https://sreeb.spryple.com/#/';
+// var global_url = 'http://122.175.62.210:6564/#/';
 var global_url = 'http://192.168.1.86:60/#/';
 
 module.exports = {
@@ -2347,8 +2348,6 @@ function createClientDatabase(companyName){
     return new Promise((res,rej)=>{
         try {
            con.query("CALL `create_client_database` (?)",[companyName ], function (err, result, next) {       
-              console.log("c-1",err)
-              console.log("r-1",result[0][0])
                if (err) {
                     res(false);
                 } else {
@@ -2430,15 +2429,11 @@ function createClientDatabase(companyName){
                [
                 companyName 
                 ], function (err, results, next) {
-                    console.log("lg-err",err)
-                    console.log("lg-res",results[0][0])
                     if (err ) {
                         res(false);
                     } else {
                        // res(results[0][0]);
-                       console.log(results[0][0]);
-                       console.log(results[1][0]);
-                        sendEmailToSuperAdminCredentials(results[1][0],companyName)
+                         sendEmailToSuperAdminCredentials(results[1][0],companyName)
                     }
                 })
             }
@@ -2456,7 +2451,6 @@ function paymentStatusMail(mailData){
     let fdate =(new Date(mailData.valid_from_date).getDate()<10?"0"+new Date(mailData.valid_from_date).getDate():new Date(mailData.valid_from_date).getDate())+'-'+((new Date(mailData.valid_from_date).getMonth()+1)<10?"0"+(new Date(mailData.valid_from_date).getMonth()+1):(new Date(mailData.valid_from_date).getMonth()+1) )+'-'+new Date(mailData.valid_from_date).getFullYear();
 
     return new Promise(async (res,rej)=>{
-        console.log("paymentStatusMail",mailData)
     var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false

@@ -2861,7 +2861,19 @@ app.get('/api/getCompanyEsiValues/:companyName',verifyJWTToken, function (req, r
 app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function (req, res) {
     payroll.getEsiEmployerContribution(req,res)
 });
+/**validate_epf_challan_download */
+app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function (req, res) {
+    payroll.validateEpfChallanDownload(req,res)
+});
+/**validate_salary_challan_download */
+app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function (req, res) {
+    payroll.validateSalaryChallanDownload(req,res)
+});
+/**validate_esi_challan_download */
 
+app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function (req, res) {
+    payroll.validateSalaryChallanDownload(req,res)
+});
 /** */
 app.get('/ems/api/validateReportingManager/:eid/:companyName',verifyJWTToken, function (req, res) {
     ems.validateReportingManager(req,res)
@@ -3217,9 +3229,9 @@ app.listen(6060,function (err) {
 
 /** uncomment in QA build time */
 
-// app.listen(7676,'0.0.0.0',function (err) {
+// app.listen(6060,'192.168.1.86',function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
-//         console.log('Server Started at :  http://122.175.62.210:7676');
+//         console.log('Server Started at :  http://192.168.1.86:6060');
 // });
