@@ -3425,7 +3425,7 @@ function approveCancelLeaveRequestEmail(mailData) {
     
       <p style="color:black">Hi ${mailData.emaildata.emp_name},</p>
   
-      <p style="color:black">A leave request by you has been Approved by ${mailData.emaildata.rm_name}</p>
+      <p style="color:black">A Cancelled leave request by you has been Approved by ${mailData.emaildata.rm_name}</p>
       <table border="1" style='border-collapse:collapse;color:black'>
       <tbody>
       <tr>
@@ -3591,7 +3591,7 @@ function deleteLeaveRequestEmail(mailData) {
         });
         var html = `<html>
       <head>
-      <title>Delete Leave Request</title></head>
+      <title>Leave Request Deleted by  ${value.emailData.rm_name}</title></head>
       <body style="font-family:'Segoe UI',sans-serif; color: #7A7A7A">
       <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
     

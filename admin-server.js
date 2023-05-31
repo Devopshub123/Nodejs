@@ -558,7 +558,6 @@ async function getactiveWorkLocation(req,res) {
                 } else {
                     if (result && result.length > 0) {
                         var data = JSON.parse((result[0][0].json))==null?[]:JSON.parse((result[0][0].json));
-                        console.log("Admin Server.js" + data);
                         var resultdata = [];
                         var inactive = [];
                         

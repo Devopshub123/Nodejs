@@ -2391,13 +2391,15 @@ cron.schedule('0  9 * * *', async function () {   // Every day 11 am
 async function generatePayrollReport() {
     let connection  = mysql.createConnection( {
         // host: "192.168.1.30",
-        host: "65.0.224.72",
-        user: "root",
-         port: 3306,
-         password: "Sreebaw$1103",
-         database: 'spryple_sreeb',
-         dateStrings: true,
-         multipleStatements: true
+        host: "192.168.1.10",
+      // user: "client_user",
+      user: "spryple_client_user",
+      port: 3306,
+      // password: "fN3VlQ@pjQj}*P0o*Z|{",
+      password: "Client&*123",
+      database: 'spryple',
+      dateStrings: true,
+      multipleStatements: true
     });
     connection.query("CALL `get_report_for_payroll_processing` (?,?)", [null, new Date().getFullYear() + '/' + (new Date().getMonth()+1) + '/' + new Date().getDate()], async function (err, result, fields) {
         if (result && result[0] && result[0].length > 0) {
@@ -2424,7 +2426,7 @@ async function generatePayrollReport() {
                             transporter.sendMail({
                                 sender: 'no-reply@spryple.com',
                                 //  to: 'finance@sreebtech.com',
-                                to:  ['finance@sreebtech.com','sraavi@sreebtech.com'],
+                                to:  ['rthallapelly@sreebtech.com'],
                                 subject: subject,
                                 body: 'mail content...',
                                 html: htmlToSend,
@@ -2862,17 +2864,21 @@ app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function 
     payroll.getEsiEmployerContribution(req,res)
 });
 /**validate_epf_challan_download */
-app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function (req, res) {
+app.post('/api/validateEpfChallanDownload', function (req, res) {
     payroll.validateEpfChallanDownload(req,res)
 });
 /**validate_salary_challan_download */
-app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function (req, res) {
+app.post('/api/validateSalaryChallanDownload', function (req, res) {
     payroll.validateSalaryChallanDownload(req,res)
 });
 /**validate_esi_challan_download */
 
-app.get('/api/getEsiEmployerContribution/:companyName',verifyJWTToken, function (req, res) {
-    payroll.validateSalaryChallanDownload(req,res)
+app.post('/api/validateEsiChallanDownload', function (req, res) {
+    payroll.validateEsiChallanDownload(req,res)
+});
+/**get_salary_processed_employee_list */
+app.post('/api/getSalaryProcessedEmployeeList', function (req, res) {
+    payroll.getSalaryProcessedEmployeeList(req,res)
 });
 /** */
 app.get('/ems/api/validateReportingManager/:eid/:companyName',verifyJWTToken, function (req, res) {
@@ -3229,9 +3235,9 @@ app.post('/ems/api/preonboardingSetDocumentOrImageForEMS/:companyName', function
 
 /** uncomment in QA build time */
 
-app.listen(6060,'192.168.1.86',function (err) {
+app.listen(6060,function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://192.168.1.86:6060');
+        console.log('Server Started at :  http://122.175.62.210:7676');
 });

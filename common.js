@@ -2365,8 +2365,8 @@ function createClientDatabase(companyName){
     return new Promise(async (res,rej)=>{
 //    const file_path = "D:/DB_Scripts/database_script.sql";
     var connection=mysql.createConnection({
-        //host:"192.168.1.10",
-        host:"122.175.62.210",
+        host:"192.168.1.10",
+        // host:"122.175.62.210",
         user:"spryple_product_user",
         password:"Spryple$#123",
         port: 3306,
@@ -2377,8 +2377,8 @@ function createClientDatabase(companyName){
         connection.connect(function (err) {
             console.log("ins-err",err)
         if (err) throw err;
-               // const dbHost = "192.168.1.10";
-                const dbHost ="122.175.62.210";
+               const dbHost = "192.168.1.10";
+                // const dbHost ="122.175.62.210";
                 const dbUser = "spryple_product_user";
                 const dbPassword = "Spryple$#123";
                 // Path to the MySQL dump file

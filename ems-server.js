@@ -6583,7 +6583,7 @@ async function getAttendanceCountsForDate(req, res) {
                         errorLogArray.push(null);
                         errorLogArray.push(companyName);
                         errorLogArray.push(dbName);
-                        errorLogs = errorLogs(errorLogArray);
+                        errorLogs(errorLogArray);
                         res.send({ status: false });
                     }else if (result && result.length > 0) {
                         res.send({ data: result[0][0], status: true });
