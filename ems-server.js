@@ -5,9 +5,9 @@ var path = require("path");
 var fileUpload = require("express-fileupload");
 var nodemailer = require("nodemailer");
 var app = new express();
-var global_url = 'http://122.175.62.210:6564/#/';
+// var global_url = 'http://122.175.62.210:6564/#/';
 // var prod_url = 'https://sreeb.spryple.com/#/';
-// var global_url = 'http://192.168.1.86:60/#/';
+var global_url = 'http://192.168.1.86:60/#/';
 
 /**AWS */
 const AWS = require('aws-sdk');
@@ -213,7 +213,7 @@ async function setNewHire(req, res) {
                         <p style="color:black"> We are excited to have you aboard and look forward to working with you. Click on the link below, fill your details, and submit the form ASAP.<b></b></p>
                         <p style="color:black"> Please make it a note that, the below link can be deactivated in 24 Hours.</p>
                         <p style="color:black"> <a href="${url}" >${url} </a></p>   
-                        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>hr@sreebtech.com</b>  </p>  
+                        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>hr@spryple.com</b>  </p>  
                         <p style="color:black">Thank you!</p>
                         <p style="color:black">Human Resources Team.</p>
                         <hr style="border: 0; border-top: 3px double #8c8c8c"/>

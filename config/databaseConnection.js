@@ -5,16 +5,20 @@ function switchDatabase() {
   return mysql.createConnection({
     /** Local */
     
-          host: "192.168.1.10",
-          // host: "122.175.62.210",
+          /** online build */
+          // host: "192.168.1.10",
+          host: "122.175.62.210",
+          user: "spryple_client_user",
+          password: "Client&*123",
+          database: 'spryple_product_dev',
+    
+          /** offline build */
           //  host: "localhost",
           //  user: "client_user",
-          user: "spryple_client_user",
+          //  password: "fN3VlQ@pjQj}*P0o*Z|{",
+          //  database: 'spryple_hrms',
+           
             port: 3306,
-            // password: "fN3VlQ@pjQj}*P0o*Z|{",
-            password: "Client&*123",
-            // database: 'spryple_hrms',
-            database: 'spryple_product_dev',
             dateStrings: true,
             multipleStatements: true
 
@@ -36,14 +40,19 @@ async function getNewDBConnection(companyName,dbName)
 
   return new Promise((res,rej)=>{
     var connectionParams = {
-      // host: "192.168.1.86",
-    //  host: "localhost",
-      host: "192.168.1.10",
-      // user: "client_user",
+      /**online build */
+      
+      // host: "192.168.1.10",
+      host: "122.175.62.210",
       user: "spryple_client_user",
-      port: 3306,
-      // password: "fN3VlQ@pjQj}*P0o*Z|{",
       password: "Client&*123",
+      
+       /**offline build */
+      // host: "localhost",
+      // user: "client_user",
+      // password: "fN3VlQ@pjQj}*P0o*Z|{",
+
+      port: 3306,
       database: dbName,
       dateStrings: true,
       multipleStatements: true
