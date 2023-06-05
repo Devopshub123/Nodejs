@@ -4230,8 +4230,7 @@ try {
         <p style="color:black">It's very important that all the checklist items should be completed as 
         soon as possible before the new hire starts working.</p>
     
-        <p style="color:black">Thanks</p>
-        <p style="color:black">Human Resources Team.</p>
+        <p style="color:black">Thanks<br>Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -4417,9 +4416,7 @@ function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
                    
         <p style="color:black">If you have any questions, feel free to reach out anytime! </p>
         
-        <p style="color:black">Thanks, and have a great day! </p>
-
-        <p style="color:black">Human Resources Team.</p>
+        <p style="color:black">Thanks, and have a great day!<br>Human Resources Team. </p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -4916,9 +4913,7 @@ function sendEmailToEmployeeAboutDocumentReject(mailData){
 
         <p style="color:black">Please re-upload the documents that were rejected. We apologize for the inconvenience. </p>
         
-         <p style="color:black">Thank you,</p>
-
-        <p style="color:black">Human Resources Team.</p>
+         <p style="color:black">Thank you,<br>Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5072,9 +5067,8 @@ function sendEmailToEmployeeAboutNewRole(mailData){
         <p style="color:black">Congratulations on your new role as Tech Lead! We're confident that your experience and expertise will help us grow and succeed.</p>
         
          <p style="color:black">We're always available to help out with any questions.</p>
-         <p style="color:black">Best,</p>
+         <p style="color:black">Best,<br>Human Resources Team.</p>
 
-        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5137,9 +5131,8 @@ function sendEmailToEmployeeAboutRemoveRole(mailData){
         <p style="color:black">We would like to let you know that you have been removed from the ${req[0].role_name} role. This means that you will no longer be able to access the administrative interface, which manages campaign and customer data as well as internal company information. </p>
         
          <p style="color:black">However, we are happy to offer you with all your current access privileges on our module. Please do not hesitate to reach out if you have any questions or concerns.</p>
-         <p style="color:black">Regards,</p>
+         <p style="color:black">Regards,<br>Human Resources Team.</p>
 
-        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5505,9 +5498,8 @@ function checklistFinalUpdateEmailToEmployee(mailData) {
 
         <p style="color:black">If you have any questions, feel free to reach out anytime! <b></b></p>
                    
-        <p style="color:black">Thanks,</p>
+        <p style="color:black">Thanks,<br>Human Resources Team.</p>
 
-        <p style="color:black">Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5564,8 +5556,7 @@ function checklistCompleteEmailToEmployee(mailData) {
         <p style="color:black">- We've also sent you a welcome email.</p>
       
         <p style="color:black"> We hope this helps you onboarding.  Please let us know if anything is required in addition to the above.</p>
-        <p style="color:black">Thanks</p>
-        <p style="color:black">Human Resources Team.</p>
+        <p style="color:black">Thanks<br>Human Resources Team.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5625,9 +5616,7 @@ function roleRemoveInformationEmailToEmployee(mailData){
     <p style="color:black">We would like to let you know that you have been removed from the ${req[0].role_name} role. This means that you will no longer be able to access the administrative interface, which manages campaign and customer data as well as internal company information. </p>
     
      <p style="color:black">However, we are happy to offer you with all your current access privileges on our module. Please do not hesitate to reach out if you have any questions or concerns.</p>
-     <p style="color:black">Regards,</p>
-
-    <p style="color:black">Human Resources Team.</p>
+     <p style="color:black">Regards,<br>Human Resources Team.</p>
     <hr style="border: 0; border-top: 3px double #8c8c8c"/>
     </div></body>
     </html> `;
@@ -5689,9 +5678,8 @@ function newRoleInformationEmailToEmployee(mailData){
      <p style="color:black">Congratulations on your new role as Tech Lead! We're confident that your experience and expertise will help us grow and succeed.</p>
      
       <p style="color:black">We're always available to help out with any questions.</p>
-      <p style="color:black">Best,</p>
+      <p style="color:black">Best,<br>Human Resources Team.</p>
 
-     <p style="color:black">Human Resources Team.</p>
      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
      </div></body>
      </html> `;
@@ -5744,9 +5732,8 @@ function documentReuploadInformationEmailToHr(req,res){
         <p style="color:black">Due to some changes in the documents, we need you to approve the documents uploaded by the ${req[0].emp_name}. Please find the attached document for your approval. </p>
         
          <p style="color:black">I hope it is not an inconvenience for you but this is a very important process that we need to complete urgently. Please let me know if you have any questions. </p>
-         <p style="color:black">Thank you,</p>
+         <p style="color:black">Thank you,<br> ${req[0].emp_name}.</p>
 
-        <p style="color:black">${req[0].emp_name}.</p>
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5798,9 +5785,9 @@ function documentReuploadInformationEmailToHr(req,res){
         <p style="color:black">Due to some changes in the documents, we need you to approve the documents uploaded by the ${req[0].emp_name}. Please find the attached document for your approval. </p>
         
          <p style="color:black">I hope it is not an inconvenience for you but this is a very important process that we need to complete urgently. Please let me know if you have any questions. </p>
-         <p style="color:black">Thank you,</p>
+         <p style="color:black">Thank you,<br>${req[0].emp_name}.</p>
 
-        <p style="color:black">${req[0].emp_name}.</p>
+       
         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
         </div></body>
         </html> `;
@@ -5959,8 +5946,8 @@ function documentApprovalEmailToHR(mailData) {
                 <div style="margin-left: 10%; margin-right: 10%; border: 1px solid #7A7A7A; padding: 40px; ">
                 <p style="color:black">Dear ${emailData.rm_name},</p>
                  <p style="color:black">I would like to inform you that I have uploaded the documents for your approval. Please find document.</p>
-                 <p style="color:black">Sincerely,</p>
-                <p style="color:black">${emailData.emp_name}.</p>
+                 <p style="color:black">Sincerely,<br>${emailData.emp_name}.</p>
+                
                 <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                 </div></body>
                 </html> `;
@@ -6015,8 +6002,8 @@ function inductionProgramCancelEmailToEmployee(mailData) {
 
      <p style="color:black">See you soon in the Induction Program on an updated scheduled date. </p>
                 
-     <p style="color:black">Sincerely</p>
-     <p style="color:black">Human Resources Team.</p>
+     <p style="color:black">Sincerely<br>Human Resources Team.</p>
+     
      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
      </div></body>
      </html> `;
@@ -6132,8 +6119,8 @@ function rescheduledInductionProgramEmail(mailData) {
     
      <p style="color:black">We hope to see you soon at our upcoming induction program! </p>
      
-     <p style="color:black">Sincerely</p>
-       <p style="color:black">Human Resources Team.</p>
+     <p style="color:black">Sincerely<br>Human Resources Team.</p>
+       <p style="color:black"></p>
      <hr style="border: 0; border-top: 3px double #8c8c8c"/>
      </div></body>
      </html> `;
@@ -6853,8 +6840,8 @@ function separationRequestEmail(mailData) {
        <p style="color:black">I will ensure that I complete all formalities as per guidelines on or before my last day of work. Please let me know If anything is required in addition to this.</p>
        <p style="color:black">I solicit your cooperation and thank you for understanding. </p>
 
-        <p style="color:black">Sincerely,</p>
-        <p style="color:black">${mailData.emailData.emp_name}</p>
+        <p style="color:black">Sincerely,<br>${mailData.emailData.emp_name}</p>
+        
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
        </div>
        </body>
@@ -6923,8 +6910,7 @@ function separationRequestApprovedEmail(value) {
 
        <p style="color:black">Thank you for your contributions to the company during your tenure. Your hard work and dedication have been greatly appreciated.</p>
        <p style="color:black">We wish you all the best for your future endeavors.</p>
-         <p style="color:black">Sincerely,</p>
-        <p style="color:black">${value.emailData.rm_name}</p>
+         <p style="color:black">Sincerely,<br>${value.emailData.rm_name}</p>
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
        </div>
        </body>
@@ -6981,8 +6967,8 @@ function separationRequestRejectedEmail(value) {
 
         <p style="color:black">Thank you for your cooperation.</p>
 
-        <p style="color:black">Sincerely,</p>
-        <p style="color:black">${value.emailData.rm_name}</p>
+        <p style="color:black">Sincerely,<br>${value.emailData.rm_name}</p>
+       
        <hr style="border: 0; border-top: 3px double #8c8c8c"/>
        </div>
        </body>
