@@ -3137,8 +3137,11 @@ app.get('/api/getActiveBranchCities/:companyName',verifyJWTToken,function(req,re
 /** preonboarding setDocumentOrImageForEMS */
 app.post('/ems/api/preonboardingSetDocumentOrImageForEMS/:companyName', function (req, res) {
     ems.preonboardingSetDocumentOrImageForEMS(req,res)
-    })
-
+})
+/**get Active Modules */
+    app.get('/subscription/api/getActiveModules', function (req, res) {
+        common.getActiveModules(req,res)
+    });
 /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
 

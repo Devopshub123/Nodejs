@@ -91,7 +91,8 @@ module.exports = {
     getClientSubscriptionDetails:getClientSubscriptionDetails,
     getActiveEmployeesCount:getActiveEmployeesCount,
     getScreensForSuperAdmin:getScreensForSuperAdmin,
-    paymentFailedMail:paymentFailedMail
+    paymentFailedMail: paymentFailedMail,
+    getActiveModules:getActiveModules
 };
 /**generate JWT token  */
 function generateJWTToken(info){
@@ -2185,6 +2186,7 @@ async function getClientSubscriptionDetails(req,res) {
     }
 
 }
+
 async function getActiveEmployeesCount(req,res) {
     try {
         let companyName =req.params.companyName;
@@ -2597,5 +2599,35 @@ function paymentFailedMail(req,res){
             }
         });
 
+
+}
+
+/**get Active Modules */
+async function getActiveModules(req,res) {
+    try {
+        let  dbName = await getDatebaseName('spryple_dev');
+        let companyName = 'spryple_dev';
+        let listOfConnections = {};
+        if(dbName) {
+            listOfConnections= connection.checkExistingDBConnection(companyName)
+        if(!listOfConnections.succes) {
+            listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
+        }
+            listOfConnections[companyName].query("CALL `get_active_modules` ()", [],
+            function (err, result, fields) {
+            if(result && result.length > 0){
+                res.send({data: result[0], status: true});
+            }else{
+                res.send({status: false});
+            }
+        });
+
+    }else {
+            res.send({status: false,Message:'Database Name is missed'})
+    } }
+    catch (e) {
+        console.log('getActiveModules :',e)
+
+    }
 
 }
