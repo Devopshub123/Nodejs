@@ -3135,8 +3135,7 @@ function compOffApprovalRequestEmail(mailData) {
     try {
         let email = mailData.emaildata.emp_email;
         let reportingemail = mailData.emaildata.rm_reporting_email
-        let wdate =(new Date(mailData.comp_off_date).getDate()<10?"0"+new Date(mailData.comp_off_date).getDate():new Date(mailData.comp_off_date).getDate())+'-'+((new Date(mailData.comp_off_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_date).getMonth()+1):(new Date(mailData.comp_off_date).getMonth()+1)) +'-'+new Date(mailData.comp_off_date).getFullYear()
-        // let wdate =new Date(mailData.comp_off_date).getDate()+'-'+(new Date(mailData.comp_off_date).getMonth()+1) +'-'+new Date(mailData.comp_off_date).getFullYear()
+        let wdate =(new Date(mailData.comp_off_worked_date).getDate()<10?"0"+new Date(mailData.comp_off_worked_date).getDate():new Date(mailData.comp_off_worked_date).getDate())+'-'+((new Date(mailData.comp_off_worked_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_worked_date).getMonth()+1):(new Date(mailData.comp_off_worked_date).getMonth()+1)) +'-'+new Date(mailData.comp_off_worked_date).getFullYear()
      
       var transporter = nodemailer.createTransport({
           host: "smtp-mail.outlook.com", // hostname

@@ -935,7 +935,7 @@ async function Validateemail(req, res) {
     }
     }
     else{
-        res.send({status:false,message:'company code already existed.'})
+        res.send({status:false,message:'company code already exists.'})
     }
    
 }

@@ -3096,6 +3096,8 @@ async function getEpfValuesForChallan(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_epf_values_for_challan` (?,?)", [req.body.year,req.body.month], async function (err, result, fields) {
+               console.log("err-",err)
+               console.log("ress-",result[0])
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
