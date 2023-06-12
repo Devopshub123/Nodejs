@@ -2126,7 +2126,7 @@ async function generatePaymentInvoicePDF(data) {
                                         <label style="font-style: normal;
                             font-size: 25px;
                             margin-left: -50px;
-                          ">Devorks Technologies</label>
+                          ">Devorks Solutions</label>
                                     </td>
                                 </tr>
                                 <tr>
