@@ -4,7 +4,6 @@ var listOfExistedConnections = [];
 function switchDatabase() {
   return mysql.createConnection({
     /** Local */
-    
           /** online build */
           // host: "192.168.1.10",
           host: "122.175.62.210",
