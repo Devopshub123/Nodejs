@@ -3146,7 +3146,8 @@ app.post('/ems/api/preonboardingSetDocumentOrImageForEMS/:companyName', function
     app.get('/subscription/api/getActiveModules', function (req, res) {
         common.getActiveModules(req,res)
     });
-/***------------------------------------------------------------------------------------------ */
+
+    /***------------------------------------------------------------------------------------------ */
 ///** for AWS */
 
 // var options = {}

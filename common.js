@@ -17,7 +17,7 @@ var leaveManagement = require('./leave-management')
 var file
 var url = require('url');
 const jwt = require('jsonwebtoken');
-
+const puppeteer = require('puppeteer');
 app.use(bodyParser.urlencoded({
     limit: '5mb',
     extended: true
@@ -2097,6 +2097,171 @@ async function setSprypleClientPlanPayment(req, res) {
     }
 
 }
+
+async function generatePaymentInvoicePDF(data) {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+     // Division calculation
+    const dividend = parseInt(data.paid_amount);
+    const divisor = parseInt(data.number_of_users_value);
+    const result = dividend / divisor;
+
+    // Set the viewport to your desired dimensions
+    await page.setViewport({ width: 1920, height: 1080 });
+  
+    // Render the HTML template with dynamic data
+    const template = `
+    <!DOCTYPE html>
+    <html>
+    
+    <body style="font-family:'Segoe UI',sans-serif">
+        <table style="border: Black solid 1px; width: 100%; margin: 0 auto">
+            <tbody>
+                <tr>
+                    <td>
+                        <table style="margin-bottom: 0px" class="table" align="center">
+                            <tbody>
+                                <tr>
+                                    <td style="width: 1%" align="center">
+                                        <label style="font-style: normal;
+                            font-size: 25px;
+                            margin-left: -50px;
+                          ">Devorks Technologies</label>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="width: 70%">
+                                        <span style="font-size: small"><label id="OpHospitalAddress"
+                                                style="font-style: normal; font-size: 17px">Suite 303, Modern Profound Tech
+                                                Park, White Field Road, Kondapur, Hyderabad - 500084.
+                                                <br />
+                                            </label>
+                                        </span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr style="height: 15px">
+                    <td>
+                        <table style="
+                    border-bottom: Black solid 1px;
+                    border-top: Black solid 1px;
+                    width: 100%;
+                    margin: 0 auto;">
+                            <tbody>
+                                <tr>
+                                    <td style="text-align: center; font-size: 18px">
+                                        Invoice Receipt
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table style="width: 100%">
+                            <tbody>
+                                <tr style="width: 100%; padding-top: 24px">
+                                    <td style="width: 10%; text-align: left">
+                                        <span style="font-size: 12px">InvoiceDate :</span>
+                                    </td>
+                                    <td style="width: 40%; text-align: left">
+                                        <span style="font-size: 12px"> ${data.valid_from_date}</span>
+                                    </td>
+                                    <td style="width: 10%; text-align: left">
+                                        <span style="font-size: 12px">CompanyName :</span>
+                                    </td>
+                                    <td style="width: 40%; text-align: left">
+                                        <span style="font-size: 12px"> ${data.company_name}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: left">
+                                        <span style="font-size: 12px">Due Date :</span>
+                                    </td>
+                                    <td style="width: 40%; text-align: left">
+                                        <span style="font-size: 12px"> ${data.valid_to_date}</span>
+                                    </td>
+                                    <td style="width: 10%; text-align: left">
+                                        <span style="font-size: 12px">Billing Address :</span>
+                                    </td>
+                                    <td style="width: 40%; text-align: left">
+                                        <span style="font-size: 12px"> ${data.company_address} </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="width: 10%; text-align: left">
+                                        <span style="font-size: 12px">InvoiceNumber :</span>
+                                    </td>
+                                    <td style="width: 40%; text-align: left">
+                                        <span style="font-size: 12px"> ${data.transaction_number}</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table class="table" style="width: 100%; font-size: 12px;
+                    border-top: Black solid 1px;
+                    width: 100%;
+                    margin: 0 auto;">
+                            <tbody>
+                                <tr style="
+                          font-style: normal;
+                          width: 100%;
+                          border: Black solid 1px;
+                        ">
+                                    <th style="text-align: left">Date</th>
+                                    <th style="text-align: left">Plan</th>
+                                    <th style="text-align: left">Users</th>
+                                    <th style="text-align: left">Cost Per User(₹)</th>
+                                    <th style="text-align: left">Total(₹)</th>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: left">${data.valid_from_date}</td>
+                                    <td style="text-align: left">${data.plan_name}</td>
+                                    <td style="text-align: left">${data.number_of_users_value}</td>
+                                    <td style="text-align: left">${result}</td>
+                                    <td style="text-align: left">${data.paid_amount}</td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    
+    </body>
+    </html>       
+    `;
+  
+    await page.setContent(template, { waitUntil: 'networkidle0' });
+  
+    // Generate the PDF from the HTML page
+    const pdfBuffer = await page.pdf();
+  
+    // Close the browser
+    await browser.close();
+  
+    return pdfBuffer;
+  }
+
+  
+
 /**getYearWiseClientsCount */
 async function getYearWiseClientsCount(req,res) {
     try {
@@ -2449,9 +2614,10 @@ function createClientDatabase(companyName){
 
     // create_client_credentials
     
-function paymentStatusMail(mailData){
+async function paymentStatusMail(mailData){
     let fdate =(new Date(mailData.valid_from_date).getDate()<10?"0"+new Date(mailData.valid_from_date).getDate():new Date(mailData.valid_from_date).getDate())+'-'+((new Date(mailData.valid_from_date).getMonth()+1)<10?"0"+(new Date(mailData.valid_from_date).getMonth()+1):(new Date(mailData.valid_from_date).getMonth()+1) )+'-'+new Date(mailData.valid_from_date).getFullYear();
-
+    const pdfBuffer = await generatePaymentInvoicePDF(mailData);
+  
     return new Promise(async (res,rej)=>{
     var transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com", // hostname
@@ -2482,7 +2648,14 @@ function paymentStatusMail(mailData){
             from: 'no-reply@spryple.com',
             to: mailData.company_email_value,
             subject: 'Welcome to Spryple!',
-            html: html
+            html: html,
+            attachments: [
+                {
+                  filename: 'invoice.pdf',
+                  content: pdfBuffer,
+                },
+              ],
+        
         };
          transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
