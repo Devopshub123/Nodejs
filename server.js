@@ -2580,7 +2580,29 @@ return await workbook.xlsx.writeBuffer()
 
 
 /** Event Scheduler ON Cron */
-cron.schedule('0 */3 * * *', async function getActiveEmployeesCount(req,res) {
+// cron.schedule('0 */3 * * *', async function getActiveEmployeesCount(req,res) {
+//     try {
+//         console.log("Event Schedule Cron start");
+//            con.query(
+//                 "CALL `set_event_scheduler_cron` ()",[  ],
+//                 async function (err, result, fields) {
+//                 if (err) {
+//                     console.log("Event Schedule Cron error : " + err);
+//                   //  result.send({ status: false });
+//                      } else {
+//                         console.log("Event Schedule Cron success");
+//                     //   result.send({ status: true });
+//                     }
+//                 }
+//             );
+        
+//     } catch (e) {
+//         errorLogArray.push( e.message);
+//          errorLogs(errorLogArray)
+//     }
+// });
+/**setEventSchedulerOn */
+function setEventSchedulerOn(req,res) {
     try {
         console.log("Event Schedule Cron start");
            con.query(
@@ -2600,8 +2622,7 @@ cron.schedule('0 */3 * * *', async function getActiveEmployeesCount(req,res) {
         errorLogArray.push( e.message);
          errorLogs(errorLogArray)
     }
-});
-
+ };
 
 
 /** get maindashborad employee count data   */
@@ -3230,10 +3251,11 @@ app.post('/ems/api/preonboardingSetDocumentOrImageForEMS/:companyName', function
 // }
 
 // step1()
+setEventSchedulerOn();
 
 /** Local server */
 
-app.listen(6060,function (err) {
+app.listen(7676,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
