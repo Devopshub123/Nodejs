@@ -2813,6 +2813,10 @@ app.post('/api/getEpfValuesForChallan',verifyJWTToken, function (req, res) {
 app.post('/api/getESIValuesForChallan',verifyJWTToken, function (req, res) {
     payroll.getESIValuesForChallan(req,res)
 });
+/**getEmployeeEpfDetails */
+app.get('/api/getEmployeeEsiDetails/:id/:companyName',verifyJWTToken,function(req,res){
+    payroll.getEmployeeEsiDetails(req,res);
+});
 /**getProfessionalTaxValuesForChallan */
 app.post('/api/getProfessionalTaxValuesForChallan',verifyJWTToken, function (req, res) {
     payroll.getProfessionalTaxValuesForChallan(req,res)
