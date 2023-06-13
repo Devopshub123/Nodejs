@@ -174,8 +174,7 @@ CREATE TABLE `attendance_messages` (
 
 LOCK TABLES `attendance_messages` WRITE;
 /*!40000 ALTER TABLE `attendance_messages` DISABLE KEYS */;
-INSERT INTO `attendance_messages` VALUES (1,'ATT1','Common','This field is required.'),(2,'ATT2','Common','Please select an option'),(3,'ATT3','Common','Please enter valid data.'),(4,'ATT4','Login','Unable to login, please try again.'),(5,'ATT5',NULL,'The username and/or password you entered did not match our records. Please double-check and try again.'),(6,'ATT6','Reset Password','The confirm password you entered does not match with new password. Please re-enter your password.'),(7,'ATT7','Reset Password','Password reset successfully.'),(8,'ATT8','Reset Password','Unable to reset password. Please try again.'),(9,'ATT9','Change Password','Password changed successfully.'),(10,'ATT10',NULL,'Please enter correct old password.'),(11,'ATT11','Attendance Request','Attendance request applied successfully.'),(12,'ATT12','Attendance Request','Unable to apply request. Please try again.'),(13,'ATT13','Request- Approve ','Attendance request approved successfully.'),(14,'ATT14','Request- Approve ','Unable to approve request. Please try again.'),(15,'ATT15','Request- Reject','Attendance request rejected successfully.'),(16,'ATT16','Request- Reject','Unable to reject request. Please try again.'),(17,'ATT17','Excel upload','Please select file.'),(18,'ATT18','Excel upload','Record is not inserted.'),(19,'ATT19','Excel upload','File size exceeds 15MB. Please reduce file size.'),(20,'ATT20','Excel upload','Data uploaded successfully.'),(21,'ATT21','Excel upload','Unable to upload data. Please try again.'),(22,'ATT22','Department','This department have active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again.'),(23,'ATT23','Department-Add','Department added successfully.'),(24,'ATT24','Department-Add','Unable to add department, please try again.'),(25,'ATT25','Department-Update','Department updated successfully.'),(26,'ATt26','Department-Update','Unable to update department. Please try again.'),(27,'ATT27','Department- Active','Department activated successfully.'),(28,'ATT28','Department- Active','Unable to activate department. Please try again.'),(29,'ATT29','Department- Inactive','Department deactivated successfully.'),(30,'ATT30','Department- Inactive','Unable to add department. Please try again.'),(31,'ATT31','Designation','This designation have active employees. So we are unable to inactivate this designation now. Please move those employee to another designation and try again.'),(32,'ATT32','Designation-Add','Designation added successfully.'),(33,'ATT33','Designation-Add','Unable to add designation. Please try again.'),(34,'ATT34','Designation-Update','Designation updated successfully.'),(35,'ATT35','Designation-Update','Unable to update designation. Please try again.'),(36,'ATT36','Designation- Active','Designation activated successfully.'),(37,'ATT37','Designation- Active','Designation activated successfully.'),(38,'ATT38','Designation- Inactive','Designation deactivated successfully.'),(39,'ATT39','Designation- Inactive','Unable to deactivate designation. Please try again.'),(40,'ATT40','Company Information-Add','Company Information added successfully.'),(41,'ATT41','Company Information-Add','Unable to add company information. Please try again.'),(42,'ATT42','Company Information-Edit','Company Information updated successfully.'),(43,'ATT43','Company Information-Edit','Unable to update company information. Please try again.'),(44,'ATT44','Employee Master','Please enter a valid pincode.'),(45,'ATT45',NULL,'To date must be greater than from date. '),(46,'ATT46',NULL,'To date must be greater than from date. '),(47,'ATT47','Employee Master - Add','Employee added successfully.'),(48,'ATT48','Employee Master - Add','Unable to add employee. Please try again.'),(49,'ATT49','Employee Master - Edit','Employee updated successfully.'),(50,'ATT50','Employee Master - Edit','Unable to update employee details. Please try again.'),(51,'ATT51','Role - add','Role added successfully.'),(52,'ATT52','Roles & Permissions- for same role','Role Name already exists. Try another.'),(5
-3,'ATT53',NULL,'Roles & Permissions already exists. Try another.'),(54,'ATT54',NULL,'Role & Permissions added successfully.'),(55,'ATT55',NULL,'\"Unable to add Role. Please try again.\nUnable to add Role Permissions. Please try again.\"'),(56,'ATT56','Roles & Permissions-Edit','Role & Permissions updated successfully.'),(57,'ATT57','Roles & Permissions-Edit','Unable to update Role Permissions. Please try again.'),(58,'ATT58','Company Logo-Upload','Company logo uploaded successfully.'),(59,'ATT59',NULL,'Unable to change company logo. Please try again.'),(60,'ATT60','Company Logo-Remove','Company logo removed successfully.'),(61,'ATT61',NULL,'Unable to remove company logo. Please try again.'),(62,'ATT62',NULL,'Record already exist.'),(63,'ATT63','Shift Master - add','Shift added successfully.'),(64,'ATT64','Shift Master - add','Unable to add shift. Please try again.'),(65,'ATT65','Shift Master - Active','Shift activated successfully.'),(66,'ATT66','Shift Master - Active','Unable to activate shift. Please try again.'),(67,'ATT67','Shift Master - Inactive','Shift deactivated successfully.'),(68,'ATT68','Shift Master - Inactive','This shift have active employees. So we are unable to inactivate this shift now. Please move those employee to another shift and try again.'),(69,'ATT69','Configure Shift','Shift assigned successfully.'),(70,'ATT70','Configure Shift','Unable to assign shift. Please try again.'),(71,'ATT71','Messages Master','Message already exists. Try another.'),(72,'ATT72','Messages Master','Message updated successfully.'),(73,'ATT73','Messages Master','Unable to update message. Please try again.'),(74,'ATT74','','Generic error message'),(75,'ATT75','Attendance Request','Attendance Request Updated successfully'),(76,'ATT76','Attendance Request','Unable to update Attendance Request.');
+INSERT INTO `attendance_messages` VALUES (1,'ATT1','Common','This field is required.'),(2,'ATT2','Common','Please select an option'),(3,'ATT3','Common','Please enter valid data.'),(4,'ATT4','Login','Unable to login, please try again.'),(5,'ATT5',NULL,'The username and/or password you entered did not match our records. Please double-check and try again.'),(6,'ATT6','Reset Password','The confirm password you entered does not match with new password. Please re-enter your password.'),(7,'ATT7','Reset Password','Password reset successfully.'),(8,'ATT8','Reset Password','Unable to reset password. Please try again.'),(9,'ATT9','Change Password','Password changed successfully.'),(10,'ATT10',NULL,'Please enter correct old password.'),(11,'ATT11','Attendance Request','Attendance request applied successfully.'),(12,'ATT12','Attendance Request','Unable to apply request. Please try again.'),(13,'ATT13','Request- Approve ','Attendance request approved successfully.'),(14,'ATT14','Request- Approve ','Unable to approve request. Please try again.'),(15,'ATT15','Request- Reject','Attendance request rejected successfully.'),(16,'ATT16','Request- Reject','Unable to reject request. Please try again.'),(17,'ATT17','Excel upload','Please select file.'),(18,'ATT18','Excel upload','Record is not inserted.'),(19,'ATT19','Excel upload','File size exceeds 15MB. Please reduce file size.'),(20,'ATT20','Excel upload','Data uploaded successfully.'),(21,'ATT21','Excel upload','Unable to upload data. Please try again.'),(22,'ATT22','Department','This department have active employees. So we are unable to inactivate this department now. Please move those employee to another department and try again.'),(23,'ATT23','Department-Add','Department added successfully.'),(24,'ATT24','Department-Add','Unable to add department, please try again.'),(25,'ATT25','Department-Update','Department updated successfully.'),(26,'ATt26','Department-Update','Unable to update department. Please try again.'),(27,'ATT27','Department- Active','Department activated successfully.'),(28,'ATT28','Department- Active','Unable to activate department. Please try again.'),(29,'ATT29','Department- Inactive','Department deactivated successfully.'),(30,'ATT30','Department- Inactive','Unable to add department. Please try again.'),(31,'ATT31','Designation','This designation have active employees. So we are unable to inactivate this designation now. Please move those employee to another designation and try again.'),(32,'ATT32','Designation-Add','Designation added successfully.'),(33,'ATT33','Designation-Add','Unable to add designation. Please try again.'),(34,'ATT34','Designation-Update','Designation updated successfully.'),(35,'ATT35','Designation-Update','Unable to update designation. Please try again.'),(36,'ATT36','Designation- Active','Designation activated successfully.'),(37,'ATT37','Designation- Active','Designation activated successfully.'),(38,'ATT38','Designation- Inactive','Designation deactivated successfully.'),(39,'ATT39','Designation- Inactive','Unable to deactivate designation. Please try again.'),(40,'ATT40','Company Information-Add','Company Information added successfully.'),(41,'ATT41','Company Information-Add','Unable to add company information. Please try again.'),(42,'ATT42','Company Information-Edit','Company Information updated successfully.'),(43,'ATT43','Company Information-Edit','Unable to update company information. Please try again.'),(44,'ATT44','Employee Master','Please enter a valid pincode.'),(45,'ATT45',NULL,'To date must be greater than from date. '),(46,'ATT46',NULL,'To date must be greater than from date. '),(47,'ATT47','Employee Master - Add','Employee added successfully.'),(48,'ATT48','Employee Master - Add','Unable to add employee. Please try again.'),(49,'ATT49','Employee Master - Edit','Employee updated successfully.'),(50,'ATT50','Employee Master - Edit','Unable to update employee details. Please try again.'),(51,'ATT51','Role - add','Role added successfully.'),(52,'ATT52','Roles & Permissions- for same role','Role Name already exists. Try another.'),(53,'ATT53',NULL,'Roles & Permissions already exists. Try another.'),(54,'ATT54',NULL,'Role & Permissions added successfully.'),(55,'ATT55',NULL,'\"Unable to add Role. Please try again.\nUnable to add Role Permissions. Please try again.\"'),(56,'ATT56','Roles & Permissions-Edit','Role & Permissions updated successfully.'),(57,'ATT57','Roles & Permissions-Edit','Unable to update Role Permissions. Please try again.'),(58,'ATT58','Company Logo-Upload','Company logo uploaded successfully.'),(59,'ATT59',NULL,'Unable to change company logo. Please try again.'),(60,'ATT60','Company Logo-Remove','Company logo removed successfully.'),(61,'ATT61',NULL,'Unable to remove company logo. Please try again.'),(62,'ATT62',NULL,'Record already exist.'),(63,'ATT63','Shift Master - add','Shift added successfully.'),(64,'ATT64','Shift Master - add','Unable to add shift. Please try again.'),(65,'ATT65','Shift Master - Active','Shift activated successfully.'),(66,'ATT66','Shift Master - Active','Unable to activate shift. Please try again.'),(67,'ATT67','Shift Master - Inactive','Shift deactivated successfully.'),(68,'ATT68','Shift Master - Inactive','This shift have active employees. So we are unable to inactivate this shift now. Please move those employee to another shift and try again.'),(69,'ATT69','Configure Shift','Shift assigned successfully.'),(70,'ATT70','Configure Shift','Unable to assign shift. Please try again.'),(71,'ATT71','Messages Master','Message already exists. Try another.'),(72,'ATT72','Messages Master','Message updated successfully.'),(73,'ATT73','Messages Master','Unable to update message. Please try again.'),(74,'ATT74','','Generic error message'),(75,'ATT75','Attendance Request','Attendance Request Updated successfully'),(76,'ATT76','Attendance Request','Unable to update Attendance Request.');
 /*!40000 ALTER TABLE `attendance_messages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -332,11 +331,11 @@ CREATE TABLE `attendancetypesmaster` (
 -- Dumping data for table `attendancetypesmaster`
 --
 
-LOCK TABLES `attendancetypesmaster` WRITE;
-/*!40000 ALTER TABLE `attendancetypesmaster` DISABLE KEYS */;
-INSERT INTO `attendancetypesmaster` VALUES (1,'Work From Office','Active'),(2,'Work From Home','Active'),(3,'On-duty','Inative'),(4,'Work From Remote location','Inactive');
-/*!40000 ALTER TABLE `attendancetypesmaster` ENABLE KEYS */;
-UNLOCK TABLES;
+	LOCK TABLES `attendancetypesmaster` WRITE;
+	/*!40000 ALTER TABLE `attendancetypesmaster` DISABLE KEYS */;
+	INSERT INTO `attendancetypesmaster` VALUES (1,'Work From Office','Active'),(2,'Work From Home','Active'),(3,'On-duty','Inactive'),(4,'Work From Remote location','Inactive');
+	/*!40000 ALTER TABLE `attendancetypesmaster` ENABLE KEYS */;
+	UNLOCK TABLES;
 
 --
 -- Table structure for table `auditlog`
@@ -641,7 +640,7 @@ CREATE TABLE `departmentsmaster` (
 
 LOCK TABLES `departmentsmaster` WRITE;
 /*!40000 ALTER TABLE `departmentsmaster` DISABLE KEYS */;
-INSERT INTO `departmentsmaster` VALUES (1,'IT',NULL,NULL,1,current_timestamp(),1,NULL,NULL),(2,'Human Resources',NULL,NULL,1,current_timestamp(),1,NULL,NULL),(3,'Finance',NULL,NULL,1,current_timestamp(),1,NULL,NULL));
+INSERT INTO `departmentsmaster` VALUES (1,'IT',NULL,NULL,1,current_timestamp(),1,NULL,NULL),(2,'Human Resources',NULL,NULL,1,current_timestamp(),1,NULL,NULL),(3,'Finance',NULL,NULL,1,current_timestamp(),1,NULL,NULL);
 /*!40000 ALTER TABLE `departmentsmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1224,6 +1223,10 @@ CREATE TABLE `employee_login` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 
+--
+-- Table structure for table `employee_net_salary_details`
+--
+
 DROP TABLE IF EXISTS `employee_net_salary_details`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -1706,7 +1709,7 @@ CREATE TABLE `ems_employee_column_configuration_master` (
 
 LOCK TABLES `ems_employee_column_configuration_master` WRITE;
 /*!40000 ALTER TABLE `ems_employee_column_configuration_master` DISABLE KEYS */;
-INSERT INTO `ems_employee_column_configuration_master` VALUES (1,1,1,1,1,1,1,0,0,0,0,0),(2,2,1,1,1,1,1,1,1,1,1,1),(3,4,1,1,1,1,1,1,1,1,1,1),(4,6,1,1,1,1,1,1,1,1,1,1);
+INSERT INTO `ems_employee_column_configuration_master` VALUES (1,1,1,0,0,0,0,0,0,0,0,0);
 /*!40000 ALTER TABLE `ems_employee_column_configuration_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2272,7 +2275,16 @@ CREATE TABLE `ems_rulevalues` (
 
 LOCK TABLES `ems_rulevalues` WRITE;
 /*!40000 ALTER TABLE `ems_rulevalues` DISABLE KEYS */;
-INSERT INTO `ems_rulevalues` VALUES (1,1,'8','2023-05-16 08:53:52',NULL,'1'),(2,2,'8','2023-05-16 08:53:52',NULL,'1'),(3,3,'3','2023-05-16 08:53:52',NULL,'1'),(4,4,'0','2023-05-16 08:53:52',NULL,'1'),(5,5,'1','2023-05-16 08:53:52',NULL,'1'),(6,6,'1','2023-05-16 08:53:52',NULL,'1'),(7,7,'1','2023-05-16 08:53:52',NULL,'1'),(8,8,'1','2023-05-16 08:53:52',NULL,'1'),(9,9,'1','2023-05-16 08:53:52',NULL,'1'),(10,10,'1','2023-05-16 08:53:52',NULL,'1'),(11,11,'1','2023-05-23 16:43:53',NULL,'1'),(12,12,'1','2023-05-19 14:46:28',NULL,'1'),(13,13,'1','2023-05-16 08:53:52',NULL,'1'),(14,14,'1','2023-05-16 08:53:52',NULL,'1'),(15,15,'30','2023-05-16 08:53:52',NULL,'1'),(16,16,'7','2023-05-16 08:53:52',NULL,'1'),(17,17,'1','2023-05-16 08:53:52',NULL,'1'),(18,12,'2','2023-05-23 16:43:22',NULL,'1'),(19,12,'2','2023-05-23 16:43:53',NULL,'1'),(20,12,'1','2023-05-23 16:43:34',NULL,'1'),(21,11,'1','2023-05-23 16:43:53',NULL,'1'),(22,12,'2','2023-05-23 16:43:53',NULL,'1');
+INSERT INTO `ems_rulevalues` VALUES (1,1,'8',current_timestamp(),NULL,'1'),
+(2,2,'8',current_timestamp(),NULL,'1'),(3,3,'3',current_timestamp(),NULL,'1'),
+(4,4,'0',current_timestamp(),NULL,'1'),(5,5,'1',current_timestamp(),NULL,'1'),
+(6,6,'1',current_timestamp(),NULL,'1'),(7,7,'1',current_timestamp(),NULL,'1'),
+(8,8,'1',current_timestamp(),NULL,'1'),(9,9,'1',current_timestamp(),NULL,'1'),
+(10,10,'1',current_timestamp(),NULL,'1'),(11,11,'1',current_timestamp(),NULL,'1'),
+(12,12,'1',current_timestamp(),NULL,'1'),(13,13,'1',current_timestamp(),NULL,'1'),
+(14,14,'1',current_timestamp(),NULL,'1'),(15,15,'30',current_timestamp(),NULL,'1'),
+(16,16,'7',current_timestamp(),NULL,'1'),(17,17,'1',current_timestamp(),NULL,'1'),
+(18,12,'2',current_timestamp(),NULL,'1'),(19,12,'2',current_timestamp(),NULL,'1');
 /*!40000 ALTER TABLE `ems_rulevalues` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2755,8 +2767,7 @@ CREATE TABLE `lm_errormessages` (
 
 LOCK TABLES `lm_errormessages` WRITE;
 /*!40000 ALTER TABLE `lm_errormessages` DISABLE KEYS */;
-INSERT INTO `lm_errormessages` VALUES (1,'LM1','common','This field is required'),(2,'LM2','common','Please enter valid data.'),(3,'LM3','common','Please select an option.'),(7,'LM7',NULL,'To date must be greater than From date.'),(8,'LM8',NULL,'Unable to update your profile. Please try again.'),(9,'LM9',NULL,'You may have overdrawn the balance and hence cannot apply anymore. Your balance as on DD/MM/YYYY is 2.'),(10,'LM10',NULL,'Leaves during probation period is not permitted.'),(11,'LM11',NULL,'Leave availed days exceeds the maximum limit for this leave type.'),(12,'LM12',NULL,'One year is the minimum gap between each pregnancy.'),(13,'LM13',NULL,'One year is the minimum gap between each pregnancy of your spouse.'),(14,'LM14',NULL,'The username and/or password you entered did not match our records. Please double-check and try again.'),(15,'LM15',NULL,'Unable to submit leave request. Please try again.'),(16,'LM16',NULL,'Unable to delete leave request. Please try again.'),(17,'LM17',NULL,'Unable to cancel leave request. Please try again.'),(18,'LM18',NULL,'Unable to approve leave request. Please try again.'),(19,'LM19',NULL,'Unable to reject leave request. Please try again.'),(34,'LM34',NULL,'Flie size exceeds 1MB. Please reduce file size.'),(40,'LM40','Leavepolicies','Unable to add leave policies. Please try again.'),(41,'LM41','Leavepolicies','Unable to update leave policies. Please try again.'),(42,'LM42','Leavepolicies','Unable to add leave type. Please try again.'),(43,'LM43','Leavepolicies','Unable to update leave type. Please try again.'),(44,'LM44','Leavepolicies','This field requires a unique entry and the entered value already exists.'),(45,'LM45','Leavepolicies','Leave Type Name already exists. Try another.'),(46,'LM46','Leavepolicies','Display Name already exists. Try another.'),(53,'LM53','Message Master','Error Message already exists. Try another message.'),(54,'LM54','common','Please enter a valid pincode.'),(65,'LM65','Leavepolicies','Leave type added successfully'),(66,'LM66','Leavepolicies','Leave type updated successfully'),(67,'LM67','Leavepolicies','Leave type activated successfully'),(68,'LM68','Leavepolicies','Leave type deactivated successfully'),(72,'LM72','New Leave Request','Leave request updated successfully'),(73,'LM73',NULL,'Leave request deleted successfully'),(74,'LM74',NULL,'Leave request cancelled successfully'),(75,'LM75','Edit Profile','Edit profile updated successfully'),(76,'LM76',NULL,'Leave request updated successfully'),(77,'LM77',NULL,'Leave request deleted successfully'),(78,'LM78',NULL,'Leave request cancelled successfully'),(79,'LM79',NULL,'Leave request applied successfully.'),(80,'LM80',NULL,'Leave request updated successfully'),(81,'LM81',NULL,'Leave request deleted successfully'),(82,'LM82',NULL,'Leave request cancelled successfully'),(83,'LM83',NULL,'Comp-off applied successfully'),(84,'LM84',NULL,'Leave request applied  successfully'),(85,'LM85',NULL,'Leave request approved successfully'),(86,'LM86',NULL,'Leave request is rejected'),(89,'LM89','Message Mater','Unable to update message. Please try again.'),(90,'LM90','Message Master','Unable to update messages. Please try again.'),(91,'LM91','Message Master','Message updated successfully.'),(92,'LM92','Message Master','Messages updated successfully.'),(97,'LM97',NULL,'The number of days in your leave request exceeds maximum permissable value in one instance for this leave type. Please select shorter duration.'),(98,'LM98',NULL,'The number of days leave request of this leave type has to be applied in advance is'),(99,'LM99',NULL,'You have availed this leave type upto maximum permissable limit in a year. Please select another leave type.'),(100,'LM100',NULL,'For known ailments, sick leave can be applied not less than 10 days in advance.'),(101,'LM101',NULL,'The gap between each leave of this leave type is 1 year.'),(102,'LM102',NULL,'You have availed this leave type upto maximum permissable limit.'),(103,'LM103',NULL,'Your leave request exceeds maximum permissable count for this leave type per term.'),(107,'LM107',NULL,'Sup
-porting document should be uploaded for this leave duration.'),(108,'LM108',NULL,'Unable to update the password. Please try again.'),(109,'LM109',NULL,'You do not have sufficient balance in this leave type. Please select another leave type.'),(110,'LM110','Leave policies','Leave type added successfully.'),(111,'LM111','Leave Policies','Leave type updated successfully.'),(112,'LM112','Common','Please enter below 500 characters only'),(113,'LM113',NULL,'Leave approved successfully.'),(114,'LM114',NULL,'Leave rejected successfully.'),(115,'LM115',NULL,'Comp off approved successfully.'),(116,'LM116',NULL,'Comp off rejected successfully.'),(117,'LM117',NULL,'Image size exceeds 1MB. Please reduce image size.'),(118,'LM118',NULL,'Profile updated successfully.'),(119,'LM119',NULL,'Please try again later'),(120,'LM120',NULL,'Leave cancellation approved successfully.'),(121,'LM121',NULL,'Leave cancellation rejected successfully.'),(133,'LM133',NULL,'Leave type activated successfully.'),(134,'LM134',NULL,'Unable to activate leave type. Please try again.'),(135,'LM135',NULL,'Leave type deactivated successfully.'),(136,'LM136',NULL,'Comp Off registered successfully.'),(137,'LM137',NULL,'Unable to register Comp Off. Please try again.'),(138,'LM138',NULL,'Unable to update Profile. Please try again.'),(139,'LM139',NULL,'Modifying this leavetype credit frequency to once a yer will deactive Advanced Leave. Do you wish to continue ?.'),(140,'LM140',NULL,'File size must be less than 1MB.'),(141,'LM141',NULL,'Only PDF allowed.'),(142,'LM142',NULL,'Please select a file'),(143,'LM143',NULL,'Leave for this leave type can be applied not less than 7 days in advance.');
+INSERT INTO `lm_errormessages` VALUES (1,'LM1','common','This field is required.'),(2,'LM2','common','Please enter valid data.'),(3,'LM3','common','Please select an option.'),(7,'LM7',NULL,'To date must be greater than From date.'),(8,'LM8',NULL,'Unable to update your profile. Please try again.'),(9,'LM9',NULL,'You may have overdrawn the balance and hence cannot apply anymore. Your balance as on DD/MM/YYYY is 2.'),(10,'LM10',NULL,'Leaves during probation period is not permitted.'),(11,'LM11',NULL,'Leave availed days exceeds the maximum limit for this leave type.'),(12,'LM12',NULL,'One year is the minimum gap between each pregnancy.'),(13,'LM13',NULL,'One year is the minimum gap between each pregnancy of your spouse.'),(14,'LM14',NULL,'The username and/or password you entered did not match our records. Please double-check and try again.'),(15,'LM15',NULL,'Unable to submit leave request. Please try again.'),(16,'LM16',NULL,'Unable to delete leave request. Please try again.'),(17,'LM17',NULL,'Unable to cancel leave request. Please try again.'),(18,'LM18',NULL,'Unable to approve leave request. Please try again.'),(19,'LM19',NULL,'Unable to reject leave request. Please try again.'),(34,'LM34',NULL,'Flie size exceeds 1MB. Please reduce file size.'),(40,'LM40','Leavepolicies','Unable to add leave policies. Please try again.'),(41,'LM41','Leavepolicies','Unable to update leave policies. Please try again.'),(42,'LM42','Leavepolicies','Unable to add leave type. Please try again.'),(43,'LM43','Leavepolicies','Unable to update leave type. Please try again.'),(44,'LM44','Leavepolicies','This field requires a unique entry and the entered value already exists.'),(45,'LM45','Leavepolicies','Leave Type Name already exists. Try another.'),(46,'LM46','Leavepolicies','Display Name already exists. Try another.'),(53,'LM53','Message Master','Error Message already exists. Try another message.'),(54,'LM54','common','Please enter a valid pincode.'),(65,'LM65','Leavepolicies','Leave type added successfully'),(66,'LM66','Leavepolicies','Leave type updated successfully'),(67,'LM67','Leavepolicies','Leave type activated successfully'),(68,'LM68','Leavepolicies','Leave type deactivated successfully'),(72,'LM72','New Leave Request','Leave request updated successfully'),(73,'LM73',NULL,'Leave request deleted successfully'),(74,'LM74',NULL,'Leave request cancelled successfully'),(75,'LM75','Edit Profile','Edit profile updated successfully'),(76,'LM76',NULL,'Leave request updated successfully'),(77,'LM77',NULL,'Leave request deleted successfully'),(78,'LM78',NULL,'Leave request cancelled successfully'),(79,'LM79',NULL,'Leave request applied successfully.'),(80,'LM80',NULL,'Leave request updated successfully'),(81,'LM81',NULL,'Leave request deleted successfully'),(82,'LM82',NULL,'Leave request cancelled successfully'),(83,'LM83',NULL,'Comp-off applied successfully'),(84,'LM84',NULL,'Leave request applied  successfully'),(85,'LM85',NULL,'Leave request approved successfully'),(86,'LM86',NULL,'Leave request is rejected'),(89,'LM89','Message Mater','Unable to update message. Please try again.'),(90,'LM90','Message Master','Unable to update messages. Please try again.'),(91,'LM91','Message Master','Message updated successfully.'),(92,'LM92','Message Master','Messages updated successfully.'),(97,'LM97',NULL,'The number of days in your leave request exceeds maximum permissable value in one instance for this leave type. Please select shorter duration.'),(98,'LM98',NULL,'The number of days leave request of this leave type has to be applied in advance is'),(99,'LM99',NULL,'You have availed this leave type upto maximum permissable limit in a year. Please select another leave type.'),(100,'LM100',NULL,'For known ailments, sick leave can be applied not less than 10 days in advance.'),(101,'LM101',NULL,'The gap between each leave of this leave type is 1 year.'),(102,'LM102',NULL,'You have availed this leave type upto maximum permissable limit.'),(103,'LM103',NULL,'Your leave request exceeds maximum permissable count for this leave type per term.'),(107,'LM107',NULL,'Supporting document should be uploaded for this leave duration.'),(108,'LM108',NULL,'Unable to update the password. Please try again.'),(109,'LM109',NULL,'You do not have sufficient balance in this leave type. Please select another leave type.'),(110,'LM110','Leave policies','Leave type added successfully.'),(111,'LM111','Leave Policies','Leave type updated successfully.'),(112,'LM112','Common','Please enter below 500 characters only'),(113,'LM113',NULL,'Leave approved successfully.'),(114,'LM114',NULL,'Leave rejected successfully.'),(115,'LM115',NULL,'Comp off approved successfully.'),(116,'LM116',NULL,'Comp off rejected successfully.'),(117,'LM117',NULL,'Image size exceeds 1MB. Please reduce image size.'),(118,'LM118',NULL,'Profile updated successfully.'),(119,'LM119',NULL,'Please try again later'),(120,'LM120',NULL,'Leave cancellation approved successfully.'),(121,'LM121',NULL,'Leave cancellation rejected successfully.'),(133,'LM133',NULL,'Leave type activated successfully.'),(134,'LM134',NULL,'Unable to activate leave type. Please try again.'),(135,'LM135',NULL,'Leave type deactivated successfully.'),(136,'LM136',NULL,'Comp Off registered successfully.'),(137,'LM137',NULL,'Unable to register Comp Off. Please try again.'),(138,'LM138',NULL,'Unable to update Profile. Please try again.'),(139,'LM139',NULL,'Modifying this leavetype credit frequency to once a yer will deactive Advanced Leave. Do you wish to continue ?.'),(140,'LM140',NULL,'File size must be less than 1MB.'),(141,'LM141',NULL,'Only PDF allowed.'),(142,'LM142',NULL,'Please select a file'),(143,'LM143',NULL,'Leave for this leave type can be applied not less than 7 days in advance.');
 /*!40000 ALTER TABLE `lm_errormessages` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2856,7 +2867,7 @@ CREATE TABLE `lm_leavesmaster` (
   `display_name` varchar(64) NOT NULL,
   `ispredefined` int(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -2980,7 +2991,62 @@ CREATE TABLE `lm_rulevalues` (
 
 LOCK TABLES `lm_rulevalues` WRITE;
 /*!40000 ALTER TABLE `lm_rulevalues` DISABLE KEYS */;
-INSERT INTO `lm_rulevalues` VALUES (1,1,1,'4',NULL,NULL,'Active'),(2,2,2,'12','2023-05-19 11:01:04','2023-05-19 11:02:42','Inactive'),(3,4,2,'1','2023-05-19 11:01:04',NULL,'Active'),(4,3,2,'1','2023-05-19 11:01:04','2023-05-19 11:02:42','Inactive'),(5,5,2,'3','2023-05-19 11:01:04',NULL,'Active'),(6,6,2,'3','2023-05-19 11:01:04',NULL,'Active'),(7,7,2,'7','2023-05-19 11:01:04',NULL,'Active'),(8,8,2,'1','2023-05-19 11:01:04',NULL,'Active'),(9,2,3,'6','2023-05-19 11:01:15','2023-05-19 11:09:15','Inactive'),(10,3,3,'1','2023-05-19 11:01:15','2023-05-19 11:13:23','Inactive'),(11,13,3,'3','2023-05-19 11:01:15',NULL,'Active'),(12,4,3,'1','2023-05-19 11:01:15',NULL,'Active'),(13,8,3,'1','2023-05-19 11:01:15',NULL,'Active'),(14,2,4,'12','2023-05-19 11:01:29',NULL,'Active'),(15,3,4,'1','2023-05-19 11:01:29',NULL,'Active'),(16,5,4,'5','2023-05-19 11:01:29',NULL,'Active'),(17,6,4,'8','2023-05-19 11:01:29',NULL,'Active'),(18,7,4,'15','2023-05-19 11:01:29',NULL,'Active'),(19,9,4,'50','2023-05-19 11:01:30',NULL,'Active'),(20,11,4,'3','2023-05-19 11:01:30',NULL,'Active'),(21,4,4,'1','2023-05-19 11:01:29',NULL,'Active'),(22,8,4,'1','2023-05-19 11:01:29',NULL,'Active'),(23,24,5,'180','2023-05-19 11:09:48',NULL,'Active'),(24,6,5,'36','2023-05-19 11:09:48','2023-05-19 12:09:45','Inactive'),(25,23,5,'2','2023-05-19 11:09:48',NULL,'Active'),(26,13,5,'3','2023-05-19 11:09:48',NULL,'Active'),(27,14,5,'1','2023-05-19 11:09:48',NULL,'Active'),(28,24,6,'3','2023-05-19 11:11:17',NULL,'Active'),(29,6,6,'1','2023-05-19 11:11:17',NULL,'Active'),(30,14,6,'1','2023-05-19 11:11:17',NULL,'Active'),(31,23,6,'2','2023-05-19 11:11:17',NULL,'Active'),(32,24,7,'5','2023-05-19 11:11:36',NULL,'Active'),(33,6,7,'6','2023-05-19 11:11:36',NULL,'Active'),(34,7,7,'15','2023-05-19 11:11:36',NULL,'Active'),(35,23,7,'1','2023-05-19 11:11:36',NULL,'Active'),(36,24,8,'2','2023-05-19 11:11:53',NULL,'Active'),(37,23,8,'10','2023-05-19 11:11:53',NULL,'Active'),(38,15,9,'1','2023-05-19 11:12:49',NULL,'Active'),(39,5,9,'1','2023-05-19 11:12:49',NULL,'Active'),(40,16,9,'1','2023-05-19 11:12:49',NULL,'Active'),(41,18,9,'1','2023-05-19 11:12:49',NULL,'Active'),(42,6,9,'6','2023-05-19 11:12:49',NULL,'Active'),(43,25,9,'6','2023-05-19 11:12:49',NULL,'Active'),(44,26,9,'7','2023-05-19 11:12:49',NULL,'Active'),(45,27,9,'30','2023-05-19 11:12:49',NULL,'Active'),(46,4,10,'1','2023-05-19 11:12:57',NULL,'Active'),(47,8,10,'1','2023-05-19 11:12:58',NULL,'Active'),(48,20,NULL,'0','2023-05-18 00:00:00','2023-05-19 11:13:46','Inactive'),(49,21,NULL,'1','2023-05-18 00:00:00',NULL,'Active'),(50,22,NULL,'2','2023-05-18 00:00:00',NULL,'Active'),(51,2,2,'36','2023-05-19 11:02:42',NULL,'Active'),(52,3,2,'12','2023-05-19 11:02:42',NULL,'Active'),(53,2,3,'36','2023-05-19 11:09:15',NULL,'Active'),(54,3,3,'12','2023-05-19 11:13:23',NULL,'Active'),(55,20,NULL,'90','2023-05-19 11:13:46',NULL,'Active'),(56,6,5,'1','2023-05-19 12:09:45',NULL,'Active');
+INSERT INTO `lm_rulevalues` VALUES (1,1,1,'4',current_timestamp(),NULL,'Active'),
+(2,2,2,'12',NULL,NULL,'Inactive'),
+(3,4,2,'1',current_timestamp(),NULL,'Active'),
+(4,3,2,'1',NULL,NULL,'Inactive'),
+(5,5,2,'3',current_timestamp(),NULL,'Active'),
+(6,6,2,'3',current_timestamp(),NULL,'Active'),
+(7,7,2,'7',current_timestamp(),NULL,'Active'),
+(8,8,2,'1',current_timestamp(),NULL,'Active'),
+(9,2,3,'6',NULL,NULL,'Inactive'),
+(10,3,3,'1',NULL,NULL,'Inactive'),
+(11,13,3,'3',current_timestamp(),NULL,'Active'),
+(12,4,3,'1',current_timestamp(),NULL,'Active'),
+(13,8,3,'1',current_timestamp(),NULL,'Active'),
+(14,2,4,'12',current_timestamp(),NULL,'Active'),
+(15,3,4,'1',current_timestamp(),NULL,'Active'),
+(16,5,4,'5',current_timestamp(),NULL,'Active'),
+(17,6,4,'8',current_timestamp(),NULL,'Active'),
+(18,7,4,'15',current_timestamp(),NULL,'Active'),
+(19,9,4,'50',current_timestamp(),NULL,'Active'),
+(20,11,4,'3',current_timestamp(),NULL,'Active'),
+(21,4,4,'1',current_timestamp(),NULL,'Active'),
+(22,8,4,'1',current_timestamp(),NULL,'Active'),
+(23,24,5,'180',current_timestamp(),NULL,'Active'),
+(24,6,5,'36',NULL,NULL,'Inactive'),
+(25,23,5,'2',current_timestamp(),NULL,'Active'),
+(26,13,5,'3',current_timestamp(),NULL,'Active'),
+(27,14,5,'1',current_timestamp(),NULL,'Active'),
+(28,24,6,'3',current_timestamp(),NULL,'Active'),
+(29,6,6,'1',current_timestamp(),NULL,'Active'),
+(30,14,6,'1',current_timestamp(),NULL,'Active'),
+(31,23,6,'2',current_timestamp(),NULL,'Active'),
+(32,24,7,'5',current_timestamp(),NULL,'Active'),
+(33,6,7,'6',current_timestamp(),NULL,'Active'),
+(34,7,7,'15',current_timestamp(),NULL,'Active'),
+(35,23,7,'1',current_timestamp(),NULL,'Active'),
+(36,24,8,'2',current_timestamp(),NULL,'Active'),
+(37,23,8,'10',current_timestamp(),NULL,'Active'),
+(38,15,9,'1',current_timestamp(),NULL,'Active'),
+(39,5,9,'1',current_timestamp(),NULL,'Active'),
+(40,16,9,'1',current_timestamp(),NULL,'Active'),
+(41,18,9,'1',current_timestamp(),NULL,'Active'),
+(42,6,9,'6',current_timestamp(),NULL,'Active'),
+(43,25,9,'6',current_timestamp(),NULL,'Active'),
+(44,26,9,'7',current_timestamp(),NULL,'Active'),
+(45,27,9,'30',current_timestamp(),NULL,'Active'),
+(46,4,10,'1',current_timestamp(),NULL,'Active'),
+(47,8,10,'1',current_timestamp(),NULL,'Active'),
+(48,20,NULL,'0',NULL,NULL,'Inactive'),
+(49,21,NULL,'1',current_timestamp(),NULL,'Active'),
+(50,22,NULL,'2',current_timestamp(),NULL,'Active'),
+(51,2,2,'36',current_timestamp(),NULL,'Active'),
+(52,3,2,'12',current_timestamp(),NULL,'Active'),
+(53,2,3,'36',current_timestamp(),NULL,'Active'),
+(54,3,3,'12',current_timestamp(),NULL,'Active'),
+(55,20,NULL,'90',current_timestamp(),NULL,'Active'),
+(56,6,5,'1',current_timestamp(),NULL,'Active');
 /*!40000 ALTER TABLE `lm_rulevalues` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3125,7 +3191,18 @@ CREATE TABLE `modulesmaster` (
 
 LOCK TABLES `modulesmaster` WRITE;
 /*!40000 ALTER TABLE `modulesmaster` DISABLE KEYS */;
-INSERT INTO `modulesmaster` VALUES (1,'Employee Management','2023-05-16 14:23:53',NULL,1,'assets\\img\\menu-ems.png'),(2,'Leave Management','2023-05-16 14:23:53',NULL,3,'assets\\img\\menu-leaves.png'),(3,'Timesheet Management',NULL,NULL,5,'assets\\img\\menu-timesheet.png'),(4,'Attendance Management','2023-05-16 14:23:53',NULL,2,'assets\\img\\menu-attendance.png'),(5,'Payroll Management','2023-05-16 14:23:53',NULL,4,'assets\\img\\menu-payroll.png'),(6,'Assets Management',NULL,NULL,6,'assets\\img\\menu-asset.png'),(7,'Recruitment Management',NULL,NULL,7,'assets\\img\\menu-recruitment.png'),(8,'Employee Self Service',NULL,NULL,8,'assets\\img\\menu-ess.png '),(9,'Claims Management',NULL,NULL,9,'assets\\img\\menu-claims.png'),(10,'Subscription','2023-05-16 14:23:53',NULL,10,'assets\\img\\subscription.png'),(11,'Exit Management','2023-05-16 14:23:53',NULL,11,'assets\\img\\exit-management.png');
+INSERT INTO `modulesmaster` VALUES 
+(1,'Employee Management',current_timestamp(),NULL,1,'assets\\img\\menu-ems.png'),
+(2,'Leave Management',current_timestamp(),NULL,3,'assets\\img\\menu-leaves.png'),
+(3,'Timesheet Management',NULL,NULL,5,'assets\\img\\menu-timesheet.png'),
+(4,'Attendance Management',current_timestamp(),NULL,2,'assets\\img\\menu-attendance.png'),
+(5,'Payroll Management',current_timestamp(),NULL,4,'assets\\img\\menu-payroll.png'),
+(6,'Assets Management',NULL,NULL,6,'assets\\img\\menu-asset.png'),
+(7,'Recruitment Management',NULL,NULL,7,'assets\\img\\menu-recruitment.png'),
+(8,'Employee Self Service',NULL,NULL,8,'assets\\img\\menu-ess.png '),
+(9,'Claims Management',NULL,NULL,9,'assets\\img\\menu-claims.png'),
+(10,'Subscription',current_timestamp(),NULL,10,'assets\\img\\subscription.png'),
+(11,'Exit Management',current_timestamp(),NULL,11,'assets\\img\\exit-management.png');
 /*!40000 ALTER TABLE `modulesmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3177,19 +3254,9 @@ CREATE TABLE `payroll_client_component_configuration_details` (
   PRIMARY KEY (`id`),
   KEY `payroll_client_component_configuration_details_ridfk` (`rule_id`),
   CONSTRAINT `payroll_client_component_configuration_details_ridfk` FOREIGN KEY (`rule_id`) REFERENCES `payroll_client_component_configuration_master` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `payroll_client_component_configuration_details`
---
-
-LOCK TABLES `payroll_client_component_configuration_details` WRITE;
-/*!40000 ALTER TABLE `payroll_client_component_configuration_details` DISABLE KEYS */;
-INSERT INTO `payroll_client_component_configuration_details` VALUES (1,1,'1','2023-05-30 00:00:00',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(2,2,'1','2023-05-30 00:00:00',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(3,3,'1','2023-05-30 00:00:00',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(4,4,'ACTUAL','2023-05-30 00:00:00',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(5,5,'ACTUAL','2023-05-30 00:00:00',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(6,6,'1','2023-05-30 00:00:00',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(7,7,'0',NULL,NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(8,8,'WORKING','2023-05-18 11:50:02','2023-05-19 12:27:31',NULL,'2023-05-18 11:50:02',1,NULL,NULL),(9,9,'LAST_WORKING_DAY','2023-05-18 11:50:02',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(10,10,'1','2023-05-18 11:50:02',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(11,11,'LAST_DAY_OF_PRESENT_MONTH','2023-05-18 11:50:02',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(12,12,'1','2023-05-18 11:50:02','2023-05-19 14:50:13',NULL,'2023-05-18 11:50:02',1,NULL,NULL),(13,13,'LAST_DAY_OF_PRESENT_MONTH','2023-05-18 11:50:02','2023-05-19 14:50:13',NULL,'2023-05-18 11:50:02',1,NULL,NULL),(14,14,'April-March','2023-05-18 11:50:02',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(15,15,'PREVIOUS_DAY','2023-05-18 11:50:02',NULL,NULL,'2023-05-18 11:50:02',1,NULL,NULL),(16,16,'0','2023-05-18 11:50:02','2023-05-19 11:36:21',NULL,'2023-05-18 11:50:02',1,NULL,NULL),(17,16,'1','2023-05-19 11:36:21','2023-05-19 16:38:53',NULL,'2023-05-19 11:36:21',NULL,NULL,NULL),(18,8,'CALENDAR','2023-05-19 12:27:31','2023-05-19 12:40:09',NULL,NULL,NULL,NULL,NULL),(19,8,'WORKING','2023-05-19 12:40:09','2023-05-19 12:54:25',NULL,NULL,NULL,NULL,NULL),(20,8,'CALENDAR','2023-05-19 12:54:25','2023-05-19 14:08:22',NULL,NULL,NULL,NULL,NULL),(21,8,'WORKING','2023-05-19 14:08:22','2023-05-19 14:50:13',NULL,NULL,NULL,NULL,NULL),(22,8,'CALENDAR','2023-05-19 14:50:13','2023-05-19 16:00:07',NULL,NULL,NULL,NULL,NULL),(23,12,'25','2023-05-19 14:50:13','2023-05-19 14:50:19',NULL,NULL,NULL,NULL,NULL),(24,13,'24','2023-05-19 14:50:13','2023-05-19 14:50:19',NULL,NULL,NULL,NULL,NULL),(25,12,'26','2023-05-19 14:50:19','2023-05-19 19:00:49',NULL,NULL,NULL,NULL,NULL),(26,13,'25','2023-05-19 14:50:19','2023-05-19 19:00:49',NULL,NULL,NULL,NULL,NULL),(27,8,'WORKING','2023-05-19 16:00:07','2023-05-19 16:39:27',NULL,NULL,NULL,NULL,NULL),(28,16,'0','2023-05-19 16:38:53','2023-05-19 17:26:09',NULL,'2023-05-19 16:38:53',NULL,NULL,NULL),(29,8,'CALENDAR','2023-05-19 16:39:27','2023-05-19 17:25:21',NULL,NULL,NULL,NULL,NULL),(30,8,'WORKING','2023-05-19 17:25:21','2023-05-19 19:06:55',NULL,NULL,NULL,NULL,NULL),(31,16,'1','2023-05-19 17:26:09','2023-05-22 12:16:40',NULL,'2023-05-19 17:26:09',NULL,NULL,NULL),(32,12,'1','2023-05-19 19:00:49','2023-05-22 12:17:26',NULL,NULL,NULL,NULL,NULL),(33,13,'LAST_DAY_OF_PRESENT_MONTH','2023-05-19 19:00:49','2023-05-22 12:17:26',NULL,NULL,NULL,NULL,NULL),(34,8,'CALENDAR','2023-05-19 19:06:55','2023-05-19 19:20:33',NULL,NULL,NULL,NULL,NULL),(35,8,'WORKING','2023-05-19 19:20:33','2023-05-20 14:32:20',NULL,NULL,NULL,NULL,NULL),(36,8,'CALENDAR','2023-05-20 14:32:21','2023-05-20 15:02:34',NULL,NULL,NULL,NULL,NULL),(37,8,'WORKING','2023-05-20 15:02:34','2023-05-20 19:33:52',NULL,NULL,NULL,NULL,NULL),(38,8,'CALENDAR','2023-05-20 19:33:52','2023-05-22 11:46:18',NULL,NULL,NULL,NULL,NULL),(39,8,'WORKING','2023-05-22 11:46:18','2023-05-22 12:17:26',NULL,NULL,NULL,NULL,NULL),(40,16,'0','2023-05-22 12:16:40','2023-05-22 12:33:24',NULL,'2023-05-22 12:16:40',NULL,NULL,NULL),(41,8,'CALENDAR','2023-05-22 12:17:26','2023-05-22 12:31:03',NULL,NULL,NULL,NULL,NULL),(42,12,'26','2023-05-22 12:17:26','2023-05-22 18:23:57',NULL,NULL,NULL,NULL,NULL),(43,13,'25','2023-05-22 12:17:26','2023-05-22 18:23:57',NULL,NULL,NULL,NULL,NULL),(44,8,'WORKING','2023-05-22 12:31:03','2023-05-23 13:01:01',NULL,NULL,NULL,NULL,NULL),(45,16,'1','2023-05-22 12:33:24','2023-05-23 13:01:58',NULL,'2023-05-22 12:33:24',NULL,NULL,NULL),(46,12,'1','2023-05-22 18:23:57','2023-05-23 13:01:01',NULL,NULL,NULL,NULL,NULL),(47,13,'LAST_D
-AY_OF_PRESENT_MONTH','2023-05-22 18:23:57','2023-05-23 13:01:01',NULL,NULL,NULL,NULL,NULL),(48,8,'CALENDAR','2023-05-23 13:01:01','2023-05-23 14:39:43',NULL,NULL,NULL,NULL,NULL),(49,12,'26','2023-05-23 13:01:01','2023-05-23 14:39:43',NULL,NULL,NULL,NULL,NULL),(50,13,'25','2023-05-23 13:01:01','2023-05-23 14:39:43',NULL,NULL,NULL,NULL,NULL),(51,16,'0','2023-05-23 13:01:58','2023-05-24 16:00:08',NULL,'2023-05-23 13:01:58',NULL,NULL,NULL),(52,8,'WORKING','2023-05-23 14:39:43','2023-05-23 15:31:32',NULL,NULL,NULL,NULL,NULL),(53,12,'1','2023-05-23 14:39:43','2023-05-23 15:31:32',NULL,NULL,NULL,NULL,NULL),(54,13,'LAST_DAY_OF_PRESENT_MONTH','2023-05-23 14:39:43','2023-05-23 15:31:32',NULL,NULL,NULL,NULL,NULL),(55,8,'CALENDAR','2023-05-23 15:31:32','2023-05-23 15:54:38',NULL,NULL,NULL,NULL,NULL),(56,12,'26','2023-05-23 15:31:32','2023-05-24 14:31:55',NULL,NULL,NULL,NULL,NULL),(57,13,'25','2023-05-23 15:31:32','2023-05-24 14:31:55',NULL,NULL,NULL,NULL,NULL),(58,8,'WORKING','2023-05-23 15:54:38','2023-05-24 14:22:29',NULL,NULL,NULL,NULL,NULL),(59,8,'CALENDAR','2023-05-24 14:22:29','2023-05-24 14:31:55',NULL,NULL,NULL,NULL,NULL),(60,8,'WORKING','2023-05-24 14:31:55','2023-05-26 14:28:27',NULL,NULL,NULL,NULL,NULL),(61,12,'1','2023-05-24 14:31:55','2023-05-24 16:02:03',NULL,NULL,NULL,NULL,NULL),(62,13,'LAST_DAY_OF_PRESENT_MONTH','2023-05-24 14:31:55','2023-05-24 16:02:03',NULL,NULL,NULL,NULL,NULL),(63,16,'1','2023-05-24 16:00:08',NULL,NULL,'2023-05-24 16:00:08',NULL,NULL,NULL),(64,12,'26','2023-05-24 16:02:03','2023-05-24 16:38:12',NULL,NULL,NULL,NULL,NULL),(65,13,'25','2023-05-24 16:02:03','2023-05-24 16:38:12',NULL,NULL,NULL,NULL,NULL),(66,12,'1','2023-05-24 16:38:12','2023-05-29 18:28:43',NULL,NULL,NULL,NULL,NULL),(67,13,'LAST_DAY_OF_PRESENT_MONTH','2023-05-24 16:38:12','2023-05-29 18:28:43',NULL,NULL,NULL,NULL,NULL),(68,8,'CALENDAR','2023-05-26 14:28:27','2023-05-26 15:58:34',NULL,NULL,NULL,NULL,NULL),(69,8,'WORKING','2023-05-26 15:58:34','2023-05-26 18:01:49',NULL,NULL,NULL,NULL,NULL),(70,8,'CALENDAR','2023-05-26 18:01:49','2023-05-30 16:56:52',NULL,NULL,NULL,NULL,NULL),(71,12,'25','2023-05-29 18:28:43','2023-05-30 15:48:09',NULL,NULL,NULL,NULL,NULL),(72,13,'24','2023-05-29 18:28:44','2023-05-30 15:48:09',NULL,NULL,NULL,NULL,NULL),(73,12,'1','2023-05-30 15:48:09','2023-05-30 16:38:40',NULL,NULL,NULL,NULL,NULL),(74,13,'LAST_DAY_OF_PRESENT_MONTH','2023-05-30 15:48:09','2023-05-30 16:38:40',NULL,NULL,NULL,NULL,NULL),(75,12,'25','2023-05-30 16:38:40','2023-05-30 16:56:52',NULL,NULL,NULL,NULL,NULL),(76,13,'24','2023-05-30 16:38:40','2023-05-30 16:56:52',NULL,NULL,NULL,NULL,NULL),(77,8,'WORKING','2023-05-30 16:56:52','2023-05-30 18:02:13',NULL,NULL,NULL,NULL,NULL),(78,12,'1','2023-05-30 16:56:52','2023-05-30 18:02:13',NULL,NULL,NULL,NULL,NULL),(79,13,'LAST_DAY_OF_PRESENT_MONTH','2023-05-30 16:56:52','2023-05-30 18:02:13',NULL,NULL,NULL,NULL,NULL),(80,8,'CALENDAR','2023-05-30 18:02:13','2023-05-30 18:33:26',NULL,NULL,NULL,NULL,NULL),(81,12,'25','2023-05-30 18:02:13','2023-05-30 18:33:26',NULL,NULL,NULL,NULL,NULL),(82,13,'24','2023-05-30 18:02:13','2023-05-30 18:33:26',NULL,NULL,NULL,NULL,NULL),(83,8,'WORKING','2023-05-30 18:33:26',NULL,NULL,NULL,NULL,NULL,NULL),(84,12,'1','2023-05-30 18:33:26',NULL,NULL,NULL,NULL,NULL,NULL),(85,13,'LAST_DAY_OF_PRESENT_MONTH','2023-05-30 18:33:26',NULL,NULL,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `payroll_client_component_configuration_details` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `payroll_client_component_configuration_master`
@@ -3250,7 +3317,77 @@ CREATE TABLE `payroll_earning_components_epf_configs_details` (
 
 LOCK TABLES `payroll_earning_components_epf_configs_details` WRITE;
 /*!40000 ALTER TABLE `payroll_earning_components_epf_configs_details` DISABLE KEYS */;
-INSERT INTO `payroll_earning_components_epf_configs_details` VALUES (1,1,1,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(2,2,1,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(3,3,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(4,4,0,1,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(5,5,0,1,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(6,6,0,1,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(7,7,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(8,8,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(9,9,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(10,10,1,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(11,11,1,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(12,12,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(13,13,0,1,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(14,14,0,1,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(15,15,0,1,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(16,16,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(17,17,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(18,18,1,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(19,19,1,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(20,20,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(21,21,0,1,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(22,22,0,1,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(23,23,0,1,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(24,24,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(25,25,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(26,26,0,0,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(27,27,1,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(28,28,1,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(29,29,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(30,30,1,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(31,31,1,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(32,32,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(33,33,1,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(34,34,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(35,35,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(36,36,1,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(37,37,1,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(38,38,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(39,39,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(40,40,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(41,41,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(42,42,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(43,43,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(44,44,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(45,45,1,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(46,46,1,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(47,47,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(48,48,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(49,49,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(50,50,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(51,51,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(52,52,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(53,53,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(54,54,0,0,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(55,55,0,1,'2023-05-20',NULL,NULL,NULL,NULL,NULL),(56,56,1,0,'2023-05-26',NULL,NULL,NULL,NULL,NULL),(57,57,1,0,'2023-05-26',NULL,NULL,NULL,NULL,NULL),(58,58,0,0,'2023-05-26',NULL,NULL,NULL,NULL,NULL),(59,59,0,1,'2023-05-26',NULL,NULL,NULL,NULL,NULL),(60,60,0,1,'2023-05-26',NULL,NULL,NULL,NULL,NULL),(61,61,0,0,'2023-05-26',NULL,NULL,NULL,NULL,NULL),(62,62,0,0,'2023-05-26',NULL,NULL,NULL,NULL,NULL),(63,63,1,0,'2023-05-29',NULL,NULL,NULL,NULL,NULL),(64,64,1,0,'2023-05-29',NULL,NULL,NULL,NULL,NULL),(65,65,0,0,'2023-05-29',NULL,NULL,NULL,NULL,NULL),(66,66,0,1,'2023-05-29',NULL,NULL,NULL,NULL,NULL),(67,67,0,1,'2023-05-29',NULL,NULL,NULL,NULL,NULL),(68,68,0,0,'2023-05-29',NULL,NULL,NULL,NULL,NULL),(69,69,0,0,'2023-05-29',NULL,NULL,NULL,NULL,NULL),(70,70,0,0,'2023-05-29',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `payroll_earning_components_epf_configs_details` VALUES 
+(1,1,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(2,2,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(3,3,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(4,4,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(5,5,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(6,6,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(7,7,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(8,8,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(9,9,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(10,10,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(11,11,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(12,12,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(13,13,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(14,14,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(15,15,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(16,16,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(17,17,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(18,18,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(19,19,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(20,20,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(21,21,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(22,22,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(23,23,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(24,24,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(25,25,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(26,26,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(27,27,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(28,28,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(29,29,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(30,30,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(31,31,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(32,32,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(33,33,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(34,34,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(35,35,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(36,36,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(37,37,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(38,38,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(39,39,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(40,40,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(41,41,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(42,42,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(43,43,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(44,44,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(45,45,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(46,46,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(47,47,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(48,48,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(49,49,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(50,50,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(51,51,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(52,52,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(53,53,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(54,54,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(55,55,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(56,56,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(57,57,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(58,58,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(59,59,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(60,60,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(61,61,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(62,62,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(63,63,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(64,64,1,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(65,65,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(66,66,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(67,67,0,1,current_date(),NULL,current_date(),1,NULL,NULL),
+(68,68,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(69,69,0,0,current_date(),NULL,current_date(),1,NULL,NULL),
+(70,70,0,0,current_date(),NULL,current_date(),1,NULL,NULL);
 /*!40000 ALTER TABLE `payroll_earning_components_epf_configs_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3276,7 +3413,7 @@ CREATE TABLE `payroll_earning_components_formula_details` (
   PRIMARY KEY (`id`),
   KEY `payroll_earning_components_formula_details_cid_fk` (`pigcm_id`),
   CONSTRAINT `payroll_earning_components_formula_details_pigcmid_fk` FOREIGN KEY (`pigcm_id`) REFERENCES `payroll_income_group_components_master` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -3285,7 +3422,53 @@ CREATE TABLE `payroll_earning_components_formula_details` (
 
 LOCK TABLES `payroll_earning_components_formula_details` WRITE;
 /*!40000 ALTER TABLE `payroll_earning_components_formula_details` DISABLE KEYS */;
-INSERT INTO `payroll_earning_components_formula_details` VALUES (1,1,1,60,'15','2023-05-19',NULL,NULL,NULL,NULL,NULL),(2,3,1,20,'1','2023-05-19',NULL,NULL,NULL,NULL,NULL),(3,15,0,0,NULL,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(4,2,0,500,'1','2023-05-19',NULL,NULL,NULL,NULL,NULL),(5,4,1,20,'1','2023-05-19',NULL,NULL,NULL,NULL,NULL),(6,5,1,18,'1','2023-05-19',NULL,NULL,NULL,NULL,NULL),(7,8,1,50,'15','2023-05-19',NULL,NULL,NULL,NULL,NULL),(8,9,1,20,'1','2023-05-19',NULL,NULL,NULL,NULL,NULL),(9,10,1,12,'1','2023-05-19',NULL,NULL,NULL,NULL,NULL),(10,12,1,50,'1','2023-05-19',NULL,NULL,NULL,NULL,NULL),(11,16,0,0,NULL,'2023-05-19',NULL,NULL,NULL,NULL,NULL),(12,11,0,4000,'1','2023-05-19',NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `payroll_earning_components_formula_details` VALUES 
+(1,1,1,50,'15',current_date(),NULL,current_date(),1,NULL,NULL),
+(2,2,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(3,3,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(4,4,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(5,5,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(6,6,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(7,10,1,50,'15',current_date(),NULL,current_date(),1,NULL,NULL),
+(8,11,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(9,12,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(10,13,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(11,14,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(12,15,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(13,18,1,50,'15',current_date(),NULL,current_date(),1,NULL,NULL),
+(14,19,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(15,20,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(16,21,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(17,22,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(18,23,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(19,27,1,50,'15',current_date(),NULL,current_date(),1,NULL,NULL),
+(20,28,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(21,29,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(22,30,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(23,31,1,10,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(24,32,1,15,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(25,33,1,15,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(26,36,1,50,'15',current_date(),NULL,current_date(),1,NULL,NULL),
+(27,44,0,0,NULL,current_date(),NULL,current_date(),1,NULL,NULL),
+(28,37,0,1000,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(29,38,1,30,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(30,39,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(31,40,0,5000,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(32,41,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(33,42,1,6,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(34,45,1,50,'15',current_date(),NULL,current_date(),1,NULL,NULL),
+(35,46,1,10,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(36,47,1,30,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(37,48,1,10,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(38,55,0,0,NULL,current_date(),NULL,current_date(),1,NULL,NULL),
+(39,49,0,2000,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(40,50,0,2500,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(41,51,0,1500,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(42,56,1,50,'15',current_date(),NULL,current_date(),1,NULL,NULL),
+(43,57,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(44,58,1,30,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(45,59,1,30,'1',current_date(),NULL,current_date(),1,NULL,NULL),
+(46,60,1,20,'1',current_date(),NULL,current_date(),1,NULL,NULL);
 /*!40000 ALTER TABLE `payroll_earning_components_formula_details` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3478,8 +3661,101 @@ CREATE TABLE `payroll_employee_professional_tax_master` (
 
 LOCK TABLES `payroll_employee_professional_tax_master` WRITE;
 /*!40000 ALTER TABLE `payroll_employee_professional_tax_master` DISABLE KEYS */;
-INSERT INTO `payroll_employee_professional_tax_master` VALUES (1,1,1,1,0,NULL,0,NULL,0,15000,0,'2023-05-16',NULL),(2,1,1,1,0,NULL,0,NULL,15001,20000,150,'2023-05-16',NULL),(3,1,1,1,0,NULL,0,NULL,20001,NULL,200,'2023-05-16',NULL),(4,1,3,1,0,NULL,0,NULL,0,10000,0,'2023-05-16',NULL),(5,1,3,1,0,NULL,0,NULL,10001,15000,150,'2023-05-16',NULL),(6,1,3,1,0,NULL,0,NULL,15001,25000,180,'2023-05-16',NULL),(7,1,3,1,0,NULL,0,NULL,25001,NULL,208,'2023-05-16',NULL),(8,1,4,12,0,NULL,0,NULL,0,300000,0,'2023-05-16',NULL),(9,1,4,12,0,NULL,0,NULL,300001,500000,1000,'2023-05-16',NULL),(10,1,4,12,0,NULL,0,NULL,500000,1000000,2000,'2023-05-16',NULL),(11,1,4,12,0,NULL,0,NULL,1000000,NULL,2500,'2023-05-16',NULL),(12,1,7,1,0,NULL,0,NULL,0,5999,0,'2023-05-16',NULL),(13,1,7,1,0,NULL,0,NULL,6000,8999,0,'2023-05-16',NULL),(14,1,7,1,0,NULL,0,NULL,9000,12000,0,'2023-05-16',NULL),(15,1,7,1,0,NULL,0,NULL,12001,NULL,200,'2023-05-16',NULL),(16,1,10,4,0,NULL,0,NULL,0,300000,0,'2023-05-16',NULL),(17,1,10,4,0,NULL,0,NULL,300001,500000,1200,'2023-05-16',NULL),(18,1,10,4,0,NULL,0,NULL,500001,800000,1800,'2023-05-16',NULL),(19,1,10,4,0,NULL,0,NULL,800001,1000000,2100,'2023-05-16',NULL),(20,1,10,4,0,NULL,0,NULL,1000000,NULL,2500,'2023-05-16',NULL),(21,1,12,1,0,NULL,0,NULL,0,10000,0,'2023-05-16',NULL),(22,1,12,1,0,NULL,0,NULL,10001,15000,0,'2023-05-16',NULL),(23,1,12,1,0,NULL,0,NULL,15001,NULL,200,'2023-05-16',NULL),(24,1,13,6,0,NULL,0,NULL,0,11999,0,'2023-05-16',NULL),(25,1,13,6,0,NULL,0,NULL,12000,17999,120,'2023-05-16',NULL),(26,1,13,6,0,NULL,0,NULL,18000,29999,180,'2023-05-16',NULL),(27,1,13,6,0,NULL,0,NULL,30000,44999,300,'2023-05-16',NULL),(28,1,13,6,0,NULL,0,NULL,45000,59999,450,'2023-05-16',NULL),(29,1,13,6,0,NULL,0,NULL,60000,74999,600,'2023-05-16',NULL),(30,1,13,6,0,NULL,0,NULL,75000,99999,750,'2023-05-16',NULL),(31,1,13,6,0,NULL,0,NULL,100000,124999,1000,'2023-05-16',NULL),(32,1,13,6,0,NULL,0,NULL,125000,NULL,1250,'2023-05-16',NULL),(33,1,14,1,0,NULL,0,NULL,0,18750,0,'2023-05-16',NULL),(34,1,14,1,0,NULL,0,NULL,18751,25000,125,'2023-05-16',NULL),(35,1,14,1,0,NULL,1,NULL,25001,33333,165,'2023-05-16',NULL),(36,1,14,1,0,NULL,1,3,25001,33333,174,'2023-05-16',NULL),(37,1,14,1,0,NULL,1,NULL,33334,NULL,208,'2023-05-16',NULL),(38,1,14,1,0,NULL,1,3,33334,NULL,212,'2023-05-16',NULL),(39,1,15,1,1,'Male',0,NULL,0,7500,0,'2023-05-16',NULL),(40,1,15,1,1,'Male',0,NULL,7501,10000,175,'2023-05-16',NULL),(41,1,15,1,1,'Male',1,NULL,10001,NULL,200,'2023-05-16',NULL),(42,1,15,1,1,'Male',1,2,10001,NULL,300,'2023-05-16',NULL),(43,1,16,12,0,NULL,0,NULL,0,50000,0,'2023-05-16',NULL),(44,1,16,12,0,NULL,0,NULL,50001,75000,1200,'2023-05-16',NULL),(45,1,16,12,0,NULL,0,NULL,75001,100000,2000,'2023-05-16',NULL),(46,1,16,12,0,NULL,0,NULL,100001,125000,2400,'2023-05-16',NULL),(47,1,16,12,0,NULL,0,NULL,125001,NULL,2500,'2023-05-16',NULL),(48,1,17,1,0,NULL,0,NULL,0,4167,0,'2023-05-16',NULL),(49,1,17,1,0,NULL,0,NULL,4168,6250,200,'2023-05-16',NULL),(50,1,17,1,0,NULL,0,NULL,6251,8333,300,'2023-05-16',NULL),(51,1,17,1,0,NULL,0,NULL,8334,12500,500,'2023-05-16',NULL),(52,1,17,1,0,NULL,0,NULL,12501,16666,750,'2023-05-16',NULL),(53,1,17,1,0,NULL,0,NULL,16667,20833,1000,'2023-05-16',NULL),(54,1,17,1,0,NULL,0,NULL,20834,25000,1250,'2023-05-16',NULL),(55,1,17,1,0,NULL,0,NULL,25001,29167,1500,'2023-05-16',NULL),(56,1,17,1,0,NULL,0,NULL,29168,33333,1800,'2023-05-16',NULL),(57,1,17,1,0,NULL,0,NULL,33334,37500,2100,'2023-05-16',NULL),(58,1,17,1,0,NULL,0,NULL,37501,41667,2400,'2023-05-16',NULL),(59,1,17,1,0,NULL,0,NULL,41668,NULL,2500,'2023-05-16',NULL),(60,1,18,12,0,NULL,0,NULL,0,60000,0,'2023-05-16',NULL),(61,1,18,12,0,NULL,0,NULL,60001,96000,900,'2023-05-16',NULL),(62,1,18,12,0,NULL,0,NULL,96001,120000,1440,'2023-05-16',NULL),(63,1,18,12,0,NULL,0,NULL,120001,144000,1800,'2023-05-16',NULL),(64,1,18,12,0,NULL,0,NULL,144001,180000,2160,'2023-05-16',NULL),(65,1,18,12,0,NULL,0,NULL,180001,NULL,2496,'2023-05-16',NULL),(66,1,20,1,0,NULL,0,NULL,0,13333,0,'2023-05-16',NULL),(67,1,20,1,0,NULL,0,NULL,13334,25000,125,'2023-05-16',NULL),(68,1,20,1,0,NULL,1,NULL,25001,NULL,200,'2023-05-16',NULL),(69,1,20,1,0,NULL,1,
-3,25001,NULL,300,'2023-05-16',NULL),(70,1,33,6,0,NULL,0,NULL,0,100000,0,'2023-05-16',NULL),(71,1,33,6,0,NULL,0,NULL,100001,200000,250,'2023-05-16',NULL),(72,1,33,6,0,NULL,0,NULL,200001,300000,500,'2023-05-16',NULL),(73,1,33,6,0,NULL,0,NULL,300001,400000,750,'2023-05-16',NULL),(74,1,33,6,0,NULL,0,NULL,400001,500000,1000,'2023-05-16',NULL),(75,1,33,6,0,NULL,0,NULL,500001,NULL,1250,'2023-05-16',NULL),(76,1,21,1,0,NULL,0,NULL,0,20833,0,'2023-05-16',NULL),(77,1,21,1,0,NULL,0,NULL,20834,NULL,200,'2023-05-16',NULL),(78,1,24,6,0,NULL,0,NULL,0,12000,0,'2023-05-16',NULL),(79,1,24,6,0,NULL,0,NULL,12001,30000,135,'2023-05-16',NULL),(80,1,24,6,0,NULL,0,NULL,30001,45000,315,'2023-05-16',NULL),(81,1,24,6,0,NULL,0,NULL,45001,60000,690,'2023-05-16',NULL),(82,1,24,6,0,NULL,0,NULL,60001,75000,1025,'2023-05-16',NULL),(83,1,24,6,0,NULL,0,NULL,75001,NULL,1250,'2023-05-16',NULL),(84,1,25,1,0,NULL,0,NULL,0,15000,0,'2023-05-16',NULL),(85,1,25,1,0,NULL,0,NULL,15001,20000,150,'2023-05-16',NULL),(86,1,25,1,0,NULL,0,NULL,20001,NULL,200,'2023-05-16',NULL),(87,1,26,1,0,NULL,0,NULL,0,7500,0,'2023-05-16',NULL),(88,1,26,1,0,NULL,0,NULL,7501,15000,150,'2023-05-16',NULL),(89,1,26,1,0,NULL,0,NULL,15001,NULL,208,'2023-05-16',NULL),(90,1,29,1,0,NULL,0,NULL,0,10000,0,'2023-05-16',NULL),(91,1,29,1,0,NULL,0,NULL,10001,15000,110,'2023-05-16',NULL),(92,1,29,1,0,NULL,0,NULL,15001,25000,130,'2023-05-16',NULL),(93,1,29,1,0,NULL,0,NULL,25001,40000,150,'2023-05-16',NULL),(94,1,29,1,0,NULL,0,NULL,40001,NULL,200,'2023-05-16',NULL);
+INSERT INTO `payroll_employee_professional_tax_master` VALUES 
+(1,1,1,1,0,NULL,0,NULL,0,15000,0,current_date(),NULL),
+(2,1,1,1,0,NULL,0,NULL,15001,20000,150,current_date(),NULL),
+(3,1,1,1,0,NULL,0,NULL,20001,NULL,200,current_date(),NULL),
+(4,1,3,1,0,NULL,0,NULL,0,10000,0,current_date(),NULL),
+(5,1,3,1,0,NULL,0,NULL,10001,15000,150,current_date(),NULL),
+(6,1,3,1,0,NULL,0,NULL,15001,25000,180,current_date(),NULL),
+(7,1,3,1,0,NULL,0,NULL,25001,NULL,208,current_date(),NULL),
+(8,1,4,12,0,NULL,0,NULL,0,300000,0,current_date(),NULL),
+(9,1,4,12,0,NULL,0,NULL,300001,500000,1000,current_date(),NULL),
+(10,1,4,12,0,NULL,0,NULL,500000,1000000,2000,current_date(),NULL),
+(11,1,4,12,0,NULL,0,NULL,1000000,NULL,2500,current_date(),NULL),
+(12,1,7,1,0,NULL,0,NULL,0,5999,0,current_date(),NULL),
+(13,1,7,1,0,NULL,0,NULL,6000,8999,0,current_date(),NULL),
+(14,1,7,1,0,NULL,0,NULL,9000,12000,0,current_date(),NULL),
+(15,1,7,1,0,NULL,0,NULL,12001,NULL,200,current_date(),NULL),
+(16,1,10,4,0,NULL,0,NULL,0,300000,0,current_date(),NULL),
+(17,1,10,4,0,NULL,0,NULL,300001,500000,1200,current_date(),NULL),
+(18,1,10,4,0,NULL,0,NULL,500001,800000,1800,current_date(),NULL),
+(19,1,10,4,0,NULL,0,NULL,800001,1000000,2100,current_date(),NULL),
+(20,1,10,4,0,NULL,0,NULL,1000000,NULL,2500,current_date(),NULL),
+(21,1,12,1,0,NULL,0,NULL,0,10000,0,current_date(),NULL),
+(22,1,12,1,0,NULL,0,NULL,10001,15000,0,current_date(),NULL),
+(23,1,12,1,0,NULL,0,NULL,15001,NULL,200,current_date(),NULL),
+(24,1,13,6,0,NULL,0,NULL,0,11999,0,current_date(),NULL),
+(25,1,13,6,0,NULL,0,NULL,12000,17999,120,current_date(),NULL),
+(26,1,13,6,0,NULL,0,NULL,18000,29999,180,current_date(),NULL),
+(27,1,13,6,0,NULL,0,NULL,30000,44999,300,current_date(),NULL),
+(28,1,13,6,0,NULL,0,NULL,45000,59999,450,current_date(),NULL),
+(29,1,13,6,0,NULL,0,NULL,60000,74999,600,current_date(),NULL),
+(30,1,13,6,0,NULL,0,NULL,75000,99999,750,current_date(),NULL),
+(31,1,13,6,0,NULL,0,NULL,100000,124999,1000,current_date(),NULL),
+(32,1,13,6,0,NULL,0,NULL,125000,NULL,1250,current_date(),NULL),
+(33,1,14,1,0,NULL,0,NULL,0,18750,0,current_date(),NULL),
+(34,1,14,1,0,NULL,0,NULL,18751,25000,125,current_date(),NULL),
+(35,1,14,1,0,NULL,1,NULL,25001,33333,165,current_date(),NULL),
+(36,1,14,1,0,NULL,1,3,25001,33333,174,current_date(),NULL),
+(37,1,14,1,0,NULL,1,NULL,33334,NULL,208,current_date(),NULL),
+(38,1,14,1,0,NULL,1,3,33334,NULL,212,current_date(),NULL),
+(39,1,15,1,1,'Male',0,NULL,0,7500,0,current_date(),NULL),
+(40,1,15,1,1,'Male',0,NULL,7501,10000,175,current_date(),NULL),
+(41,1,15,1,1,'Male',1,NULL,10001,NULL,200,current_date(),NULL),
+(42,1,15,1,1,'Male',1,2,10001,NULL,300,current_date(),NULL),
+(43,1,16,12,0,NULL,0,NULL,0,50000,0,current_date(),NULL),
+(44,1,16,12,0,NULL,0,NULL,50001,75000,1200,current_date(),NULL),
+(45,1,16,12,0,NULL,0,NULL,75001,100000,2000,current_date(),NULL),
+(46,1,16,12,0,NULL,0,NULL,100001,125000,2400,current_date(),NULL),
+(47,1,16,12,0,NULL,0,NULL,125001,NULL,2500,current_date(),NULL),
+(48,1,17,1,0,NULL,0,NULL,0,4167,0,current_date(),NULL),
+(49,1,17,1,0,NULL,0,NULL,4168,6250,200,current_date(),NULL),
+(50,1,17,1,0,NULL,0,NULL,6251,8333,300,current_date(),NULL),
+(51,1,17,1,0,NULL,0,NULL,8334,12500,500,current_date(),NULL),
+(52,1,17,1,0,NULL,0,NULL,12501,16666,750,current_date(),NULL),
+(53,1,17,1,0,NULL,0,NULL,16667,20833,1000,current_date(),NULL),
+(54,1,17,1,0,NULL,0,NULL,20834,25000,1250,current_date(),NULL),
+(55,1,17,1,0,NULL,0,NULL,25001,29167,1500,current_date(),NULL),
+(56,1,17,1,0,NULL,0,NULL,29168,33333,1800,current_date(),NULL),
+(57,1,17,1,0,NULL,0,NULL,33334,37500,2100,current_date(),NULL),
+(58,1,17,1,0,NULL,0,NULL,37501,41667,2400,current_date(),NULL),
+(59,1,17,1,0,NULL,0,NULL,41668,NULL,2500,current_date(),NULL),
+(60,1,18,12,0,NULL,0,NULL,0,60000,0,current_date(),NULL),
+(61,1,18,12,0,NULL,0,NULL,60001,96000,900,current_date(),NULL),
+(62,1,18,12,0,NULL,0,NULL,96001,120000,1440,current_date(),NULL),
+(63,1,18,12,0,NULL,0,NULL,120001,144000,1800,current_date(),NULL),
+(64,1,18,12,0,NULL,0,NULL,144001,180000,2160,current_date(),NULL),
+(65,1,18,12,0,NULL,0,NULL,180001,NULL,2496,current_date(),NULL),
+(66,1,20,1,0,NULL,0,NULL,0,13333,0,current_date(),NULL),
+(67,1,20,1,0,NULL,0,NULL,13334,25000,125,current_date(),NULL),
+(68,1,20,1,0,NULL,1,NULL,25001,NULL,200,current_date(),NULL),
+(69,1,20,1,0,NULL,1,3,25001,NULL,300,current_date(),NULL),
+(70,1,33,6,0,NULL,0,NULL,0,100000,0,current_date(),NULL),
+(71,1,33,6,0,NULL,0,NULL,100001,200000,250,current_date(),NULL),
+(72,1,33,6,0,NULL,0,NULL,200001,300000,500,current_date(),NULL),
+(73,1,33,6,0,NULL,0,NULL,300001,400000,750,current_date(),NULL),
+(74,1,33,6,0,NULL,0,NULL,400001,500000,1000,current_date(),NULL),
+(75,1,33,6,0,NULL,0,NULL,500001,NULL,1250,current_date(),NULL),
+(76,1,21,1,0,NULL,0,NULL,0,20833,0,current_date(),NULL),
+(77,1,21,1,0,NULL,0,NULL,20834,NULL,200,current_date(),NULL),
+(78,1,24,6,0,NULL,0,NULL,0,12000,0,current_date(),NULL),
+(79,1,24,6,0,NULL,0,NULL,12001,30000,135,current_date(),NULL),
+(80,1,24,6,0,NULL,0,NULL,30001,45000,315,current_date(),NULL),
+(81,1,24,6,0,NULL,0,NULL,45001,60000,690,current_date(),NULL),
+(82,1,24,6,0,NULL,0,NULL,60001,75000,1025,current_date(),NULL),
+(83,1,24,6,0,NULL,0,NULL,75001,NULL,1250,current_date(),NULL),
+(84,1,25,1,0,NULL,0,NULL,0,15000,0,current_date(),NULL),
+(85,1,25,1,0,NULL,0,NULL,15001,20000,150,current_date(),NULL),
+(86,1,25,1,0,NULL,0,NULL,20001,NULL,200,current_date(),NULL),
+(87,1,26,1,0,NULL,0,NULL,0,7500,0,current_date(),NULL),
+(88,1,26,1,0,NULL,0,NULL,7501,15000,150,current_date(),NULL),
+(89,1,26,1,0,NULL,0,NULL,15001,NULL,208,current_date(),NULL),
+(90,1,29,1,0,NULL,0,NULL,0,10000,0,current_date(),NULL),
+(91,1,29,1,0,NULL,0,NULL,10001,15000,110,current_date(),NULL),
+(92,1,29,1,0,NULL,0,NULL,15001,25000,130,current_date(),NULL),
+(93,1,29,1,0,NULL,0,NULL,25001,40000,150,current_date(),NULL),
+(94,1,29,1,0,NULL,0,NULL,40001,NULL,200,current_date(),NULL);
 /*!40000 ALTER TABLE `payroll_employee_professional_tax_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3575,7 +3851,33 @@ CREATE TABLE `payroll_employer_professional_tax_master` (
 
 LOCK TABLES `payroll_employer_professional_tax_master` WRITE;
 /*!40000 ALTER TABLE `payroll_employer_professional_tax_master` DISABLE KEYS */;
-INSERT INTO `payroll_employer_professional_tax_master` VALUES (1,1,1,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(2,1,3,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(3,1,4,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(4,1,7,12,0,NULL,NULL,1,'Panchayat',500,'2023-05-16',NULL),(5,1,7,12,0,NULL,NULL,1,'Municipality',1000,'2023-05-16',NULL),(6,1,7,12,0,NULL,NULL,1,'Corporation',2000,'2023-05-16',NULL),(7,1,10,12,1,0,5,0,NULL,500,'2023-05-16',NULL),(8,1,10,12,1,6,10,0,NULL,1000,'2023-05-16',NULL),(9,1,10,12,1,11,20,0,NULL,2000,'2023-05-16',NULL),(10,1,10,12,1,21,NULL,0,NULL,2500,'2023-05-16',NULL),(11,1,12,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(12,1,13,6,0,NULL,NULL,0,NULL,1250,'2023-05-16',NULL),(13,1,14,12,1,0,10,0,NULL,1000,'2023-05-16',NULL),(14,1,14,12,1,11,NULL,0,NULL,2500,'2023-05-16',NULL),(15,1,15,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(16,1,16,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(17,1,17,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(18,1,18,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(19,1,20,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(20,1,33,6,0,NULL,NULL,0,NULL,1250,'2023-05-16',NULL),(21,1,24,6,0,NULL,NULL,0,NULL,1250,'2023-05-16',NULL),(22,1,18,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(23,1,18,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(24,1,25,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(25,1,26,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL),(26,1,29,12,0,NULL,NULL,0,NULL,2500,'2023-05-16',NULL);
+INSERT INTO `payroll_employer_professional_tax_master` VALUES 
+(1,1,1,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(2,1,3,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(3,1,4,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(4,1,7,12,0,NULL,NULL,1,'Panchayat',500,current_date(),NULL),
+(5,1,7,12,0,NULL,NULL,1,'Municipality',1000,current_date(),NULL),
+(6,1,7,12,0,NULL,NULL,1,'Corporation',2000,current_date(),NULL),
+(7,1,10,12,1,0,5,0,NULL,500,current_date(),NULL),
+(8,1,10,12,1,6,10,0,NULL,1000,current_date(),NULL),
+(9,1,10,12,1,11,20,0,NULL,2000,current_date(),NULL),
+(10,1,10,12,1,21,NULL,0,NULL,2500,current_date(),NULL),
+(11,1,12,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(12,1,13,6,0,NULL,NULL,0,NULL,1250,current_date(),NULL),
+(13,1,14,12,1,0,10,0,NULL,1000,current_date(),NULL),
+(14,1,14,12,1,11,NULL,0,NULL,2500,current_date(),NULL),
+(15,1,15,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(16,1,16,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(17,1,17,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(18,1,18,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(19,1,20,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(20,1,33,6,0,NULL,NULL,0,NULL,1250,current_date(),NULL),
+(21,1,24,6,0,NULL,NULL,0,NULL,1250,current_date(),NULL),
+(22,1,18,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(23,1,18,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(24,1,25,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(25,1,26,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL),
+(26,1,29,12,0,NULL,NULL,0,NULL,2500,current_date(),NULL);
 /*!40000 ALTER TABLE `payroll_employer_professional_tax_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3703,8 +4005,77 @@ CREATE TABLE `payroll_income_group_components_master` (
 
 LOCK TABLES `payroll_income_group_components_master` WRITE;
 /*!40000 ALTER TABLE `payroll_income_group_components_master` DISABLE KEYS */;
-INSERT INTO `payroll_income_group_components_master` VALUES (1,1,1,'Basic Salary',1,1,1,1,1,1,'2023-05-19',NULL,'Active'),(2,1,2,'Dearness Allowance',1,1,1,1,1,1,'2023-05-19',NULL,'Active'),(3,1,3,'House Rent Allowance',1,1,1,1,0,1,'2023-05-19',NULL,'Active'),(4,1,4,'Conveyance Allowance',1,1,1,0,1,1,'2023-05-19',NULL,'Active'),(5,1,5,'Travelling Allowance',1,1,1,0,1,1,'2023-05-19',NULL,'Active'),(6,1,23,'Telephone Allowance',1,1,1,1,1,1,'2023-05-19',NULL,'Active'),(7,1,10,'Professional Tax',1,1,0,0,0,1,'2023-05-19',NULL,'Active'),(8,1,11,'ESIC',1,1,0,0,0,1,'2023-05-19',NULL,'Active'),(9,1,12,'Employee Provident Fund',1,1,0,0,0,1,'2023-05-19',NULL,'Active'),(10,2,1,'Basic Salary',1,1,1,1,1,1,'2023-05-19',NULL,'Active'),(11,2,2,'Dearness Allowance',1,1,1,1,1,1,'2023-05-19',NULL,'Active'),(12,2,3,'House Rent Allowance',1,1,1,1,0,1,'2023-05-19',NULL,'Active'),(13,2,4,'Conveyance Allowance',1,1,1,0,1,1,'2023-05-19',NULL,'Active'),(14,2,5,'Travelling Allowance',1,1,1,0,1,1,'2023-05-19',NULL,'Active'),(15,2,23,'Telephone Allowance',1,1,1,1,1,1,'2023-05-19',NULL,'Active'),(16,2,10,'Professional Tax',1,1,0,0,0,1,'2023-05-19',NULL,'Active'),(17,2,12,'Employee Provident Fund',1,1,0,0,0,1,'2023-05-19',NULL,'Active'),(18,3,1,'Basic Salary',1,1,1,1,1,1,'2023-05-19',NULL,'Active'),(19,3,2,'Dearness Allowance',1,1,1,1,1,1,'2023-05-19',NULL,'Active'),(20,3,3,'House Rent Allowance',1,1,1,1,0,1,'2023-05-19',NULL,'Active'),(21,3,4,'Conveyance Allowance',1,1,1,0,1,1,'2023-05-19',NULL,'Active'),(22,3,5,'Travelling Allowance',1,1,1,0,1,1,'2023-05-19',NULL,'Active'),(23,3,23,'Telephone Allowance',1,1,1,1,1,1,'2023-05-19',NULL,'Active'),(24,3,10,'Professional Tax',1,1,0,0,0,1,'2023-05-19',NULL,'Active'),(25,3,11,'ESIC',1,1,0,0,0,1,'2023-05-19',NULL,'Active'),(26,3,12,'Employee Provident Fund',1,1,0,0,0,1,'2023-05-19',NULL,'Active'),(27,4,1,'Basic Salary',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(28,4,2,'Dearness Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(29,4,3,'House Rent Allowance',1,1,1,1,0,1,'2023-05-20',NULL,'Active'),(30,4,4,'Conveyance Allowance',1,1,1,0,1,1,'2023-05-20',NULL,'Active'),(31,4,20,'Daily Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(32,4,22,'Overtime Allowance',1,0,1,1,0,1,'2023-05-20',NULL,'Active'),(33,4,34,'Fuel Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(34,4,10,'Professional Tax',1,1,0,0,0,1,'2023-05-20',NULL,'Active'),(35,4,12,'Employee Provident Fund',1,1,0,0,0,1,'2023-05-20',NULL,'Active'),(36,5,1,'Basic Salary',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(37,5,2,'Dearness Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(38,5,3,'House Rent Allowance',1,1,1,1,0,1,'2023-05-20',NULL,'Active'),(39,5,4,'Conveyance Allowance',1,1,1,0,1,1,'2023-05-20',NULL,'Active'),(40,5,5,'Travelling Allowance',1,1,1,0,1,1,'2023-05-20',NULL,'Active'),(41,5,13,'Leave Encashment',1,0,1,0,0,1,'2023-05-20',NULL,'Active'),(42,5,27,'Holiday Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(43,5,29,'Custom Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'To Be Configured'),(44,5,39,'Other Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(45,6,1,'Basic Salary',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(46,6,2,'Dearness Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(47,6,3,'House Rent Allowance',1,1,1,1,0,1,'2023-05-20',NULL,'Active'),(48,6,4,'Conveyance Allowance',1,1,1,0,1,1,'2023-05-20',NULL,'Active'),(49,6,6,'Transport Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(50,6,19,'Uniform Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(51,6,23,'Telephone Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(52,6,10,'Professional Tax',1,1,0,0,0,1,'2023-05-20',NULL,'Active'),(53,6,11,'ESIC',1,1,0,0,0,1,'2023-05-20',NULL,'Active'),(54,6,12,'Employee Provident Fund',1,1,0,0,0,1,'2023-05-20',NULL,'Active'),(55,6,39,'Other Allowance',1,1,1,1,1,1,'2023-05-20',NULL,'Active'),(56,7,1,'Basic Salary',1,1,1,1,1,1,'2023-05-26',NULL,'Active'),(57,7,2,'Dearness Allowance',1,1,1,1,1,1,'2023-05-26',NULL,'Active'),(58,7,3,'House Rent Allowance',1,1,1,1,0,1,'2023-05-26',NULL,'Active'),(59,7,5,'Travelling Allowance',1,1,1,0,1,1,'2023-05-26',
-NULL,'Active'),(60,7,6,'Transport Allowance',1,1,1,1,1,1,'2023-05-26',NULL,'Active'),(61,7,10,'Professional Tax',1,1,0,0,0,1,'2023-05-26',NULL,'Active'),(62,7,12,'Employee Provident Fund',1,1,0,0,0,1,'2023-05-26',NULL,'Active'),(63,8,1,'Basic Salary',1,1,1,1,1,1,'2023-05-29',NULL,'To Be Configured'),(64,8,2,'Dearness Allowance',1,1,1,1,1,1,'2023-05-29',NULL,'To Be Configured'),(65,8,3,'House Rent Allowance',1,1,1,1,0,1,'2023-05-29',NULL,'To Be Configured'),(66,8,5,'Travelling Allowance',1,1,1,0,1,1,'2023-05-29',NULL,'To Be Configured'),(67,8,6,'Transport Allowance',1,1,1,1,1,1,'2023-05-29',NULL,'To Be Configured'),(68,8,10,'Professional Tax',1,1,0,0,0,1,'2023-05-29',NULL,'Active'),(69,8,11,'ESIC',1,1,0,0,0,1,'2023-05-29',NULL,'Active'),(70,8,12,'Employee Provident Fund',1,1,0,0,0,1,'2023-05-29',NULL,'Active');
+INSERT INTO `payroll_income_group_components_master` VALUES 
+(1,1,1,'Basic Salary',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(2,1,2,'Dearness Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(3,1,3,'House Rent Allowance',1,1,1,1,0,1,current_date(),NULL,'Active'),
+(4,1,4,'Conveyance Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(5,1,5,'Travelling Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(6,1,23,'Telephone Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(7,1,10,'Professional Tax',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(8,1,11,'ESIC',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(9,1,12,'Employee Provident Fund',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(10,2,1,'Basic Salary',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(11,2,2,'Dearness Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(12,2,3,'House Rent Allowance',1,1,1,1,0,1,current_date(),NULL,'Active'),
+(13,2,4,'Conveyance Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(14,2,5,'Travelling Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(15,2,23,'Telephone Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(16,2,10,'Professional Tax',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(17,2,12,'Employee Provident Fund',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(18,3,1,'Basic Salary',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(19,3,2,'Dearness Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(20,3,3,'House Rent Allowance',1,1,1,1,0,1,current_date(),NULL,'Active'),
+(21,3,4,'Conveyance Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(22,3,5,'Travelling Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(23,3,23,'Telephone Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(24,3,10,'Professional Tax',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(25,3,11,'ESIC',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(26,3,12,'Employee Provident Fund',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(27,4,1,'Basic Salary',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(28,4,2,'Dearness Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(29,4,3,'House Rent Allowance',1,1,1,1,0,1,current_date(),NULL,'Active'),
+(30,4,4,'Conveyance Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(31,4,20,'Daily Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(32,4,22,'Overtime Allowance',1,0,1,1,0,1,current_date(),NULL,'Active'),
+(33,4,34,'Fuel Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(34,4,10,'Professional Tax',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(35,4,12,'Employee Provident Fund',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(36,5,1,'Basic Salary',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(37,5,2,'Dearness Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(38,5,3,'House Rent Allowance',1,1,1,1,0,1,current_date(),NULL,'Active'),
+(39,5,4,'Conveyance Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(40,5,5,'Travelling Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(41,5,13,'Leave Encashment',1,0,1,0,0,1,current_date(),NULL,'Active'),
+(42,5,27,'Holiday Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(43,5,29,'Custom Allowance',1,1,1,1,1,1,current_date(),NULL,'To Be Configured'),
+(44,5,39,'Other Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(45,6,1,'Basic Salary',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(46,6,2,'Dearness Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(47,6,3,'House Rent Allowance',1,1,1,1,0,1,current_date(),NULL,'Active'),
+(48,6,4,'Conveyance Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(49,6,6,'Transport Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(50,6,19,'Uniform Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(51,6,23,'Telephone Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(52,6,10,'Professional Tax',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(53,6,11,'ESIC',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(54,6,12,'Employee Provident Fund',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(55,6,39,'Other Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(56,7,1,'Basic Salary',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(57,7,2,'Dearness Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(58,7,3,'House Rent Allowance',1,1,1,1,0,1,current_date(),NULL,'Active'),
+(59,7,5,'Travelling Allowance',1,1,1,0,1,1,current_date(),NULL,'Active'),
+(60,7,6,'Transport Allowance',1,1,1,1,1,1,current_date(),NULL,'Active'),
+(61,7,10,'Professional Tax',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(62,7,12,'Employee Provident Fund',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(63,8,1,'Basic Salary',1,1,1,1,1,1,current_date(),NULL,'To Be Configured'),
+(64,8,2,'Dearness Allowance',1,1,1,1,1,1,current_date(),NULL,'To Be Configured'),
+(65,8,3,'House Rent Allowance',1,1,1,1,0,1,current_date(),NULL,'To Be Configured'),
+(66,8,5,'Travelling Allowance',1,1,1,0,1,1,current_date(),NULL,'To Be Configured'),
+(67,8,6,'Transport Allowance',1,1,1,1,1,1,current_date(),NULL,'To Be Configured'),
+(68,8,10,'Professional Tax',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(69,8,11,'ESIC',1,1,0,0,0,1,current_date(),NULL,'Active'),
+(70,8,12,'Employee Provident Fund',1,1,0,0,0,1,current_date(),NULL,'Active');
 /*!40000 ALTER TABLE `payroll_income_group_components_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3732,7 +4103,15 @@ CREATE TABLE `payroll_income_groups_master` (
 
 LOCK TABLES `payroll_income_groups_master` WRITE;
 /*!40000 ALTER TABLE `payroll_income_groups_master` DISABLE KEYS */;
-INSERT INTO `payroll_income_groups_master` VALUES (1,'New Pay Group',100000.00,600000.00,'Active',''),(2,'New Pay Group1',100000.00,1000000.00,'Active',''),(3,'Employee Pay group',30000.00,600000.00,'Active',''),(4,'Always group',50000.00,1000000.00,'Active',''),(5,'Test1',50000.00,500000.00,'Configuration In Progress',''),(6,'Flat amount',50000.00,1000000.00,'Active',''),(7,'Offline Pay Group',100000.00,1500000.00,'Active',''),(8,'ESI Paygroup',30000.00,300000.00,'Configuration In Progress','');
+INSERT INTO `payroll_income_groups_master` VALUES 
+(1,'New Pay Group',100000.00,600000.00,'Active',''),
+(2,'New Pay Group1',100000.00,1000000.00,'Active',''),
+(3,'Employee Pay group',30000.00,600000.00,'Active',''),
+(4,'Always group',50000.00,1000000.00,'Active',''),
+(5,'Test1',50000.00,500000.00,'Configuration In Progress',''),
+(6,'Flat amount',50000.00,1000000.00,'Active',''),
+(7,'Offline Pay Group',100000.00,1500000.00,'Active',''),
+(8,'ESI Paygroup',30000.00,300000.00,'Configuration In Progress','');
 /*!40000 ALTER TABLE `payroll_income_groups_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3760,7 +4139,10 @@ CREATE TABLE `payroll_income_tax_category_master` (
 
 LOCK TABLES `payroll_income_tax_category_master` WRITE;
 /*!40000 ALTER TABLE `payroll_income_tax_category_master` DISABLE KEYS */;
-INSERT INTO `payroll_income_tax_category_master` VALUES (1,'Individual',0,59.999,'2023-05-18',NULL),(2,'Resident Senior Citizen',60,80,'2023-05-18',NULL),(3,'Resident Super Senior Citizen',80.001,NULL,'2023-05-18',NULL);
+INSERT INTO `payroll_income_tax_category_master` VALUES 
+(1,'Individual',0,59.999,current_date(),NULL),
+(2,'Resident Senior Citizen',60,80,current_date(),NULL),
+(3,'Resident Super Senior Citizen',80.001,NULL,current_date(),NULL);
 /*!40000 ALTER TABLE `payroll_income_tax_category_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -3819,12 +4201,13 @@ CREATE TABLE `payroll_messages` (
 
 LOCK TABLES `payroll_messages` WRITE;
 /*!40000 ALTER TABLE `payroll_messages` DISABLE KEYS */;
-INSERT INTO `payroll_messages` VALUES (1,'PR1','Common','This field is required.',current_timestap(),1,current_timestap(),1),
-(2,'PR2',NULL,'Income group added successfully.',current_timestap(),1,NULL,NULL),
-(3,'PR3',NULL,'Unable to add Income group. Please try again.',current_timestap(),1,null,null),
-(4,'PR4',NULL,'The selected component is successfully updated.',current_timestap(),1,null,null),
-(5,'PR5',NULL,'Unable to update the selected component. Please try again.',current_timestap(),1,null,null),
-(6,'PR6',NULL,'Please select atleast one earning and deduction component.',current_timestap(),1,NULL,NULL),
+INSERT INTO `payroll_messages` VALUES 
+(1,'PR1','Common','This field is required.',current_timestamp(),1,current_timestamp(),1),
+(2,'PR2',NULL,'Income group added successfully.',current_timestamp(),1,NULL,NULL),
+(3,'PR3',NULL,'Unable to add Income group. Please try again.',current_timestamp(),1,null,null),
+(4,'PR4',NULL,'The selected component is successfully updated.',current_timestamp(),1,null,null),
+(5,'PR5',NULL,'Unable to update the selected component. Please try again.',current_timestamp(),1,null,null),
+(6,'PR6',NULL,'Please select atleast one earning and deduction component.',current_timestamp(),1,NULL,NULL),
 (7,'PR7',NULL,'Unable to update pay schedule. Please try again.',current_timestamp(),1,NULL,NULL),
 (8,'PR8',NULL,'Pay schedule updated successfully.',current_timestamp(),1,NULL,NULL),
 (9,'PR9',NULL,'The selected component is successfully configured.',current_timestamp(),1,NULL,NULL),
@@ -3983,7 +4366,8 @@ CREATE TABLE `payroll_product_component_rulevalues` (
 
 LOCK TABLES `payroll_product_component_rulevalues` WRITE;
 /*!40000 ALTER TABLE `payroll_product_component_rulevalues` DISABLE KEYS */;
-INSERT INTO `payroll_product_component_rulevalues` VALUES (1,1,'10',current_timestamp(),NULL,'Active'),
+INSERT INTO `payroll_product_component_rulevalues` VALUES 
+(1,1,'10',current_timestamp(),NULL,'Active'),
 (2,2,'21000',current_timestamp(),NULL,'Active'),
 (3,3,'0.75',current_timestamp(),NULL,'Active'),
 (4,4,'3.25',current_timestamp(),NULL,'Active'),
@@ -4127,7 +4511,9 @@ CREATE TABLE `payroll_product_investments_master` (
 
 LOCK TABLES `payroll_product_investments_master` WRITE;
 /*!40000 ALTER TABLE `payroll_product_investments_master` DISABLE KEYS */;
-INSERT INTO `payroll_product_investments_master` VALUES (1,'80C','Life Insurance','Life insurance Premium slips (in the name of self/spouse/children)',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(2,'80C','ELSS/Mutual Fund (Tax Saving)','ELSS/Mutual Fund Statement',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(3,'80C','PPF','Copy of PPF Passbook (Self, Spouse, any child)',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(4,'80C','Principal Repayment of Housing Loan','Home loan Statement mentioning principal amount repayment / Certificate from Bank',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(5,'80C','Children Tuition Fees (up to 2 children)','Children Education fee receipts',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(6,'80C','Fixed Deposits (Tax Savings)','Copy of Tax saving FD receipt',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(7,'80C','Unit linked Insurance Scheme / Plan','Receipts /Certificate / Statement of Account / Copy of passbook of the current financial year (Self, Spouse, any child)',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(8,'80C','NSC','NSC certificate, Interest statements on NSC purchased',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(9,'80C','Sukanya Samriddhi Account','Sukanya Samriddhi Account passbook',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(10,'80C','Deferred Annuity Plan','Proof for the payment made for a non-commutable deferred annuity on the life of the individual himself or spouse or any child',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(11,'80C','Subscription to any deposit scheme/pension fund set up by the National Housing Bank (NHB)','Subscription proof of deposit scheme or any pension fund or home loan account scheme of National Housing Bank',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(12,'80CCC','Pension Plan','Receipts /Certificate / Statement of Accounts / Copy of passbook of current financial year',150000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(13,'80D',' ','Medical Health Insurance for self, spouse, and children',25000.00,0,60,NULL,NULL,'2023-05-16',NULL),(14,'80D',' ','Medical Health Insurance for self, spouse, and children',50000.00,60,100,NULL,NULL,'2023-05-16',NULL),(15,'80D',' ','Medical Health Insurance for parents',25000.00,0,60,NULL,NULL,'2023-05-16',NULL),(16,'80D',' ','Medical Health Insurance for parents',50000.00,60,100,NULL,NULL,'2023-05-16',NULL),(17,'80DD',' ','Expenditure on Dependents with Disability u/s 80DD',75000.00,NULL,NULL,40,79,'2023-05-16',NULL),(18,'80DD',' ','Expenditure on Dependents with Disability u/s 80DD',125000.00,NULL,NULL,80,100,'2023-05-16',NULL),(19,'80U',' ','Expenditure on own Disability u/s 80U',75000.00,NULL,NULL,40,79,'2023-05-16',NULL),(20,'80U',' ','Expenditure on own Disability u/s 80U',125000.00,NULL,NULL,80,100,'2023-05-16',NULL),(21,'80DDB',' ','Treatment of Specified Diseases u/s 80DDB',40000.00,NULL,NULL,40,79,'2023-05-16',NULL),(22,'80DDB',' ','Treatment of Specified Diseases u/s 80DDB',100000.00,NULL,NULL,80,100,'2023-05-16',NULL),(23,'80G',' ','Donations to specified trust u/s 80G',NULL,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(24,'80E',' ','Deduction of education loan interest u/s 80E',NULL,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(25,'24(b)',' ','Interest on Housing Loan',NULL,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(26,'10(5)',' ','Leave Travel Allowance',NULL,NULL,NULL,NULL,NULL,'2023-05-16',NULL),(27,'17(2)',' ','Medical Reimbursement',15000.00,NULL,NULL,NULL,NULL,'2023-05-16',NULL);
+INSERT INTO `payroll_product_investments_master` VALUES 
+(1,'80C','Life Insurance','Life insurance Premium slips (in the name of self/spouse/children)',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),
+(2,'80C','ELSS/Mutual Fund (Tax Saving)','ELSS/Mutual Fund Statement',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(3,'80C','PPF','Copy of PPF Passbook (Self, Spouse, any child)',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(4,'80C','Principal Repayment of Housing Loan','Home loan Statement mentioning principal amount repayment / Certificate from Bank',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(5,'80C','Children Tuition Fees (up to 2 children)','Children Education fee receipts',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(6,'80C','Fixed Deposits (Tax Savings)','Copy of Tax saving FD receipt',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(7,'80C','Unit linked Insurance Scheme / Plan','Receipts /Certificate / Statement of Account / Copy of passbook of the current financial year (Self, Spouse, any child)',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(8,'80C','NSC','NSC certificate, Interest statements on NSC purchased',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(9,'80C','Sukanya Samriddhi Account','Sukanya Samriddhi Account passbook',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(10,'80C','Deferred Annuity Plan','Proof for the payment made for a non-commutable deferred annuity on the life of the individual himself or spouse or any child',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(11,'80C','Subscription to any deposit scheme/pension fund set up by the National Housing Bank (NHB)','Subscription proof of deposit scheme or any pension fund or home loan account scheme of National Housing Bank',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(12,'80CCC','Pension Plan','Receipts /Certificate / Statement of Accounts / Copy of passbook of current financial year',150000.00,NULL,NULL,NULL,NULL,current_date(),NULL),(13,'80D',' ','Medical Health Insurance for self, spouse, and children',25000.00,0,60,NULL,NULL,current_date(),NULL),(14,'80D',' ','Medical Health Insurance for self, spouse, and children',50000.00,60,100,NULL,NULL,current_date(),NULL),(15,'80D',' ','Medical Health Insurance for parents',25000.00,0,60,NULL,NULL,current_date(),NULL),(16,'80D',' ','Medical Health Insurance for parents',50000.00,60,100,NULL,NULL,current_date(),NULL),(17,'80DD',' ','Expenditure on Dependents with Disability u/s 80DD',75000.00,NULL,NULL,40,79,current_date(),NULL),(18,'80DD',' ','Expenditure on Dependents with Disability u/s 80DD',125000.00,NULL,NULL,80,100,current_date(),NULL),(19,'80U',' ','Expenditure on own Disability u/s 80U',75000.00,NULL,NULL,40,79,current_date(),NULL),(20,'80U',' ','Expenditure on own Disability u/s 80U',125000.00,NULL,NULL,80,100,current_date(),NULL),(21,'80DDB',' ','Treatment of Specified Diseases u/s 80DDB',40000.00,NULL,NULL,40,79,current_date(),NULL),(22,'80DDB',' ','Treatment of Specified Diseases u/s 80DDB',100000.00,NULL,NULL,80,100,current_date(),NULL),(23,'80G',' ','Donations to specified trust u/s 80G',NULL,NULL,NULL,NULL,NULL,current_date(),NULL),(24,'80E',' ','Deduction of education loan interest u/s 80E',NULL,NULL,NULL,NULL,NULL,current_date(),NULL),(25,'24(b)',' ','Interest on Housing Loan',NULL,NULL,NULL,NULL,NULL,current_date(),NULL),(26,'10(5)',' ','Leave Travel Allowance',NULL,NULL,NULL,NULL,NULL,current_date(),NULL),(27,'17(2)',' ','Medical Reimbursement',15000.00,NULL,NULL,NULL,NULL,current_date(),NULL);
 /*!40000 ALTER TABLE `payroll_product_investments_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4262,9 +4648,7 @@ CREATE TABLE `recognition_message_master` (
 
 LOCK TABLES `recognition_message_master` WRITE;
 /*!40000 ALTER TABLE `recognition_message_master` DISABLE KEYS */;
-INSERT INTO `recognition_message_master` VALUES (1,1,'Wishing you the best on your birthday and everything good in the year ahead.','Active'),(2,1,'Wishing you a happy birthday and a wonderful year.','Active'),(3,1,'Our whole team is wishing you the happiest of birthdays.','Active'),(4,1,'Happy Birthday and all the best to you in the year to come!','Active'),(5,1,'Wishing you a relaxing birthday and joy and happiness in the year to come.','Active'),(6,1,'The whole team wishes you the happiest of birthdays and a great year.','Active'),(7,1,'Wishing you a great birthday and a memorable year. From all of us.','Active'),(8,1,'Wishing you much happiness on your special day. Have an unforgettable birthday.','Active'),(9,1,'May your birthday be the start of a year filled with good luck, good health and much happiness.','Active'),(10,1,'Wishing you much happiness on your special day. Have an unforgettable birthday.','Active'),(11,2,'Today marks the day you joined the companyâ€“ and that is worth celebrating!','Active'),(12,2,'Happy work anniversary. We are so glad you chose to join us and that you choose to stay with us.','Active'),(13,2,'Happy work anniversary to a colleague who makes work fun!','Active'),(14,2,'Hereâ€™s to another year of having you here!','Active'),(15,2,'If every colleague were as wonderful as you, then the work world would be a much better place. Happy work anniversary!','Active'),(16,2,'Happy work anniversary to the hardest working person I know!','Active'),(17,2,'We are so happy every year you are here! Happy work anniversary!','Active'),(18,2,'You may know more than you did when you started working here, but you are just as curious as you were on day one. Thankful to have an employee who is excited to always be learning. Happy work anniversary!','Active'),(19,2,'You could go anywhere, yet choose to stay here â€“ a fact we are grateful for every day! Happy work anniversary.','Active'),(20,2,'Wishing the best work anniversary to the best coworker around!','Active'),(21,3,'I appreciate the effort you put into your work.','Active'),(22,3,'Great work on that project.','Active'),(23,3,'You and your work always stood by the expectations and have a meaningful contribution to the company\'s success. We value your presence and are proud of you.','Active'),(24,3,'Itâ€™s your dedication that contributed to our success. Thank you for inspiring us!','Active'),(25,3,'You have shown us some commendable skills for which I can only put out the best appreciation words for you. Keep progressing, and keep up your great work!','Active'),(26,3,'Your contributions to this project have been invaluable. Thank you for all your hard work.','Active'),(27,3,'I truly appreciate the time and effort you have put into this project.','Active'),(28,3,'I appreciate your guidance and encouragement on our latest project. I would not have been able to do it without you.','Active'),(29,3,'Please allow me to express my gratitude for the extra time and effort you put into this project.','Active'),(30,3,'It was not easy, but I knew I could count on you.','Active'),(31,3,'Your work on this project is impressive.','Active'),(32,4,'Thank you for being an amazing coworker.','Active'),(33,4,'Thank you for continually raising the level of performance and achievement.','Active'),(34,4,'Thank you for your support.','Active'),(35,4,'Thank you for being not only a great coworker but a true friend.','Active'),(36,4,'Thank you for working as a team to accomplish this task.','Active'),(37,4,'Thank you so much for all your dedication towards the work!','Active'),(38,4,'Thank you for coming together as a team and making things possible! This deal was very important, I couldnâ€™t have cracked it without this teamwork!','Active'),(39,4,'Thank you for all your effort in putting on a highly successful event. You dedicated yourself entirely to producing it perfectly, and you succeeded. Well done, and thank you.','Active'),(40,4,'This is a great job. Thank you for all your effort and positive thinking. You have made this organization be recognized.','Active'),(41,4,'T
-hank you for always being at your best and contributing to the work! The way we completed this project makes me proud of having you as a team.','Active'),(42,5,'I truly appreciate the time and effort you have put into this project.','Active'),(43,5,'I appreciate your perspective on this project.','Active'),(44,5,'We owe a lot of the success of this project to you. Thank you.','Active'),(45,5,'I appreciate your guidance and encouragement on our latest project. I would not have been able to do it without you.','Active'),(46,5,'You have made this project possible with your hard work.','Active'),(47,5,'I am always impressed by the superb work you do, and this time is no exception.','Active'),(48,5,'Please allow me to express my gratitude for the extra time and effort you put into this project.','Active'),(49,5,'It was not easy, but I knew I could count on you.','Active'),(50,5,'Your work on this project is impressive.','Active'),(51,5,'You have elevated this project with your hard work and great ideas. Thank you for your contributions.','Active'),(52,6,'Be proud of the fact that you have the power to rise above any situation and deliver the best results no matter the circumstances. Excellent work!','Active'),(53,6,'To be honest, I donâ€™t know how you manage to do such a good job every single time. Very well done!','Active'),(54,6,'You continue to exceed every expectation that we set. Great job.','Active'),(55,6,'The way you handled the project showed resilience, experience, knowledge, and critical thinking. We would love to get your perspective on our next project.','Active'),(56,6,'Your work will bring a lot of insights into solving our next problem.','Active'),(57,6,'Your level of quality work remains unprecedented in our organization.','Active'),(58,6,'We are fortunate to be able to witness and work amongst an industry expert such as you.','Active'),(59,6,'Thank you for your tremendous help in our new project. Without your diligence, hard work, late nights, and early mornings we wouldnâ€™t have been able to meet the deadline. Excellent work!','Active'),(60,6,'We are fortunate to have an innovator like you amongst us.','Active'),(61,6,'Great work on the recent project. Your brillant problem-solving skills helped us to reach our targets much more quickly.','Active'),(72,7,'So glad to have you onboard. We would be adrift without you!','Active'),(73,7,'Your unique perspective adds so much to our team. We are so grateful to have you with us!','Active'),(74,7,'You continue to exceed expectations. Cannot wait to see whatâ€™s next!','Active'),(75,7,'No one is irreplaceable, but some folks you never want to have to replace.','Active'),(76,7,'The ultimate work perk is having employees as great as you!','Active'),(77,8,'I\'m so thrilled to hear that you reached your goal. You inspire by having such ambitious dreams, then putting in the hard work to achieve them.','Active'),(78,8,'Congratulations on your incredible success! I always knew you could do it, and I\'m incredibly proud of you.','Active'),(79,8,'I saw you work so hard every day to achieve this accomplishment, and I can\'t think of anyone who deserves it more. You set an amazing example for everyone at the company.','Active'),(80,8,'Cheers to you for a job well done! No one can compare to your creativity and passion, and it\'s no surprise that you\'ve become so successful.','Active'),(81,8,'This amazing accomplishment is just one step on your journey. Your ability to relentlessly search for solutions to problems and find innovative ways to improve the world is the key to this success and many to come.','Active'),(82,9,'The time and efforts you had put into this work that is beyond excellence. Take my cordial thanks! You are really an efficient, organized and result-oriented man/woman.','Active'),(83,9,'Everything youâ€™ve done in your career due to your resilience, hard work and persistence. Thank you for your will to persist and persevere.','Active'),(84,9,'May you get everything that you could demand. I was always confident in your abilities to shoulder your responsibilit
-ies. Thank you so much for your effort.','Active'),(85,9,'You make the team grow every day with your meticulous management! Keep up the good work!','Active'),(86,9,'Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. Thanks!','Active');
+INSERT INTO `recognition_message_master` VALUES (1,1,'Wishing you the best on your birthday and everything good in the year ahead.','Active'),(2,1,'Wishing you a happy birthday and a wonderful year.','Active'),(3,1,'Our whole team is wishing you the happiest of birthdays.','Active'),(4,1,'Happy Birthday and all the best to you in the year to come!','Active'),(5,1,'Wishing you a relaxing birthday and joy and happiness in the year to come.','Active'),(6,1,'The whole team wishes you the happiest of birthdays and a great year.','Active'),(7,1,'Wishing you a great birthday and a memorable year. From all of us.','Active'),(8,1,'Wishing you much happiness on your special day. Have an unforgettable birthday.','Active'),(9,1,'May your birthday be the start of a year filled with good luck, good health and much happiness.','Active'),(10,1,'Wishing you much happiness on your special day. Have an unforgettable birthday.','Active'),(11,2,'Today marks the day you joined the companyâ€“ and that is worth celebrating!','Active'),(12,2,'Happy work anniversary. We are so glad you chose to join us and that you choose to stay with us.','Active'),(13,2,'Happy work anniversary to a colleague who makes work fun!','Active'),(14,2,'Hereâ€™s to another year of having you here!','Active'),(15,2,'If every colleague were as wonderful as you, then the work world would be a much better place. Happy work anniversary!','Active'),(16,2,'Happy work anniversary to the hardest working person I know!','Active'),(17,2,'We are so happy every year you are here! Happy work anniversary!','Active'),(18,2,'You may know more than you did when you started working here, but you are just as curious as you were on day one. Thankful to have an employee who is excited to always be learning. Happy work anniversary!','Active'),(19,2,'You could go anywhere, yet choose to stay here â€“ a fact we are grateful for every day! Happy work anniversary.','Active'),(20,2,'Wishing the best work anniversary to the best coworker around!','Active'),(21,3,'I appreciate the effort you put into your work.','Active'),(22,3,'Great work on that project.','Active'),(23,3,'You and your work always stood by the expectations and have a meaningful contribution to the company\'s success. We value your presence and are proud of you.','Active'),(24,3,'Itâ€™s your dedication that contributed to our success. Thank you for inspiring us!','Active'),(25,3,'You have shown us some commendable skills for which I can only put out the best appreciation words for you. Keep progressing, and keep up your great work!','Active'),(26,3,'Your contributions to this project have been invaluable. Thank you for all your hard work.','Active'),(27,3,'I truly appreciate the time and effort you have put into this project.','Active'),(28,3,'I appreciate your guidance and encouragement on our latest project. I would not have been able to do it without you.','Active'),(29,3,'Please allow me to express my gratitude for the extra time and effort you put into this project.','Active'),(30,3,'It was not easy, but I knew I could count on you.','Active'),(31,3,'Your work on this project is impressive.','Active'),(32,4,'Thank you for being an amazing coworker.','Active'),(33,4,'Thank you for continually raising the level of performance and achievement.','Active'),(34,4,'Thank you for your support.','Active'),(35,4,'Thank you for being not only a great coworker but a true friend.','Active'),(36,4,'Thank you for working as a team to accomplish this task.','Active'),(37,4,'Thank you so much for all your dedication towards the work!','Active'),(38,4,'Thank you for coming together as a team and making things possible! This deal was very important, I couldnâ€™t have cracked it without this teamwork!','Active'),(39,4,'Thank you for all your effort in putting on a highly successful event. You dedicated yourself entirely to producing it perfectly, and you succeeded. Well done, and thank you.','Active'),(40,4,'This is a great job. Thank you for all your effort and positive thinking. You have made this organization be recognized.','Active'),(41,4,'Thank you for always being at your best and contributing to the work! The way we completed this project makes me proud of having you as a team.','Active'),(42,5,'I truly appreciate the time and effort you have put into this project.','Active'),(43,5,'I appreciate your perspective on this project.','Active'),(44,5,'We owe a lot of the success of this project to you. Thank you.','Active'),(45,5,'I appreciate your guidance and encouragement on our latest project. I would not have been able to do it without you.','Active'),(46,5,'You have made this project possible with your hard work.','Active'),(47,5,'I am always impressed by the superb work you do, and this time is no exception.','Active'),(48,5,'Please allow me to express my gratitude for the extra time and effort you put into this project.','Active'),(49,5,'It was not easy, but I knew I could count on you.','Active'),(50,5,'Your work on this project is impressive.','Active'),(51,5,'You have elevated this project with your hard work and great ideas. Thank you for your contributions.','Active'),(52,6,'Be proud of the fact that you have the power to rise above any situation and deliver the best results no matter the circumstances. Excellent work!','Active'),(53,6,'To be honest, I donâ€™t know how you manage to do such a good job every single time. Very well done!','Active'),(54,6,'You continue to exceed every expectation that we set. Great job.','Active'),(55,6,'The way you handled the project showed resilience, experience, knowledge, and critical thinking. We would love to get your perspective on our next project.','Active'),(56,6,'Your work will bring a lot of insights into solving our next problem.','Active'),(57,6,'Your level of quality work remains unprecedented in our organization.','Active'),(58,6,'We are fortunate to be able to witness and work amongst an industry expert such as you.','Active'),(59,6,'Thank you for your tremendous help in our new project. Without your diligence, hard work, late nights, and early mornings we wouldnâ€™t have been able to meet the deadline. Excellent work!','Active'),(60,6,'We are fortunate to have an innovator like you amongst us.','Active'),(61,6,'Great work on the recent project. Your brillant problem-solving skills helped us to reach our targets much more quickly.','Active'),(72,7,'So glad to have you onboard. We would be adrift without you!','Active'),(73,7,'Your unique perspective adds so much to our team. We are so grateful to have you with us!','Active'),(74,7,'You continue to exceed expectations. Cannot wait to see whatâ€™s next!','Active'),(75,7,'No one is irreplaceable, but some folks you never want to have to replace.','Active'),(76,7,'The ultimate work perk is having employees as great as you!','Active'),(77,8,'I\'m so thrilled to hear that you reached your goal. You inspire by having such ambitious dreams, then putting in the hard work to achieve them.','Active'),(78,8,'Congratulations on your incredible success! I always knew you could do it, and I\'m incredibly proud of you.','Active'),(79,8,'I saw you work so hard every day to achieve this accomplishment, and I can\'t think of anyone who deserves it more. You set an amazing example for everyone at the company.','Active'),(80,8,'Cheers to you for a job well done! No one can compare to your creativity and passion, and it\'s no surprise that you\'ve become so successful.','Active'),(81,8,'This amazing accomplishment is just one step on your journey. Your ability to relentlessly search for solutions to problems and find innovative ways to improve the world is the key to this success and many to come.','Active'),(82,9,'The time and efforts you had put into this work that is beyond excellence. Take my cordial thanks! You are really an efficient, organized and result-oriented man/woman.','Active'),(83,9,'Everything youâ€™ve done in your career due to your resilience, hard work and persistence. Thank you for your will to persist and persevere.','Active'),(84,9,'May you get everything that you could demand. I was always confident in your abilities to shoulder your responsibilities. Thank you so much for your effort.','Active'),(85,9,'You make the team grow every day with your meticulous management! Keep up the good work!','Active'),(86,9,'Your work is going to fill a large part of your life, and the only way to be truly satisfied is to do what you believe is great work. And the only way to do great work is to love what you do. Thanks!','Active');
 /*!40000 ALTER TABLE `recognition_message_master` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4444,7 +4828,7 @@ CREATE TABLE `rolesmaster` (
 
 LOCK TABLES `rolesmaster` WRITE;
 /*!40000 ALTER TABLE `rolesmaster` DISABLE KEYS */;
-INSERT INTO `rolesmaster` VALUES (1,'Employee',0),(2,'Manager',0),(3,'Admin',0),(4,'SuperAdmin',0),(5,'HR Executive',0),(6,'HR Manager',0),(7,'HR Admin',0),(8,'Finance Executive',0),(9,'Finance Manager',0),(10,'Finance Admin',0);
+INSERT INTO `rolesmaster` VALUES (1,'Employee',0),(2,'Manager',0),(3,'Admin',0),(4,'Super Admin',0),(5,'HR Executive',0),(6,'HR Manager',0),(7,'HR Admin',0),(8,'Finance Executive',0),(9,'Finance Manager',0),(10,'Finance Admin',0);
 /*!40000 ALTER TABLE `rolesmaster` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -4777,7 +5161,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `attendance_summarycronjob` ON SCHEDULE EVERY 4 HOUR STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO begin
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `attendance_summarycronjob` ON SCHEDULE EVERY 4 HOUR STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call set_employee_attendance_summary_cron;
 	insert into cron_job_logs(job_name,createdat) values
 	('attendance_summarycronjob',current_timestamp());
@@ -4799,7 +5183,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `credit_employee_leave_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO begin
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `credit_employee_leave_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO begin
 
 	call credit_employee_leave_cron;
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4822,7 +5206,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `make_mysql_do_not_stop` ON SCHEDULE EVERY 1 DAY STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO select sleep(240) */ ;;
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `make_mysql_do_not_stop` ON SCHEDULE EVERY 1 DAY STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO select sleep(240) */ ;;
 /*!50003 SET time_zone             = @saved_time_zone */ ;;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;;
@@ -4840,7 +5224,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `separation_employee_cron_event` ON SCHEDULE EVERY 1 DAY STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO begin
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `separation_employee_cron_event` ON SCHEDULE EVERY 1 DAY STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call separation_employee_cron();
 	insert into cron_job_logs(job_name,createdat) values 
 	('separation_employee_cron_event',current_timestamp());
@@ -4862,7 +5246,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event` ON SCHEDULE EVERY 1 DAY STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO begin
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event` ON SCHEDULE EVERY 1 DAY STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO begin
 	set @pdate = (select curdate());
 	call update_employee_compoff_validity_status_cron(@pdate);
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4885,7 +5269,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO begin
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_compoff_validity_status_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO begin
 	set @pdate = (select curdate());
 	call update_employee_compoff_validity_status_cron(@pdate);
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4908,7 +5292,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `update_employee_leave_summary_cron_event` ON SCHEDULE EVERY 1 DAY STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO begin
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_leave_summary_cron_event` ON SCHEDULE EVERY 1 DAY STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call update_employee_leave_summary_cron(null);
 	insert into cron_job_logs(job_name,createdat) values 
 	('update_employee_leave_summary_cron_event',current_timestamp());
@@ -4930,7 +5314,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `update_employee_leave_summary_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO begin
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_leave_summary_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO begin
 	call update_employee_leave_summary_cron(null);
 	insert into cron_job_logs(job_name,createdat) values 
 	('update_employee_leave_summary_cron_event_temp',current_timestamp());
@@ -4952,7 +5336,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `update_employee_working_days_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO begin
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_working_days_cron_event` ON SCHEDULE EVERY 1 MONTH STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO begin
 
 	call update_employee_working_days_cron(null);
 	insert into cron_job_logs(job_name,createdat) values 
@@ -4975,7 +5359,7 @@ DELIMITER ;;
 /*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO,ALLOW_INVALID_DATES,NO_AUTO_CREATE_USER' */ ;;
 /*!50003 SET @saved_time_zone      = @@time_zone */ ;;
 /*!50003 SET time_zone             = 'SYSTEM' */ ;;
-/*!50106 CREATE*/ /*!50117 DEFINER=`spryple_product_user`@`%`*/ /*!50106 EVENT `update_employee_working_days_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS '2023-05-16 14:23:53' ON COMPLETION NOT PRESERVE ENABLE DO begin
+/*!50106 CREATE*/ /*!50117 DEFINER=`root`@`localhost`*/ /*!50106 EVENT `update_employee_working_days_cron_event_temp` ON SCHEDULE EVERY 1 HOUR STARTS '2023-05-18 17:20:14' ON COMPLETION NOT PRESERVE ENABLE DO begin
 
 	call update_employee_working_days_cron;
 	insert into cron_job_logs(job_name,createdat) values 
@@ -5439,7 +5823,7 @@ begin
 	execute stmt1;
 	deallocate prepare stmt1; */
     
-    	set @cnt_fromdate=0; 
+	set @cnt_fromdate=0; 
     set @cnt_startdate=0; 
 	set @sql1 = concat('select count(*) into @cnt_fromdate from information_schema.columns where table_name=''',`tablename`,''' and column_name=','''effectivefromdate''');
     prepare stmt1 from @sql1;
@@ -5452,11 +5836,12 @@ begin
     deallocate prepare stmt2;
     select @cnt_fromdate, @cnt_startdate;
 	set @sqltext = concat('select (case when (select count(*) from ',`tablename`,' where ',`columnname`,' = ''',`columnvalue`,'''');
-    set @sqltext = concat(@sqltext,(case when @cnt_fromdate>0 then ' and current_date() between effectivefromdate and ifnull(effectivetodate,current_date()) ' when @cnt_startdate>0 then ' and current_date() between effectivestartdate and ifnull(effectiveenddate,current_date()) '  else '' end),' )>0 then 1 else 0 end)  as isexists');
+    set @sqltext = concat(@sqltext,(case when @cnt_fromdate>0 then 'and effectivetodate is null ' 
+										when @cnt_startdate>0 then ' and effectiveenddate is null '  else '' end),' )>0 then 1 else 0 end)  as isexists');
 	prepare stmt from @sqltext;
 	execute stmt;
 	deallocate prepare stmt;
-end ;;
+end;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -8134,7 +8519,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getemployeestatus`(in `email` varchar(128))
+CREATE PROCEDURE `getemployeestatus`(in `email` varchar(128))
 begin
 
 		select e.id,e.status,(select login from employee_login where id=e.id order by lastpasswordchangedate desc limit 1) as 
@@ -8156,7 +8541,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `geterrormessages`(in `errorcode` varchar(255),in `pagenumber` int,in `pagesize` int)
+CREATE PROCEDURE `geterrormessages`(in `errorcode` varchar(255),in `pagenumber` int,in `pagesize` int)
 begin
 		if `errorcode` is not null and `errorcode`!='' then
 			set @sql = concat('select *,(select count(*) from lm_errormessages where errorcode = ''',`errorcode`,''') as total from lm_errormessages where errorcode = ''',`errorcode`,'''');
@@ -8242,25 +8627,25 @@ begin
 					end if;
 					set @sqlquery = concat('select id,year,description,date,day,location as city,(select location from locationsmaster where id=h.location) as cityname,created_on ,created_by,',@totalrows,' as total from holidaysmaster h limit ',@offset1,', ',@pgsize);                
 				else
-					set @totalrows = (select count(*) from holidaysmaster where year=`year_value`);
+					set @totalrows = (select count(*) from holidaysmaster where leave_cycle_year=`year_value`);
 					if (pagesize=0 or pagenumber=0) then
 						set @pgsize = @totalrows;
 						set @offset1 = 1;
 					end if;
-					set @sqlquery = concat('select id,year,description,date,day,location as city,(select location from locationsmaster where id=h.location) as cityname,created_on ,created_by,',@totalrows,' as total from holidaysmaster h where h.year=',`year_value`,' limit ',@offset1,', ',@pgsize);                
+					set @sqlquery = concat('select id,year,description,date,day,location as city,(select location from locationsmaster where id=h.location) as cityname,created_on ,created_by,',@totalrows,' as total from holidaysmaster h where h.leave_cycle_year=',`year_value`,' limit ',@offset1,', ',@pgsize);                
 				end if;
 		else
-			set @totalrows = (select count(*) from holidaysmaster where year=`year_value` and location=`location_value`);
+			set @totalrows = (select count(*) from holidaysmaster where leave_cycle_year=`year_value` and location=`location_value`);
 			if (pagesize=0 or pagenumber=0) then
 				set @pgsize = @totalrows;
 				set @offset1 = 1;
 			end if;
-			set @sqlquery = concat('select id,year,description,date,day,location as city,(select location from locationsmaster where id=h.location) as cityname,created_on ,created_by,',@totalrows,' as total from holidaysmaster h where h.year=',`year_value`,' and h.location=',`location_value`,' limit ',@offset1,', ',@pgsize);        
+			set @sqlquery = concat('select id,year,description,date,day,location as city,(select location from locationsmaster where id=h.location) as cityname,created_on ,created_by,',@totalrows,' as total from holidaysmaster h where h.leave_cycle_year=',`year_value`,' and h.location=',`location_value`,' limit ',@offset1,', ',@pgsize);        
 		end if;
 		prepare stmt from @sqlquery;
 		execute stmt;
 		deallocate prepare stmt;
-	end ;;
+		end ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -8479,7 +8864,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `getleavepolicies`(in `leaveid` int,in `iscommonrule` bit)
+CREATE  PROCEDURE `getleavepolicies`(in `leaveid` int,in `iscommonrule` bit)
 begin
 	   IF(`leaveid` IS NOT NULL and `iscommonrule` is null) THEN
 	   select distinct json_arrayagg(json_object(
@@ -13253,7 +13638,32 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `get_employee_investments`(emp_id int)
+CREATE  PROCEDURE `get_employee_esi_details`(
+	employee_id int(11)
+	)
+begin
+	set @financial_year = (select fn_get_financial_year());
+	select year,monthname(str_to_date(month,'%m')) as month_name,esi
+	from employee_net_salary_details
+	where employee_net_salary_details.empid = employee_id
+	and employee_net_salary_details.financial_year = @financial_year;
+	end ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `get_employee_investments` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `get_employee_investments`(emp_id int)
 begin	
 		set @filepath=(select concat(root_folder,'\\',module_code,'\\')  from filepaths_master where module_id=5 limit 1); 
 		
@@ -15808,7 +16218,7 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`spryple_product_user`@`%` PROCEDURE `get_esi_values_for_challan`(
+CREATE PROCEDURE `get_esi_values_for_challan`(
 	year_value int(4),
 	month_value int(2)
 )
@@ -16051,7 +16461,7 @@ SELECT distinct
     `lm_employeeleaves`.`approvedon`,
     `lm_employeeleaves`.`updatedon`,
     case when lm_employeeleaves.leavetype = 8 then
-		(select concat(relationshipmaster.relationship,' - ',concat(employee_relations.firstname,case when employee_relations.lastname is not null then concat(' ',employee_relations.lastname) end)) 
+		(select concat(relationshipmaster.relationship,' - ',concat(employee_relations.firstname,ifnull(employee_relations.lastname,''))) 
 		from employee_relations, relationshipmaster 
 		where employee_relations.empid = lm_employeeleaves.empid and 
 		employee_relations.utilized_leave_id = lm_employeeleaves.id
@@ -24708,7 +25118,7 @@ begin
   if(@officeemail<>'')then
     if exists(select * from employee e where e.officeemail=@officeemail and e.id <> @eid)then
       set @statuscode=1;
-      set @mail='Office Email already exists.';
+      set @mail='Office email already exists.';
 	end if;
   end if; 
  if(@statuscode=0)then
@@ -25387,16 +25797,22 @@ begin
 	end while;
 			
 		else -- existing record update case
-			if exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and description=holiday_description and json_contains(holiday_location,concat('[',location,']'),'$')=1) 
+        set @jsn_len = (select json_length(holiday_location));
+			set @cnt = 0;
+			while (@cnt < @jsn_len) do 
+			if exists(select * from holidaysmaster where year=holiday_year  and description=holiday_description and location=(select json_unquote(json_extract(holiday_location,concat('$[',@cnt,']')))) and id <> hid) 
 				-- or exists(select * from holidaysmaster where year=holiday_year and date=holiday_date and json_contains(holiday_location,concat('[',location,']'),'$')=1)
 			then
 				select 1 as successstate; -- duplicate record
 			else
 				update holidaysmaster 
-				set year=holiday_year,description=holiday_description,date=holiday_date,day=dayname(holiday_date),location= (select json_unquote(json_extract(holiday_location,concat('$[0]')))),updated_by=createdby,updated_on=current_timestamp()
+				set year=holiday_year,description=holiday_description,date=holiday_date,day=dayname(holiday_date),location= (select json_unquote(json_extract(holiday_location,concat('$[',@cnt,']')))),updated_by=createdby,updated_on=current_timestamp()
 				where id = hid;
 			end if;
 			select 0 as successstate;
+	set @cnt = @cnt + 1;
+	end while;
+			
 		end if;
 	end ;;
 DELIMITER ;
@@ -30891,443 +31307,116 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE PROCEDURE `validateleave`(
-	IN `employee_id` INT(11),
-	IN `leavetype_id` INT(11),
-	IN `fromdate` date,
-	IN `todate` date,
-	IN `fromdatehalfday` bit,
-	IN `todatehalfday` bit,
-	IN `isdocuploaded` bit,
-	in `leave_id` int(11)
-	)
+CREATE  PROCEDURE `validateleave`(
+IN `employee_id` INT(11),
+IN `leavetype_id` INT(11),
+IN `fromdate` date,
+IN `todate` date,
+IN `fromdatehalfday` bit,
+IN `todatehalfday` bit,
+IN `isdocuploaded` bit,
+in `leave_id` int(11)
+)
 BEGIN
-		DECLARE vrulename varchar(255);
-		DECLARE vrulevalue varchar(255);
-		DECLARE vdate date;
-		DECLARE temp_cursor CURSOR FOR select rulename,rulevalue from rules;
+	DECLARE vrulename varchar(255);
+    DECLARE vrulevalue varchar(255);
+    DECLARE vdate date;
+    DECLARE temp_cursor CURSOR FOR select rulename,rulevalue from rules;
+    
+    -- getting the list of holidays of this employee's location for this leave cycle year
+    declare holidays_cursor cursor for select distinct v.date from holidaysmaster v 
+            where v.location = (select city from companyworklocationsmaster where id =
+                                (SELECT employee_worklocations.locationid FROM employee_worklocations 
+                                 WHERE employee_worklocations.empid = `employee_id` order by id desc limit 1))
+            and v.leave_cycle_year = (select fn_get_leave_cycle_year()); 
+    
+    DROP TEMPORARY TABLE IF EXISTS rules;
+    CREATE TEMPORARY TABLE rules(
+		rulename varchar(255),
+		rulevalue varchar(64)
+	);
+    DROP TEMPORARY TABLE if exists em;
+    CREATE TEMPORARY TABLE em(
+        message varchar(255),
+        message_string varchar(1000)
+    );
+    DROP TEMPORARY TABLE if exists datetable;
+    create temporary table datetable(
+	    ldate date,
+        weekday int(1),
+        companyholiday int(1),
+        dvalue varchar(8)
+    );
+    -- filling all days selected for leave into a table
+    set @d = 0;
+    while date_add(`fromdate`, interval @d day) <= `todate` do
+		insert into datetable(ldate,weekday,companyholiday,dvalue) values
+		(date_add(`fromdate`, interval @d day),dayofweek(date_add(`fromdate`, interval @d day)),0,1);
+		set @d = @d + 1;
+    end while;
+    
+    drop temporary table if exists weekoffs_table;
+	create temporary table weekoffs_table (
+		weekoff1 int(11),
+		weekoff2 int(11),
+		weekoff3 int(11),
+		effective_fromdate date,
+		effective_todate date
+	);
+    
+    insert into weekoffs_table(weekoff1,weekoff2,weekoff3,effective_fromdate,effective_todate) 
+    select weekoffday1,weekoffday2,weekoffday3,effectivefromdate,effectivetodate 
+    from employee_weekoffs
+    where employee_weekoffs.empid = employee_id; 
+    
+    OPEN holidays_cursor;
+        set @v = 0;
+        set @v = found_rows();
+        set @w = 0;
+        WHILE @w < @v do
+        set vdate = null;
+        fetch holidays_cursor into vdate;
+        -- updating companyholiday flag to 1 on company holidays in the selected leave range
+        if (vdate between `fromdate` and `todate`) then
+            update datetable set datetable.companyholiday = case when datetable.ldate = vdate then 1
+                                                                 else datetable.companyholiday end; 
+        end if;
+        SET @w = @w + 1;
+        END WHILE;
+    close holidays_cursor;
+    -- select * from datetable;
+    IF(`leave_id` is null) then
+		-- leavetype not configured as advanced leave
+		IF(`leavetype_id` <> (SELECT lm_leavesmaster.id FROM lm_leavesmaster WHERE lm_leavesmaster.leavename = 'Advanced Leave')) THEN
+	
+		-- inserting all configured rules for selected leave type into temp table
+		insert into rules(rulename,rulevalue)  
+		SELECT lm_rulemaster.rulename,lm_rulevalues.value
+		from lm_rulemaster,lm_rulevalues,
+		(select max(id) as id, ruleid from lm_rulevalues
+		where lm_rulevalues.leavetypeid = `leavetype_id` group by ruleid order by ruleid) ids
+		where lm_rulemaster.id=lm_rulevalues.ruleid
+		and lm_rulemaster.id = ids.ruleid
+		and ids.id = lm_rulevalues.id
+		and lm_rulevalues.status = 'Active'
+		and lm_rulevalues.leavetypeid= `leavetype_id`;
+        
+        insert into rules(rulename,rulevalue)  
+		SELECT lm_rulemaster.rulename,lm_rulevalues.value
+		from lm_rulemaster,lm_rulevalues,
+		(select max(id) as id, ruleid from lm_rulevalues
+		where lm_rulevalues.leavetypeid is null group by ruleid order by ruleid) ids
+		where lm_rulemaster.id=lm_rulevalues.ruleid
+		and lm_rulemaster.id = ids.ruleid
+		and ids.id = lm_rulevalues.id
+		and lm_rulevalues.status = 'Active'
+		and lm_rulevalues.leavetypeid is null;
+        
+		set @freq = (select lm_rulemaster.id from lm_rulemaster where lm_rulemaster.rulename = 'LEAVES_CREDIT_FREQUENCY');
+		if (@freq in (select lm_rulevalues.ruleid from lm_rulevalues where lm_rulevalues.leavetypeid = `leavetype_id`)) then
 		
-		
-		declare holidays_cursor cursor for select distinct v.date from holidaysmaster v 
-				where v.location = (select city from companyworklocationsmaster where id =
-									(SELECT employee_worklocations.locationid FROM employee_worklocations 
-									 WHERE employee_worklocations.empid = `employee_id` order by id desc limit 1))
-				and v.leave_cycle_year = (select fn_get_leave_cycle_year()); 
-		
-		DROP TEMPORARY TABLE IF EXISTS rules;
-		CREATE TEMPORARY TABLE rules(
-			rulename varchar(255),
-			rulevalue varchar(64)
-		);
-		DROP TEMPORARY TABLE if exists em;
-		CREATE TEMPORARY TABLE em(
-			message varchar(255),
-			message_string varchar(1000)
-		);
-		DROP TEMPORARY TABLE if exists datetable;
-		create temporary table datetable(
-			ldate date,
-			weekday int(1),
-			companyholiday int(1),
-			dvalue varchar(8)
-		);
-		
-		set @d = 0;
-		while date_add(`fromdate`, interval @d day) <= `todate` do
-			insert into datetable(ldate,weekday,companyholiday,dvalue) values
-			(date_add(`fromdate`, interval @d day),dayofweek(date_add(`fromdate`, interval @d day)),0,1);
-			set @d = @d + 1;
-		end while;
-		
-		drop temporary table if exists weekoffs_table;
-		create temporary table weekoffs_table (
-			weekoff1 int(11),
-			weekoff2 int(11),
-			weekoff3 int(11),
-			effective_fromdate date,
-			effective_todate date
-		);
-		
-		insert into weekoffs_table(weekoff1,weekoff2,weekoff3,effective_fromdate,effective_todate) 
-		select weekoffday1,weekoffday2,weekoffday3,effectivefromdate,effectivetodate 
-		from employee_weekoffs
-		where employee_weekoffs.empid = employee_id; 
-		
-		OPEN holidays_cursor;
-			set @v = 0;
-			set @v = found_rows();
-			set @w = 0;
-			WHILE @w < @v do
-			set vdate = null;
-			fetch holidays_cursor into vdate;
-			
-			if (vdate between `fromdate` and `todate`) then
-				update datetable set datetable.companyholiday = case when datetable.ldate = vdate then 1
-																	 else datetable.companyholiday end; 
-			end if;
-			SET @w = @w + 1;
-			END WHILE;
-		close holidays_cursor;
-		
-		IF(`leave_id` is null) then
-			
-			IF(`leavetype_id` <> (SELECT lm_leavesmaster.id FROM lm_leavesmaster WHERE lm_leavesmaster.leavename = 'Advanced Leave')) THEN
-		
-			
-			insert into rules(rulename,rulevalue)  
-			SELECT lm_rulemaster.rulename,lm_rulevalues.value
-			from lm_rulemaster,lm_rulevalues,
-			(select max(id) as id, ruleid from lm_rulevalues
-			where lm_rulevalues.leavetypeid = `leavetype_id` group by ruleid order by ruleid) ids
-			where lm_rulemaster.id=lm_rulevalues.ruleid
-			and lm_rulemaster.id = ids.ruleid
-			and ids.id = lm_rulevalues.id
-			and lm_rulevalues.status = 'Active'
-			and lm_rulevalues.leavetypeid= `leavetype_id`;
-			
-			insert into rules(rulename,rulevalue)  
-			SELECT lm_rulemaster.rulename,lm_rulevalues.value
-			from lm_rulemaster,lm_rulevalues,
-			(select max(id) as id, ruleid from lm_rulevalues
-			where lm_rulevalues.leavetypeid is null group by ruleid order by ruleid) ids
-			where lm_rulemaster.id=lm_rulevalues.ruleid
-			and lm_rulemaster.id = ids.ruleid
-			and ids.id = lm_rulevalues.id
-			and lm_rulevalues.status = 'Active'
-			and lm_rulevalues.leavetypeid is null;
-			
-			set @freq = (select lm_rulemaster.id from lm_rulemaster where lm_rulemaster.rulename = 'LEAVES_CREDIT_FREQUENCY');
-			if (@freq in (select lm_rulevalues.ruleid from lm_rulevalues where lm_rulevalues.leavetypeid = `leavetype_id`)) then
-			
-				set @leave_balance = (select ifnull(lm_employeeleavebalance.balance,0) from lm_employeeleavebalance where lm_employeeleavebalance.leavetypeid = `leavetype_id` and lm_employeeleavebalance.empid = `employee_id`
-									and lm_employeeleavebalance.leave_cycle_year	= fn_get_leave_cycle_year());
-									
-				SET @leave_cycle_month = (select leave_cycle_year_master.cycle_commencement_month from leave_cycle_year_master where leave_cycle_year_master.id = (
-										select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster where 
-										lm_rulemaster.rulename = 'LEAVE_CYCLE_YEAR') order by lm_rulevalues.id desc limit 1));
-				set @current_year = year(current_timestamp());                   
-				set @current_month = month(current_timestamp());
-				if(@leave_cycle_month = 1) then
-					set @current_year = @current_year;
-				elseif ((@leave_cycle_month <> 1) and (@leave_cycle_month <= @current_month)) then
-					set @current_year = @current_year;
-				elseif ((@leave_cycle_month <> 1) and (@leave_cycle_month > @current_month)) then
-					set @current_year = @current_year - 1;
-				end if;                          
-				
-				set @leave_cycle_start = concat(@current_year,'-',@leave_cycle_month,'-01');
-				if(@leave_cycle_month = 1) then
-					set @leave_cycle_end = concat(@current_year,'-','12','-01');
-				elseif(@leave_cycle_month <> 1) then
-					set @leave_cycle_end = concat((@current_year + 1),'-',(@leave_cycle_month - 1),'-01');
-				end if;
-				set @leave_cycle_end = (select last_day(@leave_cycle_end));
-				set @leave_count = (select count(lm_employeeleaves.id) from lm_employeeleaves where lm_employeeleaves.empid = `employee_id` and 
-									lm_employeeleaves.leavetype = `leavetype_id` and lm_employeeleaves.fromdate between @leave_cycle_start and @leave_cycle_end
-									and lm_employeeleaves.leavestatus in ('Approved','Submitted'));
-				
-				set @last_leave = (select lm_employeeleaves.todate from lm_employeeleaves where lm_employeeleaves.leavetype = `leavetype_id` and 
-								lm_employeeleaves.empid = `employee_id` and lm_employeeleaves.leavestatus in ('Approved','Submitted')
-								order by lm_employeeleaves.todate desc limit 1); 
-				
-				set @total_leaves = (select count(lm_employeeleaves.id) from lm_employeeleaves where lm_employeeleaves.empid = `employee_id` and 
-									lm_employeeleaves.leavetype = `leavetype_id` and lm_employeeleaves.leave_cycle_year = fn_get_leave_cycle_year()
-									and lm_employeeleaves.leavestatus in ('Approved','Submitted'));                      
-				
-				set @hvalue = 0;
-				set @wvalue = 0;
-				
-				OPEN temp_cursor;
-					set @i = 0;
-					set @i = found_rows();
-					set @j = 0;
-					WHILE @j < @i do
-					set vrulename = '';
-					set vrulevalue = '';
-					fetch temp_cursor into vrulename,vrulevalue;
-					
-					
-					if (vrulename = 'LEAVES_COMPANY_HOLIDAYS_INCLUDED') then
-						SET @hvalue = vrulevalue;	
-						if (@hvalue = 0) then
-						update datetable, weekoffs_table 
-						set datetable.dvalue = 0 
-						where datetable.weekday not in (ifnull(weekoff1,0),ifnull(weekoff2,0),ifnull(weekoff3,0))
-						and companyholiday = 1
-						and ((weekoffs_table.effective_fromdate <= datetable.ldate and datetable.ldate <= weekoffs_table.effective_todate)
-							or (datetable.ldate >= effective_fromdate and effective_todate is null));     
-						end if; 
-					end if;
-					
-					if (vrulename = 'LEAVES_WEEKENDS_INCLUDED') then
-						set @wvalue = vrulevalue;
-						if (@wvalue = 0) then
-						
-						update datetable, weekoffs_table 
-						set datetable.dvalue = 0 
-						where datetable.weekday in (ifnull(weekoff1,0),ifnull(weekoff2,0),ifnull(weekoff3,0))
-						and ((weekoffs_table.effective_fromdate <= datetable.ldate and datetable.ldate <= weekoffs_table.effective_todate)
-							or (datetable.ldate >= effective_fromdate and effective_todate is null));    
-						end if;
-					end if;
-					
-					set @j = @j + 1;
-					end while;
-				close temp_cursor;
-				
-				OPEN temp_cursor;
-					set @i = 0;
-					set @i = found_rows();
-					set @j = 0;
-					WHILE @j < @i do
-					set vrulename = '';
-					set vrulevalue = '';
-					fetch temp_cursor into vrulename,vrulevalue;
-					
-					
-					if (`fromdate` < `todate`) then
-						if (`fromdatehalfday` = 1) then
-						update datetable set datetable.dvalue = 0.50 where datetable.ldate = `fromdate`;
-						end if;
-						if (`todatehalfday` = 1) then
-						update datetable set datetable.dvalue = 0.50 where datetable.ldate = `todate`;
-						end if;
-					elseif (`fromdate` = `todate`) then
-						if ((`fromdatehalfday` = 1) and (`todatehalfday` = 0)) then
-						update datetable set datetable.dvalue = 0.50 where datetable.ldate = `fromdate`;
-						elseif ((`fromdatehalfday` = 0) and (`todatehalfday` = 1)) then
-						update datetable set datetable.dvalue = 0.50 where datetable.ldate = `todate`;
-						end if;
-					end if;
-					
-					set @leave_duration = 0;
-					set @leave_duration = (select sum(cast(datetable.dvalue as unsigned)) from datetable);
-					
-					
-					if (@leave_balance < @leave_duration) then
-						if not exists(select * from em where em.message = 'LM109') then
-							insert into em(message) values('LM109');
-						end if;
-					elseif (@leave_balance >= @leave_duration) then
-					
-						if (vrulename = 'LEAVES_MAX_CAP_FOR_ONE_INSTANCE' and vrulevalue < (select sum(datetable.dvalue) from datetable where datetable.weekday not in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0)) and datetable.companyholiday = 0)) then
-							insert into em(message) values('LM97');
-						end if;
-						if (vrulename = 'LEAVES_MIN_DAYS_PRIOR_APPLICATION' and vrulevalue > (datediff(`fromdate`,curdate())) and (`fromdate` >= curdate())) then
-							set @prior_count = (select fn_get_min_days_prior_value_for_leave_type(`leavetype_id`));
-							insert into em(message) values('LM98');
-						end if;
-						if (vrulename = 'LEAVES_DURATION_FOR_BACKDATED_LEAVES' and (vrulevalue < (datediff(curdate(),`fromdate`))) and (`fromdate` < curdate())) then
-							insert into em(message) values('LM143');
-							
-						end if;
-						if (vrulename = 'LEAVES_MAX_AVAIL_COUNT' and vrulevalue <= @leave_count) then
-							insert into em(message) values('LM99'); 
-						end if;
-						if (vrulename = 'MAX_AVAIL_COUNT' and vrulevalue <= @total_leaves) then
-							insert into em(message) values('LM102');
-						end if;
-						if (vrulename = 'LEAVES_MIN_DAYS_FOR_DOCUMENT_UPLOAD' and cast(vrulevalue as unsigned) <= @leave_duration and isdocuploaded = 0) then
-							insert into em(message) values('LM107');
-						end if;
-					end if;
-					
-				set @j = @j + 1;
-					end while;
-				close temp_cursor;    
-									
-				
-				
-				set @fileupload = (select case when exists(select em.message from em where em.message = 'LM107') then 0 else 1 end);
-				update em,lm_errormessages
-				set em.message_string = lm_errormessages.errormessage
-				where em.message = lm_errormessages.errorcode;
-				
-				update em
-				set em.message_string = concat(em.message_string,' ',@prior_count)
-				where em.message = 'LM98';
-				
-				if exists(select * from em) then
-				select json_arrayagg(json_object(
-				'leavecount',	(select sum(datetable.dvalue) from datetable),
-				'message',		message_string,
-				'fileupload', 	@fileupload
-				)) as count_json
-				from em;
-			else
-				select json_arrayagg(json_object(
-				'leavecount',	(select sum(datetable.dvalue) from datetable), 
-				'message',		1,
-				'fileupload', 1
-				)) as count_json ;
-			end if;   
-			
-			elseif (@freq not in (select lm_rulevalues.ruleid from lm_rulevalues where lm_rulevalues.leavetypeid = `leavetype_id`)) then
-			
-			set @leave_balance = (select lm_employeeleavebalance.balance from lm_employeeleavebalance where lm_employeeleavebalance.leavetypeid = `leavetype_id` 
-								and lm_employeeleavebalance.empid = `employee_id`);
-			
-			set @leave_count = (select count(lm_employee_utilized_event_leaves.id) from lm_employee_utilized_event_leaves where lm_employee_utilized_event_leaves.empid = `employee_id` and 
-								lm_employee_utilized_event_leaves.leavetype = `leavetype_id`
-								and lm_employee_utilized_event_leaves.leavestatus in ('Approved','Submitted'));
-			
-			set @last_leave = (select lm_employee_utilized_event_leaves.todate from lm_employee_utilized_event_leaves where lm_employee_utilized_event_leaves.leavetype = `leavetype_id` and 
-							lm_employee_utilized_event_leaves.empid = `employee_id` and lm_employee_utilized_event_leaves.leavestatus in ('Approved','Submitted') 
-							order by lm_employee_utilized_event_leaves.todate desc limit 1); 
-							
-			set @total_leaves = (select count(lm_employee_utilized_event_leaves.id) from lm_employee_utilized_event_leaves 
-								where lm_employee_utilized_event_leaves.empid = `employee_id` and 
-								lm_employee_utilized_event_leaves.leavetype = `leavetype_id` and lm_employee_utilized_event_leaves.leavestatus in ('Approved','Submitted'));                      
-			
-			OPEN temp_cursor;
-				set @i = 0;
-				set @i = found_rows();
-				set @j = 0;
-				WHILE @j < @i do
-				set vrulename = '';
-				set vrulevalue = '';
-				fetch temp_cursor into vrulename,vrulevalue;
-				
-				
-					if (vrulename = 'LEAVES_COMPANY_HOLIDAYS_INCLUDED') then
-						SET @hvalue = vrulevalue;	
-						if (@hvalue = 0) then
-						update datetable, weekoffs_table 
-						set datetable.dvalue = 0 
-						where datetable.weekday not in (ifnull(weekoff1,0),ifnull(weekoff2,0),ifnull(weekoff3,0))
-						and companyholiday = 1
-						and ((weekoffs_table.effective_fromdate <= datetable.ldate and datetable.ldate <= weekoffs_table.effective_todate)
-							or (datetable.ldate >= effective_fromdate and effective_todate is null));     
-						end if; 
-					end if;
-					
-					if (vrulename = 'LEAVES_WEEKENDS_INCLUDED') then
-						set @wvalue = vrulevalue;
-						if (@wvalue = 0) then
-						
-						update datetable, weekoffs_table 
-						set datetable.dvalue = 0 
-						where datetable.weekday in (ifnull(weekoff1,0),ifnull(weekoff2,0),ifnull(weekoff3,0))
-						and ((weekoffs_table.effective_fromdate <= datetable.ldate and datetable.ldate <= weekoffs_table.effective_todate)
-							or (datetable.ldate >= effective_fromdate and effective_todate is null));    
-						end if;
-					end if;
-				
-				
-				if (`fromdate` < `todate`) then
-					if (`fromdatehalfday` = 1) then
-					update datetable set datetable.dvalue = 0.50 where datetable.ldate = `fromdate`;
-					end if;
-					if (`todatehalfday` = 1) then
-					update datetable set datetable.dvalue = 0.50 where datetable.ldate = `todate`;
-					end if;
-				elseif (`fromdate` = `todate`) then
-					if ((`fromdatehalfday` = 1) and (`todatehalfday` = 0)) then
-					update datetable set datetable.dvalue = 0.50 where datetable.ldate = `fromdate`;
-					elseif ((`fromdatehalfday` = 0) and (`todatehalfday` = 1)) then
-					update datetable set datetable.dvalue = 0.50 where datetable.ldate = `todate`;
-					end if;
-				end if;
-				
-				set @leave_duration = 0;
-				set @leave_duration = (select sum(cast(datetable.dvalue as unsigned)) from datetable);
-				
-				
-				if ((@leave_balance < @leave_duration) and (`leavetype_id` <> 10)) then
-					if not exists(select * from em where em.message = 'LM109') then
-						insert into em(message) values('LM109');
-					end if;
-				elseif ((@leave_balance >= @leave_duration) and (`leavetype_id` <> 10)) then
-				
-					if (vrulename = 'LEAVES_MAX_CAP_FOR_ONE_INSTANCE' and vrulevalue < (select sum(datetable.dvalue) from datetable where datetable.weekday not in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0)) and datetable.companyholiday = 0)) then
-						insert into em(message) values('LM97');
-					end if;
-					if (vrulename = 'LEAVES_MIN_DAYS_PRIOR_APPLICATION' and vrulevalue > (datediff(`fromdate`,curdate())) and (`fromdate` >= curdate())) then
-						set @prior_count = (select fn_get_min_days_prior_value_for_leave_type(`leavetype_id`));
-						
-						insert into em(message) values('LM98');
-					end if;
-					if (vrulename = 'LEAVES_DURATION_FOR_BACKDATED_LEAVES' and vrulevalue < (datediff(curdate(),`fromdate`)) and `fromdate` < curdate()) then
-						insert into em(message) values('LM143');
-					end if;
-					if (vrulename = 'LEAVES_MAX_AVAIL_COUNT' and vrulevalue <= @leave_count) then
-						insert into em(message) values('LM99'); 
-					end if;
-					if (coalesce(@last_leave,0) <> 0) then
-						if (vrulename = 'LEAVES_GAP_BETWEEN_TERMS' and vrulevalue > (select timestampdiff(year,@last_leave,curdate()))
-							and @total_leaves > 0) then
-							insert into em(message) values('LM101');
-						end if;    
-					end if;
-					if (vrulename = 'MAX_AVAIL_COUNT' and vrulevalue <= @total_leaves) then
-						insert into em(message) values('LM102');
-					end if;
-					if (vrulename = 'LEAVES_MAX_COUNT_PER_TERM' and vrulevalue < @leave_duration) then
-						insert into em(message) values('LM103');
-					end if;
-					if (vrulename = 'LEAVES_MIN_DAYS_FOR_DOCUMENT_UPLOAD' and cast(vrulevalue as unsigned) <= @leave_duration and isdocuploaded = 0) then
-						insert into em(message) values('LM107');
-					end if;
-				end if;
-				
-			set @j = @j + 1;
-				end while;
-			close temp_cursor;    
-								
-			
-			
-			set @fileupload = (select case when exists(select em.message from em where em.message = 'LM107') then 0 else 1 end);
-			update em,lm_errormessages
-				set em.message_string = lm_errormessages.errormessage
-				where em.message = lm_errormessages.errorcode;
-				
-				update em
-				set em.message_string = concat(em.message_string,' ',@prior_count)
-				where em.message = 'LM98';
-			if (exists(select * from em)) then 
-					select json_arrayagg(json_object(
-					'leavecount',	(select sum(datetable.dvalue) from datetable),
-					'message',		message_string,
-					'fileupload', 	@fileupload
-					)) as count_json
-					from em;
-			
-				else
-					select json_arrayagg(json_object(
-					'leavecount',	(select sum(datetable.dvalue) from datetable), 
-					'message',		1,
-					'fileupload', 1
-					)) as count_json ;
-				end if;
-			end if;
-			
-			ELSEIF (`leavetype_id` = (SELECT lm_leavesmaster.id FROM lm_leavesmaster WHERE lm_leavesmaster.leavename = 'Advanced Leave')) THEN
-			
-			SET @ltype = (select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.leavetypeid = `leavetype_id` and lm_rulevalues.ruleid = 
-			(select lm_rulemaster.id from lm_rulemaster where lm_rulemaster.rulename = 'LEAVETYPE_THAT_CAN_BE_AVAILED_IN_ADVANCE') 
-			order by lm_rulevalues.id desc limit 1);
-			
-			insert into rules(rulename,rulevalue)  
-			SELECT lm_rulemaster.rulename,lm_rulevalues.value
-			from lm_rulemaster,lm_rulevalues,
-			(select max(id) as id, ruleid from lm_rulevalues
-			where lm_rulevalues.leavetypeid = @ltype group by ruleid order by ruleid) ids
-			where lm_rulemaster.id=lm_rulevalues.ruleid
-			and lm_rulemaster.id = ids.ruleid
-			and ids.id = lm_rulevalues.id
-			and lm_rulevalues.status = 'Active'
-			and lm_rulevalues.leavetypeid= @ltype;
-			
-			insert into rules(rulename,rulevalue)  
-			SELECT lm_rulemaster.rulename,lm_rulevalues.value
-			from lm_rulemaster,lm_rulevalues,
-			(select max(id) as id, ruleid from lm_rulevalues
-			where lm_rulevalues.leavetypeid is null group by ruleid order by ruleid) ids
-			where lm_rulemaster.id=lm_rulevalues.ruleid
-			and lm_rulemaster.id = ids.ruleid
-			and ids.id = lm_rulevalues.id
-			and lm_rulevalues.status = 'Active'
-			and lm_rulevalues.leavetypeid is null;
+			set @leave_balance = (select ifnull(lm_employeeleavebalance.balance,0) from lm_employeeleavebalance where lm_employeeleavebalance.leavetypeid = `leavetype_id` and lm_employeeleavebalance.empid = `employee_id`
+								and lm_employeeleavebalance.leave_cycle_year	= fn_get_leave_cycle_year());
 								
 			SET @leave_cycle_month = (select leave_cycle_year_master.cycle_commencement_month from leave_cycle_year_master where leave_cycle_year_master.id = (
 									select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster where 
@@ -31341,6 +31430,7 @@ BEGIN
 			elseif ((@leave_cycle_month <> 1) and (@leave_cycle_month > @current_month)) then
 				set @current_year = @current_year - 1;
 			end if;                          
+			-- setting leave cycle start date
 			set @leave_cycle_start = concat(@current_year,'-',@leave_cycle_month,'-01');
 			if(@leave_cycle_month = 1) then
 				set @leave_cycle_end = concat(@current_year,'-','12','-01');
@@ -31372,25 +31462,28 @@ BEGIN
 				set vrulevalue = '';
 				fetch temp_cursor into vrulename,vrulevalue;
 				
+				-- updating dvalue value to 0 on company holidays if below rule equals 0
 				if (vrulename = 'LEAVES_COMPANY_HOLIDAYS_INCLUDED') then
 					SET @hvalue = vrulevalue;	
 					if (@hvalue = 0) then
 					update datetable, weekoffs_table 
-						set datetable.dvalue = 0 
-						where datetable.weekday not in (ifnull(weekoff1,0),ifnull(weekoff2,0),ifnull(weekoff3,0))
-						and companyholiday = 1
-						and ((weekoffs_table.effective_fromdate <= datetable.ldate and datetable.ldate <= weekoffs_table.effective_todate)
-							or (datetable.ldate >= effective_fromdate and effective_todate is null)); 
+					set datetable.dvalue = 0 
+					where datetable.weekday not in (ifnull(weekoff1,0),ifnull(weekoff2,0),ifnull(weekoff3,0))
+					and companyholiday = 1
+					and ((weekoffs_table.effective_fromdate <= datetable.ldate and datetable.ldate <= weekoffs_table.effective_todate)
+						or (datetable.ldate >= effective_fromdate and effective_todate is null));     
 					end if; 
 				end if;
+				-- updating dvalue value to 0 on weekoffs if below rule equals 0
 				if (vrulename = 'LEAVES_WEEKENDS_INCLUDED') then
 					set @wvalue = vrulevalue;
 					if (@wvalue = 0) then
+					-- update datetable set datetable.dvalue = 0 where datetable.weekday in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0));
 					update datetable, weekoffs_table 
-						set datetable.dvalue = 0 
-						where datetable.weekday in (ifnull(weekoff1,0),ifnull(weekoff2,0),ifnull(weekoff3,0))
-						and ((weekoffs_table.effective_fromdate <= datetable.ldate and datetable.ldate <= weekoffs_table.effective_todate)
-							or (datetable.ldate >= effective_fromdate and effective_todate is null));   
+					set datetable.dvalue = 0 
+					where datetable.weekday in (ifnull(weekoff1,0),ifnull(weekoff2,0),ifnull(weekoff3,0))
+					and ((weekoffs_table.effective_fromdate <= datetable.ldate and datetable.ldate <= weekoffs_table.effective_todate)
+						or (datetable.ldate >= effective_fromdate and effective_todate is null));    
 					end if;
 				end if;
 				
@@ -31407,6 +31500,7 @@ BEGIN
 				set vrulevalue = '';
 				fetch temp_cursor into vrulename,vrulevalue;
 				
+				-- handling half days 
 				if (`fromdate` < `todate`) then
 					if (`fromdatehalfday` = 1) then
 					update datetable set datetable.dvalue = 0.50 where datetable.ldate = `fromdate`;
@@ -31425,13 +31519,13 @@ BEGIN
 				set @leave_duration = 0;
 				set @leave_duration = (select sum(cast(datetable.dvalue as unsigned)) from datetable);
 				
-				
-					if (@leave_balance < @leave_duration) then
-						if not exists(select * from em where em.message = 'LM109') then
-							insert into em(message) values('LM109');
-						end if;
-					elseif (@leave_balance >= @leave_duration) then
-					
+				-- verifying if there is balance
+				if (@leave_balance < @leave_duration) then
+                    if not exists(select * from em where em.message = 'LM109') then
+						insert into em(message) values('LM109');
+                    end if;
+				elseif (@leave_balance >= @leave_duration) then
+				-- filling errormessages table with errors
 					if (vrulename = 'LEAVES_MAX_CAP_FOR_ONE_INSTANCE' and vrulevalue < (select sum(datetable.dvalue) from datetable where datetable.weekday not in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0)) and datetable.companyholiday = 0)) then
 						insert into em(message) values('LM97');
 					end if;
@@ -31459,15 +31553,16 @@ BEGIN
 			close temp_cursor;    
 								
 			
+			-- select * from datetable;   
 			set @fileupload = (select case when exists(select em.message from em where em.message = 'LM107') then 0 else 1 end);
-			update em,lm_errormessages
-			set em.message_string = lm_errormessages.errormessage
-			where em.message = lm_errormessages.errorcode;
-				
-			update em
-			set em.message_string = concat(em.message_string,' ',@prior_count)
-			where em.message = 'LM98';
-				
+            update em,lm_errormessages
+            set em.message_string = lm_errormessages.errormessage
+            where em.message = lm_errormessages.errorcode;
+            
+            update em
+            set em.message_string = concat(em.message_string,' ',@prior_count)
+            where em.message = 'LM98';
+            
 			if exists(select * from em) then
 			select json_arrayagg(json_object(
 			'leavecount',	(select sum(datetable.dvalue) from datetable),
@@ -31521,7 +31616,7 @@ BEGIN
 						or (datetable.ldate >= effective_fromdate and effective_todate is null));     
 					end if; 
 				end if;
-				
+				-- updating dvalue value to 0 on weekoffs if below rule equals 0
 				if (vrulename = 'LEAVES_WEEKENDS_INCLUDED') then
 					set @wvalue = vrulevalue;
 					if (@wvalue = 0) then
@@ -31534,7 +31629,7 @@ BEGIN
 					end if;
 				end if;
 			
-			
+			-- handling half days 
 			if (`fromdate` < `todate`) then
 				if (`fromdatehalfday` = 1) then
 				update datetable set datetable.dvalue = 0.50 where datetable.ldate = `fromdate`;
@@ -31553,31 +31648,32 @@ BEGIN
 			set @leave_duration = 0;
 			set @leave_duration = (select sum(cast(datetable.dvalue as unsigned)) from datetable);
 			
-			
-				if ((@leave_balance < @leave_duration) and (`leavetype_id` <> 10)) then
-					if not exists(select * from em where em.message = 'LM109') then
-						insert into em(message) values('LM109');
-					end if;
-				elseif ((@leave_balance >= @leave_duration) and (`leavetype_id` <> 10)) then
-			
+			-- verifying if there is balance
+			if ((@leave_balance < @leave_duration) and (`leavetype_id` <> 10)) then
+				if not exists(select * from em where em.message = 'LM109') then
+					insert into em(message) values('LM109');
+                end if;
+			elseif ((@leave_balance >= @leave_duration) and (`leavetype_id` <> 10)) then
+			-- filling errormessages table with errors
 				if (vrulename = 'LEAVES_MAX_CAP_FOR_ONE_INSTANCE' and vrulevalue < (select sum(datetable.dvalue) from datetable where datetable.weekday not in (ifnull(@w1,0),ifnull(@w2,0),ifnull(@w3,0)) and datetable.companyholiday = 0)) then
 					insert into em(message) values('LM97');
 				end if;
 				if (vrulename = 'LEAVES_MIN_DAYS_PRIOR_APPLICATION' and vrulevalue > (datediff(`fromdate`,curdate())) and (`fromdate` >= curdate())) then
-						set @prior_count = (select fn_get_min_days_prior_value_for_leave_type(`leavetype_id`));
-						insert into em(message) values('LM98');
+					set @prior_count = (select fn_get_min_days_prior_value_for_leave_type(`leavetype_id`));
+                    -- select @prior_count;
+                    insert into em(message) values('LM98');
 				end if;
-				if (vrulename = 'LEAVES_DURATION_FOR_BACKDATED_LEAVES' and vrulevalue < (datediff(curdate(),`fromdate`)) and `fromdate` < curdate()) then
-					insert into em(message) values('LM143');
-				end if;
+                if (vrulename = 'LEAVES_DURATION_FOR_BACKDATED_LEAVES' and vrulevalue < (datediff(curdate(),`fromdate`)) and `fromdate` < curdate()) then
+                    insert into em(message) values('LM143');
+                end if;
 				if (vrulename = 'LEAVES_MAX_AVAIL_COUNT' and vrulevalue <= @leave_count) then
 					insert into em(message) values('LM99'); 
 				end if;
-				if (coalesce(@last_leave,0) <> 0) then
-					if (vrulename = 'LEAVES_GAP_BETWEEN_TERMS' and vrulevalue > (select timestampdiff(year,@last_leave,curdate()))
+                if (coalesce(@last_leave,0) <> 0) then
+					if (vrulename = 'LEAVES_GAP_BETWEEN_TERMS' and vrulevalue > (select timestampdiff(year,@last_leave,`fromdate`))
 						and @total_leaves > 0) then
 						insert into em(message) values('LM101');
-					end if;
+					end if;    
 				end if;
 				if (vrulename = 'MAX_AVAIL_COUNT' and vrulevalue <= @total_leaves) then
 					insert into em(message) values('LM102');
@@ -31595,33 +31691,37 @@ BEGIN
 		close temp_cursor;    
 							
 		
-		
+		-- select * from datetable;   
 		set @fileupload = (select case when exists(select em.message from em where em.message = 'LM107') then 0 else 1 end);
-		update em,lm_errormessages
-				set em.message_string = lm_errormessages.errormessage
-				where em.message = lm_errormessages.errorcode;
-				
-				update em
-				set em.message_string = concat(em.message_string,' ',@prior_count)
-				where em.message = 'LM98';
-		
-		if (exists(select * from em)) then 
-					select json_arrayagg(json_object(
-					'leavecount',	(select sum(datetable.dvalue) from datetable),
-					'message',		message_string,
-					'fileupload', 	@fileupload
-					)) as count_json
-					from em;
-		
-				else
-					select json_arrayagg(json_object(
-					'leavecount',	(select sum(datetable.dvalue) from datetable), 
-					'message',		1,
-					'fileupload', 1
-					)) as count_json ;
-				end if;   
+        update em,lm_errormessages
+            set em.message_string = lm_errormessages.errormessage
+            where em.message = lm_errormessages.errorcode;
+            
+            update em
+            set em.message_string = concat(em.message_string,' ',@prior_count)
+            where em.message = 'LM98';
+		if (exists(select * from em)) then --  and (leavetype_id <> 10)
+				select json_arrayagg(json_object(
+				'leavecount',	(select sum(datetable.dvalue) from datetable),
+				'message',		message_string,
+				'fileupload', 	@fileupload
+				)) as count_json
+				from em;
+		/*	elseif (leavetype_id = 10) then
+				select json_arrayagg(json_object(
+				'leavecount',	(select sum(datetable.dvalue) from datetable), 
+				'message',		1,
+				'fileupload', 1
+				)) as count_json ;    */
+			else
+				select json_arrayagg(json_object(
+				'leavecount',	(select sum(datetable.dvalue) from datetable), 
+				'message',		1,
+				'fileupload', 1
+				)) as count_json ;
+			end if;
 		end if;
-		
+		-- leave type configured as advanced leave
 		ELSEIF (`leavetype_id` = (SELECT lm_leavesmaster.id FROM lm_leavesmaster WHERE lm_leavesmaster.leavename = 'Advanced Leave')) THEN
 		
 		SET @ltype = (select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.leavetypeid = `leavetype_id` and lm_rulevalues.ruleid = 
@@ -31651,8 +31751,8 @@ BEGIN
 		and lm_rulevalues.leavetypeid is null;
 							
 		SET @leave_cycle_month = (select leave_cycle_year_master.cycle_commencement_month from leave_cycle_year_master where leave_cycle_year_master.id = (
-								  select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster where 
-								  lm_rulemaster.rulename = 'LEAVE_CYCLE_YEAR') order by lm_rulevalues.id desc limit 1));
+								select lm_rulevalues.value from lm_rulevalues where lm_rulevalues.ruleid = (select lm_rulemaster.id from lm_rulemaster where 
+								lm_rulemaster.rulename = 'LEAVE_CYCLE_YEAR') order by lm_rulevalues.id desc limit 1));
 		set @current_year = year(current_timestamp());                   
 		set @current_month = month(current_timestamp());
 		if(@leave_cycle_month = 1) then
@@ -31669,9 +31769,9 @@ BEGIN
 			set @leave_cycle_end = concat((@current_year + 1),'-',(@leave_cycle_month - 1),'-01');
 		end if;
 		set @leave_cycle_end = (select last_day(@leave_cycle_end));
-		set @leave_count = ((select count(lm_employeeleaves.id) from lm_employeeleaves where lm_employeeleaves.empid = `employee_id` and 
+		set @leave_count = (select count(lm_employeeleaves.id) from lm_employeeleaves where lm_employeeleaves.empid = `employee_id` and 
 							lm_employeeleaves.leavetype = @ltype and lm_employeeleaves.fromdate between @leave_cycle_start and @leave_cycle_end
-							and lm_employeeleaves.leavestatus in ('Approved','Submitted')) - 1);
+							and lm_employeeleaves.leavestatus in ('Approved','Submitted'));
 		
 		set @last_leave = (select lm_employeeleaves.todate from lm_employeeleaves where lm_employeeleaves.leavetype = @ltype and 
 						lm_employeeleaves.empid = `employee_id` and lm_employeeleaves.leave_cycle_year = fn_get_leave_cycle_year() 
@@ -31954,12 +32054,12 @@ BEGIN
 					insert into em(message) values('LM97');
 				end if;
 				if (vrulename = 'LEAVES_MIN_DAYS_PRIOR_APPLICATION' and vrulevalue > (datediff(`fromdate`,curdate())) and (`fromdate` >= curdate())) then
-						set @prior_count = (select fn_get_min_days_prior_value_for_leave_type(`leavetype_id`));
-						insert into em(message) values('LM98');
+					set @prior_count = (select fn_get_min_days_prior_value_for_leave_type(`leavetype_id`));
+                    insert into em(message) values('LM98');
 				end if;
-				if (vrulename = 'LEAVES_DURATION_FOR_BACKDATED_LEAVES' and vrulevalue < (datediff(curdate(),`fromdate`)) and `fromdate` < curdate()) then
-					insert into em(message) values('LM143');
-				end if;
+                if (vrulename = 'LEAVES_DURATION_FOR_BACKDATED_LEAVES' and vrulevalue < (datediff(curdate(),`fromdate`)) and `fromdate` < curdate()) then
+                    insert into em(message) values('LM143');
+                end if;
 				if (vrulename = 'LEAVES_MAX_AVAIL_COUNT' and vrulevalue <= @leave_count) then
 					insert into em(message) values('LM99'); 
 				end if;
@@ -31976,6 +32076,7 @@ BEGIN
 		close temp_cursor;    
 							
 		
+		-- select * from datetable;   
 		set @fileupload = (select case when exists(select em.message from em where em.message = 'LM107') then 0 else 1 end);
         update em,lm_errormessages
             set em.message_string = lm_errormessages.errormessage
@@ -32338,7 +32439,7 @@ drop temporary table em;
 drop temporary table datetable;
 drop temporary table weekoffs_table;
 
-	END ;;
+END;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
