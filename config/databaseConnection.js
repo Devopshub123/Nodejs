@@ -12,7 +12,7 @@ function switchDatabase() {
           database: 'spryple_product_dev',
     
           /** offline build */
-          //  host: "localhost",
+          //  host: "192.168.0.86",
           //  user: "client_user",
           //  password: "fN3VlQ@pjQj}*P0o*Z|{",
           //  database: 'spryple_hrms',
@@ -47,7 +47,7 @@ async function getNewDBConnection(companyName,dbName)
       password: "Client&*123",
       
        /**offline build */
-      // host: "localhost",
+      // host: "192.168.1.86",
       // user: "client_user",
       // password: "fN3VlQ@pjQj}*P0o*Z|{",
 

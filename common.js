@@ -2531,51 +2531,51 @@ function createClientDatabase(companyName){
  function InsertClientMasterData(dbName){
     return new Promise(async (res,rej)=>{
 //    const file_path = "D:/DB_Scripts/database_script.sql";
-    var connection=mysql.createConnection({
-        host:"192.168.1.10",
-        // host:"122.175.62.210",
-        user:"spryple_product_user",
-        password:"Spryple$#123",
-        port: 3306,
-        database: dbName,
-        dateStrings: true,
-        multipleStatements: true
-    });
-        connection.connect(function (err) {
-            console.log("ins-err",err)
-        if (err) throw err;
-               const dbHost = "192.168.1.10";
-                // const dbHost ="122.175.62.210";
-                const dbUser = "spryple_product_user";
-                const dbPassword = "Spryple$#123";
-                // Path to the MySQL dump file
-                const dumpFilePath = "D:/DB_Scripts/database_script.sql";
-               // Read the dump file
-               const dumpFile = fs.readFileSync(dumpFilePath, 'utf8');
-              // Use spawn to execute the MySQL command-line tool
-              const mysqlProcess = spawn('mysql', [
-                `--host=${dbHost}`,
-                 `--user=${dbUser}`,
-                `--password=${dbPassword}`,
-                 `${dbName}`
-              ]);
+    // var connection=mysql.createConnection({
+    //     host:"192.168.1.10",
+    //     // host:"122.175.62.210",
+    //     user:"spryple_product_user",
+    //     password:"Spryple$#123",
+    //     port: 3306,
+    //     database: dbName,
+    //     dateStrings: true,
+    //     multipleStatements: true
+    // });
+    //     connection.connect(function (err) {
+    //         console.log("ins-err",err)
+    //     if (err) throw err;
+    //            const dbHost = "192.168.1.10";
+    //             // const dbHost ="122.175.62.210";
+    //             const dbUser = "spryple_product_user";
+    //             const dbPassword = "Spryple$#123";
+    //             // Path to the MySQL dump file
+    //             const dumpFilePath = "D:/DB_Scripts/database_script.sql";
+    //            // Read the dump file
+    //            const dumpFile = fs.readFileSync(dumpFilePath, 'utf8');
+    //           // Use spawn to execute the MySQL command-line tool
+    //           const mysqlProcess = spawn('mysql', [
+    //             `--host=${dbHost}`,
+    //              `--user=${dbUser}`,
+    //             `--password=${dbPassword}`,
+    //              `${dbName}`
+    //           ]);
   
-            // Pipe the dump file contents to the MySQL process stdin
-            mysqlProcess.stdin.write(dumpFile);
-            mysqlProcess.stdin.end();
-           // Handle the MySQL process stdout and stderr
-           mysqlProcess.stdout.on('data', (data) => {
-            console.log(`stdout: ${data}`);
-          });
-          mysqlProcess.stderr.on('data', (data) => {
-            console.error(`stderr: ${data}`);
-            // res(false)
-          });
-          mysqlProcess.on('close', (code) => {
-            res(true)
-            console.log(`child process exited with code ${code}`);
-         });
-    });
+    //         // Pipe the dump file contents to the MySQL process stdin
+    //         mysqlProcess.stdin.write(dumpFile);
+    //         mysqlProcess.stdin.end();
+    //        // Handle the MySQL process stdout and stderr
+    //        mysqlProcess.stdout.on('data', (data) => {
+    //         console.log(`stdout: ${data}`);
+    //       });
+    //       mysqlProcess.stderr.on('data', (data) => {
+    //         console.error(`stderr: ${data}`);
+    //         // res(false)
+    //       });
+    //       mysqlProcess.on('close', (code) => {
+    //         res(true)
+    //         console.log(`child process exited with code ${code}`);
+    //      });
+    // });
 });
     
 }
