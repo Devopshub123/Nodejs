@@ -3641,7 +3641,7 @@ function deleteLeaveRequestEmail(mailData) {
             from: 'no-reply@spryple.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
-            subject: 'Delete Leave request by'+' '+ value.emailData.emp_name,
+            subject: 'Deleted Leave request by'+' '+ value.emailData.emp_name,
             html: html
         };
         transporter.sendMail(mailOptions, function (error, info) {

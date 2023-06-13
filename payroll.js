@@ -3536,8 +3536,6 @@ async function getSalaryProcessedEmployeeList(req,res){
                 listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
             }
             listOfConnections[companyName].query("CALL `get_salary_processed_employee_list` (?,?)", [req.body.year,req.body.month], async function (err, result, fields) {
-            //    console.log("errrr",err);
-            //    console.log("resultresult",result)
                 if (err) {
                     let errorLogArray = [];
                     errorLogArray.push("PAYROLLAPI");
