@@ -34,8 +34,8 @@ app.all("*", function (req, res, next) {
     return next();
 });
 // var prod_url = 'https://sreeb.spryple.com/#/';
-// var global_url = 'http://122.175.62.210:6564/#/';
-var global_url = 'http://192.168.1.86:60/#/';
+var global_url = 'http://122.175.62.210:6564/#/';
+// var global_url = 'http://192.168.1.86:60/#/';
 
 module.exports = {
     login:login,
@@ -146,16 +146,16 @@ async function login(req, res) {
     try{
     var  dbName = await getDatebaseName(req.body.companyName);
         if (dbName && dbName != null) {
-    var expirydate = '2100-01-01'
-    // if(req.body.companyName!='spryple_dev'){
+    // var expirydate = '2100-01-01'
+    if(req.body.companyName!='spryple_dev'){
 
-    //     let subscriptiondata = await getClientSubscriptionDetailsforlogin(req.body.companyName);
-    //     var expirydate = subscriptiondata.data[0].valid_to;
-    // }
-    // else{
+        let subscriptiondata = await getClientSubscriptionDetailsforlogin(req.body.companyName);
+        var expirydate = subscriptiondata.data[0].valid_to;
+    }
+    else{
         
-    //     var expirydate = '2100-01-01'
-    // }
+        var expirydate = '2100-01-01'
+    }
    
 
 

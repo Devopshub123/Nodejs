@@ -5,8 +5,8 @@ function switchDatabase() {
   return mysql.createConnection({
     /** Local */
           /** online build */
-          // host: "192.168.1.10",
-          host: "122.175.62.210",
+          host: "192.168.1.10",
+          // host: "122.175.62.210",
           user: "spryple_client_user",
           password: "Client&*123",
           database: 'spryple_product_dev',
@@ -41,8 +41,8 @@ async function getNewDBConnection(companyName,dbName)
     var connectionParams = {
       /**online build */
       
-      // host: "192.168.1.10",
-      host: "122.175.62.210",
+      host: "192.168.1.10",
+      // host: "122.175.62.210",
       user: "spryple_client_user",
       password: "Client&*123",
       

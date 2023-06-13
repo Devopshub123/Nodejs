@@ -5,9 +5,9 @@ var path = require("path");
 var fileUpload = require("express-fileupload");
 var nodemailer = require("nodemailer");
 var app = new express();
-// var global_url = 'http://122.175.62.210:6564/#/';
+var global_url = 'http://122.175.62.210:6564/#/';
 // var prod_url = 'https://sreeb.spryple.com/#/';
-var global_url = 'http://192.168.1.86:60/#/';
+// var global_url = 'http://192.168.1.86:60/#/';
 
 /**AWS */
 const AWS = require('aws-sdk');
