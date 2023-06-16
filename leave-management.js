@@ -2806,7 +2806,6 @@ function leaveRequestEmail(mailData) {
       });
 
         var url = global_url + 'Login';
-        console.log("latest--", url);
       var html = `<html>
       <head>
       <title>Leave Request</title></head>
