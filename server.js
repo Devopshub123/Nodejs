@@ -3265,7 +3265,7 @@ app.listen(6060,'0.0.0.0',function (err) {
 
 /** uncomment in QA build time */
 
-// app.listen(6060,'192.168.1.86',function (err) {
+// app.listen(7676,'0.0.0.0',function (err) {
 //     if (err)
 //         console.log('Server Cant Start ...Erorr....');
 //     else
