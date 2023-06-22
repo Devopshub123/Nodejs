@@ -6,16 +6,16 @@ function switchDatabase() {
     /** Local */
           /** online build */
           // host: "192.168.1.10",
-          host: "122.175.62.210",
-          user: "spryple_client_user",
-          password: "Client&*123",
-          database: 'spryple_product_dev',
+          // host: "122.175.62.210",
+          // user: "spryple_client_user",
+          // password: "Client&*123",
+          // database: 'spryple_product_dev',
     
           /** offline build */
-          //  host: "localhost",
-          //  user: "client_user",
-          //  password: "fN3VlQ@pjQj}*P0o*Z|{",
-          //  database: 'spryple_hrms',
+           host: "localhost",
+           user: "client_user",
+           password: "fN3VlQ@pjQj}*P0o*Z|{",
+           database: 'spryple_hrms',
            
             port: 3306,
             dateStrings: true,
@@ -42,14 +42,14 @@ async function getNewDBConnection(companyName,dbName)
       /**online build */
       
       // host: "192.168.1.10",
-      host: "122.175.62.210",
-      user: "spryple_client_user",
-      password: "Client&*123",
+      // host: "122.175.62.210",
+      // user: "spryple_client_user",
+      // password: "Client&*123",
       
        /**offline build */
-      // host: "localhost",
-      // user: "client_user",
-      // password: "fN3VlQ@pjQj}*P0o*Z|{",
+      host: "localhost",
+      user: "client_user",
+      password: "fN3VlQ@pjQj}*P0o*Z|{",
 
       port: 3306,
       database: dbName,

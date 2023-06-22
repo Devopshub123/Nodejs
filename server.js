@@ -2382,7 +2382,7 @@ cron.schedule('0  9 * * *', async function () {   // Every day 11 am
     }
     let todayDate = new Date().toJSON().slice(0, 10).replace(/-/g, '/')
     if (lastDay.toJSON().slice(0, 10).replace(/-/g, '/') == todayDate) {
-        generatePayrollReport()
+       // generatePayrollReport()
     }
 });
 
@@ -2424,7 +2424,7 @@ async function generatePayrollReport() {
                             };
                             var htmlToSend = template(replacements);
                             transporter.sendMail({
-                                sender: 'no-reply@spryple.com',
+                                sender: 'nandyalahospitals@gmail.com',
                                 //  to: 'finance@sreebtech.com',
                                 to:  ['rthallapelly@sreebtech.com'],
                                 subject: subject,
@@ -2480,15 +2480,15 @@ var readHTMLFile = function (path, callback) {
 
 
 var transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com", // hostname
+    host: "smtp-mail.gmail.com", // hostname
     secureConnection: false, // TLS requires secureConnection to be false
     port: 587, // port for secure SMTP
     tls: {
         ciphers: 'SSLv3'
     },
     auth: {
-        user: 'no-reply@spryple.com',
-        pass: 'Sreeb@#321'
+        user: 'nandyalahospitals@gmail.com',
+        pass: 'pulm0n0l0gy@NRT'
     }
 });
 
@@ -3256,18 +3256,18 @@ setEventSchedulerOn();
 
 /** Local server */
 
-// app.listen(6060,'0.0.0.0',function (err) {
-//     if (err)
-//         console.log('Server Cant Start ...Erorr....');
-//     else
-//         console.log('Server Started at : http://localhost:6060');
-// });
-
-/** uncomment in QA build time */
-
-app.listen(7676,'0.0.0.0',function (err) {
+app.listen(6060,'192.168.0.50',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://192.168.1.86:6060');
+        console.log('Server Started at : http://localhost:6060');
 });
+
+/** uncomment in QA build time */
+
+// app.listen(7676,'0.0.0.0',function (err) {
+//     if (err)
+//         console.log('Server Cant Start ...Erorr....');
+//     else
+//         console.log('Server Started at :  http://192.168.1.86:6060');
+// });

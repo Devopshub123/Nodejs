@@ -34,8 +34,8 @@ app.all("*", function (req, res, next) {
     return next();
 });
 // var prod_url = 'https://sreeb.spryple.com/#/';
-var global_url = 'http://122.175.62.210:6564/#/';
-// var global_url = 'http://192.168.1.86:60/#/';
+// var global_url = 'http://122.175.62.210:6564/#/';
+var global_url = 'http://192.168.0.50:60/#/';
 
 module.exports = {
     login:login,
@@ -474,15 +474,15 @@ async function forgetpassword(req, res, next) {
                 let login = data.login;
                 const message = email;
                 var transporter = nodemailer.createTransport({
-                    host: "smtp-mail.outlook.com", // hostname
+                    host: "smtp-mail.gmail.com", // hostname
                     secureConnection: false, // TLS requires secureConnection to be false
                     port: 587, // port for secure SMTP
                     tls: {
                         ciphers: 'SSLv3'
                     },
                     auth: {
-                        user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                        user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
                     }
                 });
                 var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:login,date:new Date()}))).toString('base64')
@@ -505,7 +505,7 @@ async function forgetpassword(req, res, next) {
                     </div></body>
                     </html> `;
                 var mailOptions = {
-                    from: 'no-reply@spryple.com',
+                    from: 'nandyalahospitals@gmail.com',
                     to: email,
                     subject: 'Reset Password',
                     html: html
@@ -874,15 +874,15 @@ async function Validateemail(req, res) {
            }
            else{
             var transporter = nodemailer.createTransport({
-                host: "smtp-mail.outlook.com", // hostname
+                host: "smtp-mail.gmail.com", // hostname
                 secureConnection: false, // TLS requires secureConnection to be false
                 port: 587, // port for secure SMTP
                 tls: {
                     ciphers: 'SSLv3'
                 },
                 auth: {
-                    user: 'no-reply@spryple.com',
-                    pass: 'Sreeb@#321'
+                    user: 'nandyalahospitals@gmail.com',
+                    pass: 'pulm0n0l0gy@NRT'
                 }
             });
             var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Standard Plan',Date:new Date()}))).toString('base64')
@@ -911,7 +911,7 @@ async function Validateemail(req, res) {
         </div></body>
         </html> `;
             var mailOptions = {
-                from: 'no-reply@spryple.com',
+                from: 'nandyalahospitals@gmail.com',
                 to: email,
                 subject: 'Welcome to Spryple',
                 html: html
@@ -980,15 +980,15 @@ async function setSprypleClient(req, res) {
                res.send({ status: true }) 
                
         //     var transporter = nodemailer.createTransport({
-        //         host: "smtp-mail.outlook.com", // hostname
+        //         host: "smtp-mail.gmail.com", // hostname
         //         secureConnection: false, // TLS requires secureConnection to be false
         //         port: 587, // port for secure SMTP
         //         tls: {
         //             ciphers: 'SSLv3'
         //         },
         //         auth: {
-        //             user: 'no-reply@spryple.com',
-        //             pass: 'Sreeb@#321'
+        //             user: 'nandyalahospitals@gmail.com',
+        //             pass: 'pulm0n0l0gy@NRT'
         //         }
         //     });
         //     var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: toEmail}))).toString('base64')
@@ -1013,7 +1013,7 @@ async function setSprypleClient(req, res) {
         // </div></body>
         // </html> `;
         //     var mailOptions = {
-        //         from: 'no-reply@spryple.com',
+        //         from: 'nandyalahospitals@gmail.com',
         //         to: toEmail,
         //         subject: 'Subscription plan options',
         //         html: html
@@ -1176,15 +1176,15 @@ function contactUsFormMail(mailData,res) {
     let value = mailData.body;
     try {
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             },
         });
         var html = `<html>
@@ -1206,7 +1206,7 @@ function contactUsFormMail(mailData,res) {
         </html> `;
 
         var mailOptions = {
-            from: "no-reply@spryple.com",
+            from: "nandyalahospitals@gmail.com",
             to: "contact@spryple.com",
             subject: "Contact us form details",
             html: html,
@@ -2530,51 +2530,51 @@ function createClientDatabase(companyName){
  function InsertClientMasterData(dbName){
     return new Promise(async (res,rej)=>{
    const file_path = "D:/DB_Scripts/database_script.sql";
-    var connection=mysql.createConnection({
-        host:"192.168.1.10",
-        // host:"122.175.62.210",
-        user:"spryple_product_user",
-        password:"Spryple$#123",
-        port: 3306,
-        database: dbName,
-        dateStrings: true,
-        multipleStatements: true
-    });
-        connection.connect(function (err) {
-            console.log("ins-err",err)
-        if (err) throw err;
-               const dbHost = "192.168.1.10";
-                // const dbHost ="122.175.62.210";
-                const dbUser = "spryple_product_user";
-                const dbPassword = "Spryple$#123";
-                // Path to the MySQL dump file
-                const dumpFilePath = "D:/DB_Scripts/database_script.sql";
-               // Read the dump file
-               const dumpFile = fs.readFileSync(dumpFilePath, 'utf8');
-              // Use spawn to execute the MySQL command-line tool
-              const mysqlProcess = spawn('mysql', [
-                `--host=${dbHost}`,
-                 `--user=${dbUser}`,
-                `--password=${dbPassword}`,
-                 `${dbName}`
-              ]);
+    // var connection=mysql.createConnection({
+    //     host:"192.168.1.10",
+    //     // host:"122.175.62.210",
+    //     user:"spryple_product_user",
+    //     password:"Spryple$#123",
+    //     port: 3306,
+    //     database: dbName,
+    //     dateStrings: true,
+    //     multipleStatements: true
+    // });
+    //     connection.connect(function (err) {
+    //         console.log("ins-err",err)
+    //     if (err) throw err;
+    //            const dbHost = "192.168.1.10";
+    //             // const dbHost ="122.175.62.210";
+    //             const dbUser = "spryple_product_user";
+    //             const dbPassword = "Spryple$#123";
+    //             // Path to the MySQL dump file
+    //             const dumpFilePath = "D:/DB_Scripts/database_script.sql";
+    //            // Read the dump file
+    //            const dumpFile = fs.readFileSync(dumpFilePath, 'utf8');
+    //           // Use spawn to execute the MySQL command-line tool
+    //           const mysqlProcess = spawn('mysql', [
+    //             `--host=${dbHost}`,
+    //              `--user=${dbUser}`,
+    //             `--password=${dbPassword}`,
+    //              `${dbName}`
+    //           ]);
   
-            // Pipe the dump file contents to the MySQL process stdin
-            mysqlProcess.stdin.write(dumpFile);
-            mysqlProcess.stdin.end();
-           // Handle the MySQL process stdout and stderr
-           mysqlProcess.stdout.on('data', (data) => {
-            console.log(`stdout: ${data}`);
-          });
-          mysqlProcess.stderr.on('data', (data) => {
-            console.error(`stderr: ${data}`);
-            // res(false)
-          });
-          mysqlProcess.on('close', (code) => {
-            res(true)
-            console.log(`child process exited with code ${code}`);
-         });
-    });
+    //         // Pipe the dump file contents to the MySQL process stdin
+    //         mysqlProcess.stdin.write(dumpFile);
+    //         mysqlProcess.stdin.end();
+    //        // Handle the MySQL process stdout and stderr
+    //        mysqlProcess.stdout.on('data', (data) => {
+    //         console.log(`stdout: ${data}`);
+    //       });
+    //       mysqlProcess.stderr.on('data', (data) => {
+    //         console.error(`stderr: ${data}`);
+    //         // res(false)
+    //       });
+    //       mysqlProcess.on('close', (code) => {
+    //         res(true)
+    //         console.log(`child process exited with code ${code}`);
+    //      });
+    // });
 });
     
 }
@@ -2619,15 +2619,15 @@ async function paymentStatusMail(mailData){
   
     return new Promise(async (res,rej)=>{
     var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
+        host: "smtp-mail.gmail.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
         port: 587, // port for secure SMTP
         tls: {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
         }
      });
     var html = `<html>
@@ -2644,7 +2644,7 @@ async function paymentStatusMail(mailData){
         </div></body>
         </html> `;
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: mailData.company_email_value,
             subject: 'Welcome to Spryple!',
             html: html
@@ -2676,15 +2676,15 @@ async function paymentStatusMail(mailData){
             let url =global_url + 'Login'
           
             var transporter = nodemailer.createTransport({
-           host: "smtp-mail.outlook.com", // hostname
+           host: "smtp-mail.gmail.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
            port: 587, // port for secure SMTP
            tls: {
                ciphers: 'SSLv3'
            },
            auth: {
-               user: 'no-reply@spryple.com',
-               pass: 'Sreeb@#321'
+               user: 'nandyalahospitals@gmail.com',
+               pass: 'pulm0n0l0gy@NRT'
            }
            });
            var html = `<html>
@@ -2711,7 +2711,7 @@ async function paymentStatusMail(mailData){
            </html> `;
       
            var mailOptions = {
-               from: 'no-reply@spryple.com',
+               from: 'nandyalahospitals@gmail.com',
                to: email,
                subject: 'Welcome to Spryple!',
                html: html
@@ -2734,15 +2734,15 @@ async function paymentStatusMail(mailData){
 function paymentFailedMail(req,res){
     let mailData = req.body;
     var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
+        host: "smtp-mail.gmail.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
         port: 587, // port for secure SMTP
         tls: {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
         }
      });
     var html = `<html>
@@ -2757,7 +2757,7 @@ function paymentFailedMail(req,res){
         </div></body>
         </html> `;
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: mailData.company_email_value,
             subject: 'Payment Fail',
             html: html

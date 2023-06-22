@@ -38,8 +38,8 @@ app.all("*", function (req, res, next) {
     return next();
 });
 // var prod_url = 'https://sreeb.spryple.com/#/';
-var global_url = 'http://122.175.62.210:6564/#/';
-// var global_url = 'http://192.168.1.86:60/#/';
+// var global_url = 'http://122.175.62.210:6564/#/';
+var global_url = 'http://192.168.0.50:60/#/';
 
 module.exports = {
     getYearsForReport:getYearsForReport,
@@ -2793,15 +2793,15 @@ function leaveRequestEmail(mailData) {
         let email = mailData.emailData.rm_email
         let reportingemail = mailData.emailData.rm_reporting_email
       var transporter = nodemailer.createTransport({
-          host: "smtp-mail.outlook.com", // hostname
+          host: "smtp-mail.gmail.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
           port: 587, // port for secure SMTP
           tls: {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
           }
       });
 
@@ -2852,7 +2852,7 @@ function leaveRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'no-reply@spryple.com',
+          from: 'nandyalahospitals@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Leave Request by'+' '+mailData.emailData.emp_name,
@@ -2884,15 +2884,15 @@ function approveLeaveRequestEmail(mailData) {
         let reportingemail = mailData.emaildata.rm_reporting_email
        let approvereason = mailData.reason !=undefined || null ? mailData.reason:''
       var transporter = nodemailer.createTransport({
-          host: "smtp-mail.outlook.com", // hostname
+          host: "smtp-mail.gmail.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
           port: 587, // port for secure SMTP
           tls: {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
           }
       });
       var html = `<html>
@@ -2941,7 +2941,7 @@ function approveLeaveRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'no-reply@spryple.com',
+          from: 'nandyalahospitals@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Leave Request Approved by'+' '+ mailData.emaildata.rm_name,
@@ -2967,15 +2967,15 @@ function rejectedLeaveRequestEmail(mailData) {
         let email = mailData.emaildata.emp_email
         let reportingemail = mailData.emaildata.rm_reporting_email
       var transporter = nodemailer.createTransport({
-          host: "smtp-mail.outlook.com", // hostname
+          host: "smtp-mail.gmail.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
           port: 587, // port for secure SMTP
           tls: {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
           }
       });
       var html = `<html>
@@ -3027,7 +3027,7 @@ function rejectedLeaveRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'no-reply@spryple.com',
+          from: 'nandyalahospitals@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Leave Request Rejected by'+' '+ mailData.emaildata.rm_name,
@@ -3055,15 +3055,15 @@ function compOffRequestEmail(mailData){
         let email = mailData.emaildata.rm_email
         let reportingemail = mailData.emaildata.rm_reporting_email
       var transporter = nodemailer.createTransport({
-          host: "smtp-mail.outlook.com", // hostname
+          host: "smtp-mail.gmail.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
           port: 587, // port for secure SMTP
           tls: {
               ciphers: 'SSLv3'
           },
           auth: {
-              user: 'no-reply@spryple.com',
-              pass: 'Sreeb@#321'
+              user: 'nandyalahospitals@gmail.com',
+              pass: 'pulm0n0l0gy@NRT'
           }
       });
 
@@ -3111,7 +3111,7 @@ function compOffRequestEmail(mailData){
       </html> `;
   
       var mailOptions = {
-          from: 'no-reply@spryple.com',
+          from: 'nandyalahospitals@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Comp-Off Request by' +' '+ mailData.emaildata.emp_name,
@@ -3137,15 +3137,15 @@ function compOffApprovalRequestEmail(mailData) {
         let wdate =(new Date(mailData.comp_off_worked_date).getDate()<10?"0"+new Date(mailData.comp_off_worked_date).getDate():new Date(mailData.comp_off_worked_date).getDate())+'-'+((new Date(mailData.comp_off_worked_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_worked_date).getMonth()+1):(new Date(mailData.comp_off_worked_date).getMonth()+1)) +'-'+new Date(mailData.comp_off_worked_date).getFullYear()
      
       var transporter = nodemailer.createTransport({
-          host: "smtp-mail.outlook.com", // hostname
+          host: "smtp-mail.gmail.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
           port: 587, // port for secure SMTP
           tls: {
               ciphers: 'SSLv3'
           },
           auth: {
-              user: 'no-reply@spryple.com',
-              pass: 'Sreeb@#321'
+              user: 'nandyalahospitals@gmail.com',
+              pass: 'pulm0n0l0gy@NRT'
           }
       });
       var html = `<html>
@@ -3186,7 +3186,7 @@ function compOffApprovalRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'no-reply@spryple.com',
+          from: 'nandyalahospitals@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Comp-Off Request Approved by'+' '+mailData.emaildata.rm_name,
@@ -3215,15 +3215,15 @@ function compOffRejectRequestEmail(mailData) {
         let wdate =(new Date(mailData.comp_off_worked_date).getDate()<10?"0"+new Date(mailData.comp_off_worked_date).getDate():new Date(mailData.comp_off_worked_date).getDate())+'-'+((new Date(mailData.comp_off_worked_date).getMonth()+1)<10?"0"+(new Date(mailData.comp_off_worked_date).getMonth()+1):(new Date(mailData.comp_off_worked_date).getMonth()+1) )+'-'+new Date(mailData.comp_off_worked_date).getFullYear()
      
       var transporter = nodemailer.createTransport({
-          host: "smtp-mail.outlook.com", // hostname
+          host: "smtp-mail.gmail.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
           port: 587, // port for secure SMTP
           tls: {
               ciphers: 'SSLv3'
           },
           auth: {
-              user: 'no-reply@spryple.com',
-              pass: 'Sreeb@#321'
+              user: 'nandyalahospitals@gmail.com',
+              pass: 'pulm0n0l0gy@NRT'
           }
       });
       var html = `<html>
@@ -3273,7 +3273,7 @@ function compOffRejectRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'no-reply@spryple.com',
+          from: 'nandyalahospitals@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Comp-Off Request Rejected by'+' '+ mailData.emaildata.rm_name,
@@ -3304,15 +3304,15 @@ function cancelLeaveRequestEmail(mailData, companyName) {
         let reportingemail = mailData.emailData.rm_reporting_email
         var companyName = companyName;
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -3366,7 +3366,7 @@ function cancelLeaveRequestEmail(mailData, companyName) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Leave request cancelled by '+' '+mailData.emailData.emp_name,
@@ -3404,15 +3404,15 @@ function approveCancelLeaveRequestEmail(mailData) {
         let reportingemail = mailData.emaildata.rm_reporting_email
         let approvereason = mailData.reason !=undefined || null ? mailData.reason:''
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -3459,7 +3459,7 @@ function approveCancelLeaveRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Cancelled Leave request approved by '+' '+ mailData.emaildata.rm_name,
@@ -3487,15 +3487,15 @@ function rejectCancelLeaveRequestEmail(mailData){
         let email = mailData.emaildata.emp_email
         let reportingemail = mailData.emaildata.rm_reporting_email
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -3548,7 +3548,7 @@ function rejectCancelLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Cancelled Leave request rejected by '+' '+ mailData.emaildata.rm_name,
@@ -3576,15 +3576,15 @@ function deleteLeaveRequestEmail(mailData) {
         let email = value.emailData.rm_email;
         let reportingemail = value.emailData.rm_reporting_email
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -3637,7 +3637,7 @@ function deleteLeaveRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Deleted Leave request by'+' '+ value.emailData.emp_name,
@@ -3664,15 +3664,15 @@ function editLeaveRequestEmail(mailData){
      
         let reportingemail = mailData.emailData.rm_reporting_email
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -3720,7 +3720,7 @@ function editLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Edited Leave request by'+' '+mailData.emailData.emp_name,

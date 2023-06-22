@@ -5,9 +5,9 @@ var path = require("path");
 var fileUpload = require("express-fileupload");
 var nodemailer = require("nodemailer");
 var app = new express();
-var global_url = 'http://122.175.62.210:6564/#/';
+// var global_url = 'http://122.175.62.210:6564/#/';
 // var prod_url = 'https://sreeb.spryple.com/#/';
-// var global_url = 'http://192.168.1.86:60/#/';
+var global_url = 'http://192.168.0.50:60/#/';
 
 /**AWS */
 const AWS = require('aws-sdk');
@@ -187,15 +187,15 @@ async function setNewHire(req, res) {
                     if (result[0][0].statuscode == 0) {
                        if (emailData.personal_email != '' || undefined || null) {
                             var transporter = nodemailer.createTransport({
-                                host: "smtp-mail.outlook.com", // hostname
+                                host: "smtp-mail.gmail.com", // hostname
                                 secureConnection: false, // TLS requires secureConnection to be false
                                 port: 587, // port for secure SMTP
                                 tls: {
                                     ciphers: 'SSLv3'
                                 },
                                 auth: {
-                                    user: 'no-reply@spryple.com',
-                                    pass: 'Sreeb@#321'
+                                    user: 'nandyalahospitals@gmail.com',
+                                    pass: 'pulm0n0l0gy@NRT'
                                 }
                             });
                             var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date(),loginToken:loginToken }))).toString('base64')
@@ -213,16 +213,16 @@ async function setNewHire(req, res) {
                         <p style="color:black"> We are excited to have you aboard and look forward to working with you. Click on the link below, fill your details, and submit the form ASAP.<b></b></p>
                         <p style="color:black"> Please make it a note that, the below link can be deactivated in 24 Hours.</p>
                         <p style="color:black"> <a href="${url}" >${url} </a></p>   
-                        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>hr@spryple.com</b>  </p>  
+                        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>nandyalahospitals@gmail.com</b>  </p>  
                         <p style="color:black">Thank you!</p>
                         <p style="color:black">Human Resources Team.</p>
                         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                         </div></body>
                         </html> `;
                             var mailOptions = {
-                                from: 'no-reply@spryple.com',
+                                from: 'nandyalahospitals@gmail.com',
                                 to: emailData.personal_email,
-                                subject: 'Welcome to Spryple',
+                                subject: 'Welcome to Nandyala Hospital',
                                 html: html
                             };
                            transporter.sendMail(mailOptions, function (error, info) {
@@ -2156,15 +2156,15 @@ function setProgramSchedulemail(mailData) {
         let fdate =(new Date(mailData[2].schedule_date).getDate()<10?"0"+new Date(mailData[2].schedule_date).getDate():new Date(mailData[2].schedule_date).getDate())+'-'+((new Date(mailData[2].schedule_date).getMonth()+1)<10?"0"+(new Date(mailData[2].schedule_date).getMonth()+1):(new Date(mailData[2].schedule_date).getMonth()+1) )+'-'+new Date(mailData[2].schedule_date).getFullYear();
     let email = mailData; 
     var transporter = nodemailer.createTransport({
-      host: "smtp-mail.outlook.com", // hostname
+      host: "smtp-mail.gmail.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
       port: 587, // port for secure SMTP
       tls: {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'no-reply@spryple.com',
-          pass: 'Sreeb@#321'
+          user: 'nandyalahospitals@gmail.com',
+          pass: 'pulm0n0l0gy@NRT'
       },
     });
     var html = `<html>
@@ -2188,7 +2188,7 @@ function setProgramSchedulemail(mailData) {
         </html> `;
 
     var mailOptions = {
-      from: "no-reply@spryple.com",
+      from: "nandyalahospitals@gmail.com",
       to: email,
       subject: "Induction Program Meeting",
       html: html,
@@ -4033,15 +4033,15 @@ function sendEmailToAdminAboutNewHire(mailData) {
         let email = data.admin_email
         let empname = data.emp_name;
         var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
+        host: "smtp-mail.gmail.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
         port: 587, // port for secure SMTP
         tls: {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
         }
         });
         var html = `<html>
@@ -4061,7 +4061,7 @@ function sendEmailToAdminAboutNewHire(mailData) {
         </html> `;
    
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Create a new login for'+' '+empname,
             html: html
@@ -4087,15 +4087,15 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
     let email = maileData[0].email;
     let companycode = maileData[0].companycode;
     var transporter = nodemailer.createTransport({
-      host: "smtp-mail.outlook.com", // hostname
+      host: "smtp-mail.gmail.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
       port: 587, // port for secure SMTP
       tls: {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'no-reply@spryple.com',
-          pass: 'Sreeb@#321'
+          user: 'nandyalahospitals@gmail.com',
+          pass: 'pulm0n0l0gy@NRT'
       },
     });
       var url =  global_url + 'Login';
@@ -4118,7 +4118,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"><b>Company Code: </b>${maileData[0].companycode}</p>
         <p style="color:black"><b>Username: </b>${maileData[0].userid}</p>
         <p style="color:black"><b>Password: </b>${maileData[0].password}</p>
-        <p style="color:black">If you experience any issues while login to your account, reach out to us at <b>contact@spryple.com</b> </p>
+        <p style="color:black">If you experience any issues while login to your account, reach out to us at <b>nandyalahospitals@gmail.com</b> </p>
         
         <p style="color:black">Best Regards,</p>
 
@@ -4128,7 +4128,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         </html> `;
 
     var mailOptions = {
-      from: "no-reply@spryple.com",
+      from: "nandyalahospitals@gmail.com",
       to: email,
       subject: "New Login Credentials",
       html: html,
@@ -4204,15 +4204,15 @@ try {
         let data = JSON.parse(mailData.jsonvalu)[0];
         let email = data.rm_email
        var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
+        host: "smtp-mail.gmail.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
         port: 587, // port for secure SMTP
         tls: {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
         }
        });
        var html = `<html>
@@ -4236,7 +4236,7 @@ try {
         </html> `;
 
     var mailOptions = {
-      from: "no-reply@spryple.com",
+      from: "nandyalahospitals@gmail.com",
       to: email,
       subject: "New Employee Onboarding Checklist",
       html: html,
@@ -4391,15 +4391,15 @@ function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
   try {
     let email = maileData;
     var transporter = nodemailer.createTransport({
-      host: "smtp-mail.outlook.com", // hostname
+      host: "smtp-mail.gmail.com", // hostname
       secureConnection: false, // TLS requires secureConnection to be false
       port: 587, // port for secure SMTP
       tls: {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'no-reply@spryple.com',
-          pass: 'Sreeb@#321'
+          user: 'nandyalahospitals@gmail.com',
+          pass: 'pulm0n0l0gy@NRT'
       },
     });
     var html = `<html>
@@ -4422,7 +4422,7 @@ function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
         </html> `;
 
     var mailOptions = {
-      from: "no-reply@spryple.com",
+      from: "nandyalahospitals@gmail.com",
       to: email,
       subject: "Onboarding Checklist Updates",
       html: html,
@@ -4892,15 +4892,15 @@ function sendEmailToEmployeeAboutDocumentReject(mailData){
     try{
        let email = mailData
        var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
+        host: "smtp-mail.gmail.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
         port: 587, // port for secure SMTP
         tls: {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
         }
        });
        var html = `<html>
@@ -4919,7 +4919,7 @@ function sendEmailToEmployeeAboutDocumentReject(mailData){
         </html> `;
    
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Re-upload document ',
             html: html
@@ -5045,15 +5045,15 @@ function sendEmailToEmployeeAboutNewRole(mailData){
     try{
        let email = mailData
        var transporter = nodemailer.createTransport({
-        host: "smtp-mail.outlook.com", // hostname
+        host: "smtp-mail.gmail.com", // hostname
         secureConnection: false, // TLS requires secureConnection to be false
         port: 587, // port for secure SMTP
         tls: {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
         }
        });
        var html = `<html>
@@ -5074,7 +5074,7 @@ function sendEmailToEmployeeAboutNewRole(mailData){
         </html> `;
    
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Welcome to Tech Lead ',
             html: html
@@ -5109,15 +5109,15 @@ function sendEmailToEmployeeAboutRemoveRole(mailData){
         //         listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         let email = mailData
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -5138,7 +5138,7 @@ function sendEmailToEmployeeAboutRemoveRole(mailData){
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Role Change ',
             html: html
@@ -5473,15 +5473,15 @@ function checklistFinalUpdateEmailToEmployee(mailData) {
     try {
         let email = mailData;
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             },
         });
         var html = `<html>
@@ -5505,7 +5505,7 @@ function checklistFinalUpdateEmailToEmployee(mailData) {
         </html> `;
 
         var mailOptions = {
-            from: "no-reply@spryple.com",
+            from: "nandyalahospitals@gmail.com",
             to: email,
             subject: "Onboarding Checklist Final Update",
             html: html,
@@ -5526,15 +5526,15 @@ function checklistCompleteEmailToEmployee(mailData) {
     try {
         let email = mailData.emp_mail;
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             },
         });
         var html = `<html>
@@ -5562,7 +5562,7 @@ function checklistCompleteEmailToEmployee(mailData) {
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Welcome to'+' '+ companyNameData.companyname,
             html: html
@@ -5594,15 +5594,15 @@ function roleRemoveInformationEmailToEmployee(mailData){
         //         listOfConnections[companyName] =await connection.getNewDBConnection(companyName,dbName);
         let email = mailData
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -5622,7 +5622,7 @@ function roleRemoveInformationEmailToEmployee(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Role Change ',
             html: html
@@ -5656,15 +5656,15 @@ function newRoleInformationEmailToEmployee(mailData){
     try{
         let email = mailData
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -5685,7 +5685,7 @@ function newRoleInformationEmailToEmployee(mailData){
      </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Welcome to Tech Lead ',
             html: html
@@ -5710,15 +5710,15 @@ function documentReuploadInformationEmailToHr(req,res){
     try{
         let email = req
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -5739,7 +5739,7 @@ function documentReuploadInformationEmailToHr(req,res){
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Documents Re uploaded ',
             html: html
@@ -5763,15 +5763,15 @@ function documentReuploadInformationEmailToHr(req,res){
     try{
         let email = req
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -5793,7 +5793,7 @@ function documentReuploadInformationEmailToHr(req,res){
         </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Documents Re uploaded ',
             html: html
@@ -5817,15 +5817,15 @@ function documentApprovalEmailToEmployee(mailData) {
     try {
         let toEmail = mailData.emp_email;
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -5847,7 +5847,7 @@ function documentApprovalEmailToEmployee(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: toEmail,
             subject: 'HR Approved Your Uploaded Document',
             html: html
@@ -5872,15 +5872,15 @@ function documentRejectEmailtoEmployee(mailData) {
     try{
         let toEmail = mailData.emp_email;
            var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
            });
            var html = `<html>
@@ -5902,7 +5902,7 @@ function documentRejectEmailtoEmployee(mailData) {
             </html> `;
        
             var mailOptions = {
-                from: 'no-reply@spryple.com',
+                from: 'nandyalahospitals@gmail.com',
                   to: toEmail,
                 subject: 'Re-upload Document ',
                 html: html
@@ -5928,15 +5928,15 @@ function documentApprovalEmailToHR(mailData) {
     try{
         let toEmail = mailData.rm_email;
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com",
+            host: "smtp-mail.gmail.com",
             secureConnection: false,
             port: 587,
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -5953,7 +5953,7 @@ function documentApprovalEmailToHR(mailData) {
                 </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: toEmail,
             subject: 'Documents Uploaded by'+' '+emailData.emp_name,
             html: html
@@ -5976,15 +5976,15 @@ function inductionProgramCancelEmailToEmployee(mailData) {
         let date =(new Date(mailData.scheduledate).getDate()<10?"0"+new Date(mailData.scheduledate).getDate():new Date(mailData.scheduledate).getDate())+'-'+((new Date(mailData.scheduledate).getMonth()+1)<10?"0"+(new Date(mailData.scheduledate).getMonth()+1):(new Date(mailData.scheduledate).getMonth()+1) )+'-'+new Date(mailData.scheduledate).getFullYear();
         let email = mailData.emails;
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -6009,7 +6009,7 @@ function inductionProgramCancelEmailToEmployee(mailData) {
      </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Induction Program Cancelled',
             html: html
@@ -6090,15 +6090,15 @@ function rescheduledInductionProgramEmail(mailData) {
         let fdate =(new Date(mailData.programDate).getDate()<10?"0"+new Date(mailData.programDate).getDate():new Date(mailData.programDate).getDate())+'-'+((new Date(mailData.programDate).getMonth()+1)<10?"0"+(new Date(mailData.programDate).getMonth()+1):(new Date(mailData.programDate).getMonth()+1) )+'-'+new Date(mailData.programDate).getFullYear();
         let email = mailData.emails;
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -6126,7 +6126,7 @@ function rescheduledInductionProgramEmail(mailData) {
      </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             subject: 'Induction Program Rescheduled' ,
             html: html
@@ -6807,15 +6807,15 @@ function separationRequestEmail(mailData) {
     try {
          let email = mailData.emailData.rm_email
          var transporter = nodemailer.createTransport({
-           host: "smtp-mail.outlook.com", // hostname
+           host: "smtp-mail.gmail.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
            port: 587, // port for secure SMTP
            tls: {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'no-reply@spryple.com',
-             pass: 'Sreeb@#321'
+             user: 'nandyalahospitals@gmail.com',
+             pass: 'pulm0n0l0gy@NRT'
            }
          });
        var html = `<html>
@@ -6848,7 +6848,7 @@ function separationRequestEmail(mailData) {
        </html> `;
    
        var mailOptions = {
-           from: 'no-reply@spryple.com',
+           from: 'nandyalahospitals@gmail.com',
            to: email,
            subject: 'Separation request raised by'+' '+mailData.emailData.emp_name,
            html: html
@@ -6879,15 +6879,15 @@ function separationRequestApprovedEmail(value) {
     try {
          let email = value.emailData.emp_email
          var transporter = nodemailer.createTransport({
-           host: "smtp-mail.outlook.com", // hostname
+           host: "smtp-mail.gmail.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
            port: 587, // port for secure SMTP
            tls: {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'no-reply@spryple.com',
-             pass: 'Sreeb@#321'
+             user: 'nandyalahospitals@gmail.com',
+             pass: 'pulm0n0l0gy@NRT'
            }
          });
        var html = `<html>
@@ -6917,7 +6917,7 @@ function separationRequestApprovedEmail(value) {
        </html> `;
    
        var mailOptions = {
-           from: 'no-reply@spryple.com',
+           from: 'nandyalahospitals@gmail.com',
            to: email,
            subject: 'Separation request approved  by'+' '+value.emailData.rm_name,
            html: html
@@ -6944,15 +6944,15 @@ function separationRequestRejectedEmail(value) {
     try {
          let email = value.emailData.emp_email
          var transporter = nodemailer.createTransport({
-           host: "smtp-mail.outlook.com", // hostname
+           host: "smtp-mail.gmail.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
            port: 587, // port for secure SMTP
            tls: {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'no-reply@spryple.com',
-             pass: 'Sreeb@#321'
+             user: 'nandyalahospitals@gmail.com',
+             pass: 'pulm0n0l0gy@NRT'
            }
          });
        var html = `<html>
@@ -6975,7 +6975,7 @@ function separationRequestRejectedEmail(value) {
        </html> `;
    
        var mailOptions = {
-           from: 'no-reply@spryple.com',
+           from: 'nandyalahospitals@gmail.com',
            to: email,
            subject: 'Separation request rejected by'+' '+value.emailData.rm_name,
            html: html

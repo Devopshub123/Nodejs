@@ -21,8 +21,8 @@ app.all("*", function (req, res, next) {
     return next();
 });
 // var prod_url = 'https://sreeb.spryple.com/#/';
-var global_url = 'http://122.175.62.210:6564/#/';
-// var global_url = 'http://192.168.1.86:60/#/';
+// var global_url = 'http://122.175.62.210:6564/#/';
+var global_url = 'http://192.168.0.50:60/#/';
 module.exports={
     getEmployeeAttendanceNotifications:getEmployeeAttendanceNotifications,
     getrolescreenfunctionalities:getrolescreenfunctionalities,
@@ -1703,15 +1703,15 @@ function attendanceRequestEmail(mailData, companyName) {
          let email = mailData.emails.rm_email
          let reportingemail = mailData.emails.rm_reporting_email
          var transporter = nodemailer.createTransport({
-           host: "smtp-mail.outlook.com", // hostname
+           host: "smtp-mail.gmail.com", // hostname
            secureConnection: false, // TLS requires secureConnection to be false
            port: 587, // port for secure SMTP
            tls: {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'no-reply@spryple.com',
-             pass: 'Sreeb@#321'
+             user: 'nandyalahospitals@gmail.com',
+             pass: 'pulm0n0l0gy@NRT'
            }
          });
 
@@ -1765,7 +1765,7 @@ function attendanceRequestEmail(mailData, companyName) {
        </html> `;
    
        var mailOptions = {
-           from: 'no-reply@spryple.com',
+           from: 'nandyalahospitals@gmail.com',
            to: email,
            cc:reportingemail!=null?reportingemail:'',
            subject: 'Attendance Request by'+' '+mailData.emails.emp_name,
@@ -1811,15 +1811,15 @@ function approveAttendanceRequestEmail(mailData,companyName) {
 
 
       var transporter = nodemailer.createTransport({
-          host: "smtp-mail.outlook.com", // hostname
+          host: "smtp-mail.gmail.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
           port: 587, // port for secure SMTP
           tls: {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
           }
       });
       var html = `<html>
@@ -1869,7 +1869,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'no-reply@spryple.com',
+          from: 'nandyalahospitals@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Approved by'+' '+mailData.emailData.rm_name,
@@ -1913,15 +1913,15 @@ function approveAttendanceRequestEmail(mailData,companyName) {
         let email = mailData.emailData.emp_email;
         let reportingemail = mailData.emailData.rm_reporting_email;
       var transporter = nodemailer.createTransport({
-          host: "smtp-mail.outlook.com", // hostname
+          host: "smtp-mail.gmail.com", // hostname
           secureConnection: false, // TLS requires secureConnection to be false
           port: 587, // port for secure SMTP
           tls: {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'no-reply@spryple.com',
-            pass: 'Sreeb@#321'
+            user: 'nandyalahospitals@gmail.com',
+            pass: 'pulm0n0l0gy@NRT'
           }
       });
       var html = `<html>
@@ -1970,7 +1970,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'no-reply@spryple.com',
+          from: 'nandyalahospitals@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Rejected  by '+''+ mailData.emailData.rm_name,
@@ -2015,15 +2015,15 @@ function editedAttendanceRequestEmail(mailData, companyName) {
         let email = mailData.emails.rm_email
         let reportingemail = mailData.emails.rm_reporting_email
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var url =global_url + 'Login';
@@ -2077,7 +2077,7 @@ function editedAttendanceRequestEmail(mailData, companyName) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Edited Attendance request by '+' '+mailData.emails.emp_name,
@@ -2109,15 +2109,15 @@ function deleteAttendanceRequestEmail(mailData) {
         let email = mailData.emails.rm_email
         let reportingemail = mailData.emails.rm_reporting_email
         var transporter = nodemailer.createTransport({
-            host: "smtp-mail.outlook.com", // hostname
+            host: "smtp-mail.gmail.com", // hostname
             secureConnection: false, // TLS requires secureConnection to be false
             port: 587, // port for secure SMTP
             tls: {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'no-reply@spryple.com',
-                pass: 'Sreeb@#321'
+                user: 'nandyalahospitals@gmail.com',
+                pass: 'pulm0n0l0gy@NRT'
             }
         });
         var html = `<html>
@@ -2162,7 +2162,7 @@ function deleteAttendanceRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'no-reply@spryple.com',
+            from: 'nandyalahospitals@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Deleted Attendance request by '+' '+mailData.emails.emp_name,
