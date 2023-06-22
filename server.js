@@ -3256,7 +3256,7 @@ setEventSchedulerOn();
 
 /** Local server */
 
-app.listen(6060,'192.168.0.50',function (err) {
+app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
