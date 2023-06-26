@@ -2424,7 +2424,7 @@ async function generatePayrollReport() {
                             };
                             var htmlToSend = template(replacements);
                             transporter.sendMail({
-                                sender: 'nandyalahospitals@gmail.com',
+                                sender: 'rrhospitalhyd2@gmail.com',
                                 //  to: 'finance@sreebtech.com',
                                 to:  ['rthallapelly@sreebtech.com'],
                                 subject: subject,
@@ -2487,8 +2487,8 @@ var transporter = nodemailer.createTransport({
         ciphers: 'SSLv3'
     },
     auth: {
-        user: 'nandyalahospitals@gmail.com',
-        pass: 'pulm0n0l0gy@NRT'
+        user: 'rrhospitalhyd2@gmail.com',
+        pass: 'Rrhospital@2'
     }
 });
 

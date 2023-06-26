@@ -1710,8 +1710,8 @@ function attendanceRequestEmail(mailData, companyName) {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'nandyalahospitals@gmail.com',
-             pass: 'pulm0n0l0gy@NRT'
+             user: 'rrhospitalhyd2@gmail.com',
+             pass: 'Rrhospital@2'
            }
          });
 
@@ -1765,7 +1765,7 @@ function attendanceRequestEmail(mailData, companyName) {
        </html> `;
    
        var mailOptions = {
-           from: 'nandyalahospitals@gmail.com',
+           from: 'rrhospitalhyd2@gmail.com',
            to: email,
            cc:reportingemail!=null?reportingemail:'',
            subject: 'Attendance Request by'+' '+mailData.emails.emp_name,
@@ -1818,8 +1818,8 @@ function approveAttendanceRequestEmail(mailData,companyName) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'nandyalahospitals@gmail.com',
-            pass: 'pulm0n0l0gy@NRT'
+            user: 'rrhospitalhyd2@gmail.com',
+            pass: 'Rrhospital@2'
           }
       });
       var html = `<html>
@@ -1869,7 +1869,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'nandyalahospitals@gmail.com',
+          from: 'rrhospitalhyd2@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Approved by'+' '+mailData.emailData.rm_name,
@@ -1920,8 +1920,8 @@ function approveAttendanceRequestEmail(mailData,companyName) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'nandyalahospitals@gmail.com',
-            pass: 'pulm0n0l0gy@NRT'
+            user: 'rrhospitalhyd2@gmail.com',
+            pass: 'Rrhospital@2'
           }
       });
       var html = `<html>
@@ -1970,7 +1970,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'nandyalahospitals@gmail.com',
+          from: 'rrhospitalhyd2@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Rejected  by '+''+ mailData.emailData.rm_name,
@@ -2022,8 +2022,8 @@ function editedAttendanceRequestEmail(mailData, companyName) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'nandyalahospitals@gmail.com',
-                pass: 'pulm0n0l0gy@NRT'
+                user: 'rrhospitalhyd2@gmail.com',
+                pass: 'Rrhospital@2'
             }
         });
         var url =global_url + 'Login';
@@ -2077,7 +2077,7 @@ function editedAttendanceRequestEmail(mailData, companyName) {
       </html> `;
 
         var mailOptions = {
-            from: 'nandyalahospitals@gmail.com',
+            from: 'rrhospitalhyd2@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Edited Attendance request by '+' '+mailData.emails.emp_name,
@@ -2116,8 +2116,8 @@ function deleteAttendanceRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'nandyalahospitals@gmail.com',
-                pass: 'pulm0n0l0gy@NRT'
+                user: 'rrhospitalhyd2@gmail.com',
+                pass: 'Rrhospital@2'
             }
         });
         var html = `<html>
@@ -2162,7 +2162,7 @@ function deleteAttendanceRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'nandyalahospitals@gmail.com',
+            from: 'rrhospitalhyd2@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Deleted Attendance request by '+' '+mailData.emails.emp_name,
