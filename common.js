@@ -35,7 +35,7 @@ app.all("*", function (req, res, next) {
 });
 // var prod_url = 'https://sreeb.spryple.com/#/';
 // var global_url = 'http://122.175.62.210:6564/#/';
-var global_url = 'http://192.168.0.50:60/#/';
+var global_url = 'http://192.168.1.2:60/#/';
 
 module.exports = {
     login:login,
