@@ -20,9 +20,8 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
-// var prod_url = 'https://sreeb.spryple.com/#/';
 // var global_url = 'http://122.175.62.210:6564/#/';
-var global_url = 'http://192.168.1.2:60/#/';
+var global_url = 'http://192.168.0.14:60/#/';
 module.exports={
     getEmployeeAttendanceNotifications:getEmployeeAttendanceNotifications,
     getrolescreenfunctionalities:getrolescreenfunctionalities,
@@ -1710,8 +1709,8 @@ function attendanceRequestEmail(mailData, companyName) {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'rrhospitalhyd2@gmail.com',
-             pass: 'Rrhospital@2'
+             user: 'ananyasuperspeciality@gmail.com',
+             pass: '8886961847'
            }
          });
 
@@ -1765,7 +1764,7 @@ function attendanceRequestEmail(mailData, companyName) {
        </html> `;
    
        var mailOptions = {
-           from: 'rrhospitalhyd2@gmail.com',
+           from: 'ananyasuperspeciality@gmail.com',
            to: email,
            cc:reportingemail!=null?reportingemail:'',
            subject: 'Attendance Request by'+' '+mailData.emails.emp_name,
@@ -1818,8 +1817,8 @@ function approveAttendanceRequestEmail(mailData,companyName) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'rrhospitalhyd2@gmail.com',
-            pass: 'Rrhospital@2'
+            user: 'ananyasuperspeciality@gmail.com',
+            pass: '8886961847'
           }
       });
       var html = `<html>
@@ -1869,7 +1868,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'rrhospitalhyd2@gmail.com',
+          from: 'ananyasuperspeciality@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Approved by'+' '+mailData.emailData.rm_name,
@@ -1920,8 +1919,8 @@ function approveAttendanceRequestEmail(mailData,companyName) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'rrhospitalhyd2@gmail.com',
-            pass: 'Rrhospital@2'
+            user: 'ananyasuperspeciality@gmail.com',
+            pass: '8886961847'
           }
       });
       var html = `<html>
@@ -1970,7 +1969,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'rrhospitalhyd2@gmail.com',
+          from: 'ananyasuperspeciality@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Rejected  by '+''+ mailData.emailData.rm_name,
@@ -2022,8 +2021,8 @@ function editedAttendanceRequestEmail(mailData, companyName) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'rrhospitalhyd2@gmail.com',
-                pass: 'Rrhospital@2'
+                user: 'ananyasuperspeciality@gmail.com',
+                pass: '8886961847'
             }
         });
         var url =global_url + 'Login';
@@ -2077,7 +2076,7 @@ function editedAttendanceRequestEmail(mailData, companyName) {
       </html> `;
 
         var mailOptions = {
-            from: 'rrhospitalhyd2@gmail.com',
+            from: 'ananyasuperspeciality@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Edited Attendance request by '+' '+mailData.emails.emp_name,
@@ -2116,8 +2115,8 @@ function deleteAttendanceRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'rrhospitalhyd2@gmail.com',
-                pass: 'Rrhospital@2'
+                user: 'ananyasuperspeciality@gmail.com',
+                pass: '8886961847'
             }
         });
         var html = `<html>
@@ -2162,7 +2161,7 @@ function deleteAttendanceRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'rrhospitalhyd2@gmail.com',
+            from: 'ananyasuperspeciality@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Deleted Attendance request by '+' '+mailData.emails.emp_name,

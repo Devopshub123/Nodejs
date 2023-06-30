@@ -33,9 +33,8 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
-// var prod_url = 'https://sreeb.spryple.com/#/';
 // var global_url = 'http://122.175.62.210:6564/#/';
-var global_url = 'http://192.168.1.2:60/#/';
+var global_url = 'http://192.168.0.14:60/#/';
 
 module.exports = {
     login:login,
@@ -481,8 +480,8 @@ async function forgetpassword(req, res, next) {
                         ciphers: 'SSLv3'
                     },
                     auth: {
-                        user: 'rrhospitalhyd2@gmail.com',
-                pass: 'Rrhospital@2'
+                        user: 'ananyasuperspeciality@gmail.com',
+                pass: '8886961847'
                     }
                 });
                 var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:login,date:new Date()}))).toString('base64')
@@ -505,7 +504,7 @@ async function forgetpassword(req, res, next) {
                     </div></body>
                     </html> `;
                 var mailOptions = {
-                    from: 'rrhospitalhyd2@gmail.com',
+                    from: 'ananyasuperspeciality@gmail.com',
                     to: email,
                     subject: 'Reset Password',
                     html: html
@@ -881,8 +880,8 @@ async function Validateemail(req, res) {
                     ciphers: 'SSLv3'
                 },
                 auth: {
-                    user: 'rrhospitalhyd2@gmail.com',
-                    pass: 'Rrhospital@2'
+                    user: 'ananyasuperspeciality@gmail.com',
+                    pass: '8886961847'
                 }
             });
             var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Standard Plan',Date:new Date()}))).toString('base64')
@@ -911,7 +910,7 @@ async function Validateemail(req, res) {
         </div></body>
         </html> `;
             var mailOptions = {
-                from: 'rrhospitalhyd2@gmail.com',
+                from: 'ananyasuperspeciality@gmail.com',
                 to: email,
                 subject: 'Welcome to Spryple',
                 html: html
@@ -987,8 +986,8 @@ async function setSprypleClient(req, res) {
         //             ciphers: 'SSLv3'
         //         },
         //         auth: {
-        //             user: 'rrhospitalhyd2@gmail.com',
-        //             pass: 'Rrhospital@2'
+        //             user: 'ananyasuperspeciality@gmail.com',
+        //             pass: '8886961847'
         //         }
         //     });
         //     var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: toEmail}))).toString('base64')
@@ -1013,7 +1012,7 @@ async function setSprypleClient(req, res) {
         // </div></body>
         // </html> `;
         //     var mailOptions = {
-        //         from: 'rrhospitalhyd2@gmail.com',
+        //         from: 'ananyasuperspeciality@gmail.com',
         //         to: toEmail,
         //         subject: 'Subscription plan options',
         //         html: html
@@ -1183,8 +1182,8 @@ function contactUsFormMail(mailData,res) {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: 'rrhospitalhyd2@gmail.com',
-                pass: 'Rrhospital@2'
+                user: 'ananyasuperspeciality@gmail.com',
+                pass: '8886961847'
             },
         });
         var html = `<html>
@@ -1206,7 +1205,7 @@ function contactUsFormMail(mailData,res) {
         </html> `;
 
         var mailOptions = {
-            from: "rrhospitalhyd2@gmail.com",
+            from: "ananyasuperspeciality@gmail.com",
             to: "contact@spryple.com",
             subject: "Contact us form details",
             html: html,
@@ -2626,8 +2625,8 @@ async function paymentStatusMail(mailData){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'rrhospitalhyd2@gmail.com',
-            pass: 'Rrhospital@2'
+            user: 'ananyasuperspeciality@gmail.com',
+            pass: '8886961847'
         }
      });
     var html = `<html>
@@ -2644,7 +2643,7 @@ async function paymentStatusMail(mailData){
         </div></body>
         </html> `;
         var mailOptions = {
-            from: 'rrhospitalhyd2@gmail.com',
+            from: 'ananyasuperspeciality@gmail.com',
             to: mailData.company_email_value,
             subject: 'Welcome to Spryple!',
             html: html
@@ -2683,8 +2682,8 @@ async function paymentStatusMail(mailData){
                ciphers: 'SSLv3'
            },
            auth: {
-               user: 'rrhospitalhyd2@gmail.com',
-               pass: 'Rrhospital@2'
+               user: 'ananyasuperspeciality@gmail.com',
+               pass: '8886961847'
            }
            });
            var html = `<html>
@@ -2711,7 +2710,7 @@ async function paymentStatusMail(mailData){
            </html> `;
       
            var mailOptions = {
-               from: 'rrhospitalhyd2@gmail.com',
+               from: 'ananyasuperspeciality@gmail.com',
                to: email,
                subject: 'Welcome to Spryple!',
                html: html
@@ -2741,8 +2740,8 @@ function paymentFailedMail(req,res){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'rrhospitalhyd2@gmail.com',
-            pass: 'Rrhospital@2'
+            user: 'ananyasuperspeciality@gmail.com',
+            pass: '8886961847'
         }
      });
     var html = `<html>
@@ -2757,7 +2756,7 @@ function paymentFailedMail(req,res){
         </div></body>
         </html> `;
         var mailOptions = {
-            from: 'rrhospitalhyd2@gmail.com',
+            from: 'ananyasuperspeciality@gmail.com',
             to: mailData.company_email_value,
             subject: 'Payment Fail',
             html: html

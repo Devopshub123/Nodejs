@@ -37,9 +37,8 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
-// var prod_url = 'https://sreeb.spryple.com/#/';
 // var global_url = 'http://122.175.62.210:6564/#/';
-var global_url = 'http://192.168.1.2:60/#/';
+var global_url = 'http://192.168.0.14:60/#/';
 
 module.exports = {
     getYearsForReport:getYearsForReport,
@@ -2800,8 +2799,8 @@ function leaveRequestEmail(mailData) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'rrhospitalhyd2@gmail.com',
-            pass: 'Rrhospital@2'
+            user: 'ananyasuperspeciality@gmail.com',
+            pass: '8886961847'
           }
       });
 
@@ -2852,7 +2851,7 @@ function leaveRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'rrhospitalhyd2@gmail.com',
+          from: 'ananyasuperspeciality@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Leave Request by'+' '+mailData.emailData.emp_name,
@@ -2891,8 +2890,8 @@ function approveLeaveRequestEmail(mailData) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'rrhospitalhyd2@gmail.com',
-            pass: 'Rrhospital@2'
+            user: 'ananyasuperspeciality@gmail.com',
+            pass: '8886961847'
           }
       });
       var html = `<html>
@@ -2941,7 +2940,7 @@ function approveLeaveRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'rrhospitalhyd2@gmail.com',
+          from: 'ananyasuperspeciality@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Leave Request Approved by'+' '+ mailData.emaildata.rm_name,
@@ -2974,8 +2973,8 @@ function rejectedLeaveRequestEmail(mailData) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'rrhospitalhyd2@gmail.com',
-            pass: 'Rrhospital@2'
+            user: 'ananyasuperspeciality@gmail.com',
+            pass: '8886961847'
           }
       });
       var html = `<html>
@@ -3027,7 +3026,7 @@ function rejectedLeaveRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'rrhospitalhyd2@gmail.com',
+          from: 'ananyasuperspeciality@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Leave Request Rejected by'+' '+ mailData.emaildata.rm_name,
@@ -3062,8 +3061,8 @@ function compOffRequestEmail(mailData){
               ciphers: 'SSLv3'
           },
           auth: {
-              user: 'rrhospitalhyd2@gmail.com',
-              pass: 'Rrhospital@2'
+              user: 'ananyasuperspeciality@gmail.com',
+              pass: '8886961847'
           }
       });
 
@@ -3111,7 +3110,7 @@ function compOffRequestEmail(mailData){
       </html> `;
   
       var mailOptions = {
-          from: 'rrhospitalhyd2@gmail.com',
+          from: 'ananyasuperspeciality@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Comp-Off Request by' +' '+ mailData.emaildata.emp_name,
@@ -3144,8 +3143,8 @@ function compOffApprovalRequestEmail(mailData) {
               ciphers: 'SSLv3'
           },
           auth: {
-              user: 'rrhospitalhyd2@gmail.com',
-              pass: 'Rrhospital@2'
+              user: 'ananyasuperspeciality@gmail.com',
+              pass: '8886961847'
           }
       });
       var html = `<html>
@@ -3186,7 +3185,7 @@ function compOffApprovalRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'rrhospitalhyd2@gmail.com',
+          from: 'ananyasuperspeciality@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Comp-Off Request Approved by'+' '+mailData.emaildata.rm_name,
@@ -3222,8 +3221,8 @@ function compOffRejectRequestEmail(mailData) {
               ciphers: 'SSLv3'
           },
           auth: {
-              user: 'rrhospitalhyd2@gmail.com',
-              pass: 'Rrhospital@2'
+              user: 'ananyasuperspeciality@gmail.com',
+              pass: '8886961847'
           }
       });
       var html = `<html>
@@ -3273,7 +3272,7 @@ function compOffRejectRequestEmail(mailData) {
       </html> `;
   
       var mailOptions = {
-          from: 'rrhospitalhyd2@gmail.com',
+          from: 'ananyasuperspeciality@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Comp-Off Request Rejected by'+' '+ mailData.emaildata.rm_name,
@@ -3311,8 +3310,8 @@ function cancelLeaveRequestEmail(mailData, companyName) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'rrhospitalhyd2@gmail.com',
-                pass: 'Rrhospital@2'
+                user: 'ananyasuperspeciality@gmail.com',
+                pass: '8886961847'
             }
         });
         var html = `<html>
@@ -3366,7 +3365,7 @@ function cancelLeaveRequestEmail(mailData, companyName) {
       </html> `;
 
         var mailOptions = {
-            from: 'rrhospitalhyd2@gmail.com',
+            from: 'ananyasuperspeciality@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Leave request cancelled by '+' '+mailData.emailData.emp_name,
@@ -3411,8 +3410,8 @@ function approveCancelLeaveRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'rrhospitalhyd2@gmail.com',
-                pass: 'Rrhospital@2'
+                user: 'ananyasuperspeciality@gmail.com',
+                pass: '8886961847'
             }
         });
         var html = `<html>
@@ -3459,7 +3458,7 @@ function approveCancelLeaveRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'rrhospitalhyd2@gmail.com',
+            from: 'ananyasuperspeciality@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Cancelled Leave request approved by '+' '+ mailData.emaildata.rm_name,
@@ -3494,8 +3493,8 @@ function rejectCancelLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'rrhospitalhyd2@gmail.com',
-                pass: 'Rrhospital@2'
+                user: 'ananyasuperspeciality@gmail.com',
+                pass: '8886961847'
             }
         });
         var html = `<html>
@@ -3548,7 +3547,7 @@ function rejectCancelLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'rrhospitalhyd2@gmail.com',
+            from: 'ananyasuperspeciality@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Cancelled Leave request rejected by '+' '+ mailData.emaildata.rm_name,
@@ -3583,8 +3582,8 @@ function deleteLeaveRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'rrhospitalhyd2@gmail.com',
-                pass: 'Rrhospital@2'
+                user: 'ananyasuperspeciality@gmail.com',
+                pass: '8886961847'
             }
         });
         var html = `<html>
@@ -3637,7 +3636,7 @@ function deleteLeaveRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'rrhospitalhyd2@gmail.com',
+            from: 'ananyasuperspeciality@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Deleted Leave request by'+' '+ value.emailData.emp_name,
@@ -3671,8 +3670,8 @@ function editLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'rrhospitalhyd2@gmail.com',
-                pass: 'Rrhospital@2'
+                user: 'ananyasuperspeciality@gmail.com',
+                pass: '8886961847'
             }
         });
         var html = `<html>
@@ -3720,7 +3719,7 @@ function editLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'rrhospitalhyd2@gmail.com',
+            from: 'ananyasuperspeciality@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Edited Leave request by'+' '+mailData.emailData.emp_name,
