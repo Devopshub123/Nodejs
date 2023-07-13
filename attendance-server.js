@@ -21,7 +21,7 @@ app.all("*", function (req, res, next) {
     return next();
 });
 // var global_url = 'http://122.175.62.210:6564/#/';
-var global_url = 'http://192.168.0.14:60/#/';
+var global_url = 'http://127.0.0.1:60/#/';
 module.exports={
     getEmployeeAttendanceNotifications:getEmployeeAttendanceNotifications,
     getrolescreenfunctionalities:getrolescreenfunctionalities,

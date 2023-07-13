@@ -3265,9 +3265,9 @@ setEventSchedulerOn();
 
 /** uncomment in QA build time */
 
-app.listen(6060,'192.168.0.14',function (err) {
+app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://192.168.0.14:6060');
+        console.log('Server Started at :  http://localhost:6060');
 });
