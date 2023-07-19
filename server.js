@@ -2424,7 +2424,7 @@ async function generatePayrollReport() {
                             };
                             var htmlToSend = template(replacements);
                             transporter.sendMail({
-                                sender: 'ananyasuperspeciality@gmail.com',
+                                sender: 'androcarespryple@gmail.com',
                                 //  to: 'finance@sreebtech.com',
                                 to:  ['rthallapelly@sreebtech.com'],
                                 subject: subject,
@@ -2487,8 +2487,8 @@ var transporter = nodemailer.createTransport({
         ciphers: 'SSLv3'
     },
     auth: {
-        user: 'ananyasuperspeciality@gmail.com',
-        pass: '8886961847'
+        user: 'androcarespryple@gmail.com',
+        pass: 'Androcare@123'
     }
 });
 

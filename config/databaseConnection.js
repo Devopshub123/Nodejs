@@ -20,15 +20,6 @@ function switchDatabase() {
             port: 3306,
             dateStrings: true,
             multipleStatements: true
-
-     /** AWS */
-    //  host: "65.0.224.72",
-    //  user: "root",
-    //   port: 3306,
-    //   password: "Sreebaw$1103",
-    //   database: 'spryple_sreeb',
-    //   dateStrings: true,
-    //  multipleStatements: true
      
  });
     
@@ -56,14 +47,6 @@ async function getNewDBConnection(companyName,dbName)
       dateStrings: true,
       multipleStatements: true
 
-      /** AWS */
-      // host: "65.0.224.72",
-      // user: "root",
-      //  port: 3306,
-      //  password: "Sreebaw$1103",
-      //  database: dbName,
-      //  dateStrings: true,
-      //  multipleStatements: true
   };
     var con;
     con = mysql.createConnection(connectionParams);

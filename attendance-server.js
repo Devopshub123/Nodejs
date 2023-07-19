@@ -1709,8 +1709,8 @@ function attendanceRequestEmail(mailData, companyName) {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'ananyasuperspeciality@gmail.com',
-             pass: '8886961847'
+             user: 'androcarespryple@gmail.com',
+             pass: 'Androcare@123'
            }
          });
 
@@ -1764,7 +1764,7 @@ function attendanceRequestEmail(mailData, companyName) {
        </html> `;
    
        var mailOptions = {
-           from: 'ananyasuperspeciality@gmail.com',
+           from: 'androcarespryple@gmail.com',
            to: email,
            cc:reportingemail!=null?reportingemail:'',
            subject: 'Attendance Request by'+' '+mailData.emails.emp_name,
@@ -1817,8 +1817,8 @@ function approveAttendanceRequestEmail(mailData,companyName) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'ananyasuperspeciality@gmail.com',
-            pass: '8886961847'
+            user: 'androcarespryple@gmail.com',
+            pass: 'Androcare@123'
           }
       });
       var html = `<html>
@@ -1868,7 +1868,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'ananyasuperspeciality@gmail.com',
+          from: 'androcarespryple@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Approved by'+' '+mailData.emailData.rm_name,
@@ -1919,8 +1919,8 @@ function approveAttendanceRequestEmail(mailData,companyName) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'ananyasuperspeciality@gmail.com',
-            pass: '8886961847'
+            user: 'androcarespryple@gmail.com',
+            pass: 'Androcare@123'
           }
       });
       var html = `<html>
@@ -1969,7 +1969,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'ananyasuperspeciality@gmail.com',
+          from: 'androcarespryple@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Rejected  by '+''+ mailData.emailData.rm_name,
@@ -2021,8 +2021,8 @@ function editedAttendanceRequestEmail(mailData, companyName) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'ananyasuperspeciality@gmail.com',
-                pass: '8886961847'
+                user: 'androcarespryple@gmail.com',
+                pass: 'Androcare@123'
             }
         });
         var url =global_url + 'Login';
@@ -2076,7 +2076,7 @@ function editedAttendanceRequestEmail(mailData, companyName) {
       </html> `;
 
         var mailOptions = {
-            from: 'ananyasuperspeciality@gmail.com',
+            from: 'androcarespryple@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Edited Attendance request by '+' '+mailData.emails.emp_name,
@@ -2115,8 +2115,8 @@ function deleteAttendanceRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'ananyasuperspeciality@gmail.com',
-                pass: '8886961847'
+                user: 'androcarespryple@gmail.com',
+                pass: 'Androcare@123'
             }
         });
         var html = `<html>
@@ -2161,7 +2161,7 @@ function deleteAttendanceRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'ananyasuperspeciality@gmail.com',
+            from: 'androcarespryple@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Deleted Attendance request by '+' '+mailData.emails.emp_name,

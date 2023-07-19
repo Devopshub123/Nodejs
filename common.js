@@ -480,8 +480,8 @@ async function forgetpassword(req, res, next) {
                         ciphers: 'SSLv3'
                     },
                     auth: {
-                        user: 'ananyasuperspeciality@gmail.com',
-                pass: '8886961847'
+                        user: 'androcarespryple@gmail.com',
+                pass: 'Androcare@123'
                     }
                 });
                 var token = (Buffer.from(JSON.stringify({companyName:req.params.companyName,id:id,email:login,date:new Date()}))).toString('base64')
@@ -504,7 +504,7 @@ async function forgetpassword(req, res, next) {
                     </div></body>
                     </html> `;
                 var mailOptions = {
-                    from: 'ananyasuperspeciality@gmail.com',
+                    from: 'androcarespryple@gmail.com',
                     to: email,
                     subject: 'Reset Password',
                     html: html
@@ -880,8 +880,8 @@ async function Validateemail(req, res) {
                     ciphers: 'SSLv3'
                 },
                 auth: {
-                    user: 'ananyasuperspeciality@gmail.com',
-                    pass: '8886961847'
+                    user: 'androcarespryple@gmail.com',
+                    pass: 'Androcare@123'
                 }
             });
             var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: email,Planid:1,PlanName:'Standard Plan',Date:new Date()}))).toString('base64')
@@ -910,7 +910,7 @@ async function Validateemail(req, res) {
         </div></body>
         </html> `;
             var mailOptions = {
-                from: 'ananyasuperspeciality@gmail.com',
+                from: 'androcarespryple@gmail.com',
                 to: email,
                 subject: 'Welcome to Spryple',
                 html: html
@@ -986,8 +986,8 @@ async function setSprypleClient(req, res) {
         //             ciphers: 'SSLv3'
         //         },
         //         auth: {
-        //             user: 'ananyasuperspeciality@gmail.com',
-        //             pass: '8886961847'
+        //             user: 'androcarespryple@gmail.com',
+        //             pass: 'Androcare@123'
         //         }
         //     });
         //     var token = (Buffer.from(JSON.stringify({ companycode:companyCode, email: toEmail}))).toString('base64')
@@ -1012,7 +1012,7 @@ async function setSprypleClient(req, res) {
         // </div></body>
         // </html> `;
         //     var mailOptions = {
-        //         from: 'ananyasuperspeciality@gmail.com',
+        //         from: 'androcarespryple@gmail.com',
         //         to: toEmail,
         //         subject: 'Subscription plan options',
         //         html: html
@@ -1182,8 +1182,8 @@ function contactUsFormMail(mailData,res) {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: 'ananyasuperspeciality@gmail.com',
-                pass: '8886961847'
+                user: 'androcarespryple@gmail.com',
+                pass: 'Androcare@123'
             },
         });
         var html = `<html>
@@ -1205,7 +1205,7 @@ function contactUsFormMail(mailData,res) {
         </html> `;
 
         var mailOptions = {
-            from: "ananyasuperspeciality@gmail.com",
+            from: "androcarespryple@gmail.com",
             to: "contact@spryple.com",
             subject: "Contact us form details",
             html: html,
@@ -2625,8 +2625,8 @@ async function paymentStatusMail(mailData){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'ananyasuperspeciality@gmail.com',
-            pass: '8886961847'
+            user: 'androcarespryple@gmail.com',
+            pass: 'Androcare@123'
         }
      });
     var html = `<html>
@@ -2643,7 +2643,7 @@ async function paymentStatusMail(mailData){
         </div></body>
         </html> `;
         var mailOptions = {
-            from: 'ananyasuperspeciality@gmail.com',
+            from: 'androcarespryple@gmail.com',
             to: mailData.company_email_value,
             subject: 'Welcome to Spryple!',
             html: html
@@ -2682,8 +2682,8 @@ async function paymentStatusMail(mailData){
                ciphers: 'SSLv3'
            },
            auth: {
-               user: 'ananyasuperspeciality@gmail.com',
-               pass: '8886961847'
+               user: 'androcarespryple@gmail.com',
+               pass: 'Androcare@123'
            }
            });
            var html = `<html>
@@ -2710,7 +2710,7 @@ async function paymentStatusMail(mailData){
            </html> `;
       
            var mailOptions = {
-               from: 'ananyasuperspeciality@gmail.com',
+               from: 'androcarespryple@gmail.com',
                to: email,
                subject: 'Welcome to Spryple!',
                html: html
@@ -2740,8 +2740,8 @@ function paymentFailedMail(req,res){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'ananyasuperspeciality@gmail.com',
-            pass: '8886961847'
+            user: 'androcarespryple@gmail.com',
+            pass: 'Androcare@123'
         }
      });
     var html = `<html>
@@ -2756,7 +2756,7 @@ function paymentFailedMail(req,res){
         </div></body>
         </html> `;
         var mailOptions = {
-            from: 'ananyasuperspeciality@gmail.com',
+            from: 'androcarespryple@gmail.com',
             to: mailData.company_email_value,
             subject: 'Payment Fail',
             html: html
