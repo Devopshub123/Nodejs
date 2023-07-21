@@ -5,7 +5,7 @@ var path = require("path");
 var fileUpload = require("express-fileupload");
 var nodemailer = require("nodemailer");
 var app = new express();
-var global_url = 'http://127.0.0.1:60/#/';
+var global_url = 'http://192.168.1.122:60/#/';
 
 /**AWS */
 const AWS = require('aws-sdk');
