@@ -20,7 +20,7 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
-var global_url = 'http://192.168.1.122:60/#/';
+var global_url = 'http://192.168.1.192:60/#/';
 module.exports={
     getEmployeeAttendanceNotifications:getEmployeeAttendanceNotifications,
     getrolescreenfunctionalities:getrolescreenfunctionalities,
@@ -1708,8 +1708,8 @@ function attendanceRequestEmail(mailData, companyName) {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'androcarespryple@gmail.com',
-             pass: 'Androcare@123'
+             user: 'anceplab@gmail.com',
+             pass: 'Anceplab@123'
            }
          });
 
@@ -1763,7 +1763,7 @@ function attendanceRequestEmail(mailData, companyName) {
        </html> `;
    
        var mailOptions = {
-           from: 'androcarespryple@gmail.com',
+           from: 'anceplab@gmail.com',
            to: email,
            cc:reportingemail!=null?reportingemail:'',
            subject: 'Attendance Request by'+' '+mailData.emails.emp_name,
@@ -1816,8 +1816,8 @@ function approveAttendanceRequestEmail(mailData,companyName) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'androcarespryple@gmail.com',
-            pass: 'Androcare@123'
+            user: 'anceplab@gmail.com',
+            pass: 'Anceplab@123'
           }
       });
       var html = `<html>
@@ -1867,7 +1867,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'androcarespryple@gmail.com',
+          from: 'anceplab@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Approved by'+' '+mailData.emailData.rm_name,
@@ -1918,8 +1918,8 @@ function approveAttendanceRequestEmail(mailData,companyName) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'androcarespryple@gmail.com',
-            pass: 'Androcare@123'
+            user: 'anceplab@gmail.com',
+            pass: 'Anceplab@123'
           }
       });
       var html = `<html>
@@ -1968,7 +1968,7 @@ function approveAttendanceRequestEmail(mailData,companyName) {
       </html> `;
   
       var mailOptions = {
-          from: 'androcarespryple@gmail.com',
+          from: 'anceplab@gmail.com',
           to: email,
           cc:reportingemail!=null?reportingemail:'',
           subject: 'Attendance Request Rejected  by '+''+ mailData.emailData.rm_name,
@@ -2020,8 +2020,8 @@ function editedAttendanceRequestEmail(mailData, companyName) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var url =global_url + 'Login';
@@ -2075,7 +2075,7 @@ function editedAttendanceRequestEmail(mailData, companyName) {
       </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Edited Attendance request by '+' '+mailData.emails.emp_name,
@@ -2114,8 +2114,8 @@ function deleteAttendanceRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -2160,7 +2160,7 @@ function deleteAttendanceRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Deleted Attendance request by '+' '+mailData.emails.emp_name,

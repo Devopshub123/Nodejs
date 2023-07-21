@@ -5,7 +5,7 @@ var path = require("path");
 var fileUpload = require("express-fileupload");
 var nodemailer = require("nodemailer");
 var app = new express();
-var global_url = 'http://192.168.1.122:60/#/';
+var global_url = 'http://192.168.1.192:60/#/';
 
 /**AWS */
 const AWS = require('aws-sdk');
@@ -192,8 +192,8 @@ async function setNewHire(req, res) {
                                     ciphers: 'SSLv3'
                                 },
                                 auth: {
-                                    user: 'androcarespryple@gmail.com',
-                                    pass: 'Androcare@123'
+                                    user: 'anceplab@gmail.com',
+                                    pass: 'Anceplab@123'
                                 }
                             });
                             var token = (Buffer.from(JSON.stringify({ companyName:companyName, candidateId: result[0][0].candidate_id, email: emailData.personal_email, date: new Date(),loginToken:loginToken }))).toString('base64')
@@ -211,14 +211,14 @@ async function setNewHire(req, res) {
                         <p style="color:black"> We are excited to have you aboard and look forward to working with you. Click on the link below, fill your details, and submit the form ASAP.<b></b></p>
                         <p style="color:black"> Please make it a note that, the below link can be deactivated in 24 Hours.</p>
                         <p style="color:black"> <a href="${url}" >${url} </a></p>   
-                        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>androcarespryple@gmail.com</b>  </p>  
+                        <p style="color:black"> If you experience any issues when accessing the above link, please reach out <b>anceplab@gmail.com</b>  </p>  
                         <p style="color:black">Thank you!</p>
                         <p style="color:black">Human Resources Team.</p>
                         <hr style="border: 0; border-top: 3px double #8c8c8c"/>
                         </div></body>
                         </html> `;
                             var mailOptions = {
-                                from: 'androcarespryple@gmail.com',
+                                from: 'anceplab@gmail.com',
                                 to: emailData.personal_email,
                                 subject: 'Welcome to Andro care Hospital',
                                 html: html
@@ -2161,8 +2161,8 @@ function setProgramSchedulemail(mailData) {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'androcarespryple@gmail.com',
-          pass: 'Androcare@123'
+          user: 'anceplab@gmail.com',
+          pass: 'Anceplab@123'
       },
     });
     var html = `<html>
@@ -2186,7 +2186,7 @@ function setProgramSchedulemail(mailData) {
         </html> `;
 
     var mailOptions = {
-      from: "androcarespryple@gmail.com",
+      from: "anceplab@gmail.com",
       to: email,
       subject: "Induction Program Meeting",
       html: html,
@@ -4038,8 +4038,8 @@ function sendEmailToAdminAboutNewHire(mailData) {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'androcarespryple@gmail.com',
-            pass: 'Androcare@123'
+            user: 'anceplab@gmail.com',
+            pass: 'Anceplab@123'
         }
         });
         var html = `<html>
@@ -4059,7 +4059,7 @@ function sendEmailToAdminAboutNewHire(mailData) {
         </html> `;
    
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Create a new login for'+' '+empname,
             html: html
@@ -4092,8 +4092,8 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'androcarespryple@gmail.com',
-          pass: 'Androcare@123'
+          user: 'anceplab@gmail.com',
+          pass: 'Anceplab@123'
       },
     });
       var url =  global_url + 'Login';
@@ -4116,7 +4116,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         <p style="color:black"><b>Company Code: </b>${maileData[0].companycode}</p>
         <p style="color:black"><b>Username: </b>${maileData[0].userid}</p>
         <p style="color:black"><b>Password: </b>${maileData[0].password}</p>
-        <p style="color:black">If you experience any issues while login to your account, reach out to us at <b>androcarespryple@gmail.com</b> </p>
+        <p style="color:black">If you experience any issues while login to your account, reach out to us at <b>anceplab@gmail.com</b> </p>
         
         <p style="color:black">Best Regards,</p>
 
@@ -4126,7 +4126,7 @@ function sendEmailToEmployeeAboutLogins(maileData, result) {
         </html> `;
 
     var mailOptions = {
-      from: "androcarespryple@gmail.com",
+      from: "anceplab@gmail.com",
       to: email,
       subject: "New Login Credentials",
       html: html,
@@ -4209,8 +4209,8 @@ try {
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'androcarespryple@gmail.com',
-            pass: 'Androcare@123'
+            user: 'anceplab@gmail.com',
+            pass: 'Anceplab@123'
         }
        });
        var html = `<html>
@@ -4234,7 +4234,7 @@ try {
         </html> `;
 
     var mailOptions = {
-      from: "androcarespryple@gmail.com",
+      from: "anceplab@gmail.com",
       to: email,
       subject: "New Employee Onboarding Checklist",
       html: html,
@@ -4396,8 +4396,8 @@ function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
         ciphers: "SSLv3",
       },
       auth: {
-          user: 'androcarespryple@gmail.com',
-          pass: 'Androcare@123'
+          user: 'anceplab@gmail.com',
+          pass: 'Anceplab@123'
       },
     });
     var html = `<html>
@@ -4420,7 +4420,7 @@ function sendEmailToEmployeeAboutChecklistUpdate(maileData) {
         </html> `;
 
     var mailOptions = {
-      from: "androcarespryple@gmail.com",
+      from: "anceplab@gmail.com",
       to: email,
       subject: "Onboarding Checklist Updates",
       html: html,
@@ -4897,8 +4897,8 @@ function sendEmailToEmployeeAboutDocumentReject(mailData){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'androcarespryple@gmail.com',
-            pass: 'Androcare@123'
+            user: 'anceplab@gmail.com',
+            pass: 'Anceplab@123'
         }
        });
        var html = `<html>
@@ -4917,7 +4917,7 @@ function sendEmailToEmployeeAboutDocumentReject(mailData){
         </html> `;
    
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Re-upload document ',
             html: html
@@ -5050,8 +5050,8 @@ function sendEmailToEmployeeAboutNewRole(mailData){
             ciphers: 'SSLv3'
         },
         auth: {
-            user: 'androcarespryple@gmail.com',
-            pass: 'Androcare@123'
+            user: 'anceplab@gmail.com',
+            pass: 'Anceplab@123'
         }
        });
        var html = `<html>
@@ -5072,7 +5072,7 @@ function sendEmailToEmployeeAboutNewRole(mailData){
         </html> `;
    
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Welcome to Tech Lead ',
             html: html
@@ -5114,8 +5114,8 @@ function sendEmailToEmployeeAboutRemoveRole(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -5136,7 +5136,7 @@ function sendEmailToEmployeeAboutRemoveRole(mailData){
         </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Role Change ',
             html: html
@@ -5478,8 +5478,8 @@ function checklistFinalUpdateEmailToEmployee(mailData) {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             },
         });
         var html = `<html>
@@ -5503,7 +5503,7 @@ function checklistFinalUpdateEmailToEmployee(mailData) {
         </html> `;
 
         var mailOptions = {
-            from: "androcarespryple@gmail.com",
+            from: "anceplab@gmail.com",
             to: email,
             subject: "Onboarding Checklist Final Update",
             html: html,
@@ -5531,8 +5531,8 @@ function checklistCompleteEmailToEmployee(mailData) {
                 ciphers: "SSLv3",
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             },
         });
         var html = `<html>
@@ -5560,7 +5560,7 @@ function checklistCompleteEmailToEmployee(mailData) {
         </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Welcome to'+' '+ companyNameData.companyname,
             html: html
@@ -5599,8 +5599,8 @@ function roleRemoveInformationEmailToEmployee(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -5620,7 +5620,7 @@ function roleRemoveInformationEmailToEmployee(mailData){
     </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Role Change ',
             html: html
@@ -5661,8 +5661,8 @@ function newRoleInformationEmailToEmployee(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -5683,7 +5683,7 @@ function newRoleInformationEmailToEmployee(mailData){
      </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Welcome to Tech Lead ',
             html: html
@@ -5715,8 +5715,8 @@ function documentReuploadInformationEmailToHr(req,res){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -5737,7 +5737,7 @@ function documentReuploadInformationEmailToHr(req,res){
         </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Documents Re uploaded ',
             html: html
@@ -5768,8 +5768,8 @@ function documentReuploadInformationEmailToHr(req,res){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -5791,7 +5791,7 @@ function documentReuploadInformationEmailToHr(req,res){
         </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Documents Re uploaded ',
             html: html
@@ -5822,8 +5822,8 @@ function documentApprovalEmailToEmployee(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -5845,7 +5845,7 @@ function documentApprovalEmailToEmployee(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: toEmail,
             subject: 'HR Approved Your Uploaded Document',
             html: html
@@ -5877,8 +5877,8 @@ function documentRejectEmailtoEmployee(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
            });
            var html = `<html>
@@ -5900,7 +5900,7 @@ function documentRejectEmailtoEmployee(mailData) {
             </html> `;
        
             var mailOptions = {
-                from: 'androcarespryple@gmail.com',
+                from: 'anceplab@gmail.com',
                   to: toEmail,
                 subject: 'Re-upload Document ',
                 html: html
@@ -5933,8 +5933,8 @@ function documentApprovalEmailToHR(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -5951,7 +5951,7 @@ function documentApprovalEmailToHR(mailData) {
                 </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: toEmail,
             subject: 'Documents Uploaded by'+' '+emailData.emp_name,
             html: html
@@ -5981,8 +5981,8 @@ function inductionProgramCancelEmailToEmployee(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -6007,7 +6007,7 @@ function inductionProgramCancelEmailToEmployee(mailData) {
      </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Induction Program Cancelled',
             html: html
@@ -6095,8 +6095,8 @@ function rescheduledInductionProgramEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'androcarespryple@gmail.com',
-                pass: 'Androcare@123'
+                user: 'anceplab@gmail.com',
+                pass: 'Anceplab@123'
             }
         });
         var html = `<html>
@@ -6124,7 +6124,7 @@ function rescheduledInductionProgramEmail(mailData) {
      </html> `;
 
         var mailOptions = {
-            from: 'androcarespryple@gmail.com',
+            from: 'anceplab@gmail.com',
             to: email,
             subject: 'Induction Program Rescheduled' ,
             html: html
@@ -6812,8 +6812,8 @@ function separationRequestEmail(mailData) {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'androcarespryple@gmail.com',
-             pass: 'Androcare@123'
+             user: 'anceplab@gmail.com',
+             pass: 'Anceplab@123'
            }
          });
        var html = `<html>
@@ -6846,7 +6846,7 @@ function separationRequestEmail(mailData) {
        </html> `;
    
        var mailOptions = {
-           from: 'androcarespryple@gmail.com',
+           from: 'anceplab@gmail.com',
            to: email,
            subject: 'Separation request raised by'+' '+mailData.emailData.emp_name,
            html: html
@@ -6884,8 +6884,8 @@ function separationRequestApprovedEmail(value) {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'androcarespryple@gmail.com',
-             pass: 'Androcare@123'
+             user: 'anceplab@gmail.com',
+             pass: 'Anceplab@123'
            }
          });
        var html = `<html>
@@ -6915,7 +6915,7 @@ function separationRequestApprovedEmail(value) {
        </html> `;
    
        var mailOptions = {
-           from: 'androcarespryple@gmail.com',
+           from: 'anceplab@gmail.com',
            to: email,
            subject: 'Separation request approved  by'+' '+value.emailData.rm_name,
            html: html
@@ -6949,8 +6949,8 @@ function separationRequestRejectedEmail(value) {
                ciphers: 'SSLv3'
            },
            auth: {
-             user: 'androcarespryple@gmail.com',
-             pass: 'Androcare@123'
+             user: 'anceplab@gmail.com',
+             pass: 'Anceplab@123'
            }
          });
        var html = `<html>
@@ -6973,7 +6973,7 @@ function separationRequestRejectedEmail(value) {
        </html> `;
    
        var mailOptions = {
-           from: 'androcarespryple@gmail.com',
+           from: 'anceplab@gmail.com',
            to: email,
            subject: 'Separation request rejected by'+' '+value.emailData.rm_name,
            html: html
