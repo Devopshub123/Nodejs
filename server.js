@@ -2424,7 +2424,7 @@ async function generatePayrollReport() {
                             };
                             var htmlToSend = template(replacements);
                             transporter.sendMail({
-                                sender: 'anceplab@gmail.com',
+                                sender: 'ganeshkuna18@gmail.com',
                                 //  to: 'finance@sreebtech.com',
                                 to:  ['rthallapelly@sreebtech.com'],
                                 subject: subject,
@@ -2487,8 +2487,8 @@ var transporter = nodemailer.createTransport({
         ciphers: 'SSLv3'
     },
     auth: {
-        user: 'anceplab@gmail.com',
-        pass: 'Anceplab@123'
+        user: 'ganeshkuna18@gmail.com',
+        pass: 'ganesh12345'
     }
 });
 
@@ -3265,9 +3265,9 @@ setEventSchedulerOn();
 
 /** uncomment in QA build time */
 
-app.listen(6060,'192.168.1.192',function (err) {
+app.listen(6060,'0.0.0.0',function (err) {
     if (err)
         console.log('Server Cant Start ...Erorr....');
     else
-        console.log('Server Started at :  http://192.168.1.192:6060');
+        console.log('Server Started at :  http://35.91.144.240:6060');
 });

@@ -34,7 +34,7 @@ app.all("*", function (req, res, next) {
     return next();
 });
 // var global_url = 'http://122.175.62.210:6564/#/';
-var global_url = 'http://192.168.1.192:60/#/';
+var global_url = 'http://35.91.144.240:60/#/';
 
 module.exports = {
     login:login,

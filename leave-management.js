@@ -38,7 +38,7 @@ app.all("*", function (req, res, next) {
     return next();
 });
 // var global_url = 'http://122.175.62.210:6564/#/';
-var global_url = 'http://192.168.1.192:60/#/';
+var global_url = 'http://35.91.144.240:60/#/';
 
 module.exports = {
     getYearsForReport:getYearsForReport,
@@ -2799,8 +2799,8 @@ function leaveRequestEmail(mailData) {
               ciphers: 'SSLv3'
           },
           auth: {
-            user: 'anceplab@gmail.com',
-            pass: 'Anceplab@123'
+            user: 'ganeshkuna18@gmail.com',
+            pass: 'ganesh12345'
           }
       });
 
@@ -3310,8 +3310,8 @@ function cancelLeaveRequestEmail(mailData, companyName) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'anceplab@gmail.com',
-                pass: 'Anceplab@123'
+                user: 'ganeshkuna18@gmail.com',
+                pass: 'ganesh12345'
             }
         });
         var html = `<html>
@@ -3365,7 +3365,7 @@ function cancelLeaveRequestEmail(mailData, companyName) {
       </html> `;
 
         var mailOptions = {
-            from: 'anceplab@gmail.com',
+            from: 'ganeshkuna18@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Leave request cancelled by '+' '+mailData.emailData.emp_name,
@@ -3410,8 +3410,8 @@ function approveCancelLeaveRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'anceplab@gmail.com',
-                pass: 'Anceplab@123'
+                user: 'ganeshkuna18@gmail.com',
+                pass: 'ganesh12345'
             }
         });
         var html = `<html>
@@ -3458,7 +3458,7 @@ function approveCancelLeaveRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'anceplab@gmail.com',
+            from: 'ganeshkuna18@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Cancelled Leave request approved by '+' '+ mailData.emaildata.rm_name,
@@ -3493,8 +3493,8 @@ function rejectCancelLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'anceplab@gmail.com',
-                pass: 'Anceplab@123'
+                user: 'ganeshkuna18@gmail.com',
+                pass: 'ganesh12345'
             }
         });
         var html = `<html>
@@ -3547,7 +3547,7 @@ function rejectCancelLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'anceplab@gmail.com',
+            from: 'ganeshkuna18@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Cancelled Leave request rejected by '+' '+ mailData.emaildata.rm_name,
@@ -3582,8 +3582,8 @@ function deleteLeaveRequestEmail(mailData) {
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'anceplab@gmail.com',
-                pass: 'Anceplab@123'
+                user: 'ganeshkuna18@gmail.com',
+                pass: 'ganesh12345'
             }
         });
         var html = `<html>
@@ -3636,7 +3636,7 @@ function deleteLeaveRequestEmail(mailData) {
       </html> `;
 
         var mailOptions = {
-            from: 'anceplab@gmail.com',
+            from: 'ganeshkuna18@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Deleted Leave request by'+' '+ value.emailData.emp_name,
@@ -3670,7 +3670,7 @@ function editLeaveRequestEmail(mailData){
                 ciphers: 'SSLv3'
             },
             auth: {
-                user: 'anceplab@gmail.com',
+                user: 'g',
                 pass: 'Anceplab@123'
             }
         });
@@ -3719,7 +3719,7 @@ function editLeaveRequestEmail(mailData){
       </html> `;
 
         var mailOptions = {
-            from: 'anceplab@gmail.com',
+            from: 'ganeshkuna18@gmail.com',
             to: email,
             cc:reportingemail!=null?reportingemail:'',
             subject: 'Edited Leave request by'+' '+mailData.emailData.emp_name,

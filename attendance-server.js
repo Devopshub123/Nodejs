@@ -20,7 +20,7 @@ app.all("*", function (req, res, next) {
     res.header("Access-Control-Allow-Methods", "*");
     return next();
 });
-var global_url = 'http://192.168.1.192:60/#/';
+var global_url = 'http://35.91.144.240:60/#/';
 module.exports={
     getEmployeeAttendanceNotifications:getEmployeeAttendanceNotifications,
     getrolescreenfunctionalities:getrolescreenfunctionalities,
